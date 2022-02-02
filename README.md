@@ -1,5 +1,7 @@
 # Spack Monitor NLP
 
+![docs/clustering.png](docs/clustering.png)
+
 This is an effort to see if we can do some kind of clustering using the warning and error messages in
 the server. The goal will be to:
 
@@ -7,6 +9,14 @@ the server. The goal will be to:
 2. build a word2vec model using them.
 3. output embeddings for each
 4. cluster!
+
+⭐️ [View Interface](https://buildsi.github.io/spack-monitor-nlp/) ⭐️
+
+You'll see that the best clustering comes from just using the error or warning messages,
+and that most of the clusters are boost errors. Could it be that a direct match (e.g.,
+parsing libraries in advance to identify text of errors and using that) is better?
+Perhaps! And in fact we could do some kind of KNN based on that too. This is more
+of an unsupervised clustering (we don't have labels). 
 
 ## Usage
 
