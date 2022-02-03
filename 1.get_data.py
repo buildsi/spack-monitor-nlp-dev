@@ -30,19 +30,24 @@ def paginated_get(url):
     """
     Retrieve paginated results for an API endpoint.
     """
-    results = []
-
+    url = "%s?limit=10000" % url
     while True:
         print("Retrieving %s" % url)
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
+        except Exception as e:
+            print(e)
+            yield []
         if response.status_code != 200:
             sys.exit("Cannot get results for %s" % url)
         response = response.json()
-        results = results + response.get("results", [])
         if "next" not in response or not response["next"]:
             break
         url = response["next"]
-    return results
+        results = response.get("results", [])
+        if not results:
+            break
+        yield results
 
 
 def write_json(content, filename):
@@ -61,17 +66,28 @@ def main():
         os.makedirs(outdir)
 
     # Get warnings from both instances of spack monitor!
-    warns = paginated_get("https://builds.spack.io/api/buildwarnings/")
-    warns = warns + paginated_get("https://monitor.spack.io/api/buildwarnings/")
-    print("Found %s warnings" % len(warns))
+    for url in [
+        "https://builds.spack.io/api/buildwarnings/",
+        "https://monitor.spack.io/api/buildwarnings/",
+    ]:
+        for i, results in enumerate(paginated_get(url)):
+            for result in results:
+                result["spack-monitor-label"] = "warning"
+            if not results:
+                break
+            write_json(results, os.path.join("data", "warnings-%s.json" % i))
 
     # And errors too!
-    errors = paginated_get("https://builds.spack.io/api/builderrors/")
-    errors = errors + paginated_get("https://monitor.spack.io/api/builderrors/")
-    print("Found %s errors" % len(errors))
-
-    write_json(errors, os.path.join("data", "errors.json"))
-    write_json(warns, os.path.join("data", "warnings.json"))
+    for url in [
+        "https://builds.spack.io/api/builderrors/",
+        "https://monitor.spack.io/api/builderrors/",
+    ]:
+        for i, results in enumerate(paginated_get(url)):
+            for result in results:
+                result["spack-monitor-label"] = "error"
+            if not results:
+                break
+            write_json(results, os.path.join("data", "errors-%s.json" % i))
 
 
 if __name__ == "__main__":

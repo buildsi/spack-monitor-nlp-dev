@@ -76,9 +76,11 @@ def process_text(text):
     # words = [stemmer.stem(t) for t in tokens]
     return tokens
 
+
 def write_json(content, filename):
-    with open(filename, 'w') as fd:
+    with open(filename, "w") as fd:
         fd.write(json.dumps(content, indent=4))
+
 
 def read_json(filename):
     with open(filename, "r") as fd:
@@ -143,7 +145,7 @@ def main():
     # Generate metadata for errors and warnings (lookup of ID)
     meta = {}
     for entry in errors + warnings:
-        meta[entry['id']] = entry
+        meta[entry["id"]] = entry
     write_json(meta, os.path.join("docs", "meta.json"))
 
     # Let's try creating three models: first pre, text, and post
@@ -161,7 +163,7 @@ def main():
         if not text:
             continue
         tokens = process_text(text)
-        meta[entry['id']] = entry
+        meta[entry["id"]] = entry
         texts.append(TaggedDocument(tokens, [entry["id"]]))
 
     build_model(texts, "pre-text-post", model_dir)
