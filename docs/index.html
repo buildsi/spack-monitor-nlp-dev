@@ -116,7 +116,7 @@ text {
   <div class="container-fluid" style="padding:50px">
   <div class="row">
      <div class="col-md-9">
-        <h2>Similarity of error and warnings messages</h2>
+        <h2>Similarity of error messages</h2>
      </div>
    </div>
      <div class="row">  
@@ -127,10 +127,10 @@ text {
 <div class="row">
     <div class="col-md-8">
 <select id="model-select" name="state">
-  <option value="text-software-embeddings.csv" selected>Error/Warning text only</option>
-  <option value="text-post-software-embeddings.csv">Error/Warning text + post text</option>
-  <option value="pre-text-software-embeddings.csv">Error/Warning text + pre text</option>
-  <option value="pre-text-post-software-embeddings.csv">Error/Warning text + pre and post text</option>
+  <option data-height-added=0 data-include-pre=false data-include-post=false data-height="150" value="text-software-embeddings.csv" selected>Error/Warning text only</option>
+  <option data-height-added=500 data-include-pre=false data-include-post=true data-height="0" value="text-post-software-embeddings.csv">Error/Warning text + post text</option>
+  <option data-height-added=0 data-include-pre=true data-include-post=false data-height="50" value="pre-text-software-embeddings.csv">Error/Warning text + pre text</option>
+  <option data-height-added=0 data-include-pre=true data-include-post=true data-height="200" value="pre-text-post-software-embeddings.csv">Error/Warning text + pre and post text</option>
 </select>
 
     </div>
@@ -198,9 +198,19 @@ function showall() {
 }
 
 
-function generate_plot(filename) {
+function generate_plot(filename, height_extent, include_pre, include_post, height_added) {
 d3.csv(filename, function(data) {
 
+  // Custom params per visualization
+  if (height_extent != 0) {
+      height_extent = height_extent || 150
+  }
+  height_added = height_added || 0
+  include_pre = include_pre || true
+  include_post = include_post || true
+
+  console.log(height_extent)
+  
   // Load topics, meta, and languages for each repo
   $.getJSON("meta.json", function(meta) {
   
@@ -233,7 +243,7 @@ d3.csv(filename, function(data) {
     var yMin = d3.min(theData, function(d) {return d.cy});
     var yDomain = [yMin - 20, yMax + 20]
 
-    var yRange = [height, 150];
+    var yRange = [height + height_added, height_extent];
     var yScale = d3.scaleLinear().domain(yDomain).range(yRange).nice(1);
 
     // COLOR SCALE 
@@ -410,9 +420,20 @@ d3.csv(filename, function(data) {
             "fill": "darkorange",
           });
 
-// Ruben asked around 1.19
-
-          html = "<strong>source:</strong><br>" + d.source_file + "<br><strong>pre:</strong><br> <span class='alert alert-info'>" + d.pre.replace("\n", "<br>") + "</span><br><strong>text:</strong><br> <span class='alert alert-info'>" + d.text.replace("\n", "<br>") + "</span><br><strong>post: </strong><br><span class='alert alert-info'>" + d.post.replace("\n", "<br>") + "</span><br>"
+          source_file = d.source_file
+          if (source_file == "(None,)") {
+              source_file = "none"
+          }
+          html = "<strong>source:</strong><br>" + source_file + "<br>"
+          if ((include_pre == true) || (include_pre == "true")) {
+             html += "<strong>pre:</strong><br> <span class='alert alert-info'>" + d.pre.replace("\n", "<br>") + "</span><br>"
+          }
+          // Always include text
+          html += "<strong>text:</strong><br> <span class='alert alert-info'>" + d.text.replace("\n", "<br>") + "</span><br>"
+          
+          if ((include_post == true) ||  (include_post == "true")) {
+              html += "<strong>post: </strong><br><span class='alert alert-info'>" + d.post.replace("\n", "<br>") + "</span><br>"
+          }
           $("#error-info").html(html);          
           crosshair.style('display', null); // enable crosshair visibility 
           setCrosshair(xScale(d.cx), yScale(d.cy));
@@ -505,9 +526,13 @@ $(document).ready(function() {
     $("#model-select").on("change", function () {
         var model_file = $(this).val();
         $("svg").remove()
-        generate_plot(model_file)
+        var height_added = parseInt($(this).find(':selected').attr('data-height-added'))
+        var height_extent = parseInt($(this).find(':selected').attr('data-height'))
+        var include_pre = $(this).find(':selected').attr('data-include-pre')
+        var include_post = $(this).find(':selected').attr('data-include-post')
+        generate_plot(model_file, height_extent, include_pre, include_post, height_added)
     });
-    generate_plot("text-software-embeddings.csv")
+    generate_plot("text-software-embeddings.csv", 150, false, false, 0)
 })
 </script>
     </div>

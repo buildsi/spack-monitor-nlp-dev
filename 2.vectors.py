@@ -7,6 +7,7 @@ from sklearn import datasets, preprocessing, manifold
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
+from glob import glob
 import pandas
 import tempfile
 import shutil
@@ -131,8 +132,11 @@ def main():
     if not os.path.exists(datadir):
         sys.exit("%s does not exist!" % datadir)
 
-    errors = read_json(os.path.join(datadir, "errors.json"))
-    warnings = read_json(os.path.join(datadir, "warnings.json"))
+    # Build model with errors
+    errors = []
+    for filename in glob(os.path.join(datadir, "errors*.json")):
+        errors += read_json(filename)
+    print("Found %s errors!" % len(errors))
 
     # Make model output directory
     model_dir = os.path.join(datadir, "models")
@@ -144,13 +148,13 @@ def main():
 
     # Generate metadata for errors and warnings (lookup of ID)
     meta = {}
-    for entry in errors + warnings:
+    for entry in errors:
         meta[entry["id"]] = entry
     write_json(meta, os.path.join("docs", "meta.json"))
 
     # Let's try creating three models: first pre, text, and post
     texts = []
-    for entry in errors + warnings:
+    for entry in errors:
 
         # Pre, text, and post
         text = (
@@ -170,7 +174,7 @@ def main():
 
     # pre and text
     texts = []
-    for entry in errors + warnings:
+    for entry in errors:
 
         # Pre, text
         text = entry.get("pre_context", "") + " " + entry.get("text")
@@ -183,7 +187,7 @@ def main():
 
     # post and text
     texts = []
-    for entry in errors + warnings:
+    for entry in errors:
 
         # Pre, text
         text = entry.get("text") + " " + entry.get("post_context", "")
@@ -196,7 +200,7 @@ def main():
 
     # now just text!
     texts = []
-    for entry in errors + warnings:
+    for entry in errors:
 
         # Pre, text, and post
         text = entry.get("text")
