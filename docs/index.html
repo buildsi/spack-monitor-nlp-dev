@@ -199,6 +199,7 @@ function showall() {
 
 
 function generate_plot(filename, height_extent, include_pre, include_post, height_added) {
+
 d3.csv(filename, function(data) {
 
   // Custom params per visualization
@@ -206,9 +207,6 @@ d3.csv(filename, function(data) {
       height_extent = height_extent || 150
   }
   height_added = height_added || 0
-  include_pre = include_pre || true
-  include_post = include_post || true
-
   console.log(height_extent)
   
   // Load topics, meta, and languages for each repo
@@ -424,6 +422,7 @@ d3.csv(filename, function(data) {
           if (source_file == "(None,)") {
               source_file = "none"
           }
+
           html = "<strong>source:</strong><br>" + source_file + "<br>"
           if ((include_pre == true) || (include_pre == "true")) {
              html += "<strong>pre:</strong><br> <span class='alert alert-info'>" + d.pre.replace("\n", "<br>") + "</span><br>"
@@ -530,6 +529,8 @@ $(document).ready(function() {
         var height_extent = parseInt($(this).find(':selected').attr('data-height'))
         var include_pre = $(this).find(':selected').attr('data-include-pre')
         var include_post = $(this).find(':selected').attr('data-include-post')
+        console.log(include_pre)
+        console.log(include_post)
         generate_plot(model_file, height_extent, include_pre, include_post, height_added)
     });
     generate_plot("text-software-embeddings.csv", 150, false, false, 0)
