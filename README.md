@@ -47,12 +47,21 @@ We next want to preprocess the data and generate models / vectors!
 $ python 2.vectors.py
 ```
 
+We are currently only parsing errors, as it's a smaller set and we are more interested
+in build errors than warnings that clutter the signal. For the "error only" (or parsed) approach
+we look for strings that have `error:` and split and take the right side of that. For all other
+processing methods, we remove paths (e.g., tokenize then remove anything with an os.sep or path separator).
+
 Some data will be generated in data, and assets for the web interface will go
 into [docs](docs). The interface allows you to select and see the difference between
-the models, and clearly just using the error message has the strongest signal (best clustering).
-Unforunately the database is strongly weighed toward boost errors, so the clusters
-reflect that.
+the models, and clearly just using the error messages (parsed or not) has the strongest signal (best clustering).
 
+## TODO
+
+ - add heatmap / density map to visualization
+ - try to make barplot of errors
+ - can we parse error messages out of binaries?
+ 
 ## License
 
 Spack is distributed under the terms of both the MIT license and the

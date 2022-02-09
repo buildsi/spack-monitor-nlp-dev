@@ -126,11 +126,12 @@ text {
 <div class="container-wide">
 <div class="row">
     <div class="col-md-8">
-<select id="model-select" name="state">
-  <option data-height-added=0 data-include-pre=false data-include-post=false data-height="150" value="text-software-embeddings.csv" selected>Error/Warning text only</option>
-  <option data-height-added=500 data-include-pre=false data-include-post=true data-height="0" value="text-post-software-embeddings.csv">Error/Warning text + post text</option>
-  <option data-height-added=0 data-include-pre=true data-include-post=false data-height="50" value="pre-text-software-embeddings.csv">Error/Warning text + pre text</option>
-  <option data-height-added=0 data-include-pre=true data-include-post=true data-height="200" value="pre-text-post-software-embeddings.csv">Error/Warning text + pre and post text</option>
+<select id="model-select" name="state" autocomplete="off">
+  <option data-tag="" data-height-added=0 data-include-pre=false data-include-post=false data-height="150" value="text-software-embeddings.csv" selected>Error/Warning text only</option>
+  <option data-tag="error" data-height-added=0 data-include-pre=false data-include-post=false data-height="200" value="error-software-embeddings.csv" selected>Error/Warning parsed text only</option>
+  <option data-tag="" data-height-added=0 data-include-pre=false data-include-post=true data-height="0" value="text-post-software-embeddings.csv">Error/Warning text + post text</option>
+  <option data-tag="" data-height-added=0 data-include-pre=true data-include-post=false data-height="50" value="pre-text-software-embeddings.csv">Error/Warning text + pre text</option>
+  <option data-tag="" data-height-added=0 data-include-pre=true data-include-post=true data-height="200" value="pre-text-post-software-embeddings.csv">Error/Warning text + pre and post text</option>
 </select>
 
     </div>
@@ -198,7 +199,7 @@ function showall() {
 }
 
 
-function generate_plot(filename, height_extent, include_pre, include_post, height_added) {
+function generate_plot(filename, height_extent, include_pre, include_post, height_added, tag) {
 
 d3.csv(filename, function(data) {
 
@@ -208,7 +209,7 @@ d3.csv(filename, function(data) {
   }
   height_added = height_added || 0
   console.log(height_extent)
-  
+
   // Load topics, meta, and languages for each repo
   $.getJSON("meta.json", function(meta) {
   
@@ -219,7 +220,7 @@ d3.csv(filename, function(data) {
         theid = parseInt(data[i].name)
         
         // Add all text
-        theData.push({"radius": 3, "cx": data[i].x, "cy": data[i].y, "name": theid, "label": meta[theid].label, "text": meta[theid].text, "pre": meta[theid].pre_context, "post": meta[theid].post_context, "source_file": meta[theid].source_file})
+        theData.push({"radius": 3, "cx": data[i].x, "cy": data[i].y, "name": theid, "label": meta[theid].label, "text": meta[theid].text, "pre": meta[theid].pre_context, "post": meta[theid].post_context, "source_file": meta[theid].source_file, "error": meta[theid].error, "pre_parsed": meta[theid].pre_parsed, "post_parsed": meta[theid].post_parsed, "text_parsed": meta[theid].text_parsed, "error_parsed": meta[theid].error_parsed})
     }
     console.log(theData);
 
@@ -424,14 +425,21 @@ d3.csv(filename, function(data) {
           }
 
           html = "<strong>source:</strong><br>" + source_file + "<br>"
+          if (tag == "error") {
+             html += "<strong>error:</strong><br> <span class='alert alert-info'>" + d.error.replace("\n", "<br>") + "</span><br>"          
+             html += "<strong>error parsed:</strong><br> <span class='alert alert-primary'>" + d.error_parsed.replace("\n", "<br>") + "</span><br>"          
+          }
           if ((include_pre == true) || (include_pre == "true")) {
              html += "<strong>pre:</strong><br> <span class='alert alert-info'>" + d.pre.replace("\n", "<br>") + "</span><br>"
+             html += "<strong>pre parsed:</strong><br> <span class='alert alert-primary'>" + d.pre_parsed.replace("\n", "<br>") + "</span><br>"
           }
           // Always include text
           html += "<strong>text:</strong><br> <span class='alert alert-info'>" + d.text.replace("\n", "<br>") + "</span><br>"
+          html += "<strong>text parsed:</strong><br> <span class='alert alert-primary'>" + d.text_parsed.replace("\n", "<br>") + "</span><br>"
           
           if ((include_post == true) ||  (include_post == "true")) {
               html += "<strong>post: </strong><br><span class='alert alert-info'>" + d.post.replace("\n", "<br>") + "</span><br>"
+              html += "<strong>post parsed: </strong><br><span class='alert alert-primary'>" + d.post_parsed.replace("\n", "<br>") + "</span><br>"
           }
           $("#error-info").html(html);          
           crosshair.style('display', null); // enable crosshair visibility 
@@ -529,11 +537,10 @@ $(document).ready(function() {
         var height_extent = parseInt($(this).find(':selected').attr('data-height'))
         var include_pre = $(this).find(':selected').attr('data-include-pre')
         var include_post = $(this).find(':selected').attr('data-include-post')
-        console.log(include_pre)
-        console.log(include_post)
-        generate_plot(model_file, height_extent, include_pre, include_post, height_added)
+        var tag = $(this).find(':selected').attr('data-tag')
+        generate_plot(model_file, height_extent, include_pre, include_post, height_added, tag)
     });
-    generate_plot("text-software-embeddings.csv", 150, false, false, 0)
+    generate_plot("text-software-embeddings.csv", 150, false, false, 0, null)
 })
 </script>
     </div>

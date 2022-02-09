@@ -49,17 +49,19 @@ def process_text(text):
     # Make lowercase
     text = text.lower()
 
-    # Since error output as filepaths, keep these
-    text = text.replace(os.sep, " ")
-
-    # Remove numbers and punctuation
+    # Remove numbers and punctuation (but leave path separator for now)
     text = re.sub(r"\d+", "", text)
-    text = re.sub(r"[^\w\s]", "", text)
+    text = re.sub(r"[^\w\s\/]", "", text)
+
     # Strip whitespace
     text = text.strip()
 
     # tokenize and stop word removal
     tokens = [x for x in word_tokenize(text) if not x in stop_words]
+
+    # Since error output as filepaths get rid of paths!    
+    # Get rid of anything that looks like a path!
+    tokens = [x for x in tokens if os.sep not in x]
 
     # Split words with underscore into two words
     words = []
@@ -149,8 +151,41 @@ def main():
     # Generate metadata for errors and warnings (lookup of ID)
     meta = {}
     for entry in errors:
+
+        # Split based on error, add as metadata
+        # Add error and error parsed if relevant (we only do this for text)
+        if entry.get('text') and "error:" in entry['text']:         
+            entry['error'] = entry['text'].split('error:')[-1]
+            text = entry.get('text').split('error:', 1)[-1]
+            entry['error_parsed'] = " ".join(process_text(text))
+
+        # Add all three parsed
+        entry['pre_parsed'] = " ".join(process_text(entry.get('pre_context')))
+        entry['post_parsed'] = " ".join(process_text(entry.get('post_context')))
+        entry['text_parsed'] = " ".join(process_text(entry.get('text')))
         meta[entry["id"]] = entry
+
     write_json(meta, os.path.join("docs", "meta.json"))
+    sys.exit()
+
+    # Try JUST the error message (e.g., error:)
+    texts = []
+    for entry in errors:
+
+        # Pre, text, and post
+        text = entry.get("text")
+        if not text:
+            continue
+
+        # Split based on error
+        if "error:" not in text:
+            continue
+
+        text = text.split('error:', 1)[-1]
+        tokens = process_text(text)
+        texts.append(TaggedDocument(tokens, [entry["id"]]))
+
+    build_model(texts, "error", model_dir)
 
     # Let's try creating three models: first pre, text, and post
     texts = []
