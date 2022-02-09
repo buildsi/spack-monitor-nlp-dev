@@ -62,6 +62,8 @@ Finally, generate counts of data (to be put into [docs](docs) if we want to even
 
 ```bash
 $ python 3.charts.py
+Found 30000 errors!
+1832 out of 30000 mention 'undefined reference'
 ```
 
 Some data will be generated in data, and assets for the web interface will go

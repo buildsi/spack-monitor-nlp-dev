@@ -106,12 +106,18 @@ def main():
     # Create a lookup of errors
     lookup_errors = {}
     lookup_parsed = {}
+
+    # count undefined reference
+    count = 0
     for entry in errors:
 
         # Pre, text, and post
         text = entry.get("text")
         if not text:
             continue
+
+        if "undefined reference" in text:
+            count += 1
 
         error = " ".join(process_text(text)).strip()
         if error not in lookup_errors:
@@ -142,6 +148,7 @@ def main():
         )
     }
 
+    print("%s out of %s mention 'undefined reference'" %(count, len(errors)))
     write_json(lookup_parsed, os.path.join("docs", "parsed_errors_count.json"))
     write_json(lookup_errors, os.path.join("docs", "errors_count.json"))
 
