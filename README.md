@@ -58,6 +58,7 @@ the models, and clearly just using the error messages (parsed or not) has the st
 
 ## TODO
 
+ - try UMAP
  - add heatmap / density map to visualization
  - try to make barplot of errors
  - can we parse error messages out of binaries?
