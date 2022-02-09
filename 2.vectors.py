@@ -9,6 +9,7 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 from glob import glob
 import pandas
+import umap
 import tempfile
 import shutil
 import argparse
@@ -25,12 +26,12 @@ stemmer = PorterStemmer()
 
 def get_parser():
     parser = argparse.ArgumentParser(
-        description="Research Software Encyclopedia Preprocessor",
+        description="Spack Monitor Analyser",
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
         "--data_dir",
-        help="Directory with UID subfolders",
+        help="Directory with data",
         default=os.path.join(os.getcwd(), "data"),
     )
     return parser
@@ -59,7 +60,7 @@ def process_text(text):
     # tokenize and stop word removal
     tokens = [x for x in word_tokenize(text) if not x in stop_words]
 
-    # Since error output as filepaths get rid of paths!    
+    # Since error output as filepaths get rid of paths!
     # Get rid of anything that looks like a path!
     tokens = [x for x in tokens if os.sep not in x]
 
@@ -116,7 +117,15 @@ def build_model(texts, name, outdir):
     )
     distance.to_csv(os.path.join(outdir, "%s-software-distances.csv" % name))
 
+    # Try umap first...
+    reducer = umap.UMAP()
+    embedding = reducer.fit_transform(distance)
+    emb = pandas.DataFrame(embedding, index=distance.index, columns=["x", "y"])
+    emb.index.name = "name"
+    emb.to_csv(os.path.join("docs", "%s-umap-software-embeddings.csv" % name))
+
     # Make the tsne (output embeddings go into docs for visual)
+    return
     fit = manifold.TSNE(n_components=2)
     embedding = fit.fit_transform(distance)
     emb = pandas.DataFrame(embedding, index=distance.index, columns=["x", "y"])
@@ -154,19 +163,18 @@ def main():
 
         # Split based on error, add as metadata
         # Add error and error parsed if relevant (we only do this for text)
-        if entry.get('text') and "error:" in entry['text']:         
-            entry['error'] = entry['text'].split('error:')[-1]
-            text = entry.get('text').split('error:', 1)[-1]
-            entry['error_parsed'] = " ".join(process_text(text))
+        if entry.get("text") and "error:" in entry["text"]:
+            entry["error"] = entry["text"].split("error:")[-1]
+            text = entry.get("text").split("error:", 1)[-1]
+            entry["error_parsed"] = " ".join(process_text(text))
 
         # Add all three parsed
-        entry['pre_parsed'] = " ".join(process_text(entry.get('pre_context')))
-        entry['post_parsed'] = " ".join(process_text(entry.get('post_context')))
-        entry['text_parsed'] = " ".join(process_text(entry.get('text')))
+        entry["pre_parsed"] = " ".join(process_text(entry.get("pre_context")))
+        entry["post_parsed"] = " ".join(process_text(entry.get("post_context")))
+        entry["text_parsed"] = " ".join(process_text(entry.get("text")))
         meta[entry["id"]] = entry
 
     write_json(meta, os.path.join("docs", "meta.json"))
-    sys.exit()
 
     # Try JUST the error message (e.g., error:)
     texts = []
@@ -181,7 +189,7 @@ def main():
         if "error:" not in text:
             continue
 
-        text = text.split('error:', 1)[-1]
+        text = text.split("error:", 1)[-1]
         tokens = process_text(text)
         texts.append(TaggedDocument(tokens, [entry["id"]]))
 
