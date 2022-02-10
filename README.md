@@ -30,6 +30,7 @@ Install umap from conda:
 
 ```bash
 $ conda install -c conda-forge umap-learn
+$ pip install umap-learn
 ```
 
 Then download data from spack monitor
@@ -72,7 +73,7 @@ the models, and clearly just using the error messages (parsed or not) has the st
 
 ## TODO
 
- - can we parse error messages out of binaries?
+ - cluster metric of goodness/homogeneity
  
 ## License
 
