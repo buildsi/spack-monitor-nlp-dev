@@ -2,14 +2,13 @@
 
 # use the spack monitor API to download data and save locally.
 
-import tempfile
-import shutil
 import requests
 import argparse
-import re
-import json
 import sys
 import os
+
+sys.path.insert(0, os.getcwd())
+from helpers import write_json
 
 
 def get_parser():
@@ -48,11 +47,6 @@ def paginated_get(url):
         if not results:
             break
         yield results
-
-
-def write_json(content, filename):
-    with open(filename, "w") as fd:
-        fd.write(json.dumps(content, indent=4))
 
 
 def main():

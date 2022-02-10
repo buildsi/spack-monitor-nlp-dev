@@ -1,22 +1,12 @@
 #!/usr/bin/env python
 
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-from nltk.tokenize import word_tokenize
 from glob import glob
-import pandas
-import tempfile
-import shutil
 import argparse
-import json
-import re
 import sys
 import os
 
-
-# Derive stop words and stemmer once
-stop_words = set(stopwords.words("english"))
-stemmer = PorterStemmer()
+sys.path.insert(0, os.getcwd())
+from helpers import process_text, write_json, read_json
 
 
 def get_parser():
@@ -30,61 +20,6 @@ def get_parser():
         default=os.path.join(os.getcwd(), "data"),
     )
     return parser
-
-
-def process_text(text):
-    """
-    Process text, including:
-
-    1. Lowercase
-    2. Remove numbers and punctuation
-    3. Strip whitespace
-    4. Tokenize and stop word removal
-    5. Stemming
-    """
-    # Make lowercase
-    text = text.lower()
-
-    # Remove numbers and punctuation (but leave path separator for now)
-    text = re.sub(r"\d+", "", text)
-    text = re.sub(r"[^\w\s\/]", "", text)
-
-    # Strip whitespace
-    text = text.strip()
-
-    # tokenize and stop word removal
-    tokens = [x for x in word_tokenize(text) if not x in stop_words]
-
-    # Since error output as filepaths get rid of paths!
-    # Get rid of anything that looks like a path!
-    tokens = [x for x in tokens if os.sep not in x]
-
-    # Split words with underscore into two words
-    words = []
-    for t in tokens:
-        if "_" in t:
-            words += [x.strip() for x in t.split("_")]
-
-        # Don't add single letters
-        elif len(t) == 1:
-            continue
-        else:
-            words.append(t)
-
-    # Don't do stemming here - the error messages are usually hard coded / consistent
-    # words = [stemmer.stem(t) for t in tokens]
-    return tokens
-
-
-def write_json(content, filename):
-    with open(filename, "w") as fd:
-        fd.write(json.dumps(content, indent=4))
-
-
-def read_json(filename):
-    with open(filename, "r") as fd:
-        content = json.loads(fd.read())
-    return content
 
 
 def main():
