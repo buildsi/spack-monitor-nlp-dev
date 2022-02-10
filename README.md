@@ -59,7 +59,7 @@ in build errors than warnings that clutter the signal. For the "error only" (or 
 we look for strings that have `error:` and split and take the right side of that. For all other
 processing methods, we remove paths (e.g., tokenize then remove anything with an os.sep or path separator).
 
-Finally, generate counts of data (to be put into [docs](docs) if we want to eventually visualize):
+Then generate counts of data (to be put into [docs](docs) if we want to eventually visualize):
 
 ```bash
 $ python 3.charts.py
@@ -71,10 +71,12 @@ Some data will be generated in data, and assets for the web interface will go
 into [docs](docs). The interface allows you to select and see the difference between
 the models, and clearly just using the error messages (parsed or not) has the strongest signal (best clustering).
 
-## TODO
+And finally, generate a quick plot to show that, if we did KNN for each error, the mean similarity
+of the closests 10 points (standard deviation not shown, but is calculated if we need):
 
- - cluster metric of goodness/homogeneity
+![data/means.png](data/means.png)
  
+
 ## License
 
 Spack is distributed under the terms of both the MIT license and the

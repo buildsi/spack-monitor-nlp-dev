@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 from glob import glob
+import statistics
 import pandas
 import tempfile
 import shutil
@@ -30,6 +33,17 @@ def get_parser():
         default=os.path.join(os.getcwd(), "data"),
     )
     return parser
+
+
+def write_json(content, filename):
+    with open(filename, "w") as fd:
+        fd.write(json.dumps(content, indent=4))
+
+
+def read_json(filename):
+    with open(filename, "r") as fd:
+        content = json.loads(fd.read())
+    return content
 
 
 def process_text(text):
@@ -59,32 +73,9 @@ def process_text(text):
     # Get rid of anything that looks like a path!
     tokens = [x for x in tokens if os.sep not in x]
 
-    # Split words with underscore into two words
-    words = []
-    for t in tokens:
-        if "_" in t:
-            words += [x.strip() for x in t.split("_")]
-
-        # Don't add single letters
-        elif len(t) == 1:
-            continue
-        else:
-            words.append(t)
-
     # Don't do stemming here - the error messages are usually hard coded / consistent
     # words = [stemmer.stem(t) for t in tokens]
     return tokens
-
-
-def write_json(content, filename):
-    with open(filename, "w") as fd:
-        fd.write(json.dumps(content, indent=4))
-
-
-def read_json(filename):
-    with open(filename, "r") as fd:
-        content = json.loads(fd.read())
-    return content
 
 
 def main():
@@ -103,12 +94,11 @@ def main():
         errors += read_json(filename)
     print("Found %s errors!" % len(errors))
 
-    # Create a lookup of errors
-    lookup_errors = {}
-    lookup_parsed = {}
+    # Load in model
+    model = Doc2Vec.load(os.path.join("data", "models", "model.error.doc2vec"))
 
-    # count undefined reference
-    count = 0
+    scores = []
+    # for each error, calculate homogeneity score
     for entry in errors:
 
         # Pre, text, and post
@@ -116,41 +106,26 @@ def main():
         if not text:
             continue
 
-        if "undefined reference" in text:
-            count += 1
-
-        error = " ".join(process_text(text)).strip()
-        if error not in lookup_errors:
-            lookup_errors[error] = 0
-        lookup_errors[error] += 1
-
         # Split based on error
         if "error:" not in text:
             continue
 
         text = text.split("error:", 1)[-1]
-        text = " ".join(process_text(text)).strip()
-        if text not in lookup_parsed:
-            lookup_parsed[text] = 0
-        lookup_parsed[text] += 1
+        tokens = process_text(text)
+        new_vector = model.infer_vector(tokens)
+        sims = model.docvecs.most_similar([new_vector])
 
-    # Sort by value
-    lookup_errors = {
-        k: v
-        for k, v in sorted(
-            lookup_errors.items(), key=lambda item: item[1], reverse=True
-        )
-    }
-    lookup_parsed = {
-        k: v
-        for k, v in sorted(
-            lookup_parsed.items(), key=lambda item: item[1], reverse=True
-        )
-    }
+        # NOT a perfect metric, take mean and sd
+        nums = [x[1] for x in sims]
+        scores.append((statistics.mean(nums), statistics.stdev(nums)))
 
-    print("%s out of %s mention 'undefined reference'" % (count, len(errors)))
-    write_json(lookup_parsed, os.path.join("docs", "parsed_errors_count.json"))
-    write_json(lookup_errors, os.path.join("docs", "errors_count.json"))
+    # We can save these if needed
+    means = [s[0] for s in scores]
+    stdevs = [s[0] for s in scores]
+
+    plt.hist(means, bins=100)
+    plt.title("KNN with N=10, average similarity for 30K messages")
+    plt.savefig(os.path.join("data", "means.png"))
 
 
 if __name__ == "__main__":

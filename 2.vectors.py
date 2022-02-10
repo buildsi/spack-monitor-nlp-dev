@@ -64,18 +64,6 @@ def process_text(text):
     # Get rid of anything that looks like a path!
     tokens = [x for x in tokens if os.sep not in x]
 
-    # Split words with underscore into two words
-    words = []
-    for t in tokens:
-        if "_" in t:
-            words += [x.strip() for x in t.split("_")]
-
-        # Don't add single letters
-        elif len(t) == 1:
-            continue
-        else:
-            words.append(t)
-
     # Don't do stemming here - the error messages are usually hard coded / consistent
     # words = [stemmer.stem(t) for t in tokens]
     return tokens
@@ -125,7 +113,6 @@ def build_model(texts, name, outdir):
     emb.to_csv(os.path.join("docs", "%s-umap-software-embeddings.csv" % name))
 
     # Make the tsne (output embeddings go into docs for visual)
-    return
     fit = manifold.TSNE(n_components=2)
     embedding = fit.fit_transform(distance)
     emb = pandas.DataFrame(embedding, index=distance.index, columns=["x", "y"])
