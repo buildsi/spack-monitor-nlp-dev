@@ -12,7 +12,8 @@ import sys
 import os
 
 sys.path.insert(0, os.getcwd())
-from helpers import process_text, write_json, read_json
+from helpers import process_text, write_json, read_json, read_errors
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -78,10 +79,7 @@ def main():
         sys.exit("%s does not exist!" % datadir)
 
     # Build model with errors
-    errors = []
-    for filename in glob(os.path.join(datadir, "errors*.json")):
-        errors += read_json(filename)
-    print("Found %s errors!" % len(errors))
+    errors = read_errors(datadir)
 
     # Make model output directory
     model_dir = os.path.join(datadir, "models")

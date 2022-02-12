@@ -1,6 +1,7 @@
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
+from glob import glob
 import json
 import re
 import os
@@ -19,6 +20,37 @@ def read_json(filename):
     with open(filename, "r") as fd:
         content = json.loads(fd.read())
     return content
+
+
+def read_errors(datadir):
+    errors = []
+    for filename in glob(os.path.join(datadir, "errors*.json")):
+        errors += read_json(filename)
+    print("Found %s spack-monitor errors!" % len(errors))
+
+    # Figure out last id
+    ids = [e["id"] for e in errors]
+    ids.sort()
+    newid = ids[-1] + 1
+
+    # Add in dinos errors
+    dinodir = os.path.join(datadir, "dinos")
+    if os.path.exists(dinodir):
+        for filename in glob(os.path.join(dinodir, "*error.json")):
+            entries = read_json(filename)
+            for entry in entries:
+                entry["id"] = newid
+                entry["label"] = "dinos-error"
+                newid += 1
+                errors.append(entry)
+
+    print("Found a total of %s errors" % len(errors))
+
+    # Replace source file None with empty
+    for error in errors:
+        if error["source_file"] in [[None], (None,)]:
+            error["source_file"] = ""
+    return errors
 
 
 def process_text(text):
