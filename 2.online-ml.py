@@ -63,24 +63,20 @@ def build_dbstream(cli, errors, model_name, datadir):
     https://riverml.xyz/latest/api/cluster/DBSTREAM
     """
     exists = True
-
-    import IPython
-
-    IPython.embed()
-
     if model_name not in cli.models()["models"]:
-        pass
-        # model = feature_extraction.BagOfWords() | cluster.DBSTREAM(clustering_threshold = 1.5,
-        #                            fading_factor = 0.05,
-        #                            cleanup_interval = 4,
-        #                            intersection_factor = 0.5,
-        #                            minimum_weight = 1)
-        # model_name = cli.upload_model(model, "cluster", model_name=model_name)
-        # exists = False
+        model = feature_extraction.BagOfWords() | cluster.DBSTREAM(
+            clustering_threshold=1.5,
+            fading_factor=0.05,
+            cleanup_interval=4,
+            intersection_factor=0.5,
+            minimum_weight=1,
+        )
+        model_name = cli.upload_model(model, "cluster", model_name=model_name)
+        exists = False
 
-    # if not exists:
-    #    for sentence in iter_sentences(errors):
-    #        res = cli.learn(x=sentence, model_name=model_name)
+    if not exists:
+        for sentence in iter_sentences(errors):
+            res = cli.learn(x=sentence, model_name=model_name)
 
 
 def build_kmeans(cli, errors, model_name, datadir):
