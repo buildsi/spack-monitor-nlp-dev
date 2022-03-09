@@ -10,7 +10,6 @@ from sklearn import manifold
 
 from glob import glob
 import pandas
-import umap
 import argparse
 import sys
 import os
@@ -58,6 +57,100 @@ def iter_sentences(errors, return_text=False, return_raw=False):
             yield sentence
 
 
+def build_dbstream(cli, errors, model_name, datadir):
+    """
+    Build the dbstream model with a particular name.
+    https://riverml.xyz/latest/api/cluster/DBSTREAM
+    """
+    exists = True
+
+    import IPython
+
+    IPython.embed()
+
+    if model_name not in cli.models()["models"]:
+        pass
+        # model = feature_extraction.BagOfWords() | cluster.DBSTREAM(clustering_threshold = 1.5,
+        #                            fading_factor = 0.05,
+        #                            cleanup_interval = 4,
+        #                            intersection_factor = 0.5,
+        #                            minimum_weight = 1)
+        # model_name = cli.upload_model(model, "cluster", model_name=model_name)
+        # exists = False
+
+    # if not exists:
+    #    for sentence in iter_sentences(errors):
+    #        res = cli.learn(x=sentence, model_name=model_name)
+
+
+def build_kmeans(cli, errors, model_name, datadir):
+    """
+    Build the kmeans model with a particular name.
+    """
+    # Create the model if it does not exist (I created beforehand)
+    # Number clusters is kind of arbitrary, I wanted to do >> number of packages
+    exists = True
+    if model_name not in cli.models()["models"]:
+        model = feature_extraction.BagOfWords() | cluster.KMeans(
+            n_clusters=100, halflife=0.4, sigma=3, seed=0
+        )
+        model_name = cli.upload_model(model, "cluster", model_name=model_name)
+        exists = False
+
+    # Add each error to the server (only if not done yet)
+    if not exists:
+        for sentence in iter_sentences(errors):
+            res = cli.learn(x=sentence, model_name=model_name)
+
+    # At this point, let's get a prediction for each
+    # We can just group them based on the cluster
+    clusters = {}
+    for sentence in iter_sentences(errors):
+        res = cli.predict(x=sentence, model_name=model_name)
+        if res["prediction"] not in clusters:
+            clusters[res["prediction"]] = []
+        clusters[res["prediction"]].append(sentence)
+
+    # Make model output directory
+    cluster_dir = os.path.join(datadir, "clusters", "kmeans")
+    if not os.path.exists(cluster_dir):
+        os.makedirs(cluster_dir)
+
+    for cluster_id, entries in clusters.items():
+        if not entries:
+            continue
+        cluster_meta = os.path.join(cluster_dir, "cluster-tokens-%s.json" % cluster_id)
+        write_json(entries, cluster_meta)
+
+    # Download the model and load to get centroids
+    cli.download_model(model_name=model_name)
+    with open("spack-errors.pkl", "rb") as fd:
+        model = pickle.load(fd)
+
+    # Save the centers and create data for visualization because people expect it at this point :/
+    return model
+
+
+def generate_embeddings(centers, name):
+    df = pandas.DataFrame(centers)
+
+    # 200 rows (centers) and N columns (words)
+    df = df.transpose()
+    df = df.fillna(0)
+
+    # Create a distance matrix
+    distance = pandas.DataFrame(
+        squareform(pdist(df)), index=list(df.index), columns=list(df.index)
+    )
+
+    # Make the tsne (output embeddings go into docs for visual)
+    fit = manifold.TSNE(n_components=2)
+    embedding = fit.fit_transform(distance)
+    emb = pandas.DataFrame(embedding, index=distance.index, columns=["x", "y"])
+    emb.index.name = "name"
+    emb.to_csv(os.path.join("docs", "%s-software-embeddings.csv" % name))
+
+
 def main():
 
     parser = get_parser()
@@ -86,97 +179,20 @@ def main():
     # Get models to see if we have spack-errors
     # models = cli.models()
 
-    # Add this here so we don't run stupidly
-    # Download the model and load to get centroids
-    import IPython
+    # Build kmeans model and export clusters
+    # Note that we don't need to keep doing that - spack-monitor can visualize them now
+    # model = build_kmeans(cli=cli, errors=errors, model_name="spack-errors", datadir=datadir)
 
-    IPython.embed()
-    sys.exit()
+    # Save the centers and generate distance matrix
+    # centers = model.steps["KMeans"].centers
+    # write_json(centers, os.path.join(cluster_dir, "centers.json"))
 
-    # Create the model if it does not exist (I created beforehand)
-    # Number clusters is kind of arbitrary, I wanted to do >> number of packages
-    model_name = "spack-errors"
-    if model_name not in cli.models["models"]:
-        model = feature_extraction.BagOfWords() | cluster.KMeans(
-            n_clusters=100, halflife=0.4, sigma=3, seed=0
-        )
-        model_name = cli.upload_model(model, "cluster", model_name=model_name)
-
-    # model_name = 'spack-nearest-errors'
-    # model = feature_extraction.BagOfWords() | neighbors.KNNADWINClassifier(window_size=100)
-    # model_name = cli.upload_model(model, "cluster", model_name=model_name)
-
-    # Add each error to the server
-    for sentence in iter_sentences(errors):
-        res = cli.learn(x=sentence, model_name=model_name)
-
-    # At this point, let's get a prediction for each
-    # We can just group them based on the cluster
-    clusters = {}
-    for sentence in iter_sentences(errors):
-        res = cli.predict(x=sentence, model_name=model_name)
-        if res["prediction"] not in clusters:
-            clusters[res["prediction"]] = []
-        clusters[res["prediction"]].append(entry)
-
-    # Make model output directory
-    cluster_dir = os.path.join(datadir, "clusters")
-    if not os.path.exists(cluster_dir):
-        os.makedirs(cluster_dir)
-
-    for cluster_id, entries in clusters.items():
-        if not entries:
-            continue
-
-        # Make a simplified version of just tokens
-        sentences = list(iter_sentences(entries, return_text=True))
-
-        cluster_meta = os.path.join(cluster_dir, "cluster-%s.json" % cluster_id)
-        write_json(entries, cluster_meta)
-        cluster_meta = os.path.join(cluster_dir, "cluster-tokens-%s.json" % cluster_id)
-        write_json(sentences, cluster_meta)
-
-    # Download the model and load to get centroids
-    cli.download_model(model_name=model_name)
-    with open("spack-errors.pkl", "rb") as fd:
-        model = pickle.load(fd)
-
-    # Save the centers and create data for visualization because people expect it at this point :/
-    centers = model.steps["KMeans"].centers
-    write_json(centers, os.path.join(cluster_dir, "centers.json"))
-
-    # Create a vector for each centroid?
     # UIDS as id for each row, vectors across columns
-    centers = list(centers.values())
-    df = pandas.DataFrame(centers)
-
-    # 200 rows (centers) and N columns (words)
-    df = df.transpose()
-    df = df.fillna(0)
-    
-    # Create a distance matrix
-    distance = pandas.DataFrame(
-        squareform(pdist(df)), index=list(df.index), columns=list(df.index)
+    # centers = list(centers.values())
+    # generate_embeddings(centers, "kmeans")
+    model = build_dbstream(
+        cli=cli, errors=errors, model_name="spack-dbstream-errors", datadir=datadir
     )
-
-    # Try umap first...
-    try:
-        reducer = umap.UMAP()
-        embedding = reducer.fit_transform(distance)
-        emb = pandas.DataFrame(embedding, index=distance.index, columns=["x", "y"])
-        emb.index.name = "name"
-        emb.to_csv(os.path.join("docs", "umap-kmeans-software-embeddings.csv"))
-    except:
-        pass
-
-    # Make the tsne (output embeddings go into docs for visual)
-    fit = manifold.TSNE(n_components=2)
-    embedding = fit.fit_transform(distance)
-    emb = pandas.DataFrame(embedding, index=distance.index, columns=["x", "y"])
-    emb.index.name = "name"
-    emb.to_csv(os.path.join("docs", "kmeans-software-embeddings.csv"))
-
-
 
 
 if __name__ == "__main__":
