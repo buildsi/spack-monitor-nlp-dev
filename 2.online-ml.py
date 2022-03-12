@@ -3,12 +3,10 @@
 # Let's try doing kmeans with river!
 
 from riverapi.main import Client
-from river import synth, evaluate, metrics, neighbors
 from river import cluster, feature_extraction
 from scipy.spatial.distance import pdist, squareform
 from sklearn import manifold
 
-from glob import glob
 import pandas
 import argparse
 import sys
@@ -16,7 +14,7 @@ import os
 import pickle
 
 sys.path.insert(0, os.getcwd())
-from helpers import process_text, write_json, read_json, read_errors
+from helpers import process_text, write_json, read_errors
 
 
 def get_parser():
@@ -89,10 +87,12 @@ class ModelBuilder:
         # Add each error to the server (only if not done yet)
         if not exists:
             for sentence in self.iter_sentences():
-                res = self.cli.learn(x=sentence, model_name=model_name)
+                self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
+            self.save_model(model_name)
             self.generate_clusters_json(model_name, save_prefix)
+
         return self.load_model("%s.pkl" % model_name)
 
     def dbstream(self, model_name="spack-dbstream-errors", save_prefix="dbstream"):
@@ -114,7 +114,7 @@ class ModelBuilder:
 
         if not exists:
             for sentence in self.iter_sentences():
-                res = self.cli.learn(x=sentence, model_name=model_name)
+                self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
             self.generate_clusters_json(model_name, save_prefix)
@@ -141,7 +141,7 @@ class ModelBuilder:
 
         if not exists:
             for sentence in self.iter_sentences():
-                res = self.cli.learn(x=sentence, model_name=model_name)
+                self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
             self.generate_clusters_json(model_name, save_prefix)
