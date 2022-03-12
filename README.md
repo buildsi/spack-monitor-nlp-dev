@@ -48,6 +48,18 @@ data/
 └── warnings.json
 ```
 
+### Online ML
+
+The script [2.online-ml.py](2.online-ml.py) will generate the clusters in [data/clusters](data/clusters).
+Note that I've commented out the main function runs (since I've run them already) so if you want to re-produce
+or run differently, either insert an interactive `IPython.embed()` or uncomment and edit areas.
+
+```bash
+python 2.online-ml.py
+```
+
+### Vectors and Docs Visuals
+
 We next want to preprocess the data and generate models / vectors!
 
 ```bash

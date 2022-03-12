@@ -47,7 +47,7 @@ class ModelBuilder:
         else:
             self.cli = Client(host)
 
-    def iter_sentences(self, return_text=False, return_raw=False):
+    def iter_sentences(self):
         """
         Yield sentences (parsed) to learn from.
         """
@@ -64,16 +64,13 @@ class ModelBuilder:
                 continue
 
             text = raw.split("error:", 1)[-1]
-            if return_text and text:
-                yield text
-            elif return_raw:
-                yield raw
-            else:
-                tokens = process_text(text)
-                sentence = " ".join(tokens)
-                if not tokens or not sentence.strip():
-                    continue
-                yield sentence
+            tokens = process_text(text)
+            sentence = " ".join(tokens)
+
+            # Skip single words!
+            if not tokens or not sentence.strip() or len(tokens) == 1:
+                continue
+            yield sentence
 
     def kmeans(self, model_name="spack-errors", save_prefix="kmeans"):
         """
@@ -91,7 +88,7 @@ class ModelBuilder:
 
         # Add each error to the server (only if not done yet)
         if not exists:
-            for sentence in self.iter_sentences(self.errors):
+            for sentence in self.iter_sentences():
                 res = self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
@@ -116,7 +113,7 @@ class ModelBuilder:
             exists = False
 
         if not exists:
-            for sentence in self.iter_sentences(self.errors):
+            for sentence in self.iter_sentences():
                 res = self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
@@ -128,23 +125,22 @@ class ModelBuilder:
         """
         Build the denstream model https://riverml.xyz/latest/api/cluster/DenStream/
         """
+        # See https://github.com/online-ml/river/issues/874
+        # model might have bugs! denstream I think is better
+        # because denstream is good with outliers (we likely won't have)
         exists = True
         if model_name not in self.cli.models()["models"]:
-
-            # TODO the docs of denstream are not clear about beta/mu (and the range is wrong)
-            # and running like this we only get 2 clusters - I'm going to keep testing this.
             model = feature_extraction.BagOfWords() | cluster.DenStream(
                 decaying_factor=0.01,
-                beta=1.01,
-                mu=1.0005,
-                epsilon=0.5,
-                n_samples_init=10,
+                beta=0.5,
+                mu=2.5,
+                epsilon=0.02,
             )
             model_name = self.cli.upload_model(model, "cluster", model_name=model_name)
             exists = False
 
         if not exists:
-            for sentence in self.iter_sentences(self.errors):
+            for sentence in self.iter_sentences():
                 res = self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
@@ -159,7 +155,7 @@ class ModelBuilder:
         # At this point, let's get a prediction for each
         # We can just group them based on the cluster
         clusters = {}
-        for sentence in self.iter_sentences(self.errors):
+        for sentence in self.iter_sentences():
             res = self.cli.predict(x=sentence, model_name=model_name)
             if res["prediction"] not in clusters:
                 clusters[res["prediction"]] = []
@@ -243,7 +239,7 @@ def main():
     # spack monitor server.
 
     # model = builder.dbstream(model_name="spack-dbstream-errors")
-    model = builder.denstream(model_name="spack-denstream-errors")
+    # model = builder.denstream(model_name="spack-denstream-errors")
 
 
 if __name__ == "__main__":
