@@ -9,7 +9,7 @@ from glob import glob
 import sys
 
 sys.path.insert(0, os.getcwd())
-from helpers import read_json, process_text, write_json
+from helpers import read_json, process_text, write_json, read_errors
 
 
 def read_issues(datadir):
@@ -19,6 +19,10 @@ def read_issues(datadir):
 
 def parse_text(raw):
     if not raw:
+        return
+
+    # Split based on error
+    if "error:" not in raw:
         return
 
     # We already have error: in these lines
@@ -32,7 +36,33 @@ def parse_text(raw):
     return sentence.strip()
 
 
-def match_issues(issues_dir):
+def match_issues(result, datadir):
+    """
+    Read in our issues and look for matches.
+    """
+    errors = read_errors(datadir)
+    parsed = set()
+    for entry in errors:
+        text = entry.get("text")
+        error = parse_text(text)
+        if not error:
+            continue
+        parsed.add(error)
+
+    found = {}
+    print("Found %s unique errors in the spack monitor set." % len(parsed))
+    for number, entry in result["errors"].items():
+        for error in entry["parsed"]:
+            if error in parsed:
+                if number not in found:
+                    found[number] = []
+                found[number].append(error)
+        if number in found:
+            found[number] = list(set(found[number]))
+    return found
+
+
+def parse_issues(issues_dir):
     """
     Find spack issues that have errors in them.
     """
@@ -41,7 +71,7 @@ def match_issues(issues_dir):
     for issue in read_issues(issues_dir):
 
         # Look for error: in the body:
-        if not issue['body'] or "error:" not in issue["body"]:
+        if not issue["body"] or "error:" not in issue["body"]:
             no_match.append(issue["number"])
         else:
             lines = [x for x in issue["body"].split("\n") if "error:" in x]
@@ -78,10 +108,26 @@ def main():
         sys.exit("%s does not exist!" % issues_dir)
 
     # Get errors found, and list of issues without match
-    errors, no_match = match_issues(issues_dir)
-    print("Found %s issues with errors, %s issues without matches." %(len(errors), len(no_match)))
-    result = {"errors": errors, "total": len(no_match) + len(errors), "no_match": len(no_match)}
-    write_json(result, os.path.join(datadir, "spack-issue-errors.json"))
+    outfile = os.path.join(datadir, "spack-issue-errors.json")
+    if not os.path.exists(outfile):
+        errors, no_match = parse_issues(issues_dir)
+        print(
+            "Found %s issues with errors, %s issues without matches."
+            % (len(errors), len(no_match))
+        )
+        result = {
+            "errors": errors,
+            "total": len(no_match) + len(errors),
+            "no_match": len(no_match),
+        }
+        write_json(result, outfile)
+    else:
+        result = read_json(outfile)
+
+    # Now match!
+    found = match_issues(result, datadir)
+    outfile = os.path.join(datadir, "spack-issue-errors-found-spack-monitor.json")
+    write_json(found, outfile)
 
 
 if __name__ == "__main__":
