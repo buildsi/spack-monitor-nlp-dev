@@ -1,0 +1,26 @@
+{
+    "body": "Spack allows users to set `padded_length` to pad out the installation path in build farms so that any binaries created are more easily relocatable. The issue with this is that the padding dominates installation output and makes it difficult to see what is going on. The padding also causes logs to easily exceed size limits for things like GitLab artifacts.\r\n\r\nThis PR fixes this by adding a filter in the logger daemon. If you use a setting like this:\r\n\r\n```yaml\r\nconfig:\r\n    install_tree:\r\n        padded_length: 512\r\n```\r\n\r\nThen lines like this in the output:\r\n\r\n```console\r\n==> './configure' '--prefix=/Users/gamblin2/padding-log-test/opt/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_placeholder__/__spack_path_pla/darwin-bigsur-skylake/apple-clang-12.0.5/zlib-1.2.11-74mwnxgn6nujehpyyalhwizwojwn5zga\r\n```\r\n\r\nwill be replaced with the much more readable:\r\n\r\n```console\r\n==> './configure' '--prefix=/Users/gamblin2/padding-log-test/opt/[padded-to-512-chars]/darwin-bigsur-skylake/apple-clang-12.0.5/zlib-1.2.11-74mwnxgn6nujehpyyalhwizwojwn5zga\r\n```\r\n\r\nYou can see that the padding has been replaced with `[padded-to-512-chars]` to indicate the total number of characters in the padded prefix. Over a long log file, this should save a lot of space and allow us to see error messages in GitHub/GitLab log output.\r\n\r\nThe *actual* build logs still have full paths in them. Also lines that are output by Spack and not by a package build are not filtered and will still display the fully padded path. There aren't that many of these, so the change should still help reduce file size and readability quite a bit.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24514",
+    "updated_at": "2021-07-12 21:48:53",
+    "created_at": "2021-06-25 00:41:44",
+    "closed_at": "2021-07-12 21:48:52",
+    "state": "closed",
+    "title": "Filter padding out of build output when using `padded_length`",
+    "number": 24514,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "tests",
+        "utilities",
+        "build",
+        "ci",
+        "logging"
+    ],
+    "id": 929724008,
+    "html_url": "https://github.com/spack/spack/pull/24514",
+    "assignees": [
+        "zackgalbreath"
+    ],
+    "comments": 0
+}

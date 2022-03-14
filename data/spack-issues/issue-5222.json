@@ -1,0 +1,21 @@
+{
+    "body": "**Edit**: suspected error in `openmpi` package was incorrect, it was `modules.yaml`.  See [comment below for details](https://github.com/LLNL/spack/issues/5222#issuecomment-325264940)\r\n\r\nI can reliably get `OpenMPI` to completely build.  It never installs though.  I've never experienced anything like this with `spack` before...if it compiles...\r\n\r\n```ruby\r\n==> Error: TypeError: 'NoneType' object is not iterable                                       \r\n/share/apps/spack/spack_all/lib/spack/spack/package.py:1350, in build_process:\r\n```\r\n\r\nIn `lib/spack/spack/package.py`:\r\n\r\n```py\r\n1349                 # Run post install hooks before build stage is removed.\r\n1350                 spack.hooks.post_install(self.spec) \r\n```\r\n\r\nThis is calling (?) this one in `openmpi` yes?\r\n\r\n```py\r\n367     @run_after('install')\r\n368     def filter_compilers(self):\r\n```\r\n\r\nRelevant section of `compilers.yaml`:\r\n\r\n```yaml\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel6\r\n    paths:\r\n        cc: /share/apps/spack/spack_compilers/opt/spack/linux-rhel6-x86_64/gcc-4.9.2/gcc-7.2.0-j74oaigj3p5ikuneldzgxzqg42m3s3op/bin/gcc\r\n        cxx: /share/apps/spack/spack_compilers/opt/spack/linux-rhel6-x86_64/gcc-4.9.2/gcc-7.2.0-j74oaigj3p5ikuneldzgxzqg42m3s3op/bin/g++\r\n        f77: /share/apps/spack/spack_compilers/opt/spack/linux-rhel6-x86_64/gcc-4.9.2/gcc-7.2.0-j74oaigj3p5ikuneldzgxzqg42m3s3op/bin/gfortran\r\n        fc: /share/apps/spack/spack_compilers/opt/spack/linux-rhel6-x86_64/gcc-4.9.2/gcc-7.2.0-j74oaigj3p5ikuneldzgxzqg42m3s3op/bin/gfortran\r\n    spec: gcc@7.2.0\r\n    target: x86_64\r\n```\r\n\r\nAny guidance greatly appreciated!\r\n\r\nAdmonition: yes, I fell into the misleading trap detailed in the docs.  I don't see how that would cause this though, and it's way too late to do anything else.\r\n\r\nNote: nothing relevant in `spack-build.out`.  It compiles everything, and then says it's executing the `install` phase and then dies.",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/5222",
+    "updated_at": "2017-11-23 15:49:10",
+    "created_at": "2017-08-28 05:09:43",
+    "closed_at": "2017-11-23 15:14:09",
+    "state": "closed",
+    "title": "better safeguards for module file generation (explicit stage printout, or pre-parse for validity)",
+    "number": 5222,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 253227817,
+    "html_url": "https://github.com/spack/spack/issues/5222",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

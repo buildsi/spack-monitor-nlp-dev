@@ -1,0 +1,19 @@
+{
+    "body": "Closes #25728. Fixes test failures encountered in #25388.\r\n\r\n- Always disable leftover active environment after tests\r\n\r\nMultiple tests enable an environment without deactivating, which may influence a consecutive test if\r\nit runs environment aware commands.\r\n\r\n- Don't error when removing scope that does not exist\r\n\r\nThe problem here is that a config fixture may replace the configuration\r\ninstance, the test calls `spack.environment.activate(...)` which adds a config\r\nscope, then the config fixture removes the config scope, and lastly the\r\nenvironment fixture deactivates the environment, which removes the environment\r\nconfig scope, but at that point it doesn't exist anymore.\r\n\r\nSo, it's easiest simply not to error when calling `remove_scope` for a\r\nnon-existing config scope.\r\n\r\n---\r\n\r\nOnce more, the proper solution is in #25608, since this PR uses @alalazo's context manager which mutates globals directly instead of using spack.environment.activate(...) and spack.environment.deactivate().",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25729",
+    "updated_at": "2021-09-03 14:35:36",
+    "created_at": "2021-09-01 12:43:49",
+    "closed_at": "2021-09-03 14:27:19",
+    "state": "closed",
+    "title": "Deactivate environments after tests",
+    "number": 25729,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 985105847,
+    "html_url": "https://github.com/spack/spack/pull/25729",
+    "assignees": [],
+    "comments": 0
+}

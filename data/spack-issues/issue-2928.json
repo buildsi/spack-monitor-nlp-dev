@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #2760\r\n\r\nWhen copying a spec, _concrete is always set to False for each\r\ndependency. \"Spec.satisfies\" was accessing the member \"_concrete\"\r\ndirectly instead of using the property \"concrete\". This means that\r\nif you copy a spec, the dependencies will be considered equal, but\r\ndid not necessarily satisfy one another. Spec.satisfies is a\r\nprerequisite for a package to be considered an extension; as a\r\nconsequence, an extension with run-time dependencies that were also\r\nextensions did not activate those extensions. This updates\r\nSpec.satisfies to avoid checking the cached member \"_concrete\"\r\ndirectly.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/2928",
+    "updated_at": "2017-01-26 04:44:42",
+    "created_at": "2017-01-25 03:18:38",
+    "closed_at": "2017-01-26 04:43:13",
+    "state": "closed",
+    "title": "Spec.satisfies accesses Spec.concrete as property",
+    "number": 2928,
+    "milestone": null,
+    "labels": [
+        "ready",
+        "dependencies",
+        "extensions"
+    ],
+    "id": 203002678,
+    "html_url": "https://github.com/spack/spack/pull/2928",
+    "assignees": [],
+    "comments": 3
+}

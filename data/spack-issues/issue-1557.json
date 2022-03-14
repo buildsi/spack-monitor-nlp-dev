@@ -1,0 +1,19 @@
+{
+    "body": "I have the following package `ibmisc`:\n\n```\nclass Ibmisc(CMakePackage):\n    \"\"\"Misc. reusable utilities used by IceBin.\"\"\"\n\n    homepage = \"https://github.com/citibeth/ibmisc\"\n    url      = \"https://github.com/citibeth/ibmisc/tarball/v0.1.0\"\n\n    version('0.1.2', '3a6acd70085e25f81b63a7e96c504ef9')\n    version('0.1.1', '1bca77795cca96c583dcf75a0c666552')\n    version('0.1.0', '058af1c774b5836a1a71fd10611d80b5')\n\n    version('develop',\n        git='https://github.com/citibeth/ibmisc.git',\n        branch='develop')\n...\n```\n\nI then add to `packages.yaml`:\n\n```\n    ibmisc:\n        version: [9999]\n        variants: +python +netcdf\n```\n\nNow try `spack spec ibmisc`, and I get:\n\n```\nibmisc@0.1.2%gcc@4.8.5+blitz+boost~everytrace+googletest+netcdf+proj+python+udunits2 arch=linux-centos7-x86_64\n```\n\nI can work around this by adopting (arcane) conventions that certain numeric version numbers mean certain things.  For example, if I search-and-replace `develop` --> `9999` in the above `package.py` and `packages.yaml`, then `spack spec ibmisc` yields my development version:\n\n```\nibmisc@9999%gcc@4.8.5+blitz+boost~everytrace+googletest+netcdf+proj+python+udunits2 arch=linux-centos7-x86_64\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1557",
+    "updated_at": "2017-04-13 17:28:34",
+    "created_at": "2016-08-18 04:07:46",
+    "closed_at": "2017-04-13 17:18:31",
+    "state": "closed",
+    "title": "Non-numeric version numbers don't work in packages.yaml",
+    "number": 1557,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 171813767,
+    "html_url": "https://github.com/spack/spack/issues/1557",
+    "assignees": [],
+    "comments": 5
+}

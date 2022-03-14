@@ -1,0 +1,19 @@
+{
+    "body": "This is a generalization of the spack-env's `include:` feature into a new `include` config section.\r\n\r\nSo config scopes can have their own `include.yaml` to include custom configuration scopes. And spack-env's `spack:include:` still works as before, but is now seen as a simple config section (like `packages:`) instead of being spack-env-specific.\r\n\r\nThe current implementation is very similar to the one that were written for spack-envs: when registering a new config scope in the `spack.config.config.scopes` list, the `include` config section is read and scopes are pushed recursively (at lower precedence than the incluer). The `remove_scope` implementation is a bit trickier, but works.\r\n\r\nCurrently, this PR is a \"first working version\", I thought of a few more TODOs, **I could do them in this PR, or step-by-step in later PRs ?**:\r\n- [ ] Catch infinite include recursion\r\n- [ ] Test including the same custom scope in different \"root\" scopes (check for scope.name conflicts)\r\n- [ ] Handle manual calls to `config.remove_scope` of \"non-root\" included scope (forbid, or warn ?)\r\n\r\n---\r\n\r\nAs for the **why I did this**: we want to automate the selection between different configurations (beyond just the arch), but keep sharing the same instance/files were we can. We started to look at `spack -C` but it didn't work for us. We then went to spack-env's `include:` with unix-env variables set by a custom setup-env.sh. But the day-to-day package development with a spack-env activated is often frustrating...\r\n\r\nSo, looking around for better solution in the source code, I found that this solution of generalizing the `include` feature was actually not too difficult to implement (so I didn't go through creating an Issue to discuss about it first, but I am open to it if need be). This solution would enable us to automate some configuration selection for day-to-day devs with a near-vanilla \"standard\" spack experience (without activating a spack-env), and keeping spack-env for deployments and specific software stacks configurations.\r\n",
+    "user": "Jordan474",
+    "url": "https://api.github.com/repos/spack/spack/issues/19247",
+    "updated_at": "2021-03-01 08:34:31",
+    "created_at": "2020-10-09 16:26:10",
+    "closed_at": "2021-02-26 12:20:15",
+    "state": "closed",
+    "title": "Generalization of 'include:' as config section",
+    "number": 19247,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 718275652,
+    "html_url": "https://github.com/spack/spack/pull/19247",
+    "assignees": [],
+    "comments": 3
+}

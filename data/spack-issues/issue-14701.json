@@ -1,0 +1,19 @@
+{
+    "body": "Closes #8119.\r\n\r\n`spack -V` previously always returned the version of spack from `spack.spack_version`.  This gives us a general idea of what version users are on, but if they're on `develop` or on some branch, we have to ask more questions.\r\n\r\nThis PR makes `spack -V` check whether this instance of Spack is a git repository, and if it is, it appends useful information from `git describe --tags` to the version.  Specifically, it adds:\r\n\r\n  - number of commits since the last release tag\r\n  - abbreviated (but unique) commit hash\r\n\r\nSo, if you're on `develop` you might get something like this:\r\n\r\n```console\r\n$ spack -V\r\n0.13.3-912-3519a1762\r\n```\r\n\r\nThis means you're on commit 3519a1762, which is 912 commits ahead of the 0.13.3 release.\r\n\r\nIf you are on a release branch, or if you are using a tarball of Spack,\r\nyou'll get the usual `spack.spack_version`:\r\n\r\n```console\r\n$ spack -V\r\n0.13.3\r\n```\r\n\r\nThis should help when asking users what version they are on, since a lot\r\nof people use the `develop` branch.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/14701",
+    "updated_at": "2020-01-31 20:00:07",
+    "created_at": "2020-01-31 03:21:12",
+    "closed_at": "2020-01-31 19:59:22",
+    "state": "closed",
+    "title": "`spack -V` is more descriptive for dev branches",
+    "number": 14701,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 557888321,
+    "html_url": "https://github.com/spack/spack/pull/14701",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,17 @@
+{
+    "body": "My command line optimization flag is being over-written by the IPOPT build.\r\nSpack command:\r\n```\r\nspack -d install -v ipopt@3.12.7%intel@16.0.3 cflags=\"-g -O0\" cppflags=\"-g -O0\" cxxflags=\"-g -O0\" fflags=\"-g -O0\" -coinhsl+metis arch=linux-rhel7-x86_64\r\n```\r\n\r\nSpack debug output snippet:\r\n```\r\n[cc] /usr/tce/packages/intel/intel-16.0.3/bin/icpc -I/g/g14/kudo4/spack/opt/spack/linux-rhel7-x86_64/intel-16.0.3/metis-4.0.3-sacetyhy56rhqu6ggx3hzjfcwsaxs5t3/include -I/g/g14/kudo4/spack/opt/spack/linux-rhel7-x86_64/intel-16.0.3/mumps-\\\r\n5.1.1-5a4editxji4yi2zavi6gwtism4mgjl5c/include -g -O0 -g -O0 -DHAVE_CONFIG_H -I. -I. -O3 -ip -mp1 -DNDEBUG -DIPOPT_BUILD -MT IpDebug.lo -MD -MP -MF .deps/IpDebug.Tpo -c IpDebug.cpp -fPIC -DPIC -o .libs/IpDebug.o\r\n\r\n```\r\nNote the `-O3` being introduced.\r\n\r\n### Information on your system\r\nPlatform : TOSS3/TOSS (Tri-Lab Operating System Stack)\r\n\r\nRelevant configuration details:\r\ncompilers.yaml\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/tce/packages/intel/intel-16.0.3/bin/icc\r\n      cxx: /usr/tce/packages/intel/intel-16.0.3/bin/icpc\r\n      f77: /usr/tce/packages/intel/intel-16.0.3/bin/ifort\r\n      fc: /usr/tce/packages/intel/intel-16.0.3/bin/ifort\r\n    flags: {}\r\n    spec: intel@16.0.3\r\n    target: x86_64\r\n```\r\n\r\npackages.yaml:\r\n```\r\npackages:\r\n  all:\r\n    compiler: [intel, gcc, pgi, clang, xl, nag]\r\n    providers:\r\n      mpi: [mvapich2]\r\n      blas: [netlib-lapack]\r\n      lapack: [netlib-lapack]\r\n  metis:\r\n    version: [4.0.3]\r\n  netlib-lapack:\r\n    paths:\r\n      netlib-lapack@3.4.2: /usr/lib64/\r\n    buildable: False\r\n  mvapich2:\r\n    paths:\r\n      mvapich2@2.3: /usr/tce/packages/mvapich2/mvapich2-2.3-intel-16.0.3/\r\n    buildable: False\r\n  mpich:\r\n    buildable: False\r\n  openmpi:\r\n    buildable: False\r\n  intel-mpi:\r\n    buildable: False\r\n  spectrum-mpi:\r\n    buildable: False\r\n  intel-parallel-studio:\r\n    buildable: False\r\n  cmake:\r\n    paths:\r\n      cmake@3.5.2 arch=linux-rhel7-x86_64: /usr/tce/packages/cmake/cmake-3.5.2/\r\n    buildable: False\r\n  pkg-config:\r\n    paths:\r\n      pkg-config@0.27.1 arch=linux-rhel7-x86_64: /usr/bin/\r\n    buildable: False\r\n  m4:\r\n    paths:\r\n      m4@1.4.16 arch=linux-rhe17-x86_64: /usr/bin/\r\n    buildable: False\r\n```\r\n",
+    "user": "junkudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6732",
+    "updated_at": "2018-01-20 01:29:01",
+    "created_at": "2017-12-19 20:44:34",
+    "closed_at": "2018-01-20 01:29:01",
+    "state": "closed",
+    "title": "IPOPT : Optimization flag being ignored",
+    "number": 6732,
+    "milestone": null,
+    "labels": [],
+    "id": 283363691,
+    "html_url": "https://github.com/spack/spack/issues/6732",
+    "assignees": [],
+    "comments": 6
+}

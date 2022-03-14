@@ -1,0 +1,19 @@
+{
+    "body": "fixes #14702 \r\nfixes #4874\r\n\r\nThis PR patches `mkoctfile.in.cc` so that the real compilers are used instead of Spack compiler wrappers. The result is:\r\n```console\r\n$ mkoctfile -p CC\r\n/usr/bin/gcc-9\r\n\r\n$ strings ./mkoctfile | grep spack\r\n/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/octave-5.1.0-udv3gkc3pqwvh3zgvk3dxrxqyw7iiydb/lib:/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/octave-5.1.0-udv3gkc3pqwvh3zgvk3dxrxqyw7iiydb/lib64:/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/openblas-0.3.7-uokct4hhjbmvuwjhv6f27jyzgnaartl2/lib:/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/pcre-8.42-gbithje7unewjy3vr4xm3nxwy5t623yt/lib:/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/readline-8.0-urdw22aaycjl4no4mop7tocm6v4c2qsd/lib:/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/ncurses-6.1-leuzbbhmhg23tbrukc3hpmcl2ilttoka/lib\r\n/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/octave-5.1.0-udv3gkc3pqwvh3zgvk3dxrxqyw7iiydb\r\n-L/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-broadwell/gcc-9.0.1/openblas-0.3.7-uokct4hhjbmvuwjhv6f27jyzgnaartl2/lib -lopenblas\r\n/tmp/culpo/spack-stage/spack-stage-octave-5.1.0-udv3gkc3pqwvh3zgvk3dxrxqyw7iiydb/spack-src\r\n```\r\nso apparently there are no references anymore to any of the compiler wrapper.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/14726",
+    "updated_at": "2020-02-04 07:26:03",
+    "created_at": "2020-02-03 12:43:23",
+    "closed_at": "2020-02-03 21:08:45",
+    "state": "closed",
+    "title": "octave: mkoctfile doesn't use compiler wrappers",
+    "number": 14726,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 559059375,
+    "html_url": "https://github.com/spack/spack/pull/14726",
+    "assignees": [],
+    "comments": 7
+}

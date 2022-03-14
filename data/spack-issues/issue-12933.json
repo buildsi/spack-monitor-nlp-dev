@@ -1,0 +1,21 @@
+{
+    "body": "Closes #172.\r\nCloses #7409.\r\n\r\n``spack deprecate`` allows for the removal of insecure packages with minimal impact to their dependents. It is intended as a very big hammer for people who really know what they're doing, that will allow one package to be symlinked into the prefix of another to provide seamless transition for rpath'd and hard-coded applications using the old version.\r\n\r\nTake openssl as an example. Old versions are often found to have security flaws, and diligent sysadmins want to purge them from the system. Spack currently provides no way to do this without breaking every package that depends on openssl. With `spack deprecate`, the sysadmin will run \r\n\r\n``spack deprecate /hash-of-old-openssl /hash-of-new-openssl``\r\n\r\nand all hardcoded codes can use the new one transparently.\r\n\r\nFrom the documentation in this PR:\r\n\r\n``spack deprecate`` allows for the removal of insecure packages with minimal impact to their dependents.\r\n\r\n.. warning::\r\n\r\n  The ``spack deprecate`` command is designed for use only in extroardinary circumstances. This is a VERY big hammer to be used with care.\r\n\r\nThe ``spack deprecate`` command will remove one package and replace it with another by replacing the deprecated package's prefix with a link to the replacement package's prefix.\r\n\r\n.. warning::\r\n\r\n  The ``spack deprecate`` command makes no promises about binary compatibility. It is up to the user to ensure the replacement is suitable for the deprecated package.\r\n\r\nSpack tracks concrete deprecated specs and ensures that no future packages concretize to a deprecated spec.\r\n\r\nThe first spec given to the ``spack deprecate`` command is the package to deprecate. It is an abstract spec that must describe a single installed package. The second spec argument is the replacement spec. By default it must be an abstract spec that describes a single installed package, but with the ``-i/--install-replacement`` it can be any abstract spec that Spack will install and then use as the replacement. The ``-I/--no-install-replacement`` option will ensure the default behavior.\r\n\r\nBy default, ``spack deprecate`` will deprecate all dependencies of the deprecated spec, replacing each by the dependency of the same name in the replacement spec. The ``-d/--dependencies`` option will ensure the default, while the ``-D/--no-dependencies`` option will deprecate only the root of the deprecate spec in favor of the root of the replacement spec.\r\n\r\n``spack deprecate`` can use symbolic links or hard links. The default behavior is symbolic links, but the ``-l/--link-type`` flag can take options ``hard`` or ``soft``.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/12933",
+    "updated_at": "2019-10-25 06:48:33",
+    "created_at": "2019-09-24 20:35:34",
+    "closed_at": "2019-10-23 20:11:36",
+    "state": "closed",
+    "title": "Features/deprecate",
+    "number": 12933,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 497910640,
+    "html_url": "https://github.com/spack/spack/pull/12933",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

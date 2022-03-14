@@ -1,0 +1,19 @@
+{
+    "body": "This should get us most of the way there to support using monitor during a spack container build, for both Singularity and Docker. Some quick notes:\r\n\r\n### Docker\r\nDocker works by way of BUILDKIT and being able to specify --secret. What this means is that you can prefix a line with a mount of type secret as follows:\r\n\r\n```bash\r\n# Install the software, remove unnecessary deps\r\nRUN --mount=type=secret,id=su --mount=type=secret,id=st cd /opt/spack-environment && spack env activate . && export SPACKMON_USER=$(cat /run/secrets/su) && export SPACKMON_TOKEN=$(cat /run/secrets/st) && spack install --monitor --fail-fast && spack gc -y\r\n```\r\nWhere the id for one or more secrets corresponds to the file mounted at `/run/secrets/<name>`. So, for example, to build this container with su (spackmon user) and sv (spackmon token) defined I would export them on my host and do:\r\n\r\n```bash\r\n$ DOCKER_BUILDKIT=1 docker build --network=\"host\" --secret id=st,env=SPACKMON_TOKEN --secret id=su,env=SPACKMON_USER -t spack/container . \r\n```\r\nAnd when we add `env` to the secret definition that tells the build to look for the secret with id \"st\" in the environment variable `SPACKMON_TOKEN` for example.\r\n\r\nIf the user is building locally with a local spack monitor, we also need to set the `--network` to be the host, otherwise you can't connect to it (a la isolation of course.)\r\n\r\n## Singularity\r\n\r\nSingularity doesn't have as nice an ability to clearly specify secrets, so (hoping this eventually gets implemented) what I'm doing now is providing the user instructions to write the credentials to a file, add it to the container to source, and remove when done.\r\n\r\n## Tags\r\n\r\nNote that the tags PR https://github.com/spack/spack/pull/23712 will need to be merged before `--monitor-tags` will actually work because I'm checking for the attribute (that doesn't exist yet):\r\n\r\n```bash\r\n\"tags\": getattr(args, \"monitor_tags\", None)\r\n```\r\nSo when that PR is merged to update the argument group, it will work here, and I can either update the PR here to not check if the attribute is there (it will be) or open another one in the case this PR is already merged. \r\n\r\nFinally, I added a bunch of documetation for how to use monitor with containerize. I say \"mostly working\" because I can't do a full test run with this new version until the container base is built with the updated spack (the request to the monitor server for an env install was missing so I had to add it here).\r\n\r\n\r\n\r\nSigned-off-by: Vanessa Sochat <sochat1@llnl.gov>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/23777",
+    "updated_at": "2021-06-18 00:15:22",
+    "created_at": "2021-05-19 02:04:43",
+    "closed_at": "2021-06-18 00:15:22",
+    "state": "closed",
+    "title": "Adding support for spack monitor with containerize",
+    "number": 23777,
+    "milestone": null,
+    "labels": [
+        "containers"
+    ],
+    "id": 894918975,
+    "html_url": "https://github.com/spack/spack/pull/23777",
+    "assignees": [],
+    "comments": 6
+}

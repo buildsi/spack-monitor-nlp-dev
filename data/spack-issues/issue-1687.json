@@ -1,0 +1,19 @@
+{
+    "body": "I remember some issues of Intel compilers pretending to be GCC, and trying to be compatible with certain versions of GCC.  Is there anything on this topic people think should go in the Spack manual?\n\n@tgamblin  wrote:\n\n> This is an area of the dependency model that\u2019s not covered well currently.\n> \n> Compilers are getting more complicated, and the way the Intel compiler in particular handles ABI compatibility is complicated.  icpc relies on gcc\u2019s libstdc++, standard c headers, etc. So it requires gcc as a build and link dependency.  For normal users, it does this in a relatively simple way; it finds the gcc in your PATH and assumes that\u2019s the right one.  This works for most people with one install of icc on a standard linux distro.  For people in combinatorial hell, not so much. You can supply \u2013gcc-name=<path to gcc> to tell it which gcc to use. This has become more of an issue recently because people need newer versions of gcc (often newer than what is on the system) to support C++11/14/17 features in icpc.  Matching the versions can get pretty nasty.\n> \n> Basically this means gcc is a dependency of icc, so you have:\n> 1. ```\n>      A build (compiler) dependency on the intel compiler b/c you wanted to use it\n>    ```\n> 2. ```\n>      A build dependency from icc -> gcc for compatibility\n>    ```\n> 3. ```\n>      A link dependency on the particular gcc\u2019s runtime libraries (glibc, libstdc++)\n>    ```\n> \n> The solution we would like to implement is to make compilers into fancier build dependencies, and to allow compiler to _impose_ additional link dependencies on things that use them as build dependencies.  That would maintain the ability to have different compilers for different parts of your DAG, but it would also enforce ABI compatibility through the link dependencies, which would need to be normalized (shared) across the DAG. So basically we\u2019d have a way to use Spack\u2019s \u201cone version of everything in the DAG\u201d rule on compiler runtime libraries, but to allow it to understand that runtime libraries might be shareable in certain ways across compilers.  i.e., you could reliably build a multi-compiler executable, and maybe pick the fastest compiler for different nodes in the DAG.  This is something that is currently rather painful to do (so no one does it).\n> \n> The other nice thing this would do would be to allow you to use the virtual dependency system with compilers, so we can make compilers providers of particular languages at particular versions (c@99, c@03, cxx@11, cxx@14, fortran@77, etc.) and packages then only have to depend on the language they need.  We could get rid of the sort-of-weird 4-tuple compiler system Spack currently uses.  This would also let you mix C and Fortran compilers more easily.\n> \n> So, short story: this is something not currently in Spack\u2019s dependency model, but we\u2019re working on it.  I would hold off on putting this in the docs.  Unless you think the explanation above is something that should go in the docs.\n> \n> -Todd\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1687",
+    "updated_at": "2017-04-13 16:27:34",
+    "created_at": "2016-09-01 17:24:06",
+    "closed_at": "2017-04-13 16:27:27",
+    "state": "closed",
+    "title": "Intel Masquarading as GCC",
+    "number": 1687,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 174579902,
+    "html_url": "https://github.com/spack/spack/issues/1687",
+    "assignees": [],
+    "comments": 12
+}

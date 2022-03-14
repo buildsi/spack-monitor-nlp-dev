@@ -1,0 +1,23 @@
+{
+    "body": "Hello Spack team,\r\n\r\nI am facing an odd concretization behavior with the new concretizer. When I try to install `netcdf-c ~mpi` Spack is picking `libc` as the iconv provider. But the default variant for libc is `~iconv` so it does not provide the iconv libraries. As a result, the build for `netcdf-c~mpi` and a host of other packages fail.\r\n\r\nIn my packages.yaml, I have ONLY libiconv as the iconv provider:\r\n```\r\n# packages.yaml ....\r\n      golang: [gcc]\r\n      iconv: [libiconv]\r\n      ...\r\n```\r\nBut if I ask: `spack providers iconv`, I get:\r\n```\r\niconv:\r\nlibc  libiconv\r\n```\r\nOddly, the new concretizer picks libiconv as the provider when installing `netcdf-c+mpi`, but picks `libc~iconv` as the provider when installing `netcdf-c~mpi`.\r\n\r\n**Expected Behavior:**\r\nClingo picks `libiconv` as the `iconv` provider in both cases.\r\n",
+    "user": "amaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/24205",
+    "updated_at": "2021-06-22 18:37:25",
+    "created_at": "2021-06-08 17:29:58",
+    "closed_at": "2021-06-22 18:37:25",
+    "state": "closed",
+    "title": "Clingo concretization picks wrong iconv provider",
+    "number": 24205,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low"
+    ],
+    "id": 915279829,
+    "html_url": "https://github.com/spack/spack/issues/24205",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 24
+}

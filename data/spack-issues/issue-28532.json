@@ -1,0 +1,19 @@
+{
+    "body": "### Problem\r\nIn several cases where we re-raise an exception, we lose the traceback pointing to the original source of the exception. Python 3's `raise <exception> from <exception>` syntax was created to join these exception tracebacks.\r\n\r\n### Solution\r\nSince we still support python 2.7, we can't use `raise ... from ...` directly, but `six.raise_from()` will do this when running in python 3. We use `six.raise_from()` calls whenever we re-raise a new exception.\r\n\r\nSeparately, some of these exception re-raises are not currently tested. In order to pass `codecov/patch`, we need to add a few further tests to cover the branches we modified to use `six.raise_from()`. These uncovered branches all occur in the methods to parse `Spec`, `Mirror`, and `MirrorCollection` from YAML/JSON.\r\n\r\n### Result\r\nWe now have full exception tracebacks in all cases where we re-raise an exception!",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/28532",
+    "updated_at": "2022-01-21 08:24:12",
+    "created_at": "2022-01-21 04:40:40",
+    "closed_at": "2022-01-21 08:24:12",
+    "state": "closed",
+    "title": "add six.raise_from() to preserve exception traceback",
+    "number": 28532,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 1110050120,
+    "html_url": "https://github.com/spack/spack/pull/28532",
+    "assignees": [],
+    "comments": 0
+}

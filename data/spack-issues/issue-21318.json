@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nPing @raffenet @yfguo, can you reproduce? Should we add a conflict for clang?\r\n\r\n```console\r\n$ spack install mpich~fortran target=x86_64 %clang@6.0.0\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nlibtool: link: ranlib lib/.libs/libmpi.a\r\nlibtool: link: rm -fr lib/.libs/libmpi.lax lib/.libs/libmpi.lax\r\nlibtool: link: ( cd \"lib/.libs\" && rm -f \"libmpi.la\" && ln -s \"../libmpi.la\" \"libmpi.la\" )\r\n/bin/bash ./libtool  --tag=CXX   --mode=link /opt/spack/lib/spack/env/clang/clang++  -O2 -version-info 13:10:1 -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/libfabric-1.11.0-6azfrqsjfn3bthebhhkb7b2tfztchbfs/lib -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/hwloc-2.4.0-eaeek6a7vkgryl5pciiuloro3txts4df/lib -o lib/libmpicxx.la -rpath /opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/mpich-3.4.1-53plqekl5t7h5cfz6jkpmrxzzvirxvpt/lib src/binding/cxx/initcxx.lo lib/libmpi.la \r\n/bin/bash ./libtool  --tag=CC   --mode=link /opt/spack/lib/spack/env/clang/clang -fvisibility=hidden  -O2  -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/libfabric-1.11.0-6azfrqsjfn3bthebhhkb7b2tfztchbfs/lib -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/hwloc-2.4.0-eaeek6a7vkgryl5pciiuloro3txts4df/lib -o src/env/mpichversion src/env/mpichversion.o lib/libmpi.la \r\n/bin/bash ./libtool  --tag=CC   --mode=link /opt/spack/lib/spack/env/clang/clang -fvisibility=hidden  -O2  -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/libfabric-1.11.0-6azfrqsjfn3bthebhhkb7b2tfztchbfs/lib -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/hwloc-2.4.0-eaeek6a7vkgryl5pciiuloro3txts4df/lib -o src/env/mpivars src/env/mpivars.o lib/libmpi.la \r\nlibtool: link: /opt/spack/lib/spack/env/clang/clang -fvisibility=hidden -O2 -o src/env/.libs/mpichversion src/env/mpichversion.o  -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/libfabric-1.11.0-6azfrqsjfn3bthebhhkb7b2tfztchbfs/lib -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/hwloc-2.4.0-eaeek6a7vkgryl5pciiuloro3txts4df/lib lib/.libs/libmpi.so -lhwloc -lfabric -latomic -ldl -lpthread -lrt -Wl,-rpath -Wl,/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/mpich-3.4.1-53plqekl5t7h5cfz6jkpmrxzzvirxvpt/lib\r\nlibtool: link: /opt/spack/lib/spack/env/clang/clang -fvisibility=hidden -O2 -o src/env/.libs/mpivars src/env/mpivars.o  -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/libfabric-1.11.0-6azfrqsjfn3bthebhhkb7b2tfztchbfs/lib -L/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/hwloc-2.4.0-eaeek6a7vkgryl5pciiuloro3txts4df/lib lib/.libs/libmpi.so -lhwloc -lfabric -latomic -ldl -lpthread -lrt -Wl,-rpath -Wl,/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/clang-6.0.0/mpich-3.4.1-53plqekl5t7h5cfz6jkpmrxzzvirxvpt/lib\r\nlib/.libs/libmpi.so: undefined reference to `__gnu_f2h_ieee'\r\nlib/.libs/libmpi.so: undefined reference to `__gnu_h2f_ieee'\r\n```\r\n\r\n### Information on your system\r\n\r\n\r\n    Spack: 0.16.0-997-aa8e026242\r\n    Python: 3.8.7\r\n    Platform: linux-ubuntu20.04-zen2\r\n    Concretizer: clingo\r\n\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/21318",
+    "updated_at": "2021-01-28 15:56:24",
+    "created_at": "2021-01-27 10:12:20",
+    "closed_at": "2021-01-28 01:45:39",
+    "state": "closed",
+    "title": "mpich 3.4 doesn't build with clang 6.0.0",
+    "number": 21318,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 794960294,
+    "html_url": "https://github.com/spack/spack/issues/21318",
+    "assignees": [],
+    "comments": 2
+}

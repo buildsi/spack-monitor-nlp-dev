@@ -1,0 +1,23 @@
+{
+    "body": "* Completely re-vamp CMake option handling for readability and maintainability:\r\n  * Three categories of option: control, builtin and feature, alphabetically sorted.\r\n  * Each option is described as a list: an option name followed by an optional value which is either Boolean or a string representing the name of a variant. If the value is omitted, it defaults to the option name.\r\n  * New functions `_process_opts()` and `_process_opt()` (nested) to turn all supplied option/value specifications into CMake arguments.\r\n  * Remove overly-terse per-option comments in favor of (much) more comprehensive notes in README.md.\r\n* Variants and conflicts:\r\n  * Remove `test` variant in favor of pegging ROOT `testing` option to the value of `self.run_tests` since the install is unaffected, per ROOT developer.\r\n  * Remove commented-out and never-functional variants: `asimage`, `avahi`, `kerberos`, `ldap`, `libcxx`, `odbc`, `oracle`, `pythia8`, `xinetd`.\r\n  * New variant `vmc` (default `OFF`) to control the Virtual Monte Carlo interface.\r\n  * Conflict: `+opengl` is incompatible with `~x`.\r\n  * Conflict: `http` is now an unconditional conflict due to dependency issues (see README.md).\r\n* Remove commented-out and non-existent dependencies `avahi`, `kerberos`, `ldap`, `libcxx`, `odbc`, `oracle`, `pythia`, `veccore` (per #13949).\r\n* New and changed options:\r\n  * Option `pch` was inadvertently set to `OFF` due to its dependence on a nonexistent variant `pch`. As it happens its value is ignored in the ROOT configuration handling, so there was no deleterious effect. It has been fixed to `ON` to better reflect actual behavior pending enablement of tuntime C++ modules.\r\n* Add new versions 6.18.0{0,2,4}:\r\n  * Require CMake 3.9 for 6.18.00+.\r\n  * Add conflicts for variants `qt4` and `table` representing ROOT build options for which support was discontinued. Remove redundant conflict on \\@master.\r\n  * C++ standard is now specified with `-DCMAKE_CXX_STANDARD=X` rather than `-Dcxx=X`.\r\n* Remove old version 5.34.38 (wrong build system).\r\n\r\nSee README.md for more details of option-related changes.",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/14203",
+    "updated_at": "2019-12-18 19:46:22",
+    "created_at": "2019-12-18 01:06:34",
+    "closed_at": "2019-12-18 17:14:48",
+    "state": "closed",
+    "title": "root: Rationalize and improve version, variant and ROOT option handling.",
+    "number": 14203,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "versions",
+        "variants",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 539393552,
+    "html_url": "https://github.com/spack/spack/pull/14203",
+    "assignees": [],
+    "comments": 2
+}

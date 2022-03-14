@@ -1,0 +1,20 @@
+{
+    "body": "Fixes recurring errors on develop with unicode characters in commits.\r\n\r\nThis was more of a PITA than I thought it would be.\r\n\r\nErrors like these keep happening when we merge @eschnett's PRs to `develop`:\r\n* https://travis-ci.org/LLNL/spack/jobs/212132163\r\n* https://travis-ci.org/LLNL/spack/builds/212131522\r\n\r\nThis is because he uses unicode in the commit message, and `spack.environment.from_sourcing_files` was not handling that properly.  It only showed up *after* a merge to `develop` because in a Travis PR build, `TRAVIS_COMMIT_MESSAGE` is set to \"Merged blahblah...\", and the real commit message from the PR only ends up in that environment variable when we squash the PR into `develop`.\r\n\r\nIt turns out this is all because `json` only reads in `unicode` (compare that with YAML, which reads in `str` in both Python 2 and Python 3).  We can't put `unicode` objects in `os.environ`, or use operations like `in` to compare them properly with `str` objects in Python 2.\r\n\r\n[`json.loads(..., encoding='ascii')](https://docs.python.org/2/library/json.html#json.loads) didn't seem to help -- that seems to be a way to tell Python about the input encoding, but you'll still get `unicode` output (it's not particularly well documented).  So, the solution was to convert the `unicode` objects to byte-encoded `str` objects in Python 2, but to leave the `json` output untouched for Python 3.\r\n\r\nThis is Python3-proof, as Python3 just has unicode `str` objects, and `os.environ` in Python 3 seems like it's smart enough to byte encode most things you'd put in it automatically.\r\n\r\n- [x] Fix issues with `json` and unicode in Python 2.\r\n- [x] Also added a test where we source a file that has some unicode in it, to make sure `from_sourcing_files` keeps working.\r\n\r\n@alalazo @adamjstewart",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/3489",
+    "updated_at": "2017-03-21 23:31:36",
+    "created_at": "2017-03-19 01:18:54",
+    "closed_at": "2017-03-19 05:48:20",
+    "state": "closed",
+    "title": "Use byte-encoded UTF-8 for sourced environment in Python 2",
+    "number": 3489,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "build-environment"
+    ],
+    "id": 215233721,
+    "html_url": "https://github.com/spack/spack/pull/3489",
+    "assignees": [],
+    "comments": 0
+}

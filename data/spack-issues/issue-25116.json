@@ -1,0 +1,19 @@
+{
+    "body": "`spack style` previously used a Travis CI variable to figure out what the base branch of a PR was, and this was apparently also set on `develop`.  We switched to `GITHUB_BASE_REF` to support GitHub Actions, but it looks like this is set to `\"\"` in pushes to develop, so `spack style` breaks there.\r\n\r\nThis PR does two things:\r\n\r\n- [x] Remove `GITHUB_BASE_REF` knowledge from `spack style` entirely\r\n- [x] Handle `GITHUB_BASE_REF` in style scripts instead, and explicitly\r\n      pass the base ref if it is present, but don't otherwise.\r\n\r\nThis makes `spack style` *not* dependent on the environment and fixes handling of the base branch in the right place.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/25116",
+    "updated_at": "2021-07-28 00:57:19",
+    "created_at": "2021-07-27 22:28:56",
+    "closed_at": "2021-07-28 00:57:18",
+    "state": "closed",
+    "title": "bugfix: be careful about GITHUB_BASE_REF in `spack style`",
+    "number": 25116,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 954312757,
+    "html_url": "https://github.com/spack/spack/pull/25116",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,22 @@
+{
+    "body": "We have the beginnings of CDash report generation spread over several PRs, but we haven't merged a complete implementation of it to the mainline.  Finish this.  There is currently JUnit logging, and we'd like this to build on the support that's already in place there.\r\n\r\nJust as the JUnit logging support creates a `testsuite` with a `testcase` per build, we'd like the CDash support to have a `BuildName` per package install attempt (including recursive ones).  The idea is to have a dashboard for each Spack release (that we're still testing) and another dashboard for continuous builds off of `develop`.\r\n\r\nDifferent types of Spack packages have different sets of build phases.  e.g., `Package` only supports an `install()` method, but `AutotoolsPackage` supports `configure`, `build`, and `install`.  Ideally, there could be columns in the CDash interface for each of these, but we may need to combine some.\r\n\r\nThe phases of Spack builds that are probably important to show in CDash are:\r\n1. [x] Concretize\r\n    * Happens before the build begins.  If there are concretization errors or Spack errors, we'd like that reported to CDash.  Not currently sure where to put this in CDash format, or whether CDash has a good way to report errors that happen with the build tool itself.\r\n2. [ ] Fetch\r\n    * Fetching the package archive, source repository, and resources.  This could be shoehorned into the `Update` column.\r\n3. [x] Configure or cmake\r\n    * maps nicely to CDash configure phase\r\n4. [x] Build\r\n    * Spack's build and install functions map nicely to CDash's build phase\r\n5. [ ] Install\r\n    * If build and install can be separated somehow, that would be nice, but it is not clear to me where this should go in a CDash build (is there some kind of deploy column?)\r\n6. [ ] Test (if `--run-tests` is supplied)\r\n    * better test support is planned, but not yet implemented, so `--run-tests` happens as part of `do_install()`\r\n\r\nIf someone runs `spack install trilinos` or `spack install xsdk`, then this should concretize the `trilinos` spec, catch any errors, and if things are clean it should kick off builds for `trilinos` and all of its dependencies, generating reports (unique builds) for each of the dependencies.  This is pretty much how the JUnit testing works, the CDash reporting should just be more thorough.\r\n\r\n- [x] The `spack install` command  should be updated to allow a user to easily specify a site and dashboard to which results should be uploaded, or to save XML results in a directory for later upload to CDash.\r\n\r\n- [x] You can build on #2917, but the XML format should be generated with more readable/maintainable templates like #6977 and not with `ETree`.\r\n\r\n- [x] In configure/install/test phases, the log parsing introduced in #5561 should be used to add specific error entries to the CDash format.\r\n\r\n- [ ] Metadata for compiler, OS, variants, and other information from the Spec should be reported as key-value pairs in CDash's new KVP `json` format.  This will allow us to search through Spack builds for releases.\r\n\r\nRelated issues:\r\n* #2445 First attempt at CDash logging\r\n* #2917 Second attempt (builds on the first attempt)\r\n* #6977 Most recent rework of report logging \r\n    * improves JUnit output and moves things out of `install` command)",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/7114",
+    "updated_at": "2019-08-22 22:16:52",
+    "created_at": "2018-01-30 09:08:50",
+    "closed_at": "2019-08-22 22:16:52",
+    "state": "closed",
+    "title": "Finish CDash report generation for `spack install`",
+    "number": 7114,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "task"
+    ],
+    "id": 292703338,
+    "html_url": "https://github.com/spack/spack/issues/7114",
+    "assignees": [
+        "zackgalbreath"
+    ],
+    "comments": 7
+}

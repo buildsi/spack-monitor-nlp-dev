@@ -1,0 +1,24 @@
+{
+    "body": "### Steps to reproduce\n\nWhen a dependency is defined for example as:\r\n```\r\ndepends_on('my_dep@3.7.0:3', type=('build', 'run'))\r\n```\r\nthe concretizer will choose `my_dep@3.6.0` as a suitable choice.\r\n\r\nMinimal artificial example to reproduce:\r\nTake the `py-flit` package and change\r\n```diff\r\n-    depends_on('py-flit-core@3.6.0:3', when='@3.6.0:3.6', type=('build', 'run'))\r\n+    depends_on('py-flit-core@3.7.0:3', when='@3.6.0:3.6', type=('build', 'run'))\r\n```\r\n**expected result**: spack is not being able to concretize the newest release (`py-flit-core@3.7.0` is not in spack) and thus will build the second to newest one.\r\n\r\n**actual result**: spack concretizes the newest release with `py-flit-core@3.6.0`\r\n\n\n### Error message\n\n_No response_\n\n### Information on your system\n\n* **Spack:** 0.17.1-1329-1ddad522a4\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-fedora32-haswell\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/29170",
+    "updated_at": "2022-03-04 17:13:34",
+    "created_at": "2022-02-24 09:41:17",
+    "closed_at": "2022-03-04 17:13:34",
+    "state": "closed",
+    "title": "Unexpected behaviour of concretizer when resolving dependencies",
+    "number": 29170,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "versions",
+        "triage"
+    ],
+    "id": 1149065923,
+    "html_url": "https://github.com/spack/spack/issues/29170",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

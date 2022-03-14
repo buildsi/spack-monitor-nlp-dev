@@ -1,0 +1,17 @@
+{
+    "body": "I see this was added 2 days ago, it should probably not be the preferred version.  Or at the very least, give a warning if `+mpi+python` detected?\r\n\r\nThere's something weird going on with `mpi` and `python` asked for at the same time.  If I ask for both, neither py2 or py3 can build.  `~mpi+python` builds _for both_, though.\r\n\r\n```\r\n/tmp/sven/spack-stage/spack-stage-eUP7Zi/boost_1_64_0/spack-build.out:194:./boost/python/detail/wrap_python.hpp:50:23: fatal error: pyconfig.h: No such file or directory\r\n/tmp/sven/spack-stage/spack-stage-eUP7Zi/boost_1_64_0/spack-build.out:210:./boost/mpi/python/serialize.hpp:404:16: error: 'make_array' is not a member of 'boost::serialization'\r\n/tmp/sven/spack-stage/spack-stage-eUP7Zi/boost_1_64_0/spack-build.out:214:./boost/mpi/python/serialize.hpp:445:9: error: 'make_array' is not a member of 'boost::serialization'\r\n/tmp/sven/spack-stage/spack-stage-eUP7Zi/boost_1_64_0/spack-build.out:14210:./boost/python/detail/wrap_python.hpp:50:23: fatal error: pyconfig.h: No such file or directory\r\n```\r\n\r\nIt seems this [is a known issue](https://svn.boost.org/trac/boost/ticket/12516), noting from the last comment that `boost@1.63.0` works fine.  I have verified this, the `boost@1.63.0+python+mpi` works for both python2 and 3.\r\n\r\n",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/3963",
+    "updated_at": "2017-11-01 01:38:26",
+    "created_at": "2017-04-23 18:04:57",
+    "closed_at": "2017-11-01 01:38:26",
+    "state": "closed",
+    "title": "boost 1.64.0 not stable",
+    "number": 3963,
+    "milestone": null,
+    "labels": [],
+    "id": 223654372,
+    "html_url": "https://github.com/spack/spack/issues/3963",
+    "assignees": [],
+    "comments": 7
+}

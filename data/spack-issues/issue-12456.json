@@ -1,0 +1,17 @@
+{
+    "body": "Getting several import and other runtime errors from `py-deeptools@3.2.1` executables due to missing dependencies lagging behind upstream:\r\nhttps://github.com/deeptools/deepTools/blob/master/requirements.txt\r\n\r\nTo run unit tests via spack, I patch in upstream's nose test suite so that we can now run:\r\n\r\n```bash\r\nspack install --test root --verbose py-deeptools ^python@3:\r\n```\r\n\r\n1.  The trade off for running unit tests is switching the URL from the small pypi tarball [188K] to the larger GitHub release tarball [60M] which includes the test data files.  But I expect it will save us maintainers multiple hours of packaging and troubleshooting.\r\n2. Of the 108 tests, only 5 fail, all of which are related to the heatmapper plotting functions.  Those failures look harmless to me; they are image size differences and RMS tolerance differences.  Reported upstream in deeptools/deepTools#863",
+    "user": "omsai",
+    "url": "https://api.github.com/repos/spack/spack/issues/12456",
+    "updated_at": "2019-08-21 23:43:50",
+    "created_at": "2019-08-17 17:27:57",
+    "closed_at": "2019-08-21 23:43:45",
+    "state": "closed",
+    "title": "py-deeptools: add version 3.3.0",
+    "number": 12456,
+    "milestone": null,
+    "labels": [],
+    "id": 481908259,
+    "html_url": "https://github.com/spack/spack/pull/12456",
+    "assignees": [],
+    "comments": 1
+}

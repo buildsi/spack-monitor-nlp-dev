@@ -1,0 +1,21 @@
+{
+    "body": "fixes #28315\r\n\r\nBootstrapping on Spack is not working on Perlmutter because the backend OS is misdetected as the frontend OS. While this is an issue on its own the bootstrapping procedure doesn't need to know about the Cray platform at all when bootstrapping. In fact in  many places we take care of mapping Cray to Linux manually e.g. for installing binary packages.\r\n\r\nThis PR solves the issues occurring at bootstrapping by:\r\n1. Adding a context manager to disable the detection of a system as being Cray\r\n2. Using the context manager above to setup the bootstrapping configuration, instead of manually mapping Cray to Linux in a few relevant places\r\n\r\nThe overall result is that during bootstrapping a Cray system will be considered the same as Linux, so no custom code to inspect module files etc. will be considered to build `clingo` or `patchelf`.\r\n\r\nTried on Perlmutter, Cori, Piz Daint.\r\n\r\n@shahzebsiddiqui @kwryankrattiger @mwkrentel \r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/28726",
+    "updated_at": "2022-02-09 23:14:23",
+    "created_at": "2022-02-02 14:32:53",
+    "closed_at": "2022-02-09 22:41:12",
+    "state": "closed",
+    "title": "Detecting \"Cray\" as \"linux\" during bootstrap",
+    "number": 28726,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "bugfix",
+        "architecture"
+    ],
+    "id": 1121999183,
+    "html_url": "https://github.com/spack/spack/pull/28726",
+    "assignees": [],
+    "comments": 3
+}

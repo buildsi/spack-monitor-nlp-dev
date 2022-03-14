@@ -1,0 +1,19 @@
+{
+    "body": "I have been using Spack happily for a few years now, and today I decided to try out spack  environments, which are new to me.  I'm not sure if this issue is a bug report or just a request to improve the documentation.\r\n\r\nI want to be able to create and environment, install some software, and then copy the `spack.yaml` and/or `spack.lock` files to another system, and reproducibly build the same environment.\r\n\r\nI'm starting from a clean slate:\r\n```shell\r\n$ git clone https://github.com/spack/spack.git\r\n$ export SPACK_ROOT=\"$(pwd)/spack\"\r\n$ source \"${SPACK_ROOT}/share/spack/setup-env.sh\"\r\n```\r\n\r\nHere is my simple `spack.yaml`\r\n```yaml\r\nspack:\r\n  specs:\r\n    - python@3.7.6\r\n    - bwa@0.7.17\r\n    - flash@1.2.11\r\n    - fastqc@0.11.7\r\n    - py-multiqc@1.7\r\n    - rabbitmq@3.6.15\r\n    - postgresql@11.2\r\n  view: true\r\n```\r\n\r\nThe [docs](https://spack.readthedocs.io/en/latest/environments.html#creating-a-named-environment) say:\r\n\r\n> Spack Environments can also be created from either a `spack.yaml` manifest or a `spack.lock` lockfile. To create an Environment from a `spack.yaml` manifest:\r\n> ```\r\n> $ spack env create myenv spack.yaml\r\n> ```\r\n> To create an Environment from a spack.lock lockfile:\r\n> ```\r\n> $ spack env create myenv spack.lock\r\n> ```\r\n\r\nBased on this, I assume the `spack env create myenv spack.yaml` will create an environment named `myenv`, copy the spec (or lock) file into it, **and install the packages**.  However, when I try it, all that happens is:\r\n\r\n```\r\n$ spack env create myenv spack.yaml \r\n==> Updating view at /home/user/spack/var/spack/environments/myenv/.spack-env/view\r\n==> Created environment 'myenv' in /home/user/spack/var/spack/environments/myenv\r\n```\r\n\r\nThis takes less than 1 second, and nothing is installed.  I get exactly the same behavior when I try using the `spack.lock` file.\r\n\r\nAm I misunderstanding the point of this command?  Is there a follow-on command to get All the Things installed?  If so, perhaps this should be added to the above documentation.  Apologies in advance if I am being dense and missing something.\r\n\r\nBTW, I notice that the path `/home/user/spack/var/spack/environments/myenv` (where spack claimed it was \"updating view\") does not contain any `.spack-env` dir.  All that is there is a copy of the yaml file:\r\n```\r\nls -a /home/user/spack/var/spack/environments/myenv/\r\n.  ..  spack.yaml\r\n```\r\n\r\nI am using spack at the current HEAD of develop:  cacd57d3401c48490870df2a9c1b7ab51d0e5065\r\n",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/14554",
+    "updated_at": "2020-01-19 17:43:15",
+    "created_at": "2020-01-18 06:27:27",
+    "closed_at": "2020-01-19 15:02:49",
+    "state": "closed",
+    "title": "spack env create myenv spack.yaml -- broken?",
+    "number": 14554,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 551729189,
+    "html_url": "https://github.com/spack/spack/issues/14554",
+    "assignees": [],
+    "comments": 4
+}

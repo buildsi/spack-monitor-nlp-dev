@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\n\nRunning the `when` context manager with a constraint on the dependency version fails when concretizing.\r\n\r\nI used the `py-datalad` package to demonstrate the behavior:\r\n- modify spec:\r\n  ```diff\r\n  --- a/var/spack/repos/builtin/packages/py-datalad/package.py\r\n  +++ b/var/spack/repos/builtin/packages/py-datalad/package.py\r\n  @@ -38,7 +38,8 @@ class PyDatalad(PythonPackage):\r\n      # core\r\n      depends_on('py-appdirs', type=('build', 'run'))\r\n      depends_on('py-chardet@3.0.4:', type=('build', 'run'))\r\n  -    depends_on('py-distro', type=('build', 'run'), when='^python@3.8:')\r\n  +    with when('@0.14:'):\r\n  +        depends_on('py-distro', type=('build', 'run'), when='^python@3.8:')\r\n      depends_on('py-importlib-metadata', type=('build', 'run'), when='^python@:3.7')\r\n      depends_on('py-iso8601', type=('build', 'run'))\r\n      depends_on('py-humanize', type=('build', 'run'))\r\n  ```\r\n- run:\r\n  ```\r\n  $ spack spec py-datalad\r\n  ```\r\nThis fails (error message see below) whereas these combination all work:\r\n- variant + package version\r\n  ```python\r\n      with when('+full'):\r\n          depends_on('py-distro', type=('build', 'run'), when='@0.14:')\r\n  ```\r\n- package version + variant\r\n  ```python\r\n      with when('@0.14:'):\r\n          depends_on('py-distro', type=('build', 'run'), when='+full')\r\n  ```\r\n- dependency version + package version\r\n  ```python\r\n      with when('^python@3.8:'):\r\n          depends_on('py-distro', type=('build', 'run'), when='@0.14:')\r\n  ```\n\n### Error message\n\n```console\r\nInput spec\r\n--------------------------------\r\npy-datalad\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: A spec cannot contain multiple version signifiers. Use a version list instead.\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3-4785-31342a89ae\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-fedora32-haswell\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/26656",
+    "updated_at": "2021-10-14 10:33:11",
+    "created_at": "2021-10-11 15:47:17",
+    "closed_at": "2021-10-14 10:33:11",
+    "state": "closed",
+    "title": "`when` context manager fails when additional dependency version constraint is used",
+    "number": 26656,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low",
+        "directives"
+    ],
+    "id": 1022868818,
+    "html_url": "https://github.com/spack/spack/issues/26656",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

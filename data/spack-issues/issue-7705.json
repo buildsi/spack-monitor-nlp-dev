@@ -1,0 +1,23 @@
+{
+    "body": "I found an issue in the package `netlib-lapack` that may affect other packages as well.\r\n\r\nThe issue appears when `netlib-lapack` is configured with `+external-blas`: in that case the install method performs the spec query `spec['blas'].libs` here:\r\n\r\nhttps://github.com/spack/spack/blob/dc8c8311c6d1c2f8989b0bac89176d48dcb59a41/var/spack/repos/builtin/packages/netlib-lapack/package.py#L163-L167\r\n\r\nwhich due to incorrect resolution ends up calling `netlib-lapack`'s own `blas_libs` property which is incorrect. The incorrect resolution happens here:\r\n\r\nhttps://github.com/spack/spack/blob/dc8c8311c6d1c2f8989b0bac89176d48dcb59a41/lib/spack/spack/spec.py#L2765-L2772\r\n\r\nand it is due to the fact that `x.package.provides(name)` does not check any `when` conditions from the `provides` directives - in this case `netlib-lapack` provides `blas` only when the `external-blas` variant is disabled.",
+    "user": "v-dobrev",
+    "url": "https://api.github.com/repos/spack/spack/issues/7705",
+    "updated_at": "2018-04-11 19:50:04",
+    "created_at": "2018-04-10 07:18:45",
+    "closed_at": "2018-04-11 19:50:04",
+    "state": "closed",
+    "title": "Invalid spec query resolution",
+    "number": 7705,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "blas-lapack-scalapack",
+        "virtual-dependencies"
+    ],
+    "id": 312800465,
+    "html_url": "https://github.com/spack/spack/issues/7705",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

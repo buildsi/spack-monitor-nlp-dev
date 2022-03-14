@@ -1,0 +1,17 @@
+{
+    "body": "Closes #13620\r\nCloses #13265\r\nFixes #13237\r\n\r\nSpack computes a \"full hash\" of packages as part of identifying them when retrieving binary packages for installation. The full hash includes a content hash that attempts to traverse the AST of a `package.py` file and include only the components that are used for the spec (e.g. if a patch is not applied for a particular spec version, then it is excluded from the content hash).\r\n\r\nThis AST examination fails in some cases where the \"when\" condition for a patch/phase is not a string literal. At this time `swig` is such an example. This PR updates the package hash calculation logic to fall back to including content when it cannot evaluate a `when` condition (even though it may not strictly be required by the spec).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/14153",
+    "updated_at": "2019-12-14 22:31:40",
+    "created_at": "2019-12-13 18:35:39",
+    "closed_at": "2019-12-14 22:31:40",
+    "state": "closed",
+    "title": "Build caching: support package hash for swig",
+    "number": 14153,
+    "milestone": null,
+    "labels": [],
+    "id": 537705276,
+    "html_url": "https://github.com/spack/spack/pull/14153",
+    "assignees": [],
+    "comments": 0
+}

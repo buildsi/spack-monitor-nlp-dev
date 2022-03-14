@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install flux-core@master\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    gettext@0.20.1%gcc@7.4.0+bzip2+curses+git~libunistring+libxml2+tar+xz arch=linux-ubuntu18.04-broadwell\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    python@3.7.6%gcc@7.4.0+bz2+ctypes+dbm~debug~libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4~uuid+zlib arch=linux-ubuntu18.04-broadwell\r\n        ^pkgconf@1.6.3%gcc@7.4.0 arch=linux-ubuntu18.04-broadwell\r\n\r\n\r\npython requires gettext variant ~libxml2, but spec asked for +libxml2\r\n```\r\n\r\n### Platform and user environment\r\n\r\nI am using Github Actions with `ubuntu-latest` as the OS (ubuntu 18.04)\r\n```commandline\r\n$ spack get compilers\r\ncompilers:\r\n- compiler:\r\n    spec: clang@6.0.1\r\n    paths:\r\n      cc: /usr/bin/clang-6.0\r\n      cxx: /usr/bin/clang++-6.0\r\n      f77:\r\n      fc:\r\n    flags: {}\r\n    operating_system: ubuntu18.04\r\n    target: x86_64\r\n    modules: []\r\n    environment:\r\n      unset: []\r\n    extra_rpaths: []\r\n- compiler:\r\n    spec: gcc@7.4.0\r\n    paths:\r\n      cc: /usr/bin/gcc-7\r\n      cxx: /usr/bin/g++-7\r\n      f77:\r\n      fc:\r\n    flags: {}\r\n    operating_system: ubuntu18.04\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n``` \r\n\r\nYou can view the full workflow log from the github action here: https://github.com/flux-framework/flux-spack/runs/431181960?check_suite_focus=true\r\n\r\n### Additional information\r\n\r\nThis doesn't seem to be an issue on my mac, so I wonder if it is somehow related to the OS or the architecture (broadwell).\r\n\r\nAlso worth noting that `spack install flux-core@master ^gettext~libxml2` works just fine.  If necessary, I am happy to add a hint/conflict in the `flux-core` package to make this work.  But that seems a bit heavy handed.\r\n",
+    "user": "SteVwonder",
+    "url": "https://api.github.com/repos/spack/spack/issues/14827",
+    "updated_at": "2020-02-11 05:14:11",
+    "created_at": "2020-02-07 05:13:26",
+    "closed_at": "2020-02-11 05:14:11",
+    "state": "closed",
+    "title": "Installation issue: flux-core: Concretization error due to libxml2 variant",
+    "number": 14827,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "triage"
+    ],
+    "id": 561425693,
+    "html_url": "https://github.com/spack/spack/issues/14827",
+    "assignees": [],
+    "comments": 5
+}

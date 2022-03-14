@@ -1,0 +1,17 @@
+{
+    "body": "This is a work in progress.\n\nThis provides a \"spack testinstall\" command. The output of \"spack testinstall -h\" is included below. The command attempts to install packages just like \"spack install\" but creates a file with test output which can be interpreted by an CI system to keep track of which builds are succeeding. The current output format is Junit XML but that could be changed. It does not create test output for packages which have already been installed, so for example if you were to invoke:\n\n```\n$ spack testinstall testX.xml packageX\n$ spack testinstall testY.xml packageY\n```\n\nand these share some package Z, then the results of Z should only be included testX.xml (since X was installed first).\n\nItems that may be worth commenting on:\n- I commented some options as I didn't think testinstall required the same flexibility as install\n- Currently the entire build log is stuffed in the output. This could be several thousand lines long and may not display nicely in a CI UI. It might be worthwhile to try parsing out relevant lines (e.g. those with \"error:\" in them)\n- I tested TAP format display on the particular CI being used (Bamboo) and it wasn't handled as well as Junit. So I chose Junit test xml format.\n\nusage: spack testinstall [-h] [-j JOBS] [-n] [-v] output ...\n\npositional arguments:\n  output                test output goes in this file\n  packages              specs of packages to install\n\noptional arguments:\n  -h, --help            show this help message and exit\n  -j JOBS, --jobs JOBS  Explicitly set number of make jobs. Default is #cpus.\n  -n, --no-checksum     Do not check packages against checksum\n  -v, --verbose         Display verbose build output while installing.\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/124",
+    "updated_at": "2015-10-29 07:16:52",
+    "created_at": "2015-10-13 18:03:00",
+    "closed_at": "2015-10-29 07:16:52",
+    "state": "closed",
+    "title": "Features/testinstall cmd",
+    "number": 124,
+    "milestone": null,
+    "labels": [],
+    "id": 111235608,
+    "html_url": "https://github.com/spack/spack/pull/124",
+    "assignees": [],
+    "comments": 4
+}

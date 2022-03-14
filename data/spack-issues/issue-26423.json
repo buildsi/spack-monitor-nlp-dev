@@ -1,0 +1,24 @@
+{
+    "body": "There has been reports of `gmsh` not finding symbol `XGetUtf8FontAndGlyph` in fltk.\r\nUsing latest fltk release, 1.3.7 seems to solve the issue at least on Ubuntu 21,\r\n $ spack debug report\r\n* **Spack:** 0.16.2-4553-b96d836a72\r\n* **Python:** 3.9.5\r\n* **Platform:** linux-ubuntu21.04-x86_64_v2\r\n* **Concretizer:** original\r\n\r\nAlso, it seems that explicitly setting `--enable-xft` for Anti-Aliased Fonts is better than relying on `fltk` defaults.\r\nSee https://www.fltk.org/articles.php?L374+I0+TFAQ+P1+Q\r\nWhat do you think @amaji, as a recent contributor to fltk ?\r\nThis PR may interest @antiskid56 with issue #22095 (where libxft dependency was missing)\r\nand @maruthinh with issue #26051.\r\nIt also solved issue #26408 that I reported.\r\nNote that it may be interesting to switch from 'Package' to 'AutotoolsPackage', maybe the reviewer could tell what he thinks.\r\nI would be glad if @sethrj could review that (once more !) since he reviewed one of my PRs on gmsh which is a dependency. As you can see, the default is ~xft despite +xft solves the \"gmsh not finding symbol issue\" even with fltk release 1.3.3. This is because ~xft is what is perfomed by fltk 1.3.3 as a default (despite 'configure' indicates the contrary). Last, I checked `octave` was OK with 1.3.7.\r\n",
+    "user": "cessenat",
+    "url": "https://api.github.com/repos/spack/spack/issues/26423",
+    "updated_at": "2021-10-02 22:15:19",
+    "created_at": "2021-10-02 15:16:12",
+    "closed_at": "2021-10-02 20:27:40",
+    "state": "closed",
+    "title": "fltk: new version 1.3.7, new variant xft",
+    "number": 26423,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 1014080204,
+    "html_url": "https://github.com/spack/spack/pull/26423",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 2
+}

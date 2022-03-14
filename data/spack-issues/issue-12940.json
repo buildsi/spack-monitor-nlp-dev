@@ -1,0 +1,22 @@
+{
+    "body": "Add support for mirroring all packages with `spack mirror create --all`. In this mode there is no concretization: Spack pulls every version of every package into a mirror. It makes multiple attempts for each package/version combination (in case there is a temporary build failure for a given version) but also continues if all attempts fail (if there is a permanent build failure for a given version).\r\n\r\nThis includes an update to mirroring logic to prefer storing sources to a name that is derived entirely from the source and is unique (i.e. not including the package name in the cached source). For example\r\n\r\n* For archives with checksums, the name is the sha256 sum (`where before it might be <package-name>-package-version>.tar.gz`)\r\n* For SCM repositories, it is a concatenation of the hash of the full repository URL and the branch/tag/commit\r\n\r\nThis allows different packages to refer to the same resource or source without duplicating that download in the mirror/cache. This change is not essential to mirroring everything but is expected to save space when mirroring many versions of packages which all use the same resource.\r\n\r\nThe new structure of the mirror is:\r\n\r\n```\r\n<base directory>/\r\n  _source-cache/   <-- the _source-cache directory is new\r\n    archive/\r\n      sldkfjasldkfjs9djsldkfjs0sjdkflsjf0.tar.gz        <-- not human-readable\r\n    git/\r\n      slkdjf98dej2j0s-develop.tar.gz     <-- the mirror can store the latest commit of a repository branch\r\n    svn/      <-- each fetch strategy has its own subdirectory\r\n      ...\r\n  openmpi/   <-- the remaining package directories have the old format\r\n    openmpi-1.10.1.tar.gz   <-- these human-readable names are symlinks into _source-cache\r\n```\r\n\r\nWhen creating a mirror with archive names as described above, the mirror creation logic now also creates symlinks with the old format in order to help users understand which package each mirrored archive is associated with; the symlinks are relative so the mirror directory can still itself be archived.\r\n\r\nOther changes include:\r\n\r\n* `spack mirror create` will not re-download resources that have already been placed in it\r\n* When creating a mirror, the resources downloaded to the mirror will not be cached\r\n\r\nTODOs:\r\n\r\n- [x] (possibly in a later PR) The logic for caching patches is separate from package source/resource caching: applying the caching updates here to patches will take additional work (which is considered worthwhile but less of an impact since patches are generally small).\r\n- [x] Make the mirror optionally output traditional source code paths by default (since it can be difficult to map a machine-generated filename to the associated package, and users may want to actually peruse these files to understand them).\r\n- [x] (update 10/15: there is now an `--all-versions` option which you can use to collect all versions/dependencies of a set of root packages, which offers an alternative to caching everything) (possibly in a later PR) I presume that users likely don't want every version of every package by default, but this is difficult to determine up front without concretizing packages (which would be expensive when we are talking about all packages). If a decent approximate solution can be found I'd like to add it in as an option (but still also allow downloading all versions as an option).\r\n- [ ] (new: 10/14) Print stats while doing the mirroring (right now stats are only printed at the end which is a long time to wait when mirroring everything)\r\n- [x] (new 10/14) globally-cached resources should not all be stored in a single directory (e.g. one directory for all git resources): in order to keep the directory size small, they should be stored in an intermediate directory that is randomly selected based on the file name",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/12940",
+    "updated_at": "2019-10-31 19:56:58",
+    "created_at": "2019-09-25 02:22:37",
+    "closed_at": "2019-10-26 04:47:28",
+    "state": "closed",
+    "title": "`mirror create --all` can mirror everything",
+    "number": 12940,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "mirrors"
+    ],
+    "id": 498011184,
+    "html_url": "https://github.com/spack/spack/pull/12940",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

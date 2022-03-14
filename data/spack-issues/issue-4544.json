@@ -1,0 +1,19 @@
+{
+    "body": "I apparently need veclibfort on my osx system for mfem+petsc+sundials+hypre+lapack.\r\n\r\nIt doesn't build out of the box on my osx 10.11 system. But, I think my os version is 1 patch behind what is typical at this point. I have an easy fix but I dunno if it would hurt others.\r\n\r\nNext, I didn't honestly find veclibfort package.py file to be too complete. For example it calls make specifying a value for PREFIX= but the Makefile for that package sets PREFIX by fiat in first line of the Makefile ignoring whatever Spack passed in via PREFIX= on the command line to Make. So, I honestly don't think that package has ever been installed correctly by spack. It winds up installing to /usr/local/lib. Next, it uses 'clang' compiler by default. Now, it may be that Spack's compiler magic winds up `catching` that and still doing the right thing anyways. Finally, with gcc-6.1 on my osx system, I needed to add CFLAGS=-flax-vector-conversions to get it compile and run correctly.\r\n\r\nDoes anyone see any problems with a pull request with these changes?",
+    "user": "markcmiller86",
+    "url": "https://api.github.com/repos/spack/spack/issues/4544",
+    "updated_at": "2017-06-19 22:07:47",
+    "created_at": "2017-06-19 18:24:40",
+    "closed_at": "2017-06-19 22:07:46",
+    "state": "closed",
+    "title": "veclibfort fix on osx 10.11",
+    "number": 4544,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 236978361,
+    "html_url": "https://github.com/spack/spack/issues/4544",
+    "assignees": [],
+    "comments": 9
+}

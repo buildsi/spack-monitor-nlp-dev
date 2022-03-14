@@ -1,0 +1,19 @@
+{
+    "body": "This is a continuation of #8182 (I messed up a git rebase...)\r\n\r\nI've been meaning to do this for years, but kept forgetting.\r\n\r\nSpack has these really useful `install` and `install_tree` commands for copying files and directories to the installation prefix. The only problem is that `install_tree` crashed if the directory you were trying to install to already existed (for example, if you wanted to copy everything in the current directory to `prefix`). See https://github.com/spack/spack/pull/8126/files#r188393176 for an example error message.\r\n\r\nThis PR replaces the call to `shutil.copytree` with a manual copy of every subdirectory/file. Also replaced dozens of calls to `shutil` and `distutils.dir_util` with `install` and `install_tree`. \r\n\r\nThis PR also adds `copy` and `copy_tree` functions that are functionally equivalent to but semantically different than `install` and `install_tree`. Aside from file permissions, they work the same. `copy` and `copy_tree` should be used to copy or backup files/directories while `install` and `install_tree` should be used to copy files to the installation prefix.\r\n\r\nNote that I didn't test any of these package installations, so a careful review would be appreciated.\r\n\r\nCloses #8529",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8289",
+    "updated_at": "2018-08-16 20:57:37",
+    "created_at": "2018-05-26 15:57:10",
+    "closed_at": "2018-08-15 16:30:10",
+    "state": "closed",
+    "title": "install_tree can install into an existing directory structure",
+    "number": 8289,
+    "milestone": null,
+    "labels": [
+        "utilities"
+    ],
+    "id": 326748165,
+    "html_url": "https://github.com/spack/spack/pull/8289",
+    "assignees": [],
+    "comments": 13
+}

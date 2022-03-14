@@ -1,0 +1,20 @@
+{
+    "body": "The Tophat team merged the patch from\r\nhttps://github.com/spack/spack/pull/8244 and release v2.1.2\r\n\r\nThis change requires the old automake if you're building the older\r\nrelease and is relaxed about the automake it requires if you're\r\nbuilding the v2.1.2 release.\r\n\r\nBuilding v2.1.1 and v2.1.2 works on a CentOS 7 system, I don't have\r\nthe necessary bit to actually test the resulting binaries.\r\n\r\nHere's the commit note from the change that was ultimately merged\r\nupstream.\r\n\r\nFixes #8025\r\n\r\n> Tophat was failing to build with automake@1.16.1, it worked with the\r\n> older automake@1.15.1. This commit adds a patch to Tophat's\r\n> src/Makefile.am which cleans up a few things. The result builds\r\n> successfully with both automake@1.15.1 and automake@1.16.1. I have no\r\n> way to check that the resulting builds Do The Right Thing.\r\n>\r\n> It changes two things:\r\n>\r\n> the original Makefile.am had a rule for $(SAMPROG) with no\r\n> actions, and since there was a directory there with a tempting name\r\n> the newer automake was trying to do something with it, but lacked\r\n> the appropriate clues. Since that target is actually made as a side\r\n> effect of making the library (sigh...), it seems to work to just\r\n> give that rule something harmless to do (the Peter Principle\r\n> triumphs again...).\r\n>\r\n> a bunch of the targets need a libtophat.a and libgc.a; the older\r\n> automake was probably able to guess what to do given the list of\r\n> sources but the newer automake apparently won't make the necessary\r\n> assumptions. This patch wires up a simple rule and cleans up the\r\n> appropriate dependencies so that things work.\r\n>\r\n> While it may appear that I'm someone who understands automake, keep in\r\n> mind that I only play such a person on a TV reality show. YMMV.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/8266",
+    "updated_at": "2018-05-25 17:13:08",
+    "created_at": "2018-05-24 17:06:45",
+    "closed_at": "2018-05-25 01:04:04",
+    "state": "closed",
+    "title": "Add Tophat v2.1.2, fixes automake issues",
+    "number": 8266,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "autotools"
+    ],
+    "id": 326211756,
+    "html_url": "https://github.com/spack/spack/pull/8266",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I added a `packages.yaml` to take an external cuda installation via\r\n```yaml\r\npackages:\r\n  cuda:\r\n    paths:\r\n      cuda@8.0.61%gcc@5.4.0 arch=linux-ubuntu16-x86_64: /usr/local/cuda\r\n    buildable: False\r\n```\r\n\r\nWhen trying to install a cuda-aware MPI via `openmpi+cuda` it fails (on dev as of 4553b14) since it is kind of weirdly adding the `--with-cuda-libdir` as\r\n\r\n`'--with-cuda=/usr/local/cuda' '--with-cuda-libdir=['\"'\"'/usr/local/cuda/targets/x86_64-linux/lib/stubs'\"'\"']'`\r\n\r\n```\r\n==> Building openmpi [AutotoolsPackage]\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/src/spack/var/spack/stage/openmpi-2.1.1-w22h44f3bzru6544vvhkioccwqiwbmze/openmpi-2.1.1/configure' '--prefix=/home/src/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/openmpi-2.1.1-w22h44f3bzru6544vvhkioccwqiwbmze' '--enable-shared' '--enable-static' '--enable-mpi-cxx' '--without-psm' '--without-psm2' '--without-pmi' '--without-verbs' '--without-mxm' '--without-alps' '--without-lsf' '--without-tm' '--without-slurm' '--without-sge' '--without-loadleveler' '--with-hwloc=/home/src/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/hwloc-1.11.7-nsd5ek5ld357qgjjhkn3ep2w3zzq2pmu' '--disable-java' '--disable-mpi-java' '--disable-mpi-thread-multiple' '--with-cuda=/usr/local/cuda' '--with-cuda-libdir=['\"'\"'/usr/local/cuda/targets/x86_64-linux/lib/stubs'\"'\"']'\r\n```\r\n\r\nHere is a docker file to reproduce the issue via `docker build .` (add the `packages.yaml` in the same dir):\r\n```\r\nFROM       nvidia/cuda:8.0-devel\r\n\r\n# general environment for docker\r\nENV        HOME /home\r\nENV        DEBIAN_FRONTEND noninteractive\r\n\r\n# spack environment\r\nENV        PATH \"$HOME/src/spack/bin:$PATH\"\r\nCOPY       packages.yaml $HOME/.spack/packages.yaml\r\n\r\n# install minimal spack dependencies\r\n#   also adds gfortran for spack's openmpi package\r\nRUN        apt-get update \\\r\n           && apt-get install -y --no-install-recommends \\\r\n              autoconf \\\r\n              ca-certificates \\\r\n              curl \\\r\n              gfortran \\\r\n              git \\\r\n              build-essential \\\r\n              python \\\r\n           && rm -rf /var/lib/apt/lists/*\r\n\r\n# install spack\r\nRUN        git clone --depth 50 https://github.com/llnl/spack.git \\\r\n           $HOME/src/spack/\r\n\r\n# install PIConGPU dependencies\r\nRUN        spack install cmake \\\r\n           && spack install cuda \\\r\n           && spack install openmpi+cuda\r\n```",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/4322",
+    "updated_at": "2017-06-16 15:00:20",
+    "created_at": "2017-05-23 16:37:48",
+    "closed_at": "2017-06-16 15:00:20",
+    "state": "closed",
+    "title": "Error installing OpenMPI+CUDA with external CUDA",
+    "number": 4322,
+    "milestone": null,
+    "labels": [
+        "mpi"
+    ],
+    "id": 230772349,
+    "html_url": "https://github.com/spack/spack/issues/4322",
+    "assignees": [],
+    "comments": 8
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Various issues [1](http://bugs.python.org/issue1322) with the platform.linux_distribution function led\nto the function being deprecated in python 3.4. The pipi package distro\n[3](https://pypi.python.org/pypi/distro) contains compatible improved code that better tracks current methods\nfor identifying linux distributions (see, for example, [4](https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/lsbrelease.html),[5](https://www.freedesktop.org/software/systemd/man/os-release.html)).\n\nIn particular, this PR improves detection in archlinux:\nbefore: `$ spack arch => linux--x86_64`\nafter: `$ spack arch => linux-archrolling-x86_64`\nin Scientific Linux 6\nbefore: `$ spack arch => linux-redhat6-x86_64`\nafter: `$ spack arch => linux-scientific6-x86_64`\nin Scientific Linux 7 (not sure this is actually an improvement)\nbefore: `$ spack arch => linux-redhat7-x86_64`\nafter: `$ spack arch => linux-rhel7-x86_64`\n\nThis PR overlaps with, but is othogonal to, #1329. I don't have access to relavent systems to test, but this could help ameliorate #1611 and #1560. \n",
+    "user": "js947",
+    "url": "https://api.github.com/repos/spack/spack/issues/1629",
+    "updated_at": "2016-11-06 21:47:21",
+    "created_at": "2016-08-25 11:20:38",
+    "closed_at": "2016-11-04 23:38:44",
+    "state": "closed",
+    "title": "Use code from the `distro` package to improve linux distro detection.",
+    "number": 1629,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "linux",
+        "ready",
+        "platform-support"
+    ],
+    "id": 173177250,
+    "html_url": "https://github.com/spack/spack/pull/1629",
+    "assignees": [],
+    "comments": 6
+}

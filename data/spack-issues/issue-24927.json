@@ -1,0 +1,19 @@
+{
+    "body": "We had the following error when compiling PICSAR with GCC 10.3.0:\r\n```\r\n     25    \r\n     26      304 |               bztile, .FALSE., l_lower_order_in_v_in, LVEC_fieldgathe,                &\r\n     27          |                      1\r\n     28    ......\r\n     29     1092 |                 bztile , l4symtry_in, l_lower_order_in_v_in, lvect,                   &\r\n     30          |                         2\r\n  >> 31    Error: Type mismatch between actual argument at (1) and actual argument at (2) (LOGICAL(4)/LOGICAL(8)).\r\n     32    src/particle_pushers/particle_pusher_manager_3d.F90:318:23:\r\n     33    \r\n     34      318 |               bztile , .FALSE., l_lower_order_in_v_in, lvec_fieldgathe,               &\r\n     35          |                       1\r\n     36    ......\r\n     37     1104 |                 bztile , l4symtry_in, l_lower_order_in_v_in, lvect,                   &\r\n     38          |                         2\r\n  >> 39    Error: Type mismatch between actual argument at (1) and actual argument at (2) (LOGICAL(4)/LOGICAL(8)).\r\n  >> 40    make: *** [src/particle_pushers/particle_pusher_manager_3d.o] Error 1\r\n```\r\nIt seems that it is caused due to some changes in GCC v10. To circumvent the error, one can compile with the flag \"-fallow-argument-mismatch\".\r\n\r\nWe also had some problems when compiling PICSAR with the arm compiler:\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' 'FC=/scratch/opt/spack/linux-amzn2-aarch64/arm-21.0.0.879/openmpi-4.1.0-lmaoy5tql4ymankvskpqsplxlig5wzvy/bin/mpif90' 'CC=/scratch/opt/spack/linux-amzn2-aarch64/arm-21.0.0.879/openmpi-4.1.0-lmaoy5tql4ymankvskpqsplxlig5wzvy/bin/mpicc' 'COMP=user' 'FARGS=-g -O3 -fopenmp' 'MODE = prod' 'SYS = default'\r\n\r\n1 error found in build log:\r\n     222    \r\n     223    6 warnings generated.\r\n     224    /scratch/opt/spack/linux-amzn2-aarch64/arm-21.0.0.879/openmpi-4.1.0-lmaoy5tql4ymankvskpqsplxlig5wzvy/bin/mpif90 -g -O3 -fopenmp -c -o src/diags/diags.o \r\n            src/diags/diags.F90\r\n     225    F90-W-0547-OpenMP feature, SAFELEN, not yet implemented in this version of the compiler. (src/diags/diags.F90: 900)\r\n     226    F90-F-0155-DO loop expected after COLLAPSE (src/diags/diags.F90: 908)\r\n     227    F90/aarch64 Linux FlangArm F90  - 1.5 2017-05-01: compilation aborted\r\n  >> 228    make: *** [src/diags/diags.o] Error 1\r\n```\r\nThe OpenMP directive SAFELEN is not implemented in the ARM compiler. The execution of the SAFELEN clause is not essential for the program, so we have eliminated the two troublesome lines of code using a spack-patch.",
+    "user": "LorienLV",
+    "url": "https://api.github.com/repos/spack/spack/issues/24927",
+    "updated_at": "2021-10-03 14:11:05",
+    "created_at": "2021-07-16 15:21:46",
+    "closed_at": "2021-10-03 14:11:05",
+    "state": "closed",
+    "title": "PICSAR: added support for GCC >10.0 and arm compiler",
+    "number": 24927,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 946388998,
+    "html_url": "https://github.com/spack/spack/pull/24927",
+    "assignees": [],
+    "comments": 1
+}

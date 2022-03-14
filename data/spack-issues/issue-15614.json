@@ -1,0 +1,21 @@
+{
+    "body": "When I build `mysql@5.7.xx` and `mysql@8.0.19` on my aarch64 machine, it reported \"can not find rpcgen\",\r\nso it needs to append `depends_on('rpcsvc-proto')`\r\n\r\nand besides, `mysql@8.0.19` version report another error \"need boost@1.70.0\", the spack package use `bootst@1.69.0`.\r\n\r\nI'm not sure if x86 platform have the same issue.\r\nSo anyone can help me to confirm above issues?\r\nIf building error happens on all platforms, I will make a PR by using this patch:\r\n\r\n```\r\ndiff --git a/var/spack/repos/builtin/packages/mysql/package.py b/var/spack/repos/builtin/packages/mysql/package.py\r\nindex 7501d57cb..80b49865b 100644\r\n--- a/var/spack/repos/builtin/packages/mysql/package.py\r\n+++ b/var/spack/repos/builtin/packages/mysql/package.py\r\n@@ -22,6 +22,7 @@ class Mysql(CMakePackage):\r\n     version('8.0.13', sha256='d85eb7f98b6aa3e2c6fe38263bf40b22acb444a4ce1f4668473e9e59fb98d62e')\r\n     version('8.0.12', sha256='69f16e20834dbc60cb28d6df7351deda323330b9de685d22415f135bcedd1b20')\r\n     version('8.0.11', sha256='3bde3e30d5d4afcedfc6db9eed5c984237ac7db9480a9cc3bddc026d50700bf9')\r\n+    version('5.7.27', sha256='f8b65872a358d6f5957de86715c0a3ef733b60451dad8d64a8fd1a92bf091bba')\r\n     version('5.7.26', sha256='5f01d579a20199e06fcbc28f0801c3cb545a54a2863ed8634f17fe526480b9f1')\r\n     version('5.7.25', sha256='53751c6243806103114567c1a8b6a3ec27f23c0e132f377a13ce1eb56c63723f')\r\n     version('5.7.24', sha256='05bf0c92c6a97cf85b67fff1ac83ca7b3467aea2bf306374d727fa4f18431f87')\r\n@@ -77,11 +78,16 @@ class Mysql(CMakePackage):\r\n\r\n     # Each version of MySQL requires a specific version of boost\r\n     # See BOOST_PACKAGE_NAME in cmake/boost.cmake\r\n-    # 8.0.16+\r\n-    depends_on('boost@1.69.0 cxxstd=98', type='build', when='@8.0.16: cxxstd=98')\r\n-    depends_on('boost@1.69.0 cxxstd=11', type='build', when='@8.0.16: cxxstd=11')\r\n-    depends_on('boost@1.69.0 cxxstd=14', type='build', when='@8.0.16: cxxstd=14')\r\n-    depends_on('boost@1.69.0 cxxstd=17', type='build', when='@8.0.16: cxxstd=17')\r\n+    # 8.0.19+\r\n+    depends_on('boost@1.70.0 cxxstd=98', type='build', when='@8.0.19: cxxstd=98')\r\n+    depends_on('boost@1.70.0 cxxstd=11', type='build', when='@8.0.19: cxxstd=11')\r\n+    depends_on('boost@1.70.0 cxxstd=11', type='build', when='@8.0.19: cxxstd=14')\r\n+    depends_on('boost@1.70.0 cxxstd=17', type='build', when='@8.0.19: cxxstd=17')\r\n+    # 8.0.16--8.0.18\r\n+    depends_on('boost@1.69.0 cxxstd=98', type='build', when='@8.0.16:8.0.18 cxxstd=98')\r\n+    depends_on('boost@1.69.0 cxxstd=11', type='build', when='@8.0.16:8.0.18 cxxstd=11')\r\n+    depends_on('boost@1.69.0 cxxstd=14', type='build', when='@8.0.16:8.0.18 cxxstd=14')\r\n+    depends_on('boost@1.69.0 cxxstd=17', type='build', when='@8.0.16:8.0.18 cxxstd=17')\r\n     # 8.0.14--8.0.15\r\n     depends_on('boost@1.68.0 cxxstd=98', type='build', when='@8.0.14:8.0.15 cxxstd=98')\r\n     depends_on('boost@1.68.0 cxxstd=11', type='build', when='@8.0.14:8.0.15 cxxstd=11')\r\n@@ -103,6 +109,7 @@ class Mysql(CMakePackage):\r\n     depends_on('boost@1.59.0 cxxstd=14', when='@5.7.0:5.7.999 cxxstd=14')\r\n     depends_on('boost@1.59.0 cxxstd=17', when='@5.7.0:5.7.999 cxxstd=17')\r\n\r\n+    depends_on('rpcsvc-proto')\r\n     depends_on('ncurses')\r\n     depends_on('openssl')\r\n     depends_on('libtirpc', when='@5.7.0:')\r\n\r\n```",
+    "user": "darmac",
+    "url": "https://api.github.com/repos/spack/spack/issues/15614",
+    "updated_at": "2020-06-13 01:18:39",
+    "created_at": "2020-03-21 03:22:34",
+    "closed_at": "2020-06-13 01:18:39",
+    "state": "closed",
+    "title": "mysql @5.7.xx and @8.0.19 build error",
+    "number": 15614,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 585419591,
+    "html_url": "https://github.com/spack/spack/issues/15614",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

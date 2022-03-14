@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install amdlibflame threads=openmp\r\n[...]\r\nranlib lib/x86_64-unknown-linux-gnu/libflame.a\r\n/project/d110/timuel/spack/lib/spack/env/gcc/gcc -shared -Wl,-soname,libflame.so.3 -o lib/x86_64-unknown-linux-gnu/libflame.so -Wl,--whole-archive,libflame.a,--no-whole-archive -L/opt/cray/pe/mpich/8.1.4/ofi/gnu/9.1/lib -L/opt/cray/pe/dsmml/0.1.4/dsmml//lib -L/opt/cray/xpmem/2.2.40-7.0.1.0_1.9__g1d7a24d.shasta/lib64 -L/opt/gcc/10.2.0/snos/lib/gcc/x86_64-suse-linux/10.2.0 -L/opt/gcc/10.2.0/snos/lib/gcc/x86_64-suse-linux/10.2.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/opt/gcc/10.2.0/snos/lib/gcc/x86_64-suse-linux/10.2.0/../../.. -lblis-mt -lmpifort_gnu_91 -lmpi_gnu_91 -lxpmem -ldsmml -lgfortran -lquadmath -lpthread -lm -fopenmp\r\n/usr/bin/ld: /usr/lib/../lib64/crt1.o: in function `_start':\r\n/home/abuild/rpmbuild/BUILD/glibc-2.26/csu/../sysdeps/x86_64/start.S:110: undefined reference to `main'\r\ncollect2: error: ld returned 1 exit status\r\nmake: *** [Makefile:593: lib/x86_64-unknown-linux-gnu/libflame.so] Error 1\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n* **Spack:** 0.16.2-3059-e321578bbe\r\n* **Python:** 3.6.12\r\n* **Platform:** cray-sles15-zen2\r\n* **Concretizer:** original\r\n```\r\n\r\n```yaml\r\npackages:\r\n  ...\r\n  cray-mpich:\r\n    externals:\r\n    - spec: cray-mpich@8.1.4%aocc\r\n      prefix: /opt/cray/pe/mpich/8.1.4/ofi/aocc/2.2\r\n    - spec: cray-mpich@8.1.4%gcc\r\n      prefix: /opt/cray/pe/mpich/8.1.4/ofi/gnu/9.1\r\n    buildable: False\r\n...\r\n```\r\n\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    spec: gcc@10.2.0\r\n    paths:\r\n      cc: cc\r\n      cxx: CC\r\n      f77: ftn\r\n      fc: ftn\r\n    flags: {}\r\n    operating_system: sles15\r\n    target: any\r\n    modules:\r\n    - PrgEnv-gnu\r\n    - gcc/10.2.0\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6619683/spack-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6619686/spack-build-env.txt)\r\n\r\n@amd-toolchain-support ... my guess is that the Cray compiler wrappers interfere and switch to executable output mode with the `-o ...` occurring after the `-shared`, but that's really just a guess.\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "dev-zero",
+    "url": "https://api.github.com/repos/spack/spack/issues/24210",
+    "updated_at": "2021-07-02 00:37:17",
+    "created_at": "2021-06-08 21:26:45",
+    "closed_at": "2021-07-02 00:37:17",
+    "state": "closed",
+    "title": "Installation issue: libflame fails to build on Cray EX with \"undefined reference to `main'\"",
+    "number": 24210,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 915532000,
+    "html_url": "https://github.com/spack/spack/issues/24210",
+    "assignees": [
+        "amd-toolchain-support"
+    ],
+    "comments": 5
+}

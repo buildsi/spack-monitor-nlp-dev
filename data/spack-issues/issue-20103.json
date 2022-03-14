@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install llvm\r\n...\r\n-- Performing Test LIBCXX_SUPPORTS_WEXTRA_SEMI_FLAG\r\n/spack-stage-dir/202269/root/spack-stage-llvm-11.0.0-stpte4xqkfbkbahzzcdnqw5pvxrjm6hs/spack-src/compiler-rt/lib/tsan/rtl/tsan_rtl_amd64.S:7:1: error: expected identifier or '(' before '.' token\r\n .section .text\r\n ^\r\n/spack-stage-dir/202269/root/spack-stage-llvm-11.0.0-stpte4xqkfbkbahzzcdnqw5pvxrjm6hs/spack-src/compiler-rt/lib/tsan/rtl/tsan_rtl_amd64.S:16:5: error: invalid preprocessing directive #Save\r\n   # Save scratch registers.\r\n     ^~~~\r\n/spack-stage-dir/202269/root/spack-stage-llvm-11.0.0-stpte4xqkfbkbahzzcdnqw5pvxrjm6hs/spack-src/compiler-rt/lib/tsan/rtl/tsan_rtl_amd64.S:44:5: error: invalid preprocessing directive #Align\r\n   # Align stack frame.\r\n     ^~~~~\r\n...\r\nmake: *** [Makefile:174: all] Error 2\r\n==> [2020-11-25-20:09:46.809565] Error: ProcessError: Command exited with status 2:\r\n```\r\n\r\nThis is a combination of both an LLVM and CMake issue:\r\n\r\nLLVM bug: https://bugs.llvm.org/show_bug.cgi?id=48234\r\nLLVM fix: https://reviews.llvm.org/D86308\r\nCMake bug: https://gitlab.kitware.com/cmake/cmake/-/issues/21469\r\nCMake fix: https://gitlab.kitware.com/cmake/cmake/-/merge_requests/5519\r\n\r\nThis is a placeholder issue that will be closed by the above referenced patches being applied",
+    "user": "chuckatkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/20103",
+    "updated_at": "2020-11-30 12:47:01",
+    "created_at": "2020-11-25 21:04:05",
+    "closed_at": "2020-11-30 12:47:01",
+    "state": "closed",
+    "title": "Installation issue: llvm fails to build assembler files with CMake 3.19.0",
+    "number": 20103,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 751116409,
+    "html_url": "https://github.com/spack/spack/issues/20103",
+    "assignees": [],
+    "comments": 0
+}

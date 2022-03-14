@@ -1,0 +1,25 @@
+{
+    "body": "* Improvements to wording of function documentation in addition to changes required to accommodate implementation changes.\r\n* New exceptions `spack.cmd.PythonNameError` and `spack.cmd.CommandNameError`.\r\n* New functions `spack.cmd.require_python_name(pname)` and `spack.cmd.require_cmd_name(cname)` check that `pname` and `cname` respectively meet requirements, throwing the appropriate error if not.\r\n* `spack.cmd.get_module()` uses `require_cmd_name()` and passes through exceptions from module load attempts.\r\n* `spack.cmd.get_command()` uses `require_cmd_name()` and invokes `get_module()` with the correct command-name form rather than the previous (incorrect) Python name.\r\n* New exceptions `spack.extensions.CommandNotFoundError` and `spack.extensions.ExtensionNamingError`.\r\n* `_extension_regexp` has a new leading underscore to indicate expected privacy.\r\n* `spack.extensions.extension_name()` raises an `ExtensionNamingError` rather than using `tty.warn()`.\r\n* `spack.extensions.load_command_extension()` checks command source existence early and bails out if missing. Also, exceptions raised by `load_module_from_file()` are passed through.\r\n* `spack.extensions.get_module()` raises `CommandNotFoundError` as appropriate.\r\n* Spack `main()` allows `parser.add_command()` exceptions to cause program end.\r\n* Extension commands containing hyphens are now dealt with correctly: command `spack hyphenated-cmd` should be implemented in (say) `.../spack-myext/myext/cmd/hyphenated_cmd.py` and define a function `hyphenated_cmd()`). Previously it would be found only in `hyphenated-cmd.py`, in contrast to hyphenated internal commands and standard Python import conventions.\r\n* Extension names containing hyphens are now dealt with correctly: for an extension with name (per `spack test --extension <name>`) `hyphenated-ext`, the directory structure should be `.../spack-hyphenated-ext/hyphenated_ext/cmd/...`. Absolute imports should be in the form `import spack.extensions.hyphenated_ext...`.\r\n\r\nTests:\r\n\r\n* More common boilerplate has been pulled out into fixtures including `sys.modules` dictionary cleanup, creation of the full (correct) directory structure for an extension, and resource-managed creation of extension commands with specified contents in the source file.\r\n* \"Hello, World!\" test now uses a command named `hello-world` instead of `hello` in order to verify correct handling of commands with hyphens.\r\n* New tests for:\r\n  * Missing or misnamed command.\r\n  * Missing or misnamed command function in a command module.\r\n  * Badly-named extension.\r\n  * Verification that errors encountered during import of a command are propagated upward.\r\n  * Ability to invoke a command multiple times.\r\n  * Correct handling of hyphenated extension names (with appropriate directory structure), including import of module code and invocation of commands.\r\n  * Correct handling of the case where the desired command is found elsewhere than in the first-configured extension.\r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/13635",
+    "updated_at": "2020-04-30 01:19:21",
+    "created_at": "2019-11-07 23:34:58",
+    "closed_at": "2020-04-30 01:18:49",
+    "state": "closed",
+    "title": "Simple but significant improvements to command-loading error handling.",
+    "number": 13635,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "extensions",
+        "commands",
+        "error-messages",
+        "robustness"
+    ],
+    "id": 519573839,
+    "html_url": "https://github.com/spack/spack/pull/13635",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 14
+}

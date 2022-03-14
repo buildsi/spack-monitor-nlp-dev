@@ -1,0 +1,22 @@
+{
+    "body": "I have Intel MPI defined as an external package:\r\n\r\n```\r\n  intel-mpi:\r\n    buildable: False\r\n    paths:\r\n      intel-mpi@2019.6.166 %intel@19.1.0.166:  /dcsrsoft/spack/external/intel/2020.0/impi/2019.6.166/intel64\r\n```\r\n\r\nWhen trying to install a package using Intel MPI the MPICC path (and others) are incorrect:\r\n\r\n```\r\n$ spack -d build-env fftw%intel | grep impi\r\n..\r\n..\r\nI_MPI_ROOT=/dcsrsoft/spack/external/intel/2020.0/impi/2019.6.166/intel64/compilers_and_libraries/linux/mpi\r\nMPICC=/dcsrsoft/spack/external/intel/2020.0/impi/2019.6.166/intel64/compilers_and_libraries/linux/mpi/intel64/bin/mpiicc\r\nMPICXX=/dcsrsoft/spack/external/intel/2020.0/impi/2019.6.166/intel64/compilers_and_libraries/linux/mpi/intel64/bin/mpiicpc\r\nMPIF77=/dcsrsoft/spack/external/intel/2020.0/impi/2019.6.166/intel64/compilers_and_libraries/linux/mpi/intel64/bin/mpiifort\r\nMPIF90=/dcsrsoft/spack/external/intel/2020.0/impi/2019.6.166/intel64/compilers_and_libraries/linux/mpi/intel64/bin/mpiifort\r\n```\r\n\r\nThe correct path is `/dcsrsoft/spack/external/intel/2020.0/impi/2019.6.166/intel64/bin` so without the additional `compilers_and_libraries/linux/mpi/intel64`\r\n\r\nThe additional path is provided by \r\n```\r\ndef normalize_path(self, component_path, component_suite_dir=None,\r\n                       relative=False):\r\n```\r\nFrom /build_systems/intel.py \r\n\r\nThis is with\r\n\r\n```\r\n$ spack --version\r\n0.13.3-1338-36017d8\r\n```\r\n\r\n",
+    "user": "ilbiondo",
+    "url": "https://api.github.com/repos/spack/spack/issues/15540",
+    "updated_at": "2022-02-25 17:13:57",
+    "created_at": "2020-03-18 12:44:19",
+    "closed_at": "2020-04-15 06:29:03",
+    "state": "closed",
+    "title": "Wrong normalised path with external Intel MPI ",
+    "number": 15540,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 583701819,
+    "html_url": "https://github.com/spack/spack/issues/15540",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

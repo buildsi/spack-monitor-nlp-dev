@@ -1,0 +1,23 @@
+{
+    "body": "Spack, the package manager, and the collection of spack modules, which are managed using spack, should be developed in separate git repositories.\r\n\r\nThis repository is trying to version control 3 different processes:\r\n1. The development of a sophisticated package manager\r\n2. The curation of a default package collection\r\n3. The maintenance of individual packages in the default collection\r\n\r\nWhile these processes are intertwined in certain aspects, they have distinct development and release cycles.\r\nThe spack package manager has its development and release cycle, and the software inside a package its own individual development release cycle.\r\nHaving all of these processes in one version control system tangles these cycles together in a user-unfriendly way.\r\n\r\nFor example:\r\nYesterday, I wanted to install hpctoolkit.\r\nI'm new to spack, so I download the latest release of spack (v.0.14.2 at the time), and went on installing hpctoolkit, only to run into this issue with intel-tbb not having the correct sha.\r\nThis issue is described in #16825 and resolved in 16f104aafe2bb780f2d03c04aae0ccff333aa821, but that commit isn't part of the v0.14.2 release.\r\n\r\nNow what?\r\n\r\nDo I just clone the head of the develop branch? (But what if spack is broken at develop->HEAD?)\r\nDo I keep v0.14.2 and cherry-pick the fixing commit? (But what if that commit depends on other commits?)\r\n\r\nBecause the development of spack, the curated default package collection, and the maintenance of the package itself are all tied together in git, we've exchanged a package manager problem for a version control problem (a potentially tricky one as well).\r\n\r\nThis could be avoided (and probably eliminated) if the development of spack and the curation of the default package collection (and possibly the maintenance of each package) were each separate git repositories.\r\n\r\nNow, when a user download the latest release version of spack, it would first clone the latest release version of the default package collection repository, which could be much newer than the software.\r\nBecause the two are separate, an update to, or addition of, a package do not require getting the latest commit of the spack software repository, eliminating any concerns I might have as a user regarding the safety and stability of the package management software\r\nThis could also make adoption on managed systems much more viable, as users no longer have to bug system admins to update spack (to a potentially unsafe version) in order to get the most recent package definitions.\r\n\r\nFor my example, this would never have been an issue, because there's no longer a way for a package definition to be \"behind\".\r\nWhen spack checks for the package repo for package definitions, it would always have the most recent, most correct version of a package definition, without ever having to update or upgrade the actual spack software.\r\n\r\nAdditionally, from an organizational perspective, it seems like separated repositories would be better for you as project developers:\r\n\r\n1. Issues and pull requests for packages and the software would be in totally separate locations, resulting in less \"clutter\" and more accurate search results (such as when looking for a previous solution to an issue or making sure I am not submitting a duplicate issue).\r\n2. Maintainers of either repo only have to ensure that their stuff is in good state (except maybe when  spack has API breaking changes). \r\n3. Faster release cycles for both repositories, as a broken package would not impede the release of a new, stable version of spack, and vice-versa.\r\n\r\nIt *seems* like there is already a lot of infrastructure in place to enable this.\r\nI can already [create and maintain my own personal local repositories](https://spack.readthedocs.io/en/latest/repositories.html), why not extend that to allow urls (specifically git-urls), and have the url to the separate default package collection repository be an entry in the default repos.yaml file?\r\n\r\nThoughts?",
+    "user": "ian-bertolacci",
+    "url": "https://api.github.com/repos/spack/spack/issues/17062",
+    "updated_at": "2021-01-10 23:05:53",
+    "created_at": "2020-06-11 20:29:33",
+    "closed_at": "2021-01-10 23:05:24",
+    "state": "closed",
+    "title": "Split spack and the default package collection into separate git repositories",
+    "number": 17062,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "feature",
+        "discussion",
+        "repos",
+        "git"
+    ],
+    "id": 637301230,
+    "html_url": "https://github.com/spack/spack/issues/17062",
+    "assignees": [],
+    "comments": 5
+}

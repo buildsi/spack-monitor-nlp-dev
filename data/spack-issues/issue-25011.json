@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nTrying to bootstrap from sources on `develop` I got the following error cause by #24095:\r\n```console\r\n$ spack solve -d zlib\r\n[ ... ]\r\n[+] /home/culpo/.spack/bootstrap/store/linux-ubuntu18.04-x86_64/gcc-11.1.0/clingo-bootstrap-spack-4xc3gf3j73rmmevzoozp3cx3e7tysifh\r\n==> [2021-07-21-12:11:02.289096] '/usr/bin/python3.6' '-c' 'from distutils.sysconfig import get_python_lib; print(get_python_lib(plat_specific=False, standard_lib=False, prefix=\"\"))'\r\n==> [2021-07-21-12:11:02.327841] Error: cannot import module \"clingo\" from spec \"clingo-bootstrap@spack%gcc@11.1.0~docs~ipo+python build_type=Release arch=linux-ubuntu18.04-x86_64 ^bison@3.0.4%gcc@11.1.0 patches=b72914fe38e54a6fc25f29019e0a0786705c4f61ce20d414cc2010c8d62448c7 arch=linux-ubuntu18.04-x86_64 ^cmake@3.21.0%gcc@11.1.0~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=linux-ubuntu18.04-x86_64 ^python@3.6%gcc@11.1.0+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4+uuid+zlib arch=linux-ubuntu18.04-x86_64 ^re2c@1.2.1%gcc@11.1.0 arch=linux-ubuntu18.04-x86_64\r\n```\r\ni.e. Spack is not able to import the `clingo-bootstrap` that was just installed. The installation is correct and using `git bisect` the first commit that broke the bootstrapping procedure is:\r\n```console\r\n$ git bisect bad\r\nc37df94932260fe3e5f22381af03587662569f7e is the first bad commit\r\ncommit c37df94932260fe3e5f22381af03587662569f7e\r\nAuthor: Adam J. Stewart <ajstewart426@gmail.com>\r\nDate:   Fri Jul 16 10:28:00 2021 -0500\r\n\r\n    Python: query distutils to find site-packages directory (#24095)\r\n    \r\n    Third-party Python libraries may be installed in one of several directories:\r\n    \r\n    1. `lib/pythonX.Y/site-packages` for Spack-installed Python\r\n    2. `lib64/pythonX.Y/site-packages` for system Python on RHEL/CentOS/Fedora\r\n    3. `lib/pythonX/dist-packages` for system Python on Debian/Ubuntu\r\n    \r\n    Previously, Spack packages were hard-coded to use the (1). Now, we query the Python installation itself and ask it which to use. Ever since #21446 this is how we've been determining where to install Python libraries anyway.\r\n    \r\n    Note: there are still many packages that are hard-coded to use (1). I can change them in this PR, but I don't have the bandwidth to test all of them.\r\n    \r\n    * Python: handle dist-packages and site-packages\r\n    * Query Python to find site-packages directory\r\n    * Add try-except statements for when distutils isn't installed\r\n    * Catch more errors\r\n    * Fix root directory used in import tests\r\n    * Rely on site_packages_dir property\r\n\r\n lib/spack/spack/bootstrap.py                       |   4 -\r\n lib/spack/spack/build_systems/python.py            |  43 +++---\r\n lib/spack/spack/build_systems/sip.py               |  28 ++--\r\n var/spack/repos/builtin/packages/python/package.py | 160 +++++++++++++++------\r\n 4 files changed, 145 insertions(+), 90 deletions(-)\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3579-887820ecb5\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n* **Concretizer:** original\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/25011",
+    "updated_at": "2021-07-21 14:22:08",
+    "created_at": "2021-07-21 10:19:57",
+    "closed_at": "2021-07-21 14:22:08",
+    "state": "closed",
+    "title": "Bootstrapping from sources is broken on develop",
+    "number": 25011,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 949555908,
+    "html_url": "https://github.com/spack/spack/issues/25011",
+    "assignees": [
+        "alalazo",
+        "adamjstewart"
+    ],
+    "comments": 2
+}

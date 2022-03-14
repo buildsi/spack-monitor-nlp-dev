@@ -1,0 +1,24 @@
+{
+    "body": "### Motivation\r\n\r\nPreviously, the `extends` directive did not support specs, only package names. This meant that something like:\r\n```python\r\nextends('python@3.6:')\r\n```\r\nwould add a dependency on `python@3.6:`, but the package didn't actually extend anything. Package authors would have to instead use:\r\n```python\r\nextends('python')\r\ndepends_on('python@3.6:', type=('build', 'run'))\r\n```\r\nto mean the same thing. Although it isn't hard to convert the former into the latter, it's unintuitive that one of our directives doesn't handle specs when all the others do. There are already packages in Spack that use the former convention (and are currently broken), including `py-pymatgen` and every `octave-*` package.\r\n\r\n### Alternatives\r\n\r\nWe could instead modify `spack.package.PackageBase.extends()` to do the same thing, although I think this is a bit simpler.\r\n\r\nP.S. How/where would I add unit tests for this?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/27754",
+    "updated_at": "2021-12-10 13:07:36",
+    "created_at": "2021-12-01 22:56:49",
+    "closed_at": "2021-12-10 12:30:21",
+    "state": "closed",
+    "title": "Extends: support spec, not just package name",
+    "number": 27754,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "tests",
+        "directives",
+        "extends"
+    ],
+    "id": 1068949981,
+    "html_url": "https://github.com/spack/spack/pull/27754",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

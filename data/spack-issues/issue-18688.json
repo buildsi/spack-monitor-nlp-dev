@@ -1,0 +1,21 @@
+{
+    "body": "mixing both fftw and fftw-api in a dependency tree can trigger the\r\nfollowing:\r\n\r\n```\r\n$ spack spec cp2k@master +sirius\r\n==> [2020-09-16-12:36:06.552981] sirius applying constraint gsl\r\n==> [2020-09-16-12:36:06.554270] sirius applying constraint openblas@0.3.10%gcc@7.5.0~consistent_fpcsr~ilp64+pic+shared threads=none arch=linux-opensuse_leap15-sandybridge\r\nTraceback (most recent call last):\r\n  File \"./bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/main.py\", line 762, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/main.py\", line 490, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/cmd/spec.py\", line 103, in spec\r\n    spec.concretize()\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/spec.py\", line 2228, in concretize\r\n    user_spec_deps=user_spec_deps),\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/spec.py\", line 2716, in normalize\r\n    visited, all_spec_deps, provider_index, tests)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/spec.py\", line 2654, in _normalize_helper\r\n    dep, visited, spec_deps, provider_index, tests)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/spec.py\", line 2613, in _merge_dependency\r\n    visited, spec_deps, provider_index, tests)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/spec.py\", line 2654, in _normalize_helper\r\n    dep, visited, spec_deps, provider_index, tests)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/spec.py\", line 2554, in _merge_dependency\r\n    provider = self._find_provider(dep, provider_index)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/spec.py\", line 2489, in _find_provider\r\n    providers = provider_index.providers_for(vdep)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/spack/provider_index.py\", line 80, in providers_for\r\n    return sorted(s.copy() for s in result)\r\n  File \"/data/tiziano/debug-spack/spack2/lib/spack/llnl/util/lang.py\", line 249, in <lambda>\r\n    lambda s, o: o is not None and s._cmp_key() < o._cmp_key())\r\nTypeError: '<' not supported between instances of 'str' and 'NoneType'\r\n```\r\n\r\nwhile at the same point disallowing MKL as a fftw provider.\r\nSolving this by depending on `fftw-api@3` instead and a runtime check on\r\n`^fftw+mpi` if `fftw` is used as provider for the `fftw-api`.",
+    "user": "dev-zero",
+    "url": "https://api.github.com/repos/spack/spack/issues/18688",
+    "updated_at": "2020-10-26 16:06:05",
+    "created_at": "2020-09-16 10:42:07",
+    "closed_at": "2020-09-16 15:41:47",
+    "state": "closed",
+    "title": "libvdwxc: unbreak concretization, request fftw-api",
+    "number": 18688,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "virtual-dependencies",
+        "update-package"
+    ],
+    "id": 702656128,
+    "html_url": "https://github.com/spack/spack/pull/18688",
+    "assignees": [],
+    "comments": 0
+}

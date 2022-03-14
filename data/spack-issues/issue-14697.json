@@ -1,0 +1,21 @@
+{
+    "body": "Hello, I've now started to use spack environments for my stuff. So I set up a spack.yaml with everything I need, using intel-mkl for numerics.\r\nWith `spack install` MKL compiled fine, and QuantumEspresso installed fine as well, but somehow the environment broke, trying to load it, just yields the simple error (after `spack env activate`):\r\n```\r\n==> Error: Trying to source non-existing file: <spack_dir>/var/spack/environments/dft_intel-20-01/.spack-env/view/compilers_and_libraries/linux/mkl/bin/mklvars.sh\r\n```\r\nAs I had ran `spack install` with the environment active, running any command (e.g. `spack find`) within the environment yields a full trace:\r\n```\r\nTraceback (most recent call last):                                                                                                           \r\n  File \"<spack-dir>/bin/spack\", line 64, in <module>                                                                   \r\n    sys.exit(spack.main.main())                                                                                                              \r\n  File \"<spack-dir>/lib/spack/spack/main.py\", line 663, in main                                              \r\n    ev.activate(env, args.use_env_repo)                                                                                                      \r\n  File \"<spack-dir>/lib/spack/spack/environment.py\", line 163, in activate                                   \r\n    cmds += env.add_default_view_to_shell(shell)                                                                                             \r\n  File \"<spack-dir>/lib/spack/spack/environment.py\", line 1107, in add_default_view_to_shell                 \r\n    spec, self.default_view))                                                                                                                \r\n  File \"<spack-dir>/lib/spack/spack/user_environment.py\", line 89, in environment_modifications_for_spec     \r\n    spec.package.setup_run_environment(env)                                                                                                  \r\n  File \"<spack-dir>/lib/spack/spack/build_systems/intel.py\", line 1018, in setup_run_environment             \r\n    env.extend(EnvironmentModifications.from_sourcing_file(f, *args))                                                                        \r\n  File \"<spack-dir>/lib/spack/spack/util/environment.py\", line 587, in from_sourcing_file                    \r\n    raise RuntimeError(msg)                                                                                                                  \r\nRuntimeError: Trying to source non-existing file: <spack-dir>/var/spack/environments/dft_intel-20-01/.spack-env/view/compilers_and_libraries/linux/mkl/bin/mklvars.sh                                                                                     \r\n```\r\nI just linked the compilers_and_libraries-folder. That works. So I guess it's just some change in the environment-handling in the intel-package.\r\n",
+    "user": "flxmr",
+    "url": "https://api.github.com/repos/spack/spack/issues/14697",
+    "updated_at": "2020-02-07 20:31:25",
+    "created_at": "2020-01-30 20:48:34",
+    "closed_at": "2020-02-07 20:30:59",
+    "state": "closed",
+    "title": "intel-mkl in environment: not linking mklvars.sh",
+    "number": 14697,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "intel",
+        "environments"
+    ],
+    "id": 557744463,
+    "html_url": "https://github.com/spack/spack/issues/14697",
+    "assignees": [],
+    "comments": 1
+}

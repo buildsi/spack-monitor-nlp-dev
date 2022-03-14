@@ -1,0 +1,20 @@
+{
+    "body": "I believe I've discovered a bug in the Spack compiler wrappers that is preventing me from using the NAG Fortran compilers. Compilation succeeds outside of Spack, but fails when using Spack with the error message:\n\n```\nchecking for linker for Fortran main program... configure: error: Could not determine a way to link a Fortran test program!\n```\n\nThe config.log files show major discrepancies:\n\n```\n# Without Spack\nconfigure:19565: checking if nagfor static flag -Bstatic works\nNAG Fortran Compiler Release 6.0(Hibiya) Build 1037\nObsolescent: conftest.f, line 1: Fixed source form\n[NAG Fortran Compiler normal termination, 1 warning]\nconfigure:19593: result: yes\n# With Spack\nconfigure:19565: checking if /blues/gpfs/home/software/spack/lib/spack/env/nag/nagfor static flag -Bstatic works\nconfigure:19593: result: no\n```\n\n```\n# Without Spack\nconfigure:30125: checking whether Fortran 77 compiler accepts option -O2\nconfigure:30170: nagfor -o conftest -mismatch   conftest.f  > pac_test1.log 2>&1\nconfigure:30170: $? = 0\nconfigure:30201: nagfor -o conftest -O2 -mismatch   conftest.f  > pac_test2.log 2>&1\nconfigure:30201: $? = 0\nconfigure:30209: diff -b pac_test1.log pac_test2.log > pac_test.log\nconfigure:30212: $? = 0\nconfigure:30312: result: yes\n# With Spack\nconfigure:30125: checking whether Fortran 77 compiler accepts option -O2\nconfigure:30170: /blues/gpfs/home/software/spack/lib/spack/env/nag/nagfor -o conftest\nconfigure:30170: $? = 1\nconfigure: failed program was:\n|       program main\n|\n|       end\nconfigure:30312: result: no\n```\n\nThese results came from trying to compile MPICH 3.2 with GCC 5.3.0 C/C++ compilers and NAG 6.0 Fortran compilers. Note that I had to add `FFLAGS=-mismatch` to get the compilation working outside of Spack. I'll submit a PR for this once we get the compiler wrappers working.\n\n@alalazo, @eschnett: Would you be willing to take a look? You're more familiar with the wrapper than I am. I'll do what I can on my end. Config.log files are attached below. \n\n[config-without-spack.txt](https://github.com/LLNL/spack/files/182507/config-without-spack.txt)\n[config-with-spack.txt](https://github.com/LLNL/spack/files/182509/config-with-spack.txt)\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/590",
+    "updated_at": "2016-10-27 22:28:09",
+    "created_at": "2016-03-21 15:16:32",
+    "closed_at": "2016-10-27 22:28:09",
+    "state": "closed",
+    "title": "Bug in Compiler Wrappers",
+    "number": 590,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers"
+    ],
+    "id": 142379776,
+    "html_url": "https://github.com/spack/spack/issues/590",
+    "assignees": [],
+    "comments": 15
+}

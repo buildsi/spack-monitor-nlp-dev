@@ -1,0 +1,20 @@
+{
+    "body": "@tgamblin @davydden \n\nThis PR fixes a bug in #1561.  #1561 was supposed to fix bugs, not change behavior in any significant way.\n\nBefore #1561, the `@develop` version would not be selected in concretization, see comment from old code:\n\n```\n# Disregard @develop and take the next valid version\n```\n\nAfter #1561, the `@develop` version would be selected by default if it was available, breaking the pre-#1561 behavior.  This could result in naive users (i.e. anyone not familiar with a particular package) \"accidentally\" obtaining the `@develop` version of a package without specifically requesting it.\n\nThis PR fixes that bug introduced by #1561, with two changes:\n1. Change `v.isdevelop()` to `not v.isdevelop()`, ensuring that the `@develop` version will have lower default priority compared to numeric versions\n2. Remove unnecessary `v.isnumeric()` from the key.  This is already tested when  comparing version numbers (the last part of the key), and could possibly mess things up if done separately.\n\nThis PR also comes with related documentation improvements:\n1. Improved comments explaining the concretization preference algorithm; avoid future bugs.\n2. Section added to the manual explaining the same thing in English.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1933",
+    "updated_at": "2016-10-06 16:08:16",
+    "created_at": "2016-10-06 14:05:53",
+    "closed_at": "2016-10-06 16:08:16",
+    "state": "closed",
+    "title": "[Bug Fix (and docs too)] : Do not select @develop version by default",
+    "number": 1933,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "documentation"
+    ],
+    "id": 181424507,
+    "html_url": "https://github.com/spack/spack/pull/1933",
+    "assignees": [],
+    "comments": 7
+}

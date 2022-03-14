@@ -1,0 +1,17 @@
+{
+    "body": "##### Modifications\n- [x] adds a new keyword `load` to the spec subsection in `modules.yaml`\n- [x] adds a new keyword `suffixes` to the spec subsection in `modules.yaml`\n- [x] generates module files with explicit module load \n- [x] unit tests for `modules.py`\n##### Example : explicit load\n\nA configuration file like : \n\n``` yaml\nmodules:\n  tcl:\n    %gcc@4.8:\n      load:\n        - foo/bar\n        - baz\n```\n\nwill add the following lines to anything compiled with `gcc@4.8`:\n\n``` tcl\nif ![ is-loaded foo/bar ] {\n    puts stderr \"Autoloading foo/bar\"\n    module load foo/bar\n}\n\nif ![ is-loaded baz ] {\n    puts stderr \"Autoloading baz\"\n    module load baz\n}\n```\n\nDotkit will exhibit the same behavior.\n##### Example : mnemonic suffixes\n\nA configuration file like : \n\n``` yaml\nmodules:\n  tcl:\n    hdf5:\n      suffixes:\n        +mpi: parallel\n```\n\nwill append to any `hdf5` module file the suffix `parallel` if `+mpi in spec`, producing a module file name like:\n\n```\nhdf5-1.10.0-gcc-6.1.0-parallel-vhxsri5po6nzynspknbjbo6uot6stcrv\n```\n\n@glennpj This should address the request for features made [here](https://github.com/LLNL/spack/pull/744#issuecomment-211588729), any feedback is welcome\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/984",
+    "updated_at": "2016-06-27 06:33:48",
+    "created_at": "2016-05-23 09:07:13",
+    "closed_at": "2016-06-27 06:33:48",
+    "state": "closed",
+    "title": "module files : explicit load and mnemonic suffixes",
+    "number": 984,
+    "milestone": null,
+    "labels": [],
+    "id": 156232732,
+    "html_url": "https://github.com/spack/spack/pull/984",
+    "assignees": [],
+    "comments": 13
+}

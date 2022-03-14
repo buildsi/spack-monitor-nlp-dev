@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\nSourcing the line `. $SPACK_ROOT/share/spack/setup-env.sh` in the `.zshrc` adds to alteast 1 second of startup time. It can become annoying, everytime you open a new tab or activate a new virtualenv for python.\r\n\r\n#### What I expected\r\n\r\n< 0.2 second of added startup time is reasonable.\r\n\r\n#### What happened instead\r\n\r\n```console\r\n# With the setup-env.sh line\r\n~ \u00bb time zsh -ic \"source ~/.zshrc\"\r\nzsh -ic \"source ~/.zshrc\"  1.70s user 0.46s system 99% cpu 2.159 total\r\n\r\n# Without the setup-env.sh line\r\n~ \u00bb time zsh -ic \"source ~/.zshrc\"\r\nzsh -ic \"source ~/.zshrc\"  0.43s user 0.18s system 99% cpu 0.611 total\r\n```\r\n\r\nSee where the time is spent inside setup-env.sh\r\n```console\r\n# Commenting out the \"build and make available environment-modules\" block \r\n~ \u00bb time zsh -ic \"source ~/.zshrc\"\r\nzsh -ic \"source ~/.zshrc\"  1.31s user 0.40s system 92% cpu 1.850 total\r\n\r\n# Commenting out the \"Set up modules and dotkit search paths in the user environment\" block\r\n~ \u00bb time zsh -ic \"source ~/.zshrc\"\r\nzsh -ic \"source ~/.zshrc\"  0.50s user 0.31s system 100% cpu 0.797 total\r\n```\r\n### Information on your system\r\n\r\n 1. Linux 64-bit (Arch Linux). Solid state hard disk\r\n 2. `spack bootstrap` done.",
+    "user": "ashwinvis",
+    "url": "https://api.github.com/repos/spack/spack/issues/7355",
+    "updated_at": "2021-08-22 16:31:24",
+    "created_at": "2018-02-28 09:56:34",
+    "closed_at": "2021-08-22 16:31:23",
+    "state": "closed",
+    "title": "Spack setup-env.sh is really heavy",
+    "number": 7355,
+    "milestone": null,
+    "labels": [
+        "performance"
+    ],
+    "id": 300959483,
+    "html_url": "https://github.com/spack/spack/issues/7355",
+    "assignees": [],
+    "comments": 9
+}

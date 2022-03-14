@@ -1,0 +1,20 @@
+{
+    "body": "After migrating to `travis-ci.com`, we saw I/O issues in our tests -- tests that relied on `capfd` and `capsys` were failing.  We've also seen this in GitHub actions, and it's kept us from switching to them so far.\r\n\r\nTurns out that the issue is that using streams like `sys.stdout` as default arguments doesn't play well with `pytest` and output redirection, as `pytest` changes the values of `sys.stdout` and `sys.stderr`. if these values are evaluated before output redirection (as they are when used as default arg values), output won't be captured properly later.\r\n\r\n- [x] replace all stream default arg values with `None`, and only assign stream values inside functions.\r\n- [x] fix tests we didn't notice were relying on this erroneous behavior",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16541",
+    "updated_at": "2020-05-09 08:52:32",
+    "created_at": "2020-05-09 03:03:24",
+    "closed_at": "2020-05-09 07:56:19",
+    "state": "closed",
+    "title": "bugfix: don't use sys.stdout as a default arg value",
+    "number": 16541,
+    "milestone": null,
+    "labels": [
+        "travis",
+        "debugging"
+    ],
+    "id": 615077048,
+    "html_url": "https://github.com/spack/spack/pull/16541",
+    "assignees": [],
+    "comments": 1
+}

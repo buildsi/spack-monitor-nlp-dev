@@ -1,0 +1,22 @@
+{
+    "body": "Spack offers a handy feature allowing you to use pre-built packages already existing on the system by specifying them in `packages.yaml`.  However, inclusion of those packages can cause pollution of paths, causing builds to pick up (for example) system packages when that was not intended.  A workaround was suggested in #1794 (see the 5th comment in the discussion).\n\nBut the \"right\" way to solve this problem, it seems, would be to create symlinks to \"extract\" a single package out of the system tree.  For example, I might create a tree `~/my/openssl` that would symlink JUST to the `openssl` files from the system.  That way, Spack would never be using a path like `/usr/`.\n\nHow to do this would vary from system to system.  On my CentOS 7 system, the command to list the package is `repoquery -l qt`.  Of course, if the package is installed in a random place, there's no systematic way to extract it.  That's probably not a problem we need to worry about (randomly built packages should probably be replaced with Spack builds anyway).\n\nI think a simple procedure should be available to do this extraction.  I suspect it shouldn't be part of Spack because it's OS-specific and because it should probably be done manually for each System package you want to put in `packages.yaml`.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1795",
+    "updated_at": "2020-08-21 17:56:11",
+    "created_at": "2016-09-17 13:00:00",
+    "closed_at": "2020-08-21 17:56:11",
+    "state": "closed",
+    "title": "Extract Packages from System Trees",
+    "number": 1795,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "feature"
+    ],
+    "id": 177574565,
+    "html_url": "https://github.com/spack/spack/issues/1795",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

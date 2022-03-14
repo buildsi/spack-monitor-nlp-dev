@@ -1,0 +1,17 @@
+{
+    "body": "Adds a package for [libSplash](https://github.com/ComputationalRadiationPhysics/libSplash), a high-level library around serial and parallel HDF5 for regular grids and particle data sets.\n\n```\nlibSplash aims at developing a HDF5-based I/O library for HPC\nsimulations. It is created as an easy-to-use frontend for the\nstandard HDF5 library with support for MPI processes in a cluster\nenvironment. While the standard HDF5 library provides detailed\nlow-level control, libSplash simplifies tasks commonly found in\nlarge-scale HPC simulations, such as iterative computations\nand MPI distributed processes.\n```\n\nlibSplash is a dependency for [PIConGPU](http://picongpu.hzdr.de), an open-source, many-core, fully-relativistic particle-in-cell code and further software developed at [Helmholz-Zentrum Dresden - Rossendorf](https://www.hzdr.de).\n\nlibSplash builds in two versions, one without MPI writing domain-decomposed posix-style HDF5 files per process and one (default) with MPI and MPI-I/O (\"parallel HDF5\") support aggregating into a single file per MPI communicator.\n\nlibSplash is used in conjunction with [openPMD](http://openPMD.org), see also [github.com/openPMD/](https://github.com/openPMD/).\n### Dependency Graph\n\n``` bash\n$ spack graph libsplash+mpi\no  libsplash\n|\\\n| |\\\n| o |  hdf5\n|/| | \n| o |  zlib\n|  /\no |  mpi\n /\no  cmake\n\n$ spack graph --concretize libsplash+mpi\no  libsplash\n|\\\n| |\\\n| | o  cmake\n| | |\\\n| | o |  openssl\n| o | |  hdf5\n|/| | | \n| |/ /\n| o |  zlib\n|  /\no |  openmpi\n| o  ncurses\n| \no  hwloc\no  libpciaccess\no  libtool\no  m4\no  libsigsegv\n\n$ spack graph libsplash\no  libsplash\no  cmake\n\n$ spack graph --concretize libsplash\no  libsplash\n|\\\n| |\\\n| | o  cmake\n| | |\\\n| | o |  openssl\n| o | |  hdf5\n|/| | | \n| |/ /\n| o |  zlib\n|  /\no |  openmpi\n| o  ncurses\n| \no  hwloc\no  libpciaccess\no  libtool\no  m4\no  libsigsegv\n\n$ spack graph libsplash~mpi\no  libsplash\n|\\\no |  hdf5\no |  zlib\n /\no  cmake\n\n$ spack graph --concretize libsplash~mpi\no  libsplash\n|\\\n| o  cmake\n| |\\\n| o |  openssl\no | |  hdf5\n|/ /\no |  zlib\n /\no  ncurses\n```\n",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/1667",
+    "updated_at": "2016-08-30 17:21:01",
+    "created_at": "2016-08-30 09:50:52",
+    "closed_at": "2016-08-30 17:20:58",
+    "state": "closed",
+    "title": "libSplash: Add Spack Package",
+    "number": 1667,
+    "milestone": null,
+    "labels": [],
+    "id": 173976097,
+    "html_url": "https://github.com/spack/spack/pull/1667",
+    "assignees": [],
+    "comments": 2
+}

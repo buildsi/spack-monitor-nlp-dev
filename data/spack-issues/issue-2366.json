@@ -1,0 +1,22 @@
+{
+    "body": "a regression:\r\n```\r\n$ spack install atlas\r\n==> Installing atlas\r\n==> Using cached archive: /Users/davydden/spack/var/spack/cache/atlas/atlas-3.10.2.tar.bz2\r\n==> Using cached archive: /Users/davydden/spack/var/spack/cache/atlas/lapack-3.10.2.tgz\r\n==> Already staged atlas-3.10.2-uooc5yhhrkorp2ymts5zovdaoay5g35p in /Users/davydden/spack/var/spack/stage/atlas-3.10.2-uooc5yhhrkorp2ymts5zovdaoay5g35p\r\n==> Already staged resource-lapack-uooc5yhhrkorp2ymts5zovdaoay5g35p in /Users/davydden/spack/var/spack/stage/resource-lapack-uooc5yhhrkorp2ymts5zovdaoay5g35p\r\n==> Already patched atlas\r\n==> Building atlas [Package]\r\n==> Executing phase : 'install'\r\n==> Error: ProcessError: Command exited with status 255:\r\n    '../configure' '--prefix=/Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/atlas-3.10.2-uooc5yhhrkorp2ymts5zovdaoay5g35p' '--shared' '-b' '64' '-C' 'ic' '/Users/davydden/spack/lib/spack/env/clang/clang' '-C' 'if' '/Users/davydden/spack/lib/spack/env/clang/gfortran' '--with-netlib-lapack-tarfile=/Users/davydden/spack/var/spack/stage/resource-lapack-uooc5yhhrkorp2ymts5zovdaoay5g35p/lapack-3.10.2.tgz'\r\n/Users/davydden/spack/var/spack/repos/builtin/packages/atlas/package.py:112, in install:\r\n     73       def install(self, spec, prefix):\r\n     74\r\n     75           options = []\r\n     76           if '+shared' in spec:\r\n     77               options.extend([\r\n     78                   '--shared'\r\n     79               ])\r\n     80               # TODO: for non GNU add '-Fa', 'alg', '-fPIC' ?\r\n     81\r\n     82           # configure for 64-bit build\r\n     83           options.extend([\r\n     84               '-b', '64'\r\n     85           ])\r\n     86\r\n     87           # set compilers:\r\n     88           options.extend([\r\n     89               '-C', 'ic', spack_cc,\r\n     90               '-C', 'if', spack_f77\r\n     91           ])\r\n     92\r\n     93           # Lapack resource to provide full lapack build. Note that\r\n     94           # ATLAS only provides a few LAPACK routines natively.\r\n     95           lapack_stage = self.stage[1]\r\n     96           lapack_tarfile = os.path.basename(lapack_stage.fetcher.url)\r\n     97           lapack_tarfile_path = join_path(lapack_stage.path, lapack_tarfile)\r\n     98           options.append('--with-netlib-lapack-tarfile=%s' % lapack_tarfile_path)\r\n     99\r\n     100          with working_dir('spack-build', create=True):\r\n     101              configure = Executable('../configure')\r\n     102              configure('--prefix=%s' % prefix, *options)\r\n     103              make()\r\n     104              make('check')\r\n     105              make('ptcheck')\r\n     106              make('time')\r\n     107              if '+shared' in spec:\r\n     108                  with working_dir('lib'):\r\n     109                      make('shared_all')\r\n     110\r\n     111              make(\"install\")\r\n  >> 112              self.install_test()\r\n```\r\nbuild log says:\r\n```\r\nCannot find '/Users/davydden/spack/var/spack/stage/resource-lapack-uooc5yhhrkorp2ymts5zovdaoay5g35p/lapack-3.10.2.tgz'\r\n```\r\nThe actual file is actually called\r\n```\r\nlapack-3.5.0.tgz\r\n```\r\nwhereas `3.10.2` is the version of `atlas`. The bug appears in the packages via \r\n```\r\nlapack_tarfile = os.path.basename(lapack_stage.fetcher.url)\r\n```\r\n\r\n\r\n\r\n\r\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2366",
+    "updated_at": "2016-12-13 10:46:34",
+    "created_at": "2016-11-18 23:59:32",
+    "closed_at": "2016-12-13 10:46:33",
+    "state": "closed",
+    "title": "Usage of resource() is broken (e.g. in Atlas) due to version confusion",
+    "number": 2366,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build-error"
+    ],
+    "id": 190450353,
+    "html_url": "https://github.com/spack/spack/issues/2366",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

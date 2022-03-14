@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nHello, \r\ni am attempting to customise the path where Spack 0.16.2 will install it's modules in an OHPC(2.2)'s Lmod environment.\r\nIn earlier Spack releases there was an option in config.yaml, but in later/latest release this was moved to modules.yaml, if i understand it right.\r\n\r\nI now can't find the proper syntax for the configuration.\r\nThe most likely version with it's related error:\r\n\r\n````console\r\nmodules.yaml\r\nmodules:\r\n  # Paths to check when creating modules for all module sets\r\n  prefix_inspections:\r\n    bin:\r\n      - PATH\r\n    man:\r\n      - MANPATH\r\n    share/man:\r\n      - MANPATH\r\n    share/aclocal:\r\n      - ACLOCAL_PATH\r\n    lib/pkgconfig:\r\n      - PKG_CONFIG_PATH\r\n    lib64/pkgconfig:\r\n      - PKG_CONFIG_PATH\r\n    share/pkgconfig:\r\n      - PKG_CONFIG_PATH\r\n    '':\r\n      - CMAKE_PREFIX_PATH\r\n\r\n  # These are configurations for the module set named \"default\"\r\n  default:\r\n    roots: ## Line 46\r\n    lmod: /opt/ohpc/pub/modulefiles-spack\r\n\r\n    enable:\r\n      - lmod\r\n\r\n    lmod:\r\n      hierarchy:\r\n        - mpi\r\n````\r\n\r\nPackage installation of m4 in this fresh and clean Spack implementation without attempts to customise the module installation path (i.e.: stock modules.yaml) works fine. \r\nShould this work as configured above? \r\nOr is the discrepancy between \"/opt/ohpc/admin\" and \"/opt/ohpc/pub\" a problem?\n\n### Error message\n\n````console\r\n==> No patches needed for libsigsegv\r\n==> libsigsegv: Executing phase: 'autoreconf'\r\n==> libsigsegv: Executing phase: 'configure'\r\n==> libsigsegv: Executing phase: 'build'\r\n==> libsigsegv: Executing phase: 'install'\r\n==> Error: ConfigFormatError: /opt/ohpc/admin/spack/0.16.2/etc/spack/defaults/modules.yaml:46: \\\r\nNone is not of type 'object'\r\n\r\n/opt/ohpc/admin/spack/0.16.2/lib/spack/spack/build_environment.py:1029, in _setup_pkg_and_run:\r\n       1026        tb_string = traceback.format_exc()\r\n       1027\r\n       1028        # build up some context from the offending package so we can\r\n  >>   1029        # show that, too.\r\n       1030        package_context = get_package_context(tb)\r\n       1031\r\n       1032        logfile = None\r\n\r\n````\n\n### Information on your system\n\n* **Spack:** 0.16.2-3869-81be31aee0\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-haswell\r\n* **Concretizer:** original\r\n* **OS**: CentOS 8.4\r\n* **OHPC**: 2.2\r\n* debug-mode execution of installation attached\r\n[debug-mode.txt](https://github.com/spack/spack/files/6962527/debug-mode.txt)\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "kelbstf",
+    "url": "https://api.github.com/repos/spack/spack/issues/25332",
+    "updated_at": "2021-08-10 16:46:12",
+    "created_at": "2021-08-10 14:42:25",
+    "closed_at": "2021-08-10 16:46:12",
+    "state": "closed",
+    "title": "module.yaml custom module installation path fails package installation",
+    "number": 25332,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 965057179,
+    "html_url": "https://github.com/spack/spack/issues/25332",
+    "assignees": [],
+    "comments": 1
+}

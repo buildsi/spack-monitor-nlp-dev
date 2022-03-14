@@ -1,0 +1,19 @@
+{
+    "body": "The command `spack install nginx` fails with the compile errors below.\r\nAFAIK these errors are due to the `-Werror` flag paired with the fairly recent `gcc@7.1.0`.\r\n\r\n```\r\n4 errors found in build log:\r\n     [ ... ]\r\n     226        -o objs/src/core/ngx_resolver.o \\\r\n     227        src/core/ngx_resolver.c\r\n     228   /home/gip/spack_local/lib/spack/env/gcc/gcc -c -pipe  -O -W -Wall -Wpointer-arith -Wno-unused-parameter -Werror -g  -I src/core -I src/event -I src/event/modules -I src/os/unix -I objs\r\n \\\r\n     229        -o objs/src/core/ngx_open_file_cache.o \\\r\n     230        src/core/ngx_open_file_cache.c\r\n     231   src/core/ngx_murmurhash.c: In function \u2018ngx_murmur_hash2\u2019:\r\n  >> 232   src/core/ngx_murmurhash.c:37:11: error: this statement may fall through [-Werror=implicit-fallthrough=]\r\n     233            h ^= data[2] << 16;\r\n     234            ~~^~~~~~~~~~~~~~~~\r\n     235   src/core/ngx_murmurhash.c:38:5: note: here\r\n     236        case 2:\r\n     237        ^~~~\r\n  >> 238   src/core/ngx_murmurhash.c:39:11: error: this statement may fall through [-Werror=implicit-fallthrough=]\r\n     239            h ^= data[1] << 8;\r\n     240            ~~^~~~~~~~~~~~~~~\r\n     241   src/core/ngx_murmurhash.c:40:5: note: here\r\n     242        case 1:\r\n     243        ^~~~\r\n     244   cc1: all warnings being treated as errors\r\n     245   objs/Makefile:470: recipe for target 'objs/src/core/ngx_murmurhash.o' failed\r\n  >> 246   make[1]: *** [objs/src/core/ngx_murmurhash.o] Error 1\r\n     247   make[1]: *** Waiting for unfinished jobs....\r\n```",
+    "user": "stefanosoffia",
+    "url": "https://api.github.com/repos/spack/spack/issues/6252",
+    "updated_at": "2018-03-04 18:34:39",
+    "created_at": "2017-11-10 09:11:36",
+    "closed_at": "2018-01-03 08:52:09",
+    "state": "closed",
+    "title": "nginx-1.12.0 fails with gcc-7.1.0",
+    "number": 6252,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 272866114,
+    "html_url": "https://github.com/spack/spack/issues/6252",
+    "assignees": [],
+    "comments": 7
+}

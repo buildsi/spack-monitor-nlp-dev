@@ -1,0 +1,17 @@
+{
+    "body": "1. I presently get errors of the sort\r\n```\r\n==> Error: KeyError: 'No spec with name mpi in silo@4.10.2%gcc@8.1.0+fortran+mpi\r\n[...]\r\n$HOME/spack/var/spack/repos/builtin/packages/silo/package.py:84, in configure_args:\r\n         81                'FCFLAGS={0}'.format(self.compiler.pic_flag)]\r\n         82\r\n         83        if '+mpi' in self.spec:\r\n  >>     84            config_args.append('CC=%s' % self.spec['mpi'].mpicc)\r\n         85            config_args.append('CXX=%s' % self.spec['mpi'].mpicxx)\r\n         86            config_args.append('FC=%s' % self.spec['mpi'].mpifc)\r\n```\r\nwithout the extra explicit MPI dependency. I am a bit of a spack novice; I don't really understand why we need to explicitly write out the dependency when `+mpi` is in the spec, though a lot of other packages (e.g., Zoltan) do it.\r\n\r\n2. Silo uses zlib, so we should explicitly depend on it.\r\n\r\nEdit: clarify the MPI error message",
+    "user": "drwells",
+    "url": "https://api.github.com/repos/spack/spack/issues/9153",
+    "updated_at": "2018-09-03 14:43:01",
+    "created_at": "2018-08-31 21:03:00",
+    "closed_at": "2018-09-03 14:43:01",
+    "state": "closed",
+    "title": "Fix two dependencies with silo.",
+    "number": 9153,
+    "milestone": null,
+    "labels": [],
+    "id": 356122937,
+    "html_url": "https://github.com/spack/spack/pull/9153",
+    "assignees": [],
+    "comments": 3
+}

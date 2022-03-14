@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nInstall miniconda3 and load it:\r\n```\r\n$ spack install miniconda3\r\n$ spack load miniconda3\r\n$ which conda\r\n```\r\n\r\nNow let's create a new conda environment:\r\n```\r\n$ conda create -p myenv python=3.9 -y\r\n```\r\n\r\nLet's try to activate it, and we get an error:\r\n```\r\n$ conda activate myenv/\r\n\r\nCommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.\r\nTo initialize your shell, run\r\n\r\n    $ conda init <SHELL_NAME>\r\n\r\nCurrently supported shells are:\r\n  - bash\r\n  - fish\r\n  - tcsh\r\n  - xonsh\r\n  - zsh\r\n  - powershell\r\n\r\nSee 'conda init --help' for more information and options.\r\n\r\nIMPORTANT: You may need to close and restart your shell after running 'conda init'.\r\n```\r\n\r\nIf you run `conda init bash`, two bad things happen:\r\n- This will edit your .bashrc file, something you really don't want a spack package to do (especially if you need for instance multiple installations of miniconda, or if you have another installation of miniconda not managed by spack, this will mess up badly with your environment, and miniconda doesn't even tell you it's editing .bashrc).\r\n- The first line of the conda executable will be edited from `#!/usr/bin/env python` to the full path of the python interpreter it finds, leading up to something like this for instance for me on Theta: `#!/gpfs/mira-home/mdorier/HEPnOS-Autotuning/hepnos_theta/spack/opt/spack/cray-cnl7-mic_knl/gcc-9.3.0/miniconda3-4.10.3-7z66t6zbyiag24ylihpyljvfaiavg6zr/bin/python` and this path is too long for bash, so from now on the conda command will fail because it truncates this path and doesn't find the python interpreter anymore.\r\n\r\nThe way to make `conda activate` possible without having to call `conda init` is to `source <prefix>/etc/profile.d/conda.sh` (or conda.csh depending on the type of shell, or use `<prefix>/etc/fish/conda.fish` for the fish shell), where `<prefix>` is where miniconda3 is installed.\r\n\r\nI wonder if spack couldn't do that automatically when miniconda3 is loaded. However I don't know how we can properly \"undo\" the changes that such sourcing does on the environment, when unloading the package, apart from looking at what these scripts do, and undoing each change.\r\n\r\n### Information on your system\r\n\r\nN/A\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/28292",
+    "updated_at": "2022-01-17 11:53:42",
+    "created_at": "2022-01-07 13:19:56",
+    "closed_at": "2022-01-17 11:53:42",
+    "state": "closed",
+    "title": "Problem using miniconda3 installed by spack",
+    "number": 28292,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1096311377,
+    "html_url": "https://github.com/spack/spack/issues/28292",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 0
+}

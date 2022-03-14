@@ -1,0 +1,22 @@
+{
+    "body": "This makes a few related changes.\r\n\r\n1. Make the SEGMENT_REGEX identify *which* arm it matches by what groups\r\n   are populated, including whether it's a string or int component or a\r\n   separator all at once.\r\n2. Use the updated regex to parse the input once with a findall rather\r\n   than twice, once with findall and once with split, since the version\r\n   components and separators can be distinguished by their group status.\r\n3. Rather than \"convert to int, on exception stay string,\" if the int\r\n   group is set then convert to int, if not then construct an instance\r\n   of the VersionStrComponent class\r\n4. VersionStrComponent now implements all of the special string\r\n   comparison logic as part of its __lt__ and __eq__ methods to deal\r\n   with infinity versions and also overloads comparison with integers.\r\n5. Version now uses direct tuple comparison since it has no per-element\r\n   special logic outside the VersionStrComponent class.\r\n\r\nIt also fixes a bug where the VALID_VERSION regex and match didn't actually check that the input string was a valid version.\r\n\r\nThe net result is a roughly 2x improvement in construction speed from a string, and roughly 2x faster comparisons aggregated over doing many comparisons to do some operations on e4s.",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/22973",
+    "updated_at": "2021-06-04 19:29:50",
+    "created_at": "2021-04-13 19:44:49",
+    "closed_at": "2021-06-04 07:23:38",
+    "state": "closed",
+    "title": "Version speed boost",
+    "number": 22973,
+    "milestone": null,
+    "labels": [
+        "performance",
+        "versions"
+    ],
+    "id": 857268565,
+    "html_url": "https://github.com/spack/spack/pull/22973",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

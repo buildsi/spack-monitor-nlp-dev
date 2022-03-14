@@ -1,0 +1,17 @@
+{
+    "body": "The spec can be normalized but it seems that concretization fails with parser error. I tried running\n\n```\nspack --debug spec glib\n```\n\nto get more info and it looks like the problem is internally in spack:\n\n```\nInput spec\n------------------------------\n  glib\n\nNormalized\n------------------------------\n  glib\n      ^libffi\n      ^pkg-config\n      ^zlib\n\nConcretized\n------------------------------\nTraceback (most recent call last):\n  File \"/sw/eos/.spack/bin/spack\", line 154, in main\n    return_val = command(parser, args)\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/cmd/spec.py\", line 58, in spec\n    spec.concretize()\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/spec.py\", line 1039, in concretize\n    self._expand_virtual_packages(),\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/spec.py\", line 959, in _expand_virtual_packages\n    spec)\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/concretize.py\", line 110, in choose_virtual_or_external\n    candidates = self._valid_virtuals_and_externals(spec)\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/concretize.py\", line 76, in _valid_virtuals_and_externals\n    externals = spec_externals(cspec)\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/config.py\", line 678, in spec_externals\n    external_spec = spack.spec.Spec(external_spec, external=path)\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/spec.py\", line 459, in __init__\n    spec_list = SpecParser().parse(spec_like)\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/parse.py\", line 124, in parse\n    return self.do_parse()\n  File \"/autofs/nccs-svm1_sw/eos/.spack/lib/spack/spack/spec.py\", line 2068, in do_parse\n    raise SpecParseError(e)\nspack.spec.SpecParseError: Unexpected token\n```\n",
+    "user": "JRWynneIII",
+    "url": "https://api.github.com/repos/spack/spack/issues/995",
+    "updated_at": "2016-05-31 12:52:51",
+    "created_at": "2016-05-27 18:35:28",
+    "closed_at": "2016-05-27 19:23:49",
+    "state": "closed",
+    "title": "Spack spec glib fails",
+    "number": 995,
+    "milestone": null,
+    "labels": [],
+    "id": 157266390,
+    "html_url": "https://github.com/spack/spack/issues/995",
+    "assignees": [],
+    "comments": 11
+}

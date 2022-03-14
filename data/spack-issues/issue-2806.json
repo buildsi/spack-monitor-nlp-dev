@@ -1,0 +1,20 @@
+{
+    "body": "In the current develop:\r\n```console\r\n$ spack mirror create -d ~/production/spack-mirror -D hdf5\r\nTraceback (most recent call last):\r\n  File \"/home/mculpo/PycharmProjects/spack/bin/spack\", line 212, in <module>\r\n    main(sys.argv)\r\n  File \"/home/mculpo/PycharmProjects/spack/bin/spack\", line 208, in main\r\n    _main(args, unknown)\r\n  File \"/home/mculpo/PycharmProjects/spack/bin/spack\", line 174, in _main\r\n    return_val = command(parser, args)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/cmd/mirror.py\", line 224, in mirror\r\n    action[args.mirror_command](args)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/cmd/mirror.py\", line 202, in mirror_create\r\n    directory, specs, num_versions=args.one_version_per_spec)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/mirror.py\", line 167, in create\r\n    s.concretize()\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 1520, in concretize\r\n    changes = (self.normalize(force),\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 1816, in normalize\r\n    any_change = self._normalize_helper(visited, spec_deps, provider_index)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 1765, in _normalize_helper\r\n    pkg_dep = self._evaluate_dependency_conditions(dep_name)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 1629, in _evaluate_dependency_conditions\r\n    sat = self.satisfies(when_spec, strict=True)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 2070, in satisfies\r\n    return self.satisfies_dependencies(other, strict=deps_strict)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 2100, in satisfies_dependencies\r\n    self_index = ProviderIndex(self.traverse(), restrict=True)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/provider_index.py\", line 87, in __init__\r\n    self.update(spec)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/provider_index.py\", line 106, in update\r\n    if spec.satisfies(provider_spec, deps=False):\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 2049, in satisfies\r\n    if not self.variants.satisfies(other.variants, strict=var_strict):\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 627, in satisfies\r\n    if strict or self.spec._concrete:\r\nAttributeError: 'NoneType' object has no attribute '_concrete'\r\n```\r\nThis happens because the `VariantMap` part of a spec does not get copied correctly. This PR is a quick fix to the issue. I think a more extensive refactoring is in order and I'll be willing to do it once #2386 is merged.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/2806",
+    "updated_at": "2017-01-12 06:05:22",
+    "created_at": "2017-01-11 14:52:42",
+    "closed_at": "2017-01-11 15:38:23",
+    "state": "closed",
+    "title": "spack mirror: fixed copying error ",
+    "number": 2806,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "ready"
+    ],
+    "id": 200113701,
+    "html_url": "https://github.com/spack/spack/pull/2806",
+    "assignees": [],
+    "comments": 3
+}

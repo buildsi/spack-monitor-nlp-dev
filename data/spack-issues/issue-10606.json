@@ -1,0 +1,19 @@
+{
+    "body": "On macOS, the build of libxxhash is performed by a bare `make` launched by `MakePackage`s default `build` phase. As `prefix` is not set in `xxhash`'s `Makefile` at this point, the library gets compiled with a hard-coded install name of `/usr/local/libxxhash.dylib`. Downstream clients, in the tested case Root, will then fail to build as the install name is incorrect.\r\n\r\nMove setting of `prefix` from `install` to `edit` so that it propagates to subsequent `build` and `install` phases.\r\n",
+    "user": "drbenmorgan",
+    "url": "https://api.github.com/repos/spack/spack/issues/10606",
+    "updated_at": "2019-06-13 15:27:58",
+    "created_at": "2019-02-14 16:28:59",
+    "closed_at": "2019-02-20 09:55:09",
+    "state": "closed",
+    "title": "xxhash: edit prefix in Makefile for macOS",
+    "number": 10606,
+    "milestone": null,
+    "labels": [
+        "macOS"
+    ],
+    "id": 410384288,
+    "html_url": "https://github.com/spack/spack/pull/10606",
+    "assignees": [],
+    "comments": 1
+}

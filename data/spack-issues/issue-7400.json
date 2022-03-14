@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\n\r\n### Expected Result\r\nSuccessful build in Aarch64 environment\r\n\r\n### Actual Result\r\n\r\nI can not recognize the environment to build because the config.guess and config.sub entered in the tarball are out of date.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack -k install xproto\r\n==> Warning: You asked for --insecure. Will NOT check SSL certificates.\r\n==> pkgconf is already installed in /home/yhorigome/opt/spack/opt/spack/linux-centos7-aarch64/gcc-4.8.5/pkgconf-1.4.0-3gc4v5252r5tepvdi5ie22bxjls72q6x\r\n==> util-macros is already installed in /home/yhorigome/opt/spack/opt/spack/linux-centos7-aarch64/gcc-4.8.5/util-macros-1.19.1-4a2swkgq7c5skv5qauiy3i7yzdqhtvmd\r\n==> Installing xproto\r\n==> Using cached archive: /home/yhorigome/opt/spack/var/spack/cache/xproto/xproto-7.0.31.tar.gz\r\n==> Staging archive: /home/yhorigome/opt/spack/var/spack/stage/xproto-7.0.31-c5dmz6buhfwk2myr4xcmq6u2scvzj6ck/xproto-7.0.31.tar.gz\r\n==> Created stage in /home/yhorigome/opt/spack/var/spack/stage/xproto-7.0.31-c5dmz6buhfwk2myr4xcmq6u2scvzj6ck\r\n==> No patches needed for xproto\r\n==> Building xproto [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/yhorigome/opt/spack/var/spack/stage/xproto-7.0.31-c5dmz6buhfwk2myr4xcmq6u2scvzj6ck/xproto-7.0.31/configure' '--prefix=/home/yhorigome/opt/spack/opt/spack/linux-centos7-aarch64/gcc-4.8.5/xproto-7.0.31-c5dmz6buhfwk2myr4xcmq6u2scvzj6ck'\r\n\r\n1 error found in build log:\r\n     74    /usr/convex/getsysinfo =\r\n     75\r\n     76    UNAME_MACHINE = aarch64\r\n     77    UNAME_RELEASE = 4.5.0-29.el7.aarch64\r\n     78    UNAME_SYSTEM  = Linux\r\n     79    UNAME_VERSION = #1 SMP Mon Jul 24 15:34:27 CDT 2017\r\n  >> 80    configure: error: cannot guess build type; you must specify one\r\n\r\nSee build log for details:\r\n  /home/yhorigome/opt/spack/var/spack/stage/xproto-7.0.31-c5dmz6buhfwk2myr4xcmq6u2scvzj6ck/xproto-7.0.31/spack-build.out\r\n...\r\n```\r\n\r\n### Information on your system\r\n 1. which platform you are using\r\n```console\r\n$ cat /etc/redhat-release\r\nCentOS Linux release 7.3.1611 (AltArch)\r\n$ uname -rm\r\n4.5.0-29.el7.aarch64 aarch64\r\n```\r\n\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\nWe used \"var/spack/repos/builtin/packages/xproto/package.py\" provided by spack using the following commit spack.\r\ncommit 96f95764264e32958342a0ef86615578ecddef8d\r\n\r\n-----\r\nPerhaps, I think that this problem is related. But, I do not know what kind of modification should be done to correspond to Aarch64 for \"lib/spack/spack/build_systems/autotools.py\". \r\n\r\nhttps://github.com/spack/spack/blob/165936cd5f59645633346db6e7c3b17b35d520c1/lib/spack/spack/build_systems/autotools.py#L105-L108\r\n\r\nhttps://github.com/spack/spack/issues/5128",
+    "user": "kometchtech",
+    "url": "https://api.github.com/repos/spack/spack/issues/7400",
+    "updated_at": "2022-01-27 15:53:28",
+    "created_at": "2018-03-06 08:13:59",
+    "closed_at": "2022-01-27 15:53:28",
+    "state": "closed",
+    "title": "Aarch64: Since config.guess and config.sub. included in xproto are old, configure fails without recognizing the environment",
+    "number": 7400,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 302602175,
+    "html_url": "https://github.com/spack/spack/issues/7400",
+    "assignees": [],
+    "comments": 2
+}

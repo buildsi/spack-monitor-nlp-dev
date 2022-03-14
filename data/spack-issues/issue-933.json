@@ -1,0 +1,17 @@
+{
+    "body": "PR #775 seems to have broken setting the parameters for lists:\n\n```\n $ spack repo add ../spackintegration/hep-spack\n Traceback (most recent call last):\n  File \"/build/hegner/spack/bin/spack\", line 176, in <module>\n    main()\n  File \"/build/hegner/spack/bin/spack\", line 154, in main\n    return_val = command(parser, args)\n  File \"/var/build/hegner/spack/lib/spack/spack/cmd/repo.py\", line 174, in repo\n    action[args.repo_command](args)\n  File \"/var/build/hegner/spack/lib/spack/spack/cmd/repo.py\", line 109, in repo_add\n    spack.config.update_config('repos', repos, args.scope)\n  File \"/var/build/hegner/spack/lib/spack/spack/config.py\", line 548, in update_config\n    configuration.update(update_data)\nAttributeError: 'syaml_list' object has no attribute 'update'\n```\n\nThis PR is an attempt to fix it. Seems the wrong place though to do this type logic... \n",
+    "user": "hegner",
+    "url": "https://api.github.com/repos/spack/spack/issues/933",
+    "updated_at": "2016-05-11 10:06:50",
+    "created_at": "2016-05-10 21:26:13",
+    "closed_at": "2016-05-11 10:05:08",
+    "state": "closed",
+    "title": "Bugfix: setting config for list parameters fails",
+    "number": 933,
+    "milestone": null,
+    "labels": [],
+    "id": 154110779,
+    "html_url": "https://github.com/spack/spack/pull/933",
+    "assignees": [],
+    "comments": 3
+}

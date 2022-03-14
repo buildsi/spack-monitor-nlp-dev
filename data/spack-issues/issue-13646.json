@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install metis\r\n```\r\n\r\ncannot find the source.\r\nTrying to reproduce this by manually attempting to download:\r\n\r\n### Error Message\r\n\r\n```console\r\n$ wget http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz\r\n--2019-11-08 13:06:53--  http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz\r\nResolving glaros.dtc.umn.edu (glaros.dtc.umn.edu)... failed: Name or service not known.\r\nwget: unable to resolve host address \u2018glaros.dtc.umn.edu\u2019\r\n```\r\n### Information on your system\r\n\r\nCentOS7, fresh SPACK checkout \r\n\r\n### Mitigation\r\n\r\nfor metis:\r\n```\r\n--- package.py.ORIG     2019-11-06 15:00:00.000000000 +0100\r\n+++ package.py  2019-11-07 15:50:27.000000000 +0100\r\n@@ -21,7 +21,9 @@\r\n     url      = \"http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz\"\r\n     list_url = \"http://glaros.dtc.umn.edu/gkhome/fsroot/sw/metis/OLD\"\r\n \r\n-    version('5.1.0', sha256='76faebe03f6c963127dbb73c13eab58c9a3faeae48779f049066a21c087c5db2')\r\n+#    version('5.1.0', sha256='76faebe03f6c963127dbb73c13eab58c9a3faeae48779f049066a21c087c5db2')\r\n+    version('5.1.0', sha256='76faebe03f6c963127dbb73c13eab58c9a3faeae48779f049066a21c087c5db2',\r\n+           url='https://github.com/scivision/METIS/raw/master/metis-5.1.0.tar.gz')\r\n     version('5.0.2', sha256='f79790676ca2ce3dfa9d5e2d74801e91d92415664ede2c2fc18fc49d4a161981')\r\n     version('4.0.3', sha256='5efa35de80703c1b2c4d0de080fafbcf4e0d363a21149a1ad2f96e0144841a55')\r\n```\r\n\r\nfor parmetis:\r\n```\r\n--- package.py.ORIG     2019-11-06 15:00:01.000000000 +0100\r\n+++ package.py  2019-11-07 15:55:26.000000000 +0100\r\n@@ -17,7 +17,9 @@\r\n     url      = 'http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/parmetis-4.0.3.tar.gz'\r\n     list_url = 'http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/OLD'\r\n \r\n-    version('4.0.3', sha256='f2d9a231b7cf97f1fee6e8c9663113ebf6c240d407d3c118c55b3633d6be6e5f')\r\n+    version('4.0.3', sha256='f2d9a231b7cf97f1fee6e8c9663113ebf6c240d407d3c118c55b3633d6be6e5f',\r\n+           url='http://deb.debian.org/debian/pool/non-free/p/parmetis/parmetis_4.0.3.orig.tar.gz')\r\n+#    version('4.0.3', sha256='f2d9a231b7cf97f1fee6e8c9663113ebf6c240d407d3c118c55b3633d6be6e5f')\r\n     version('4.0.2', sha256='5acbb700f457d3bda7d4bb944b559d7f21f075bb6fa4c33f42c261019ef2f0b2')\r\n \r\n     variant('shared', default=True, description='Enables the build of shared libraries.')\r\n```\r\n",
+    "user": "steffen-AEI",
+    "url": "https://api.github.com/repos/spack/spack/issues/13646",
+    "updated_at": "2021-01-16 20:14:32",
+    "created_at": "2019-11-08 12:11:20",
+    "closed_at": "2021-01-16 20:14:32",
+    "state": "closed",
+    "title": "metis and parmetis cannot be built",
+    "number": 13646,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "fetching"
+    ],
+    "id": 519981453,
+    "html_url": "https://github.com/spack/spack/issues/13646",
+    "assignees": [],
+    "comments": 9
+}

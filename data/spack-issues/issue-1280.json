@@ -1,0 +1,19 @@
+{
+    "body": "This package `umbrella/package.py`:\n\n```\nfrom spack import *\n\nclass Umbrella(Package):\n    homepage = \"Umbrella package\"\n    # This is just a dummy download\n    url = \"https://download.samba.org/pub/rsync/rsync-3.1.2.tar.gz\"\n    version('3.1.2', '0f758d7e000c0f7f7d3792610fad70cb')\n\n    depends_on(\"boost +mpi\")\n    depends_on(\"fftw +mpi +openmp\")\n    depends_on(\"git\")\n    depends_on(\"gsl\")\n    depends_on(\"hdf5 +mpi\")\n    depends_on(\"hdf5-blosc\")\n    depends_on(\"hwloc\")\n    depends_on(\"jemalloc\")\n    depends_on(\"julia\")\n    # depends_on(\"julia +hdf5 +mpi\")\n    depends_on(\"llvm\")\n    depends_on(\"lmod\")\n    depends_on(\"openblas +openmp\")\n    depends_on(\"openmpi\")\n    depends_on(\"papi\")\n    depends_on(\"petsc +boost +hdf5 +mpi\")\n    depends_on(\"py-h5py +mpi\")\n    depends_on(\"py-mpi4py\")\n    depends_on(\"py-numpy\")\n    depends_on(\"py-scipy\")\n    depends_on(\"python\")\n    depends_on(\"qthreads\")\n    depends_on(\"swig\")\n    depends_on(\"tmux\")\n\n    def install(self, spec, prefix):\n        # This package does not install anything; it only installs its\n        # dependencies\n        mkdirp(prefix.lib)\nEOF\n```\n\ncannot be installed. `spack spec` reports that `python` is resolved to `python@2.7`, which does not exist. The download then fails because there is no checksum for this version number.\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/1280",
+    "updated_at": "2018-04-13 09:04:35",
+    "created_at": "2016-07-18 19:02:32",
+    "closed_at": "2018-04-13 09:04:35",
+    "state": "closed",
+    "title": "Spack tries (and fails) to install non-existing Python 2.7",
+    "number": 1280,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 166167818,
+    "html_url": "https://github.com/spack/spack/issues/1280",
+    "assignees": [],
+    "comments": 2
+}

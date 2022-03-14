@@ -1,0 +1,23 @@
+{
+    "body": "Maybe difficult to describe in words, but a simple example should suffice.  Package A depends on package B which depends on package C.\r\n```\r\nfoo1 <--bld-- foo2 <--bld-- foo3\r\n```\r\nRunning `spack install foo2` will first check and install `foo3`, which is correct.  At that point, `spack install foo1` should only require `foo2`.  But it does not, it still evaluates `foo3` as a dependency.  This is especially problematic when the transitive dependencies conflict with each other:\r\n\r\n```\r\nfoo1 <--bld-- foo2 <--bld-- foo3 <--bld-- bar@2:\r\n   \\\r\n     <--bld-- bar@:1\r\n```\r\nJust trying to install `foo1` fails because of a `bar` version conflict.  Even though they don't need to be loaded at the same time, they still can't be evaluated together in the same dag.  This is already a known issue.  The workaround up until recently (I don't know exactly when), has been to explicitly install `foo2` which in turn will install `foo3` which uses `bar@2` as a build dependency.  Then when installing `foo1`, the only dependencies needed are `bar@1` and `foo2` since `foo2` is already installed and has no run or link dependencies.  This seems to no longer work and when installing `foo1`, `foo2`, `foo3`, `bar@1`, and `bar@2` all get evaluated, which of course creates a version conflict for `bar`.\r\n\r\n### Steps to reproduce the issue\r\n\r\nThis can be easily seen with the `mesa-glu` package, who's only dependency is `gl`, which is provided by `mesa`.\r\n\r\n```console\r\n$ spack install mesa\r\n...\r\n$ spack install mesa-glu\r\n...\r\n==> cmake is already installed in \r\n...\r\n==> ninja is already installed in \r\n...\r\n==> meson is already installed in \r\n...\r\n==> mesa is already installed in \r\n==> Installing mesa-glu\r\n...\r\n```\r\n\r\nIn this case, `cmake`, `ninja`, and `meson` clearly are not required in any way by the `mesa-glu` autotools package.  They're build-only dependencies several hops down the DAG that shouldn't ever need to be evaluated when installing the top level `mesa-glu` package..",
+    "user": "chuckatkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/11542",
+    "updated_at": "2019-06-19 19:41:21",
+    "created_at": "2019-05-23 20:30:52",
+    "closed_at": "2019-06-12 00:56:41",
+    "state": "closed",
+    "title": "Transitive build-only dependencies of already installed dependencies are not ignored.",
+    "number": 11542,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "dependencies"
+    ],
+    "id": 447859415,
+    "html_url": "https://github.com/spack/spack/issues/11542",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 9
+}

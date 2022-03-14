@@ -1,0 +1,24 @@
+{
+    "body": "Hi\r\n\r\nReferenced at end of #12915 my cascadelake CPU seems to be detected by `spack arch` as skylake_avx512.\r\n\r\n\r\n```\r\n[root@phobos ~]# spack arch\r\nlinux-centos7-skylake_avx512\r\n```\r\n\r\nThe CPU:\r\n\r\n```\r\ndod2014@phobos[~/prepos/spack]$ cat /proc/cpuinfo | head -n 20\r\nprocessor       : 0\r\nvendor_id       : GenuineIntel\r\ncpu family      : 6\r\nmodel           : 85\r\nmodel name      : Intel(R) Xeon(R) Platinum 8260M CPU @ 2.40GHz\r\nstepping        : 7\r\nmicrocode       : 0x5000024\r\ncpu MHz         : 2400.000\r\ncache size      : 36608 KB\r\nphysical id     : 0\r\nsiblings        : 48\r\ncore id         : 0\r\ncpu cores       : 24\r\napicid          : 0\r\ninitial apicid  : 0\r\nfpu             : yes\r\nfpu_exception   : yes\r\ncpuid level     : 22\r\nwp              : yes\r\nflags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch epb cat_l3 cdp_l3 intel_ppin intel_pt ssbd mba ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req pku ospke avx512_vnni md_clear spec_ctrl intel_stibp flush_l1d arch_capabilities\r\n```\r\n\r\nUsing latest code:\r\n\r\n```\r\n[root@phobos centos7]# git log | head\r\ncommit f25a4ab089fc84d88d4bbd2180f1ed0e43c6f096\r\nAuthor: albestro <9337627+albestro@users.noreply.github.com>\r\nDate:   Tue Nov 19 20:49:32 2019 +0100\r\n\r\n    add MAX_CPU_COUNT variant to HPX package (#13769)\r\n    \r\n    * add MAX_CPU_COUNT variant to HPX package\r\n    \r\n    * compatibility with python2\r\n    \r\n```\r\n\r\nDid not change anything in configuration except compilers:\r\n\r\n```\r\n[root@phobos centos7]# git status\r\n# On branch develop\r\n# Untracked files:\r\n#   (use \"git add <file>...\" to include in what will be committed)\r\n#\r\n#       etc/spack/defaults/compilers.yaml\r\nnothing added to commit but untracked files present (use \"git add\" to track)\r\n```\r\n\r\nAs you can see this is cascadelake per avx512_vnni.\r\n\r\nThank you!\r\n",
+    "user": "ifelsefi",
+    "url": "https://api.github.com/repos/spack/spack/issues/13803",
+    "updated_at": "2020-01-02 08:25:31",
+    "created_at": "2019-11-20 13:20:53",
+    "closed_at": "2019-11-21 17:42:23",
+    "state": "closed",
+    "title": "cascadelake detected as skylake_avx512",
+    "number": 13803,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "platform-support",
+        "intel",
+        "microarchitectures"
+    ],
+    "id": 525799573,
+    "html_url": "https://github.com/spack/spack/issues/13803",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,19 @@
+{
+    "body": "@tgamblin @alalazo \n\nThe `ibmisc` package depends on `py-cython`: https://github.com/LLNL/spack/blob/develop/var/spack/repos/builtin/packages/ibmisc/package.py\n\nWhen I run `spack setup` from a \"clean\" environment, `spec['py-cython'].prefix.bin` is not ending up in the `$PATH`.  But if I `spack load py-cython` before running `spack setup`, it DOES work out OK (hence why I didn't catch this problem earlier).  I'm 90% confident that the same behavior would be observed running `spack install` as with `spack setup`.\n\nLooking at the generated module file for `py-cython`, I see that it adds to `$PATH` correctly.\n\nDoes anyone know why this is happening?\n\n(Remember that the `$PATH` from `spconfig.py` is taken directly from the environment that Spack WOULD HAVE used in a regular `spack install`; see `install_setup()` in `lib/spack/spack/package.py`.)\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2085",
+    "updated_at": "2020-09-02 01:07:51",
+    "created_at": "2016-10-23 00:05:20",
+    "closed_at": "2020-09-02 01:07:51",
+    "state": "closed",
+    "title": "spack setup: dependency not ending up in $PATH",
+    "number": 2085,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 184662552,
+    "html_url": "https://github.com/spack/spack/issues/2085",
+    "assignees": [],
+    "comments": 2
+}

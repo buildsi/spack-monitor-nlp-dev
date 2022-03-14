@@ -1,0 +1,20 @@
+{
+    "body": "### Expected Result\r\n\r\nSpack build recipes in a `package.py` might accidentally contain python syntax errors. This happens quickly when dealing with experimental branches or external repositories.\r\n\r\nWhen trying to install such a wrongly formatted package *or even just a package that depends on it* the `spack install` error message should tell the user *which* file contains the syntax error\r\n\r\n### Actual Result\r\n\r\nInstead, `spack install` only returns:\r\n```bash\r\nspack install packageName\r\n==> Error: invalid syntax (package.py, line 42)\r\n```\r\n\r\nNote: this also affects commands such as `spack spec packageName`.\r\n\r\n### Steps to reproduce the issue\r\n\r\nApply the following diff to produce a failing `tar` package:\r\n```diff\r\n--- a/var/spack/repos/builtin/packages/tar/package.py\r\n+++ b/var/spack/repos/builtin/packages/tar/package.py\r\n@@ -38,5 +38,5 @@ class Tar(AutotoolsPackage):\r\n     patch('tar-pgi.patch',    when='@1.29')\r\n     patch('config-pgi.patch', when='@:1.29')\r\n     patch('se-selinux.patch', when='@:1.29')\r\n-    patch('argp-pgi.patch',   when='@:1.29')\r\n+    patch('argp-pgi.patch',   when='@:1.29'\r\n     patch('gnutar-configure-xattrs.patch', when='@1.28')\r\n```\r\n\r\nNow try to install tar:\r\n```console\r\n$ spack install tar\r\n==> Error: invalid syntax (package.py, line 42)\r\n```\r\n\r\nhuh! *which* `package.py` is ment? The one in `builtin`? The one of my second repo?\r\n\r\nIt get's even more complicated when installing a package that *depends* on `tar` but itself has correct syntax:\r\n\r\n```console\r\n$ spack install gettext\r\n==> Error: invalid syntax (package.py, line 42)\r\n```\r\n\r\nNow one would recusively walk through all dependencies to find the failing file.\r\n\r\n### Information on your system\r\n\r\nA standard Debian 9.2 \"stretch\" and spack `develop` as of 77bfda4da6f30f06762d749e0d83854d3a34dc6d .",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/6442",
+    "updated_at": "2017-11-28 21:32:22",
+    "created_at": "2017-11-24 12:53:32",
+    "closed_at": "2017-11-28 21:32:22",
+    "state": "closed",
+    "title": "Package Syntax Error: Error Message",
+    "number": 6442,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "error-messages"
+    ],
+    "id": 276608982,
+    "html_url": "https://github.com/spack/spack/issues/6442",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "@adamjstewart @tgamblin @scheibelp @davydden @alalazo \r\n\r\nSummary\r\n----------\r\n\r\nVirtual packages are a nice idea, but they have produced many problems as currently implemented.  They make concretization slower and more complex, and they also seem to be at the root of a number of concretization bugs that seemingly never get fixed; see #7953.\r\n\r\nI propose that we solve these problems by getting rid of virtual packages as a special case; and instead, implementing their functionality using general-purpose Spack machinery.  This would result in a simpler and more robust system, while solving a bunch of nasty bugs all in one go.\r\n\r\nDetails\r\n-------\r\n\r\nCreate a new subclass of `Package`, which we will call `VirtualPackage`.  Implementations will look like this:\r\n\r\n```\r\nclass Mpi(VirtualPackage):\r\n    variant('provider', default='openmpi', values=('openmpi', 'closedmpi'), multi=False)\r\n\r\n    version(')\r\n    version(')\r\n    version(')\r\n\r\n    depends_on('openmpi@1., when='provider=openmpi and @)\r\n    depends_on('openmpi@1.6.6:1., when='provider=openmpi and @)\r\n    depends_on('openmpi@1.6.6:1.7.5:', when='provider=openmpi and @)\r\n    depends_on('closedmpi', when='provider=closedmpi')\r\n\r\n    def setup_dependent_environment(self, spack_env, run_env, dependent_spec):\r\n        return self.spec[self.spec.provider].setup_dependent_environment(spack_env,run_env, dependent_spec)\r\n```\r\n\r\nSome of this boilerplate could be wrapped up into `VirtualPackage`.\r\n\r\nPros\r\n----\r\n\r\n1. Gets rid of a lot of buggy complexity in core Spack.\r\n1. It's something we can build today while eliminating long-standing bugs that cuase real problems.\r\n1. Collects all information about each virtual package into one place.  Currently it's spread around:\r\n   1. Default provider is buried in a config file somewhere.\r\n   2. Relation between virtual dep version and provider version is distributed among the providers (and buggy).\r\n1. Makes it easy for Spack users to research what providers are available for a particular virtual package.\r\n\r\nCons\r\n------\r\n\r\n1. Introduces a need for a top-level file for each virtual dep.  Providers can no longer \"magically\" provide a virtual dep; they need to register with the virtual dep's package to indicate that relationship.\r\n\r\nDIscussion\r\n-----------\r\n\r\nI believe the pros outweigh the cons, if just to get rid of the bugs.  In any case, any inconvenience introduced by requiring registration would be minor.  There are only a handful of virtual packages, with a fairly static set of providers.  Reuquiring virtual dep providers to register is not a significant burden.  It might even be easier than what we have now; where virtual package info is spread around a few different places.\r\n\r\nQuestions\r\n-----------\r\n\r\nIs is currently possible to have `when` clauses like `when='provider=openmpi and @`?\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7955",
+    "updated_at": "2018-05-02 13:53:39",
+    "created_at": "2018-05-01 14:28:42",
+    "closed_at": "2018-05-02 13:15:09",
+    "state": "closed",
+    "title": "Get Rid of Virtual Dependency as a Special Case",
+    "number": 7955,
+    "milestone": null,
+    "labels": [
+        "proposal"
+    ],
+    "id": 319213282,
+    "html_url": "https://github.com/spack/spack/issues/7955",
+    "assignees": [],
+    "comments": 1
+}

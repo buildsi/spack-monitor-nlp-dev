@@ -1,0 +1,21 @@
+{
+    "body": "This PR addresses #1948 \n\nMatplotlib defines a Python package called `mpl_tools`.  They put some Python code in that package, so it does not qualify as a Python _Implicit Namespace Package_ ( https://www.python.org/dev/peps/pep-0420/ ).\n\nBasemap also defines `mpl_tools`, implicitly as an _extension_ of Matplotlib's `mpl_tools`.  The Python package `mpl_tools` can now be found _twice_ on `$PYTHONPATH`: once in the `py-mathplotlib` Spack package, and once in the `py-basemap` Spack package.  This is not legal Python, except for the special case of an implicit namespace package (which does not apply here).\n\nMaybe some Python interpreter in the past implicitly \"merged\" the two `mpl_tools` directories together, and it is clear that the authors of Matplotlib/Basemap added Jujitsu in those directories to try to make it happen that way (see the `__init__.py` files).  HOWEVER... it does not currently work with MY versions of Matplotlib (1.5.1), Basemap (1.0.7) and Python (3.5.2) on Spack.  On MY system, Python sees only the `basemap` version of `mpl_tools`.  It then throws an exception when Basemap tries to import things that are in the `matplotlib` version of `mpl_tools`.\n\nThe right way to solve this problem is to re-work Basemap and Matplotlib so they don't step on each others' toes that way.  It's not clear how this would be done, since this bad design decision is now baked into the library APIs.  This problem has been an issue for years without getting fixed; see for example (From 2014):   https://github.com/Homebrew/homebrew-python/issues/112\n\nThis PR solves the problem by symlinking all of the `mpl_tools` directory from `matplotlib` into `basemap`.  It's an un-holy mess, and wouldn't scale if there were additional packages that also implicitly \"merge\" into `mpl_tools` (there are none that I know of).  But it solves the problem at hand, it doesn't break the Spack paridigm, and is better than any other solution I could think of; for example, to create a Spack package that installs Matplotlib and Basemap simultaneously into one Spack prefix.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1964",
+    "updated_at": "2016-10-14 23:09:54",
+    "created_at": "2016-10-07 18:57:19",
+    "closed_at": "2016-10-14 23:09:54",
+    "state": "closed",
+    "title": "Workaround for illegal package merging in py-matplotlib/py-basemap",
+    "number": 1964,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "extensions"
+    ],
+    "id": 181743169,
+    "html_url": "https://github.com/spack/spack/pull/1964",
+    "assignees": [],
+    "comments": 5
+}

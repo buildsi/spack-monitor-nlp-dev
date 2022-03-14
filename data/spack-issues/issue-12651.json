@@ -1,0 +1,21 @@
+{
+    "body": "It appears the `test_stage` test fails when run tests filtered on stage.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack test -k stage\r\n$ spack test -k test_stage\r\n```\r\n\r\n### Error Message\r\n\r\nThe test checks to ensure the `mock_stage` directory was used and fails.  In the first case, the first default`config:build_stage` directory is used for staging.  In the second case, the first path in the `config:build_stage` directory of `test/data/config.yaml` is used.\r\n\r\n```console\r\nspec = mpileaks@2.3%gcc@4.5.0~debug~opt+shared+static arch=test-debian6-x86_64 ^callp... arch=test-debian6-x86_64 ^mpich@3.0.4%gcc@4.5.0~debug arch=test-debian6-x86_64\r\n\r\n    def check_stage(spec):\r\n        spec = Spec(spec).concretized()\r\n        for dep in spec.traverse():\r\n            stage_name = \"%s-%s-%s\" % (dep.name, dep.version, dep.dag_hash())\r\n>           assert os.path.isdir(os.path.join(root, stage_name))\r\nE           AssertionError: assert False\r\nE            +  where False = <function isdir at 0x2aaaaab64050>('/tmp/yser/pytest-of-user/pytest-0/mock-stage0/mpileaks-2.3-b4ervofanrurvlocnwdcezqekdphknd6')\r\nE            +    where <function isdir at 0x2aaaaab64050> = <module 'posixpath' from '/usr/tce/packages/python/python-2.7.16/lib/python2.7/posixpath.pyc'>.isdir\r\nE            +      where <module 'posixpath' from '/usr/tce/packages/python/python-2.7.16/lib/python2.7/posixpath.pyc'> = os.path\r\nE            +    and   '/tmp/user/pytest-of-user/pytest-0/mock-stage0/mpileaks-2.3-b4ervofanrurvlocnwdcezqekdphknd6' = <function join at 0x2aaaaab64f50>('/tmp/user/pytest-of-user/pytest-0/mock-stage0', 'mpileaks-2.3-b4ervofanrurvlocnwdcezqekdphknd6')\r\nE            +      where <function join at 0x2aaaaab64f50> = <module 'posixpath' from '/usr/tce/packages/python/python-2.7.16/lib/python2.7/posixpath.pyc'>.join\r\nE            +        where <module 'posixpath' from '/usr/tce/packages/python/python-2.7.16/lib/python2.7/posixpath.pyc'> = os.path\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\nLinux ... SMP Tue May 14 18:38:00 PDT 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\n",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/12651",
+    "updated_at": "2019-10-10 23:50:07",
+    "created_at": "2019-08-29 20:50:08",
+    "closed_at": "2019-10-10 23:50:07",
+    "state": "closed",
+    "title": "tests: test_stage fails when run with `-k`",
+    "number": 12651,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 487169706,
+    "html_url": "https://github.com/spack/spack/issues/12651",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 1
+}

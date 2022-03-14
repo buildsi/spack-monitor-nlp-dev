@@ -1,0 +1,23 @@
+{
+    "body": "The `deprecatedProperties` custom validator now also accept a function to compute a better error message for deprecated properties. This is used to improve the warning message for deprecated properties in \"packages.yaml\" files.\r\n\r\nTo show an example, before this PR:\r\n```console\r\n$ spack spec zlib\r\nInput spec\r\n--------------------------------\r\nzlib\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: the attribute \"paths\" in the \"packages\" section of the configuration has been deprecated [entry=CommentedMap([('openmpi@3.18.1', '/usr')])]\r\n==> Warning: the attribute \"paths\" in the \"packages\" section of the configuration has been deprecated [entry=CommentedMap([('cmake@3.18.1', '/usr'), ('cmake@3.17.1', '/usr')])]\r\n==> Warning: the attribute \"paths\" in the \"packages\" section of the configuration has been deprecated [entry=CommentedMap([('openssl@1.1.1', '/usr')])]\r\nzlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n\r\n```\r\nafter this PR:\r\n```console\r\n$ spack spec zlib\r\nInput spec\r\n--------------------------------\r\nzlib\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: detected deprecated properties in /home/culpo/PycharmProjects/spack/etc/spack/packages.yaml\r\nActivate the debug flag to have more information on the deprecated parts or run:\r\n\r\n        $ spack config update packages\r\n\r\nto update the file to the new format\r\n\r\nzlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n```\r\nif debug is active:\r\n```console\r\n$ spack -d spec zlib\r\n==> [2020-08-14-13:17:18.529982] Imported spec from built-in commands\r\n==> [2020-08-14-13:17:18.531546] Imported spec from built-in commands\r\nInput spec\r\n--------------------------------\r\nzlib\r\n\r\nConcretized\r\n--------------------------------\r\n==> [2020-08-14-13:17:18.533381] Reading config file /home/culpo/PycharmProjects/spack/etc/spack/defaults/config.yaml\r\n==> [2020-08-14-13:17:18.558431] Reading config file /home/culpo/PycharmProjects/spack/etc/spack/defaults/repos.yaml\r\n==> [2020-08-14-13:17:18.630375] Reading config file /home/culpo/PycharmProjects/spack/etc/spack/defaults/packages.yaml\r\n==> [2020-08-14-13:17:18.652729] Reading config file /home/culpo/PycharmProjects/spack/etc/spack/packages.yaml\r\n==> [2020-08-14-13:17:18.656334] OUTDATED CONFIGURATION FILE [file=/home/culpo/PycharmProjects/spack/etc/spack/packages.yaml]\r\n---                                                          paths:\r\n/home/culpo/PycharmProjects/spack/etc/spack/packages.yaml:3    cmake@3.18.1: /usr\r\n\r\n==> [2020-08-14-13:17:18.656445] Warning: detected deprecated properties in /home/culpo/PycharmProjects/spack/etc/spack/packages.yaml\r\nActivate the debug flag to have more information on the deprecated parts or run:\r\n\r\n        $ spack config update packages\r\n\r\nto update the file to the new format\r\n\r\n==> [2020-08-14-13:17:18.657660] Reading config file /home/culpo/.spack/linux/compilers.yaml\r\n==> [2020-08-14-13:17:18.734161] DATABASE LOCK TIMEOUT: 3s\r\n==> [2020-08-14-13:17:18.734257] PACKAGE LOCK TIMEOUT: No timeout\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/18013",
+    "updated_at": "2020-11-18 08:03:05",
+    "created_at": "2020-08-12 10:02:29",
+    "closed_at": "2020-11-18 01:34:29",
+    "state": "closed",
+    "title": "Improve warning message for deprecated attributes in \"packages.yaml\"",
+    "number": 18013,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "error-messages",
+        "user-experience"
+    ],
+    "id": 677563341,
+    "html_url": "https://github.com/spack/spack/pull/18013",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 12
+}

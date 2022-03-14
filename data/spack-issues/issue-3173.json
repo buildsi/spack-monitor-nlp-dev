@@ -1,0 +1,20 @@
+{
+    "body": "Closes #2910.\r\n\r\nPreviously, `spack module` would default to `tcl`. If you added a `modules.yaml` like:\r\n```yaml\r\nmodules:\r\n  enable::\r\n    - lmod\r\n```\r\n`spack module refresh` would crash. Now, `spack module` defaults to whatever is in your `modules.yaml`.\r\n\r\nIf you have multiple modules enabled, it uses the first. This defaults to `tcl` on my computer, but since it's a dict, it might be sorted differently for other users. Perhaps we should set the default `modules.yaml` to enable just `tcl` instead of `tcl` + `dotkit`?\r\n\r\nPersonally, I would like `spack module` to default to all enabled modules, not just the first one. But I'm not sure if that makes sense for all of the `spack module` subcommands. Thoughts? We could allow multiple module types for these commands.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3173",
+    "updated_at": "2017-03-24 22:10:39",
+    "created_at": "2017-02-17 19:02:17",
+    "closed_at": "2017-02-17 21:46:32",
+    "state": "closed",
+    "title": "Set default module type based on modules.yaml",
+    "number": 3173,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "commands"
+    ],
+    "id": 208527653,
+    "html_url": "https://github.com/spack/spack/pull/3173",
+    "assignees": [],
+    "comments": 4
+}

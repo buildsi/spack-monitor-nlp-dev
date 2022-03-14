@@ -1,0 +1,20 @@
+{
+    "body": "[edit: fixed link to @adamjstewart's issue]\r\n\r\nTODO:\r\n\r\n- [ ] Does this have any negative interactions with `spack load`\r\n      (specifically with `spack load -r`)?\r\n\r\n  I don't load modules this way, so I'd appreciate feedback.\r\n\r\n- [ ] Are there tests that I'm breaking (I'm sure the CI tests will\r\n  let me know, publicly...) or that I should add?\r\n\r\n- [ ] Should I add docs somewhere on how to disable this?  If so,\r\n      where?\r\n\r\nSee #8639 for background and historical discussion.\r\n\r\nThis change:\r\n\r\n1. adds lmod to the list of default module systems;\r\n2. specifies that lmod should generate the autoload bits all direct\r\n   dependencies;\r\n3.  uses the lmod `depends_on` functionality instead of\r\n    `isloaded`/`load`; and\r\n4. changes the module system to only consider *run* dependencies.\r\n\r\nWhy (by the numbers)?\r\n\r\n1. Because lmod is at least as useful as environment_modules, building\r\n   the lua modulefiles doesn't require Lmod so there are no additional\r\n   build-time requirements, and there's no harm to having the\r\n   resulting lua files in the tree\r\n\r\n2. So that I can simply `module load py-flake8` and avoid yet another\r\n   embarrassing PR test failure.\r\n\r\n3. So that I can then `module unload py-flake8` and get all of that\r\n   stuff out of my environment, unless it's being used by another\r\n   package.\r\n\r\n4. Because otherwise I end up with every link time dependency crammed\r\n   into my environment.\r\n\r\n   **NOTE:** The length of various search paths and *etc.* are\r\n   limited, so we should do what we can to avoid adding things that\r\n   aren't needed.\r\n\r\n   This begs the question, exactly *when* is *link* time?  At the\r\n   moment it seems to be the union of *build* and *run*; some linking\r\n   happens when packages are *built* and some happens as the program\r\n   is *run*.\r\n\r\n   Spack works hard to set RPATH values when things are built so that\r\n   dynamic linking that happens at *run* time doesn't require\r\n   additional configuration.\r\n\r\n   Packages that can't take advantage of RPATH and/or need to do\r\n   link-ish-smelling things at run time should list those dependencies\r\n   as *run* and arrange to set e.g. LD_LIBRARY_PATH there.\r\n\r\n   Perhaps *link* dependencies don't even really exist, but it'd take\r\n   a very big glass of beer (nod to Arlo Guthrie/Steve Goodman) before\r\n   I'd sit through that argument....\r\n\r\nBut what about:\r\n\r\n- *aspell* -- we're still pretty much stuck using activation to make\r\n  aspell dictionaries available.  It's possible to specify a *single*\r\n  directory via ASPELL_CONF, but that's limiting and \"someone\" would\r\n  have to code up a bit of conflict detection for the modulefiles so\r\n  that they did the right thing.\r\n\r\n- TCL modulefiles -- I'm not a user, but they should work too.  If\r\n  they don't let me know (give me a test case, and a suggested fix)\r\n  and I'll happily include it here.\r\n\r\n- All the things that I haven't thought of?  Don't be shy....\r\n\r\nFixes #8639.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/13776",
+    "updated_at": "2021-02-18 15:59:45",
+    "created_at": "2019-11-18 22:17:22",
+    "closed_at": "2021-02-18 13:46:40",
+    "state": "closed",
+    "title": "Make modules always autoload their direct run dependencies",
+    "number": 13776,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "modules"
+    ],
+    "id": 524652365,
+    "html_url": "https://github.com/spack/spack/pull/13776",
+    "assignees": [],
+    "comments": 6
+}

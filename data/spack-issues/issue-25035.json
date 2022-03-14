@@ -1,0 +1,23 @@
+{
+    "body": "This PR contains several fixes and improvements of the Spack package for `py-pyprecice`. I would need some *feedback* on how to handle the installation when one uses Spack with a pre-installed Python version available on a system.\r\n\r\nThe initial reason for my work was to make `py-pyprecice` usable when Spack uses Python provided by the system (see also https://github.com/precice/python-bindings/issues/86 and https://github.com/precice/python-bindings/issues/87). With the current changes it is possible to install `py-pyprecice@.2.2.0.1:` using the current `develop` of Spack while using the system's preinstalled Python 3 environment.  \r\n\r\nFor older versions, i.e. `py-pyprecice@:2.1.1.2`, it still results in an unusable package when a preinstalled Python is used with Spack. `py-pyprecice` is compiled and installed, but the resulting files seem to be put into a wrong directory. The files end up in `<prefix>/lib/python3.8/site-packages/` while Spack seems to expect it at `<prefix>/lib/python3/dist-packages/`. I am not sure if this is due to the unusual installation procedure of `py-precice@:2.1.1.2` which makes it necessary to overwrite Spack's installation and building flags for the package. Feedback on this would be appreciated.\r\n\r\nI tested this on Ubuntu 20.04 with Python@3.8.10 which was detected by `spack external find`.\r\n\r\n**Changes:**\r\n- Fixing the installation process for the bindings v2.0.0.1. The `setup.py` differed from other versions up to v2.1.1.2. Thus, application of the patch `deactivate-version-check-via-pip.patch` failed. I added an additional patch `setup-v2.0.0.1.patch` that updates the `setup.py` such that `deactivate-version-check-via-pip.patch` can be applied to v2.0.0.1.\r\n- The patch `deactivate-version-check-via-pip.patch` was not applied to v2.1.1.2 in the previous Spack package such that the installation would fail.\r\n- v2.2.0.1 introduced a new installation routine that is much closer to standard Python packages. However, this made the Spack package a bit more complicated. I added a new patch `setup-v2-versioneer.patch`which adapts the `setup.py` which allows to simplify the Spack package again. This change is also reported upstream https://github.com/precice/python-bindings/pull/113\r\n",
+    "user": "ajaust",
+    "url": "https://api.github.com/repos/spack/spack/issues/25035",
+    "updated_at": "2021-08-10 08:29:22",
+    "created_at": "2021-07-22 14:44:26",
+    "closed_at": "2021-07-26 07:55:52",
+    "state": "closed",
+    "title": "Fixes and improvements to py-pyprecice",
+    "number": 25035,
+    "milestone": null,
+    "labels": [
+        "python",
+        "patch",
+        "update-package"
+    ],
+    "id": 950747432,
+    "html_url": "https://github.com/spack/spack/pull/25035",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 1
+}

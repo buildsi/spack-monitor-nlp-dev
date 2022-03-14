@@ -1,0 +1,19 @@
+{
+    "body": "Continuing the discussion from #3975.\r\n\r\nMany packages in Spack require Python as a build dependency. For these packages, we've explicitly add:\r\n```python\r\ndepends_on('python', type='build')\r\n```\r\nto denote this fact, and Spack will install Python before installing the package. For most build dependencies this makes sense, as we can't guarantee whether or not the OS has this package installed, or whether or not it is a new enough version. We can, however, guarantee that Python is installed and is relatively new. Otherwise, the user wouldn't be able to run Spack! So should we really tell Spack to reinstall Python?\r\n\r\n### Pros of the build dependency\r\n\r\nThere are some pros to explicitly declaring a Python dependency. First of all, it offers more freedom. If you want Spack to build a new version of Python and use it, it will. If you want Spack to use your system Python instead, just add it as an external package to your `packages.yaml`. If you are a developer and want to make sure your project can be built with several versions of Python, it makes it easy to test with Spack.\r\n\r\nFor packages that only build with Python 2, we don't really have a choice. Now that Spack works with Python 3, we can't ensure that the first python in `PATH` is Python 2. But for packages that build with both Python 2 and 3, we could theoretically use whatever Python the user is running Spack with.\r\n\r\n### Cons of the build dependency\r\n\r\nMore installations. Need I say more? \ud83d\ude09 \r\n\r\nThe biggest benefit of removing Python build dependencies that I can see is the ability to get around some nasty concretization problems in Spack. For example, it currently isn't possible to install `python+tk` because of the following dependency chain:\r\n```\r\npython+tk -> tk -> libx11 -> libxcb -> python\r\n```\r\nRight now, the concretizer won't allow you to install 2 variants of the same package in a single spec, so `python+tk` essentially depends on `python+tk`, creating a dependency loop. Once #2548 is merged, this won't be a problem anymore. But until then, it's a show stopper for many users (@svenevs).\r\n\r\n@citibeth @tgamblin ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4063",
+    "updated_at": "2019-08-03 18:21:14",
+    "created_at": "2017-05-01 15:13:14",
+    "closed_at": "2019-08-03 18:21:14",
+    "state": "closed",
+    "title": "Should packages have build dependencies on Python?",
+    "number": 4063,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 225452013,
+    "html_url": "https://github.com/spack/spack/issues/4063",
+    "assignees": [],
+    "comments": 9
+}

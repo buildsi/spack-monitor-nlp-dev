@@ -1,0 +1,20 @@
+{
+    "body": "Change the libelf dependency to the virtual elf for two rocm packages.\r\nThis allows other packages (hpctoolkit) to combine rocm and dyninst\r\n(with elfutils) while still being able to build rocm with libelf when\r\nneeded, eg darwin.\r\n\r\n----------\r\n\r\nThe all-spack build (no external packages) for hsa-rocr-dev is\r\ncurrently broken, see #29381.  But there is a simple workaround.\r\nAdd this to hsa-rocr-dev right after the other patches.\r\n\r\n```\r\ndef patch(self):\r\n    with working_dir('src'):\r\n        filter_file('hsakmt 1.0', 'hsakmt 0.1', 'CMakeLists.txt')\r\n```\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/29408",
+    "updated_at": "2022-03-14 14:12:01",
+    "created_at": "2022-03-09 00:17:37",
+    "closed_at": "2022-03-14 10:30:55",
+    "state": "closed",
+    "title": "hsa-rocr-dev, llvm-amdgpu: change dependency libelf to elf",
+    "number": 29408,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1163347845,
+    "html_url": "https://github.com/spack/spack/pull/29408",
+    "assignees": [],
+    "comments": 7
+}

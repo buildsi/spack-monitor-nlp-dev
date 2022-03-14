@@ -1,0 +1,17 @@
+{
+    "body": "Came with commit ed582cef68585b\r\n\r\n    --- a/lib/spack/spack/package.py\r\n    +++ b/lib/spack/spack/package.py\r\n    @@ -1053,6 +1053,10 @@ class PackageBase(object):\r\n             touch(join_path(self.prefix.bin, 'fake'))\r\n             mkdirp(self.prefix.include)\r\n             mkdirp(self.prefix.lib)\r\n    +        library_name = 'lib' + self.name\r\n    +        dso_suffix = 'dylib' if sys.platform == 'darwin' else 'so'\r\n    +        touch(join_path(self.prefix.lib, library_name + dso_suffix))\r\n    +        touch(join_path(self.prefix.lib, library_name + '.a'))\r\n             mkdirp(self.prefix.man1)\r\n\r\n\r\nLooks like a missing '.' in dso_suffix\r\n",
+    "user": "olesenm",
+    "url": "https://api.github.com/repos/spack/spack/issues/3594",
+    "updated_at": "2017-04-30 00:24:14",
+    "created_at": "2017-03-28 22:32:06",
+    "closed_at": "2017-04-30 00:24:14",
+    "state": "closed",
+    "title": "install fake creates libraryso instead of library.so",
+    "number": 3594,
+    "milestone": null,
+    "labels": [],
+    "id": 217712199,
+    "html_url": "https://github.com/spack/spack/issues/3594",
+    "assignees": [],
+    "comments": 1
+}

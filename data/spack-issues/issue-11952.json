@@ -1,0 +1,17 @@
+{
+    "body": "This PR adds additional options used to install GROMACS at CSCS. \r\n* The `subcounters` options add additional statistical information at the end of GROMACS output, which give hint to users on the directions of setting the correct number of MPI ranks, OpenMP threads and PME nodes. This does not add time to the simulations, since these statistics are only computed after the md loop has finished.\r\n* The `own_fftw` options add the possibility of allowing GROMACS to install FFTW. At least on the systems that we have tested at CSCS, this option generates a executable that runs up-to 5% faster when using PME.\r\n* The `omp_max_threads` options allows to change the number of OpenMP threads. By default GROMACS sets it to 64. We have systems with more than that number of cores. The number of OpenMP threads has to be a multiple of 32, in this case, I have given the possibility to choose between `auto` (let GROMACS set it), `64`, `128` and `256`.\r\n* The `static` option adds the CMake option `-DGMX_PREFER_STATIC_LIB=ON` to GROMACS build. This generates static binaries and it is the advised way of compiling on a Cray (http://manual.gromacs.org/documentation/2019.3/install-guide/index.html#building-on-cray). However, some tests on other non-Cray systems have shown that for some input files this option  generates a executable that runs up-to 10% faster.\r\n* The `mdrun_only` options adds the possibility to build/install only the `mdrun` executable.",
+    "user": "victorusu",
+    "url": "https://api.github.com/repos/spack/spack/issues/11952",
+    "updated_at": "2020-07-27 07:00:37",
+    "created_at": "2019-07-08 15:24:41",
+    "closed_at": "2020-07-27 07:00:36",
+    "state": "closed",
+    "title": "Add additional options to GROMACS",
+    "number": 11952,
+    "milestone": null,
+    "labels": [],
+    "id": 465321202,
+    "html_url": "https://github.com/spack/spack/pull/11952",
+    "assignees": [],
+    "comments": 3
+}

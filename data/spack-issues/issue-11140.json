@@ -1,0 +1,20 @@
+{
+    "body": "**Intel MPI 2019.x comes bundled with a version of libfabric in $I_MPI_ROOT/intel64/libfabric/lib. Howver, SPACK does not make use of it.**\r\n\r\n### Rationale\r\n\r\nIntel MPI 2019.x depends on libfabric; Intel installs an appropriate version in $I_MPI_ROOT/intel64/libfabric/lib/. The advantage of Intel's version compared to e.g. the one installed as part of RHEL7 (libfabric-1.6.1-2.el7.x86_64) is that Intel's version works well with different provides and not just expects libpsm_infinipath.so.1\r\n\r\n### Description\r\n\r\nIf Intel's mpivars.sh is sourced with \"-ofi_internal\" the libfabric provided by Intel is added to LD_LIBRARY_PATH / LIBARY_PATH and preferred over the one from the OS.\r\n\r\nIt would be good if SPACK would add an option to the intel-mpi (and intel-parallel-studio) package for versions >=2019 to also allow using Intel's libfabric with its MPI. For that to work, the LD_LIBRARY_PATH not only has to be extended when loading the module but also when using intel-mpi internally as build dependency.\r\n",
+    "user": "tz-rrze",
+    "url": "https://api.github.com/repos/spack/spack/issues/11140",
+    "updated_at": "2020-05-16 15:40:41",
+    "created_at": "2019-04-09 13:32:50",
+    "closed_at": "2020-05-16 15:40:41",
+    "state": "closed",
+    "title": "Using internal libfrabric from Intel MPI 2019.x",
+    "number": 11140,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "intel"
+    ],
+    "id": 430970143,
+    "html_url": "https://github.com/spack/spack/issues/11140",
+    "assignees": [],
+    "comments": 1
+}

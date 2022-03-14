@@ -1,0 +1,19 @@
+{
+    "body": "I'm getting this stack trace when I try and run `bin/spack -vd install hoomd-blue@2.0.3~doc%gcc@4.9.3 arch=cray-CNL-istanbul`\n\n```\n  File \"/autofs/nccs-svm1_home2/wyn/spack/lib/spack/spack/provider_index.py\", line 235, in merge\n    spdict[provided_spec] += opdict[provided_spec]\nTypeError: unsupported operand type(s) for +=: 'set' and 'set'\n```\n\nI'm not 100% sure on what's triggering that since it worked last week, but when I cloned a fresh copy of spack, it caused this issue. Since it's an operation on two sets, I tried to change the line to `spdict[provided_spec] = spdict[provided_spec].union(opdict[provided_spec])` And it seems to not fail out at that point anymore. Could someone more familiar with spack's internals make sure that was the correct fix?\n",
+    "user": "JRWynneIII",
+    "url": "https://api.github.com/repos/spack/spack/issues/1912",
+    "updated_at": "2016-10-11 08:30:11",
+    "created_at": "2016-10-05 17:20:23",
+    "closed_at": "2016-10-11 08:30:11",
+    "state": "closed",
+    "title": "TypeError when trying to install hoomd-blue",
+    "number": 1912,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 181215131,
+    "html_url": "https://github.com/spack/spack/issues/1912",
+    "assignees": [],
+    "comments": 0
+}

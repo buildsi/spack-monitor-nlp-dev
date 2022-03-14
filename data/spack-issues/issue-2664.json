@@ -1,0 +1,23 @@
+{
+    "body": "This PR addresses a serious case of \"bitrot\" in `spack setup`: changes accumulated in `cmd/install.py` and ended up breaking `cmd/setup.py`.  `spack setup` was simply unusable.  The main thrust of this PR is to make `spack setup` work again.\r\n\r\nBenefits\r\n---------\r\n\r\n1. So far, this PR seems to fix #2657 and #2662, and possibly other related issues of unstable hashes in the past.\r\n2. More consistent UI\r\n3. Addresses #2661 (duplicate of #2149).\r\n4. Should not change behavior outside of `spack setup`.\r\n5. Faster: avoid concretizing twice.\r\n\r\nChanges\r\n----------\r\n\r\n1. Previously, `spack setup` called `spack install` twice, by passing it command line arguments.  `spack install` in turn calls `Package.do_install()`.  Now, `spack setup` and `spack install` both call `Package.do_install()` directly.\r\n\r\n2. Previously, a call to `spack setup` would concretize three times.  By not calling `spack install`, `spack setup` now ony concretizes once.  This is not just for efficiency, but also correctness.  **I suspect that concretizing is not idempotent; and that concretizing three times was a root cause of the bugs.  This could have something to do with the way concretization results are memoized.**\r\n\r\n3. Relevant parts of `spack install` were factored out into subroutines so that `spack setup` can make use of them.\r\n\r\n4. `spack setup` and `spack install` now take the same command line arguments.  All arguments were determined to make sense for `spack setup`.\r\n\r\n5. A new '-I' option was added that prints out the fully concretized spec before installing.  If users want a more customized printout, they should use `spack spec`.\r\n\r\n6. A context manager is now used to set up / tear down logging.  This ensures that the logging tear-down will always be done, even in the face of a `sys.exit(1)` or `tty.die()`.\r\n\r\nTo Do\r\n------\r\n\r\n- [ ] Like `spack setup`, `spack diy` also derives from `spack install`.  It should also be refactored to match `spack setup` and `spack install`.\r\n- [ ] @alalazo You re-did this code most recently; can you please verify that this PR does not change the behavior of `spack install`?\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2664",
+    "updated_at": "2017-11-12 00:38:34",
+    "created_at": "2016-12-22 05:12:27",
+    "closed_at": "2017-08-15 10:34:12",
+    "state": "closed",
+    "title": "`spack setup`: Fix Bugs + Multi-setup",
+    "number": 2664,
+    "milestone": "v0.11.0",
+    "labels": [
+        "bug",
+        "feature",
+        "ready",
+        "concretization",
+        "hashes"
+    ],
+    "id": 197096096,
+    "html_url": "https://github.com/spack/spack/pull/2664",
+    "assignees": [],
+    "comments": 32
+}

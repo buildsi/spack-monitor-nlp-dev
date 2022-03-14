@@ -1,0 +1,17 @@
+{
+    "body": "The template created with `spack create -t python` in `PythonPackage`'s contains this suggestion to overwrite the `build_args` method:\r\n\r\n```\r\ndef build_args(self):\r\n    ...\r\n```\r\n\r\nHowever, when overwriting this method the installation fails with this error:\r\n\r\n```\r\n==> Error: TypeError: build_args() takes exactly 1 argument (3 given)\r\n/my/path/slc6/spack/lib/spack/spack/build_systems/python.py:125, in build:\r\n     123      def build(self, spec, prefix):\r\n     124          \"\"\"Build everything needed to install.\"\"\"\r\n  >> 125          args = self.build_args(spec, prefix)\r\n     126\r\n     127          self.setup_py('build', *args)\r\n```\r\n\r\nThe overwritten method by default only passes `self` as argument whereas the internal call of the method in `build` passes three arguments (`self, spec, prefix`). The user may not know this detail.",
+    "user": "JavierCVilla",
+    "url": "https://api.github.com/repos/spack/spack/issues/3200",
+    "updated_at": "2017-02-21 14:25:40",
+    "created_at": "2017-02-21 08:21:48",
+    "closed_at": "2017-02-21 14:04:33",
+    "state": "closed",
+    "title": "Fixing issue when overwriting build_args in PythonPackage",
+    "number": 3200,
+    "milestone": null,
+    "labels": [],
+    "id": 209071937,
+    "html_url": "https://github.com/spack/spack/pull/3200",
+    "assignees": [],
+    "comments": 1
+}

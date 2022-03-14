@@ -1,0 +1,20 @@
+{
+    "body": "I addressed this problem getting a `-lcuda_runtime not found` error when linking with umpire (using CMake).\r\n\r\nAfter investigating the problem, I discovered that `cuda_runtime` is a CMake target of BLT acting as a sort of \"placeholder\" for the cuda libraries (it is not the only one). Going on in this investigation, I found out that starting from `blt@0.4.0` the management of these targets has changed.\r\n\r\nhttps://github.com/spack/spack/blob/06c8fdafd4f139d8e92d1c9a06e3762b8329ed7e/var/spack/repos/builtin/packages/blt/package.py#L21-L24\r\n\r\nAnd it has to be managed as reported in the [documentation](https://llnl-blt.readthedocs.io/en/develop/tutorial/exporting_targets.html) cited in the comment.\r\n\r\nThen, I realized that on umpire `develop` branch it has been solved by the PR https://github.com/LLNL/Umpire/pull/541, but the current production release v5.0.1 does not have it.\r\n\r\nFor the above reasons I opted for applying the specific patch from the commit on the develop branch:\r\n- for all versions of umpire up to (included) 5.0.1, because in the next release the fix should be in,\r\n- but just for version of umpire depending on blt starting from version 0.4.0\r\n\r\nI don't know have knowledge about the required mappings between the versions of blt and umpire, so I look forward for comments from the maintainers.",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/25484",
+    "updated_at": "2021-09-08 15:07:38",
+    "created_at": "2021-08-18 16:33:33",
+    "closed_at": "2021-09-08 15:07:38",
+    "state": "closed",
+    "title": "umpire: patching not exported cmake targets from blt",
+    "number": 25484,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "update-package"
+    ],
+    "id": 973859997,
+    "html_url": "https://github.com/spack/spack/pull/25484",
+    "assignees": [],
+    "comments": 8
+}

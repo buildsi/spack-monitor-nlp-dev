@@ -1,0 +1,21 @@
+{
+    "body": "The mock package when-directives-true should fail to concretize on a conflict, however it does not under the new concretizer:\r\nthe output asp was missing any version_satisfies() rules.\r\n\r\n\r\nbefore:\r\n```shell\r\n[aweits@localhost spack]$ spack -m solve when-directives-true\r\n==> Best of 0 answers.\r\n==> Optimization: [0, 0, 1, 0, -2, 0]\r\nwhen-directives-true@1.0%gcc@9.3.0 patches=abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234 arch=linux-centos8-skylake_avx512\r\n    ^b@1.0%gcc@9.3.0 arch=linux-centos8-skylake_avx512\r\n    ^extendee@1.0%gcc@9.3.0 arch=linux-centos8-skylake_avx512\r\n```\r\n\r\nafter:\r\n```\r\n[aweits@localhost spack]$ spack -m solve when-directives-true\r\n==> The following constraints are unsatisfiable:\r\n  :- node(\"when-directives-true\"),version_satisfies(\"when-directives-true\",\"1.0\"),not external(\"when-directives-true\").\r\n  root(\"when-directives-true\")\r\n==> Error: Unsatisfiable spec.\r\n```\r\n\r\nAdded a test to concretize everything in the mock repo.",
+    "user": "aweits",
+    "url": "https://api.github.com/repos/spack/spack/issues/20128",
+    "updated_at": "2020-12-02 08:54:05",
+    "created_at": "2020-11-26 21:34:39",
+    "closed_at": "2020-12-02 08:53:53",
+    "state": "closed",
+    "title": "concretizer: don't optimize emitting version_satisfies()",
+    "number": 20128,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 751835461,
+    "html_url": "https://github.com/spack/spack/pull/20128",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

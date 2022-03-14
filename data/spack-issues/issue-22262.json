@@ -1,0 +1,22 @@
+{
+    "body": "Since h5py v3, offline installations have not worked. This is because of how h5py developers changed the structure of setup.py (https://github.com/h5py/h5py/blob/3.2.1/setup.py). If you look carefully, the SETUP_REQUIRES is using very strict version dependencies for numpy that are allowed to be different than the RUN_REQUIRES. This causes a problem in Spack because it expects them to be the same version. So there are two options: use the strict versions for setup requires for runtime deps as well, or patch h5py's setup.py to loosen the == restriction for setup_requires. I chose to do the latter because h5py built fine. I will work with h5py developers separately to understand why they went that route, but I wanted to get something into Spack that works for offline installations. If one looks at the Spack build output, if the following warning appears, you know that offline installation wont work:\r\n\r\n```\r\nWARNING: The pip package is not available, falling back to EasyInstall for handling setup_requires/test_requires; this is deprecated and will be removed in a future version.\r\n```\r\n\r\nIn addition to supporting offline installation, additional fixes were made:\r\n\r\n- the python dependency listed in py-cached-property did not have a ^\r\n- Cython version deps didn't match setup.py\r\n- NumPy version deps didn't match setup.py\r\n- MPI4Py version deps didn't match setup.py",
+    "user": "bryanherman",
+    "url": "https://api.github.com/repos/spack/spack/issues/22262",
+    "updated_at": "2021-07-08 14:07:50",
+    "created_at": "2021-03-12 15:08:59",
+    "closed_at": "2021-03-12 19:44:37",
+    "state": "closed",
+    "title": "py-h5py: offline installation and deps fix",
+    "number": 22262,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "patch",
+        "update-package"
+    ],
+    "id": 830209476,
+    "html_url": "https://github.com/spack/spack/pull/22262",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,23 @@
+{
+    "body": "@adamjstewart @lee218llnl \n\nThe problem is... we now have 200 X11-related packages.  In principle, they can all be set to 'buildable=False' inside `packages.yaml`.   But that's a big task; and one would not want to do that without first knowing that the required packages are actually installed.  I'm proposing an automated way to appraoch that.\n\nThe idea is to add an overridable `find_on_system()` method to `Package`, which generate a spec for a system-installed version of the package (if it is installed): prefix and version number.  The default `find_on_system()` would work as follows:\n1. The package declares some key artifacts it installs (eg: `lib/libX11.so`, `include/X.h`, etc.)  `find_on_system()` would search for each artifact in \"standard\" system locations, with the following caveats:\n   a) How do we get a list of standard system locations?  For fallback, have the user specify it.\n   b) it would have to be smart enough to look in `lib/` vs. `lib64/` versions of each root's `lib/` directory (can we be rid of 32-bit code, please...?)\n   c) What happens if not all artifacts are found?  Don't worry, proceed to step 2 anyway, as long as SOME are found (with a fuzzy idea of the word SOME; see below).\n2. Once it's located the artifcacts on the system, Spack would call (on CentOS) `rpm qf` to determine the RPM file each one is associated with; and it would proceed to parse the package version out of the RPM filename.  If all found artifacts are in the same RPM, then we're great!\n    a) What about `-devel` vs. non-devel packages?  They should be considered the \"same\" for our purposes.\n    b) What if `.so` artifacts are all found but not `.h`?  Then we know the user needs to install the `-devel` packages.\n\nOnce we can figure out what's installed on the system, auto-generating a `packages.yaml` based on it should be pretty easy.\n\n---\n\nSome additional caveats:\n1. This would have to be done a bit differently for different major Linux distros (yum vs. apt-get).\n2. How do you get the list of artifacts declared for each package to begin with?  Adding them manually could be time consuming.  Better to fish them out of a Spack installation of the package.  This could be accomplished by starting with `find . -name '*'` on a bunch of Spack installation trees, and then filtering out the key artifacts we want to test for (stuff ending in `.so`, a few top-level `.h` files, etc).  Artifacts could then be added directly to existing `package.py` files.\n3. I think this would ultimately work and be useful.  But it will take a lot of fiddling to get right.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2116",
+    "updated_at": "2020-05-06 00:37:35",
+    "created_at": "2016-10-25 13:54:50",
+    "closed_at": "2020-05-06 00:37:35",
+    "state": "closed",
+    "title": "Find System-Provided Packages",
+    "number": 2116,
+    "milestone": null,
+    "labels": [
+        "external-packages",
+        "revisit",
+        "proposal"
+    ],
+    "id": 185124544,
+    "html_url": "https://github.com/spack/spack/issues/2116",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

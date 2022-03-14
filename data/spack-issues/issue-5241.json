@@ -1,0 +1,20 @@
+{
+    "body": "This overlaps a number of other issues around dependencies, and maybe the new concretizer will help.\r\n\r\nIt seems that any small change anywhere changes the hash of anything remotely dependent on it, and this causes a cascade of issues:\r\n\r\n - updating a package.py file with a new version of a package changes the hash, now nothing will use the previously-installed version. Installing anything new that directly or indirectly uses this package triggers a rebuild of everything in the dependency tree. We've effectively turned an O(n) problem into an O(n^2) one ...\r\n\r\n - If a \"lower level\" package turns out to have an error, I can't rebuild it without first uninstalling it, which means either forcing the uninstall or uninstalling everything that uses it too. Then when I try to rebuild it, I can't get the original hash (presumably something else has changed somewhere in the system), so I need to uninstall and reinstall everything anyway. But the impact is that a problem in a rarely-used library breaks more important packages that \"depend\" on it\r\n\r\n - there is also a reproducibility problem, 2 days later I can't recreate a build exactly as it was. I'm not sure what changed in the meantime (maybe because of updates to my packages.yaml file? or to other package.py files?). But \"spack spec\" shows a different hash, and an attempt to reinstall a package rebuilds the entire tree\r\n\r\n - another ticket has raised the \"new install of cmake for every package that uses cmake\" - I think this stems from the same underlying issue\r\n\r\nThe effect is that the system seems very fragile, a minor change can break a large installed base of software. I'm a bit stuck for ideas on how to get around it - maybe getting the concretizer to favor already-installed versions will help?\r\n\r\n(edit: fix typo)",
+    "user": "sleak-lbl",
+    "url": "https://api.github.com/repos/spack/spack/issues/5241",
+    "updated_at": "2017-11-23 15:17:36",
+    "created_at": "2017-08-30 02:16:21",
+    "closed_at": "2017-11-23 15:17:36",
+    "state": "closed",
+    "title": "dependency DAG is too fragile",
+    "number": 5241,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "concretization"
+    ],
+    "id": 253857812,
+    "html_url": "https://github.com/spack/spack/issues/5241",
+    "assignees": [],
+    "comments": 7
+}

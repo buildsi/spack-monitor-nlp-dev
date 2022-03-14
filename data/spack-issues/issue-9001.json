@@ -1,0 +1,22 @@
+{
+    "body": "Commit 73c978dd from #8289 breaks existing packages, e.g. openfoam-com, due to the changed, more restrictive interface of `install_tree()` which now only accepts `symlinks `as optional argument but no longer `ignore `as the internally called shutil.copytree() did originally.\r\n```\r\ndiff --git a/lib/spack/llnl/util/filesystem.py b/lib/spack/llnl/util/filesystem.py\r\nindex ace6cfd..40eb6a7 100644\r\n-def install_tree(src, dest, **kwargs):\r\n+def install_tree(src, dest, symlinks=True):\r\n```\r\n\r\ne.g.\r\n```\r\n==> Ran patch() for openfoam-com\r\n==> Building openfoam-com [Package]\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Error: TypeError: install_tree() got an unexpected keyword argument 'ignore'\r\n\r\n.../spack/var/spack/repos/builtin/packages/openfoam-com/package.py:701, in install:\r\n        695    ignored = ['src', 'applications', 'html', 'Guides']\r\n        696    for d in dirs:  \r\n        697        install_tree(\r\n        698                d,\r\n        699                join_path(self.projectdir, d),\r\n        700                ignore=shutil.ignore_patterns(*ignored),\r\n  >>    701                symlinks=True)\r\n        702\r\n        703        etc_dir = join_path(self.projectdir, 'etc')\r\n        704        rewrite_environ_files(  # Adjust etc/bashrc and etc/cshrc\r\n\r\nSee build log for details:\r\n...\r\n```\r\n\r\n@adamjstewart: I'm not sure if the original behavior of `install_tree()` should/could be restored or if changing openfoam-com, and foam-extend, and maybe others is easier ...",
+    "user": "tz-rrze",
+    "url": "https://api.github.com/repos/spack/spack/issues/9001",
+    "updated_at": "2018-08-18 02:09:46",
+    "created_at": "2018-08-16 17:05:42",
+    "closed_at": "2018-08-18 02:08:38",
+    "state": "closed",
+    "title": "changed install_tree() from #8289 breaks at least openfoam-com and foam-extend",
+    "number": 9001,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "utilities"
+    ],
+    "id": 351291454,
+    "html_url": "https://github.com/spack/spack/issues/9001",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

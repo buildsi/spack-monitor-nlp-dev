@@ -1,0 +1,20 @@
+{
+    "body": "Hello,\r\n\r\nI have copied PGI compiler tarball in the mirror : \r\n\r\n```\r\n~/SPACK_HOME/install_home/mirror/pgi/pgilinux-2017-177-x86_64.tar.gz\r\n```\r\nThe actual version of compiler is:\r\n\r\n```\r\nversion('17.7',  '62d86721f92355a6480f4181cdeeb6e0')\r\n```\r\n\r\nWhen I try to install : \r\n\r\n```\r\n$ spack install -v pgi\r\n==> Installing pgi\r\n==> Fetching file://~/SPACK_HOME/install_home/mirror/pgi/pgi-17.7.tar.gz\r\ncurl: (37) Couldn't open file /SPACK_HOME/install_home/mirror/pgi/pgi-17.7.tar.gz\r\n==> Fetching from file://~/SPACK_HOME/install_home/mirror/pgi/pgi-17.7.tar.gz failed.\r\n\r\n\r\n==> Fetching file:///gpfs/bbp.cscs.ch/home/kumbhar-adm/SPACK_HOME/pgilinux-2017-177-x86_64.tar.gz\r\ncurl: (37) Couldn't open file /gpfs/bbp.cscs.ch/home/kumbhar-adm/SPACK_HOME/pgilinux-2017-177-x86_64.tar.gz\r\n==> Fetching from file:///gpfs/bbp.cscs.ch/home/kumbhar-adm/SPACK_HOME/pgilinux-2017-177-x86_64.tar.gz failed.\r\n==> Error: FetchError: All fetchers failed for pgi-17.7-ds56srieuvkapc4hh772owdv3kwn73vk\r\nFetchError: FetchError: All fetchers failed for pgi-17.7-ds56srieuvkapc4hh772owdv3kwn73vk\r\n```\r\n\r\nSo while fetching from mirror Spack use `version` i.e. `17.7`. The `url_for_version ` method returns `tarball` in the current directory with different version scheme : \r\n\r\n```\r\n    def url_for_version(self, version):\r\n        return \"file://{0}/pgilinux-20{1}-{2}-x86_64.tar.gz\".format(\r\n            os.getcwd(), version.up_to(1), version.joined)\r\n```\r\n\r\nI could rename the tarball while copying to the mirror directory but if there is other way to resolve this, it would be great.",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5299",
+    "updated_at": "2017-09-07 18:11:56",
+    "created_at": "2017-09-07 07:20:44",
+    "closed_at": "2017-09-07 18:11:56",
+    "state": "closed",
+    "title": "[PGI Compiler] url_for_version while fetching from mirror ",
+    "number": 5299,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "url-parsing"
+    ],
+    "id": 255839001,
+    "html_url": "https://github.com/spack/spack/issues/5299",
+    "assignees": [],
+    "comments": 3
+}

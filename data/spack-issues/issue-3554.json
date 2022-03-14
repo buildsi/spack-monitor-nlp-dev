@@ -1,0 +1,20 @@
+{
+    "body": "libgd won't build, it fails trying to fetch the library (for all three versions in the package.py).\r\n\r\n```\r\n[hartzelg@lb093login spack]$ spack install libgd\r\n==> Installing libgd\r\n==> libtiff is already installed in /home/hartzelg/tmp/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/libtiff-4.0.6-g7gpsqww4hfkg5tg4nr5izmc2sj76c2z\r\n==> [...]\r\n==> pkg-config is already installed in /home/hartzelg/tmp/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/pkg-config-0.29.1-ld3i7xv7jtacp7nt7k3aimjleiiuhpdg\r\n==> Fetching https://github.com/libgd/libgd/releases/download/2.2.4/lib2.2.4.tar.gz\r\n\r\ncurl: (22) The requested URL returned error: 404 Not Found\r\n==> Fetching from https://github.com/libgd/libgd/releases/download/2.2.4/lib2.2.4.tar.gz failed.\r\n```\r\n\r\nHere's the URL from the package.py:\r\n\r\n```python\r\n    url      = 'https://github.com/libgd/libgd/releases/download/gd-2.2.4/libgd-2.2.4.tar.gz'\r\n```\r\n\r\nNote that the url in `package.py` contains this bit: \r\n\r\n```\r\n.../download/gd-2.2.4/libgd...\r\n```\r\nbut the URL that's being fetched looks like this: \r\n\r\n```\r\n.../download/2.2.4/lib2...\r\n```\r\n\r\nIn particular, the one being fetched is lacking the `gd-` in two places.\r\n\r\nRing any bells?\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3554",
+    "updated_at": "2017-04-03 22:34:17",
+    "created_at": "2017-03-26 00:06:06",
+    "closed_at": "2017-04-03 22:34:17",
+    "state": "closed",
+    "title": "Spack can't fetch libgd, url handling seems to be problematic",
+    "number": 3554,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "url-parsing"
+    ],
+    "id": 217015034,
+    "html_url": "https://github.com/spack/spack/issues/3554",
+    "assignees": [],
+    "comments": 3
+}

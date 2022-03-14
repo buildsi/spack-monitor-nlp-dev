@@ -1,0 +1,19 @@
+{
+    "body": "1) PETSc doesn't depend on boost in any way so you can remove all the boost stuff.\n\n2) Having system specific things in these spack files like\n\nif sys.platform != \"darwin\":\n            compiler_opts.extend([\n                '--with-cpp=cpp',\n                '--with-cxxcpp=cpp',\n            ])\n\nseems undesirable. Is there something we should add to PETSc ./configure so you don't need this stuff? \n\n3) Won't it be better if petsc.py used the PETSc tests to check if the build was successful instead of having its own custom tests?. To run the PETSc tests you first need to set PETSC_DIR to the INSTALLED location (but remain in the build directory) unset PETSC_ARCH and then run \nmake test. We can add something to the output like Failed or Succeeded if you want that.\n\nWhy doesn't each package contain its spack xxxx.py file in its own repository instead of in the central spack repository? Then it would be the PETSc team's responsibility to manage it and keep it up to date.\n",
+    "user": "BarrySmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/1998",
+    "updated_at": "2016-10-27 17:14:48",
+    "created_at": "2016-10-11 19:42:25",
+    "closed_at": "2016-10-11 20:36:46",
+    "state": "closed",
+    "title": "Comments suggestions on petsc.py",
+    "number": 1998,
+    "milestone": null,
+    "labels": [
+        "xSDK"
+    ],
+    "id": 182355367,
+    "html_url": "https://github.com/spack/spack/issues/1998",
+    "assignees": [],
+    "comments": 1
+}

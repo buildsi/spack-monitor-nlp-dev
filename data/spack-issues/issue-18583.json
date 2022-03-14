@@ -1,0 +1,19 @@
+{
+    "body": "Due to 'else:' condition leading to this branch, builds of relion without TBB (i.e., without Intel compiler) will fail to build.\r\n\r\nhttps://github.com/spack/spack/blob/2f4d49374400366e238d3bac80b380d8446f46d9/var/spack/repos/builtin/packages/relion/package.py#L76\r\n\r\nThis should be something along the lines of: \r\n```\r\n    variant('cuda', default=True, description=\"enable compute on gpu\")\r\n    variant('tbb', default=False, description=\"enable compute on cpu with Intel TBB-optimized kernels\")\r\n```\r\n...\r\n```\r\n        elif '+tbb' in self.spec:\r\n            args += ['-DMKLFFT=ON', '-DFORCE_OWN_TBB=ON', '-DALTCPU=ON']\r\n        else:\r\n            args += []\r\n```",
+    "user": "bollig",
+    "url": "https://api.github.com/repos/spack/spack/issues/18583",
+    "updated_at": "2021-01-20 19:54:00",
+    "created_at": "2020-09-09 01:28:18",
+    "closed_at": "2021-01-20 19:54:00",
+    "state": "closed",
+    "title": "relion fails without TBB",
+    "number": 18583,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 696310171,
+    "html_url": "https://github.com/spack/spack/issues/18583",
+    "assignees": [],
+    "comments": 3
+}

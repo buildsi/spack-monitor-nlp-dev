@@ -1,0 +1,23 @@
+{
+    "body": "<!--\r\n*Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran Spack find to list all the installed packages and...\"*\r\n-->\r\n\r\nRunning `spack spec` for a **CMake package** where a **variant is deactivated**, Spack prints a spec that is not reusable:\r\n\r\n### Spack version\r\nTested on develop and 13.2\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec h5cpp~mpi\r\nh5cpp@1.10.4-5%clang@10.0.0-apple build_type=RelWithDebInfo ~mpi arch=darwin-mojave-x86_64\r\n...\r\n$ spack spec h5cpp@1.10.4-5%clang@10.0.0-apple build_type=RelWithDebInfo ~mpi arch=darwin-mojave-x86_64\r\nzsh: no such user or named directory: mpi\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\nThis doesn\u2019t generate an error in Spack itself. \r\n\r\n### Information on your system\r\n\r\nDefault Spack configuration on MacOS, with zsh.\r\n\r\n### Comments\r\n\r\nThe problem is mainly that Spack generates a spec using `~variant` after a whitespace. This seems to happen only with CMake packages, mainly because those have a `build_type` variant that comes first.\r\n\r\nSolutions could be to reorder the variants attache `~variant` to the spec, or use `-` instead of `~`.",
+    "user": "adrienbernede",
+    "url": "https://api.github.com/repos/spack/spack/issues/15362",
+    "updated_at": "2020-05-12 17:23:43",
+    "created_at": "2020-03-05 18:35:51",
+    "closed_at": "2020-05-12 17:23:43",
+    "state": "closed",
+    "title": "spack prints spec that is not reusable ( CMakePackage + ~variant )",
+    "number": 15362,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "variants",
+        "cmake",
+        "triage",
+        "radiuss"
+    ],
+    "id": 576452886,
+    "html_url": "https://github.com/spack/spack/issues/15362",
+    "assignees": [],
+    "comments": 5
+}

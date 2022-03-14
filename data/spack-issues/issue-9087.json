@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #9037.\r\n\r\nHowever, this also uncovers another bug. When I try to build the latest version of numpy, all of the tests pass, but right before the installation finishes, I see the following error message:\r\n```\r\n==> Error: FileNotFoundError: [Errno 2] No such file or directory: '/Users/Adam/spack/var/spack/stage/py-numpy-1.15.1-axflucalynpnnr5camla655764dpyvqz/.pytest_cache/spack-build.out'\r\n\r\n/Users/Adam/spack/lib/spack/spack/package.py:1652, in log:\r\n       1649            # FIXME : this potentially catches too many things...\r\n       1650            pass\r\n       1651\r\n  >>   1652        # Archive the whole stdout + stderr for the package\r\n       1653        install(self.log_path, log_install_path)\r\n       1654        # Archive the environment used for the build\r\n       1655        install(self.env_path, env_install_path)\r\n```\r\nThe correct `spack-build.out` is in `numpy-1.15.1`, not `.pytest_cache`. Does anyone have any idea why the `log_path` is being overwritten? This doesn't happen if I install without `--test=root`.\r\n\r\nP.S. I could've sworn I fixed the error message off-by-one line number bug.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/9087",
+    "updated_at": "2018-08-25 19:12:50",
+    "created_at": "2018-08-24 04:32:43",
+    "closed_at": "2018-08-25 19:12:47",
+    "state": "closed",
+    "title": "Update to latest version of pytest and dependencies",
+    "number": 9087,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "python",
+        "tests"
+    ],
+    "id": 353641269,
+    "html_url": "https://github.com/spack/spack/pull/9087",
+    "assignees": [],
+    "comments": 3
+}

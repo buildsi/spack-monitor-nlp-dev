@@ -1,0 +1,19 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/10141\r\n\r\nAs noted in https://github.com/spack/spack/issues/10141, when installing a spec that was stored in a yaml file using the `spack install -f` option, the install was no longer taking place. This has been broken since https://github.com/spack/spack/commit/87aec4134daba7dee43c958151b45ca72c02e617, which overlooked that specs read from files didn't have abstract specs.\r\n\r\nThis treats the spec initially read from the file as the abstract spec. Note if a user concretizes and writes a spec using logic like:\r\n\r\n```\r\n>>> s = Spec('openmpi')\r\n>>> s.concretize()\r\n>>> open('openmpi.yaml', 'w').write(s.to_yaml(all_deps=True))\r\n```\r\n\r\n(i.e. in the `spack-python` shell)\r\n\r\nThat the spec initially read from this file will be the concrete spec (e.g. it will not simply be `openmpi`).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/10276",
+    "updated_at": "2019-01-08 04:40:36",
+    "created_at": "2019-01-08 02:48:29",
+    "closed_at": "2019-01-08 04:40:35",
+    "state": "closed",
+    "title": "Infer abstract spec for file-based installs",
+    "number": 10276,
+    "milestone": null,
+    "labels": [
+        "specs"
+    ],
+    "id": 396729266,
+    "html_url": "https://github.com/spack/spack/pull/10276",
+    "assignees": [],
+    "comments": 0
+}

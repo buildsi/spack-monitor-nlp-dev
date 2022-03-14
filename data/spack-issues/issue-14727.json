@@ -1,0 +1,19 @@
+{
+    "body": "When compiling trilinos@master with default spack options I get the following error during configuration:\r\n\r\n```\r\n1 error found in build log:\r\n     -- Tpetra: Tpetra_INST_INT_UNSIGNED is disabled by default.\r\n     -- Tpetra: Tpetra_INST_INT_UNSIGNED_LONG is disabled by default.\r\n     -- Tpetra: Tpetra_INST_INT_INT is disabled by default.\r\n     -- Tpetra: Tpetra_INST_INT_LONG is disabled by default.\r\n     --\r\n     -- Tpetra: Validate global ordinal setting ...\r\n   CMake Error at packages/tpetra/CMakeLists.txt:1153 (MESSAGE):\r\n     Tpetra requires only one global ordinal, but more than one are set:\r\n     {long;long long}.\r\n       \r\n    -- Configuring incomplete, errors occurred!\r\n```\r\n\r\nCommenting out lines 726 and 728 in the package.py fix the issue for me (leaving -DTpetra_INST_INT_LONG:BOOL and -DTpetra_INST_INT_LONG_LONG:BOOL at default values). \r\n\r\nI don't know what the default value should be, but I guess at least it should compile :)",
+    "user": "mathsen",
+    "url": "https://api.github.com/repos/spack/spack/issues/14727",
+    "updated_at": "2020-02-03 15:32:36",
+    "created_at": "2020-02-03 12:54:27",
+    "closed_at": "2020-02-03 15:31:26",
+    "state": "closed",
+    "title": "Installation issue Trilinos doesn't compile ",
+    "number": 14727,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 559065053,
+    "html_url": "https://github.com/spack/spack/issues/14727",
+    "assignees": [],
+    "comments": 1
+}

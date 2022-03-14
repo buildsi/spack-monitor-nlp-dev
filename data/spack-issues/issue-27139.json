@@ -1,0 +1,21 @@
+{
+    "body": "After #26608 I got a report about missing rpaths when building a downstream package independently using a spack-installed toolchain (@tmdelellis). This occurred because the spack-installed libraries were being linked into the downstream app, but the rpaths were not being manually added. Prior to #26608 autotools-installed libs would retain their hard-coded path and would thus propagate their link information into the downstream library on mac.\r\n\r\nWe could solve this problem *if* the mac linker (ld) respected `LD_RUN_PATH` like it does on GNU systems, i.e. adding `rpath` entries to each item in the environment variable. However on mac we would have to manually add rpaths either using spack's compiler wrapper scripts or manually (e.g. using `CMAKE_BUILD_RPATH` and pointing to the libraries of all the autotools-installed spack libraries).\r\n\r\nThe easier and safer thing to do for now is to simply stop changing the dylib IDs.\r\n",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/27139",
+    "updated_at": "2021-12-20 12:13:46",
+    "created_at": "2021-11-02 00:56:58",
+    "closed_at": "2021-11-02 16:04:30",
+    "state": "closed",
+    "title": "relocate: do not change library id to use rpaths on package install",
+    "number": 27139,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "rpath",
+        "tests"
+    ],
+    "id": 1041782968,
+    "html_url": "https://github.com/spack/spack/pull/27139",
+    "assignees": [],
+    "comments": 5
+}

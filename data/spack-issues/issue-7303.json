@@ -1,0 +1,17 @@
+{
+    "body": "For a long time, when Exodus is built on netCDF, the netCDF header file needed to be patched to adjust ``NC_MAX_VARS`` and ``NC_MAX_DIMS``. Some verbiage in newer ``netcdf.h`` files suggests this is no longer necessary.\r\n\r\n```\r\nMaximum for classic library.\r\n \r\nIn the classic netCDF model there are maximum values for the number of\r\ndimensions in the file (\\ref NC_MAX_DIMS), the number of global or per\r\nvariable attributes (\\ref NC_MAX_ATTRS), the number of variables in\r\nthe file (\\ref NC_MAX_VARS), and the length of a name (\\ref\r\nNC_MAX_NAME).\r\n \r\nThese maximums are enforced by the interface, to facilitate writing\r\napplications and utilities.  However, nothing is statically allocated\r\nto these sizes internally.\r\n \r\nThese maximums are not used for netCDF-4/HDF5 files unless they were\r\ncreated with the ::NC_CLASSIC_MODEL flag.\r\n \r\nAs a rule, NC_MAX_VAR_DIMS <= NC_MAX_DIMS.\r\n \r\nNOTE: The NC_MAX_DIMS, NC_MAX_ATTRS, and NC_MAX_VARS limits\r\n      are *not* enforced after version 4.5.0\r\n*/\r\n/**@{*/\r\n#define NC_MAX_DIMS     1024 /* not enforced after 4.5.0 */\r\n#define NC_MAX_ATTRS    8192 /* not enforced after 4.5.0 */\r\n#define NC_MAX_VARS     8192 /* not enforced after 4.5.0 */\r\n#define NC_MAX_NAME     256\r\n#define NC_MAX_VAR_DIMS 1024 /**< max per variable dimensions */\r\n/**@}*/\r\n```\r\n\r\nI am capturing this info here so I don't forget. If someone else gets to before me, that would be welcome.",
+    "user": "markcmiller86",
+    "url": "https://api.github.com/repos/spack/spack/issues/7303",
+    "updated_at": "2020-04-23 17:48:19",
+    "created_at": "2018-02-21 17:25:51",
+    "closed_at": "2020-04-23 17:48:19",
+    "state": "closed",
+    "title": "Exodus' NC_MAX_VARS/NC_MAX_DIMS patch not necessary on newer netCDFs",
+    "number": 7303,
+    "milestone": null,
+    "labels": [],
+    "id": 299058889,
+    "html_url": "https://github.com/spack/spack/issues/7303",
+    "assignees": [],
+    "comments": 1
+}

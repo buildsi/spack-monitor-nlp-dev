@@ -1,0 +1,19 @@
+{
+    "body": "I've encountered something worrisome in the TCL installation that ultimately leads to a build failure in Tk.  This is using a freshly installed `clang@6.0.0` via the `llvm` package.\r\n\r\n### Expected Result\r\n\r\nTk can build via Clang xD\r\n\r\n### Actual Result\r\n\r\nThe actual installation fails because it cannot `#include <tcl.h>`.\r\n\r\nI think the underlying problem here is the fact that the build stage ends up in `tclConfig.sh` (???)  When Tk builds using `--with-tk`, it uses `lib/tclConfig.sh` to set itself up.  The catastrophe is that this is **correct**:\r\n\r\n```bash\r\nTCL_INCLUDE_SPEC='-I/opt/spack/opt/spack/linux-fedora25-x86_64/clang-6.0.0/tcl-8.6.6-usupny2noagjhnoblwexhhsrm5gfcawr/include'\r\n```\r\n\r\nThe only thing I can think of here is that the build stage seems to have ended up in this file as well.\r\n\r\n```console\r\nsven:/opt/spack/opt/spack/linux-fedora25-x86_64/clang-6.0.0/tcl-8.6.6-usupny2noagjhnoblwexhhsrm5gfcawr/lib> grep tmp tclConfig.sh \r\ntclConfig.sh:103:TCL_BUILD_LIB_SPEC='-L/tmp/sven/spack-stage/spack-stage-zxVrqe/tcl8.6.6/unix -ltcl8.6'\r\ntclConfig.sh:138:TCL_SRC_DIR='/tmp/sven/spack-stage/spack-stage-zxVrqe/tcl8.6.6'\r\ntclConfig.sh:156:TCL_BUILD_STUB_LIB_SPEC='-L/tmp/sven/spack-stage/spack-stage-zxVrqe/tcl8.6.6/unix -ltclstub8.6'\r\ntclConfig.sh:163:TCL_BUILD_STUB_LIB_PATH='/tmp/sven/spack-stage/spack-stage-zxVrqe/tcl8.6.6/unix/libtclstub8.6.a'\r\n```\r\n\r\nStranger, though, is it does nearly the same thing with my `gcc@6.4.1`, but Tk can install without issue.  So it's possible my `clang` compiler module is suspect, but given that CMake and friends are able to build without issue, I find that less likely.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install tk %clang@6.0.0\r\n```\r\n\r\nAnybody have any ideas?  I'm gonna start on a more serious debug tomorrow, but I don't quite know how to approach this issue -- the same \"faulty\" (with stage dir) is kosher with GCC but not Clang?",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/7620",
+    "updated_at": "2018-04-03 14:03:26",
+    "created_at": "2018-03-28 07:10:06",
+    "closed_at": "2018-04-03 14:03:26",
+    "state": "closed",
+    "title": "Issues with Tk / TCL %clang",
+    "number": 7620,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 309245902,
+    "html_url": "https://github.com/spack/spack/issues/7620",
+    "assignees": [],
+    "comments": 1
+}

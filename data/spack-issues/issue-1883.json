@@ -1,0 +1,21 @@
+{
+    "body": "This PR includes the following changes:\n1. Add packages for all of flake8's dependencies\n   - was previously downloading from PyPi\n2. Rename `py-pep8` to `py-pycodestyle`\n   - pep8 module was renamed to pycodestyle [at Guido's request](https://github.com/PyCQA/pycodestyle/issues/466)\n3. Add latest version of `py-flake8`\n4. Switch flake8 download to GitHub \n   - PyPi URL no longer extrapolates\n5. Switch deptype for setuptools to nolink, add checks\n\nThe last change is the most important here. `py-flake8` (as well as `py-pyflakes` and `py-pycodestyle`) actually depend on `py-setuptools` at runtime. Otherwise, you get error messages like:\n\n```\nTraceback (most recent call last):\n  File: \"/usr/bin/flake8\", line 5, in <module>\n    from pkg_resources import load_entry_point\nImportError: No module named pkg_resources\n```\n\nNow that the deptype is correct, you can't activate `py-flake8` without also activating `py-setuptools`. Unfortunately, this doesn't help people who don't activate their Python packages. I added checks to `check_dependencies` to make sure setuptools is available before running `run-flake8-tests`. Let me know if you can think of a better way to do this.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1883",
+    "updated_at": "2016-10-05 17:00:32",
+    "created_at": "2016-09-30 19:46:59",
+    "closed_at": "2016-10-05 17:00:32",
+    "state": "closed",
+    "title": "Add missing dependencies for Flake8",
+    "number": 1883,
+    "milestone": null,
+    "labels": [
+        "new-package",
+        "python",
+        "dependencies"
+    ],
+    "id": 180387342,
+    "html_url": "https://github.com/spack/spack/pull/1883",
+    "assignees": [],
+    "comments": 3
+}

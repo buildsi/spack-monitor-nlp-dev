@@ -1,0 +1,19 @@
+{
+    "body": "### Expected Result\r\n\r\n`SPACK_SHELL=bash`, etc\r\n\r\n### Actual Result\r\n\r\n`SPACK_SHELL=<name of script in which it is running>`\r\n\r\n### Steps to reproduce the issue\r\n\r\nRun `setup-env.sh` in a script after using `spack bootstrap`.\r\n\r\n```\r\n[user@machine ~]$ cat script.sh \r\n#!/bin/bash\r\nexport SPACK_ROOT=${HOME}/spack\r\nsource ${SPACK_ROOT}/share/spack/setup-env.sh\r\necho $SPACK_SHELL\r\n[user@machine ~]$ ./script.sh \r\nscript.sh\r\n```\r\n\r\n### Information on your system\r\n\r\nCentos 7. Can't seem to recreate this problem on OSX.\r\n\r\n### Other Notes\r\n\r\nThe code which sets `SPACK_SHELL` is as such:\r\n```\r\nfunction _spack_determine_shell() {\r\n        ps -p $$ | tail -n 1 | awk '{print $4}' | sed 's/^-//' | xargs basename\r\n}\r\nexport SPACK_SHELL=$(_spack_determine_shell)\r\n```\r\n\r\nMaybe there is good reason to do it that way instead of extracting it out of `$SHELL`, but I think it might need a more robust function to resolve the current shell so it works within a script.\r\n\r\nEdit: `export SPACK_SHELL=$(basename $SHELL)` maybe?",
+    "user": "jrood-nrel",
+    "url": "https://api.github.com/repos/spack/spack/issues/7441",
+    "updated_at": "2019-09-24 04:31:39",
+    "created_at": "2018-03-09 18:05:50",
+    "closed_at": "2019-09-24 04:31:39",
+    "state": "closed",
+    "title": "SPACK_SHELL not being set to actual shell when using spack bootstrap",
+    "number": 7441,
+    "milestone": null,
+    "labels": [
+        "shell-support"
+    ],
+    "id": 303929895,
+    "html_url": "https://github.com/spack/spack/issues/7441",
+    "assignees": [],
+    "comments": 4
+}

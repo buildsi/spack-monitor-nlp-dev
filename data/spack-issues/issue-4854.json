@@ -1,0 +1,17 @@
+{
+    "body": "This is a resubmit of previous binary_packages branch #1013 and includes work started in #445\r\n\r\nA build cache is a tarball of the install directory of a spack installed package.\r\n\r\nspack buildcache create <>\r\n* saves the install path, a list of binary files and a list of text files in install_directory/.spack/binary_distribution\r\n* creates a build_cache directory\r\n* creates a tarball of the package install directory\r\n* signs the tarball using gpg\r\n* creates \".spack\" file with signature and install directory tarball\r\n* puts a renamed copy of \".spec\" file in build_cache direcory\r\n* puts \".spack\" in a subdirectory of build_cache named by platform then compiler\r\n* recurses all link and run dependencies of package creating build caches for them\r\n* optinally make all rpaths, ids, and deps relative if they are in the spack install tree before creating tarball of install directory\r\n\r\noptions:\r\n\r\n-d : directory to create build_cache direcory in, default \".\"\r\n-f : overwrite \".spack\" in build_cache if it exists\r\n-r : make paths in binaries relative before creating tarball\r\n-key : the kep to sign package with, defaults to first key in spack gpg directory\r\n-ns : don't sign the package with gpg\r\n<> : list of package specs or package hashes with leading /\r\n\r\nspack buildcache list <>\r\n* checks the list of configured mirrors for a build_cache directory\r\n* downloads all \".spec\" files found\r\n* prints a list of spack buildcache install commands using the package hash and the equivalent concretized short spec\r\n\r\noptions:\r\n\r\n<> string to be matched to matched to begining of listed concretized short specs,\r\neg. \"spack buildcache list gcc\" with print only commands to install gcc package(s)\r\n\r\nspack buildcache install <>\r\n\r\n* checks the list of configured mirrors for \".spack\" file matching the explicit hash or the hash generated from the input spec\r\n* downloads \".spack\" file for packages and all link and run dependencies based on \".spec\" file which contains all hashes\r\n* unpacks \".spack\" file and verifies tarball with gpg signature file\r\n* unpacks tarball into new install path\r\n* changes all rpaths ( ids and deps on macOS ) from original install path to new install path in all binaries\r\n* changes all text file replacing original install path with new install path\r\n* calls spack reindex routine to add package to installed package db\r\n* repeats unpack and verify procedure for dependency .spack files\r\n\r\noptions:\r\n\r\n-f : remove install directory if it exists before unpacking tarball\r\n-nv : don't verify package with gpg\r\n<> : list of package specs or package hashes with leading /\r\n\r\nspack buildcache keys\r\n\r\n* checks the list of configured mirrors for \".key\" files in build_cache directory and a prints a list of keys\r\n* optionally adds key to trusted keys\r\n\r\noptions:\r\n\r\n-i : trust the keys downloaded with prompt for each\r\n-y : answer yes to all",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/4854",
+    "updated_at": "2017-11-12 00:48:07",
+    "created_at": "2017-07-21 16:29:32",
+    "closed_at": "2017-08-14 21:32:28",
+    "state": "closed",
+    "title": "Create, install and relocate tarballs of installed packages.",
+    "number": 4854,
+    "milestone": "v0.11.0",
+    "labels": [],
+    "id": 244720670,
+    "html_url": "https://github.com/spack/spack/pull/4854",
+    "assignees": [],
+    "comments": 34
+}

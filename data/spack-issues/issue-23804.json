@@ -1,0 +1,19 @@
+{
+    "body": "We would want to be able to run monitoring, and generate all metadata that can be updated to a monitor server later. This is the goal of this PR, and the work will come in two phases. The first here is to allow saving of a local result with spack monitor, and the second will add a spack monitor command so the user can do spack monitor upload. You would run like:\r\n\r\n```bash\r\n$ spack install --monitor --monitor-save-local zlib\r\n```\r\nAnd then upload later (probably with a little more granularity but the gist is:\r\n\r\n```bash\r\n$ spack monitor upload <some identifier>\r\n```\r\nI'm wondering what the best way is to organize these builds in .spack/reports/monitor. Right now I have based on timestamp, and we will only be able to tell if a result has already been uploaded by providing the server with the same information we use to generate a build id (e.g., look up a build) so arguably the user could just provide some match string of dates to upload, and we would check them all. E.g.,\r\n\r\n```bash\r\n$ spack monitor upload 2021-05-19\r\n```\r\nTo upload all results from today. Here is an example save:\r\n\r\n```\r\n tree /home/vanessa/.spack/reports/monitor/2021-05-19-18-40-58-1621471258/\r\n/home/vanessa/.spack/reports/monitor/2021-05-19-18-40-58-1621471258/\r\n\u251c\u2500\u2500 build-a2f7cad8ba1c7c7242b8eca4700b62b8-phase-autoreconf.json\r\n\u251c\u2500\u2500 build-a2f7cad8ba1c7c7242b8eca4700b62b8-phase-build.json\r\n\u251c\u2500\u2500 build-a2f7cad8ba1c7c7242b8eca4700b62b8-phase-configure.json\r\n\u251c\u2500\u2500 build-a2f7cad8ba1c7c7242b8eca4700b62b8-phase-install.json\r\n\u251c\u2500\u2500 build-a2f7cad8ba1c7c7242b8eca4700b62b8-status.json\r\n\u251c\u2500\u2500 build-c400d10c94e88f8fbd92d0c858d1e0dd-phase-autoreconf.json\r\n\u251c\u2500\u2500 build-c400d10c94e88f8fbd92d0c858d1e0dd-phase-build.json\r\n\u251c\u2500\u2500 build-c400d10c94e88f8fbd92d0c858d1e0dd-phase-configure.json\r\n\u251c\u2500\u2500 build-c400d10c94e88f8fbd92d0c858d1e0dd-phase-install.json\r\n\u251c\u2500\u2500 build-c400d10c94e88f8fbd92d0c858d1e0dd-status.json\r\n\u251c\u2500\u2500 build-metadata-6p56pf7j6bgi36akjsiur53ynst3idun.json\r\n\u251c\u2500\u2500 build-metadata-mgdfbpj36meas7alzf7sgbsuntpid2ob.json\r\n\u2514\u2500\u2500 spec-rpm-4.16.1.2-config.json\r\n```\r\nThe PR also adds a new flag to clean up reports as requested by @tgamblin.\r\n\r\n```bash\r\n$ spack clean --reports\r\n```\r\ncc @alecbcs\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/23804",
+    "updated_at": "2021-05-25 18:29:34",
+    "created_at": "2021-05-20 00:57:37",
+    "closed_at": "2021-05-25 18:29:34",
+    "state": "closed",
+    "title": "Allow for saving local results with spack monitor",
+    "number": 23804,
+    "milestone": null,
+    "labels": [],
+    "id": 896132004,
+    "html_url": "https://github.com/spack/spack/pull/23804",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

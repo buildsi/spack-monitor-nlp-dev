@@ -1,0 +1,19 @@
+{
+    "body": "I'm building `py-scipy` (gcc-5.3.0 environment) on a shared supercomputer login node.  To speed things up, SciPy builds in parallel using `make_jobs` jobs (not sure where the `make_jobs` symbol comes from):\r\n```\r\n        # Build in parallel\r\n        # Known problems with Python 3.5+\r\n        # https://github.com/spack/spack/issues/7927\r\n        # https://github.com/scipy/scipy/issues/7112\r\n        if not spec.satisfies('^python@3.5:'):\r\n            args.extend(['-j', str(make_jobs)])\r\n```\r\n\r\nThis is failing for me because I'm running of threads.  Most likely, the supercomputer admin set a limit on number of threads that's less than the number of processors, to prevent people from hogging the machine.  I couldn't find any thread limit in `ulimit -a`, but I'm willing to be its somewhere on this system.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-scipy ^python@3.5.2\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\nRuntimeError: can't start new thread\r\n```\r\n\r\n### Information on your system\r\n\r\nSuSE11.  Shared supercomputer, probably has resource limits set by the administrator.\r\n\r\n### Proposed Solution (please comment)\r\n\r\nWe don't want to add a variant to change the degree of parallelism of the build, because that has nothing to do with the final result.  Can we find a way for the user to set `make_jobs` when launching Spack?  Or does such a way already exist?\r\n\r\n[py-scipy.txt](https://github.com/spack/spack/files/2871255/py-scipy.txt)\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10627",
+    "updated_at": "2019-03-04 15:10:59",
+    "created_at": "2019-02-15 23:14:24",
+    "closed_at": "2019-03-04 15:10:59",
+    "state": "closed",
+    "title": "py-scipy: Ran out of Threads",
+    "number": 10627,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 410984943,
+    "html_url": "https://github.com/spack/spack/issues/10627",
+    "assignees": [],
+    "comments": 6
+}

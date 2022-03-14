@@ -1,0 +1,25 @@
+{
+    "body": "This another refactor PR that doesn't alter any behavior in Spack.\r\n\r\nCurrently `spack.architecture` has hidden circular dependencies on `spack.platforms` and `spack.operating_systems`. This is because:\r\n-  `spack.architecture` defines the `Platform`, `OperatingSystem` and `Target` base classes \r\n-  `spack.platforms` and `spack.operating_systems` specialize the base classes\r\n-  `spack.architecture` gathers the specialized classes to use them in `Arch` objects\r\n\r\nThese circular dependencies forces us to perform import in this way:\r\n\r\nhttps://github.com/spack/spack/blob/f9314d38b0bec2df16e58312fad0cbb01fad7696/lib/spack/spack/architecture.py#L502-L505\r\n\r\ni.e. we do lazy import by name based on a filesystem inspection since doing an `import` at the top of the file would fail. This PR fixes this issue by moving base classes into the corresponding packages i.e. `Platform` is in `spack.platforms` etc.\r\n\r\nModifications:\r\n- [x] Base classes for platforms and operating systems have been moved to the corresponding package\r\n- [x] `spack.platforms` and `spack.operating_systems` export the names used by other Spack packages\r\n- [x] A `spack.target` module has been created containing the `Target` base class for symmetry with other components\r\n- [x] `spack.architecture` has been simplified and a few unused functions have been removed",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/25873",
+    "updated_at": "2021-09-13 18:20:09",
+    "created_at": "2021-09-09 16:39:57",
+    "closed_at": "2021-09-13 18:04:42",
+    "state": "closed",
+    "title": "Avoid hidden circular dependencies in spack.architecture",
+    "number": 25873,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "documentation",
+        "refactoring",
+        "tests",
+        "update-package",
+        "binary-packages",
+        "architecture"
+    ],
+    "id": 992422552,
+    "html_url": "https://github.com/spack/spack/pull/25873",
+    "assignees": [],
+    "comments": 4
+}

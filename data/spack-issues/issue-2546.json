@@ -1,0 +1,19 @@
+{
+    "body": "I need to build tk+X for as a dependency for R. I can't create a spec to do this that does not produce a CLI error.\r\n\r\n``` bash\r\n$ spack spec R+X\r\nInput spec\r\n--------------------------------\r\nR+X\r\n...\r\nConcretized\r\n--------------------------------\r\n==> Error: Invalid spec: 'cairo@1.14.0%gcc@4.8.5+X'. Package cairo requires variant ~X, but spec asked for +X\r\n```\r\nI also tried this, same result\r\n``` bash\r\n$spack spec R ^tk+X\r\nInput spec\r\n--------------------------------\r\nR\r\n    ^tk+X\r\n...\r\nConcretized\r\n--------------------------------\r\n==> Error: Invalid spec: 'cairo@1.14.0%gcc@4.8.5+X arch=linux-rhel7-x86_64'. Package cairo requires variant ~X, but spec asked for +X\r\n```\r\nThis too\r\n``` bash\r\n$ spack spec R ^tk+X ^cairo~X\r\nInput spec\r\n--------------------------------\r\nR\r\n    ^cairo~X\r\n    ^tk+X\r\n...\r\nConcretized\r\n--------------------------------\r\n==> Error: Invalid spec: 'tk@8.6.5%gcc@4.8.5+X arch=linux-rhel7-x86_64'. Package tk requires variant ~X, but spec asked for +X\r\n```\r\nSpecing cairo+X AND cairo\\~X does not produce errors. I was able to ```spack install``` tk+X, cairo\\~X and cairo+X independently. I'm also able to produce errors like these on Ubuntu with d7e9134.",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/2546",
+    "updated_at": "2017-08-08 01:27:39",
+    "created_at": "2016-12-09 22:33:27",
+    "closed_at": "2017-08-07 23:49:47",
+    "state": "closed",
+    "title": "Spack cannot concretize R specs",
+    "number": 2546,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 194713471,
+    "html_url": "https://github.com/spack/spack/issues/2546",
+    "assignees": [],
+    "comments": 14
+}

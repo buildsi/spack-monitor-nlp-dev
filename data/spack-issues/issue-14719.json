@@ -1,0 +1,22 @@
+{
+    "body": "It took me over 15 minutes of wasted time to try to find what on Earth happened when I wanted to add a build cache on an existing mirror server using the other, most powerful box.\r\n\r\n```\r\ngit clone --depth 1 https://github.com/spack/spack\r\n. spack/share/spack/setup-env.sh \r\nspack bootstrap\r\nspack gpg init\r\nspack gpg create adam adam@mail.com\r\nspack mirror add custom-mirror file://mnt/spack-mirror\r\nspack buildcache create  zlib  #Intention is to write to the /mnt/spack-mirror - the share is mounted rw.\r\n```\r\n\r\nIt turnes out, that the `zlib` got created in the **local** directory hidden in the arbitrary `build_cache` subfolder. \r\n\r\nPlease, consider my experience and modify the `spack buildcache create` option validation :-)\r\n\r\n   *   *   *\r\n  \r\nI use spack `0.13.3-935-0c0aba57` on Ubuntu 18.04.4 64 bit",
+    "user": "adamryczkowski",
+    "url": "https://api.github.com/repos/spack/spack/issues/14719",
+    "updated_at": "2020-02-25 23:49:26",
+    "created_at": "2020-02-02 12:48:40",
+    "closed_at": "2020-02-25 23:49:26",
+    "state": "closed",
+    "title": "Spack should either show the location of the newly created build cache, or throw error when no -d option",
+    "number": 14719,
+    "milestone": null,
+    "labels": [
+        "proposal",
+        "user-experience",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 558691981,
+    "html_url": "https://github.com/spack/spack/issues/14719",
+    "assignees": [],
+    "comments": 14
+}

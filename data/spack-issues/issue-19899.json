@@ -1,0 +1,21 @@
+{
+    "body": "Using:\r\n* `spack@develop`\r\n* commit b08744566d28697db363a87a24671f81528e3dc1\r\n* `Fri Nov 13 22:29:18 2020 +0530`\r\n\r\nChecksum fails for `binutils@2.35.1`\r\n\r\n```\r\n$> spack install binutils@2.35.1\r\n...\r\n==> Installing binutils\r\n==> Fetching https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.bz2\r\n##################################################################################################################################################### 100.0%\r\n==> Error: ChecksumError: sha256 checksum failed for /tmp/root/spack-stage/spack-stage-binutils-2.35.1-va6aevecl3j4nrxixcmfvhfv2zyk45ik/binutils-2.35.1.tar.bz2\r\n    Expected a8dfaae8cbbbc260fc1737a326adca97b5d4f3c95a82f0af1f7455ed1da5e77b but got 320e7a1d0f46fcd9f413f1046e216cbe23bb2bce6deb6c6a63304425e48b1942\r\n\r\n/opt/spack/lib/spack/spack/package.py:1274, in do_fetch:\r\n       1271        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1272        self._fetch_time = time.time() - start_time\r\n       1273\r\n  >>   1274        if checksum and self.version in self.versions:\r\n       1275            self.stage.check()\r\n       1276\r\n       1277        self.stage.cache_local()\r\n```\r\n\r\n```\r\n$> spack checksum binutils@2.35.1\r\n==> Found 1 version of binutils:\r\n\r\n  2.35.1  https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.bz2\r\n\r\n==> Fetching https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.bz2\r\n##################################################################################################################################################### 100.0%\r\n\r\n    version('2.35.1', sha256='320e7a1d0f46fcd9f413f1046e216cbe23bb2bce6deb6c6a63304425e48b1942')\r\n```\r\n\r\n@hainest @michaelkuhn @adamjstewart @scottwittenburg ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/19899",
+    "updated_at": "2020-11-13 18:55:59",
+    "created_at": "2020-11-13 17:45:33",
+    "closed_at": "2020-11-13 18:55:59",
+    "state": "closed",
+    "title": "binutils: checksum fails for 2.35.1",
+    "number": 19899,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "ecp",
+        "e4s"
+    ],
+    "id": 742649402,
+    "html_url": "https://github.com/spack/spack/issues/19899",
+    "assignees": [],
+    "comments": 1
+}

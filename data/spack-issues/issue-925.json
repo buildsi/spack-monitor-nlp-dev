@@ -1,0 +1,17 @@
+{
+    "body": "From a user attempting to run spack on a filesystem without flock:\n\n```\nI started playing around with spack on my mac (I was trying to evaluate it when compared to brew) and I find it beatiful! \n\nI then decided to start using it on our cluster, but I had no luck with the latest version. After cloning spack from github, any time I try installing a package I get this error:\n\n$ spack install dealii\nTraceback (most recent call last):\n  File \"/home/mathlab/spack/bin/spack\", line 176, in <module>\n    main()\n  File \"/home/mathlab/spack/bin/spack\", line 154, in main\n    return_val = command(parser, args)\n  File \"/home/mathlab/spack/lib/spack/spack/cmd/install.py\", line 74, in install\n    with spack.installed_db.write_transaction():\n  File \"/home/mathlab/spack/lib/spack/spack/database.py\", line 598, in __enter__\n    if self._enter() and self._acquire_fn:\n  File \"/home/mathlab/spack/lib/spack/spack/database.py\", line 616, in _enter\n    return self._db.lock.acquire_write(self._timeout)\n  File \"/home/mathlab/spack/lib/spack/llnl/util/lock.py\", line 123, in acquire_write\n    self._lock(fcntl.LOCK_EX, timeout)   # can raise LockError.\n  File \"/home/mathlab/spack/lib/spack/llnl/util/lock.py\", line 64, in _lock\n    fcntl.lockf(self._fd, op | fcntl.LOCK_NB)\nIOError: [Errno 38] Function not implemented\n\n\n```\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/925",
+    "updated_at": "2016-05-10 18:20:20",
+    "created_at": "2016-05-10 09:55:33",
+    "closed_at": "2016-05-10 18:20:20",
+    "state": "closed",
+    "title": "Document required filesystem locking semantics",
+    "number": 925,
+    "milestone": null,
+    "labels": [],
+    "id": 153967430,
+    "html_url": "https://github.com/spack/spack/issues/925",
+    "assignees": [],
+    "comments": 4
+}

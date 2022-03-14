@@ -1,0 +1,19 @@
+{
+    "body": "I am building `mpich @3.3.2` (the latest version) on OS X. This library apparently ships with a version of `hwloc @2.0` included. When I install `mpich`, then its library seems to contain (and make visible to others) the respective `hwloc` symbols. Of course, the `hwloc` include files are not installed.\r\n\r\nThis leads to a conflict if a different version of `hwloc` is installed as well, as (depending on the link order) `mpich`'s `hwloc` symbols are found first. The error I am then seeing is\r\n```\r\nERROR from host Redshift.local process 0\r\n  while executing schedule bin hwloc_startup, routine hwloc::hwloc_version\r\n  in thorn hwloc, file /Users/eschnett/CarpetX/arrangements/ExternalLibraries/hwloc/src/version.c:24:\r\n  -> library version 2.1.0, build-time API version 0x20100, run-time API version 0x20000\r\napplication called MPI_Abort(MPI_COMM_WORLD, 1) - process 0\r\n```\r\n\r\nThis error is generated from a consistency check I implemented for `hwloc`, which compares the version numbers of `hwloc` used to build, and the version found at run time.\r\n\r\nPossible remedies could be:\r\n- Configure `mpich` so that it doesn't export `hwloc` symbols. Maybe they can be renamed at the source level? Or maybe they can be hidden using linker magic?\r\n- Tell `spack` about this, i.e. ensure that `mpich` depends on the same version of `hwloc` that it contains anyway. That would be cheating, but would avoid the error I'm seeing.\r\n- Tell `spack` about this, making it a conflict to use `mpich` and `hwloc` at the same time since they export the same symbols. That's technically correct, but would make `mpich` unusable for me.",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/15302",
+    "updated_at": "2020-06-25 16:27:49",
+    "created_at": "2020-03-03 16:16:45",
+    "closed_at": "2020-06-25 16:27:49",
+    "state": "closed",
+    "title": "mpich exports hwloc symbols",
+    "number": 15302,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 574780685,
+    "html_url": "https://github.com/spack/spack/issues/15302",
+    "assignees": [],
+    "comments": 3
+}

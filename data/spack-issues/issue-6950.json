@@ -1,0 +1,17 @@
+{
+    "body": "I am trying to build various libraries on an older RHEL system. The problem is I can't even get Perl to build. \r\n\r\nI do \r\n\r\n```\r\nspack build perl\r\n```\r\nand I get\r\n\r\n```\r\n./findhdr: line 14: /usr/local/bin/awk: Permission denied\r\n<stdarg.h> NOT found\r\n./findhdr: line 14: /usr/local/bin/awk: Permission denied\r\n<varargs.h> NOT found, but that's ok (I hope).\r\n*** WHOA THERE!!! ***\r\nYour C compiler \"cc\" doesn't seem to support stdarg or varargs!\r\n I'm giving up; maybe you can try again with a different compiler?\r\n```\r\nThis is on  RHEL, 2.6.32-696.el6.x86_64 with gcc 4.4.7.\r\n\r\nSo, it seems awk is a problem. But its only /usr/local/bin/awk that is a problem. I tried to do the following in compilers.yaml\r\n\r\n```\r\nenvironment:\r\n  set:\r\n     awk : /usr/bin/awk\r\n```\r\n\r\nwhich doesn't fix the issue since the problem is in the Configure stage. So how do I tell it to use this path for awk during the configure stage. \r\n\r\n",
+    "user": "vikramsg",
+    "url": "https://api.github.com/repos/spack/spack/issues/6950",
+    "updated_at": "2018-01-17 11:24:23",
+    "created_at": "2018-01-16 17:12:17",
+    "closed_at": "2018-01-17 11:24:22",
+    "state": "closed",
+    "title": "Installing Perl on an older system",
+    "number": 6950,
+    "milestone": null,
+    "labels": [],
+    "id": 288986073,
+    "html_url": "https://github.com/spack/spack/issues/6950",
+    "assignees": [],
+    "comments": 2
+}

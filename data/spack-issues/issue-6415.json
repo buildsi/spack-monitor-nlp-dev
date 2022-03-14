@@ -1,0 +1,17 @@
+{
+    "body": "@tgamblin  and I were not happy with my initial implementation of flag handlers. This new implementation provides a more intuitive syntax that can be more easily extended by individual packages.\r\n\r\nThe default behavior of compiler flags will not change: By default they are injected through the compiler wrappers.\r\n\r\nThis PR adds a flag_handler method to the package which controls how the compiler flags are passed to the build and can be used to add package-specific flags. Three builtin flag handlers are defined on PackageBase. `inject_flags` is the default, `env_flags` puts the flags into environment variables, and `command_line_flags` puts the flags on the command line for build systems that support doing so. Packages can also override the flag_handler method (called independently on each set of flags) by hand.\r\n\r\nFor further detail, see the accompanying changes to the documentation.\r\n\r\n@reviewers: Let me know if you think the `flags_to_cl_args` method should be documented. I don't expect it to be user facing, but if you think there's use in putting it in the documentation I can add it. It would allow users to implement command line flag handling on a per-package basis, but I don't currently see a use case for that.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/6415",
+    "updated_at": "2018-01-17 05:26:41",
+    "created_at": "2017-11-22 20:19:02",
+    "closed_at": "2017-12-20 23:40:39",
+    "state": "closed",
+    "title": "Flag handlers",
+    "number": 6415,
+    "milestone": null,
+    "labels": [],
+    "id": 276193520,
+    "html_url": "https://github.com/spack/spack/pull/6415",
+    "assignees": [],
+    "comments": 3
+}

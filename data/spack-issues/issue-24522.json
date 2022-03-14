@@ -1,0 +1,20 @@
+{
+    "body": "I have a weird issue happening when installing an environment: the environment has a bunch of packages, some of which depend on cmake. cmake is also listed as a spec in the environment file. In the middle of installing the packages in the environment, I\u2019m getting this error:\r\n\r\n```\r\n==> Error: Detected uninstalled dependencies for cereal-1.3.0-x3tqv4abcgscvo525anvutu22piwh6ra: {'cmake-3.20.3-pnhys54luzct2iqdb53nqdknnr64nsub'}\r\n==> Updating view at /home/runner/work/mochi-doc/mochi-doc/code/.spack-env/view\r\n==> Warning: cereal-1.3.0-x3tqv4abcgscvo525anvutu22piwh6ra does NOT actually have any uninstalled deps left\r\n==> Warning: [/home/runner/work/mochi-doc/mochi-doc/code/.spack-env/view] Skipping external package: cmake@3.20.3%gcc@10.2.0~doc+ncurses+openssl+ownlibs~qt arch=linux-ubuntu20.04-haswell/pnhys54\r\n==> Warning: [/home/runner/work/mochi-doc/mochi-doc/code/.spack-env/view] Skipping external package: mpich@3.3.2%gcc@10.2.0~argobots~benvolio+fortran+hwloc~hydra+libxml2+pci+romio~slurm~verbs+wrapperrpath device=ch3 netmod=tcp patches=eb982de3366d48cbc55eb5e0df43373a45d9f51df208abf0835a72dc6c0b4774 pmi=pmi arch=linux-ubuntu20.04-haswell/oi7yaru\r\n==> Error: Cannot proceed with cereal-1.3.0-x3tqv4abcgscvo525anvutu22piwh6ra: 1 uninstalled dependency: cmake-3.20.3-pnhys54luzct2iqdb53nqdknnr64nsub\r\n```\r\n\r\nThe strange thing is that before this error happens, spack successfully installed a spec that also needed cmake.\r\n\r\ncmake itself is listed as a spec of the package, at the end of the list of specs. If I make it the first spec to install, the problem does not happen. cmake is an external package in this context, not installed by spack but listed in my packayes.yaml file (I don't know that matters).\r\n\r\nI don't have an easy reproducer for this problem; it happens in a github workflow that builds some code my team works on:\r\nhttps://github.com/mochi-hpc/mochi-doc/\r\nYou can find the github workflow [here](https://github.com/mochi-hpc/mochi-doc/blob/main/.github/workflows/build.yml) (it's relatively simple). This workflow uses `spack external find` to find cmake, mpich, and perl, before jumping into the `code` directory and creating an environment using [spack.yaml](https://github.com/mochi-hpc/mochi-doc/blob/main/code/spack.yaml). With cmake listed at the top, everything works fine. But put it as last dependency and the problem above happens.",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/24522",
+    "updated_at": "2021-11-01 08:16:33",
+    "created_at": "2021-06-25 10:48:01",
+    "closed_at": "2021-11-01 08:16:33",
+    "state": "closed",
+    "title": "\"Error: Detected uninstalled dependencies\" when installing an environment",
+    "number": 24522,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 930062491,
+    "html_url": "https://github.com/spack/spack/issues/24522",
+    "assignees": [],
+    "comments": 0
+}

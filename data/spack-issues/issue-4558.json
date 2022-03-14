@@ -1,0 +1,20 @@
+{
+    "body": "I've noticed that some packages require the installer to be root (so 'install' can run), while others the reverse.\r\n\r\nFor libxcb, neither of the options work.  If I install as root, the install phase complains that it cannot change ownership of files.  If I install as a normal user, the install phase complains that it doesn't have permission to install.\r\n\r\nPackages are installed on an NFS mount.  I have users squashed on the server, but I didn't see any requirement in your \"filesystem requirements\" page that says anything about not setting squash.\r\n\r\nWeird thing is that on centos there is no issue.\r\n\r\nHere are (some of) the errors:\r\n\r\nNon-root:\r\n\r\n```\r\n/usr/bin/install: setting permissions for \u2018/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/man/man3/xcb_change_keyboard_control.3\u2019: Operation not permitted\r\n/usr/bin/install: setting permissions for \u2018/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/man/man3/xcb_change_keyboard_control_checked.3\u2019: Operation not permitted\r\n/usr/bin/install: setting permissions for \u2018/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/man/man3/xcb_change_keyboard_mapping.3\u2019: Operation not permitted\r\n/usr/bin/install: setting permissions for \u2018/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/man/man3/xcb_change_keyboard_mapping_checked.3\u2019: Operation not permitted\r\n/usr/bin/install: setting permissions for \u2018/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/man/man3/xcb_change_pointer_control.3\u2019: Operation not permitted\r\nsed: couldn't write 1857 items to stdout: Broken pipe\r\nMakefile:1007: recipe for target 'install-libmanDATA' failed\r\nmake[3]: *** [install-libmanDATA] Error 1\r\n\r\n```\r\n\r\nRoot:\r\n\r\n```\r\n/bin/bash /tmp/root/spack-stage/spack-stage-tMlK8V/libxcb-1.12/build-aux/install-sh -d '/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/doc/libxcb'\r\ncp -pR /NAS/spack/var/spack/stage/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/libxcb-1.12/doc/tutorial '/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/doc/libxcb/'\r\ncp: failed to preserve ownership for '/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/doc/libxcb/tutorial/index.html': Operation not permitted\r\ncp: failed to preserve ownership for '/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/doc/libxcb/tutorial/xcb.css': Operation not permitted\r\ncp: failed to preserve ownership for '/NAS/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/libxcb-1.12-iciyjvqwvvy6cjpshdyabwa26vjdya4s/share/doc/libxcb/tutorial': Operation not permitted\r\nMakefile:512: recipe for target 'install-data-local' failed\r\nmake[2]: *** [install-data-local] Error 1\r\n\r\n```\r\n\r\nAny help is appreciated.",
+    "user": "gkyriazis",
+    "url": "https://api.github.com/repos/spack/spack/issues/4558",
+    "updated_at": "2017-11-23 13:25:24",
+    "created_at": "2017-06-20 20:51:39",
+    "closed_at": "2017-11-23 13:25:24",
+    "state": "closed",
+    "title": "installing libxcb on ubuntu 1604 fails",
+    "number": 4558,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible"
+    ],
+    "id": 237341426,
+    "html_url": "https://github.com/spack/spack/issues/4558",
+    "assignees": [],
+    "comments": 1
+}

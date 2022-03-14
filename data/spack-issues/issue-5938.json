@@ -1,0 +1,20 @@
+{
+    "body": "When creating a new namespace containing custom repositories, if a repository within the new namespace depends on (in the literal Spack context of ```depends_on(x)```) a builtin package, spack throws the following error:\r\n\r\n```\r\n[fdinatal@machine]~/mynamespace% spack install mypackage\r\n==> Error: Invalid namespace for mynamespace repo: builtin\r\n```\r\n\r\nThis is after setting up the namespace such that spack is reporting the following:\r\n```\r\n[fdinatal@quartz1922]~/mynamespace% spack repo list\r\n==> 2 package repositories.\r\nmynamespace       ~/mynamespace\r\nbuiltin                    spack/var/spack/repos/builtin\r\n```\r\n\r\nCommenting out the error check\r\n```\r\nif namespace and (namespace != self.namespace):\r\n                raise InvalidNamespaceError(\u2018Invalid namespace for %s repo: %s\u2019\r\n                                                                        % (self.namespace, namespace))\r\n```\r\nusing the ```spack edit \u2013m repository``` command results in the following error (in this case my custom repository depends on ```mpi``` and ```boost```:\r\n```\r\n[fdinatal@machine]~/mynamespace% spack install conveyorlc\r\n==> Error: Package libyogrt not found in repository [Repo 'mynamespace' at '~/mynamespace']\r\n```\r\n\r\nAdding my custom packages to the ```builtin`` directory fixes the issue after removing my custom namespace. It almost seems from the errors that the builtin namespace is not propagated down the dependency chain when a dependency is found to depend on something else. That's a best guess though.",
+    "user": "FrankD412",
+    "url": "https://api.github.com/repos/spack/spack/issues/5938",
+    "updated_at": "2017-10-25 19:18:38",
+    "created_at": "2017-10-25 01:25:07",
+    "closed_at": "2017-10-25 19:17:12",
+    "state": "closed",
+    "title": "Dependency Namespace isn't carried down a dependency chain",
+    "number": 5938,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "repos"
+    ],
+    "id": 268237631,
+    "html_url": "https://github.com/spack/spack/issues/5938",
+    "assignees": [],
+    "comments": 4
+}

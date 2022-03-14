@@ -1,0 +1,23 @@
+{
+    "body": "When `intel-mpi` is called indirectly by e.g. `spack install openfoam` then the resulting spec for the MPI will not contain the sub-string 'libfabric'. Hence, a call to `spec['libfabric']` inside `intel-mpi/package.py` will fail. The workaround I have found is to build a new Spec object around libfabric and use this to determine the libraries in case '+xternal-libfabric' is set.\r\nThe same applies to `intel-oneapi-mpi`.\r\n\r\nThis is an addition to https://github.com/spack/spack/pull/27292\r\n\r\nTaging maintiner @rscohn2. \r\n",
+    "user": "stephenmsachs",
+    "url": "https://api.github.com/repos/spack/spack/issues/28105",
+    "updated_at": "2022-02-01 13:29:04",
+    "created_at": "2021-12-21 08:04:12",
+    "closed_at": "2022-02-01 13:22:33",
+    "state": "closed",
+    "title": "Harden variant '+external-libfabric' for indirect MPI reference.",
+    "number": 28105,
+    "milestone": null,
+    "labels": [
+        "intel",
+        "update-package",
+        "build-systems"
+    ],
+    "id": 1085546528,
+    "html_url": "https://github.com/spack/spack/pull/28105",
+    "assignees": [
+        "rscohn2"
+    ],
+    "comments": 8
+}

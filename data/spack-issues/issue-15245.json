@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #15231 \r\n\r\n>It would be very useful to be able to use definitions as requirements in specs so as to make environments very easy to share and reuse:\r\n\r\n> For example we declare the compiler, core compiler and mpi:\r\n\r\n```\r\n  definitions:\r\n    - mygcc: [ gcc@8.3.0 ]\r\n    - mybasegcc: [ gcc@4.8.5 ]\r\n    - mympi: [ mpich@3.3.2+slurm pmi=pmi2 ]\r\n\r\n  specs:\r\n  - matrix:\r\n    - [$mygcc]\r\n    - [$%mybasegcc]\r\n  \r\n  - matrix:\r\n    - [openblas@0.3.8, $mympi , fftw~mpi]\r\n    - [$%mygcc ]\r\n  - matrix:\r\n    - [openfoam,  fftw]\r\n    - [$^mympi]\r\n    - [$%mygcc]\r\n```\r\n\r\nThis feature only applies to the `^` and `%` sigils, as only compilers and dependencies have an inherent overlap with package names.\r\n\r\n@ilbiondo @alalazo ",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/15245",
+    "updated_at": "2020-05-05 08:04:01",
+    "created_at": "2020-02-27 02:41:52",
+    "closed_at": "2020-05-04 22:11:11",
+    "state": "closed",
+    "title": "environments: allow sigils to apply to entire reference",
+    "number": 15245,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "environments"
+    ],
+    "id": 571783239,
+    "html_url": "https://github.com/spack/spack/pull/15245",
+    "assignees": [],
+    "comments": 1
+}

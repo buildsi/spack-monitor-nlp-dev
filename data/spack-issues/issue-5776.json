@@ -1,0 +1,21 @@
+{
+    "body": "This PR does a few things:\r\n\r\n- [x] Add an `autouse` fixture that verifies that tests don't change the working directory.\r\n\r\n- [x] Tests no longer drop extra stuff in Spack's staging area (`var/spack/stage`).  They're executed with a mock stage.\r\n\r\n- [x] Another `autouse` fixture ensures that no test clutters the stage directory.\r\n\r\n- [x] Spack doesn't use `os.chdir()` directly anymore -- it only uses context managers like `working_dir` and `py.path.as_cwd()` so that no function ends up actually changing the working directory for its caller.\r\n    - This cleans up some of the nastiness where reordering would cause tests to fail.\r\n    - This also makes Spack functions (e.g., `do_stage()`) nicer to work with.\r\n\r\n- [x] Getting the `stage` property from a package no longer creates the stage directory automatically.  You have to call `pkg.stage.create()` for that, and Spack now calls it right before fetching.\r\n\r\n@hartzell: The last bullet above caused empty stages to be erroneously created for already-installed dependencies.  I wonder if that has to do with the problem you saw in #4977.  The stages for dependencies would be re-created by recursive calls to `do_install()`, even when `do_install()` decided nothing to bail b/c the dependency was already installed.  I am curious whether this, and to a lesser extent  #5714, help with #4977.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/5776",
+    "updated_at": "2017-10-25 12:54:10",
+    "created_at": "2017-10-16 07:31:12",
+    "closed_at": "2017-10-17 08:26:32",
+    "state": "closed",
+    "title": "Clean up use of stages and os.chdir()",
+    "number": 5776,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "refactoring",
+        "tests"
+    ],
+    "id": 265671573,
+    "html_url": "https://github.com/spack/spack/pull/5776",
+    "assignees": [],
+    "comments": 1
+}

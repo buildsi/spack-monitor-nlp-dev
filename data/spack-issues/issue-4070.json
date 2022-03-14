@@ -1,0 +1,17 @@
+{
+    "body": "a fresh `spack install intel-mkl`throws the following errors in compile:\r\n\r\n    [centos@spack01 ~]$ spack install --verbose intel-mkl\r\n    ==> Installing intel-mkl\r\n    ==> Using cached archive: /opt/spack/var/spack/cache/intel-mkl/intel-mkl-2017.2.174.tgz\r\n    ==> Staging archive: /opt/spack/var/spack/stage/intel-mkl-2017.2.174-twy6vcyriwtass3cjgsc7wbtkouqnluo/l_mkl_2017.2.174.tgz\r\n    ==> Created stage in /opt/spack/var/spack/stage/intel-mkl-2017.2.174-twy6vcyriwtass3cjgsc7wbtkouqnluo\r\n    ==> Ran patch() for intel-mkl\r\n    ==> Building intel-mkl [Package]\r\n    ==> Found already existing license /opt/spack/etc/spack/licenses/intel/license.lic\r\n    ==> Executing phase : 'install'\r\n    ==> './install.sh' '--silent' 'silent.cfg'\r\n    Name \"ACTIVATION_LICENSE_FILE\" is not valid\r\n    ==> Error: ProcessError: Command exited with status 2:\r\n        './install.sh' '--silent' 'silent.cfg'\r\n    /opt/spack/var/spack/repos/builtin/packages/intel/package.py:96, in install:\r\n         74       def install(self, spec, prefix):\r\n         75\r\n         76           if not hasattr(self, \"intel_prefix\"):\r\n         77               self.intel_prefix = self.prefix\r\n         78\r\n         79           silent_config_filename = 'silent.cfg'\r\n         80           with open(silent_config_filename, 'w') as f:\r\n         81               f.write(\"\"\"\r\n         82   ACCEPT_EULA=accept\r\n         83   PSET_MODE=install\r\n         84   CONTINUE_WITH_INSTALLDIR_OVERWRITE=yes\r\n         85   PSET_INSTALL_DIR=%s\r\n         86   NONRPM_DB_DIR=%s\r\n         87   ACTIVATION_LICENSE_FILE=%s\r\n         88   ACTIVATION_TYPE=license_file\r\n         89   PHONEHOME_SEND_USAGE_DATA=no\r\n         90   CONTINUE_WITH_OPTIONAL_ERROR=yes\r\n         91   COMPONENTS=%s\r\n         92   \"\"\" % (self.intel_prefix, self.intel_prefix, self.global_license_file,\r\n         93                   self.intel_components))\r\n         94\r\n         95           install_script = Executable(\"./install.sh\")\r\n      >> 96           install_script('--silent', silent_config_filename)\r\n\r\n    See build log for details:\r\n      /tmp/centos/spack-stage/spack-stage-WfZcaO/l_mkl_2017.2.174/spack-build.out\r\n\r\n    $ cd /tmp/centos/spack-stage/spack-stage-WfZcaO/l_mkl_2017.2.174/\r\n    $ ./install.sh --silent silent.cfg\r\n    Name \"ACTIVATION_LICENSE_FILE\" is not valid\r\n    Name \"ACTIVATION_TYPE\" is not valid\r\n    Name \"PHONEHOME_SEND_USAGE_DATA\" is not valid\r\n/tmp/centos/spack-stage/spack-stage-WfZcaO/l_mkl_2017.2.174/silent.cfg has errors\r\n\r\ncommenting out the above directives in `silent_config_filename` under `/opt/spack/var/spack/repos/builtin/packages/intel/package.py` fixes it.\r\n",
+    "user": "yee379",
+    "url": "https://api.github.com/repos/spack/spack/issues/4070",
+    "updated_at": "2017-05-01 21:29:54",
+    "created_at": "2017-05-01 21:27:56",
+    "closed_at": "2017-05-01 21:29:54",
+    "state": "closed",
+    "title": "Intel MKL now free; spack install intel-mkl fails",
+    "number": 4070,
+    "milestone": null,
+    "labels": [],
+    "id": 225532040,
+    "html_url": "https://github.com/spack/spack/issues/4070",
+    "assignees": [],
+    "comments": 1
+}

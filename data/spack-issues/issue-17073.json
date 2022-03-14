@@ -1,0 +1,21 @@
+{
+    "body": "1. Extend `--with-wrapper-ldflags` with `self.compiler.implicit_rpaths()` (currently it equals to `self.compiler.extra_rpaths` only).\r\n2. Replace `self.compiler.cc_rpath_arg` (introduced with `--with-wrapper-ldflags`) with `self.compiler.cxx_rpath_arg` and `self.compiler.fc_rpath_arg` in  `share/openmpi/*-wrapper-data*` and `lib/pkgconfig/ompi-*.pc` files after installation.\r\n3. Additionally replace `-Wl,-rpath -Wl,` with `self.compiler.fc_rpath_arg` for old versions of `openmpi`, which didn't support different `rpath` flags for `CC` and `FC` (applied only `when='%nag'`).\r\n4. Patch `openmpi` to fix `MPI_Sizeof()` in the `mpi` Fortran module for compilers that do not support \"IGNORE TKR\" functionality (e.g. NAG).\r\n5. Update the comments and rename `nag_ltmain_*.patch` files to `nag_pthread/*.patch`.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/17073",
+    "updated_at": "2020-06-17 15:32:09",
+    "created_at": "2020-06-12 16:42:25",
+    "closed_at": "2020-06-17 15:32:09",
+    "state": "closed",
+    "title": "openmpi: fixes for NAG compiler",
+    "number": 17073,
+    "milestone": null,
+    "labels": [
+        "mpi",
+        "nag",
+        "patch"
+    ],
+    "id": 637880261,
+    "html_url": "https://github.com/spack/spack/pull/17073",
+    "assignees": [],
+    "comments": 3
+}

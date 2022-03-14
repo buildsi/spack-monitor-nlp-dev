@@ -1,0 +1,20 @@
+{
+    "body": "This issue seems related to #5800 .\r\n\r\nI'm on Mac OS. I installed clang 5.0.0 with spack and tried to install a package that depends on OpenMP with clang 5, such as kripke ( spack install kripke -mpi %clang@5.0.0 ). CMake fails to find the OpenMP C flag and exits with an error. The log is attached.\r\n\r\nI bumped into this when trying to compile a package.py that I made and got this error, then tried a standard package to confirm. This issue seems like would affect any package using the CMake build system that uses the find_package(OpenMP) functionality to set up the compiler flags, such as:\r\n\r\nfind_package(OpenMP)\r\nif(OPENMP_FOUND)\r\n    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS})\r\nendif()\r\n\r\n[spack-build.txt](https://github.com/spack/spack/files/1454353/spack-build.txt)\r\n\r\nThe package compiles outside of spack by loading the spack modules it depends on and building normally. Is this related to the compile wrappers?",
+    "user": "deOliveira-R",
+    "url": "https://api.github.com/repos/spack/spack/issues/6198",
+    "updated_at": "2021-03-10 15:38:01",
+    "created_at": "2017-11-08 15:07:36",
+    "closed_at": "2021-03-10 15:38:01",
+    "state": "closed",
+    "title": "Compiler cannot find OpenMP",
+    "number": 6198,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 272231839,
+    "html_url": "https://github.com/spack/spack/issues/6198",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,23 @@
+{
+    "body": "Hi all,\r\nSorry to bother you, but I was wondering if any other Mac user had encountered a similar issue before.\r\nI tried to install the package through the commands:\r\n```console\r\nspack install py-astropy\r\n```\r\nand\r\n```console\r\nspack install py-astropy ^wcslib\r\n```\r\nBut got an error message during the build stage, due to missing (or not linked) header files.\r\nSuch as:\r\n```bash\r\n >> 1229    astropy/wcs/include/astropy_wcs/util.h:21:10: fatal error: 'wcs.h' file not found\r\n```\r\nThat can be seen in the output file: [spack-build-out.txt](https://github.com/spack/spack/files/4131212/spack-build-out.txt).\r\n\r\nDo you have any suggestions on how I can try to fix this issue or what I am doing wrong ?\r\n\r\nThank you\r\n\r\n### Platform and user environment\r\n\r\nMac OS Catalina:\r\n```commandline\r\nDarwin LDianaAmorim-M30.dhcp.lbnl.us 19.2.0 Darwin Kernel Version 19.2.0: Sat Nov  9 03:47:04 PST 2019; root:xnu-6153.61.1~20/RELEASE_X86_64 x86_64\r\nOS version: 10.15.2\r\nClang version: 11.0.0 x86_64-apple-darwin19.2.0\r\nspack git log: commit 7a0990903fbca221e044eb43edae6fd39dcca4eb\r\npython version: Python 3.7.6 (installed and loaded via spack)\r\n``` \r\n\r\n.spack/darwin/packages.yaml:\r\n```cpp\r\npackages:\r\n  all:\r\n    providers:\r\n      mpi: [mpich, openmpi]\r\n```\r\n.spack/darwin/compilers.yaml:\r\n```cpp\r\ncompilers:\r\n- compiler:\r\n    spec: clang@11.0.0-apple\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n      fc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n    flags: {}\r\n    operating_system: catalina\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n- compiler:\r\n    spec: gcc@9.2.0\r\n    paths:\r\n      cc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gcc\r\n      cxx: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/g++\r\n      f77: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n      fc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n    flags: {}\r\n    operating_system: catalina\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\n\r\n### Additional information\r\n\r\n```console\r\n$ spack spec --install-status\r\n```\r\nled to the file:\r\n[output.txt](https://github.com/spack/spack/files/4131230/output.txt)\r\n\r\nRebuilding the package with the following options:\r\n```console\r\n$ spack -d install -j 1 <spec>\r\n```\r\nled to the files:\r\n\r\n[spack-cc-py-astropy-6ggjsuu.in.log](https://github.com/spack/spack/files/4131235/spack-cc-py-astropy-6ggjsuu.in.log)\r\n[spack-cc-py-astropy-6ggjsuu.out.log](https://github.com/spack/spack/files/4131236/spack-cc-py-astropy-6ggjsuu.out.log)\r\n",
+    "user": "LDAmorim",
+    "url": "https://api.github.com/repos/spack/spack/issues/14679",
+    "updated_at": "2020-08-03 18:51:30",
+    "created_at": "2020-01-29 23:01:59",
+    "closed_at": "2020-08-03 18:51:30",
+    "state": "closed",
+    "title": "Installation issue: py-astropy",
+    "number": 14679,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 557169103,
+    "html_url": "https://github.com/spack/spack/issues/14679",
+    "assignees": [
+        "scheibelp",
+        "adamjstewart"
+    ],
+    "comments": 20
+}

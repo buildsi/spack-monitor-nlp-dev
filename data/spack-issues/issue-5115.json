@@ -1,0 +1,19 @@
+{
+    "body": "This PR allows additional unused properties at the top-level of the config.yaml file. Having these properties permits to use two different versions of Spack, one of which adds a new property, without receiving error messages due to the presence of this new property in a configuration cache stored in the user's home.\r\n\r\n---\r\n\r\nCurrently adding an entry to `config.yaml` and switching back to a version of Spack where this entry is not allowed gives an error similar to:\r\n```console\r\n$ spack help\r\nTraceback (most recent call last):\r\n  File \"/home/mculpo/PycharmProjects/spack/bin/spack\", line 80, in <module>\r\n    import spack.main  # noqa\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/__init__.py\", line 84, in <module>\r\n    import spack.repository\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/repository.py\", line 44, in <module>\r\n    import spack.spec\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 120, in <module>\r\n    import spack.store\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/store.py\", line 58, in <module>\r\n    config = spack.config.get_config(\"config\")\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/config.py\", line 409, in get_config\r\n    data = scope.get_section(section)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/config.py\", line 180, in get_section\r\n    data   = _read_config_file(path, schema)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/config.py\", line 282, in _read_config_file\r\n    validate_section(data, schema)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/config.py\", line 152, in validate_section\r\n    raise ConfigFormatError(e, data)\r\nspack.config.ConfigFormatError: /home/mculpo/.spack/config.yaml:1: Additional properties are not allowed ('template_dirs' was unexpected)\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/5115",
+    "updated_at": "2017-08-17 04:37:15",
+    "created_at": "2017-08-16 06:40:15",
+    "closed_at": "2017-08-17 04:37:10",
+    "state": "closed",
+    "title": "Relaxed constraints on config.yaml structure",
+    "number": 5115,
+    "milestone": null,
+    "labels": [
+        "ready"
+    ],
+    "id": 250525833,
+    "html_url": "https://github.com/spack/spack/pull/5115",
+    "assignees": [],
+    "comments": 7
+}

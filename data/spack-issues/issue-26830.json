@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\n```console\r\ncarns@carns-x1-7g ~/tmp> spack env create reproducer\r\n==> Updating view at /home/carns/working/src/spack/var/spack/environments/reproducer/.spack-env/view\r\n==> Created environment 'reproducer' in /home/carns/working/src/spack/var/spack/environments/reproducer\r\n==> You can activate this environment with:\r\n==>   spack env activate reproducer\r\ncarns@carns-x1-7g ~/tmp> spack env activate reproducer\r\ncarns@carns-x1-7g ~/tmp> spack add zlib+oopsbadvariant\r\n==> Adding zlib+oopsbadvariant to environment reproducer\r\ncarns@carns-x1-7g ~/tmp> spack install\r\n==> Error: trying to set variant \"oopsbadvariant\" in package \"zlib\", but the package has no such variant [happened during concretization of zlib+oopsbadvariant]\r\ncarns@carns-x1-7g ~/tmp> echo $status\r\n0\r\n```\r\nIn the above example I have deliberately added a spec for the `zlib` package with a variant that does not exist.  When I then run `spack install` it reports an error in stdout or stderr, but it does not set an exit code (note that this happens to be in the fish shell, so I'm using `$status` rather than `$?`).\r\n\r\nThis is problematic in scripted or CI environments because it is tricky to tell if the installation succeeded or not.\r\n\r\nThe problem is similar to https://github.com/spack/spack/issues/20510, but I'm guessing this must be a different code path.\r\n\n\n### Error message\n\nThe error message looks fine to me; the problem is the exit status of the command.\n\n### Information on your system\n\n```console\r\ncarns@carns-x1-7g ~/tmp> spack debug report\r\n* **Spack:** 0.16.3-4911-c48b733773\r\n* **Python:** 3.9.5\r\n* **Platform:** linux-ubuntu21.04-skylake\r\n* **Concretizer:** clingo\r\n```\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/26830",
+    "updated_at": "2021-10-29 14:48:08",
+    "created_at": "2021-10-19 20:43:29",
+    "closed_at": "2021-10-29 01:10:32",
+    "state": "closed",
+    "title": "spack install not setting exit code for bad spec when using the fish shell",
+    "number": 26830,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1030725331,
+    "html_url": "https://github.com/spack/spack/issues/26830",
+    "assignees": [],
+    "comments": 5
+}

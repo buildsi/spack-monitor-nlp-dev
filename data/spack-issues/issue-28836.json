@@ -1,0 +1,19 @@
+{
+    "body": "`superlu-dist 5.4.0` with `intel-mkl` fails to build.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install -v superlu-dist@5.4.0%gcc@9.4.0 ^intel-mkl\r\n\r\n  >> 471    make[2]: *** No rule to make target '/vast/home/quellyn/Scratch/spack/opt/spack/linux-c\r\n            entos8-haswell/gcc-9.4.0/intel-mkl-2020.4.304-gqu4mdbaiwbyygxawbetqnpc4wiqmuib/compiler\r\n            s_and_libraries_2020.4.304/linux/mkl/lib/intel64/libmkl_intel_lp64.so /vast/home/quelly\r\n            n/Scratch/spack/opt/spack/linux-centos8-haswell/gcc-9.4.0/intel-mkl-2020.4.304-gqu4mdba\r\n            iwbyygxawbetqnpc4wiqmuib/compilers_and_libraries_2020.4.304/linux/mkl/lib/intel64/libmk\r\n            l_sequential.so /vast/home/quellyn/Scratch/spack/opt/spack/linux-centos8-haswell/gcc-9.\r\n            4.0/intel-mkl-2020.4.304-gqu4mdbaiwbyygxawbetqnpc4wiqmuib/compilers_and_libraries_2020.\r\n            4.304/linux/mkl/lib/intel64/libmkl_core.so /lib64/libpthread.so /lib64/libm.so /lib64/l\r\n            ibdl.so', needed by 'SRC/libsuperlu_dist.so.5.4.0'.  Stop.\r\n```\r\n\r\nI believe this error was introduced with #28658. If I revert the `superlu-dist` recipe file back to the version before that PR was merged, my build succeeds as usual.\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.17.1-1109-d4ca803fc5\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-haswell\r\n* **Concretizer:** clingo\r\n```\r\n\r\nI loaded software modules from the system for `gcc` and `openmpi`, and added a stanza for `openmpi` at the bottom of `etc/spack/defaults/packages.yaml`:\r\n```console\r\n  openmpi:\r\n    buildable: False\r\n    externals:\r\n    - spec: 'openmpi@3.1.6-gcc_9.4.0'\r\n      modules:\r\n      - 'openmpi/3.1.6-gcc_9.4.0'\r\n```\r\n\r\n\r\n### Additional information\r\n\r\n[spack-build-env.txt](https://github.com/spack/spack/files/8028142/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/8028143/spack-build-out.txt)\r\n\r\nMaintainers for `superlu-dist` include:\r\n@balay \r\n@gchavez2 \r\n@liuyangzhuan \r\n@pghysels \r\n@xiaoye\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/28836",
+    "updated_at": "2022-02-10 13:43:22",
+    "created_at": "2022-02-08 23:07:23",
+    "closed_at": "2022-02-10 13:43:22",
+    "state": "closed",
+    "title": "Installation issue: superlu-dist",
+    "number": 28836,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1127852753,
+    "html_url": "https://github.com/spack/spack/issues/28836",
+    "assignees": [],
+    "comments": 3
+}

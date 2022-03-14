@@ -1,0 +1,20 @@
+{
+    "body": "Information on the date and time of installation of a spec is recorded into the database. The information is retained on reindexing. The DB can now be queried for specs that have been installed in a given time window. This query possibility is exposed to command line via two new options of the `find` command.\r\n\r\n##### Examples\r\nWith the following command:\r\n```console\r\n$ spack install  hdf5~mpi~cxx~fortran\r\n```\r\nyou'll generate a database that contains date and time information. Now you can query from command line based on date and time of installation:\r\n```console\r\n$ spack find\r\n==> 2 installed packages.\r\n-- linux-ubuntu14.04-x86_64 / gcc@4.8 ---------------------------\r\nhdf5@1.10.1  zlib@1.2.11\r\n\r\n$ spack find --start-date=\"2019\"\r\n==> 0 installed packages.\r\n\r\n$ spack find --start-date=\"2 days ago\" \r\n==> 1 installed packages.\r\n-- linux-ubuntu14.04-x86_64 / gcc@4.8 ---------------------------\r\nhdf5@1.10.1\r\n\r\n$ spack find --end-date=\"2018-02-23\"\r\n==> 1 installed packages.\r\n-- linux-ubuntu14.04-x86_64 / gcc@4.8 ---------------------------\r\nzlib@1.2.11\r\n```\r\n\r\nA practical use-case we have in mind at EPFL is to use this feature in a cron job that, based on the result of the query, updates the MOTD on clusters front-end and advertizes the software that has been installed recently (e.g. in the last two weeks).\r\n\r\n@nazavode ",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/7334",
+    "updated_at": "2018-03-22 18:16:52",
+    "created_at": "2018-02-23 14:37:34",
+    "closed_at": "2018-03-22 18:07:27",
+    "state": "closed",
+    "title": "Record installation date and time in DB",
+    "number": 7334,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "pkg-database"
+    ],
+    "id": 299731809,
+    "html_url": "https://github.com/spack/spack/pull/7334",
+    "assignees": [],
+    "comments": 4
+}

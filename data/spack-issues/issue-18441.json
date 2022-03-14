@@ -1,0 +1,21 @@
+{
+    "body": "While debugging #18338 I noticed that if an error occurs during the write operation of an environment, any `spack.lock` existing before the command might be removed by Spack.\r\n\r\n\r\n### Steps to reproduce the issue\r\nUse the following:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - openjpeg\r\n  packages:\r\n    cmake:\r\n      externals:\r\n      - spec: cmake@3.18.2\r\n        modules:\r\n        - cmake/1.18.2\r\n\r\n  concretization: together\r\n```\r\nwhich triggers #18338. The first concretization works:\r\n```console\r\n$ spack --env . concretize \r\n==> Concretized openjpeg\r\n -   526rapi  openjpeg@2.3.1%gcc@10.1.0 build_type=RelWithDebInfo arch=linux-ubuntu18.04-broadwell\r\n -   qevuoda      ^cmake@3.18.2%gcc@10.1.0~doc+ncurses+openssl+ownlibs~qt arch=linux-ubuntu18.04-broadwell\r\n -   kepdmuv      ^zlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n\r\n==> Updating view at /home/culpo/tmp/spack-issues/18338/.spack-env/view\r\n\r\n$ ls spack.{yaml,lock}\r\nspack.lock  spack.yaml\r\n```\r\nThe second attempt at the same command fails and removes `spack.lock` from disk:\r\n```console\r\n$ spack --env . concretize \r\n==> Error: '546hepoobjp5st4xioqkllziy2tbceoz'\r\n\r\n$ ls spack.{yaml,lock}\r\nls: cannot access 'spack.lock': No such file or directory\r\nspack.yaml\r\n```\r\n\r\n### Error Message\r\n\r\nSee above for a description of the issue.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4-803-370163393\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n\r\n### Additional information\r\n\r\nThe issue is due to these lines in the `write` method of the `Environment` class:\r\n\r\nhttps://github.com/spack/spack/blob/3a5746c6c75d4187e0e6dfc3665a2e34c30de37a/lib/spack/spack/environment.py#L1515-L1517\r\n\r\nthat delete an existing `spack.lock` file before ensuring that a new one can be generated properly. \r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/18441",
+    "updated_at": "2020-09-11 17:57:30",
+    "created_at": "2020-09-01 11:24:14",
+    "closed_at": "2020-09-11 17:57:30",
+    "state": "closed",
+    "title": "Existing lockfile not preserved on write error",
+    "number": 18441,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium",
+        "environments"
+    ],
+    "id": 690060378,
+    "html_url": "https://github.com/spack/spack/issues/18441",
+    "assignees": [],
+    "comments": 0
+}

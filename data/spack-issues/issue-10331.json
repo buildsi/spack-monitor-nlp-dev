@@ -1,0 +1,20 @@
+{
+    "body": "I've installed `python` inside an environment.  I'm not able to uninstall from within my environment.  And I'm not able to uninstall from \"plain vanilla Spack\" either.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ alias spack\r\nalias spack='spack -e otp-dev-mac'\r\n$ spack find\r\n==> In environment otp-dev-mac\r\n==> Root specs\r\nenvironment-modules  maven  osmctools  postgresql  py-mysql-connector  py-setuptools  python\r\n\r\n==> 16 installed packages\r\n-- darwin-highsierra-x86_64 / clang@9.0.0-apple -----------------\r\nbzip2@1.0.6                 jdk@1.8.0_191  openssl@1.0.1h   py-mysql-connector@8.0.13  readline@7.0   zlib@1.2.11\r\nenvironment-modules@3.2.10  maven@3.5.0    osmctools@0.9    py-setuptools@40.4.3       sqlite@3.26.0\r\ngdbm@1.18.1                 ncurses@6.1    postgresql@10.3  python@3.6.5               tcl@8.6.8\r\n$ spack uninstall python\r\n==> Will not uninstall python@3.6.5%clang@9.0.0-apple/osojvpu\r\nThe following packages depend on it:\r\n    -- darwin-highsierra-x86_64 / clang@9.0.0-apple -----------------\r\n    qkjr5wm py-mysql-connector@8.0.13%clang\r\n    vuarrj6 py-setuptools@40.4.3%clang\r\n\r\n==> Error: There are still dependents.\r\n  use `spack uninstall --dependents` to remove dependents too\r\n$ spack uninstall --dependents python\r\n==> The following packages will be uninstalled:\r\n\r\n    -- darwin-highsierra-x86_64 / clang@9.0.0-apple -----------------\r\n    qkjr5wm py-mysql-connector@8.0.13%clang\r\n    vuarrj6 py-setuptools@40.4.3%clang\r\n    osojvpu python@3.6.5%clang+dbm~optimizations patches=123082ab3483ded78e86d7c809e98a804b3465b4683c96bd79a2fd799f572244 +pic+pythoncmd~shared~tk~ucs4\r\n==> Do you want to proceed? [y/N] y\r\n==> Error: 'vuarrj6tr5yxov5cercjbre6fsxfauck'\r\n$ \\spack uninstall --dependents python\r\n==> Will not uninstall python@3.6.5%clang@9.0.0-apple/osojvpu\r\nThe following packages depend on it:\r\n    -- darwin-highsierra-x86_64 / clang@9.0.0-apple -----------------\r\n    qkjr5wm py-mysql-connector@8.0.13%clang\r\n    vuarrj6 py-setuptools@40.4.3%clang\r\n    yufk7lh py-wheel@0.29.0%clang\r\nIt is used by the following environments:\r\n    otp-dev-mac\r\n\r\n==> Error: There are still dependents.\r\n  use `spack uninstall --dependents` to remove dependents too\r\n  use `spack env remove` to remove from environments\r\n```\r\n\r\n### Error Message\r\n\r\nSee above... Spack gives different excuses at different times for not uninstalling.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10331",
+    "updated_at": "2022-03-10 10:45:58",
+    "created_at": "2019-01-12 22:38:16",
+    "closed_at": "2022-03-10 10:45:57",
+    "state": "closed",
+    "title": "Cannot Uninstall Package from Environment",
+    "number": 10331,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments"
+    ],
+    "id": 398598876,
+    "html_url": "https://github.com/spack/spack/issues/10331",
+    "assignees": [],
+    "comments": 3
+}

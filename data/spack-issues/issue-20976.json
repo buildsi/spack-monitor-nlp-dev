@@ -1,0 +1,25 @@
+{
+    "body": "My packages.yaml contains\r\n```yaml\r\n  pkg-config:\r\n    buildable: false\r\n    externals:\r\n    - spec: pkg-config@0.27.1%gcc@4.8.5\r\n      prefix: /usr\r\n```\r\n\r\nThis causes Spack to sometimes concretize some intermediate dependencies with `%gcc@4.8.5` and not the requested compiler.\r\n\r\n**Expected result:**\r\n```\r\n$ spack spec py-setuptools %gcc@8.4.0\r\nInput spec\r\n--------------------------------\r\npy-setuptools%gcc@8.4.0\r\n\r\nConcretized\r\n--------------------------------\r\npy-setuptools@50.3.2%gcc@8.4.0 arch=linux-centos7-ivybridge\r\n    ^python@3.8.7%gcc@8.4.0 [...]\r\n        [...]\r\n        ^gdbm@1.18.1%gcc@8.4.0 arch=linux-centos7-ivybridge\r\n            ^readline@8.0%gcc@8.4.0 arch=linux-centos7-ivybridge\r\n                ^ncurses@6.2%gcc@8.4.0 [...] arch=linux-centos7-ivybridge\r\n                    ^pkg-config@0.27.1%gcc@4.8.5 [...] arch=linux-centos7-ivybridge\r\n        [...]\r\n```\r\n**Actual result without the proposed patch:**\r\n```\r\n$ spack spec py-setuptools %gcc@8.4.0\r\nInput spec\r\n--------------------------------\r\npy-setuptools%gcc@8.4.0\r\n\r\nConcretized\r\n--------------------------------\r\npy-setuptools@50.3.2%gcc@8.4.0 arch=linux-centos7-ivybridge\r\n    ^python@3.8.7%gcc@8.4.0 [...] arch=linux-centos7-ivybridge\r\n        [...]\r\n        ^gdbm@1.18.1%gcc@4.8.5 arch=linux-centos7-ivybridge\r\n            ^readline@8.0%gcc@4.8.5 arch=linux-centos7-ivybridge\r\n                ^ncurses@6.2%gcc@8.4.0 [...] arch=linux-centos7-ivybridge\r\n                    ^pkg-config@0.27.1%gcc@4.8.5 [...] arch=linux-centos7-ivybridge\r\n        [...]\r\n```\r\nAs you can see, two intermediate dependencies here got their compiler chosen based on one of their dependencies (pkg-config), not based on the input spec or their dependents. It doesn't make much sense for a non-buildable spec to contribute to the selection of a compiler, so my patch excludes non-buildable specs from the search.\r\n\r\nThis bug is quite non-deterministic and appears on some specs but not on others. I have been unable to find a minimal spec and packages.yaml/compilers.yaml that reproduces the issue, unfortunately. I'm looking forward to suggestions about how a unit test case for this might be written. This is happening on an unmodified, up-to-date Spack on CentOS 7 (Python 3.6.8) with the original concretizer.\r\n\r\nAs a workaround, one can also drop the compiler from the external spec (i.e. make it `- spec: pkg-config@0.27.1`), but I only learned that compilers are not required on external specs after I had already tracked down the error.",
+    "user": "mkuron",
+    "url": "https://api.github.com/repos/spack/spack/issues/20976",
+    "updated_at": "2021-02-25 23:42:59",
+    "created_at": "2021-01-15 22:30:26",
+    "closed_at": "2021-02-25 23:42:40",
+    "state": "closed",
+    "title": "concretizer: bidirectionally disconnect dependencies on external packages",
+    "number": 20976,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "concretization",
+        "external-packages",
+        "tests"
+    ],
+    "id": 787253388,
+    "html_url": "https://github.com/spack/spack/pull/20976",
+    "assignees": [
+        "scheibelp",
+        "alalazo"
+    ],
+    "comments": 15
+}

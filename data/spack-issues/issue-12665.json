@@ -1,0 +1,25 @@
+{
+    "body": "I'm seeing a problem on Cray where `spack compiler find` does not\r\nidentify the FE compiler modules, at least for GNU.\r\n\r\nCray has several modules for compilers and separate FE and BE arch\r\ntypes.  For GNU at least, the raw modules are front-end compilers.\r\nIt's only the Cray wrappers (cc, CC, ftn) that add the back-end\r\nspecific options.  I'm not sure how Intel, PGI or Clang handle this.\r\n\r\nFor example, on theta at ANL, I switch to `PrgEnv-gnu` and load module\r\n`gcc/7.3.0`.  The FE C compiler is `/opt/gcc/7.3.0/bin/gcc` and the BE\r\ncompiler is the `cc` wrapper.\r\n\r\nBut spack fails to see `/opt/gcc/7.3.0/bin/gcc` as a FE compiler.\r\n\r\nFor example, again on theta at ANL, I remove my `compilers.yaml` file\r\nand run `spack compiler find` from scratch.  I get these compilers.\r\n\r\n```\r\n$ spack compiler list\r\n==> Available compilers\r\n-- cce cnl6-any -------------------------------------------------\r\ncce@8.7.7  cce@8.7.3  cce@8.6.5  cce@8.6.3  cce@8.6.1  cce@8.5.8\r\ncce@8.7.6  cce@8.7.0  cce@8.6.4  cce@8.6.2  cce@8.6.0  cce@8.5.7\r\n\r\n-- gcc cnl6-any -------------------------------------------------\r\ngcc@8.2.0  gcc@7.3.0  gcc@7.2.0  gcc@7.1.0  gcc@6.3.0  gcc@6.1.0  gcc@5.3.0  gcc@4.9.3\r\n\r\n-- gcc sles12-x86_64 --------------------------------------------\r\ngcc@4.8\r\n\r\n-- intel cnl6-any -----------------------------------------------\r\nintel@19.0.3.199  intel@18.0.5.274  intel@18.0.2.199  intel@17.0.2.174  intel@16.0.3.210\r\nintel@19.0.2.187  intel@18.0.3.222  intel@18.0.0.128  intel@17.0.1.132\r\nintel@19.0.1.144  intel@18.0.2.199  intel@17.0.4.196  intel@17.0.0.098\r\n```\r\n\r\nNote: the only FE (sles12-x86_64) GNU compiler it finds is gcc 4.8.5\r\nfrom `/usr/bin/gcc`.  And further attempts to find the compiler don't\r\nwork.  I have to add the full compiler: entry in compilers.yaml\r\nmanually.\r\n\r\n```\r\n$ module list\r\nCurrently Loaded Modulefiles:\r\n  2) gcc/7.3.0\r\n 23) PrgEnv-gnu/6.0.4\r\n ...\r\n\r\n$ type -a gcc\r\ngcc is /opt/gcc/7.3.0/bin/gcc\r\ngcc is /usr/bin/gcc\r\ngcc is /usr/bin/X11/gcc\r\n\r\n$ /opt/gcc/7.3.0/bin/gcc --version\r\ngcc (GCC) 7.3.0 20180125 (Cray Inc.)\r\nCopyright (C) 2017 Free Software Foundation, Inc.\r\nThis is free software; see the source for copying conditions.  There is NO\r\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\r\n\r\n$ ./spack compiler find /opt/gcc/7.3.0 \r\n==> Found no new compilers\r\n==> Compilers are defined in the following files:\r\n    /home/krentel/.spack/cray/compilers.yaml\r\n```\r\n\r\nI see the same problem on cori at NERSC and theta at ANL, both Cray.\r\n\r\nI'm quite sure this used to work.  I update my compilers.yaml so\r\ninfrequently that it's hard to say how far back it was when it worked.\r\nMaybe 3 months, 6 months, maybe 12.  But I think something has changed\r\nin how spack reads the FE compilers on Cray.\r\n\r\nBut since it used to work, at some point, I can go back and try old\r\nrevs and apply binary search.\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/12665",
+    "updated_at": "2020-06-29 14:53:09",
+    "created_at": "2019-08-30 19:06:53",
+    "closed_at": "2020-06-29 14:53:09",
+    "state": "closed",
+    "title": "spack compiler find does not find FE compilers on Cray",
+    "number": 12665,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "compilers",
+        "user-experience"
+    ],
+    "id": 487630437,
+    "html_url": "https://github.com/spack/spack/issues/12665",
+    "assignees": [
+        "alalazo",
+        "becker33"
+    ],
+    "comments": 10
+}

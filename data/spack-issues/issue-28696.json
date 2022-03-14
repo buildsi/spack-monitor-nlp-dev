@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\n`spack install pygmo`\r\n\r\nfails like:\r\n\r\n```\r\n==> Installing pygmo-2.18.0-d66arqjll2nuvebkwgtqcb3mbgobh5i4\r\n==> No binary for pygmo-2.18.0-d66arqjll2nuvebkwgtqcb3mbgobh5i4 found: installing from source\r\n==> Using cached archive: /home/wspear/bin/SPACK/spack/var/spack/cache/_source-cache/archive/9f/9f081cc973297894af09f713f889870ac452bfb32b471f9f7ba08a5e0bb9a125.tar.gz\r\n==> No patches needed for pygmo\r\n==> pygmo: Executing phase: 'cmake'\r\n==> pygmo: Executing phase: 'build'\r\n==> pygmo: Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16' 'install'\r\n\r\n2 errors found in build log:\r\n     158    make[1]: Entering directory '/tmp/wspear/spack-stage/spack-stage-pygmo-2.18.0-d66arqjll2nuvebkwgtqcb3mbgobh5i4/spack-build-d66arqj'\r\n     159    make[1]: Nothing to be done for 'preinstall'.\r\n     160    make[1]: Leaving directory '/tmp/wspear/spack-stage/spack-stage-pygmo-2.18.0-d66arqjll2nuvebkwgtqcb3mbgobh5i4/spack-build-d66arqj'\r\n     161    Install the project...\r\n     162    /home/wspear/bin/SPACK/spack/opt/spack/linux-ubuntu20.04-westmere/gcc-9.3.0/cmake-3.22.2-x3cl7tdot2jjqtkxedz3v2i7xjgfwstl/bin/cmake -P cmake_install.cmake\r\n     163    -- Install configuration: \"RelWithDebInfo\"\r\n  >> 164    CMake Error at pygmo/plotting/cmake_install.cmake:54 (file):\r\n     165      file cannot create directory:\r\n     166      /usr/lib/python3/dist-packages/pygmo/plotting.  Maybe need administrative\r\n     167      privileges.\r\n     168    Call Stack (most recent call first):\r\n     169      pygmo/cmake_install.cmake:47 (include)\r\n     170      cmake_install.cmake:47 (include)\r\n     171\r\n     172\r\n  >> 173    make: *** [Makefile:103: install] Error 1\r\n\r\nSee build log for details:\r\n  /tmp/wspear/spack-stage/spack-stage-pygmo-2.18.0-d66arqjll2nuvebkwgtqcb3mbgobh5i4/spack-build-out.txt\r\n```\r\n\r\nAlso note: the cmake dependency is incorrect. The package needs cmake@3.17:, not @3.1:\n\n### Information on your system\n\n* **Spack:** 0.17.1-1011-3b64ca30c7\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-westmere\r\n* **Concretizer:** clingo\r\n\n\n### Additional information\n\n[spack-build-env.txt](https://github.com/spack/spack/files/7974742/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7974744/spack-build-out.txt)\r\n@liuyangzhuan \n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/28696",
+    "updated_at": "2022-02-01 08:38:06",
+    "created_at": "2022-01-31 22:52:44",
+    "closed_at": "2022-02-01 08:38:06",
+    "state": "closed",
+    "title": "Installation issue: pygmo",
+    "number": 28696,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1120018263,
+    "html_url": "https://github.com/spack/spack/issues/28696",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

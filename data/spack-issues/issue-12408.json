@@ -1,0 +1,17 @@
+{
+    "body": "Todd Gamblin confirmed in the Slack #packaging room that this is a documentation bug; there is no `self.bootstrap_args()` function in [Phase and phase_args functions](https://spack.readthedocs.io/en/latest/build_systems/custompackage.html#phase-and-phase-args-functions).\r\n\r\nAs it turns out, the bootstrap phase is an ad-hoc phase only ever used by the CMake package, it's not anywhere in the spack python libraries:\r\n\r\n```console\r\n$ cd $SPACK_ROOT\r\n$ find lib/spack/ var/spack/repos/builtin/packages/ -type f -exec grep -lFw bootstrap_args {} +\r\nlib/spack/docs/build_systems/custompackage.rst\r\nvar/spack/repos/builtin/packages/cmake/package.py\r\nvar/spack/repos/builtin/packages/cmake/package.pyc\r\nvar/spack/repos/builtin/packages/cmake/__pycache__/package.cpython-34.pyc\r\n```\r\n\r\nI see two options:\r\n\r\n1. Keep the example mostly the same replacing `self.bootstrap_args()` with `bootstrap_args = ['--force']`.  The `configure_args` portion of the documentation should be sufficient to demonstrate the idea of phase_args.\r\n2. Replace the bootstrap phase and bootstrap_args with another example.\r\n\r\nI'll create a PR for option 1.",
+    "user": "omsai",
+    "url": "https://api.github.com/repos/spack/spack/issues/12408",
+    "updated_at": "2019-08-13 18:13:11",
+    "created_at": "2019-08-13 17:51:42",
+    "closed_at": "2019-08-13 18:13:11",
+    "state": "closed",
+    "title": "Document workaround for missing bootstrap_args in Custom Build Systems",
+    "number": 12408,
+    "milestone": null,
+    "labels": [],
+    "id": 480285664,
+    "html_url": "https://github.com/spack/spack/issues/12408",
+    "assignees": [],
+    "comments": 1
+}

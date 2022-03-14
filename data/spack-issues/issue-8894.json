@@ -1,0 +1,19 @@
+{
+    "body": "It takes ages for any patches for libtool to get accepted, merged and released (if at all). This PR introduces version `@develop` with all prerequisites for bootstrapping. It should be noted that the releases can be and must be bootstrapped (with flag `--force`) if any patches are applied to them. So, I suggest that we have only one version `@develop` for any patches that we would like to have. This will also be easier to maintain them: no need to check if a patch works for any other version.\r\n\r\nThe first patch, which is included in this PR, fixes incorrect parsing of additional linking flags appended by a compiler. The comment in `libtool.m4` says that \r\n\r\n> Some  compilers place space between \"-{L,R}\" and the path.\r\n\r\nbut the logic implemented after the comment doesn't actually work. The patch fixes that as well as extends it for the flag `-l` too. For example, Cray's compiler wrapper `ftn` adds `-l gfortran` (instead of `-lgfortran`), which confuses `libtool`.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/8894",
+    "updated_at": "2018-08-15 15:07:45",
+    "created_at": "2018-08-06 13:55:04",
+    "closed_at": "2018-08-06 15:43:27",
+    "state": "closed",
+    "title": "Libtool: version 'develop'",
+    "number": 8894,
+    "milestone": null,
+    "labels": [
+        "new-version"
+    ],
+    "id": 347934263,
+    "html_url": "https://github.com/spack/spack/pull/8894",
+    "assignees": [],
+    "comments": 1
+}

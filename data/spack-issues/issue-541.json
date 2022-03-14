@@ -1,0 +1,19 @@
+{
+    "body": "With Emacs, the issue has come up of dependencies on the underlying OS that are not built by Spack.  For example, Emacs relies on GTK, which Spack does not (currently) build.  Although it would be nice for Spack to build GTK one day, that would require a number of packages.  And... in many cases, that would not be desirable: it's a good idea to use the widgets shipped with the OS when displaying windows on the OS.\n\nPR #120 now allows one to specify that some packages are to be not built, using the system instead.  But other than \"not building\" a package, Spack provides no other mechanisms to ensure that the correct prerequisite system packages are installed before building.  I then have to manually guess what to install with yum or apt-get.  For example, I required the following to build Emacs on my Ubuntu 14.04 LTS machine:\n\n```\n    # For Ubuntu 14.04 LTS:\n    #     sudo apt-get install libgtk-3-dev libxpm-dev libtiff5-dev libjpeg8-dev libgif-dev libpng12-dev\n```\n\nIt would be nice if this could be formalized, encoded and automated.  In general, it would work either as:\n1. A bunch of system packages to install as prerequisited.  I.e. the prerequisites above would be listed in the emacs/package.py.\n2. An extension of the nobuild functionality.  In this case, one would have to create at least a dummy Spack package for all the prerequisites above.\n\nThen, when Spack runs, it could automatically call yum/apt-get to get the correct system stuff installed.  There are caveats here, of course:\n a) Spack usually doesn't run as root.  So it will need to just SUGGEST what needs to be installed and get the user to install it.\n b) This will all be OS-specific.  There will be different list of system package installs on a per-OS basis.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/541",
+    "updated_at": "2017-01-10 14:06:07",
+    "created_at": "2016-03-12 03:41:32",
+    "closed_at": "2017-01-10 14:06:07",
+    "state": "closed",
+    "title": "Integration with System Package Managers",
+    "number": 541,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 140342786,
+    "html_url": "https://github.com/spack/spack/issues/541",
+    "assignees": [],
+    "comments": 10
+}

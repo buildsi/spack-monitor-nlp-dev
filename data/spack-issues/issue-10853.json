@@ -1,0 +1,17 @@
+{
+    "body": "`shmemrun` and `oshrun` do not exist in OpenMPI v4.0.0\r\n(ref: https://www.open-mpi.org/doc/v4.0/)\r\n\r\nSimply calling `os.remove` on them will cause Spack install error:\r\n```\r\n$ spack install openmpi@4.0.0+pmi schedulers=slurm\r\n...\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Error: OSError: [Errno 2] No such file or directory: '/shared/spack/opt/spack/linux-centos7-x86_64/intel-19.0.1.144/openmpi-4.0.0-mbndkoanvn5tknggr35g7omsrgkajnj5/bin/shmemrun'\r\n\r\n/shared/spack/var/spack/repos/builtin/packages/openmpi/package.py:483, in delete_mpirun_mpiexec:\r\n        480        if '@1.6: ~legacylaunchers schedulers=slurm' in self.spec:\r\n        481            os.remove(self.prefix.bin.mpirun)\r\n        482            os.remove(self.prefix.bin.mpiexec)\r\n  >>    483            os.remove(self.prefix.bin.shmemrun)\r\n        484            os.remove(self.prefix.bin.oshrun)\r\n\r\nSee build log for details:\r\n  /shared/spack/var/spack/stage/openmpi-4.0.0-mbndkoanvn5tknggr35g7omsrgkajnj5/openmpi-4.0.0/spack-build.out\r\n```\r\n",
+    "user": "JiaweiZhuang",
+    "url": "https://api.github.com/repos/spack/spack/issues/10853",
+    "updated_at": "2019-03-12 01:18:51",
+    "created_at": "2019-03-11 16:57:24",
+    "closed_at": "2019-03-12 01:18:51",
+    "state": "closed",
+    "title": "Fix OpenMPI v4.0.0 + Slurm installation error",
+    "number": 10853,
+    "milestone": null,
+    "labels": [],
+    "id": 419578331,
+    "html_url": "https://github.com/spack/spack/pull/10853",
+    "assignees": [],
+    "comments": 0
+}

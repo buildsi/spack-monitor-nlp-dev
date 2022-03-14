@@ -1,0 +1,17 @@
+{
+    "body": "##### Objective\n\nBeing able to customize what gets written in a module file\n##### TLDR\n\nCurrently the modifications that gets written in a module file are:\n- generic modifications to some list of paths in the environment\n\nThese modifications are obtained inspecting `pkg.prefix` according to the same set of rules for every package. I would like to extend this process allowing:\n- package-specific modifications to the environment (this PR)\n- site-specific modifications via a configuration file (a subsequent PR)\n##### Current Status\n- [x] class that manages environment modifications during both installation and module file creation (module + unit tests)\n- [x] environment variables set in a package are written to tcl or dotkit module files\n- [x] polished the interface that package maintainers will need to use\n- [x] validation of environment modifications (i.e. detect conflicting changes to the same variable issued by different packages)\n##### Examples of use\n1. `openmpi` and `mpich` packages in this PR set the environment variables for compiler wrappers differently depending on whether they are used as a dependency during an installation or outside of spack via module files\n##### Details\n\nThe biggest change done in this PR is the introduction of a class (`EnvironmentModifications`) to manage environment modifications both during install and module file creation. An object of this class is essentially a FIFO queue containing requests to modify the environment. Those requests can be executed at a later time and from a scope other than where they were created (in which case the environment is modified and the list is cleared.) \n\nAlternatively the requests can be inspected and processed. This is what is done during module file creation when each module file writer (`TclModule`, `Dotkit`) maps each single request to a formatted line and writes that line to a file.\n\nAn interesting side effect of this design is the possibility to inspect the whole set of requests done by different packages before applying them. This could permit to reveal inconsistencies (e.g.  variables that are set by a package and unset by another) and output diagnostic messages to the user.\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/552",
+    "updated_at": "2016-03-21 23:16:38",
+    "created_at": "2016-03-15 15:36:06",
+    "closed_at": "2016-03-21 22:56:20",
+    "state": "closed",
+    "title": "enhancement proposal : customization of module files ",
+    "number": 552,
+    "milestone": null,
+    "labels": [],
+    "id": 141010681,
+    "html_url": "https://github.com/spack/spack/pull/552",
+    "assignees": [],
+    "comments": 30
+}

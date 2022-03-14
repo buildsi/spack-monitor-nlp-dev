@@ -1,0 +1,20 @@
+{
+    "body": "The variants table in `spack info` is cramped, as the *widest* it can be is 80 columns.  And that's actually only sort of true -- the padding calculation is off, so it still wraps on terminals of size 80 because it comes out *slightly* wider.\r\n\r\nThis change looks at the terminal size and calculates the width of the description column based on it.  On larger terminals, the output looks much nicer, and on small terminals, the output no longer wraps.\r\n\r\nHere's an example  for `spack info qmcpack` with 110 columns.\r\n\r\nBefore:\r\n```\r\n    Name [Default]          Allowed values          Description\r\n    ====================    ====================    ==============================\r\n\r\n    afqmc [off]             on, off                 Install with AFQMC support.\r\n                                                    NOTE that if used in\r\n                                                    combination with CUDA, only\r\n                                                    AFQMC will have CUDA.\r\n    build_type [Release]    Debug, Release,         The build type to build\r\n                            RelWithDebInfo\r\n    complex [off]           on, off                 Build the complex (general\r\n                                                    twist/k-point) version\r\n    cuda [off]              on, off                 Build with CUDA\r\n```\r\n\r\nAfter:\r\n```\r\n    Name [Default]          Allowed values          Description\r\n    ====================    ====================    ========================================================\r\n\r\n    afqmc [off]             on, off                 Install with AFQMC support. NOTE that if used in\r\n                                                    combination with CUDA, only AFQMC will have CUDA.\r\n    build_type [Release]    Debug, Release,         The build type to build\r\n                            RelWithDebInfo\r\n    complex [off]           on, off                 Build the complex (general twist/k-point) version\r\n    cuda [off]              on, off                 Build with CUDA\r\n```",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16254",
+    "updated_at": "2020-04-23 19:38:14",
+    "created_at": "2020-04-23 06:20:44",
+    "closed_at": "2020-04-23 19:14:40",
+    "state": "closed",
+    "title": "spack info: variants section can be as wide as the terminal",
+    "number": 16254,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "user-experience"
+    ],
+    "id": 605270957,
+    "html_url": "https://github.com/spack/spack/pull/16254",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #1754. Fixes #1457.\r\n\r\n- [x] Fixes issues with hashing where deptypes from one dependency would be\r\n  overwritten by those of another dependency on the same package.\r\n\r\n  - Copying specs (`Spec.copy()`, `Spec._dup()`) did not handle deptypes\r\n     correctly:\r\n\r\n  - Copying \"flattened\" dependencies, but in doing so it collapsed\r\n    multiple dependency relationships into one, losing some edge\r\n    information in the DAG.\r\n\r\n- [x] This gets rid of the `flat_dependencies_with_deptypes()` method,\r\n    which doesn't really make sense, as it collapses edges. It's now\r\n    reverted the original `flat_dependnecies()`.\r\n\r\n- [x] `traverse_with_deptypes()` is now called `traverse_edges()`, which is\r\n    when edge information must be preserved.\r\n\r\n- [x] This gets rid of the notion of \"default deptypes\" introduced in #2307.\r\n\r\n  - Initially created Specs now have empty deptypes instead of \"defaults\".\r\n\r\n  - Proper deptypes are added during normalization/concretization like\r\n    everything else in the Spec class.  Empty deptypes mean deptypes are\r\n    not yet specified, and the spec is abstract.\r\n\r\n- [x] Updated tests.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2681",
+    "updated_at": "2016-12-29 22:44:00",
+    "created_at": "2016-12-25 22:15:24",
+    "closed_at": "2016-12-29 22:44:00",
+    "state": "closed",
+    "title": "Concretization preserves deptypes",
+    "number": 2681,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "hashes",
+        "specs",
+        "dependencies"
+    ],
+    "id": 197516978,
+    "html_url": "https://github.com/spack/spack/pull/2681",
+    "assignees": [],
+    "comments": 5
+}

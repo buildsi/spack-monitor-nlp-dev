@@ -1,0 +1,17 @@
+{
+    "body": "I'm trying to create a new git-based package in spack. Following the documentation I do,\n\n```\nbash-4.1$ spack edit -f gccxml\n==> Error: Package gccxml not found.\n```\n\nThe `-f` is supposed to create the `packages.py` file even if the package is new. \n\nTurning on debug, I get,\n\n```\nbash-4.1$ spack -d edit -f gccxml\nTraceback (most recent call last):\n  File \"/Users/lyon/Development/spack/spack/bin/spack\", line 154, in main\n    return_val = command(parser, args)\n  File \"/Users/lyon/Development/spack/spack/lib/spack/spack/cmd/edit.py\", line 127, in edit\n    edit_package(name, args.repo, args.namespace, args.force)\n  File \"/Users/lyon/Development/spack/spack/lib/spack/spack/cmd/edit.py\", line 65, in edit_package\n    path = repo.filename_for_package_name(name)\n  File \"/Users/lyon/Development/spack/spack/lib/spack/spack/repository.py\", line 321, in filename_for_package_name\n    return self.repo_for_pkg(pkg_name).filename_for_package_name(pkg_name)\n  File \"/Users/lyon/Development/spack/spack/lib/spack/spack/repository.py\", line 67, in converter\n    return function(self, spec_like, *args, **kwargs)\n  File \"/Users/lyon/Development/spack/spack/lib/spack/spack/repository.py\", line 304, in repo_for_pkg\n    raise UnknownPackageError(spec.name)\nspack.repository.UnknownPackageError: Package gccxml not found.\n```\n\nThe `repo_for_pkg` function demands that the package exists. \n\nThe `spack edit -f` feature is a nice one - can it be restored? Thanks!!!  -- Adam Lyon (Fermilab)\n",
+    "user": "lyon-fnal",
+    "url": "https://api.github.com/repos/spack/spack/issues/430",
+    "updated_at": "2016-02-10 17:02:01",
+    "created_at": "2016-02-09 15:49:05",
+    "closed_at": "2016-02-09 16:58:25",
+    "state": "closed",
+    "title": "spack edit -f new_package fails",
+    "number": 430,
+    "milestone": null,
+    "labels": [],
+    "id": 132453565,
+    "html_url": "https://github.com/spack/spack/issues/430",
+    "assignees": [],
+    "comments": 3
+}

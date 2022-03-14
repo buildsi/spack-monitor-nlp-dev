@@ -1,0 +1,23 @@
+{
+    "body": "This is yet another follow-up to #24095.\r\n\r\nOn most systems that I've tested, the platform-dependent and platform-independent site packages directories are the same. However, in #25973, @robertu94 discovered that on his system, this is not the case. During installation, we pass both `--install-purelib` and `--install-platlib`, and Cython chooses to install to `platlib` instead of `purelib`. I see two possibilities:\r\n\r\n1. Packages always install to `platlib` and we should always add `platlib` to the `PYTHONPATH` (done in this PR)\r\n2. The installation directory changes from `platlib` to `purelib` depending on the package and we need to add both to the `PYTHONPATH`\r\n\r\n@robertu94 can you test this and see if it introduces more bugs than it fixes? I'm also hoping GitLab will catch any potential issues as it builds a decently sized Python stack.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/25998",
+    "updated_at": "2021-09-19 01:25:42",
+    "created_at": "2021-09-16 15:41:51",
+    "closed_at": "2021-09-19 00:37:51",
+    "state": "closed",
+    "title": "Python: use platform-specific site packages dir",
+    "number": 25998,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package",
+        "build-systems"
+    ],
+    "id": 998360341,
+    "html_url": "https://github.com/spack/spack/pull/25998",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 4
+}

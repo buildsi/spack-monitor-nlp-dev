@@ -1,0 +1,23 @@
+{
+    "body": "fixes #11983 \r\ncloses #16447\r\n\r\nsame as #21683 which I cannot reopen after a force push for some reason\r\n\r\nThis PR changes the internal representation of `Spec` to allow for multiple dependencies or dependents stemming from the same package. This change permits to represent cases which are frequent in cross compiled environments or to bootstrap compilers.\r\n\r\nModifications:\r\n- [x] Substitute `DependencyMap` with `_EdgeMap`. The main differences are that the latter does not support direct item assignment and can be modified only through its API. It also provides a `select_by` method to query items.\r\n- [x] Reworked a few public APIs of `Spec` to get list of dependencies or related edges.\r\n- [x] Added unit tests to prevent regression on #11983 and prove the synthetic construction of specs with multiple deps from the same package. \r\n\r\nSince #22845 went in first, this PR reuses that format and thus it should not change hashes. What happens is that in the list of dependencies we may have the same package being present multiple times with different associated specs.\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/28673",
+    "updated_at": "2022-03-12 21:53:57",
+    "created_at": "2022-01-29 17:10:08",
+    "closed_at": "2022-03-10 19:53:47",
+    "state": "closed",
+    "title": "Allow for multiple dependencies/dependents from the same package",
+    "number": 28673,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "update-package",
+        "utilities",
+        "breaking-change"
+    ],
+    "id": 1118276588,
+    "html_url": "https://github.com/spack/spack/pull/28673",
+    "assignees": [],
+    "comments": 13
+}

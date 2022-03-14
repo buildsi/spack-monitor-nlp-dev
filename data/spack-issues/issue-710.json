@@ -1,0 +1,19 @@
+{
+    "body": "See also: https://groups.google.com/forum/#!msg/spack/tWExKuaBqIA/QcyfiNfaDwAJ\n\n~~Building with layout=tagged appends \"-mt\" to the names of libraries built with multithreading support. Consequently dependents which reference boost libraries like \"-lboost_thread\" may unknowingly reference the single-threaded libs (which lack that suffix).~~\n\n@eschnett I'm curious if you are opposed to the following proposal (since you initially enabled building both the single and multi-threaded libraries and using layout=tagged):\n\n@tgamblin's thought was that the multithreaded libraries could appear under a different prefix \n\nThis would involve updating boost package.py to use layout=system, and to add a switch that chooses either single or multithreaded builds (but not both). A user who wants both could do two separate boost installs.\n\nEdit (4/1) crossed out some faulty reasoning: Erik points out below that layout=tagged is standard; it seems tools like cmake are comfortable with the tagged layout and e.g. RHEL boost package uses tagged layout for boost libs.\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/710",
+    "updated_at": "2016-10-11 13:24:51",
+    "created_at": "2016-04-01 01:00:48",
+    "closed_at": "2016-10-11 13:24:51",
+    "state": "closed",
+    "title": "Boost library naming is potentially misleading for layout=tagged",
+    "number": 710,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 145057588,
+    "html_url": "https://github.com/spack/spack/issues/710",
+    "assignees": [],
+    "comments": 7
+}

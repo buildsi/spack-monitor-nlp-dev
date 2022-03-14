@@ -1,0 +1,22 @@
+{
+    "body": "@junghans @becker33 @alalazo @adamjstewart @davydden \r\n\r\nWe're thinking of adding hooks for package authors, maybe something like:\r\n\r\n```python \r\nclass Foo(Package):\r\n    def cflags(self, flags):\r\n        # any of these are legitimate implementations \r\n\r\n        # use env vars to pass to build\r\n        env['CFLAGS'] = flags\r\n        return None  # skip compiler flag injection \r\n\r\n        # or\r\n\r\n        # use compiler injected flags only\r\n        return flags\r\n\r\n        # or\r\n\r\n        # do something special\r\n        return flags + \"-special-arg\"\r\n```\r\n\r\nThe interface is notional; here we'd need more methods for other types of flags.  We might end up with just one method.\r\n\r\nBasically we'd give the package author a chance to modify the compiler  flags from the spec before we use them in compiler wrappers, and packages could inject new things into the compiler wrappers if needed. Note that the spec would retain the original flags (we can't modify a concrete spec), but at least the package would have a say about them.  \r\n\r\nThe rationale is that we currently inject without asking, even though for many packages, the natural way to pass flags to a build system is through vars like CFLAGS.  Build systems may want to skip flags for certain files, e.g. If they're known to break things. This would allow them to do that. We'd probably make CFLAGS, not injection, the default for cmake and autotools packages and keep the injection as default in PackageBase.\r\n\r\n#3962 is the first package I've seen that *really wants* injected flags, so I thought I'd ping @junghans about this.\r\n\r\nThoughts?",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/3998",
+    "updated_at": "2017-07-20 03:12:01",
+    "created_at": "2017-04-26 14:33:38",
+    "closed_at": "2017-07-20 03:12:01",
+    "state": "closed",
+    "title": "Packages should be able to modify injected compiler flags.",
+    "number": 3998,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-environment"
+    ],
+    "id": 224489303,
+    "html_url": "https://github.com/spack/spack/issues/3998",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 5
+}

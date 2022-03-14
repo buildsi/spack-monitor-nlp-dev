@@ -1,0 +1,17 @@
+{
+    "body": "Trying to understand output of `spack spec -I`. In below example I have specified *mpich* and *automake* as externally installed package in *packages.yaml*. `spack spec -I` shows `[-]`  for `mpich` but not for `autoconf`, `libtool`, `automake` etc.\r\n\r\nMy expectation was to see `[+]` for externally installed packages as well.\r\nCould someone clarify?\r\n\r\n`packages.yaml` is:\r\n\r\n```\r\n................\r\n    mpich:\r\n        paths:\r\n            mpich@3.2: /usr/local\r\n        buildable: False\r\n        version: [3.2]\r\n\r\n    automake:                                 //same for autoconf, libtool etc\r\n        paths:\r\n            automake@system: /usr/local\r\n        buildable: False\r\n        version: [system]\r\n............\r\n```\r\n\r\nAnd `spack spec -I` gives:\r\n```\r\nspack spec -Il neuronperfmodels@neuron '^reportinglib+static' %clang\r\nInput spec\r\n--------------------------------\r\n     qwm2sld  neuronperfmodels@neuron\r\n     jikxgl4      ^reportinglib%clang+static\r\n\r\nNormalized\r\n--------------------------------\r\n     rrpdbfr  neuronperfmodels@neuron\r\n     qzuc2dn      ^cmake@2.8.12:\r\n     uqxsqv5      ^hdf5\r\n     j52z7qb          ^zlib@1.1.2:\r\n     2xnea7r      ^mpi\r\n     ci6h75q      ^neuron\r\n     giq2nnl          ^autoconf\r\n     gwv2ucp              ^m4@1.4.6:\r\n     qdutste          ^automake\r\n     mbrra2l          ^libtool\r\n     lbqdjps          ^pkg-config%clang\r\n     meerqbd      ^reportinglib%clang+static\r\n\r\nConcretized\r\n--------------------------------\r\n     xrhgrtl  neuronperfmodels@neuron%clang@3.9.0~profile arch=darwin-elcapitan-x86_64\r\n     tesxhxo      ^cmake@3.5.2%clang@3.9.0~doc+ncurses+openssl+ownlibs~qt arch=darwin-elcapitan-x86_64\r\n     toxmufu      ^hdf5@1.8.17%clang@3.9.0+cxx~debug~fortran+mpi+pic+shared~szip~threadsafe arch=darwin-elcapitan-x86_64\r\n[-]  klcnbph      ^mpich@3.2%clang@3.9.0+hydra+pmi+romio~verbs arch=darwin-elcapitan-x86_64\r\n     f76ksdo      ^neuron@develop%clang@3.9.0~cross-compile+mpi~profile+python+static arch=darwin-elcapitan-x86_64\r\n     6mbumme          ^autoconf@system%clang@3.9.0 arch=darwin-elcapitan-x86_64\r\n     rdjfvva          ^automake@system%clang@3.9.0 arch=darwin-elcapitan-x86_64\r\n     qidhy7e          ^libtool@system%clang@3.9.0 arch=darwin-elcapitan-x86_64\r\n     2xkpyqa          ^pkg-config@system%clang@3.9.0+internal_glib arch=darwin-elcapitan-x86_64\r\n     675gjmc          ^python@2.7.10%clang@3.9.0~tk~ucs4 arch=darwin-elcapitan-x86_64\r\n[+]  ha22so4      ^reportinglib@develop%clang@3.9.0~profile+static arch=darwin-elcapitan-x86_64\r\n```\r\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2815",
+    "updated_at": "2017-11-22 13:53:07",
+    "created_at": "2017-01-12 07:36:16",
+    "closed_at": "2017-11-22 13:53:07",
+    "state": "closed",
+    "title": "Understanding --install-status with command spack spec",
+    "number": 2815,
+    "milestone": null,
+    "labels": [],
+    "id": 200297878,
+    "html_url": "https://github.com/spack/spack/issues/2815",
+    "assignees": [],
+    "comments": 2
+}

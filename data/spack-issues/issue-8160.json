@@ -1,0 +1,19 @@
+{
+    "body": "Recently (#8102), libjpeg-turbo started building libraries to lib64 instead of lib on my machine.\r\n\r\nI believe this is the culprit (in opencv's package.py):\r\n```\r\n        if '+jpeg' in spec:\r\n            libjpeg = spec['jpeg']\r\n            args.extend([\r\n                '-DBUILD_JPEG:BOOL=OFF',\r\n                '-DJPEG_LIBRARY:FILEPATH={0}'.format(\r\n                    join_path(libjpeg.prefix.lib,\r\n                              'libjpeg.{0}'.format(dso_suffix))),\r\n                '-DJPEG_INCLUDE_DIR:PATH={0}'.format(libjpeg.prefix.include)\r\n            ])\r\n```\r\n\r\nThis does not consider the possibility that the path should be `libjpeg.prefix.lib64`.\r\n\r\nI'm currently manually symlinking lib64/libjpeg.so to lib/libjpeg.so, as a stopgap.\r\n\r\n * Does `libjpeg.prefix.lib64` exist, in the context above? Can it? Should it?\r\n * Is there some way to get libjpeg-turbo to install to lib instead of lib64? None of the changes in libjpeg-turbo stood out as the reason it changed directories.",
+    "user": "mcneish1",
+    "url": "https://api.github.com/repos/spack/spack/issues/8160",
+    "updated_at": "2018-05-18 23:15:44",
+    "created_at": "2018-05-16 17:45:17",
+    "closed_at": "2018-05-18 23:15:44",
+    "state": "closed",
+    "title": "OpenCV does not look in lib64 directories for dependencies",
+    "number": 8160,
+    "milestone": null,
+    "labels": [
+        "libraries"
+    ],
+    "id": 323721531,
+    "html_url": "https://github.com/spack/spack/issues/8160",
+    "assignees": [],
+    "comments": 7
+}

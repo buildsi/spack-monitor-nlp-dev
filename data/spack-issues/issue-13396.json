@@ -1,0 +1,20 @@
+{
+    "body": "Previously this command only showed total counts for each regular expression.  This doesn't give you a sense of which regexes are working well and which ones are not.  We now display the number of right, wrong, and total URL parses per regex.\r\n\r\nIt's easier to see where we might improve the URL parsing with this change.\r\n\r\nLet's see how triggered @adamjstewart is by these results -- there are some pretty unproductive regexes in here.\r\n\r\n```\r\n(spackbook):spack$ spack url summary\r\n==> Generating a summary of URL parsing in Spack...\r\n\r\n    Total URLs found:          3477\r\n    Names correctly parsed:    3045/3477 (87.58%)\r\n    Versions correctly parsed: 3159/3477 (90.85%)\r\n\r\n==> Statistics on name regular expressions:\r\n\r\n    Index   Right   Wrong   Total   Regular Expression\r\n        0     664     112     776   r'github\\\\.com/[^/]+/([^/]+)'\r\n        1       7       1       8   r'gitlab[^/]+/api/v4/projects/[^/]+%2F([^/]+)'\r\n        2       5       2       7   r'gitlab[^/]+/(?!api/v4/projects)[^/]+/([^/]+)'\r\n        3      13       4      17   r'bitbucket\\\\.org/[^/]+/([^/]+)'\r\n        4     518       7     525   r'pypi\\\\.(?:python\\\\.org|io)/packages/source/[A-Za-z\\\\d]/([^/]+)'\r\n        6       8       0       8   r'\\\\?package=([A-Za-z\\\\d+-]+)'\r\n        7       0       2       2   r'([^/]+)/download.php$'\r\n        8    1830     303    2133   r'^([A-Za-z\\\\d+\\\\._-]+)$'\r\n\r\n==> Statistics on version regular expressions:\r\n\r\n    Index   Right   Wrong   Total   Regular Expression\r\n        0    2374      54    2428   r'^[a-zA-Z+._-]+[._-]v?(\\\\d[\\\\d._-]*)$'\r\n        1     495      21     516   r'^v?(\\\\d[\\\\d._-]*)$'\r\n        2      10      15      25   r'^[a-zA-Z+]*(\\\\d[\\\\da-zA-Z]*)$'\r\n        3       7       4      11   r'^[a-zA-Z+-]*(\\\\d[\\\\da-zA-Z-]*)$'\r\n        4       3      77      80   r'^[a-zA-Z+_]*(\\\\d[\\\\da-zA-Z_]*)$'\r\n        5      34      19      53   r'^[a-zA-Z+.]*(\\\\d[\\\\da-zA-Z.]*)$'\r\n        6     158       6     164   r'^[a-zA-Z\\\\d+-]+-v?(\\\\d[\\\\da-zA-Z.]*)$'\r\n        7       1       0       1   r'^[a-zA-Z\\\\d+-]+-v?(\\\\d[\\\\da-zA-Z_]*)$'\r\n        8      20       0      20   r'^[a-zA-Z\\\\d+_]+_v?(\\\\d[\\\\da-zA-Z.]*)$'\r\n        9       0       1       1   r'^[a-zA-Z\\\\d+_]+\\\\.v?(\\\\d[\\\\da-zA-Z.]*)$'\r\n       10      17      51      68   r'^(?:[a-zA-Z\\\\d+-]+-)?v?(\\\\d[\\\\da-zA-Z.-]*)$'\r\n       11       3       0       3   r'^[a-zA-Z+]+v?(\\\\d[\\\\da-zA-Z.-]*)$'\r\n       12       4       1       5   r'^[a-zA-Z\\\\d+_]+-v?(\\\\d[\\\\da-zA-Z.]*)$'\r\n       13      11       2      13   r'^[a-zA-Z\\\\d+.]+_v?(\\\\d[\\\\da-zA-Z.-]*)$'\r\n       14       0       1       1   r'^[a-zA-Z\\\\d+-]+-v?(\\\\d[\\\\da-zA-Z._]*)$'\r\n       15       1       1       2   r'^[a-zA-Z\\\\d+._]+-v?(\\\\d[\\\\da-zA-Z.]*)$'\r\n       16       4       0       4   r'^[a-zA-Z+-]+(\\\\d[\\\\da-zA-Z._]*)$'\r\n       17       1       0       1   r'bzr(\\\\d[\\\\da-zA-Z._-]*)$'\r\n       18       4       1       5   r'github\\\\.com/[^/]+/[^/]+/releases/download/[a-zA-Z+._-]*v?(\\\\d[\\\\da-zA-Z._-]*)/'\r\n       19       8       0       8   r'\\\\?sha=[a-zA-Z+._-]*v?(\\\\d[\\\\da-zA-Z._-]*)$'\r\n       20       1       0       1   r'\\\\?ref=[a-zA-Z+._-]*v?(\\\\d[\\\\da-zA-Z._-]*)$'\r\n       21       1       0       1   r'\\\\?version=v?(\\\\d[\\\\da-zA-Z._-]*)$'\r\n       23       2       0       2   r'\\\\?package=[a-zA-Z\\\\d+-]+&get=[a-zA-Z\\\\d+-]+-v?(\\\\d[\\\\da-zA-Z.]*)$'\r\n```",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/13396",
+    "updated_at": "2019-10-23 16:50:44",
+    "created_at": "2019-10-23 07:55:23",
+    "closed_at": "2019-10-23 16:10:33",
+    "state": "closed",
+    "title": "url summary: show right and wrong parse counts for each regex",
+    "number": 13396,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "url-parsing"
+    ],
+    "id": 511144562,
+    "html_url": "https://github.com/spack/spack/pull/13396",
+    "assignees": [],
+    "comments": 2
+}

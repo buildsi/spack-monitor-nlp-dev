@@ -1,0 +1,17 @@
+{
+    "body": "This is intended to help figure out an issue reported by @bvanessen where a system path was appearing at the front of `PATH`. ~It doesn't contain a fix (although we might want to keep these logging statements to investigate future bugs).~\r\n\r\nUpdate: the issue is that environment modifications from dependencies are performed after `set_build_environment_variables`, so custom package environment modifications that prepend to `PATH` can \"override\" the `PrependPath` actions performed by Spack (and in doing so they add a merged/system prefix).\r\n\r\nThe original order of environment modifications is\r\n\r\n1. Modules\r\n1. Spack core environment modifications, including:\r\n   - compilers (including setting `CFLAGS` etc.)\r\n   - dependencies\r\n1. Custom package.py modifications in the following order\r\n   - dependencies\r\n   - root\r\n\r\n(so PrependPath actions in custom modifications occur last and therefore take highest precedence)\r\n\r\nIn general terms, the proposal is that:\r\n\r\n* All external package environment modifications are performed before non-external modifications (so that `PrependPath` actions of Spack-built package take precedence over those of custom external package modifications)\r\n* Spack core environment modifications for dependencies are made non-destructive (`CMAKE_PREFIX_PATH` is the only case that needs to be addressed).\r\n\r\nThe new proposed order ~(not entirely implemented here yet)~ is \r\n\r\n1. Modules\r\n1. Spack core modifications for compilers (if done at this step, Spack compiler flag settings do not destroy flag settings applied by any custom package modification - also this would match the original ordering up to this point)\r\n1. Spack core modifications for external deps\r\n1. Custom package modifications for external deps\r\n1. Spack core modifications for non-external deps (these occur after custom package modifications for external deps, so that `PrependPath` actions of Spack-built dependencies take precedence)\r\n1. Custom package modifications for non-external deps\r\n\r\n(if you swap steps 4 and 5, you get the old order)\r\n\r\nThe current spack core modifications for dependencies are:\r\n\r\n1. prepend_path of PKG_CONFIG_PATH\r\n1. prepend_path PATH\r\n1. set_path CMAKE_PREFIX_PATH (problem: several Spack packages prepend to this - overriding it will undo that)\r\n1. All other operations are performed on SPACK_* variables and it is assumed these can be done in any order\r\n\r\nThe only change to this is to use prepend_path instead of set_path for CMAKE_PREFIX_PATH (non-external core Spack modifications of CMAKE_PREFIX_PATH should take precedence but not remove custom package modifications to CMAKE_PREFIX_PATH from externals).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/23824",
+    "updated_at": "2021-06-25 19:03:52",
+    "created_at": "2021-05-20 20:38:15",
+    "closed_at": "2021-06-24 23:13:46",
+    "state": "closed",
+    "title": "Environment modifications: de-prioritize external packages",
+    "number": 23824,
+    "milestone": null,
+    "labels": [],
+    "id": 897425695,
+    "html_url": "https://github.com/spack/spack/pull/23824",
+    "assignees": [],
+    "comments": 8
+}

@@ -1,0 +1,23 @@
+{
+    "body": "Fix #19830\r\n\r\nThis removes -lpytrilinos from Makefile.export.Trilinos, so that C code\r\ntrying to link against a Trilinos built with PyTrilinos does not fail\r\ndue to undefined references to python routines (libpytrilinos is only\r\nused when importing PyTrilinos in python, in which case those references\r\nare already defined by Python).\r\n\r\nThere was already a bit of code to do something similar for C codes\r\nimporting Trilinos via a CMake mechanism, this extends that to a basic\r\nMakefile mechanism as well.  This patch also updates the comments to\r\nremove a stale link discussing this issue, and replacing with links to\r\nthe some Trilinos issue reports related to the matter.\r\n\r\nI also",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/19834",
+    "updated_at": "2021-11-03 21:55:48",
+    "created_at": "2020-11-10 01:57:53",
+    "closed_at": "2021-11-02 16:31:11",
+    "state": "closed",
+    "title": "trilinos: Additional fix for linking C code when built with PyTrilinos",
+    "number": 19834,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "update-package"
+    ],
+    "id": 739504489,
+    "html_url": "https://github.com/spack/spack/pull/19834",
+    "assignees": [
+        "sethrj",
+        "bernhardkaindl"
+    ],
+    "comments": 3
+}

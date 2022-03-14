@@ -1,0 +1,22 @@
+{
+    "body": "\r\nThis PR adds a way to check various parts of Spack from the command line. The motivation to start this has been seeing a few issues where errors / inconsistencies in package recipes where mistaken for bugs in the new concretizer, due to poor reporting, and a debug session with @jjellio  in which after much struggle we understood that an issue was due to a compiler being defined multiple times in the configuration (which is not allowed but Spack was not clear at all on what was the problem).\r\n\r\nThe PR should introduce:\r\n- [x] A way to declare new class of audits (e.g. audits for compiler configuration, audits for package directives etc.)\r\n- [x] A way to register functions as part of those audits \r\n- [x] A command to drive this from the terminal\r\n- [x] Documentation of the new feature\r\n- [x] Tests for the `spack.audit` module \r\n\r\nAs a first example, recreating a case like the one debugged with @jjellio we can obtain with this PR:\r\n```console\r\nculpo@MacBook-Pro bootstrap % cat spack.yaml             \r\nspack:\r\n  specs:\r\n  - zlib\r\n  compilers:\r\n  - compiler:\r\n      spec: gcc@10.2.0\r\n      paths:\r\n        cc: /Users/culpo/PycharmProjects/spack/opt/spack/darwin-bigsur-cannonlake/apple-clang-12.0.0/gcc-10.2.0-zm6u6otbxbacpvsbx6lugzo6qeb2hd7v/bin/gcc\r\n        cxx: /Users/culpo/PycharmProjects/spack/opt/spack/darwin-bigsur-cannonlake/apple-clang-12.0.0/gcc-10.2.0-zm6u6otbxbacpvsbx6lugzo6qeb2hd7v/bin/g++\r\n        f77: /Users/culpo/PycharmProjects/spack/opt/spack/darwin-bigsur-cannonlake/apple-clang-12.0.0/gcc-10.2.0-zm6u6otbxbacpvsbx6lugzo6qeb2hd7v/bin/gfortran\r\n        fc: /Users/culpo/PycharmProjects/spack/opt/spack/darwin-bigsur-cannonlake/apple-clang-12.0.0/gcc-10.2.0-zm6u6otbxbacpvsbx6lugzo6qeb2hd7v/bin/gfortran\r\n      flags:\r\n        cflags: '-O3'\r\n      operating_system: bigsur\r\n      target: x86_64\r\n      modules: []\r\n      environment: {}\r\n      extra_rpaths: []\r\nculpo@MacBook-Pro bootstrap % spack audit configuration     \r\nculpo@MacBook-Pro bootstrap % spack -e . audit configuration\r\nCFG-COMPILER: 1 issue found\r\n1. Compiler defined multiple times: gcc@10.2.0\r\n    in \"/Users/culpo/spack/bootstrap/spack.yaml\", line 5, column 5\r\n    in \"/Users/culpo/.spack/darwin/compilers.yaml\", line 2, column 3\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/23053",
+    "updated_at": "2021-06-18 13:52:26",
+    "created_at": "2021-04-16 21:42:36",
+    "closed_at": "2021-06-18 13:52:09",
+    "state": "closed",
+    "title": "Add an audit system to Spack",
+    "number": 23053,
+    "milestone": null,
+    "labels": [
+        "new-command",
+        "debugging"
+    ],
+    "id": 860189580,
+    "html_url": "https://github.com/spack/spack/pull/23053",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

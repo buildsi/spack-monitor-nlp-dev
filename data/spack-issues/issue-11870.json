@@ -1,0 +1,22 @@
+{
+    "body": "This is a regression of #3476, which was fixed in #3915.  It looks like #8772 broke it.\r\n\r\ncc @olesenm.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install xz\r\n$ cd var/spack/repos/builtin/packages && mv xz xzo && sed -i~ 's/Xz/Xzo/' xzo/package.py\r\n$ spack -d uninstall -yf xz\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> [2019-06-27-10:56:48.219992] Error: Package xz not found.\r\nTraceback (most recent call last):\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/main.py\", line 696, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/main.py\", line 446, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/cmd/uninstall.py\", line 336, in uninstall\r\n    args, spack.cmd.parse_specs(args.packages) if args.packages else [any])\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/cmd/uninstall.py\", line 326, in uninstall_specs\r\n    do_uninstall(env, uninstall_list, args.force)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/cmd/uninstall.py\", line 210, in do_uninstall\r\n    spack.package.Package.uninstall_by_spec(item, force=True)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/package.py\", line 1998, in uninstall_by_spec\r\n    spack.store.layout.remove_install_directory(spec)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/directory_layout.py\", line 94, in remove_install_directory\r\n    path = self.path_for_spec(spec)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/directory_layout.py\", line 81, in path_for_spec\r\n    if self.check_upstream and spec.package.installed_upstream:\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/spec.py\", line 1098, in package\r\n    self._package = spack.repo.get(self)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/repo.py\", line 1199, in get\r\n    return path.get(spec)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/repo.py\", line 93, in converter\r\n    return function(self, spec_like, *args, **kwargs)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/repo.py\", line 651, in get\r\n    return self.repo_for_pkg(spec).get(spec)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/repo.py\", line 93, in converter\r\n    return function(self, spec_like, *args, **kwargs)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/repo.py\", line 883, in get\r\n    raise UnknownPackageError(spec.name)\r\nspack.repo.UnknownPackageError: Package xz not found.\r\n```\r\n\r\n`uninstall_by_spec` in package.py is a static method specifically because it shouldn\u2019t require a `Package` to exist in order to uninstall a spec with a particular name.  Clearly I didn't add a good enough regression test for this.\r\n\r\nIt looks like the `spec.package` reference in `remove_install_directory()` breaks the no-existing-package requirement.  So we need a fix for that, and a good regression test.  Regression testing this may be somewhat tricky.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/11870",
+    "updated_at": "2019-06-29 23:04:16",
+    "created_at": "2019-06-27 17:59:16",
+    "closed_at": "2019-06-29 23:04:16",
+    "state": "closed",
+    "title": "`spack uninstall` can't install packages that no longer exist",
+    "number": 11870,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "regression"
+    ],
+    "id": 461670044,
+    "html_url": "https://github.com/spack/spack/issues/11870",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

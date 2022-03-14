@@ -1,0 +1,21 @@
+{
+    "body": "Fixes `NameError` in `binutils` introduced via de8027a820fb24354a06946eb3c6c05cc45ad3a5\r\n\r\n```\r\n$> spack install binutils@2.33.1\r\n...\r\n==> Installing binutils-2.33.1-iksgnl2krxqpq7gudfr7h2i2meonhewg\r\n==> Error: NameError: name 'spec' is not defined\r\n\r\n/spack/var/spack/repos/builtin/packages/binutils/package.py:81, in setup_build_environment:\r\n         78        if self.spec.satisfies('%cce'):\r\n         79            env.append_flags('LDFLAGS', '-Wl,-z,muldefs')\r\n         80\r\n  >>     81        if '+nls' in spec:\r\n         82            env.append_flags('LDFLAGS', '-lintl')\r\n```\r\n\r\n@lukebroskop @tldahlgren ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/23715",
+    "updated_at": "2021-05-18 07:03:10",
+    "created_at": "2021-05-18 04:15:09",
+    "closed_at": "2021-05-18 07:03:09",
+    "state": "closed",
+    "title": "binutils: fix NameError from commit de8027",
+    "number": 23715,
+    "milestone": null,
+    "labels": [
+        "ecp",
+        "e4s",
+        "bugfix"
+    ],
+    "id": 893928290,
+    "html_url": "https://github.com/spack/spack/pull/23715",
+    "assignees": [],
+    "comments": 0
+}

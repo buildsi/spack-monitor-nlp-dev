@@ -1,0 +1,19 @@
+{
+    "body": "Enable arbitrary TCL code to be included in the module files via the `modules.yaml` config file.\r\n\r\nFor example, I want to include `/shared/modulefiles/include/logging.tcl` on every TCL modulefile generated via spack.\r\n\r\n`modules.yaml`:\r\n```\r\nmodules:\r\n  tcl:\r\n    all:\r\n      include:\r\n        - '/shared/modulefiles/include/logging.tcl'\r\n```\r\n\r\nModule file generated after fake installing `htop`:\r\n```\r\n[vagrant@localhost spack]$ spack install --fake htop\r\n==> Installing htop\r\n==> Building htop [Package]\r\n==> Successfully installed htop\r\n  Fetch: .  Build: 0.04s.  Total: 0.04s.\r\n[+] /home/vagrant/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/htop-2.0.0-7jzqvbbs5m3t6u5m2sovnbxkqz7iargd\r\n[vagrant@localhost spack]$ cat /home/vagrant/spack/share/spack/modules/linux-centos7-x86_64/htop-2.0.0-gcc-4.8.5-7jzqvbb\r\n#%Module1.0\r\n## Module file created by spack (https://github.com/LLNL/spack) on 2017-01-22 22:46:47.997359\r\n##\r\n## htop@2.0.0%gcc@4.8.5 arch=linux-centos7-x86_64 -7jzqvbb\r\n##\r\nmodule-whatis \"htop @2.0.0\"\r\n\r\nproc ModulesHelp { } {\r\nputs stderr \"This is htop, an interactive process viewer for Unix systems. It is a\"\r\nputs stderr \"text-mode application (for console or X terminals) and requires ncurses.\"\r\n}\r\n\r\nprepend-path PATH \"/home/vagrant/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/htop-2.0.0-7jzqvbbs5m3t6u5m2sovnbxkqz7iargd/bin\"\r\nprepend-path CMAKE_PREFIX_PATH \"/home/vagrant/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/htop-2.0.0-7jzqvbbs5m3t6u5m2sovnbxkqz7iargd/\"\r\nprepend-path LIBRARY_PATH \"/home/vagrant/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/htop-2.0.0-7jzqvbbs5m3t6u5m2sovnbxkqz7iargd/lib\"\r\nprepend-path LD_LIBRARY_PATH \"/home/vagrant/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/htop-2.0.0-7jzqvbbs5m3t6u5m2sovnbxkqz7iargd/lib\"\r\nprepend-path CPATH \"/home/vagrant/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/htop-2.0.0-7jzqvbbs5m3t6u5m2sovnbxkqz7iargd/include\"\r\nprepend-path MANPATH \"/home/vagrant/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/htop-2.0.0-7jzqvbbs5m3t6u5m2sovnbxkqz7iargd/man\"\r\nsource /shared/modulefiles/include/logging.tcl\r\n```\r\n\r\nCurrently, the logic only checks if the file to include exists, and fails if it does not.\r\n```\r\n[vagrant@localhost spack]$ sudo rm /shared/modulefiles/include/logging.tcl\r\n[vagrant@localhost spack]$ spack module refresh --module-type tcl --delete-tree -y\r\n==> Regenerating tcl module files\r\n==> Error: Include file must exist!** You may want to check your `modules.yaml` configuration file **\r\n\r\nModule generation aborted.\r\n```\r\n\r\nI chose the word `include` for use in `modules.yaml` because that is what I thought the TCL command was called when I started this feature...but after testing I discovered it is `source`.  I'm not sure if I like `include` or `source` better for the config yaml...\r\n\r\nI brought up this feature request during SC16 at one of the Spack talks (which were all awesome btw) and no one seemed too opposed to it.  So I finally decided to sit down and attempt to add the feature.\r\n\r\nI'm pretty new to Python development, so I'm sorry for any glaring issues you see with this PR :expressionless: ",
+    "user": "TheQueasle",
+    "url": "https://api.github.com/repos/spack/spack/issues/2902",
+    "updated_at": "2017-09-20 07:04:21",
+    "created_at": "2017-01-22 23:18:07",
+    "closed_at": "2017-09-20 07:04:20",
+    "state": "closed",
+    "title": "modules.py: adding 'include' logic to TCL module generation.",
+    "number": 2902,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 202419066,
+    "html_url": "https://github.com/spack/spack/pull/2902",
+    "assignees": [],
+    "comments": 1
+}

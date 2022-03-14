@@ -1,0 +1,22 @@
+{
+    "body": "This fixes sbang relocation when using old binary packages, and updates code in `relocate.py`.\r\n\r\nThere are really two places where we would want to handle an `sbang` relocation:\r\n\r\n1. Installing an old package that uses `sbang` with shebang lines like `#!/bin/bash $spack_prefix/sbang`\r\n2. Installing a *new* package that uses `sbang` with shebang lines like `#!/bin/sh $install_tree/sbang` (see #11598, #19529, #19582).\r\n\r\nThe second case is actually handled automatically by our text relocation; we don't need any special relocation logic for new shebangs, as our relocation logic already changes references to the build-time `install_tree` to point to the `install_tree` at intall-time.\r\n\r\nCase 1 was not properly handled -- we would not take an old binary package and point its shebangs at the new `sbang` location. This PR fixes that and updates the code in `relocation.py` with some notes.\r\n\r\nThere is one more case we don't currently handle: if a binary package is created from an installation in a short prefix that does *not* need `sbang` and is installed to a long prefix that *does* need `sbang`, we won't do anything. We should just patch the file as we would for a normal install. In some upcoming PR we should probably change *all* `sbang` relocation logic to be idempotent and to apply to any sort of shebang'd file. Then we'd only have to worry about which files to `sbang`-ify at install time and wouldn't need to care about these special cases.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/19636",
+    "updated_at": "2020-11-02 00:23:50",
+    "created_at": "2020-10-31 00:45:04",
+    "closed_at": "2020-11-02 00:23:49",
+    "state": "closed",
+    "title": "sbang: fixes for sbang relocation",
+    "number": 19636,
+    "milestone": null,
+    "labels": [
+        "binary-packages",
+        "ecp",
+        "e4s",
+        "sbang"
+    ],
+    "id": 733592000,
+    "html_url": "https://github.com/spack/spack/pull/19636",
+    "assignees": [],
+    "comments": 2
+}

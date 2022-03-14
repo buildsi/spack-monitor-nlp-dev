@@ -1,0 +1,23 @@
+{
+    "body": "### Problem\r\n\r\nThis is phase 1 of proposed extensions for the spec syntax: see https://github.com/spack/spack/issues/20256#issuecomment-739434724:\r\n\r\n> 1. Support pip requirements.txt version comparators and wildcards:\r\n>    - <=,=>, and == already exist.\r\n>    - ==9.2.* => >=9.2,<9.3 (reduce to subproblem)\r\n>    - !=9.2.0 => <9.2.0,>9.2.0 (reduce to subproblem)\r\n>    - imprecise:\r\n>        - <9.2.0 => :9.1.999\r\n>        - >9.2.0 => 9.2.0.0.0.1\r\n>        - **Spack is unable to represent strict inequalities (<,>) without this feature.**\r\n>    - Breakage: none.\r\n\r\n### Solution\r\n- Extend the Spec parser to process all of the above new inequality notations.\r\n- Extend the Lexer to allow for more than 2 modes (this is useful setup for any further work on the spec syntax).\r\n- Extend VersionRange a bit to support the notion of \"including the left/right endpoint\", which is used to ensure `__contains__` and `__lt__` still work on the new edge cases.\r\n- Add testing.\r\n\r\n### Result\r\n`@:!3` and `@3!:` should let users avoid needing to type out the `.999.999` or `.0.0.0.1` suffixes (which I personally find difficult to maintain and ultimately incorrect).",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20258",
+    "updated_at": "2021-05-31 06:20:43",
+    "created_at": "2020-12-06 15:27:38",
+    "closed_at": "2021-05-31 06:20:43",
+    "state": "closed",
+    "title": "support strict version inequalities in specs",
+    "number": 20258,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "specs",
+        "proposal",
+        "versions",
+        "concretizer-use-case"
+    ],
+    "id": 757951211,
+    "html_url": "https://github.com/spack/spack/pull/20258",
+    "assignees": [],
+    "comments": 9
+}

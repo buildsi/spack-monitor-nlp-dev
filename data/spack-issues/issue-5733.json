@@ -1,0 +1,17 @@
+{
+    "body": "I'm tracking down a problem with the perl package that's been generating this error:\r\n\r\n```\r\nOSError: OSError: [Errno 2] No such file or directory: '/blah/blah/blah/lib/5.24.1/x86_64-linux/Config.pm~'\r\n```\r\n\r\nThe real problem is upstream/elsewhere, but it's being masked by an exception raised in filter_file`s finally block.\r\n\r\nIn my case, `backup` is `False`.\r\n\r\nThe backup is created around line 127, the `re.sub()` calls fails (working on that), the `except` block fires and moves the backup file back, then the finally block tries to remove the non-existent backup file.\r\n\r\nThis change just avoids trying to remove the non-existent file.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/5733",
+    "updated_at": "2017-10-18 14:56:16",
+    "created_at": "2017-10-12 19:49:43",
+    "closed_at": "2017-10-17 18:26:06",
+    "state": "closed",
+    "title": "filter_file, don't remove absent backup file",
+    "number": 5733,
+    "milestone": null,
+    "labels": [],
+    "id": 265063824,
+    "html_url": "https://github.com/spack/spack/pull/5733",
+    "assignees": [],
+    "comments": 0
+}

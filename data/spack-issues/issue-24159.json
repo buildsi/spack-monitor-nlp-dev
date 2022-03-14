@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nBeginning with commit fef05621a77ee8b62b318370e1ec7bf39502eb7c, Spack passes options to the CMake bootstrap script. The CMake bootstrap script does not accept the given options if CMake releases before 3.12 are used. (I did not test all releases but builds for versions 3.7.2, 3.8.2, and 3.11.4 fail.)\r\n```console\r\n$ which spack\r\n/home/christoph/spack/bin/spack\r\n$ git -C ~/spack rev-parse HEAD\r\nfef05621a77ee8b62b318370e1ec7bf39502eb7c\r\n$ spack install cmake@3.7.2\r\n==> Warning: Missing a source id for ncurses@6.2.20200212\r\n[+] / (external ncurses-6.2.20200212-ujc234wnddrjvgfwk6koel3aqgamiqmz)\r\n[+] /usr (external openssl-1.1.1f-i44um4uum2yiy4jeqsjgqttev27y2fhk)\r\n==> Installing cmake-3.7.2-hd4q5nm7k26z5qd6pusmki63acx6b2ft\r\n==> No binary for cmake-3.7.2-hd4q5nm7k26z5qd6pusmki63acx6b2ft found: installing from source\r\n==> Warning: Missing a source id for ncurses@6.2.20200212\r\n==> Using cached archive: /home/christoph/spack/var/spack/cache/_source-cache/archive/dc/dc1246c4e6d168ea4d6e042cfba577c1acd65feea27e56f5ff37df920c30cae0.tar.gz\r\n==> Applied patch /home/christoph/spack/var/spack/repos/builtin/packages/cmake/nag-response-files.patch\r\n==> Applied patch /home/christoph/spack/var/spack/repos/builtin/packages/cmake/ignore_crayxc_warnings.patch\r\n==> cmake: Executing phase: 'bootstrap'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    './bootstrap' 'CFLAGS=-O3' 'CXXFLAGS=-O3' '--prefix=/home/christoph/spack/opt/spack/linux-ubuntu20.04-sandybridge/gcc-9.3.0/cmake-3.7.2-hd4q5nm7k26z5qd6pusmki63acx6b2ft' '--parallel=4' '--no-system-libs' '--no-qt-gui' '--' '-DCMAKE_BUILD_TYPE=Release' '-DCMake_TEST_INSTALL=OFF' '-DCMAKE_USE_OPENSSL=True'\r\nSee build log for details:\r\n  /tmp/christoph/spack-stage/spack-stage-cmake-3.7.2-hd4q5nm7k26z5qd6pusmki63acx6b2ft/spack-build-out.txt\r\n$ cat /tmp/christoph/spack-stage/spack-stage-cmake-3.7.2-hd4q5nm7k26z5qd6pusmki63acx6b2ft/spack-build-out.txt \r\n==> cmake: Executing phase: 'bootstrap'\r\n==> [2021-06-05-17:35:19.714530] './bootstrap' 'CFLAGS=-O3' 'CXXFLAGS=-O3' '--prefix=/home/christoph/spack/opt/spack/linux-ubuntu20.04-sandybridge/gcc-9.3.0/cmake-3.7.2-hd4q5nm7k26z5qd6pusmki63acx6b2ft' '--parallel=4' '--no-system-libs' '--no-qt-gui' '--' '-DCMAKE_BUILD_TYPE=Release' '-DCMake_TEST_INSTALL=OFF' '-DCMAKE_USE_OPENSSL=True'\r\nUnknown option: CFLAGS=-O3\r\n```\r\n@chuckatkins \r\n\r\nBuild files:\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6602968/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6602969/spack-build-out.txt)\r\n* [spack-build-01-bootstrap-out.txt](https://github.com/spack/spack/files/6602970/spack-build-01-bootstrap-out.txt)\r\n\r\nSpack report:\r\n* **Spack:** 0.16.1\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-sandybridge\r\n* **Concretizer:** original\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "christoph-conrads",
+    "url": "https://api.github.com/repos/spack/spack/issues/24159",
+    "updated_at": "2021-06-07 09:37:22",
+    "created_at": "2021-06-05 17:44:16",
+    "closed_at": "2021-06-07 09:37:22",
+    "state": "closed",
+    "title": "Installation issue: fef05621a breaks cmake < 3.12",
+    "number": 24159,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 912365472,
+    "html_url": "https://github.com/spack/spack/issues/24159",
+    "assignees": [],
+    "comments": 3
+}

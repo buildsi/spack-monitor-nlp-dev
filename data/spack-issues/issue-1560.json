@@ -1,0 +1,17 @@
+{
+    "body": "I'm using spack on a system based on Amazon Linux.\n\nI built a couple of things successfully and tried to set up a view but it always exited successfully (status = 0) w/out linking anything.\n\nI stuck a bit of debugging code in the view code and saw this:\n\n```\n==> Linking package: \"tree\"\n==> foo: /spack/opt/spack/linux-None-x86_64/gcc-4.8.3/tree-1.7.0-xqgjymlch5unsleqou7w3nxvood6qina\n```\n\nand/but when I look in the installed stuff I see this:\n\n```\nopt/spack/linux--x86_64/gcc-4.8.3/tree-1.7.0-xqgjymlch5unsleqou7w3nxvood6qina/bin/tree\n```\n\nNotice that the platforms are different (and both not particularly useful).\n\nThis is also a nice test case:\n\n```\n[ec2-user@ip-10-0-0-46 spack]$ spack arch\nlinux--x86_64\n```\n\nA bit of digging around and I discovered [this python bug report](https://bugs.python.org/issue18872).\n\nIf I take their \"advice\" and do this:\n\n```\n[ec2-user@ip-10-0-0-46 spack]$ git diff\ndiff --git a/lib/spack/spack/operating_systems/linux_distro.py b/lib/spack/spack/operating_systems/linux_distro.py\nindex 6d70ae8..7ce3af8 100644\n--- a/lib/spack/spack/operating_systems/linux_distro.py\n+++ b/lib/spack/spack/operating_systems/linux_distro.py\n@@ -13,6 +13,7 @@ class LinuxDistro(OperatingSystem):\n\n     def __init__(self):\n         distname, version, _ = py_platform.linux_distribution(\n+            supported_dists=['system'],\n             full_distribution_name=False)\n\n         # Grabs major version from tuple on redhat; on other platforms\n```\n\nNow I get this:\n\n```\n[ec2-user@ip-10-0-0-46 spack]$ spack arch\nlinux-system2016-x86_64\n```\n\nWhich isn't right but at least it's not the empty string.\n\nIf I clean up the old installed things [and also blow away the compilers.yaml file because it contains the incorrect info] and install fresh, I can build a view.\n\n**But**, that os name isn't quite right.\n\nI'm not sure where to take this from here....\n\nFor what it's worth, here's the contents of _/etc/os-release_:\n\n```\n[ec2-user@ip-10-0-0-46 spack]$ cat /etc/os-release\nNAME=\"Amazon Linux AMI\"\nVERSION=\"2016.03\"\nID=\"amzn\"\nID_LIKE=\"rhel fedora\"\nVERSION_ID=\"2016.03\"\nPRETTY_NAME=\"Amazon Linux AMI 2016.03\"\nANSI_COLOR=\"0;33\"\nCPE_NAME=\"cpe:/o:amazon:linux:2016.03:ga\"\nHOME_URL=\"http://aws.amazon.com/amazon-linux-ami/\"\n[ec2-user@ip-10-0-0-46 spack]$\n```\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/1560",
+    "updated_at": "2016-11-05 00:44:51",
+    "created_at": "2016-08-18 23:48:07",
+    "closed_at": "2016-11-05 00:44:51",
+    "state": "closed",
+    "title": "spack view broken because platform.distribution does not grok Amazon linux",
+    "number": 1560,
+    "milestone": null,
+    "labels": [],
+    "id": 172026165,
+    "html_url": "https://github.com/spack/spack/issues/1560",
+    "assignees": [],
+    "comments": 1
+}

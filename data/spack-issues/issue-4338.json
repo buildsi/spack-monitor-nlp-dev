@@ -1,0 +1,19 @@
+{
+    "body": "Additional Perl packages (e.g. from CPAN) should (need to) be built with the same compiler that built `perl` itself.\r\n\r\nPerl handles this detail by remembering the compiler with which it was built.  It \"remembers\" it by stashing a copy of it in the `Config` hash defined in `Config.pm`:\r\n\r\n```perl\r\ntie %Config, 'Config', {\r\n    archlibexp => '/home/hartzelg/tmp/spack-perl-cc/opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-35ejv4426dmzreum4ekdibu3ddmhquvi/lib/5.24.1/x86_64-linux',\r\n    archname => 'x86_64-linux',\r\n    cc => 'cc',\r\n    # [...]\r\n```\r\n\r\nOn my system this drags `/usr/bin/cc` into the fray, resulting in sadness.\r\n\r\nAs an example, using the `cpanm` that Spack built\r\n\r\n```\r\ncpanm -l /path/to/library/dir XML::Simple\r\n```\r\n\r\nwill eventually fail while trying to build `Net::HTTP` because it tries to use `cc` as its compiler.\r\n\r\nAs a quick hack/test, telling configure to use `gcc` as the C compiler results `$Config{cc}` containing `gcc` and happily the first gcc on my path is the one I used to build Perl.\r\n\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/perl/package.py b/var/spack/repos/builtin/packages/perl/package.py\r\nindex 10895f60..ed30bac5 100644\r\n--- a/var/spack/repos/builtin/packages/perl/package.py\r\n+++ b/var/spack/repos/builtin/packages/perl/package.py\r\n@@ -86,7 +86,8 @@ class Perl(Package):  # Perl doesn't use Autotools, it should subclass Package\r\n             '-des',\r\n             '-Dprefix={0}'.format(prefix),\r\n             '-Dlocincpth=' + self.spec['gdbm'].prefix.include,\r\n-            '-Dloclibpth=' + self.spec['gdbm'].prefix.lib\r\n+            '-Dloclibpth=' + self.spec['gdbm'].prefix.lib,\r\n+            '-Dcc=gcc'\r\n         ]\r\n\r\n         # Discussion of -fPIC for Intel at:\r\n```\r\n\r\nThis changes lets `Net::HTTP` build and install.\r\n\r\nSpack's compiler wrappers and *etc* seem magical to me.  What's a good way to fix this?\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4338",
+    "updated_at": "2019-11-08 12:04:05",
+    "created_at": "2017-05-24 18:32:13",
+    "closed_at": "2017-05-29 21:59:31",
+    "state": "closed",
+    "title": "perl \"remembers\" spack's compiler, which does the wrong thing",
+    "number": 4338,
+    "milestone": null,
+    "labels": [
+        "perl"
+    ],
+    "id": 231131826,
+    "html_url": "https://github.com/spack/spack/issues/4338",
+    "assignees": [],
+    "comments": 4
+}

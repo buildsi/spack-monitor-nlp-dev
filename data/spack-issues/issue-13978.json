@@ -1,0 +1,19 @@
+{
+    "body": "This pull request contains a new package, that sets up the SWI-Prolog interpreter. Since some dependencies are optional, I added variants that control whether Spack should try installing them.\r\n\r\nI am not a member of the SWIPL development team, just a user of the program. The configuration scripts are based on the following two documentation pages:\r\n\r\nhttps://www.swi-prolog.org/build/unix.html\r\nhttps://github.com/SWI-Prolog/swipl-devel/blob/master/CMAKE.md\r\n\r\nI could build and install with GCC and all variants enabled, as well as all variants disabled. Compilation of the interpreter with ICC was also successful, but when building the core database, the interpreter failed with a segmentation fault (so it could not be installed with ICC). I am not sure whether that is a problem of the setup of our supercomputer. Should I include a conflicts_with(\"%icc\") in the package?\r\n\r\nBecause some dependencies (e.g. pkg-config) have multiple providers, and the preferred version of libunwind is outdated, I could not install the package in \"vanilla\" setup, but had to specify dependency spec (^libunwind@2018.10.12 ^pkg-config). Should this be somehow addressed in the package, or are those issues of the dependency resolution?",
+    "user": "alexrobomind",
+    "url": "https://api.github.com/repos/spack/spack/issues/13978",
+    "updated_at": "2019-12-05 15:51:39",
+    "created_at": "2019-12-04 10:11:43",
+    "closed_at": "2019-12-05 15:51:39",
+    "state": "closed",
+    "title": "New package: swipl",
+    "number": 13978,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 532579494,
+    "html_url": "https://github.com/spack/spack/pull/13978",
+    "assignees": [],
+    "comments": 4
+}

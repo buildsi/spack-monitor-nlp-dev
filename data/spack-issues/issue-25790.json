@@ -1,0 +1,21 @@
+{
+    "body": "@alalazo You reviewed my openssh update today, so maybe you like to review this too, cheers, Bernhard\r\n\r\n### Summary\r\n- Parallel install was failing to generate a config file.\r\n- OpenSSH has an extensive test suite, run it if requested.\r\n- 'executables' wrongly had 'rsh', replaced the openssh tools.\r\n- Added myself to be available for questions (add maintainer)\r\n\r\n### Details\r\n\r\n#### Parallel install was failing to generate a config file:\r\n\r\n```sh\r\n$dest/sbin/sshd -t -f $inst/etc/sshd_config\r\nmake: $dest/sbin/sshd: Command not found\r\n...\r\n/usr/bin/install -c -m 0755 -s sshd $dest/sbin/sshd\r\n```\r\n```py\r\n+    def install(self, spec, prefix):\r\n+        make('install', parallel=False)\r\n```\r\n#### OpenSSH has an extensive test suite, run it if requested:\r\n\r\nThis was several dimensions more involved than I thought to get it run reliably, but with only a couple\r\nregression tests (which need more than one TCP port) disabled, it passes reliably now even if the test suite is running 4 times in parallel on the same machine.\r\n\r\nSince it tries to use also the moduli file installed by the openssh package, I decided to go all the way and make it an installcheck. This means more code, but tests the actually installed programs and files:\r\n```py\r\n+    def setup_build_environment(self, env):\r\n+        p = self.prefix\r\n+        j = join_path\r\n+        env.set('TEST_SSH_SSH', p.bin.ssh)\r\n+        env.set('TEST_SSH_SCP', p.bin.scp)\r\n+        env.set('TEST_SSH_SFTP', p.bin.sftp)\r\n+        env.set('TEST_SSH_SK_HELPER', j(p.libexec, 'ssh-sk-helper'))\r\n+        env.set('TEST_SSH_SFTPSERVER', j(p.libexec, 'sftp-server'))\r\n+        env.set('TEST_SSH_PKCS11_HELPER', j(p.libexec, 'ssh-pkcs11-helper'))\r\n+        env.set('TEST_SSH_SSHD', p.sbin.sshd)\r\n+        env.set('TEST_SSH_SSHADD', j(p.bin, 'ssh-add'))\r\n+        env.set('TEST_SSH_SSHAGENT', j(p.bin, 'ssh-agent'))\r\n+        env.set('TEST_SSH_SSHKEYGEN', j(p.bin, 'ssh-keygen'))\r\n+        env.set('TEST_SSH_SSHKEYSCAN', j(p.bin, 'ssh-keyscan'))\r\n+        env.set('TEST_SSH_UNSAFE_PERMISSIONS', '1')\r\n+        # Get a free port for the simple tests and skip the complex tests:\r\n+        tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\r\n+        tcp.bind(('', 0))\r\n+        host, port = tcp.getsockname()\r\n+        tcp.close()\r\n+        env.set('TEST_SSH_PORT', port)\r\n+        env.set('SKIP_LTESTS', 'key-options forward-control forwarding multiplex')\r\n+\r\n+    def installcheck(self):\r\n+        make('-e', 'tests', parallel=False)\r\n```\r\n#### 'executables' wrongly had 'rsh', replaced the openssh tools and add maintainer line:\r\n```py\r\n-    # Note: some server apps have \"ssh\" in the name, so require the exact\r\n-    # command 'ssh'\r\n-    executables = ['^ssh$', '^rsh$']\r\n+    maintainers = ['bernhardkaindl']\r\n+    executables = ['^ssh$', '^scp$', '^sftp$', '^ssh-add$', '^ssh-agent$',\r\n+                   '^ssh-keygen$', '^ssh-keyscan$']\r\n```\r\nPS: I removed the comment because it distracts and the reason why it has to be written `^ssh$` is well-documented. We can't just add `ssh*` as there are tools like ssh-askpass which are separate packages.",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/25790",
+    "updated_at": "2021-09-10 12:01:38",
+    "created_at": "2021-09-03 19:01:19",
+    "closed_at": "2021-09-10 11:58:37",
+    "state": "closed",
+    "title": "openssh: Fix parallel install issue, add test suite",
+    "number": 25790,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "maintainers"
+    ],
+    "id": 988029641,
+    "html_url": "https://github.com/spack/spack/pull/25790",
+    "assignees": [],
+    "comments": 7
+}

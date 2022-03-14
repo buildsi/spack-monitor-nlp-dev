@@ -1,0 +1,23 @@
+{
+    "body": "When installing perl with Python 3.6, Spack gets a UnicodeDecodeError:\r\n\r\n==> Error: UnicodeDecodeError: 'ascii' codec can't decode byte 0xe3 in position 3792: ordinal not in range(128)\r\n \r\n/usr/WS2/gyllen/lee218/thisisaverylongdirectorynametotryandbreaksbanglimitinspack/spack/lib/spack/spack/package.py:1718, in build_process:\r\n       1715                    echo = logger.echo\r\n       1716                    self.log()\r\n       1717\r\n  >>   1718                # Run post install hooks before build stage is removed.\r\n       1719                spack.hooks.post_install(self.spec)\r\n       1720\r\n       1721            # Stop timer.\r\n \r\nThis happens in filter_shebang in lib/spack/spack/hooks/sbang.py on the original_file.read(). This only happens when the path is long enough to trigger this post_install step. It also only fails with Python <=3.6. It does not fail with Python 2.X or Python >= 3.7.",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/13489",
+    "updated_at": "2019-11-01 10:43:43",
+    "created_at": "2019-10-29 18:24:37",
+    "closed_at": "2019-11-01 10:43:43",
+    "state": "closed",
+    "title": "Python 3.6 Spack post_install sbang.py gets UnicodeDecodeError",
+    "number": 13489,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python3"
+    ],
+    "id": 514129406,
+    "html_url": "https://github.com/spack/spack/issues/13489",
+    "assignees": [
+        "alalazo",
+        "becker33"
+    ],
+    "comments": 7
+}

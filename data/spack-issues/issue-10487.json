@@ -1,0 +1,21 @@
+{
+    "body": "For a package based on Makefiles or autotools, \"spack install --test ...\" searches for targets \"test\", then \"check\", respectively, after the build. This uses PackageBase._has_make_target which checks for error messages from \"make -n <target>\" on stderr. However, if LANG is e.g. set to \"de_DE.UTF-8\", the error is \"make: *** No rule to make target 'test'.  Schluss.\". This results in _has_make_target wrongly returning True.\r\n\r\nWith \"unset LANG\", it works as expected. But I think spack should unset LANG by itself as it does not check for the language specific error message of make.\r\n\r\n### Steps to reproduce the issue\r\n\r\nWith German translations for make installed:\r\n\r\n```console\r\n$ export LANG=de_DE\r\n$ spack install --test root valgrind\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n==> RUN-TESTS: build-time tests [check]\r\n==> 'make' '-j24' '-n' 'test'\r\n==> 'make' '-j24' 'test'\r\nmake: *** No rule to make target 'test'.  Schluss.\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j24' 'test'\r\n\r\nStack runs \"make -j24 test\" because it assumes that this target exists.\r\nDue to that, it does not go on to test for target \"check\".\r\n\r\nBTW: the correct target for running the test suite in Valgrind is \"make regtests\". I will to a PR to fix this in the upstream Valgrind spec file.\r\n\r\n### Information on your system\r\n\r\nSLES12SP3\r\n",
+    "user": "weidendo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10487",
+    "updated_at": "2019-02-27 20:01:51",
+    "created_at": "2019-01-31 17:45:19",
+    "closed_at": "2019-02-27 20:01:51",
+    "state": "closed",
+    "title": "PackageBase._has_make_target fails if not English locale ",
+    "number": 10487,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 405363199,
+    "html_url": "https://github.com/spack/spack/issues/10487",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 0
+}

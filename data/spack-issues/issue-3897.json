@@ -1,0 +1,21 @@
+{
+    "body": "i noticed that packages which use `elpa` need to write\r\n1. cp2k:\r\n```\r\n                fcflags.extend([\r\n                    # spec['elpa:fortran'].cppflags\r\n                    '-I' + join_path(\r\n                        spec['elpa'].prefix,\r\n                        'include',\r\n                        'elpa-{0}'.format(str(spec['elpa'].version)),\r\n                        'modules'\r\n                    )\r\n                ])\r\n```\r\n2. espresso\r\n```\r\n                options.extend([\r\n                    '--with-elpa-include={0}'.format(\r\n                        join_path(spec['elpa'].prefix,\r\n                                  'include',\r\n                                  'elpa-{0}'.format(str(spec['elpa'].version)),\r\n                                  'modules')\r\n                        )\r\n                ])\r\n```\r\n3. abinit (not implemented, but can use `elpa`)\r\n\r\nIt looks like the consensus is to use query parameters, i.e. `spec['elpa:fortran'].cppflags`. I think @adamjstewart was working on a PR with counterpart to LibraryList class? Can we also make it return the path only, without `-I`?",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/3897",
+    "updated_at": "2020-08-23 22:52:00",
+    "created_at": "2017-04-19 06:57:39",
+    "closed_at": "2020-08-23 22:52:00",
+    "state": "closed",
+    "title": "unify access to fortran modules (elpa, cp2k, espresso)",
+    "number": 3897,
+    "milestone": null,
+    "labels": [
+        "specs"
+    ],
+    "id": 222638269,
+    "html_url": "https://github.com/spack/spack/issues/3897",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "I thought this problem had been solved, but it seems that it's still present (or has regressed) in the latest develop branch. I ran `spack install eigen` and it successfully installed metis. Then it tried to install mvapich2. I hit <kbd>Ctrl</kbd>+<kbd>C</kbd> and killed it because I wanted it to use an already installed version of mvapich2. I eventually gave up and decided to just let Spack build mvapich2 again, but when I reran `spack install eigen`, I got the following error message:\n\n```\n$ spack install eigen\n==> Installing eigen\n==> metis is already installed in /blues/gpfs/home/software/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-6.1.0/metis-5.1.0-k4pqzigdgdsuk2r3xls7eyhk6uwvxp46\nTraceback (most recent call last):\n  File \"/soft/spack-0.9.1/bin/spack\", line 202, in <module>\n    main()\n  File \"/soft/spack-0.9.1/bin/spack\", line 179, in main\n    return_val = command(parser, args)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/cmd/install.py\", line 117, in install\n    package.do_install(**kwargs)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 1183, in do_install\n    dirty=dirty)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 1160, in do_install\n    rec = spack.installed_db.get_record(self.spec)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 79, in converter\n    return function(self, spec_like, *args, **kwargs)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 527, in get_record\n    key = self._get_matching_spec_key(spec, **kwargs)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 519, in _get_matching_spec_key\n    match = self.query_one(spec, **kwargs)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 653, in query_one\n    assert len(concrete_specs) <= 1\nAssertionError\n```\n\n**NOTE: running `spack reindex` does not fix this problem. I'm going to try manually deleting the metis installation and trying again.**\n\n@tgamblin I would love to see this bug fixed before the 0.10 release.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2123",
+    "updated_at": "2016-12-19 17:26:39",
+    "created_at": "2016-10-25 16:26:12",
+    "closed_at": "2016-12-19 17:09:54",
+    "state": "closed",
+    "title": "Spack install AssertionError assert len(concrete_specs) <= 1",
+    "number": 2123,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs"
+    ],
+    "id": 185167428,
+    "html_url": "https://github.com/spack/spack/issues/2123",
+    "assignees": [],
+    "comments": 32
+}

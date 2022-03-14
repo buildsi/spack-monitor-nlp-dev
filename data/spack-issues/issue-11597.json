@@ -1,0 +1,21 @@
+{
+    "body": "Recent test of buildcache installs show that the path to sbang was not being relocated because only spack.store.layout.root was replaced in test files. I added the replacement of spack.paths.prefix to buildcache in https://github.com/spack/spack/pull/11592.\r\n\r\nThis made me consider the following case. On our cvmfs servers,  spack.paths.prefix may be reside in the local disk but spack.store.layout.root would be the directory that gets distributed via cvmfs. This would mean the sbang script is not visible to the cvmfs clients. \r\n\r\nOf course, one solution is to keep spack.paths.prefix on the distributed directory. \r\n\r\nI think that copying the sbang script to spack.store.layout.root and referring to that path would work better in the long run.",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/11597",
+    "updated_at": "2019-06-05 16:11:25",
+    "created_at": "2019-05-31 16:12:24",
+    "closed_at": "2019-06-05 16:10:48",
+    "state": "closed",
+    "title": "Copy sbang sciript to spack.store.layout.root and reference it from there",
+    "number": 11597,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 450874615,
+    "html_url": "https://github.com/spack/spack/issues/11597",
+    "assignees": [],
+    "comments": 3
+}

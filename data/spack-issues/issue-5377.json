@@ -1,0 +1,21 @@
+{
+    "body": "I was having a problem where I wanted to use lmod for hierarchical modules but it was not working. Lmod itself was working fine as a environment module manager, but only tcl files in **share/spack/modules** were added to MODULEPATH. Whereas in my case, **/share/spack/lmod** should be the target folder.\r\n\r\nUpon closer inspection of the code block starting at line 239 in setup-env.sh, it appears that it doesn't check if one wants to use tcl or lmod in order to add the correct folder to MODULEPATH:\r\n\r\n[setup-env.sh.bak.txt](https://github.com/LLNL/spack/files/1308294/setup-env.sh.bak.txt)\r\n\r\nFor my particular problem, I fixed the issue by adding some lines and commenting the one that adds tcl module to MODULEPATH, as shown:\r\n\r\n[setup-env.sh.txt](https://github.com/LLNL/spack/files/1308295/setup-env.sh.txt)\r\n\r\nThis works, but is this really the only way to do it at the moment? Did I miss something?",
+    "user": "deOliveira-R",
+    "url": "https://api.github.com/repos/spack/spack/issues/5377",
+    "updated_at": "2019-12-12 18:07:20",
+    "created_at": "2017-09-16 11:54:27",
+    "closed_at": "2019-12-10 18:16:02",
+    "state": "closed",
+    "title": "setup-env.sh not adding lmod files to MODULEPATH",
+    "number": 5377,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 258227188,
+    "html_url": "https://github.com/spack/spack/issues/5377",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

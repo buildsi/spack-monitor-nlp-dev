@@ -1,0 +1,22 @@
+{
+    "body": "I've created a `packages.yaml` based on the example in the [documentation](https://spack.readthedocs.io/en/latest/getting_started.html#setting-defaults-and-using-cray-modules):\r\n```YAML\r\npackages:\r\n    mpi:\r\n        modules: \r\n            cray-mpich@7.5.1 arch=cray-CNL-ivybridge: cray-mpich/7.5.1\r\n        buildable: False\r\n```\r\nHowever, when I try to use spack with this file, I get the error\r\n```\r\n==> Error: packages.yaml entries cannot be virtual packages:\r\n  in \"/home/eates/.spack/packages.yaml\", line 2, column 5: mpi\r\n```\r\nThe correct `packages.yaml` file that the latest version of spack accepts is this:\r\n```YAML\r\npackages:\r\n    mpich:\r\n        modules: \r\n            cray-mpich@7.5.1 arch=cray-CNL-ivybridge: cray-mpich/7.5.1\r\n        buildable: False\r\n    all:\r\n        providers:\r\n            mpi: [mpich]\r\n```\r\nHowever, I might have constructed the final file incorrectly, since when I try to install kripke that only depends on mpi, it tries to compile other packages (e.g. libpciaccess which is problematic) which it shouldn't compile according to the graph:\r\n```\r\no  kripke\r\no  openmpi\r\no  hwloc\r\n|\\\r\n| |\\\r\n| o |  libxml2\r\n|/| | \r\n| |\\ \\\r\n| o | |  zlib\r\n|  / /\r\n| o |  xz\r\n|  /\r\n| o  libpciaccess\r\n|/| \r\n| |\\\r\n| o |  util-macros\r\n|  /\r\no |  pkg-config\r\n /\r\no  libtool\r\no  m4\r\no  libsigsegv\r\n```",
+    "user": "EmreAtes",
+    "url": "https://api.github.com/repos/spack/spack/issues/4566",
+    "updated_at": "2017-06-21 16:20:20",
+    "created_at": "2017-06-21 12:34:36",
+    "closed_at": "2017-06-21 16:20:20",
+    "state": "closed",
+    "title": "Sample packages.yaml in Cray documentation is broken",
+    "number": 4566,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "configuration",
+        "documentation",
+        "external-packages"
+    ],
+    "id": 237518358,
+    "html_url": "https://github.com/spack/spack/issues/4566",
+    "assignees": [],
+    "comments": 4
+}

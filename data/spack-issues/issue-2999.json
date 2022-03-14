@@ -1,0 +1,17 @@
+{
+    "body": "Trying to address #2164 \r\n\r\n(EDIT) This PR makes the following changes:\r\n\r\n* ensure that \"spack config edit X\" will by default edit [user]/[platform]/X.yaml\r\n  * this is important for compilers in particular, primarily to be consistent with \"spack compiler find\" default\r\n* ensure that \"spack compiler find\" will not generate a \"duplicate\" compiler entry: if a compiler with the same spec is defined at any scope it is not added\r\n  * this is important because concretizing compilers is independent of scope\r\n\r\nTODOs (now complete):\r\n\r\n- [x] \"spack config edit\" should only default to platform-specific config files for compilers\r\n- [x] There should be a check at spack startup that ensures each compiler spec occurs only once across all scopes (EDIT: instead this PR modifies the error message printed during concretization)\r\n\r\nOriginal PR message:\r\n\r\nSo far I have:\r\n\r\n* ensure that \"spack config edit X\" will by default edit [user]/[platform]/X.yaml\r\n  * this is important for compilers in particular, primarily to be consistent with \"spack compiler find\" default\r\n* ensure that \"spack compiler find\" will not generate a \"duplicate\" compiler entry: if a compiler with the same spec is defined at any scope it is not added\r\n  * this is important because concretizing compilers is independent of scope\r\n\t\r\nHowever:\r\n\r\n* a user can still manually edit [user]/compilers.yaml after \"spack compiler find\" updates [user]/[platform]/compilers.yaml, perhaps with the expectation that the instance they edited will take precedence. I can think of two general approaches to handle this case:\r\n  * perhaps there should be a \"spack compiler check\" command to make sure no spec is repeated multiple times. Or more likely the check should occur at spack startup\r\n  * (this seems harder) perhaps user-created and system-generated compilers should be able to coexist, and the user-created instance should be used in that case\r\n* a user will be dumped into [user]/[platform]/modules.yaml by default for \"spack config edit modules\", and platform-specific module file generation may be confusing\r\n  * IMO default editing should only be platform-specific for compilers",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/2999",
+    "updated_at": "2017-03-10 21:58:48",
+    "created_at": "2017-02-02 02:54:03",
+    "closed_at": "2017-03-10 21:58:48",
+    "state": "closed",
+    "title": "Features/compiler config consistency",
+    "number": 2999,
+    "milestone": null,
+    "labels": [],
+    "id": 204769736,
+    "html_url": "https://github.com/spack/spack/pull/2999",
+    "assignees": [],
+    "comments": 7
+}

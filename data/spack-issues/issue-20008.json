@@ -1,0 +1,20 @@
+{
+    "body": "Not sure how this was ever working before, but here's what I'm seeing trying to build paraview, which now has a dependency on libtheora:\r\n```\r\n==> libtheora: Executing phase: 'autoreconf'\r\n==> libtheora: Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/tmp/hpp/spack-stage/spack-stage-libtheora-1.1.1-4ujjd67rwaly4ca36pf2pfnex6p4bokx/spack-src/configure' '--prefix=/users/hpp/spack/opt/spack/cray-rhel8-aarch64/gcc-8.3.1/libtheora-1.1.1-4ujjd67rwaly4ca36pf2pfnex6p4bokx'\r\n\r\n1 error found in build log:\r\n     225    checking for a BSD-compatible install... /usr/bin/install -c\r\n     226    checking whether build environment is sane... yes\r\n     227    checking for a thread-safe mkdir -p... /usr/bin/mkdir -p\r\n     228    checking for gawk... gawk\r\n     229    checking whether make sets $(MAKE)... yes\r\n     230    checking whether make supports nested variables... yes\r\n  >> 231    configure: error: source directory already configured; run \"make distclean\" there first\r\n```\r\nThe problem is the autogen.sh script in the package also runs configure.  So when spack goes ahead and tries to run a configure stage, things don't work.\r\n\r\nThis commit reworks the build process to avoid this unneeded configure step\r\n\r\nSigned-off-by: Howard Pritchard <howardp@lanl.gov>",
+    "user": "hppritcha",
+    "url": "https://api.github.com/repos/spack/spack/issues/20008",
+    "updated_at": "2020-12-02 16:24:38",
+    "created_at": "2020-11-19 23:27:09",
+    "closed_at": "2020-12-02 16:24:38",
+    "state": "closed",
+    "title": "libtheora: fix how package is configured",
+    "number": 20008,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "patch"
+    ],
+    "id": 747004515,
+    "html_url": "https://github.com/spack/spack/pull/20008",
+    "assignees": [],
+    "comments": 9
+}

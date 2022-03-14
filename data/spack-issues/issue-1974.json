@@ -1,0 +1,17 @@
+{
+    "body": "@adamjstewart The one funny thing I've noticed with the flake8 tests is they overwrite the files you're working on every time you run.  Not sure why this is needed, but it is a bit annoying...\n\nBelow is code that can be used to overwrite files only if they are different.  Two things that could be improved with it:\n  *) Should be expanded to be a full Python context manager\n  *) It could write to an in-memory file with StringIO, rather than to a temporary file on disk.  Except for REALLY big files, that's probably a better approach these days.\n\n```\nimport tempfile\nimport filecmp\nimport shutil\n\n# ------------------------------------------------------\nclass WriteIfDifferent(object):\n    \"\"\"Allows user to write to a temporary file, then move it\n    to the destination only if it is different from the destination.\"\"\"\n    def __init__(self, ofname, **kwargs):\n        \"\"\"ofname: Name we ultimately want to write to.\"\"\"\n        self.ofname = ofname\n        self.file = tempfile.NamedTemporaryFile(delete=False, **kwargs)\n        self.tfname = self.file.name\n\n    def close(self):\n        self.file.close()\n        try:\n            if filecmp.cmp(self.tfname, self.ofname):\n                # Files are equal, we are done!\n                os.remove(self.tfname)\n                return\n        except: pass # Error means the files were NOT equal.\n\n        # Files are not equal, so copy the temporary file over.\n        shutil.copyfile(self.tfname, self.ofname)\n        os.remove(self.tfname)\n\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1974",
+    "updated_at": "2016-10-10 14:14:30",
+    "created_at": "2016-10-08 12:02:43",
+    "closed_at": "2016-10-10 14:14:29",
+    "state": "closed",
+    "title": "flake8 tests: Don't overwrite files that haven't changed",
+    "number": 1974,
+    "milestone": null,
+    "labels": [],
+    "id": 181822366,
+    "html_url": "https://github.com/spack/spack/issues/1974",
+    "assignees": [],
+    "comments": 7
+}

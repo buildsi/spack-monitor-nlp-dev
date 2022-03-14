@@ -1,0 +1,19 @@
+{
+    "body": "Successfully builds on Cray CNL5 with GCC 5.3.0 and CUDA 9.\r\n\r\nWithout these changes, PyTorch tried to use vendored third party dependencies for all of these packages. There are still several other vendored deps I would like to remove in the future, but this is a step in the right direction.\r\n\r\nI also needed the following patch to build on Blue Waters:\r\n```diff\r\ndiff --git a/c10/util/Half.h b/c10/util/Half.h\r\nindex 338f271627..1e4a2e7be1 100644\r\n--- a/c10/util/Half.h\r\n+++ b/c10/util/Half.h\r\n@@ -31,6 +31,7 @@\r\n #include <limits>\r\n #include <sstream>\r\n #include <stdexcept>\r\n+#include <stdint-gcc.h>\r\n #include <string>\r\n #include <utility>\r\n \r\ndiff --git a/c10/util/llvmMathExtras.h b/c10/util/llvmMathExtras.h\r\nindex 76ae3b26a2..a1422faf5d 100644\r\n--- a/c10/util/llvmMathExtras.h\r\n+++ b/c10/util/llvmMathExtras.h\r\n@@ -19,6 +19,7 @@\r\n  #include <climits>\r\n  #include <cstring>\r\n  #include <limits>\r\n+ #include <stdint-gcc.h>\r\n  #include <type_traits>\r\n \r\n  #ifdef __ANDROID_NDK__\r\ndiff --git a/caffe2/utils/fixed_divisor.h b/caffe2/utils/fixed_divisor.h\r\nindex 7cf7ebf248..4bdd81d870 100644\r\n--- a/caffe2/utils/fixed_divisor.h\r\n+++ b/caffe2/utils/fixed_divisor.h\r\n@@ -4,6 +4,7 @@\r\n #include <cstdint>\r\n #include <cstdio>\r\n #include <cstdlib>\r\n+#include <stdint-gcc.h>\r\n \r\n // See Note [hip-clang differences to hcc]\r\n \r\ndiff --git a/c10/util/thread_name.cpp b/c10/util/thread_name.cpp\r\nindex dfc7528dc2..fdc3c15e50 100644\r\n--- a/c10/util/thread_name.cpp\r\n+++ b/c10/util/thread_name.cpp\r\n@@ -13,12 +13,6 @@\r\n namespace c10 {\r\n \r\n void setThreadName(std::string name) {\r\n-#ifdef C10_HAS_PTHREAD_SETNAME_NP\r\n-  constexpr size_t kMaxThreadName = 15;\r\n-  name.resize(std::min(name.size(), kMaxThreadName));\r\n-\r\n-  pthread_setname_np(pthread_self(), name.c_str());\r\n-#endif\r\n }\r\n \r\n } // namespace c10\r\n```\r\nHowever, this is clearly too hacky to merge. If the PyTorch devs ever figure out a safer way to incorporate this, I'll add their patch. See https://github.com/pytorch/pytorch/issues/23482 for future updates.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/13588",
+    "updated_at": "2020-03-28 21:07:39",
+    "created_at": "2019-11-05 04:07:16",
+    "closed_at": "2019-11-05 19:19:08",
+    "state": "closed",
+    "title": "PyTorch: avoid use of third party vendored deps",
+    "number": 13588,
+    "milestone": null,
+    "labels": [
+        "vendored-dependencies"
+    ],
+    "id": 517537166,
+    "html_url": "https://github.com/spack/spack/pull/13588",
+    "assignees": [],
+    "comments": 0
+}

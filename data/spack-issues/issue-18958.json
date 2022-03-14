@@ -1,0 +1,22 @@
+{
+    "body": "The ForTrilinos package uses a couple of SemVer (but not PEP-440) compatible version numbers such as `2.0.0-dev3` building up to a `2.0.0` release. Each of these dev versions requires a slightly different version of Trilinos, encoded as:\r\n```\r\n    depends_on('trilinos@13:', when='@2.0.0:')\r\n    depends_on('trilinos@12.18.1', when='@2.0.0-dev3')\r\n```\r\n\r\nhowever, the concretizer rejects this:\r\n```\r\n==> Error: Conflicting conditional dependencies for spec\r\n\r\n\tfortrilinos@2.0.0-dev3 ^cmake\r\n\r\nCannot merge constraint\r\n\r\n\ttrilinos@12.18.1\r\n\r\ninto\r\n\r\n\ttrilinos@13:\r\n```\r\n\r\nA possibly similar issue I hit (#17145) earlier indicates the concretizer might have trouble with unusual versions.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec -I fortrilinos@2.0.0-dev3 ^trilinos@12.18.1+nox+stratimikos\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.15.4-1165-5f87c7795\r\n* **Python:** 3.7.1\r\n* **Platform:** darwin-mojave-skylake\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/18958",
+    "updated_at": "2021-01-08 20:48:24",
+    "created_at": "2020-09-25 03:03:23",
+    "closed_at": "2021-01-08 20:48:24",
+    "state": "closed",
+    "title": "Version conflicts in concretizer",
+    "number": 18958,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "versions",
+        "triage"
+    ],
+    "id": 708604347,
+    "html_url": "https://github.com/spack/spack/issues/18958",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,21 @@
+{
+    "body": "There are a lot of tools in filesystem.py, but there could be more. @malcook has an example where he wants symlink to be preserved when copying trees into place.\n\n`install_tree`, being defined in terms of \nshutil.copytree is not very useful for what I expect will be the most sought after use case, as described with a workaround : http://stackoverflow.com/a/12514470 which I employ below.\n\nI also wonder if there are pythonic/spack-esque replacements for my os.system calls below, written for a bioinformatics \u2018app\u2019 where all executables are creates in top level directory and \u2018install\u2019 is left to user whimsy:\n\n```\ndef install(self, spec, prefix):\n    ## no configure\n    make()                  # this makefile has no PREFIX or\n\n                                # `install` target.\n    ## APPROACH: executables are all at top-level, so symlink them\n    ## into ./bin dir and then COPY THE ENTIRE STAGING DIRECTORY\n    ## (allowing for symlinks).  This is ugly but it works, it is\n    ## complete, and is consistent with how the application is\n    ## packaged (if it ain't fixed don't fix it more than you\n    ## must).\n    mkdirp('bin')\n    ## TODO: make portable to non linux?\n    os.system(\"find * -maxdepth 0 -type f -executable -exec ln -rsf -t bin '{}' \\;\") #  symlink into ./bin all top-level executables.\n    os.system('ln -rsf -t bin  ./scripts/*') # also, symlink into ./bin all scripts (and the ./scripts/test directory)\n    copytree('./',prefix,symlinks=True)      # N.B. using copytree per http://stackoverflow.com/a/12514470\n```\n\nIdeally the above functionality would be available in Python and would work without the various shell commands used.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/31",
+    "updated_at": "2018-07-06 09:34:14",
+    "created_at": "2015-04-15 20:53:02",
+    "closed_at": "2018-07-06 09:34:14",
+    "state": "closed",
+    "title": "Spack needs a better way to install packages that don't have install targets.",
+    "number": 31,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 68784739,
+    "html_url": "https://github.com/spack/spack/issues/31",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

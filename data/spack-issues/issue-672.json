@@ -1,0 +1,17 @@
+{
+    "body": "The package geos is needed to build py-basemap.  It is not currently used by any other Spack packages.\n\nGEOS comes with a Python option, which builds a Python interface with Swig.  GEOS also comes with an (older) Autotools and a (newer) CMake build.  Only the Autotools build even attempts to build the Swig extension.  And although the extension itself might work with Python3, the configure script crashes if you specify a Python3 interpreter.\n\nIt turns out that py-basemap does NOT need the GEOS Swig extension (according to the basemap build instructions at http://matplotlib.org/basemap/users/installing.html  ).   I built GEOS without the Swig extension, and then I built basemap (no problems), and a demo basemap program seems to work.\n\nUnless others object, I recommend we get rid of the '+python' option on GEOS and keep it simple.  I have a feeling the Swig extension has fallen into disuse.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/672",
+    "updated_at": "2016-03-30 14:42:50",
+    "created_at": "2016-03-27 22:37:31",
+    "closed_at": "2016-03-30 03:35:00",
+    "state": "closed",
+    "title": "[WIP] GEOS Python extension did not compile with Python3.",
+    "number": 672,
+    "milestone": null,
+    "labels": [],
+    "id": 143857158,
+    "html_url": "https://github.com/spack/spack/pull/672",
+    "assignees": [],
+    "comments": 4
+}

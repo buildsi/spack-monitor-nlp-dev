@@ -1,0 +1,20 @@
+{
+    "body": "Follow-on to #28797 . \r\n\r\nOlder versions of GCC (8.3 and probably others) directly propagate `MACOSX_DEPLOYMENT_TARGET` to `ld` rather than padding with `.0.0` like newer ones. This leads to a failure:\r\n```console\r\n$ ld -macosx_version_min 11\r\nld: -macos_version_min value malformed: '11'\r\n```\r\nwhereas `ld -macosx_version_min 11.0 ...` works.\r\n\r\nSo this commit tests for the macOS version having only a single component and adds `.0` if that's the case. This choice is consistent with what CMake does and ensures that libraries on the same major OS are all compatible.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/28926",
+    "updated_at": "2022-02-15 05:50:23",
+    "created_at": "2022-02-14 17:24:59",
+    "closed_at": "2022-02-15 05:50:23",
+    "state": "closed",
+    "title": "darwin: make sure MACOSX_DEPLOYMENT_TARGET has a minor component",
+    "number": 28926,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "architecture"
+    ],
+    "id": 1137614951,
+    "html_url": "https://github.com/spack/spack/pull/28926",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "As I discussed off-line with @tgamblin - the original packaging with `openfoam` as a virtual and with `openfoam-com` being a provider, as well as the `openfoam-org` and `openfoam-extend` forks, adds an obfuscation layer without any benefit. Since the forks are not coordinated with the [official upstream](https://www.openfoam.com/history/), there is no way to benefit from an interface layer.  The proposed change would be to rename the `openfoam-com` package to simply `openfoam` and drop the superfluous virtual layer.  This change does trigger the regression #11870 at the moment.\r\n\r\nAs a temporary workaround to remove _old_ packages, Todd suggested the following which works quite adequately:\r\n1. Find the installed locations\r\n    ```\r\n    spack find -p openfoam-com\r\n    ```\r\n2. Remove the particular package/version\r\n    ```\r\n    rm -rf  the-installed-package-version\r\n    ```\r\n3. Fixup the internal indexing\r\n    ```\r\n    spack reindex \r\n    ```\r\n\r\nYou may also need to remove the correspond module file(s):\r\n1. List the possible modules to find the package that  you removed in the first step\r\n    ```\r\n   module avail 2>&1 | grep openfoam-com\r\n    ```\r\n2. Locate the spack module path\r\n    ```\r\n   echo $MODULEPATH\r\n    ```\r\n3. Remove the module for the particular package/version \r\n    ```\r\n    rm -rf  module-path-installed-package-version\r\n    ```\r\n",
+    "user": "olesenm",
+    "url": "https://api.github.com/repos/spack/spack/issues/11875",
+    "updated_at": "2019-07-02 05:54:37",
+    "created_at": "2019-06-28 06:33:45",
+    "closed_at": "2019-07-02 05:54:37",
+    "state": "closed",
+    "title": "openfoam package renaming",
+    "number": 11875,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 461879933,
+    "html_url": "https://github.com/spack/spack/issues/11875",
+    "assignees": [],
+    "comments": 0
+}

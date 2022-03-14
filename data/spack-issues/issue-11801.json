@@ -1,0 +1,17 @@
+{
+    "body": "Starting with 1.69.0, boost added a bjam option for the default symbol\r\nvisibility.  Up to 1.68.0, the value was always 'global'.  1.69.0\r\nchanged the default to 'hidden' but added an option.\r\n\r\nMost packages will work with hidden and won't notice.  But some\r\npackages may discover that an interface that they rely on is now\r\nhidden and inaccessible.\r\n\r\nhttps://boostorg.github.io/build/manual/develop/index.html#bbv2.builtin.features.visibility\r\n\r\n----------\r\n\r\nIn my case (hpctoolkit), we needed `parse_graphviz_from_string()` from\r\ngraph which went dark in 1.69.\r\n\r\nBtw, with `--keep-stage` or building boost outside of spack, you can\r\nsee that boost has added an extra directory level for visibililty in\r\nthe build stage.\r\n\r\nIn 1.68.0, compiling date_time has:\r\n\r\n```\r\ngcc.compile.c++ bin.v2/libs/date_time/build/gcc-7.3.1/release/cxxstd-98-iso/link-static/threading-multi/gregorian/date_generators.o\r\n```\r\n\r\nBut 1.69.0 added an extra level:\r\n\r\n```\r\ngcc.compile.c++ bin.v2/libs/date_time/build/gcc-7.3.1/release/cxxstd-98-iso/link-static/threading-multi/visibility-hidden/gregorian/date_generators.o\r\n```\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/11801",
+    "updated_at": "2019-06-21 01:08:23",
+    "created_at": "2019-06-20 17:47:55",
+    "closed_at": "2019-06-20 21:43:25",
+    "state": "closed",
+    "title": "boost: add variant for symbol visibility",
+    "number": 11801,
+    "milestone": null,
+    "labels": [],
+    "id": 458788456,
+    "html_url": "https://github.com/spack/spack/pull/11801",
+    "assignees": [],
+    "comments": 4
+}

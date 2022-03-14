@@ -1,0 +1,19 @@
+{
+    "body": "New CAMx package.\r\n\r\nNotes:\r\n1. Only tested with Intel compiler and Intel MPI and OpenMP; environment file below.\r\n2. The built `camx` executable needs to be run with 2 or more MPI tasks (even if your single MPI task has multiple CPUs per task) or you'll get a cryptic MPI crash.\r\n3. For some reason upstream compiles in their parameter limits into their `camx.prm.*` file.  This seems to be somewhat common practice in the atmospheric research Fortran community, but I still have to wonder why those parameter limits are not it a separate `/etc` configuration file?  It might be because upstream expects you to work inside of their source directory for all your computation, and expects you to edit source files; they have no \"install\" make rule.  I `patch()` that file to fix runtime errors my user observed with her EPA dataset.\r\n4. I have not added a variant for NetCDF 3 (!)  and 4 support because it looks fairly outdated and my HPC user is not using that functionality.  If NetCDF support is needed, that can be added in by a future contributor who has relevant test data to validate it.\r\n\r\nTest environment with empty branches omitted via `grep -vE '({}|\\[\\])' spack.yaml`:\r\n\r\n```yaml\r\n# This is a Spack Environment file.\r\n#\r\n# It describes a set of packages to be installed, along with\r\n# configuration settings.\r\nspack:\r\n  # add package specs to the `specs` list\r\n  specs: [camx threads=openmp]\r\n  view:\r\n    default:\r\n      root: /home/yul18051/src/camx/6.50/.spack-env/view\r\n  modules:\r\n  packages:\r\n    intel-mkl:\r\n      buildable: false\r\n      paths:\r\n        intel-mkl@16.1 +ilp64 threads=openmp: /apps2/intelics/2016.1-full-gcc/parallel_studio_xe_2016.1.056/compilers_and_libraries_2016/linux\r\n    intel-mpi:\r\n      buildable: false\r\n      paths:\r\n        intel-mpi@16.1: /apps2/intelics/2016.1-full-gcc/parallel_studio_xe_2016.1.056/compilers_and_libraries_2016/linux/mpi\r\n    all:\r\n      compiler: [intel@16.1]\r\n      providers:\r\n        blas: [intel-mkl]\r\n        lapack: [intel-mkl]\r\n        mkl: [intel-mkl]\r\n        mpi: [intel-mpi]\r\n      buildable: true\r\n  compilers:\r\n  - compiler:\r\n      operating_system: rhel6\r\n      paths:\r\n        cc: /apps2/intelics/2016.1-full-gcc/bin/icc\r\n        cxx: /apps2/intelics/2016.1-full-gcc/bin/icpc\r\n        f77: /apps2/intelics/2016.1-full-gcc/bin/ifort\r\n        fc: /apps2/intelics/2016.1-full-gcc/bin/ifort\r\n      # RHEL 6 gcc 4.4.7 does not support std=c++11\r\n      flags:\r\n        cflags: -gcc-name=/apps2/gcc/5.4.0-alt/bin/gcc\r\n        cxxflags: -gxx-name=/apps2/gcc/5.4.0-alt/bin/g++\r\n        fflags: -gcc-name=/apps2/gcc/5.4.0-alt/bin/gcc\r\n      extra_rpaths:\r\n      - /apps2/intelics/2016.1-full-gcc/parallel_studio_xe_2016.1.056/compilers_and_libraries_2016/linux/compiler/lib/intel64_lin\r\n      spec: intel@16.1\r\n      target: x86_64\r\n```",
+    "user": "omsai",
+    "url": "https://api.github.com/repos/spack/spack/issues/12437",
+    "updated_at": "2019-08-16 00:07:24",
+    "created_at": "2019-08-15 22:12:20",
+    "closed_at": "2019-08-16 00:07:23",
+    "state": "closed",
+    "title": "camx: add version 6.50",
+    "number": 12437,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 481360648,
+    "html_url": "https://github.com/spack/spack/pull/12437",
+    "assignees": [],
+    "comments": 0
+}

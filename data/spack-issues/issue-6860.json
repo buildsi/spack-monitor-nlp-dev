@@ -1,0 +1,17 @@
+{
+    "body": "Background is provided in #6858. Essentially, this issue is that the command:\r\n\r\n```\r\nspack -d install parmetis%gcc` cflags=\"-O3 -march=native\" cxxflags=\"-O3 -march=native\"\r\n```\r\n\r\nresults in compile commands of the form:\r\n\r\n`gcc -O3 -march=native <include directives> -O2 -g -o file.o -c file.c`\r\n\r\nThat is, the requested optimization level is ignored because CMake's initial compiler flags for gcc are _appended_ to the compile line.  To avoid this behavior, the initial `CMAKE_C_FLAGS` need to be disabled (set to an empty string).\r\n\r\nWhile I can do this locally for _parmetis_, it might make more sense to implement a general fix for spack's `CMakePackage` class, possibly by modifying the `flag_handler` functions (but I'm not sure how to implement this change).",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/6860",
+    "updated_at": "2019-04-02 21:28:12",
+    "created_at": "2018-01-09 00:17:34",
+    "closed_at": "2018-01-19 21:06:15",
+    "state": "closed",
+    "title": "WIP: Help the parmetis recipe respect spack's cflags and cxxflags.",
+    "number": 6860,
+    "milestone": null,
+    "labels": [],
+    "id": 286931114,
+    "html_url": "https://github.com/spack/spack/pull/6860",
+    "assignees": [],
+    "comments": 3
+}

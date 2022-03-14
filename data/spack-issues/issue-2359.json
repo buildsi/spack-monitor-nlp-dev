@@ -1,0 +1,20 @@
+{
+    "body": "Hi all,\r\nI tried compiling `hdf5` but the build process crashes with the following error. Note that this crash happens after the dependencies are installed and `spack` wants to compiler `hdf5` itself\r\n\r\n    spack/lib/spack/spack/build_environment.py:563, in child_execution:\r\n         548      def child_execution(child_connection, input_stream):\r\n         549          try:\r\n         550              setup_package(pkg, dirty=dirty)\r\n         551              function(input_stream)\r\n         552              child_connection.send(None)\r\n         553          except:\r\n         554              # catch ANYTHING that goes wrong in the child process\r\n         555              exc_type, exc, tb = sys.exc_info()\r\n         556  \r\n         557              # Need to unwind the traceback in the child because traceback\r\n         558              # objects can't be sent to the parent.\r\n         559              tb_string = traceback.format_exc()\r\n         560  \r\n         561              # build up some context from the offending package so we can\r\n         562              # show that, too.\r\n      >> 563              package_context = get_package_context(tb)\r\n         564  \r\n         565              build_log = None\r\n         566              if hasattr(pkg, 'log_path'):\r\n         567                  build_log = pkg.log_path\r\n         568  \r\n         569              # make a pickleable exception to send to parent.\r\n         570              msg = \"%s: %s\" % (str(exc_type.__name__), str(exc))\r\n         571  \r\n         572              ce = ChildError(msg, tb_string, build_log, package_context)\r\n         573              child_connection.send(ce)\r\n         574  \r\n         575          finally:\r\n         576              child_connection.close()",
+    "user": "ashkan2200",
+    "url": "https://api.github.com/repos/spack/spack/issues/2359",
+    "updated_at": "2017-08-07 23:42:10",
+    "created_at": "2016-11-18 13:36:22",
+    "closed_at": "2017-08-07 23:42:10",
+    "state": "closed",
+    "title": "Syntax error in build_environment.py",
+    "number": 2359,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build-environment"
+    ],
+    "id": 190320753,
+    "html_url": "https://github.com/spack/spack/issues/2359",
+    "assignees": [],
+    "comments": 11
+}

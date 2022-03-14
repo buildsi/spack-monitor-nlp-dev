@@ -1,0 +1,19 @@
+{
+    "body": "`amdlibflame` doesn't have a build dependency on `python +pythoncmd` so it fails to build when a `python` binary/symlink isn't present.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install amdlibflame\r\n(...)\r\n==> Installing amdlibflame-3.0-bycjukuru44crh5dkhekz2ftp6p3yefy\r\n==> No binary for amdlibflame-3.0-bycjukuru44crh5dkhekz2ftp6p3yefy found: installing from source\r\n==> Using cached archive: /home/bc/spack/var/spack/cache/_source-cache/archive/d9/d94e08b688539748571e6d4c1ec1ce42732eac18bd75de989234983c33f01ced.tar.gz\r\n==> Applied patch /home/bc/spack/var/spack/repos/builtin/packages/amdlibflame/cray-compiler-wrapper.patch\r\n==> amdlibflame: Executing phase: 'autoreconf'\r\n==> amdlibflame: Executing phase: 'configure'\r\n==> amdlibflame: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16' 'V=1'\r\n\r\n1 error found in build log:\r\n     248    You may now run 'make' to build all libflame libraries and then 'make install'\r\n     249    to install the libraries.\r\n     250    \r\n     251    ==> amdlibflame: Executing phase: 'build'\r\n     252    ==> [2021-09-09-20:32:26.584483] 'make' '-j16' 'V=1'\r\n     253    (huge line here...)\r\n  >> 254    /usr/bin/env: 'python': No such file or directory\r\n     255    make: *** [Makefile:462: include/x86_64-unknown-linux-gnu/FLAME.h] Error 127\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.2-4209-9084ad69b4\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rocky8-zen2\r\n* **Concretizer:** original\r\n```\r\n\r\nRocky 8.4 python externals in packages.yaml:\r\n```\r\n  python:\r\n    externals:\r\n    - spec: python@2.7.18+bz2+ctypes+dbm~lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib\r\n      prefix: /usr\r\n    - spec: python@3.6.8+bz2+ctypes+dbm+lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib\r\n      prefix: /usr\r\n```\r\n\r\n### Additional information\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7140267/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7140268/spack-build-env.txt)\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "zzzoom",
+    "url": "https://api.github.com/repos/spack/spack/issues/25878",
+    "updated_at": "2021-09-21 18:15:25",
+    "created_at": "2021-09-09 23:41:10",
+    "closed_at": "2021-09-21 18:15:25",
+    "state": "closed",
+    "title": "Installation issue: amdlibflame",
+    "number": 25878,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 992745895,
+    "html_url": "https://github.com/spack/spack/issues/25878",
+    "assignees": [],
+    "comments": 1
+}

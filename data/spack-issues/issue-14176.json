@@ -1,0 +1,20 @@
+{
+    "body": "`spack` makes a mistake in setting `cc/cxx` paths while populating `compilers.yaml` for a compiler built by spack.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\n[sajid@xrm ~]$ spack find\r\n==> 16 installed packages\r\n-- linux-rhel7-ivybridge / gcc@4.8.5 ----------------------------\r\nautoconf@2.69    gmp@6.1.2        m4@1.4.18    perl@5.30.0\r\nautomake@1.16.1  isl@0.18         mpc@1.1.0    pkgconf@1.6.3\r\ngcc@8.3.0        libsigsegv@2.12  mpfr@3.1.6   readline@8.0\r\ngdbm@1.18.1      libtool@2.4.6    ncurses@6.1  zlib@1.2.11\r\n[sajid@xrm ~]$ spack load gcc@8.3.0\r\n[sajid@xrm ~]$ spack compiler find\r\n==> Added 1 new compiler to /raid/home/sajid/.spack/linux/compilers.yaml\r\n    gcc@8.3.0\r\n==> Compilers are defined in the following files:\r\n    /raid/home/sajid/.spack/linux/compilers.yaml\r\n[sajid@xrm ~]$ cat .spack/linux/compilers.yaml\r\ncompilers:\r\n- compiler:\r\n    paths:\r\n      cc: /usr/lib64/ccache/clang\r\n      cxx: /usr/lib64/ccache/clang++\r\n      f77:\r\n      fc:\r\n    operating_system: rhel7\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    spec: clang@3.4.2\r\n- compiler:\r\n    paths:\r\n      cc: /usr/lib64/ccache/gcc\r\n      cxx: /usr/lib64/ccache/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    operating_system: rhel7\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    spec: gcc@4.8.5\r\n- compiler:\r\n    paths:\r\n      cc: /usr/bin/gcc44\r\n      cxx: /usr/bin/g++44\r\n      f77:\r\n      fc:\r\n    operating_system: rhel7\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    spec: gcc@4.4.7\r\n\r\n- compiler:\r\n    paths:\r\n      cc: /usr/lib64/ccache/gcc\r\n      cxx: /usr/lib64/ccache/g++\r\n      f77: /raid/home/sajid/packages/spack/opt/spack/linux-rhel7-ivybridge/gcc-4.8.5/gcc-8.3.0-32v3hldcu2eoz5rsbwbyaz3xerqnogyy/bin/gfortran\r\n      fc: /raid/home/sajid/packages/spack/opt/spack/linux-rhel7-ivybridge/gcc-4.8.5/gcc-8.3.0-32v3hldcu2eoz5rsbwbyaz3xerqnogyy/bin/gfortran\r\n    operating_system: rhel7\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    spec: gcc@8.3.0\r\n[sajid@xrm ~]$\r\n```\r\n\r\nI didn't notice that `spack` made a mistake for `gcc@4.8.5` but it didn't affect me because I was able to compile `gcc@8.3.0`.  \r\n\r\n### Information on your system\r\n```\r\n[sajid@xrm ~]$ uname -a\r\nLinux xrm 3.10.0-693.5.2.el7.x86_64 #1 SMP Fri Oct 13 10:46:25 EDT 2017 x86_64 x86_64 x86_64 GNU/Linux\r\n[sajid@xrm ~]$ lsb_release -d\r\nDescription:    Red Hat Enterprise Linux Workstation release 7.4 (Maipo)\r\n[sajid@xrm ~]$\r\n```\r\n\r\nRelated to : https://github.com/spack/spack/issues/3331",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/14176",
+    "updated_at": "2020-09-02 15:01:16",
+    "created_at": "2019-12-15 00:25:25",
+    "closed_at": "2020-09-02 15:01:16",
+    "state": "closed",
+    "title": "spack incorrectly populates compilers.yaml",
+    "number": 14176,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers"
+    ],
+    "id": 537983396,
+    "html_url": "https://github.com/spack/spack/issues/14176",
+    "assignees": [],
+    "comments": 3
+}

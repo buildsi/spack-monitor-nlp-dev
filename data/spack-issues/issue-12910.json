@@ -1,0 +1,19 @@
+{
+    "body": "Currently the Openblas package shows the following error:\r\n\r\n```\r\n==> Error: AttributeError: 'Target' object has no attribute 'lower'\r\n\r\n/projects/spack/var/spack/repos/builtin/packages/openblas/package.py:204, in make_defs:\r\n        201        if '+ilp64' in self.spec:\r\n        202            make_defs += ['INTERFACE64=1']\r\n        203\r\n  >>    204        if 'x86' in self.spec.architecture.target.lower():\r\n        205            if '~avx2' in self.spec:\r\n        206                make_defs += ['NO_AVX2=1']\r\n        207            if '~avx512' in self.spec:\r\n```\r\n\r\nThis PR fixes this by converting the Target object into a string so that `lower()` can be called on it.",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/12910",
+    "updated_at": "2019-09-25 20:15:24",
+    "created_at": "2019-09-23 16:02:32",
+    "closed_at": "2019-09-25 20:15:24",
+    "state": "closed",
+    "title": "Fixing bug in openblas package",
+    "number": 12910,
+    "milestone": null,
+    "labels": [],
+    "id": 497189298,
+    "html_url": "https://github.com/spack/spack/pull/12910",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 2
+}

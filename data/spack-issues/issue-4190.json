@@ -1,0 +1,17 @@
+{
+    "body": "With the current head (b5eb298f3efde1ae32545a3363bed46e1811ab76) \r\n\r\n```\r\n$ spack install elfutils\r\n==> Installing elfutils\r\n==> Using cached archive: ~/Documents/git/spack/var/spack/cache/elfutils/elfutils-0.163.tar.bz2\r\n==> Already staged elfutils-0.163-72pp6vadezugf5nmy5gbqksrmpukksa3 in ~/Documents/git/spack/var/spack/stage/elfutils-0.163-72pp6vadezugf5nmy5gbqksrmpukksa3\r\n==> Already patched elfutils\r\n==> Building elfutils [AutotoolsPackage]\r\n==> Executing phase : 'autoreconf'\r\n==> Executing phase : 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '~/Documents/git/spack/var/spack/stage/elfutils-0.163-72pp6vadezugf5nmy5gbqksrmpukksa3/elfutils-0.163/configure' '--prefix=~/Documents/git/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/elfutils-0.163-72pp6vadezugf5nmy5gbqksrmpukksa3' '--enable-maintainer-mode'\r\n~/Documents/git/spack/lib/spack/spack/build_systems/autotools.py:266, in configure:\r\n     258      def configure(self, spec, prefix):\r\n     259          \"\"\"Runs configure with the arguments specified in\r\n     260          :py:meth:`~.AutotoolsPackage.configure_args`\r\n     261          and an appropriately set prefix.\r\n     262          \"\"\"\r\n     263          options = ['--prefix={0}'.format(prefix)] + self.configure_args()\r\n     264  \r\n     265          with working_dir(self.build_directory, create=True):\r\n  >> 266              inspect.getmodule(self).configure(*options)\r\n\r\nSee build log for details:\r\n  ~/spack-stage/spack-stage-9_hjUA/elfutils-0.163/spack-build.out\r\n```\r\n```\r\n$ tail ~/spack-stage/spack-stage-9_hjUA/elfutils-0.163/spack-build.out\r\nchecking for inttypes.h... yes\r\nchecking for stdint.h... yes\r\nchecking for unistd.h... yes\r\nchecking size of long... 8\r\nchecking for struct user_regs_struct... yes\r\nchecking ~/Documents/git/spack/lib/spack/env/gcc/gcc option for 32-bit word size... -m32\r\nchecking for 64-bit host... yes\r\nchecking whether ~/Documents/git/spack/lib/spack/env/gcc/gcc -m32 makes executables we can run... yes\r\nchecking for flex... no\r\nconfigure: error: flex needed in maintainer mode\r\n```\r\nAdding ```depends_on('flex')``` leads to \r\n```\r\nconfigure: error: bison needed in maintainer mode\r\n```\r\n\r\nIs this a know issue? How do I fix this?",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/4190",
+    "updated_at": "2017-08-17 01:46:13",
+    "created_at": "2017-05-10 08:01:56",
+    "closed_at": "2017-08-17 01:46:13",
+    "state": "closed",
+    "title": "Cannot build elfutils",
+    "number": 4190,
+    "milestone": null,
+    "labels": [],
+    "id": 227596957,
+    "html_url": "https://github.com/spack/spack/issues/4190",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,21 @@
+{
+    "body": "When doing `spack mirror create -D r` Spack tried to download the pango 1.41 from http://ftp.gnome.org/pub/GNOME/sources/pango/1.40/pango-1.41.0.tar.xz instead of http://ftp.gnome.org/pub/GNOME/sources/pango/1.41/pango-1.41.0.tar.xz . \r\n\r\n\r\n```\r\n...\r\n\r\nAdding package gobject-introspection@1.49.2 to mirror\r\n==> gobject-introspection@1.49.2 : already added\r\n==> Adding package pango@1.41.0 to mirror\r\n==> Fetching http://ftp.gnome.org/pub/GNOME/sources/pango/1.40/pango-1.41.0.tar.xz\r\n\r\ncurl: (22) The requested URL returned error: 404 Not Found\r\n==> Warning: Error while fetching pango@1.41.0\r\n  Failed to fetch file from URL: http://ftp.gnome.org/pub/GNOME/sources/pango/1.40/pango-1.41.0.tar.xz\r\n==> Adding package zlib@1.2.11 to mirror\r\n==> zlib@1.2.11 : already added\r\n\r\n...\r\n```\r\n\r\nThe walkaround is to either `spack mirror create -D r ^pango@1.40` (which works correctly) or with `spack fetch pango`:\r\n\r\n```\r\n# spack fetch pango\r\nspack fetch pango\r\n==> Fetching http://ftp.gnome.org/pub/GNOME/sources/pango/1.40/pango-1.41.0.tar.xz\r\ncurl: (22) The requested URL returned error: 404 Not Found\r\n==> Fetching from http://ftp.gnome.org/pub/GNOME/sources/pango/1.40/pango-1.41.0.tar.xz failed.\r\nspack inst==> Fetching http://ftp.gnome.org/pub/gnome/sources/pango/1.41/pango-1.41.0.tar.xz\r\n######################################################################## 100,0%\r\n```\r\n\r\nAnd after that `spack fetch -D r` works and problem heals itself automatically.\r\n\r\n\r\nI tried to fix the seemingly trivial problem myself, but it looks like the effective pango URL is generated programmatically somewhere in the code, and at this stage I am helpless.",
+    "user": "adamryczkowski",
+    "url": "https://api.github.com/repos/spack/spack/issues/6938",
+    "updated_at": "2018-01-15 20:05:28",
+    "created_at": "2018-01-14 16:31:41",
+    "closed_at": "2018-01-15 20:05:28",
+    "state": "closed",
+    "title": "Wrong source url for pango when doing `spack fetch -D r` (with 2 walkarounds).",
+    "number": 6938,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "mirrors",
+        "versions"
+    ],
+    "id": 288420994,
+    "html_url": "https://github.com/spack/spack/issues/6938",
+    "assignees": [],
+    "comments": 1
+}

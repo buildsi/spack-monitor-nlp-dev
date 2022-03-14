@@ -1,0 +1,21 @@
+{
+    "body": "I'm seeing a strange concretization error.  So strange that I don't\r\neven know how to write a good subject line.\r\n\r\nI want to write a dependency with multiple `depends_on` lines (for\r\nclarity and separation of concerns).\r\n\r\nArtificially add `depends_on('zlib')` to package xz.\r\n\r\n```\r\ndepends_on('zlib~pic')\r\ndepends_on('zlib@:1.2.8', when='@:5.2.4')\r\n```\r\n\r\nThis says that xz always depends on zlib with pic off, and you must\r\nuse zlib <= 1.2.8 when xz <= 5.2.4.  Note that 5.2.4 is the latest\r\nversion of xz.\r\n\r\nAFAIK, this is supposed to work and I have used this before.  All the\r\nconstraints go into the giant SAT solver.\r\n\r\n```\r\n$ spack spec xz @5.2.3\r\n--------------------------------\r\nxz@5.2.3%gcc@7.3.1 arch=linux-fedora26-westmere\r\n    ^zlib@1.2.8%gcc@7.3.1+optimize~pic+shared arch=linux-fedora26-westmere\r\n\r\n\r\n$ spack spec xz @5.2.4\r\n--------------------------------\r\nxz@5.2.4%gcc@7.3.1 arch=linux-fedora26-westmere\r\n    ^zlib@1.2.8%gcc@7.3.1+optimize~pic+shared arch=linux-fedora26-westmere\r\n```\r\n\r\nThis works and it picks up both constraints: ~pic and 1.2.8.\r\n\r\nBut then:\r\n```\r\n$ spack spec xz  \r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    zlib@1.2.11%gcc@7.3.1+optimize~pic+shared arch=linux-fedora26-westmere\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    xz@5.2.4%gcc@7.3.1 arch=linux-fedora26-westmere\r\n\r\nxz requires zlib version :1.2.8, but spec asked for 1.2.11\r\n```\r\n\r\nSomething somewhere has prematurely fixed on zlib 1.2.11 and that\r\nconflicts with :1.2.8.  Even though it's the same 5.2.4 version that\r\nworks when you explicitly say 5.2.4.\r\n\r\nWTF !?\r\n\r\nEven stranger, if I change the depends to 5.2.3, not the latest\r\nversion:\r\n\r\n```\r\ndepends_on('zlib~pic')\r\ndepends_on('zlib@:1.2.8', when='@:5.2.3')\r\n```\r\n\r\nthen everything works as expected.  It works for xz@5.2.4, 5.2.3,\r\n5.2.0, default (unspecified).  All works and picks up the correct zlib\r\nversion.\r\n\r\nBtw, here's the use case that I actually care about.  For hpctoolkit,\r\nthe new binutils 2.34 breaks the build.  So I want:\r\n\r\n```\r\ndepends_on('binutils+libiberty~nls', type='link')\r\ndepends_on('binutils@:2.33.1', when='@:2020.03.01')\r\n```\r\n\r\nAgain, `spack spec hpctookit` fails with 2.34 conflicting with\r\n:2.33.1, but `spack spec hpctookit @2020.03.01` works.  Again,\r\n2020.03.01 is the latest numbered rev (not counting master).\r\n\r\n@becker33 @scheibelp  Any idea what's going on?\r\n\r\nWhatever it is, it's been around for a while.  I tried going back over\r\na year and I didn't find a rev where this worked as I'd expect.\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/15478",
+    "updated_at": "2020-11-02 22:44:50",
+    "created_at": "2020-03-13 04:01:44",
+    "closed_at": "2020-11-02 22:44:50",
+    "state": "closed",
+    "title": "strange concretization error with multi-line depends_on",
+    "number": 15478,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate",
+        "concretization"
+    ],
+    "id": 580356356,
+    "html_url": "https://github.com/spack/spack/issues/15478",
+    "assignees": [],
+    "comments": 6
+}

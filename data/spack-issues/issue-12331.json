@@ -1,0 +1,27 @@
+{
+    "body": "During the hackathon multiple people ran into an issue with gpg 2.2 because of the difference in output with `gpg --list-secret-keys --with-colons --fingerprint`. @opadron  was able to figure out that this was due to a difference in output from the different versions of gpg. \r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```shell\r\n# use gpg v2.2.X\r\n$ gpg --list-secret-keys --with-colons --fingerprint\r\nsec:-:2048:1:XXXXXXXXXX:XXXXXXXX:::-:::escaESCA:::+:::23::0:\r\nfpr:::::::::XXXXXXXXXXXXXX:\r\ngrp:::::::::XXXXXXXXXXXXXX:\r\nuid:-::::XXXXXXXXX::XXXXXXXXX::Spack Build Pipeline (Demo Key) <key@spack.demo>::::::::::0:\r\nssb:-:2048:1:XXXXXXXXX::::::esa:::+:::23:\r\nfpr:::::::::XXXXXXXXXXX:\r\ngrp:::::::::XXXXXXXXXXX:\r\n\r\n```\r\n```shell\r\n# with gpg version 2.0.4\r\ngpg --list-secret-keys --with-colons --fingerprint\r\nsec::2048:1:XXXXXXXXXXX::::::::::\r\nfpr:::::::::XXXXXXXXXXXXXX:\r\nuid:::::::XXXXXXXXXXXXXXXX::Spack Build Pipeline (Demo Key) <key@spack.demo>:\r\nssb::2048:1:XXXXXXXXXXXXXXXX::::::::::\r\n```\r\n\r\nAs you can see in gpg version 2.2 both public and private keys are included in the output. I think the way spack currently handles this is by finding the first occurrence of `fpr` but since there are two `fpr`s in later versions Spack thinks there are multiple keys.\r\n\r\n### Error Message\r\n```console\r\n==> [2019-08-06-17:27:51.463007] creating binary cache file for package diffutils@3.7%gcc@8.2.0 arch=cray-cnl7-haswell \r\nTraceback (most recent call last):\r\n  File \"/global/project/projectdirs/swowner/JrAqyGHx/14/NERSC/spack-downstream-repo/lib/spack/spack/main.py\", line 697, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/global/project/projectdirs/swowner/JrAqyGHx/14/NERSC/spack-downstream-repo/lib/spack/spack/main.py\", line 447, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/global/project/projectdirs/swowner/JrAqyGHx/14/NERSC/spack-downstream-repo/lib/spack/spack/cmd/buildcache.py\", line 676, in buildcache\r\n    args.func(args)\r\n  File \"/global/project/projectdirs/swowner/JrAqyGHx/14/NERSC/spack-downstream-repo/lib/spack/spack/cmd/buildcache.py\", line 370, in createtarball\r\n    not args.no_rebuild_index)\r\n  File \"/global/project/projectdirs/swowner/JrAqyGHx/14/NERSC/spack-downstream-repo/lib/spack/spack/binary_distribution.py\", line 408, in build_tarball\r\n    sign_tarball(key, force, specfile_path)\r\n  File \"/global/project/projectdirs/swowner/JrAqyGHx/14/NERSC/spack-downstream-repo/lib/spack/spack/binary_distribution.py\", line 247, in sign_tarball\r\n    raise PickKeyException(str(keys))\r\nspack.binary_distribution.PickKeyException: Multi keys available for signing\r\n[u'XXXXXXXXXXXX', u'XXXXXXXXXXXX']\r\nUse spack buildcache create -k <key hash> to pick a key.\r\n...\r\n```\r\n\r\nOmar did a quick fix in `gpg.py` but we're not sure if this is the right way to approach this issue since we've not considered every case of output.\r\n\r\n",
+    "user": "mamelara",
+    "url": "https://api.github.com/repos/spack/spack/issues/12331",
+    "updated_at": "2019-09-20 17:34:00",
+    "created_at": "2019-08-08 17:53:04",
+    "closed_at": "2019-09-20 17:34:00",
+    "state": "closed",
+    "title": "Spack reports multiple keys for gpg v2.2 even though only one was created",
+    "number": 12331,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "platform-support",
+        "versions",
+        "workaround",
+        "good first issue",
+        "ecp",
+        "pipelines"
+    ],
+    "id": 478609086,
+    "html_url": "https://github.com/spack/spack/issues/12331",
+    "assignees": [
+        "opadron"
+    ],
+    "comments": 3
+}

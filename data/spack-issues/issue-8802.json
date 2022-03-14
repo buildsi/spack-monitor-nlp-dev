@@ -1,0 +1,20 @@
+{
+    "body": "We noticed this internally with one of our more complicated meta packages. But it is straight forward to reproduce by creating 4 packages:\r\n* a: depends on b and c with either link or run dependency\r\n* b: depends on d type build\r\n* c: depends on d type either link or run\r\n* d: no dependencies\r\n\r\n### Expected Result\r\n\r\n```\r\nspack spec -t a\r\n```\r\nto correctly identify d being a link/run dependency instead of only being a build dependency.\r\n\r\n### Actual Result\r\n\r\n```\r\n$ spack spec -t a\r\nInput spec\r\n--------------------------------\r\n[    ]  a\r\n\r\nConcretized\r\n--------------------------------\r\n[    ]  a@1%clang@10.0.0-apple arch=darwin-highsierra-x86_64 \r\n[bl  ]      ^b@1.2.3%clang@10.0.0-apple arch=darwin-highsierra-x86_64 \r\n[b   ]          ^d@1.2.3%clang@10.0.0-apple arch=darwin-highsierra-x86_64 \r\n[bl  ]      ^c@1.2.3%clang@10.0.0-apple arch=darwin-highsierra-x86_64 \r\n```\r\n\r\n\r\nI'll try to track this down either later today or this week, but for now we should tread the type identification of dependencies of dependencies from `spack spec -t` as unreliable.",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/8802",
+    "updated_at": "2018-07-30 07:53:33",
+    "created_at": "2018-07-25 11:38:49",
+    "closed_at": "2018-07-29 18:54:21",
+    "state": "closed",
+    "title": "spack spec -t can report misleading dependency types in case of multiple dependencies",
+    "number": 8802,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "commands"
+    ],
+    "id": 344407049,
+    "html_url": "https://github.com/spack/spack/issues/8802",
+    "assignees": [],
+    "comments": 9
+}

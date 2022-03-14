@@ -1,0 +1,22 @@
+{
+    "body": "Add a smoke test for the darshan-util package. \r\n\r\nThis adds a test to run darshan-parser against an example logfile which is included in the darshan release. The test verifies that 3 counters are present in the output, one for each of the POSIX, MPI-IO, and STDIO modules. The test assumes that darshan-parser must be in the user's path.\r\n\r\nExample output:\r\nkharms@shuttleworth:~/working/darshan/spack$ spack install darshan-util\r\n[+] /home/kharms/working/darshan/spack/opt/spack/linux-ubuntu20.04-sandybridge/gcc-9.3.0/zlib-1.2.11-bjaye35neuvuamo32i2cbv4c22m367c2\r\n==> Installing darshan-util-3.3.1-vtcpygtbyefth637pue7cyyi35mg4fnk\r\n==> No binary for darshan-util-3.3.1-vtcpygtbyefth637pue7cyyi35mg4fnk found: installing from source\r\n==> Using cached archive: /home/kharms/working/darshan/spack/var/spack/cache/_source-cache/archive/28/281d871335977d0592a49d053df93d68ce1840f6fdec27fea7a59586a84395f7.tar.gz\r\n==> No patches needed for darshan-util\r\n==> darshan-util: Executing phase: 'autoreconf'\r\n==> darshan-util: Executing phase: 'configure'\r\n==> darshan-util: Executing phase: 'build'\r\n==> darshan-util: Executing phase: 'install'\r\n==> darshan-util: Successfully installed darshan-util-3.3.1-vtcpygtbyefth637pue7cyyi35mg4fnk\r\n  Fetch: 0.03s.  Build: 9.87s.  Total: 9.90s.\r\n[+] /home/kharms/working/darshan/spack/opt/spack/linux-ubuntu20.04-sandybridge/gcc-9.3.0/darshan-util-3.3.1-vtcpygtbyefth637pue7cyyi35mg4fnk\r\nkharms@shuttleworth:~/working/darshan/spack$ spack test run darshan-util\r\n==> Spack test qjfbz5waqzhol6xxuy4k3svxehz4d6cx\r\n==> Testing package darshan-util-3.3.1-vtcpygt\r\n==> Error: TestFailure: 1 tests failed.\r\n\r\n\r\nFailed to find executable 'darshan-parser'\r\n\r\n/home/kharms/working/darshan/spack/lib/spack/spack/package.py:1871, in run_test:\r\n       1868                    # stack instead of from traceback.\r\n       1869                    # The traceback is truncated here, so we can't use it to\r\n       1870                    # traverse the stack.\r\n  >>   1871                    m = '\\n'.join(\r\n       1872                        spack.build_environment.get_package_context(tb)\r\n       1873                    )\r\n       1874\r\n\r\n\r\n/home/kharms/working/darshan/spack/lib/spack/spack/build_environment.py:1029, in _setup_pkg_and_run:\r\n       1026        tb_string = traceback.format_exc()\r\n       1027\r\n       1028        # build up some context from the offending package so we can\r\n  >>   1029        # show that, too.\r\n       1030        package_context = get_package_context(tb)\r\n       1031\r\n       1032        logfile = None\r\n\r\nSee test log for details:\r\n  /home/kharms/.spack/test/qjfbz5waqzhol6xxuy4k3svxehz4d6cx/darshan-util-3.3.1-vtcpygt-test-out.txt\r\n\r\nkharms@shuttleworth:~/working/darshan/spack$ spack load darshan-util\r\nkharms@shuttleworth:~/working/darshan/spack$ spack test run darshan-util\r\n==> Spack test qjfbz5waqzhol6xxuy4k3svxehz4d6cx\r\n==> Testing package darshan-util-3.3.1-vtcpygt\r\n",
+    "user": "kevin-harms",
+    "url": "https://api.github.com/repos/spack/spack/issues/25016",
+    "updated_at": "2021-07-22 23:46:10",
+    "created_at": "2021-07-21 16:19:19",
+    "closed_at": "2021-07-22 23:46:09",
+    "state": "closed",
+    "title": "Add smoke test for darshan-util",
+    "number": 25016,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "stand-alone-tests"
+    ],
+    "id": 949888448,
+    "html_url": "https://github.com/spack/spack/pull/25016",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 2
+}

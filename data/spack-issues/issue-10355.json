@@ -1,0 +1,22 @@
+{
+    "body": "Previously spec parsing didn't allow you to look up missing (but still known) specs by hash.\r\n\r\nFor example:\r\n\r\n```console\r\n$ spack uninstall -f /7lpqufu  # force uninstall a still-needed package\r\n```\r\n\r\nNotice that xz is uninstalled (`[-]`) below:\r\n```console\r\n$ spack spec -Il /tddqgvd\r\nConcretized\r\n--------------------------------\r\n[+]  tddqgvd  hdf5@1.10.2%clang@8.1.0-apple~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe arch=darwin-highsierra-x86_64 \r\n[+]  j55gl56      ^openmpi@3.1.1%clang@8.1.0-apple~cuda+cxx_exceptions fabrics= ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple+vt arch=darwin-highsierra-x86_64 \r\n[+]  4qjjdvh          ^hwloc@1.11.9%clang@8.1.0-apple~cairo~cuda+libxml2~pci+shared arch=darwin-highsierra-x86_64 \r\n[+]  cmhpqwp              ^libxml2@2.9.8%clang@8.1.0-apple~python arch=darwin-highsierra-x86_64 \r\n[-]  7lpqufu                  ^xz@5.2.4%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[+]  n3eiwqp                  ^zlib@1.2.11%clang@8.1.0-apple+optimize+pic+shared arch=darwin-highsierra-x86_64 \r\n```\r\n\r\nThis would previously fail to understand the xz hash, but now works:\r\n```console\r\n$ spack spec -Il /7lpqufu\r\nConcretized\r\n--------------------------------\r\nxz@5.2.4%clang@8.1.0-apple arch=darwin-highsierra-x86_64\r\n```\r\nYou could now do this to reinstall:\r\n```console\r\n$ spack install /7lpqufu\r\n```\r\n\r\n- Allow referencing and potentially reinstalling force-uninstalled dependencies\r\n- Add testing for force uninstall and for reference by spec",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/10355",
+    "updated_at": "2019-09-04 22:06:05",
+    "created_at": "2019-01-15 17:35:03",
+    "closed_at": "2019-09-04 07:25:37",
+    "state": "closed",
+    "title": "specs: better lookup by hash; allow references to missing dependency hashes",
+    "number": 10355,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "pkg-database"
+    ],
+    "id": 399456199,
+    "html_url": "https://github.com/spack/spack/pull/10355",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

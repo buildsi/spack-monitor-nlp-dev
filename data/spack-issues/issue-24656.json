@@ -1,0 +1,22 @@
+{
+    "body": "`spack buildcache create --key <KEY> ...` will currently use a key *other than the user-specified signing key* if the user-specified key does not exist and there is a single signing key in the keyring. \r\n\r\nThis PR makes `spack buildcache create` fail if a user specifically instructs Spack to use a key that does not exist.\r\n\r\nHere is the current behavior (i.e. without changes in this PR):\r\n```\r\n$> spack gpg list --signing\r\ngpgconf: socketdir is '/Users/walker/.gnupg'\r\ngpgconf: \tno /run/user dir\r\ngpgconf: \tusing homedir as fallback\r\n/Users/walker/spack/opt/spack/gpg/pubring.kbx\r\n---------------------------------------------\r\npub   rsa3072 2019-08-09 [SC] [expires: 2021-08-08]\r\n      7D344E2992071B0AAAE1EDB0E68DE2A80314303D\r\nuid           [ unknown] prl\r\nsub   rsa3072 2019-08-09 [E]\r\n\r\npub   ed25519 2021-07-01 [SC] [expires: 2023-07-01]\r\n      EED1B255BD10B849FCC9AAF0F6066B76BC28E44D\r\nuid           [ unknown] University of Oregon - E4S\r\nsub   cv25519 2021-07-01 [E] [expires: 2023-07-01]\r\n\r\n/Users/walker/spack/opt/spack/gpg/pubring.kbx\r\n---------------------------------------------\r\nsec   rsa3072 2019-08-09 [SC] [expires: 2021-08-08]\r\n      7D344E2992071B0AAAE1EDB0E68DE2A80314303D\r\nuid           [ unknown] prl\r\nssb   rsa3072 2019-08-09 [E]\r\n```\r\n\r\n```\r\n$> spack buildcache create ... --key \"University of Oregon - E4S\" ...\r\n==> Buildcache files will be output to ...\r\ngpgconf: socketdir is '/Users/walker/.gnupg'\r\ngpgconf: \tno /run/user dir\r\ngpgconf: \tusing homedir as fallback\r\ngpg: Warning: not using 'University of Oregon - E4S' as default key: No secret key\r\ngpg: all values passed to '--default-key' ignored\r\n\r\n$> echo $?\r\n0\r\n```\r\n\r\nHere is the behavior with this PR:\r\n```\r\n$> spack buildcache create ... --key \"University of Oregon - E4S\" ...\r\n==> Buildcache files will be output to file:///Users/walker/go/src/github.com/eugeneswalker/cache-manager/cache-resigner/build_cache\r\ngpgconf: socketdir is '/Users/walker/.gnupg'\r\ngpgconf: \tno /run/user dir\r\ngpgconf: \tusing homedir as fallback\r\n==> Error: Key not found: University of Oregon - E4S\r\n\r\n$> echo $?\r\n1\r\n```\r\n\r\n@becker33 @vsoch @alalazo @opadron @scottwittenburg ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/24656",
+    "updated_at": "2021-07-01 23:28:39",
+    "created_at": "2021-07-01 20:32:47",
+    "closed_at": "2021-07-01 23:28:39",
+    "state": "closed",
+    "title": "buildcache create: respect user-specified signing key",
+    "number": 24656,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "don't-merge-yet",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 935194017,
+    "html_url": "https://github.com/spack/spack/pull/24656",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "The documentation would describe a standards/convention for packagers to follow:\n1. Packages that can build more than one library type should have variants \"+shared\" or \"+static\" to choose which library types are built.  At least one should be set.\n2. Packages that build static libraries only should ALWAYS produce position-independent code (-fPIC) if possible.  This allows them to be linked by shared libraries that depend on them.\n3. If position-independent code is an option for a library, it should be controlled by a variant \"+fpic\"\n4. Packages should always build shared libraries by default.\n5. MAYBE: Spack can now interpret the meaning of +shared and +static: it can drop LD_LIBRARY_PATH and RPath support for packages being linked static.\n\n> > @citibeth:\n> > 2. We standardize on variants for ALL packages that control shared /\n> > non-shared generation:\n> >    a) These variants get implemented in the core Spack code, so the\n> > package.py files don't have to provide variant() declarations.\n> >    b) There should be a way to set these variants by default for ALL\n> > packages (eg: I'd set \"+shared\" as a general Spack configuration, and then\n> > all packages would be built with \"+shared\").  If this capability is not\n> > already in Spack, it would be provided as a follow-on to PR #120.\n> >    b) I would suggest we follow existing convention used by some packages:\n> > \"+shared\" means build shared libraries, \"+static\" means build static\n> > libraries.\n> > ~shared\" means don't build shared libraries, etc.\n> >    c) If a package is incapable of building libraries in the ways\n> > requested, it can silently override Spack-wide defaults.  But it should\n> > throw an error if the default was set per-package.  (Eg: suppose Spack-wide\n> > defaults are set to \"+shared\" and mylib/package.py can't do shared\n> > libraries.  Then I can silently just build static libraries.  But if a user\n> > asks for mylib+shared, then I need to throw an error).\n> >    d) If the user does nothing, Spack-wide defaults should be configured by\n> > default to \"+shared+static\".\n> \n> @mathstuf said:\n> I agree that it should always be spelled \"+shared\" and \"+static\" (and\n> not \"+fpic\" or \"+dynamic\"), but I don't know about spack providing it by\n> default without any mention in package.py. What does `py-six+shared`\n> even _mean_? What about `py-numpy+static`?\n> \n> Also, with spack knowing about shared versus static, it means that spack\n> can drop LD_LIBRARY_PATH and rpath additions for packages which depend\n> on static libraries.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/509",
+    "updated_at": "2017-11-22 06:25:56",
+    "created_at": "2016-03-08 19:21:13",
+    "closed_at": "2017-11-22 06:25:55",
+    "state": "closed",
+    "title": "Add section to documentation on shared vs. static libraries",
+    "number": 509,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 139368956,
+    "html_url": "https://github.com/spack/spack/issues/509",
+    "assignees": [],
+    "comments": 2
+}

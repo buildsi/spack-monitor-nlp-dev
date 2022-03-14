@@ -1,0 +1,17 @@
+{
+    "body": "This PR targets NCL, but ESMF needs to be fixed as NCL has it as a dependent.\r\nBug fixes are targeting my testing with Intel 19.0.3 compilers.  However, some other fixes are not Intel compiler based.\r\n\r\n## ESMF bug fixes\r\n\r\n1. Support Intel 17+ `-qopenmp` where appropriate, this has to be done in a patch because `build_rules.mk` sets the options in the source files.\r\n2. Allow compiler flags to be injected from the compiler spec.\r\n\r\n## NCL bug fixes\r\n\r\n1. Remove single quote specification in configure script, this keeps some subprograms from linking to libraries properly. \r\n2. Add in the deps:\r\n```\r\n    depends_on('pixman')\r\n    depends_on('bzip2')\r\n    depends_on('freetype') # should have been there initially\r\n```\r\n\r\nComment: `pixman` and `bzip2` need to be in there because the final `ncl` would not link without the presence of `-lbz2` and `-lpixman-1`.  I was probably more easily able to catch this because of the use of Intel compilers and not having those packages in the matching compiler spec.\r\n\r\n3. Apply a new `ymake` patch.  This patch leverages an existing case statement for Linux and should be sufficient to shield against other architectures.\r\n\r\nWith Linux specifically, there's a funny behavior with `linux` and `x86_64` being a part of the package path.  Preprocessor output looks something like this:\r\n\r\n```\r\ngrep somefile  -e linux -e x86_64\r\n#define LibSearch -L/usr/local/pacerepov2/spack/packages/0.12/linux-rhel7-x86_64/gcc-8.3.0/freetype-2.9.1-psjwxp5sxil4p6a5najqi7qrlkrtjifr/include/freetype2\r\n#define __x86_64 1\r\n#define __linux 1\r\n#define __linux__ 1\r\n#define __gnu_linux__ 1\r\n#define _ArchDef -Dx86_64\r\n#define x86_64 1\r\n#define __x86_64__ 1\r\n#define linux 1\r\n```\r\n\r\nThis has the unfortunate effect of defining package paths with substrings `1-rhel7-1`.\r\n\r\nAt this time, the easiest way to installation happiness is to override the existing preprocessor macro with additional re-definitions of `-Dlinux=linux` and `-Dx86_64=x86_64`\r\n\r\nI'm aware there are complaint messages:\r\n```\r\nerror: detected recursion whilst expanding macro \"linux\"\r\n```\r\nBut the installation proceeds... There may be a more robust override strategy, but I would like this to be considered as a first-fix measure.\r\n",
+    "user": "kmanalo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11923",
+    "updated_at": "2019-08-24 00:17:04",
+    "created_at": "2019-07-03 07:26:13",
+    "closed_at": "2019-08-24 00:16:10",
+    "state": "closed",
+    "title": "ESMF,NCL: Bug fixes for Intel Compilers",
+    "number": 11923,
+    "milestone": null,
+    "labels": [],
+    "id": 463589224,
+    "html_url": "https://github.com/spack/spack/pull/11923",
+    "assignees": [],
+    "comments": 4
+}

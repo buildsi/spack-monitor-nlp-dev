@@ -1,0 +1,20 @@
+{
+    "body": "I am trying to install cp2k with spack. However, I run into \r\nError: Conflicts in concretized spec\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install cp2k\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n==> Error: Conflicts in concretized spec \"cp2k@8.1%gcc@9.3.0~cosma~cuda~cuda_arch_35_k20x~cuda_blas~cuda_fft~elpa+libint~libvori+libxc+mpi+openmp~pexsi~plumed~sirius~spglib cuda_arch=none lmax=5 smm=libxsmm arch=linux-ubuntu20.04-ivybridge/atx5pps\"\r\n.....\r\n1. \"^fftw~openmp\" conflicts with \"cp2k+openmp\"\r\n2. \"^openblas threads=none\" conflicts with \"cp2k+openmp\"\r\n```\r\nI can get rid of the first conflict using:\r\n```console\r\n$ spack install cp2k ^fftw+openmp\r\n==> Error: Conflicts in concretized spec \"cp2k@8.1%gcc@9.3.0~cosma~cuda~cuda_arch_35_k20x~cuda_blas~cuda_fft~elpa+libint~libvori+libxc+mpi+openmp~pexsi~plumed~sirius~spglib cuda_arch=none lmax=5 smm=libxsmm arch=linux-ubuntu20.04-ivybridge/ssgitns\"\r\n.....\r\n1. \"^openblas threads=none\" conflicts with \"cp2k+openmp\"\r\n```\r\nHowever, I'm not entirely sure if this is the right approach.\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.0-1382-e66b1d4596\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-ivybridge\r\n* **Concretizer:** original\r\n```\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "mechapple",
+    "url": "https://api.github.com/repos/spack/spack/issues/21889",
+    "updated_at": "2021-03-18 10:13:05",
+    "created_at": "2021-02-23 20:34:14",
+    "closed_at": "2021-03-18 10:07:51",
+    "state": "closed",
+    "title": "cp2k install conflicts",
+    "number": 21889,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 814809301,
+    "html_url": "https://github.com/spack/spack/issues/21889",
+    "assignees": [],
+    "comments": 5
+}

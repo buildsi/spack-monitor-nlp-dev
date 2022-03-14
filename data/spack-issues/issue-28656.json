@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\nIt seems that py-horovod is missing dependency `py-tensorflow-estimator`. \r\nCurrently if I build it with `frameworks=tensorflow`, the output of `horovodrun --check-build` is\r\n```console\r\nHorovod v0.23.0:\r\n\r\nAvailable Frameworks:\r\n    [ ] TensorFlow\r\n    [X] PyTorch\r\n    [ ] MXNet\r\n\r\nAvailable Controllers:\r\n    [ ] MPI\r\n    [ ] Gloo\r\n\r\nAvailable Tensor Operations:\r\n    [ ] NCCL\r\n    [ ] DDL\r\n    [ ] CCL\r\n    [ ] MPI\r\n    [ ] Gloo \r\n```\r\n\r\nUsing verbose output shows the exception:\r\n```console\r\nModuleNotFoundError: No module named 'tensorflow_estimator'\r\nExtension tensorflow was NOT built.\r\n```\r\n\r\nAdd `py-tensorflow-estimator` as dependency seems to solve the issue.\n\n### Information on your system\n\n* **Spack:** 0.17.1-957-bed3a69498\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n* **Concretizer:** clingo\n\n### Additional information\n\n@adamjstewart  @aweits  @tgaddair\r\n\r\nThe build succeeds, but it is not usable, giving\r\n```console\r\nValueError: Neither MPI nor Gloo support has been built. Try reinstalling Horovod ensuring that either MPI is installed (MPI) or CMake is installed (Gloo).\r\n```\r\nsince each time it runs, it will first check installation which imports `tensorflow_estimator`\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7957256/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7957257/spack-build-out.txt)\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "asesidaa",
+    "url": "https://api.github.com/repos/spack/spack/issues/28656",
+    "updated_at": "2022-01-30 02:22:19",
+    "created_at": "2022-01-28 09:13:27",
+    "closed_at": "2022-01-30 02:22:19",
+    "state": "closed",
+    "title": "Installation issue: py-horovod missing dependency when framework is tensorflow",
+    "number": 28656,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1117168605,
+    "html_url": "https://github.com/spack/spack/issues/28656",
+    "assignees": [],
+    "comments": 4
+}

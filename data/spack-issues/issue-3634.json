@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #3632.\r\n\r\nThe default `scalapack` provider is `intel-mkl`, which cannot be downloaded from a URL. Even if it could, many users won't have a license for `intel-mkl`. This PR changes the default to `netlib-scalapack`.\r\n\r\nI noticed several other virtual dependencies for which a default was not set. Many of these were for other Intel products like daal and ipp, which cannot be downloaded from a URL. I made sure that every virtual package can now be downloaded. I also set the default for every provider so that it is more deterministic.\r\n\r\n`daal` and `ipp` were both the name of a package and the name of a virtual package. I have no idea how this behaves. I decided to rename these package to `intel-daal` and `intel-ipp` just like `intel-mkl`, and added the virtual dependencies. The default is `intel-parallel-studio` because it can actually be downloaded from a URL.\r\n\r\nThere are probably URLs for other Intel products. We should add these to the packages someday. For now, I only use `intel-parallel-studio`, so the problem doesn't affect me.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3634",
+    "updated_at": "2017-04-02 19:48:30",
+    "created_at": "2017-03-30 15:29:42",
+    "closed_at": "2017-04-02 19:48:28",
+    "state": "closed",
+    "title": "Set default providers for all virtual dependencies",
+    "number": 3634,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "virtual-dependencies"
+    ],
+    "id": 218236659,
+    "html_url": "https://github.com/spack/spack/pull/3634",
+    "assignees": [],
+    "comments": 1
+}

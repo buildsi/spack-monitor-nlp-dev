@@ -1,0 +1,22 @@
+{
+    "body": "cc: @sleak \r\n\r\n### Steps to reproduce\r\n\r\nWe are unable to detect perlmutter architecture in spack. For more details see https://spackpm.slack.com/archives/C5W7NKZJT/p1631284957272400. \r\n\r\nI have debugged this with e4s branch `e4s-21.08` and `develop` branch and still getting same issue\r\n```\r\nsiddiq90@login11> spack -d arch\r\n==> [2021-09-13-09:11:21.597439] '/bin/bash' '--norc' '--noprofile' '-lc' 'echo $CRAY_CPU_TARGET'\r\n==> [2021-09-13-09:11:21.608167] NoPlatformError: Could not determine a platform for this machine.\r\n==> [2021-09-13-09:11:21.608378] Error: Could not determine a platform for this machine.\r\nTraceback (most recent call last):\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/spack/main.py\", line 774, in main\r\n    setup_main_options(args)\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/spack/main.py\", line 478, in setup_main_options\r\n    spack.config.set('config:debug', True, scope='command_line')\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/spack/config.py\", line 915, in set\r\n    return config.set(path, value, scope)\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/llnl/util/lang.py\", line 786, in __getattr__\r\n    return getattr(self.instance, name)\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/llnl/util/lang.py\", line 776, in instance\r\n    self._instance = self.factory()\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/spack/config.py\", line 814, in _config\r\n    _add_platform_scope(cfg, ConfigScope, name, path)\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/spack/config.py\", line 767, in _add_platform_scope\r\n    platform = spack.architecture.platform().name\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/llnl/util/lang.py\", line 190, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/spack/architecture.py\", line 523, in _platform\r\n    return platform_cls()\r\n  File \"/global/common/software/spackecp/perlmutter/e4s-21.08/spack/lib/spack/spack/platforms/cray.py\", line 61, in __init__\r\n    raise NoPlatformError()\r\nspack.architecture.NoPlatformError: Could not determine a platform for this machine.\r\n```\r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\n```\r\nsiddiq90@login11> spack debug report\r\n* **Spack:** 0.16.2-4211-d54a692e09\r\n* **Python:** 3.6.12\r\n==> Error: Could not determine a platform for this machine.\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "shahzebsiddiqui",
+    "url": "https://api.github.com/repos/spack/spack/issues/25914",
+    "updated_at": "2021-10-19 21:39:51",
+    "created_at": "2021-09-13 16:14:31",
+    "closed_at": "2021-10-19 21:39:51",
+    "state": "closed",
+    "title": "unable to detect Perlmutter system architecture",
+    "number": 25914,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high"
+    ],
+    "id": 995078122,
+    "html_url": "https://github.com/spack/spack/issues/25914",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

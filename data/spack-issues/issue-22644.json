@@ -1,0 +1,17 @@
+{
+    "body": "This provides a docker entrypoint with a specified environment already active.  This is particularly useful for building spack based containers for a pre-defined application stack.\r\n\r\nAs an example, building a spack based container for adios might use a `Dockerfile` that looks something like this:\r\n```\r\nFROM spack/ubuntu-bionic\r\n\r\nENV SPACK_PYTHON=/usr/bin/python3.6\r\n\r\nCOPY adios2-env.yml /root/adios2-env.yml\r\nRUN spack env create adios2 /root/adios2-env.yml && \\\r\n    rm -f /root/adios2-env.yml\r\nSHELL [\"/usr/local/bin/spack-named-env\", \"adios2\", \"/bin/bash\", \"-c\"]\r\n\r\nRUN spack install -v && \\\r\n    spack clean -a\r\n\r\nENTRYPOINT [\"/usr/local/bin/spack-named-env\", \"adios2\"]\r\nCMD [\"/bin/bash\" ]\r\n```\r\n\r\nThis is particularly useful for building CI environments with pre-packaged dependencies where the environment might just contain the target package and the CI image would be built with `spack install --only dependencies`.",
+    "user": "chuckatkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/22644",
+    "updated_at": "2021-04-16 15:14:48",
+    "created_at": "2021-03-30 15:22:11",
+    "closed_at": "2021-04-16 15:14:48",
+    "state": "closed",
+    "title": "Add spack-named-env to the docker entrypoint wrapper",
+    "number": 22644,
+    "milestone": null,
+    "labels": [],
+    "id": 844727578,
+    "html_url": "https://github.com/spack/spack/pull/22644",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Hi,\r\n\r\nThere is an existing PR for py-gpaw [#4554](https://github.com/spack/spack/pull/4554), but I did not notice it before I had already written an implementation of `py-gpaw`-package.\r\n\r\nThis implementation takes into account the various dependencies of GPAW. We have this version in production in our cluster environment.\r\n\r\nThis implementation has:\r\n- variant for MPI\r\n- variant for FFTW\r\n- variant for ScaLAPACK\r\n\r\nAll of the combinations have been tested in practice with\r\n\r\n```sh\r\nmpirun -np 2 gpaw-python $(which gpaw) test\r\n```\r\nfor MPI variant and\r\n```sh\r\npython $(which gpaw) test\r\n```\r\nfor non-MPI variant.\r\n\r\nThe script is missing tests during installation as gpaw-setups would need to be loaded.\r\n\r\nTo test:\r\n\r\n1. `git clone https://github.com/simo-tuomisto/spack.git`\r\n2. `source spack/share/spack/setup-env.sh`\r\n3. `spack build py-gpaw +scalapack +mpi +fftw`\r\n\r\nSo far I have only build it with gcc / openmpi / openblas . In future I will test icc / mkl .",
+    "user": "simo-tuomisto",
+    "url": "https://api.github.com/repos/spack/spack/issues/7373",
+    "updated_at": "2018-03-07 08:30:59",
+    "created_at": "2018-03-02 15:02:17",
+    "closed_at": "2018-03-07 08:30:48",
+    "state": "closed",
+    "title": "py-gpaw package with variants for MPI, FFTW and ScaLAPACK",
+    "number": 7373,
+    "milestone": null,
+    "labels": [],
+    "id": 301795021,
+    "html_url": "https://github.com/spack/spack/pull/7373",
+    "assignees": [],
+    "comments": 4
+}

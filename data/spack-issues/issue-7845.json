@@ -1,0 +1,21 @@
+{
+    "body": "@scheibelp I've come across a bug in Spack Environments that is stumping me, would you be able to please take a look?  One of the packages is in the DAG and concretization, but it's not printing properly.  I don't know if it would install properly with `spack env install`, but I think it might not.\r\n\r\n```\r\n$ rm -rf var/spack/environments/c3\r\n$ bin/spack --debug env c3 create\r\n$ bin/spack --debug env c3 add emacs\r\n$ bin/spack --debug env c3 concretize\r\n==> Installing /Users/rpfische/spack/env/var/spack/repos/builtin/packages/emacs/package.py to /var/folders/n2/0ll2lwm50b91f5ppmyggd_g4cdc3y3/T/tmpmp6J4I/repo/packages/emacs\r\n==> Installing /Users/rpfische/spack/env/var/spack/repos/builtin/packages/ncurses/sed_pgi.patch to /var/folders/n2/0ll2lwm50b91f5ppmyggd_g4cdc3y3/T/tmpmp6J4I/repo/packages/ncurses\r\n==> Installing /Users/rpfische/spack/env/var/spack/repos/builtin/packages/ncurses/patch_gcc_5.txt to /var/folders/n2/0ll2lwm50b91f5ppmyggd_g4cdc3y3/T/tmpmp6J4I/repo/packages/ncurses\r\n==> Installing /Users/rpfische/spack/env/var/spack/repos/builtin/packages/ncurses/package.py to /var/folders/n2/0ll2lwm50b91f5ppmyggd_g4cdc3y3/T/tmpmp6J4I/repo/packages/ncurses\r\n==> Installing /Users/rpfische/spack/env/var/spack/repos/builtin/packages/pkgconf/package.py to /var/folders/n2/0ll2lwm50b91f5ppmyggd_g4cdc3y3/T/tmpmp6J4I/repo/packages/pkgconf\r\n==> Installing /Users/rpfische/spack/env/var/spack/repos/builtin/packages/zlib/w_patch.patch to /var/folders/n2/0ll2lwm50b91f5ppmyggd_g4cdc3y3/T/tmpmp6J4I/repo/packages/zlib\r\n==> Installing /Users/rpfische/spack/env/var/spack/repos/builtin/packages/zlib/package.py to /var/folders/n2/0ll2lwm50b91f5ppmyggd_g4cdc3y3/T/tmpmp6J4I/repo/packages/zlib\r\n$ bin/spack env c3 list -rlI\r\n========= emacs\r\n[+]  pxwm7iq  emacs@25.3%clang@9.0.0-apple~X~tls toolkit=gtk arch=darwin-sierra-x86_64 \r\n[+]  nurizsk      ^ncurses@6.0%clang@9.0.0-apple patches=f84b2708a42777aadcc7f502a261afe10ca5646a51c1ef8b5e60d2070d926b57 ~symlinks~termlib arch=darwin-sierra-x86_64 \r\n[+]  xmqhozr      ^zlib@1.2.11%clang@9.0.0-apple+optimize+pic+shared arch=darwin-sierra-x86_64 \r\n$ bin/spack spec -lI emacs\r\nInput spec\r\n--------------------------------\r\n     emacs\r\n\r\nConcretized\r\n--------------------------------\r\n[+]  pxwm7iq  emacs@25.3%clang@9.0.0-apple~X~tls toolkit=gtk arch=darwin-sierra-x86_64 \r\n[+]  nurizsk      ^ncurses@6.0%clang@9.0.0-apple patches=f84b2708a42777aadcc7f502a261afe10ca5646a51c1ef8b5e60d2070d926b57 ~symlinks~termlib arch=darwin-sierra-x86_64 \r\n     iwpioab          ^pkgconf@1.4.0%clang@9.0.0-apple arch=darwin-sierra-x86_64 \r\n[+]  xmqhozr      ^zlib@1.2.11%clang@9.0.0-apple+optimize+pic+shared arch=darwin-sierra-x86_64 \r\n```\r\n\r\n\r\n### Expected Result\r\n\r\nThe `spack env c3 list` and `spack spec` commands should produce the same result.\r\n\r\n### Actual Result\r\n\r\n`pkgconf` was omitted from `spack env c3 list`.  It was included in `spack env c3 concretize`, and is also found in `environment.json`.\r\n\r\n### Information on your system\r\n\r\nUse the `features/context` branch (#7843)\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7845",
+    "updated_at": "2018-04-22 02:18:04",
+    "created_at": "2018-04-20 03:10:48",
+    "closed_at": "2018-04-22 02:18:04",
+    "state": "closed",
+    "title": "Missing line in spec for `spack environment`",
+    "number": 7845,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 316111834,
+    "html_url": "https://github.com/spack/spack/issues/7845",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

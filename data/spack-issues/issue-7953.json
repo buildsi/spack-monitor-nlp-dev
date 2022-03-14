@@ -1,0 +1,19 @@
+{
+    "body": "@BarrySmith @jedbrown @ckhroulev\r\n\r\nSummary\r\n---------\r\n\r\nPISM fails to configure because PETSc has not stored path to MPI in its configuration files.  This is probably caused by a change in the Spack package; specifically the loss of the `--with-mpi-dir` flag from https://github.com/spack/spack/commit/d04ae9a2.\r\n\r\nDetails\r\n--------\r\n\r\nWhen PETSc builds, it creates a file `<prefix>/lib/petsc/conf/petscvariables`, containing a number of key-value pairs describing the PETSc installation.  This file is later read and relied upon by some programs that use PETSc; PISM, for example:\r\n   https://github.com/pism/pism\r\n\r\nPISM's CMake build looks up the PETSc variable `PETSC_CC_INCLUDES`:\r\n   https://github.com/pism/pism/blob/master/CMake/FindPETSc.cmake#L159\r\n\r\nIt then uses this variable to construct correct command lines for small test programs used to deduce the configuration of PETSc:\r\n\r\nhttps://github.com/pism/pism/blob/b17bcd0c0bce5720736e2dad8317a8c9cd7b5706/CMake/FindPETSc.cmake#L265\r\n\r\nThe Problem\r\n-------------\r\n\r\nAt the point in the PISM CMake build where test programs are compiled, the variable `${includes}` needs to contain an `-I` flag for MPI (in my case, OpenMPI).  However, it does not.  This is traced back to `PETSC_CC_INCLUDES` not containing a `-I` flag for MPI in the PETSc file `petscvariables` (above).\r\n\r\nIt is believed that OpenMPI is not showing up in `PETSC_CC_INCLUDES` because the Spack package no longer proviedes PETSc with the flag `--with-mpi-dir` as of https://github.com/spack/spack/commit/d04ae9a2.\r\n\r\nProposed Fix\r\n---------------\r\n\r\nI will try restoring  `--with-mpi=1` and `--with-mpi-dir`, while keeping `--with-cc`, `--with-cxx` and `--with-fc` as well.  Thoughts from @jedbrown and @BarrySmith on possible effects this might have --- or whether there's a better way involving PETSc internals --- would be appreciated.  I will report back on what I find.\r\n\r\n\r\n\r\n\r\n\r\nhttps://github.com/spack/spack/commit/d04ae9a2\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7953",
+    "updated_at": "2018-05-01 17:20:13",
+    "created_at": "2018-05-01 13:35:54",
+    "closed_at": "2018-05-01 17:20:12",
+    "state": "closed",
+    "title": "PETSc: MPI configuration not stored properly",
+    "number": 7953,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 319199208,
+    "html_url": "https://github.com/spack/spack/issues/7953",
+    "assignees": [],
+    "comments": 10
+}

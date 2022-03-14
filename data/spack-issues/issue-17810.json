@@ -1,0 +1,19 @@
+{
+    "body": "As far as I can tell this issue occurs when the system GNU compilers are more recent than 6.5.0. For a more comprehensive description of the problem see https://github.com/FFTW/fftw3/issues/184.\r\n\r\nIt can be worked-around by replacing the `-no-gcc` option set in the `configure` for Intel compilers by `-gcc-sys`:\r\n```\r\n-no-gcc     Undefines GNU macros.\r\n-gcc-sys    Defines GNU macros only during compilation of system headers.\r\n```\r\n\r\nThis can be done easily in Spack (https://github.com/RemiLacroix-IDRIS/spack/commit/d2edb5f3571674c8724360018ca4f1d488a4806a):\r\nhttps://github.com/spack/spack/blob/d2edb5f3571674c8724360018ca4f1d488a4806a/var/spack/repos/builtin/packages/fftw/package.py#L105\r\n\r\nHowever I not completely sure of the side-effects it might have so I am hoping to get a more definitive answer on the FFTW issue.",
+    "user": "RemiLacroix-IDRIS",
+    "url": "https://api.github.com/repos/spack/spack/issues/17810",
+    "updated_at": "2020-08-09 18:47:28",
+    "created_at": "2020-07-31 14:58:43",
+    "closed_at": "2020-08-09 18:47:28",
+    "state": "closed",
+    "title": "FFTW: \"configure\" script fails with Intel compilers on some systems.",
+    "number": 17810,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 669905246,
+    "html_url": "https://github.com/spack/spack/issues/17810",
+    "assignees": [],
+    "comments": 0
+}

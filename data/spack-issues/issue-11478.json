@@ -1,0 +1,19 @@
+{
+    "body": "I installed the spack in frontend node of our cluster system.\r\nAnd I submitted a job via a job scheduler (PBS) to the cluster system.\r\nThe content of the job script file is following:\r\n\r\n```console\r\nSPACK_ROOT=/work/XMP/mnakao/work/spack\r\n. ${SPACK_ROOT}/share/spack/setup-env.sh\r\nspack -d --stacktrace load gcc\r\n```\r\nOf cause, above commands can execute successfully on the frontend node.\r\nBut, when executing on a compute node, an error message is output as following:\r\n\r\n```console\r\n0/XMP/mnakao/work/spack/lib/spack/spack/config.py:683 ==> [2019-05-16-15:08:54.515478] Reading config file /work/0/XMP/mnakao/work/spack/etc/spack/defaults/modules.yaml\r\n0/XMP/mnakao/work/spack/lib/spack/spack/config.py:683 ==> [2019-05-16-15:08:54.522380] Reading config file /work/0/XMP/mnakao/work/spack/etc/spack/defaults/linux/modules.yaml\r\n0/XMP/mnakao/work/spack/lib/spack/spack/config.py:683 ==> [2019-05-16-15:08:54.525221] Reading config file /work/0/XMP/mnakao/work/spack/etc/spack/defaults/config.yaml\r\n0/XMP/mnakao/work/spack/lib/spack/spack/cmd/__init__.py:98 ==> [2019-05-16-15:08:54.538877] Imported module from built-in commands\r\n0/XMP/mnakao/work/spack/lib/spack/spack/cmd/__init__.py:98 ==> [2019-05-16-15:08:54.544023] Imported module from built-in commands\r\n0/XMP/mnakao/work/spack/lib/spack/spack/database.py:214 ==> [2019-05-16-15:08:54.564601] DATABASE LOCK TIMEOUT: 120s\r\n0/XMP/mnakao/work/spack/lib/spack/spack/database.py:218 ==> [2019-05-16-15:08:54.564831] PACKAGE LOCK TIMEOUT: No timeout\r\n0/XMP/mnakao/work/spack/lib/spack/llnl/util/lock.py:334 ==> [2019-05-16-15:08:54.566722] READ LOCK: /work/0/XMP/mnakao/work/spack/opt/spack/.spack-db/lock[0:0] [Acquiring]\r\n0/XMP/mnakao/work/spack/lib/spack/llnl/util/lock.py:334 ==> [2019-05-16-15:08:54.567201] READ LOCK: /work/0/XMP/mnakao/work/spack/opt/spack/.spack-db/lock[0:0] [Acquired]\r\n0/XMP/mnakao/work/spack/lib/spack/spack/config.py:683 ==> [2019-05-16-15:08:54.574596] Reading config file /work/0/XMP/mnakao/work/spack/etc/spack/defaults/repos.yaml\r\n0/XMP/mnakao/work/spack/lib/spack/llnl/util/lock.py:334 ==> [2019-05-16-15:08:54.618914] READ LOCK: /work/0/XMP/mnakao/work/spack/opt/spack/.spack-db/lock[0:0] [Released]\r\n0/XMP/mnakao/work/spack/lib/spack/llnl/util/lock.py:334 ==> [2019-05-16-15:08:54.650657] READ LOCK: /work/0/XMP/mnakao/work/spack/opt/spack/.spack-db/lock[0:0] [Acquiring]\r\n0/XMP/mnakao/work/spack/lib/spack/llnl/util/lock.py:334 ==> [2019-05-16-15:08:54.651134] READ LOCK: /work/0/XMP/mnakao/work/spack/opt/spack/.spack-db/lock[0:0] [Acquired]\r\n0/XMP/mnakao/work/spack/lib/spack/llnl/util/lock.py:334 ==> [2019-05-16-15:08:54.655355] READ LOCK: /work/0/XMP/mnakao/work/spack/opt/spack/.spack-db/lock[0:0] [Released]\r\nModuleCmd_Load.c(213):ERROR:105: Unable to locate a modulefile for 'gcc-8.3.0-gcc-4.8.5-opnwtdj'\r\n```\r\n\r\nWhile OS of the frontend node is Red Hat Enterprise Linux Server release 7.6 (Maipo),\r\nOS of the compute node is CentOS Linux release 7.6.1810 (Core).\r\n\r\nIf the OS difference is the cause of the error, how should I install the package on the front node?",
+    "user": "mnakao",
+    "url": "https://api.github.com/repos/spack/spack/issues/11478",
+    "updated_at": "2019-05-16 15:01:54",
+    "created_at": "2019-05-16 06:18:16",
+    "closed_at": "2019-05-16 15:01:54",
+    "state": "closed",
+    "title": "Cannot load packages",
+    "number": 11478,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 444772930,
+    "html_url": "https://github.com/spack/spack/issues/11478",
+    "assignees": [],
+    "comments": 2
+}

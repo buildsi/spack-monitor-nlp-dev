@@ -1,0 +1,19 @@
+{
+    "body": "==> Staging archive: /home/ben/Work/spack/var/spack/stage/openmpi-3.0.0-txgf5bbweja2eybc2bnl5zrcaxlsonvp/openmpi-3.0.0.tar.bz2\r\n==> Created stage in /home/ben/Work/spack/var/spack/stage/openmpi-3.0.0-txgf5bbweja2eybc2bnl5zrcaxlsonvp\r\n==> No patches needed for openmpi\r\n==> Building openmpi [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Error: InstallError: OpenMPI requires both C and Fortran compilers!\r\nInstallError: InstallError: OpenMPI requires both C and Fortran compilers!\r\n\r\n/home/ben/Work/spack/var/spack/repos/builtin/packages/openmpi/package.py:286, in die_without_fortran:\r\n     4             # avoid delayed build errors in dependents.\r\n     5             if (self.compiler.f77 is None) or (self.compiler.fc is None):\r\n     6                 raise InstallError(\r\n  >> 7                     'OpenMPI requires both C and Fortran compilers!'\r\n     8                 )\r\n\r\nSee build log for details:\r\n  /home/ben/Work/spack/var/spack/stage/openmpi-3.0.0-txgf5bbweja2eybc2bnl5zrcaxlsonvp/openmpi-3.0.0/spack-build.out\r\n\r\nShouldn't that be: \r\n            if (self.compiler.f77 is None) and (self.compiler.fc is None):\r\n\r\nwhen I changed the script, it built just fine.",
+    "user": "woodard",
+    "url": "https://api.github.com/repos/spack/spack/issues/5590",
+    "updated_at": "2021-03-10 15:22:47",
+    "created_at": "2017-10-03 21:46:09",
+    "closed_at": "2021-03-10 15:22:47",
+    "state": "closed",
+    "title": "OpenMPI: Fortran compiler detection is wrong?",
+    "number": 5590,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 262599779,
+    "html_url": "https://github.com/spack/spack/issues/5590",
+    "assignees": [],
+    "comments": 4
+}

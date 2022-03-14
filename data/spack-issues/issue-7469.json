@@ -1,0 +1,20 @@
+{
+    "body": "I reworked `class IntelPackage` to overcome what was for me a _major barrier to entry_ in adopting Spack that showed up when attempting to integrate an existing Intel tool chain on my HPC system.\r\n\r\nThere was a serious conceptual conflict for `prefix` between versions of Intel packages that were installed under Spack and those brought in via `packages.yaml`. I am not the only one to have stumbled over this, see e.g. https://groups.google.com/d/msg/spack/x28qlmqPAys/Ewx6220uAgAJ\r\n\r\nThis is an initial attempt at tackling the problem, having targeted MKL and Intel-MPI as proof-of-concept.  I was able to build ABINIT and CP2K with those, the latter having a downright gluttonous list of dependencies.  Other Intel packages should be possible to integrate.\r\n\r\nThe major affected files so far are:\r\n\r\n- `.../build_systems/intel.py`\r\n- `.../intel-mkl/package.py`\r\n- `.../intel-mpi/package.py`\r\n- `.../intel-parallel-studio/package.py`\r\n\r\nA major goal was _elimination of duplicate code_. To this end, I pulled up `foo_libs()` and related methods into the `IntelPackage` class definition. The following methods should give a flavor of my approach:\r\n\r\n```\r\ndef product_dir(self, product_dir_name, version_glob='_2???.*.*[0-9]',\r\n                postfix_dir=''):\r\n    '''Returns the version-specific directory of an Intel product release,\r\n    holding the main product and possibly auxiliary files from other\r\n    products.\r\n    '''\r\n\u2026\r\ndef component_dir(self, component=None):\r\n    '''Returns the directory of a product component, appropriate for\r\n    presenting to users in environment variables like MKLROOT and\r\n    I_MPI_ROOT, or the product dir itself (when the component not evident\r\n    from the package name and wasn't specified).\r\n    '''\r\n\u2026\r\ndef component_bin_dir(self, component=None, relative=False):\r\n\u2026\r\ndef component_lib_dir(self, component=None, relative=False):\r\n```\r\n\r\nThe reorganization dramatically shortens `.../intel-mkl/package.py`, and allows to write, e.g.\r\n```\r\ndef file_to_source(self):\r\n    return join_path(self.component_bin_dir(), 'mklvars.sh')\r\n```\r\n\r\n\r\nOther changes are minor and showed up/were prompted by testing:\r\n\r\n- `lib/spack/spack/environment.py`\r\n- `var/spack/repos/builtin/packages/libxc/package.py`\r\n\r\n\r\nComments and suggestions on my approach are needed and welcome.",
+    "user": "mgsternberg",
+    "url": "https://api.github.com/repos/spack/spack/issues/7469",
+    "updated_at": "2018-08-30 04:10:27",
+    "created_at": "2018-03-12 23:24:10",
+    "closed_at": "2018-08-30 04:09:35",
+    "state": "closed",
+    "title": "Intel prefixes",
+    "number": 7469,
+    "milestone": null,
+    "labels": [
+        "blas-lapack-scalapack",
+        "intel"
+    ],
+    "id": 304575767,
+    "html_url": "https://github.com/spack/spack/pull/7469",
+    "assignees": [],
+    "comments": 113
+}

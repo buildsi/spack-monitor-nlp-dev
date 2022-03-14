@@ -1,0 +1,19 @@
+{
+    "body": "If I have a package X with variant XV1 and package Y, and X has a depends_on declaration like:\n\n```\nvariant('XV1', default=True)\ndepends_on(Y, when=\"+XV1\")\n```\n\nThen \n\n```\nspack install X ^Y %gcc@4.7.4\n```\n\nWould fail with a message stating Y is not a dependency of X. Adding +XV1 would succeed.\n\nA more concrete example is a boost install:\n\n```\nspack install boost %clang ^bzip2 %gcc\n==> Error: boost does not depend on bzip2\n```\n\nAdding +iostreams (which is enabled by default and activates the dependency on bzip2) works.\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/397",
+    "updated_at": "2018-08-02 17:58:04",
+    "created_at": "2016-01-26 03:44:07",
+    "closed_at": "2018-08-02 16:46:42",
+    "state": "closed",
+    "title": "Dependencies enabled by default=True variants cannot be configured on command line without explicitly enabling the variant",
+    "number": 397,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 128715289,
+    "html_url": "https://github.com/spack/spack/issues/397",
+    "assignees": [],
+    "comments": 4
+}

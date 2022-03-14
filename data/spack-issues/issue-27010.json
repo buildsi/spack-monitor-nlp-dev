@@ -1,0 +1,20 @@
+{
+    "body": "1. It's only confusing since we allow `$user_config_path` as a variable, which is used in `bootstrap.yaml`, meaning that, although config from `~/.spack` is not read, it still is potentially referred and written to in places.\r\n2. With `SPACK_DISABLE_LOCAL_CONFIG`, the first writable config scope for spack is `$spack/etc/spack`, it's only a matter of time until people start opening issues about that.\r\n\r\nAnother one-liner solution is to use `$user_cache_path` in bootstrap.yaml's defaults, but this goes counter to the original goal of being able to reuse the same bootstrap store across multiple spack versions (or rather: package repos) using a different misc cache folder. So we should probably not pursue that.\r\n\r\nAfter this PR, ci scripts would have to use:\r\n\r\n```\r\nSPACK_SYSTEM_CONFIG_PATH=\"$(mktemp -d)\"\r\nSPACK_USER_CONFIG_PATH=\"$workspace/.spack\"\r\nSPACK_USER_CACHE_PATH=\"$workspace/.spack\"\r\n```\r\n\r\nBefore this PR, they would have to do:\r\n\r\n```\r\nSPACK_DISABLE_LOCAL_CONFIG=yes_please\r\nSPACK_USER_CONFIG_PATH=\"$workspace/.spack\"\r\nSPACK_USER_CACHE_PATH=\"$workspace/.spack\"\r\n```\r\n\r\nso it's not an inconvenience.\r\n\r\nIn the end it's important we don't solve this problem through even more ad-hoc solutions, but rather we should reduce the complexity introduced in #26735, of which I wasn't a fan from the start... Any new feature that's introduced is something we'd have to live with in 0.17, and that was exactly the reason my original version of #26735 was *very* minimal.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27010",
+    "updated_at": "2021-10-28 19:29:26",
+    "created_at": "2021-10-28 12:19:11",
+    "closed_at": "2021-10-28 19:29:26",
+    "state": "closed",
+    "title": "Remove SPACK_DISABLE_LOCAL_CONFIG",
+    "number": 27010,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "tests"
+    ],
+    "id": 1038449026,
+    "html_url": "https://github.com/spack/spack/pull/27010",
+    "assignees": [],
+    "comments": 15
+}

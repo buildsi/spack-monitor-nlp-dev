@@ -1,0 +1,17 @@
+{
+    "body": "fixes #23275\r\n\r\nThere are many reports of packages failing due to binutils default of ~plugins.\r\n\r\nEither concretizer issues (because some packages now depend on binutils+plugins and some just on binutils -- the latter defaults to ~plugins, and the old concretizer is not enough to toggle that) or actual compilation issues.\r\n\r\nPreviously ~plugins did not map to the --disable-plugins, and you would still get plugins even if you didn't ask for it, so a previous pr just uncovered that a bunch of packages weren't configured properly.\r\n\r\nThis PR is to make the old concretizer happy, but doesn't solve the actual problem that packages should depend on binutils+plugins if they require plugins.\r\n\r\n\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/23309",
+    "updated_at": "2021-04-28 11:51:27",
+    "created_at": "2021-04-28 11:13:34",
+    "closed_at": "2021-04-28 11:51:27",
+    "state": "closed",
+    "title": "Enable +plugins in binutils by default",
+    "number": 23309,
+    "milestone": null,
+    "labels": [],
+    "id": 869828881,
+    "html_url": "https://github.com/spack/spack/pull/23309",
+    "assignees": [],
+    "comments": 2
+}

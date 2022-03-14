@@ -1,0 +1,20 @@
+{
+    "body": "See: https://github.com/spack/spack/issues/14102\r\n\r\npickle may not work on locally-defined functions, including those created when running \"spack install\". This appears to have worked for versions of python before 3.8.0 but does not appear to work any longer (as shown in #14102).\r\n\r\nThis PR fixes the initial pickle error observed in #14102 by extracting the locally-defined function into a top-level function def. \r\n\r\n(UPDATE 8/14/20) this currently avoids most pickling errors by serializing a Spec and passing it to `build_environment.fork` rather than passing the Spec object itself. This works for all cases except for `spack dev-build` which replaces the associated `package.stage`.\r\n\r\nTODOs:\r\n\r\n- [x] (8/14/20) make `spack dev-build` work with new changes",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/14187",
+    "updated_at": "2020-08-26 22:45:35",
+    "created_at": "2019-12-16 20:27:53",
+    "closed_at": "2020-08-26 22:45:34",
+    "state": "closed",
+    "title": "[WIP] Fix \"spack install\" when using Python 3.8 on macos",
+    "number": 14187,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "python3"
+    ],
+    "id": 538635738,
+    "html_url": "https://github.com/spack/spack/pull/14187",
+    "assignees": [],
+    "comments": 2
+}

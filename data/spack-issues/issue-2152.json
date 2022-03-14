@@ -1,0 +1,21 @@
+{
+    "body": "Rework of #908.  Fixes #635, #1925.\n\nThis is a continuation of @hegner's #908, which allowed customizing the install location.  This adds a top-level `config.yaml` with many commonly set properties.  `config.yaml` consolidates a lot of the things currently in `spack/__init__.py`.\n\nTodo:\n- [x] Add `config.yaml` file\n- [x] Add `install_tree` option to `config.yaml`\n- [x] Move `build_stage` from `__init__.py`\n- [x] Implement `source_cache`\n- [x] Implement `misc_cache`\n- [x] Move module install roots to `config.yaml`\n- [x] Move `verify_ssl` from `__init__.py`\n- [x] Move `checksum` from `__init__.py`\n- [x] Move `dirty` from `__init__.py`\n- [x] Update docs\n\nBelow is what the `config.yaml` file looks like currently.  Just need to wire in the features.\n\nThoughts? @alalazo @adamjstewart @mamelara @mathstuf @justintoo @hegner \n\n``` yaml\nconfig:\n  # This is the path to the root of the Spack install tree.\n  # You can use $spack here to refer to the root of the spack instance.\n  install_tree: $spack/opt/spack\n\n\n  # Temporary locations Spack can try to use for builds.\n  #\n  # Spack will use the first one it finds that exists and is writable.\n  # You can use $tempdir to refer to the system default temp directory\n  # (as returned by tempfile.gettempdir()).\n  #\n  # A value of $local indicates that Spack should run builds directly\n  # inside its install directory without staging them in temporary space.\n  build_stage:\n    - /usr/workspace/*/%u\n    - $tempdir\n    - /nfs/tmp2/%u\n    - $local\n\n\n  # Cache directory already downloaded source tarballs and archived\n  # repositories. This can be purged with spack purge\n  source_cache: $spack/var/spack/cache\n\n\n  # Cache directory for miscellaneous files, like the package index.\n  misc_cache: ~/.spack/cache\n\n\n  # If this is false, tools like curl that use SSL will not verify\n  # certifiates. (e.g., curl will use use the -k option)\n  verify_ssl: true\n\n\n  # If set to true, Spack will always check checksums after downloading\n  # archives. If false, Spack skips the checksum step.\n  checksum: true\n\n\n  # If set to false, `spack install` and friends will NOT clean\n  # potentially harmful variables from the build environment. Use wisely.\n  clean: true\n\n```\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2152",
+    "updated_at": "2016-10-31 06:55:01",
+    "created_at": "2016-10-27 19:41:17",
+    "closed_at": "2016-10-31 06:55:01",
+    "state": "closed",
+    "title": "Add config.yaml file",
+    "number": 2152,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "WIP",
+        "documentation"
+    ],
+    "id": 185761605,
+    "html_url": "https://github.com/spack/spack/pull/2152",
+    "assignees": [],
+    "comments": 24
+}

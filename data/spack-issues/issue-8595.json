@@ -1,0 +1,19 @@
+{
+    "body": "If I install py-rpy2 with spack and try to run the tests that ship with py-rpy2, they fail.\r\n\r\n### Expected Result\r\n\r\nI expected the tests to pass.\r\n\r\n### Actual Result\r\n\r\n```console\r\n/usr/workspace/wsrzc/pozulp1/sp/lalor_spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-3.6.2-dww6q37ao4ibgmxtwsj4ukax5tjl7xbb/lib/python3.6/site-packages/rpy2/rinterface/__init__.py:146: RRuntimeWarning: Error in !value : invalid argument type\r\n\r\n  warnings.warn(x, RRuntimeWarning)\r\nrpy2 version: 2.9.4\r\n- built against R version: 3-5.0--74626\r\n- running linked to R version: R version 3.5.0 (2018-04-23)\r\nE\r\n======================================================================\r\nERROR: __main__ (unittest.loader._FailedTest)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"/usr/workspace/wsrzc/pozulp1/sp/lalor_spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-3.6.2-dww6q37ao4ibgmxtwsj4ukax5tjl7xbb/lib/python3.6/site-packages/rpy2/tests.py\", line 43, in load_tests\r\n    suite_robjects = loader.discover('robjects', pattern, rpy_root)\r\n  File \"/usr/workspace/wsrzc/pozulp1/sp/lalor_spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-3.6.2-dww6q37ao4ibgmxtwsj4ukax5tjl7xbb/lib/python3.6/unittest/loader.py\", line 290, in discover\r\n    __import__(start_dir)\r\n  File \"/usr/workspace/wsrzc/pozulp1/sp/lalor_spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-3.6.2-dww6q37ao4ibgmxtwsj4ukax5tjl7xbb/lib/python3.6/site-packages/rpy2/robjects/__init__.py\", line 19, in <module>\r\n    from rpy2.robjects.robject import RObjectMixin, RObject\r\n  File \"/usr/workspace/wsrzc/pozulp1/sp/lalor_spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-3.6.2-dww6q37ao4ibgmxtwsj4ukax5tjl7xbb/lib/python3.6/site-packages/rpy2/robjects/__init__.py\", line 19, in <module>\r\n    from rpy2.robjects.robject import RObjectMixin, RObject\r\n  File \"/usr/workspace/wsrzc/pozulp1/sp/lalor_spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-3.6.2-dww6q37ao4ibgmxtwsj4ukax5tjl7xbb/lib/python3.6/site-packages/rpy2/robjects/robject.py\", line 52, in <module>\r\n    class RObjectMixin(object):\r\n  File \"/usr/workspace/wsrzc/pozulp1/sp/lalor_spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-3.6.2-dww6q37ao4ibgmxtwsj4ukax5tjl7xbb/lib/python3.6/site-packages/rpy2/robjects/robject.py\", line 66, in RObjectMixin\r\n    __show = rpy2.rinterface.baseenv.get(\"show\")\r\nLookupError: 'show' not found\r\n\r\n----------------------------------------------------------------------\r\nRan 1 test in 0.000s\r\n\r\nFAILED (errors=1)\r\n```\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n(I'm at LLNL)\r\n$ ssh rztopaz\r\n$ git clone ssh://git@rz-bitbucket.llnl.gov:7999/opac/spack.git lalor_spack\r\n$ cd lalor_spack\r\n$ salloc -N1 --exclusive -t 2:00:00\r\n$ ./bin/spack install -n py-rpy2@2.9.4 ^python@3.6.2 ^r@3.5.0\r\n$ ./bin/spack activate py-rpy2\r\n$ `./bin/spack location -i python@3.6.2`/bin/python3 -m rpy2.tests\r\n```\r\n\r\n### Information on your system\r\n\r\nI'm on a toss3 system (x86 Broadwell) named rztopaz.\r\nI am not using a packages.yaml.\r\n\r\n### Friends who may be able to help\r\n\r\n@lee218llnl @citibeth @adamjstewart @mathstuf \r\nI hope you don't mind me tagging you, I got your names from\r\n```console\r\n$ spack blame -g py-rpy2\r\n``` \r\nand I know many of you are quite good at spack :)",
+    "user": "pozulp",
+    "url": "https://api.github.com/repos/spack/spack/issues/8595",
+    "updated_at": "2018-07-12 21:02:53",
+    "created_at": "2018-06-28 01:45:12",
+    "closed_at": "2018-07-06 02:33:33",
+    "state": "closed",
+    "title": "py-rpy2 test fails with LookupError: 'show' not found",
+    "number": 8595,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 336443854,
+    "html_url": "https://github.com/spack/spack/issues/8595",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,21 @@
+{
+    "body": "The quantum-espresso package can not be built with hdf5=serial support since #12765 was merged. \r\n---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install quantum-espresso%intel hdf5=serial # or hdf5=parallel\r\n... \r\n  >> 460    ifort: error #10236: File not found:  '='\r\n  >> 461    make[2]: *** [iotk_base.o] Error 1\r\n     462    make[2]: Leaving directory `/dev/shm/gpjohnsn/spack-stage-quantum-espresso-6.4.1-kvtuqt4gelumn6f6gyslwve76y4ahip4/spack-src/S3D\r\n            E/iotk/src'\r\n  >> 463    make[1]: *** [libiotk] Error 2\r\n     464    make[1]: Leaving directory `/dev/shm/gpjohnsn/spack-stage-quantum-espresso-6.4.1-kvtuqt4gelumn6f6gyslwve76y4ahip4/spack-src/ins\r\n            tall'\r\n  >> 465    make: *** [libiotk] Error 2\r\n```\r\nUsing `git bisect` shows this started failing with commit 5cd28847e81b3a1bf659d184c990ba9144974624, when #12765 was merged. The relevant code in the quantum-espresso package.py is:\r\n```\r\n        if spec.variants['hdf5'].value != 'none':\r\n            make_inc = join_path(self.stage.source_path, 'make.inc')\r\n            hdf5_libs = ' '.join(spec['hdf5:hl,fortran'].libs)\r\n            filter_file(r'HDF5_LIB([\\s]*)=([\\s\\w\\-\\/.,]*)',\r\n                        'HDF5_LIB = {0}'.format(hdf5_libs),\r\n                        make_inc)\r\n```\r\n@alalazo I am not sure if this should be fixed in the package or in core. The failure for hdf5=serial and hdf5=parallel cases fail at different points but with similar errors. For the hdf5=parallel case:\r\n```\r\n  >> 4033    ifort: error #10236: File not found:  '/opt/packages/gpjohnsn/opt/ssoft/apps/linux-centos7-sandybridge/intel-19.0.4/hdf5-1.10.\r\n             5-25uu6hf3mdit6daagrurrxmwso3uzxn6/lib/libhdf5.soFOX_LIB'\r\n  >> 4034    ifort: error #10236: File not found:  '='\r\n  >> 4035    make[2]: *** [pw.x] Error 1\r\n     4036    make[2]: Leaving directory `/dev/shm/gpjohnsn/spack-stage-quantum-espresso-6.4.1-tza2u5govp32lyk47qmqci6ffdkv6tgb/spack-src/PW\r\n             /src'\r\n  >> 4037    make[1]: *** [pw] Error 1\r\n     4038    make[1]: Leaving directory `/dev/shm/gpjohnsn/spack-stage-quantum-espresso-6.4.1-tza2u5govp32lyk47qmqci6ffdkv6tgb/spack-src/PW\r\n             '\r\n  >> 4039    make: *** [pw] Error 1\r\n```",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/13267",
+    "updated_at": "2019-10-28 16:31:12",
+    "created_at": "2019-10-19 21:42:00",
+    "closed_at": "2019-10-28 16:31:11",
+    "state": "closed",
+    "title": "Installation issue: quantum-espresso not building with hdf5=serial variant ",
+    "number": 13267,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 509513280,
+    "html_url": "https://github.com/spack/spack/issues/13267",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\ninstall trilinos+mumps with a scalapack that is not intel-mkl\r\n\r\n```console\r\nspack install trilinos+mumps ^netlib-scalapack\r\n```\r\n\r\n`amdscalapack` also fails\n\n### Information on your system\n\n* **Spack:** 0.17.0-383-1cdb764422\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n* **Concretizer:** clingo\n\n### Additional information\n\n```console\r\n==> Installing trilinos-13.0.1-ueihznretrfq5zlyp4xyakchlniu4syo\r\n==> No binary for trilinos-13.0.1-ueihznretrfq5zlyp4xyakchlniu4syo found: installing from source\r\n==> Using cached archive: /home/wortiz/spack/var/spack/cache/_source-cache/git//trilinos/Trilinos.git/4796b92fb0644ba8c531dd9953e7a4878b05c62d.tar.gz\r\n==> Warning: Fetching from mirror without a checksum!\r\n  This package is normally checked out from a version control system, but it has been archived on a spack mirror.  This means we cannot know a checksum for the tarball in advance. Be sure that your connection to this mirror is secure!\r\n==> No patches needed for trilinos\r\n==> trilinos: Executing phase: 'cmake'\r\n==> Error: NoHeadersError: Unable to locate netlib-scalapack headers in /home/wortiz/spack/opt/spack/linux-ubuntu20.04-zen2/gcc-9.3.0/netlib-scalapack-2.1.0-lzzckglhsefyet2j4k6hzryikshcpjo2/include\r\n\r\n/home/wortiz/spack/var/spack/repos/builtin/packages/trilinos/package.py:608, in cmake_args:\r\n        605            tpl_dep_map.append(('HWLOC', 'hwloc'))\r\n        606\r\n        607        for tpl_name, dep_name in tpl_dep_map:\r\n  >>    608            define_tpl(tpl_name, dep_name, dep_name in spec)\r\n        609\r\n        610        # MPI settings\r\n        611        options.append(define_tpl_enable('MPI'))\r\n```\r\n\r\nreverting #27341 trilinos installs successfully @sethrj @DarylGrunau \n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "wortiz",
+    "url": "https://api.github.com/repos/spack/spack/issues/27758",
+    "updated_at": "2021-12-31 13:55:00",
+    "created_at": "2021-12-02 15:01:09",
+    "closed_at": "2021-12-31 13:55:00",
+    "state": "closed",
+    "title": "Installation issue: trilinos failure to configure due to NoHeadersError for scalapack",
+    "number": 27758,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1069649684,
+    "html_url": "https://github.com/spack/spack/issues/27758",
+    "assignees": [],
+    "comments": 1
+}

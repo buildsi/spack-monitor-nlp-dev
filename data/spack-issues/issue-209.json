@@ -1,0 +1,17 @@
+{
+    "body": "From @fpruvost:\n\n> I have some troubles since the last merge I've done with your develop branch at cf3d236b9f8177b64aad311655542a848eebbf81 (3 days ago) state.\n> The find process which impact other features like uninstall seems buggy.\n> I reproduced my problem with your develop:\n> \n> ``` bash\n>     $ spack install netlib-lapack ^netlib-blas\n>     $ spack install netlib-lapack ^openblas\n>     $ spack find    netlib-lapack ^openblas\n> ```\n> \n> spack returns both netlib-lapack^netlib-blas and netlib-lapack^openblas so that I cannot uninstall one of them.\n> If I `rm -r` the prefix path, the install is still referenced in the database so that I cannot use this method to uninstall this spec.\n> \n> Do you have any idea of what is going wrong with the find process here?\n\n---\n\n> Maybe this is related to virtual packages depending on another virtual package like lapack -> blas\n> because it seems I don't meet the problem with packages on top of blas which do not \"provides\" a virtual package.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/209",
+    "updated_at": "2015-11-28 07:22:32",
+    "created_at": "2015-11-28 07:09:37",
+    "closed_at": "2015-11-28 07:22:32",
+    "state": "closed",
+    "title": "Bug when satisfying vdeps with multiple providers",
+    "number": 209,
+    "milestone": null,
+    "labels": [],
+    "id": 119275793,
+    "html_url": "https://github.com/spack/spack/issues/209",
+    "assignees": [],
+    "comments": 1
+}

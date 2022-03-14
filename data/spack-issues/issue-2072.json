@@ -1,0 +1,21 @@
+{
+    "body": "As reported by @BarrySmith in #1813, `cc` is still unsetting `LD_LIBRARY_PATH` and some other variables when it shouldn't:\n\n`cc.py:`\n\n``` bash\nunset LD_LIBRARY_PATH\nunset LD_RUN_PATH\nunset DYLD_LIBRARY_PATH\n```\n\nThis shouldn't happen because these things are already unset in `build_environment.py` before the build begins:\n\n``` python\n    # Stuff in here sanitizes the build environemnt to eliminate\n    # anything the user has set that may interfere.\n    if not dirty:\n        # Remove these vars from the environment during build because they\n        # can affect how some packages find libraries.  We want to make\n        # sure that builds never pull in unintended external dependencies.\n        env.unset('LD_LIBRARY_PATH')\n        env.unset('LIBRARY_PATH')\n        env.unset('CPATH')\n        env.unset('LD_RUN_PATH')\n        env.unset('DYLD_LIBRARY_PATH')\n```\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2072",
+    "updated_at": "2016-10-21 23:36:38",
+    "created_at": "2016-10-21 20:44:48",
+    "closed_at": "2016-10-21 23:25:12",
+    "state": "closed",
+    "title": "`cc` shouldn't unset `LD_LIBRARY_PATH` when it is already unset in `build_environment.py`",
+    "number": 2072,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "build-environment"
+    ],
+    "id": 184565406,
+    "html_url": "https://github.com/spack/spack/issues/2072",
+    "assignees": [],
+    "comments": 3
+}

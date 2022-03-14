@@ -1,0 +1,19 @@
+{
+    "body": "Using `develop` from today, [dabf4f1](https://github.com/spack/spack/commit/dabf4f17d3fe287bba010f41b1c05791bac4f4b6), I cannot concretize the `xsdk` spec at version `0.4.0`.  Instead of successful concretization, I get an unsatisfiable variant constraint.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec xsdk@0.4.0\r\nInput spec\r\n--------------------------------\r\nxsdk@0.4.0\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    metis@5.1.0%gcc@7.3.0 build_type=Release ~gdb~int64~real64+shared arch=linux-ubuntu18.04-x86_64 \r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    dealii@9.0.1~assimp~doc~gmsh+hdf5~int64+metis+mpi~netcdf+petsc~python~slepc+trilinos\r\n\r\n\r\ndealii requires metis variant +real64, but spec asked for ~real64\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a\r\nLinux 90101467f7c6 4.4.0-141-generic #167-Ubuntu SMP Wed Dec 5 10:40:15 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ cat /etc/lsb-release \r\nDISTRIB_ID=Ubuntu\r\nDISTRIB_RELEASE=18.04\r\nDISTRIB_CODENAME=bionic\r\nDISTRIB_DESCRIPTION=\"Ubuntu 18.04.1 LTS\"\r\n``` \r\nHere's the contents of my `compilers.yaml`:\r\n\r\n```commandline\r\n$ cat ~/.spack/linux/compilers.yaml \r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: ubuntu18.04\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    spec: clang@6.0.0-1ubuntu2\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: ubuntu18.04\r\n    paths:\r\n      cc: /usr/bin/gcc-5\r\n      cxx: /usr/bin/g++-5\r\n      f77: /usr/bin/gfortran-5\r\n      fc: /usr/bin/gfortran-5\r\n    spec: gcc@5.5.0\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: ubuntu18.04\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    spec: gcc@7.3.0\r\n    target: x86_64\r\n```\r\n\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/10281",
+    "updated_at": "2019-01-11 18:07:29",
+    "created_at": "2019-01-08 16:45:11",
+    "closed_at": "2019-01-11 18:07:29",
+    "state": "closed",
+    "title": "Installation issue: xsdk@0.4.0",
+    "number": 10281,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 396991634,
+    "html_url": "https://github.com/spack/spack/issues/10281",
+    "assignees": [],
+    "comments": 14
+}

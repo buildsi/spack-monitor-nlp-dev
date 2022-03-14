@@ -1,0 +1,21 @@
+{
+    "body": "*Note* this is a placeholder for several issues related to range-v3 0.5.0 that I intend to fix myself with an upcoming PR, and as such does not follow the exact prescription for reporting build errors.\r\n\r\n## Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install range-v3@0.5.0%gcc@7.3.0 cxxstd=17 # Fill in the exact spec you are using\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j20'\r\n...\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```console\r\n$ uname -a \r\nLinux woof.fnal.gov 3.10.0-957.1.3.el7.x86_64 #1 SMP Mon Nov 26 12:36:06 CST 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Scientific Linux release 7.6 (Nitrogen)\r\n``` \r\n\r\n### Additional information\r\n\r\n1. There is a known issue with version `0.5.0` and GCC compilers which was fixed in master with commit https://github.com/ericniebler/range-v3/commit/0c20dbf05973368339aeae0c4e106560e2dcf76b.\r\n1. There are errors related to generic lambda expressions. These have been reported at https://github.com/ericniebler/range-v3/issues/1196. They appear to be triggered with C++17 and are not present when C++14 is selected.\r\n1. This brings up the more general issue that tests only need to be compiled if they are intended to be executed. Also, there is scope for `doc` and `examples` variants which would, along with conditional test compilation, reduce the build and installation time for the most common use cases.\r\n1. The build procedure also looks for Boost, which is not mentioned as a dependency in the current recipe. This should be investigated, with the dependency being made explicit (conditionally, if appropriate) or remove via configuration options.\r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/11481",
+    "updated_at": "2019-08-03 00:19:40",
+    "created_at": "2019-05-16 15:43:10",
+    "closed_at": "2019-08-03 00:19:40",
+    "state": "closed",
+    "title": "Installation issue: range-v3",
+    "number": 11481,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 445029047,
+    "html_url": "https://github.com/spack/spack/issues/11481",
+    "assignees": [
+        "chissg"
+    ],
+    "comments": 2
+}

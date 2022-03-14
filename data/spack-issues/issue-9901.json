@@ -1,0 +1,20 @@
+{
+    "body": "spack env list does not like `.DS_Store` somewhere on macOS.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env create programming\r\n$ spack env list\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n$ spack -d env list\r\n==> Reading config file /Users/davydden/spack/etc/spack/defaults/modules.yaml\r\n==> Reading config file /Users/davydden/spack/etc/spack/defaults/darwin/modules.yaml\r\n==> Reading config file /Users/davydden/spack/etc/spack/defaults/config.yaml\r\n==> Reading config file /Users/davydden/.spack/config.yaml\r\nTraceback (most recent call last):\r\n  File \"/Users/davydden/spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/davydden/spack/lib/spack/spack/main.py\", line 669, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/davydden/spack/lib/spack/spack/main.py\", line 440, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/davydden/spack/lib/spack/spack/cmd/env.py\", line 364, in env\r\n    action(args)\r\n  File \"/Users/davydden/spack/lib/spack/spack/cmd/env.py\", line 257, in env_list\r\n    names = ev.all_environment_names()\r\n  File \"/Users/davydden/spack/lib/spack/spack/environment.py\", line 291, in all_environment_names\r\n    yaml_path = os.path.join(root(candidate), manifest_name)\r\n  File \"/Users/davydden/spack/lib/spack/spack/environment.py\", line 237, in root\r\n    validate_env_name(name)\r\n  File \"/Users/davydden/spack/lib/spack/spack/environment.py\", line 82, in validate_env_name\r\n    \"letters, numbers, _, and -.\") % name)\r\nValueError: '.DS_Store': names must start with a letter, and only contain letters, numbers, _, and -.\r\n```\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. macOS 10.14.1\r\n\r\nrelated to https://github.com/spack/spack/issues/9659 but more severe",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/9901",
+    "updated_at": "2018-12-26 06:22:22",
+    "created_at": "2018-11-20 09:51:10",
+    "closed_at": "2018-12-26 06:22:22",
+    "state": "closed",
+    "title": "spack env list fails on mac due to .DS_Store",
+    "number": 9901,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "environments"
+    ],
+    "id": 382580910,
+    "html_url": "https://github.com/spack/spack/issues/9901",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,27 @@
+{
+    "body": "- Rework `spack.environment.get_env(...)` to `spack.environment.active_environment()`\r\n  which is now a trivial getter for the active environment.\r\n- Introduce `spack.cmd.require_active_env(cmd_name=...)` which is a wrapper \r\n  around `spack.environment.active_environment()` but errors with a helpful\r\n  error message when used from the CLI.\r\n- Clean up instances where former `spack.environment.get_env` was abused\r\noutside the context of a command (fake command name, fake `-e` flag, \r\n  bunch of `None`, `None` arguments)\r\n- Remove the `-e` parsing from former `get_env`, because `main.py` is\r\nresponsible for processing `-e` and already activates the environment.\r\n  In fact this logic was entirely broken, because it did not respect `-D` at all\r\n  for loading an env from a directory, and it did not respect `-E` (i.e. it would\r\n  load an environment even when explicitly disabled).\r\n- Move `spack.environment.find_environment` to\r\n`spack.cmd.find_environment`, to avoid that spack.environment is aware\r\nof argparse.\r\n- Move command line argument parsing of environment `installs_specs` from \r\n  `spack.environment` to `spack.cmd`, to avoid that spack.environment is aware\r\n  of argparse.\r\n- Remove some unused imports, and work around circular imports.\r\n- Use `ev` alias for `spack.environment` consistently where it works Python 2.7\r\n  permitting\r\n\r\nTL;DR: better interface for getting the currently active environment, and refactor\r\nthings so that `spack.environment` does not depend on `spack.cmd`.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25439",
+    "updated_at": "2021-08-20 06:50:03",
+    "created_at": "2021-08-16 10:13:32",
+    "closed_at": "2021-08-20 02:01:38",
+    "state": "closed",
+    "title": "New `spack.environment.active_environment` api, and make spack.environment not depend on spack.cmd.",
+    "number": 25439,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "fetching",
+        "tests",
+        "commands",
+        "environments",
+        "utilities",
+        "stage",
+        "breaking-change",
+        "architecture"
+    ],
+    "id": 971580520,
+    "html_url": "https://github.com/spack/spack/pull/25439",
+    "assignees": [],
+    "comments": 10
+}

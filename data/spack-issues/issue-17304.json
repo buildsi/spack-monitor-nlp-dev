@@ -1,0 +1,20 @@
+{
+    "body": "I recently did an in-situ upgrade from Ubuntu 19.04 to 20.04. When I try to install packages for the new OS alongside the old ones, I get a PermissionError. I believe the issue is that the proper `mkdir` command is missing since that directory is owned by me and the base error message is \"Operation not permitted\" (i.e., it's not _really_ a permission error).\r\n\r\n\t$ spack install zlib\r\n\t==> 19225: Installing zlib\r\n\t==> Error: Failed to install zlib due to PermissionError: [Errno 1] Operation not permitted: '/home/tim/workspace/spack/opt/spack/linux-linuxmint20-piledriver'\r\n\t==> Error: [Errno 1] Operation not permitted: '/home/tim/workspace/spack/opt/spack/linux-linuxmint20-piledriver'\r\n\t\r\n\t$ mkdir /home/tim/workspace/spack/opt/spack/linux-linuxmint20-piledriver\r\n\r\n\t$ spack install zlib\r\n\t==> 19333: Installing zlib\r\n\t<snip>\r\n\t==> 19333: zlib: Successfully installed zlib\r\n\t  Fetch: 0.46s.  Build: 2.98s.  Total: 3.44s.\r\n\t[+] /home/tim/workspace/spack/opt/spack/linux-linuxmint20-piledriver/gcc-10.0.1/zlib-1.2.11-tw26trhvzwkiql2kico7oldoeruexvuv\r\n\r\nAnd everything is fine.\r\n\r\n\t$ spack find\r\n\t==> 57 installed packages\r\n\t-- linux-linuxmint18-piledriver / gcc@9.3.0 ---------------------\r\n\t<snip>\r\n\r\n\t-- linux-linuxmint20-piledriver / gcc@10.0.1 --------------------\r\n\tzlib@1.2.11\r\n\r\nFeel free to change the title of the issue. I couldn't think of something better.",
+    "user": "hainest",
+    "url": "https://api.github.com/repos/spack/spack/issues/17304",
+    "updated_at": "2020-10-10 10:50:54",
+    "created_at": "2020-06-29 23:55:35",
+    "closed_at": "2020-10-10 10:50:53",
+    "state": "closed",
+    "title": "PermissionError with different side-by-side OSes",
+    "number": 17304,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 647744242,
+    "html_url": "https://github.com/spack/spack/issues/17304",
+    "assignees": [],
+    "comments": 2
+}

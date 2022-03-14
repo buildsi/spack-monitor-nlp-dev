@@ -1,0 +1,20 @@
+{
+    "body": "On Big Sur, `gcc` can\u2019t detect the macOS version correctly. This causes a linker invocation with `gfortran` to try to link to `libgcc_s.10.4`, which isn\u2019t present on the system. This apparently only happens when `gfortran` is used to link a `.so` library, so it doesn\u2019t affect SciPy\u2019s dependencies: OpenBLAS uses `gfortran` to link, but is producing a `.dylib`; NumPy uses `clang` to link. It looks like the SciPy build system injects the `-mmacosx-version-min` flag (in `_build_utils/compiler_helper.py`) for the C++ compiler, but not for the Fortran compiler.\r\n\r\nThis PR gets around that by setting the `MACOSX_DEPLOYMENT_TARGET` to 10.15 (Catalina) when on Big Sur. This is incorrect, since it causes `gfortran` to identify the OS as Catalina, but at least it\u2019s close enough that it gets the linked library right. It looks like the `gfortran` behavior is updated for Big Sur in [this commit to the gcc codebase](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=556ab5125912fa2233986eb19d6cd995cf7de1d2), but that\u2019s not available in a gcc release yet.",
+    "user": "benc303",
+    "url": "https://api.github.com/repos/spack/spack/issues/20367",
+    "updated_at": "2020-12-15 20:59:52",
+    "created_at": "2020-12-14 09:42:06",
+    "closed_at": "2020-12-15 20:25:24",
+    "state": "closed",
+    "title": "Kluge to get the gfortran linker to work correctly for SciPy on Big Sur.",
+    "number": 20367,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "update-package"
+    ],
+    "id": 766208344,
+    "html_url": "https://github.com/spack/spack/pull/20367",
+    "assignees": [],
+    "comments": 7
+}

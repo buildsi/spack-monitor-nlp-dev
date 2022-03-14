@@ -1,0 +1,20 @@
+{
+    "body": "When I install a package on macOS, I often prefer to install with my own version of `gcc@6`. However, certain packages don't build with GCC, and require Apple's Clang instead. The packages that require Clang are often \"unimportant\" for my application (bison, cmake, gettext, pkg-config, python).\r\n\r\nIt is unfortunately very difficult to tell Spack \"build everything with `%gcc`, except for these few packages\". I end up having to specify a compiler for almost every package. If I don't, Spack might make a wrong choice, and use Clang for a package which I need to have installed via GCC. (For example, if package A requires B, and B contains C++ code that is linked in, then it needs to be built with GCC as well.)\r\n\r\nIn the end, this means that I need to run `spack spec` to find out what dependencies there are, and explicitly list most of these with `%gcc`. This is amazingly tedious.\r\n\r\nI would like to have a feature where I tell Spack: \"Install all packages with `%gcc`, except for those packages where I explicitly specify something different\".",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/3372",
+    "updated_at": "2020-11-01 17:31:35",
+    "created_at": "2017-03-06 16:30:49",
+    "closed_at": "2020-11-01 17:31:34",
+    "state": "closed",
+    "title": "Want easier way to specify compiler",
+    "number": 3372,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "concretization"
+    ],
+    "id": 212176109,
+    "html_url": "https://github.com/spack/spack/issues/3372",
+    "assignees": [],
+    "comments": 7
+}

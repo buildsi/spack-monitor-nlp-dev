@@ -1,0 +1,25 @@
+{
+    "body": "Depends on #7119.\r\n\r\nSpack needs build testing for releases.  The plan is to do this with buildbot (or similar) and CDash.\r\n\r\nWe have the rudiments of nightly testing with buildbot implemented in #2917 and [spack/spack-buildbot-config](/spack/spack-buildbot-config).  This is not enough to test full releases or to understand where build errors are coming from.\r\n\r\nIdeally we would like to support this or a similar release workflow:\r\n\r\n1. create a release candidate branch (`releases/vX.Y.Z`)\r\n2. A project is created at [spack.io/cdash](https://spack.io/cdash) for release\r\n3. Build system reports status for \"all\" (see below) package builds to this new CDash project\r\n4. Iterate on release branch until builds are all green\r\n5. Release is merged to master and tagged\r\n\r\nEach release would be tested with a set of OS/compiler combinations, and we should be able to specify that set in a YAML file on the release branch. We will base this format off of the `test-suite` YAML format introduced in #2917.  It allows someone to specify a cartesian product of package specs.\r\n\r\nWe would like to get to where we are testing on multiple OS's and compilers, e.g.:\r\n\r\n* Compilers `gcc`, `clang`, `intel`\r\n* OS's: `ubuntu` (latest?), `centos` (6 and 7?), something else?\r\n\r\nWe'll start with one OS and `gcc` + `clang` for simplicity\r\n\r\nThe plan:\r\n- [x] Stand up a build bot (or similar) instance in LLNL AWS using [Kubernetes](https://kubernetes.io/).  We want to use Kubernetes so that the CI system is easily to replacate at sites that want to contribute.  This also allows people to replicate the CI system across different clouds.\r\n\r\n- [x] Based on the old [spack/spack-buildbot-config](/spack/spack-buildbot-config), create a new buildbot config that works with the latest version of buildbot (that one is based on a really old version that is used by the ZFSonlinux team).  Or blow that repo away and make a new config based on the implementor's CI system of choice (something we can maintain and replicate, though).\r\n\r\n- [ ] Make our `buildbot` understand the `test-suite.yaml` format.  Have it farm out jobs to EC2 instances based on a `release.yaml` in the root of the release branch.\r\n\r\n- [ ] When a release branch is pushed, A new CDash project is created, and `buildbot` posts build results there based on `release.yaml`.\r\n\r\n- [ ] Builds in the cloud should are stored as signed binary packages on completion.\r\n    * storage for this is up to implementation, but these should not go in the public S3 repo.\r\n\r\n- [ ] As we iterate on the release branch, package builds should install by reusing binaries from prior builds if possible (this will reduce build time).\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/7116",
+    "updated_at": "2020-06-24 16:14:52",
+    "created_at": "2018-01-30 10:00:28",
+    "closed_at": "2020-06-24 16:14:52",
+    "state": "closed",
+    "title": "Spack release testing",
+    "number": 7116,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "releases",
+        "buildcache",
+        "task"
+    ],
+    "id": 292720273,
+    "html_url": "https://github.com/spack/spack/issues/7116",
+    "assignees": [
+        "mathstuf",
+        "opadron"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Reimplements #22588 \r\n\r\nfixes #23701 \r\nfixes #23663\r\nfixes #23665 \r\n\r\nDescription for 22588 reproduced below:\r\n\r\nCurrently, module configurations are inconsistent because modulefiles are generated with the configs for the active environment, but are shared among all environments (and spack outside any environment).\r\n\r\nThis PR fixes that by allowing Spack environments (or other spack config scopes) to define additional sets of modules to generate. Each set of modules can enable either lmod or tcl modules, and contains all of the previously available module configuration. The user defines the name of each module set -- the set configured in Spack by default is named \"default\", and is the one returned by module manipulation commands in the absence of user intervention.\r\n\r\nAs part of this change, the module roots configuration moved from the config section to inside each module configuration.\r\n\r\nAdditionally, it adds a feature that the modulefiles for an environment can be configured to be relative to an environment view rather than the underlying prefix. This will not be enabled by default, as it should only be enabled within an environment and for non-default views constructed with separate projections per-spec.\r\n\r\nTODO:\r\n- [x] Documentation",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/23703",
+    "updated_at": "2021-06-03 15:46:26",
+    "created_at": "2021-05-17 18:03:19",
+    "closed_at": "2021-05-28 21:12:06",
+    "state": "closed",
+    "title": "Separable module configuration -- without the bugs this time",
+    "number": 23703,
+    "milestone": null,
+    "labels": [],
+    "id": 893572423,
+    "html_url": "https://github.com/spack/spack/pull/23703",
+    "assignees": [],
+    "comments": 6
+}

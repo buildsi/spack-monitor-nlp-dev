@@ -1,0 +1,19 @@
+{
+    "body": "`python@3.7.3` spec.yaml fails to build using `spack@develop` (commit id from 16-June-2020) on the following platforms:\r\n* Ubuntu 18.04 amd64, ppc64le\r\n* RHEL 7 amd64, ppc64le\r\n* CentOS 7 amd64, ppc64le\r\n\r\nHere is python-hyodd5.spec.yaml: [python-hyodd5.spec.yaml.txt](https://github.com/spack/spack/files/4790047/python-hyodd5.spec.yaml.txt)\r\n\r\n```\r\n$> spack install --file python-hyodd5.spec.yaml\r\n...\r\n2 out of 3 hunks FAILED -- saving rejects to file Lib/distutils/sysconfig.py.rej\r\n==> Patch /opt/spack/var/spack/repos/builtin/packages/python/python-3.7+-distutils-C++.patch failed.\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/opt/spack/var/spack/repos/builtin/packages/python/python-3.7+-distutils-C++.patch' '-d' '.'\r\n==> Error: Failed to install python due to ChildError: ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/opt/spack/var/spack/repos/builtin/packages/python/python-3.7+-distutils-C++.patch' '-d' '.'Traceback (most recent call last):\r\n  File \"/opt/spack/lib/spack/spack/build_environment.py\", line 819, in child_process\r\n    return_value = function()\r\n  File \"/opt/spack/lib/spack/spack/installer.py\", line 1063, in build_process\r\n    pkg.do_patch()\r\n  File \"/opt/spack/lib/spack/spack/package.py\", line 1222, in do_patch\r\n    patch.apply(self.stage)\r\n  File \"/opt/spack/lib/spack/spack/patch.py\", line 86, in apply\r\n    apply_patch(stage, self.path, self.level, self.working_dir)\r\n  File \"/opt/spack/lib/spack/spack/patch.py\", line 41, in apply_patch\r\n    '-d', working_dir)\r\n  File \"/opt/spack/lib/spack/spack/util/executable.py\", line 189, in __call__\r\n    proc.returncode, long_msg)\r\nspack.util.executable.ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/opt/spack/var/spack/repos/builtin/packages/python/python-3.7+-distutils-C++.patch' '-d' '.'\r\n```\r\n\r\nAlso fails:\r\n```\r\n$> spack install python@3.7.3\r\n...\r\n<same error as above>\r\n```\r\n\r\nLooks like commit that broke this build is: 0095c4c25c459b5d7d25ce0462eed753b4036166\r\n`python@3.7.3` builds fine at the commit right before it: 4b48f70393a20ef65f5e1394226d3829997431c5\r\n\r\n@xjrc @adamjstewart @scottwittenburg ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/17128",
+    "updated_at": "2020-06-18 04:30:59",
+    "created_at": "2020-06-17 02:42:05",
+    "closed_at": "2020-06-18 04:30:59",
+    "state": "closed",
+    "title": "Installation issue: python 3.7.3 patch fails, all platforms",
+    "number": 17128,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 640096355,
+    "html_url": "https://github.com/spack/spack/issues/17128",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "* Add Hip Support for umpire, chai, and raja\r\n* Create HipPackage base class to support all hip builds and unify hip-specific variants in one place, mimicking the paradigm used for CudaPackage\r\n\r\nCurrently, the +hip variant works for camp, umpire, and raja\r\n\r\nThere is one build issue for chai+hip. We get complaints that the include path \"/opt/rocm/hip/hcc/include\" does not exist on the corona machine. This path is being incorrectly added to the include paths. However, I have determined that this is an issue with BLT rather than spack. In particular, see the offending lines:\r\n\r\nblt/cmake/thirdparty/SetupHIP.cmake:25:set(HIP_RUNTIME_INCLUDE_DIRS \"${HIP_ROOT_DIR}/include;${HIP_ROOT_DIR}/hcc/include\" CACHE STRING \"\")\r\nblt/host-configs/other/hcc.cmake:35:set(ROCM_INCLUDE_PATH \"${ROCM_ROOT_DIR}/hcc/include;${ROCM_ROOT_DIR}/include\"  CACHE PATH \"\")\r\n \r\nA separate pull request will be submitted to the blt team shortly to deal with that issue",
+    "user": "dtaller",
+    "url": "https://api.github.com/repos/spack/spack/issues/19715",
+    "updated_at": "2020-11-25 17:56:07",
+    "created_at": "2020-11-03 18:58:19",
+    "closed_at": "2020-11-18 19:52:22",
+    "state": "closed",
+    "title": "Feature/dtaller/add hip packages1",
+    "number": 19715,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "new-variant"
+    ],
+    "id": 735562711,
+    "html_url": "https://github.com/spack/spack/pull/19715",
+    "assignees": [],
+    "comments": 8
+}

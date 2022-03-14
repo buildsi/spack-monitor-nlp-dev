@@ -1,0 +1,19 @@
+{
+    "body": "I'm trying to build openmpi with ucx but on compiling ucx I get build errors with `error: implicit declaration of function`.\r\n\r\n```console\r\n     637      CC       libuct_rdmacm_la-rdmacm_iface.lo\r\n     638      CC       libuct_rdmacm_la-rdmacm_ep.lo\r\n     639      CC       libuct_rdmacm_la-rdmacm_cm.lo\r\n     640      CC       libuct_rdmacm_la-rdmacm_listener.lo\r\n     641      CC       libuct_rdmacm_la-rdmacm_cm_ep.lo\r\n     642    rdmacm_cm.c: In function 'uct_rdmacm_cm_id_to_dev_addr':\r\n  >> 643    rdmacm_cm.c:146:9: error: implicit declaration of function 'rdma_init_qp_attr' [-Werror=implicit-function-declaration]\r\n     644      146 |     if (rdma_init_qp_attr(cm_id, &qp_attr, &qp_attr_mask)) {\r\n     645          |         ^~~~~~~~~~~~~~~~~\r\n     646    rdmacm_cm.c: In function 'uct_rdmacm_cm_handle_event_connect_response':\r\n  >> 647    rdmacm_cm.c:269:9: error: implicit declaration of function 'rdma_establish' [-Werror=implicit-function-declaration]\r\n     648      269 |     if (rdma_establish(event->id)) {\r\n     649          |         ^~~~~~~~~~~~~~\r\n     650    cc1: all warnings being treated as errors\r\n     651    make[4]: *** [Makefile:670: libuct_rdmacm_la-rdmacm_cm.lo] Error 1\r\n     652    make[4]: *** Waiting for unfinished jobs....\r\n     653    make[4]: Leaving directory '/tmp/root/spack-stage/spack-stage-ucx-1.8.0-344rhrrnr7m3kpod3hg6bbwi4ml3nn5k/spack-src/src/uct/ib/rdmacm'\r\n\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install openmpi+thread_multiple+pmi fabrics=ucx schedulers=slurm %gcc@9.3.0 ucx%gcc@9.3.0\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.3-387-3a02d1a84\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-zen2\r\n\r\n### Additional information\r\n\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/5021896/spack-build-out.txt)\r\n\r\nI have slurm locally installed, with the following in my .spack/packages.yaml :\r\n\r\n```\r\n  slurm:\r\n    buildable: False\r\n    paths:\r\n      slurm@20-02-3-1: /usr\r\n```\r\n\r\n\r\n@hppritcha \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "Nischay-Pro",
+    "url": "https://api.github.com/repos/spack/spack/issues/17869",
+    "updated_at": "2020-10-30 19:50:21",
+    "created_at": "2020-08-04 12:07:58",
+    "closed_at": "2020-10-30 19:50:21",
+    "state": "closed",
+    "title": "Installation issue: ucx",
+    "number": 17869,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 672741619,
+    "html_url": "https://github.com/spack/spack/issues/17869",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,17 @@
+{
+    "body": "### Expected Result\r\n\r\nI expected that the openMPI I installed with spack would be able to build and run MPI hello world with no error messages.\r\n\r\n### Actual Result\r\n\r\n``` console\r\n> mpiexec -n 4 ./hello_world\r\n--------------------------------\r\n[[32506,1],1]: A high-performance Open MPI point-to-point messaging module\r\nwas unable to find any relevant network interfaces:\r\n\r\nModule: OpenFabrics (openib)\r\n  Host: [hostname]\r\n\r\nAnother transport will be used instead, although this may result in\r\nlower performance.\r\n\r\nNote: You can disable this warning by setting the MCA parameter\r\nbtl_base_warn_component_unused to 0.\r\n--------------------------------\r\nHello world!\r\nHello world!\r\nHello world!\r\nHello world!\r\n[[hostname]:36270] 3 more processes have sent help message help-mpi-btl-base.txt / btl:no-nics\r\n[[hostname]:36270] Set MCA parameter \"orte_base_help_aggregate\" to 0 to see all help / error messages\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nHere's my hello_world.c:\r\n``` c\r\n#include <mpi.h>\r\n#include <stdio.h>\r\n\r\nint main() {\r\n  MPI_Init(NULL, NULL);\r\n  printf(\"Hello world!\\n\");\r\n  MPI_Finalize();\r\n}\r\n```\r\n\r\nLoad the spack openmpi module.  According to spack find --variants openmpi:\r\n```\r\nopenmpi@3.0.0~cude fabrics=verbs ~java schedulers= ~sqlite3~thread_multiple~ucx+vt\r\n```\r\nI don't know much about installing MPI, so it's entirely possible that I should have selected a different variant.  All of its dependencies (including gcc@7.1.0) were built with spack.\r\n\r\n```console\r\n> mpicc -o hello_world hello_world.c\r\n> mpiexec -n 4 ./hello_world\r\n```\r\n\r\n### Information on your system\r\n\r\nMy machine is identified as linux-suse_linux11-x86-64.  Please let me know if you need more details about it.  \r\n",
+    "user": "amklinv",
+    "url": "https://api.github.com/repos/spack/spack/issues/7185",
+    "updated_at": "2018-02-05 18:07:34",
+    "created_at": "2018-02-05 14:21:31",
+    "closed_at": "2018-02-05 18:07:34",
+    "state": "closed",
+    "title": "OpenMPI fails to find OpenFabrics",
+    "number": 7185,
+    "milestone": null,
+    "labels": [],
+    "id": 294409363,
+    "html_url": "https://github.com/spack/spack/issues/7185",
+    "assignees": [],
+    "comments": 1
+}

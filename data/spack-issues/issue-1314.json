@@ -1,0 +1,17 @@
+{
+    "body": "Currently the module file setup by spack for R will not add the correct library paths which results in broken library links.\n\n$ ldd ~/R/x86_64-pc-linux-gnu-library/3.3/ncdf4/libs/ncdf4.so  | grep -i not\n        libR.so => not found\n\nIf the library paths are added to the environment then ncdf4.so dynamically links correctly.\n$  ldd R/x86_64-pc-linux-gnu-library/3.3/ncdf4/libs/ncdf4.so | grep libR.so\n        libR.so => /gpfs/software/spack/opt/spack/linux-redhat6-x86_64/gcc-6.1.0/R-3.3.1-tpkh25pakjkfxwqth7kp3gxl4grlf6c2/rlib/R/lib/libR.so (0x00002aaaae244000)\n\nNeed to add the following to the R module file:\nprepend-path --delim \":\" LIBRARY_PATH \"PATH_TO_R_library\"\nprepend-path --delim \":\" LD_LIBRARY_PATH \"PATH_TO_R_library\"\n\nncdf4 was installed as a pre-req to GENESIS. https://www.bioconductor.org/packages/devel/bioc/html/GENESIS.html\n\nI will look into this further to submit a patch as I get my user running.\n",
+    "user": "adamhough",
+    "url": "https://api.github.com/repos/spack/spack/issues/1314",
+    "updated_at": "2016-07-20 22:43:26",
+    "created_at": "2016-07-20 17:09:08",
+    "closed_at": "2016-07-20 22:43:26",
+    "state": "closed",
+    "title": "R module (and dotkit?) file needs LIBRARY_PATH and LD_LIBRARY_PATH for bioconductor installs",
+    "number": 1314,
+    "milestone": null,
+    "labels": [],
+    "id": 166633303,
+    "html_url": "https://github.com/spack/spack/issues/1314",
+    "assignees": [],
+    "comments": 6
+}

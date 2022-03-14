@@ -1,0 +1,21 @@
+{
+    "body": "### Expected Result\r\n\r\nWith a `packages.yaml` containing\r\n\r\n```\r\npackages:\r\n  binutils:\r\n    paths:\r\n      binutils@2.31.1 %clang@9.0.0-apple: /usr/local/Cellar/binutils/2.31.1\r\n```\r\n\r\nthe commands `spack spec binutils` and `spack install binutils` should succeed.\r\n\r\n### Actual Result\r\n\r\n```\r\noxberry1@Uvalde:~/spack$ 3.2>spack spec binutils\r\nInput spec\r\n--------------------------------\r\nbinutils\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: packages.yaml entries cannot be virtual packages:\r\n  in \"/Users/oxberry1/.spack/packages.yaml\", line 2, column 3: binutils\r\noxberry1@Uvalde:~/spack$ 3.2>spack install binutils\r\n==> Error: packages.yaml entries cannot be virtual packages:\r\n  in \"/Users/oxberry1/.spack/packages.yaml\", line 2, column 3: binutils\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nAdd external install of `binutils` to `packages.yaml`.\r\n\r\n```console\r\n$ spack spec binutils\r\n$ spack install binutils # probably optional\r\n```\r\n\r\n### Information on your system\r\n\r\nUsing macOS 10.12.6, with a minimal `packages.yaml` shown above (my actual `packages.yaml` is longer), with spack at commit `f838b5e8c093b60916beb7d62d177301688088b2` (current with `origin/develop` at time of posting). Also tried https://github.com/spack/spack/pull/9007 rebased on top of `f838b5e8c093b60916beb7d62d177301688088b2`, so adding the latest version of `binutils` to spack did not resolve this issue.\r\n\r\n-----",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/9009",
+    "updated_at": "2018-10-03 07:04:13",
+    "created_at": "2018-08-16 22:33:37",
+    "closed_at": "2018-10-03 07:04:13",
+    "state": "closed",
+    "title": "Error when binutils in packages.yaml",
+    "number": 9009,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "unreproducible",
+        "external-packages"
+    ],
+    "id": 351391927,
+    "html_url": "https://github.com/spack/spack/issues/9009",
+    "assignees": [],
+    "comments": 6
+}

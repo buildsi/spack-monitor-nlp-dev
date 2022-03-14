@@ -1,0 +1,19 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/9001\r\n\r\nSee: https://github.com/spack/spack/pull/8289\r\n\r\nThis updates the `install_tree` method and its tests:\r\n\r\n* `copy_tree`/`install_tree` now preserve relative link targets (if the symlink in the source directory structure is relative, the symlink created in the destination will be relative)\r\n* Added support for `ignore` argument back to `copy_tree`/`install_tree`. It is no longer the object output by `shutil.ignore_patterns`: you pass a function that accepts a path relative to the source and returns whether that path should be copied.\r\n* When a symlink target is absolute, `copy_tree` and `install_tree` now rewrite the source prefix to be the destination prefix \r\n* `copy_tree` tests no longer check permissions: `copy_tree` doesn't enforce anything about permissions so its tests don't check for that\r\n* `install_tree` tests no longer check for exact permission matching since it can add file permissions",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/9019",
+    "updated_at": "2018-08-20 21:02:48",
+    "created_at": "2018-08-18 00:34:06",
+    "closed_at": "2018-08-18 02:08:38",
+    "state": "closed",
+    "title": "install_tree relative symlinks",
+    "number": 9019,
+    "milestone": null,
+    "labels": [
+        "utilities"
+    ],
+    "id": 351774371,
+    "html_url": "https://github.com/spack/spack/pull/9019",
+    "assignees": [],
+    "comments": 1
+}

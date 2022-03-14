@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install kallisto\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux host.domain.com 3.10.0-957.1.3.el7.x86_64 #1 SMP Thu Nov 29 14:49:43 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ cat /etc/*release*\r\nCentOS Linux release 7.6.1810 (Core) \r\n``` \r\n\r\n### Issue\r\n\r\nThis is a simple case of a bad checksum.    I [see this is not uncommon](https://github.com/spack/spack/issues/10091) but being new to this project, not sure about best practices to resolve it.  Ideally, we could fix this recipe, and also update to a the latest version ([releases](https://github.com/pachterlab/kallisto/releases)).\r\n\r\nhttps://github.com/spack/spack/blob/caf94253e09ff9cc2c54342ed85e361d102f5414/var/spack/repos/builtin/packages/kallisto/package.py#L16\r\n\r\n### Error message\r\n```\r\n==> Installing kallisto\r\n==> Searching for binary cache of kallisto\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for kallisto found: installing from source\r\n\r\n==> Fetching https://github.com/pachterlab/kallisto/archive/v0.43.1.tar.gz\r\n\r\n######################################################################## 100.0%\r\n==> Error: ChecksumError: md5 checksum failed for /bifx/apps/spack/spack-20181214/var/spack/stage/kallisto-0.43.1-jti3i7caxiequtwksiiazuiyg76jytcc/v0.43.1.tar.gz\r\n    Expected 54fc9b70ca44e4633f02c962cbc59737 but got 071e6bfb62be06fd76552298d4cf8144\r\n\r\n/bifx/apps/spack/spack-20181214/lib/spack/spack/package.py:920, in do_fetch:\r\n        917        self.stage.fetch(mirror_only)\r\n        918        self._fetch_time = time.time() - start_time\r\n        919\r\n  >>    920        if checksum and self.version in self.versions:\r\n        921            self.stage.check()\r\n        922\r\n        923        self.stage.cache_local()\r\n```",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/10118",
+    "updated_at": "2018-12-19 23:06:34",
+    "created_at": "2018-12-15 06:30:03",
+    "closed_at": "2018-12-19 23:06:34",
+    "state": "closed",
+    "title": "ChecksumError: kallisto",
+    "number": 10118,
+    "milestone": null,
+    "labels": [
+        "checksum"
+    ],
+    "id": 391349718,
+    "html_url": "https://github.com/spack/spack/issues/10118",
+    "assignees": [],
+    "comments": 3
+}

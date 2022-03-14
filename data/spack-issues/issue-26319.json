@@ -1,0 +1,24 @@
+{
+    "body": "### Steps to reproduce the issue\n\nOn the new macOS M1 (aarch64) systems with BigSur, compiling llvm-openmp does not work with the provided Xcode (AppleClang 12.0.5).\r\n\r\n```console\r\nspace install llvm-openmp\r\n```\r\n\r\nleads to:\r\n```\r\ncd /private/var/folders/wy/w22w0mkx67711r3m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-llvm-openmp-9.0.0-ikuqdzdhbfgvj7lcsubvgb24rkhwq7wc\r\n            /spack-build-ikuqdzd/runtime/src && /Users/axel/src/spack/lib/spack/env/clang/clang -Domp_EXPORTS -I/private/var/folders/wy/w22w0mkx67711r3\r\n            m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-llvm-openmp-9.0.0-ikuqdzdhbfgvj7lcsubvgb24rkhwq7wc/spack-build-ikuqdzd/runtime/src -I/var/fo\r\n            lders/wy/w22w0mkx67711r3m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-llvm-openmp-9.0.0-ikuqdzdhbfgvj7lcsubvgb24rkhwq7wc/spack-src/runtime\r\n            /src -I/var/folders/wy/w22w0mkx67711r3m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-llvm-openmp-9.0.0-ikuqdzdhbfgvj7lcsubvgb24rkhwq7wc/spa\r\n            ck-src/runtime/src/i18n -I/var/folders/wy/w22w0mkx67711r3m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-llvm-openmp-9.0.0-ikuqdzdhbfgvj7lcs\r\n            ubvgb24rkhwq7wc/spack-src/runtime/src/include -I/var/folders/wy/w22w0mkx67711r3m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-llvm-openmp-9\r\n            .0.0-ikuqdzdhbfgvj7lcsubvgb24rkhwq7wc/spack-src/runtime/src/thirdparty/ittnotify -O2 -g -DNDEBUG -arch arm64 -isysroot /Library/Developer/C\r\n            ommandLineTools/SDKs/MacOSX11.3.sdk -fPIC   -D _GNU_SOURCE -D _REENTRANT -x assembler-with-cpp -MD -MT runtime/src/CMakeFiles/omp.dir/z_Lin\r\n            ux_asm.S.o -MF CMakeFiles/omp.dir/z_Linux_asm.S.o.d -o CMakeFiles/omp.dir/z_Linux_asm.S.o -c /var/folders/wy/w22w0mkx67711r3m3t98_g7m0000gn\r\n            /T/axel/spack-stage/spack-stage-llvm-openmp-9.0.0-ikuqdzdhbfgvj7lcsubvgb24rkhwq7wc/spack-src/runtime/src/z_Linux_asm.S\r\n  >> 221    /var/folders/wy/w22w0mkx67711r3m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-llvm-openmp-9.0.0-ikuqdzdhbfgvj7lcsubvgb24rkhwq7wc/spack-src/\r\n            runtime/src/z_Linux_asm.S:1546:5: error: unknown directive\r\n     222        .size __kmp_unnamed_critical_addr,8\r\n     223        ^\r\n  >> 224    make[2]: *** [runtime/src/CMakeFiles/omp.dir/z_Linux_asm.S.o] Error 1\r\n     225    make[2]: *** Waiting for unfinished jobs....\r\n  >> 226    make[1]: *** [runtime/src/CMakeFiles/omp.dir/all] Error 2\r\n  >> 227    make: *** [all] Error 2\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3-4508-2b5893c932\r\n* **Python:** 3.9.7\r\n* **Platform:** darwin-bigsur-m1\r\n* **Concretizer:** clingo\r\n\r\n`compilers.yaml:`\r\n```\r\ncompilers:\r\n- compiler:\r\n    spec: apple-clang@12.0.5\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /opt/homebrew/Cellar/gcc/11.2.0/bin/gfortran\r\n      fc: /opt/homebrew/Cellar/gcc/11.2.0/bin/gfortran\r\n    flags: {}\r\n    operating_system: bigsur\r\n    target: aarch64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\n\n### Additional information\n\n* [spack-configure-args.txt](https://github.com/spack/spack/files/7248062/spack-configure-args.txt)\r\n* [spack-build-01-cmake-out.txt](https://github.com/spack/spack/files/7248058/spack-build-01-cmake-out.txt)\r\n* [spack-build-02-build-out.txt](https://github.com/spack/spack/files/7248059/spack-build-02-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/7248060/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/7248061/spack-build-out.txt)\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/26319",
+    "updated_at": "2021-11-09 01:02:28",
+    "created_at": "2021-09-29 00:42:54",
+    "closed_at": "2021-10-01 15:06:13",
+    "state": "closed",
+    "title": "Installation issue: llvm-openmp for M1",
+    "number": 26319,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "arm"
+    ],
+    "id": 1010347229,
+    "html_url": "https://github.com/spack/spack/issues/26319",
+    "assignees": [
+        "jgalarowicz",
+        "adamjstewart"
+    ],
+    "comments": 4
+}

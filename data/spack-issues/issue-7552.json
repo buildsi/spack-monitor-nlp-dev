@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\n\r\ninstallation of lz4 (defaulting to latest version 1.8.1) fails on centos6 although it works on centos7. installation of the previous version 1.7.5 works on centos6.\r\n\r\n### Expected Result\r\nspack install -j1 lz4 installs\r\n### Actual Result\r\ninstall fails on centos6 for version 1.8.1\r\n````console\r\n==> Executing phase: 'install'\r\n==> 'make' '-j128'\r\nmake[1]: Entering directory `/var/tmp/sbulut/spack-stage/spack-stage-UTGHYg/lz4-1.8.1.2/lib'\r\ncompiling static library\r\ncompiling dynamic library 1.8.1\r\ncreating versioned links\r\nmake[1]: Leaving directory `/var/tmp/sbulut/spack-stage/spack-stage-UTGHYg/lz4-1.8.1.2/lib'\r\nmake[1]: Entering directory `/var/tmp/sbulut/spack-stage/spack-stage-UTGHYg/lz4-1.8.1.2/programs'\r\n/gsc/software/spack/lib/spack/env/gcc/gcc -O3   -I../lib -DXXH_NAMESPACE=LZ4_  -c -o bench.o bench.c\r\n/gsc/software/spack/lib/spack/env/gcc/gcc -O3   -I../lib -DXXH_NAMESPACE=LZ4_  -c -o datagen.o datagen.c\r\n/gsc/software/spack/lib/spack/env/gcc/gcc -O3   -I../lib -DXXH_NAMESPACE=LZ4_  -c -o lz4cli.o lz4cli.c\r\n/gsc/software/spack/lib/spack/env/gcc/gcc -O3   -I../lib -DXXH_NAMESPACE=LZ4_  -c -o lz4io.o lz4io.c\r\n/gsc/software/spack/lib/spack/env/gcc/gcc -O3   -I../lib -DXXH_NAMESPACE=LZ4_  ../lib/lz4.o ../lib/lz4frame.o ../lib/lz4hc.o ../lib/xxhash.o bench.o datagen.o lz4cli.o lz4io.o -o lz4\r\nbench.o: In function `BMK_benchMem':\r\nbench.c:(.text+0x317): undefined reference to `clock_gettime'\r\nbench.c:(.text+0x423): undefined reference to `clock_gettime'\r\nbench.c:(.text+0x4d7): undefined reference to `clock_gettime'\r\nbench.c:(.text+0x586): undefined reference to `clock_gettime'\r\nbench.c:(.text+0x5ce): undefined reference to `clock_gettime'\r\nbench.o:bench.c:(.text+0x636): more undefined references to `clock_gettime' follow\r\ncollect2: error: ld returned 1 exit status\r\nmake[1]: *** [lz4] Error 1\r\nmake[1]: Leaving directory `/var/tmp/sbulut/spack-stage/spack-stage-UTGHYg/lz4-1.8.1.2/programs'\r\nmake: *** [lz4-release] Error 2\r\n````\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install lz4\r\n```\r\n\r\n### Information on your system\r\n\r\ncentos6\r\ngcc7.2 (spack)",
+    "user": "Sinan81",
+    "url": "https://api.github.com/repos/spack/spack/issues/7552",
+    "updated_at": "2019-12-16 18:04:49",
+    "created_at": "2018-03-21 23:43:34",
+    "closed_at": "2019-12-16 18:04:49",
+    "state": "closed",
+    "title": "lz4 v1.8.1 compilation fails on centos6",
+    "number": 7552,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 307456421,
+    "html_url": "https://github.com/spack/spack/issues/7552",
+    "assignees": [],
+    "comments": 5
+}

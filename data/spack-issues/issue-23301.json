@@ -1,0 +1,19 @@
+{
+    "body": " am working on a cluster with x86_64 GNU/Linux operating system. I want to profile some sparse solvers with TAU using 16 number of processors. However, I got this error.\r\n\r\n`TAU bootstreap heap exceeded. Increase BOOTSTRAP_HEAP_SIZE in memory_wrapper.c and try again.`\r\nfrom memory_wrapper.h, I get:\r\n\r\n```\r\n// Assume 4K pages unless we know otherwise.\r\n// We cannot determine this at runtime because it must be known during\r\n// the bootstrap process and it would be unsafe to make any system calls there.\r\n#ifndef PAGE_SIZE\r\n#define PAGE_SIZE 4096\r\n#endif\r\n\r\n// Size of heap memory for library wrapper bootstrapping\r\n#ifdef __APPLE__\r\n// Starting on macOS 11, PAGE_SIZE is not constant on macOS\r\n// Apple recommends using PAGE_MAX_SIZE instead.\r\n// see https://developer.apple.com/videos/play/wwdc2020/10214/?time=549\r\n#define BOOTSTRAP_HEAP_SIZE (3*PAGE_MAX_SIZE)\r\n#else\r\n#define BOOTSTRAP_HEAP_SIZE (3*PAGE_SIZE)\r\n#endif\r\n```\r\nI need to modify this file in order to increase page size before the installation since this can not be done at runtime.  I tried to interrupt  the installation and modify the file but that does not help.  Keeping stack configurations and installing TAU does not help for some reason, the installed TAU is different. Is there any way to enforce TAU to install the modified archive file or any other idea",
+    "user": "afrah",
+    "url": "https://api.github.com/repos/spack/spack/issues/23301",
+    "updated_at": "2021-04-28 10:50:23",
+    "created_at": "2021-04-28 00:55:09",
+    "closed_at": "2021-04-28 10:50:23",
+    "state": "closed",
+    "title": "Modifying source code before installation",
+    "number": 23301,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 869388904,
+    "html_url": "https://github.com/spack/spack/issues/23301",
+    "assignees": [],
+    "comments": 3
+}

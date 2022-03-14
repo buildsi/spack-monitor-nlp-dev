@@ -1,0 +1,17 @@
+{
+    "body": "introduce special treatment for `@dev` version so that it enables, for example, \n\n```\ndepends_on(\"gsl\", when='@8.5.0:+gsl')\n```\n\ninstead of\n\n```\ndepends_on(\"gsl\", when='@dev+gsl')\ndepends_on(\"gsl\", when='@8.5.0:+gsl')\n```\n\nMore importantly, with this patch the following works\n\n```\n    depends_on(\"petsc+mpi\", when='@8.5.0:+petsc+mpi')\n    depends_on(\"slepc\",     when='@8.5.0:+slepc+petsc+mpi')\n    #8.4.1 and below need 3.6\n    depends_on(\"petsc@:3.6.4+mpi\", when='@:8.4.1+petsc+mpi')\n    depends_on(\"slepc@:3.6.3\",     when='@:8.4.1+slepc+petsc+mpi')\n```\n\nwhich i was not able to make work without.\n\nfixes https://github.com/LLNL/spack/issues/874\n\np.s. i don't know how to run tests manually, let's see if they fail on Travis...\n\n@alalazo @adamjstewart @tgamblin let me know if you think something else needs to be modified in `version.py`.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/1190",
+    "updated_at": "2017-05-28 20:57:25",
+    "created_at": "2016-07-07 17:25:22",
+    "closed_at": "2016-07-11 18:31:54",
+    "state": "closed",
+    "title": "add special treatment of @develop version",
+    "number": 1190,
+    "milestone": null,
+    "labels": [],
+    "id": 164363553,
+    "html_url": "https://github.com/spack/spack/pull/1190",
+    "assignees": [],
+    "comments": 29
+}

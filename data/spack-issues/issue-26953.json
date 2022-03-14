@@ -1,0 +1,21 @@
+{
+    "body": "While installing `py-pyqt5` as a dependency of `py-mne+full` inside an environment which was concretized together, I ran into the issue that the `py-sip`-`python_include_dir` could not be found. The error was\r\n```\r\n==> Installing py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb\r\n==> No binary for py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb found: installing from source\r\n==> Using cached archive: $spack/var/spack/cache/_source-cache/archive/54/54b7f456341b89eeb3930e786837762ea67f235e886512496c4152ebe106d4af.tar.gz\r\n==> No patches needed for py-pyqt5\r\n==> py-pyqt5: Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/python-3.8.11-4hnravhbnyay4hbfrsztzoh56pslz5rm/bin/python3.8' 'configure.py' '--pyuic5-interpreter' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/python-3.8.11-4hnravhbnyay4hbfrsztzoh56pslz5rm/bin/python3.8' '--sipdir' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb/share/sip/PyQt5' '--designer-plugindir' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb/plugins/designer' '--qml-plugindir' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb/plugins/PyQt5' '--stubsdir' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb/lib/python3.8/site-packages/PyQt5' '--verbose' '--confirm-license' '--qmake' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/qt-5.15.2-gij2o2lm6ufl7leq632ht22wjdxsjmev/bin/qmake' '--sip' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-sip-4.19.21-td6ml3zjgsp7b47nr6uc7duuiy5hqcvv/bin/sip' '--sip-incdir' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-sip-4.19.21-td6ml3zjgsp7b47nr6uc7duuiy5hqcvv/include/python3.8' '--bindir' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb/bin' '--destdir' '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-pyqt5-5.13.1-m3js6fcjkfpkce6c347yc2ounxno3wgb/lib/python3.8/site-packages'\r\n\r\n1 error found in build log:\r\n     4\r\n  >> 5    configure.py: error: '$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-sip-4.19.\r\n          21-td6ml3zjgsp7b47nr6uc7duuiy5hqcvv/include/python3.8' is not a directory\r\n```\r\nThe correct path is `$spack/opt/spack/linux-fedora32-haswell/gcc-10.3.1/py-sip-4.19.21-td6ml3zjgsp7b47nr6uc7duuiy5hqcvv/include/python3.8d/`\r\n\r\nThe problem comes from [ this line in lib/spack/spack/build_systems/sip.py](https://github.com/spack/spack/blob/develop/lib/spack/spack/build_systems/sip.py#L102).\r\n\r\nPicking up the suggestion from [this thread](https://github.com/spack/spack/pull/15297#discussion_r390438696) and extracting the path instead of rebuilding it, fixes the installation for me.\r\n",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/26953",
+    "updated_at": "2021-11-03 15:35:33",
+    "created_at": "2021-10-26 21:33:37",
+    "closed_at": "2021-11-03 15:27:05",
+    "state": "closed",
+    "title": "py-sip: fix python_include_dir",
+    "number": 26953,
+    "milestone": null,
+    "labels": [
+        "python",
+        "build-systems",
+        "sip"
+    ],
+    "id": 1036761730,
+    "html_url": "https://github.com/spack/spack/pull/26953",
+    "assignees": [],
+    "comments": 4
+}

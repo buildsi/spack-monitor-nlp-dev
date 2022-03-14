@@ -1,0 +1,21 @@
+{
+    "body": "Hi all,\r\n\r\nyesterday I did a fresh spack install on a virtual machine with a minimal OS installation (CentOS 7 with only few packages, including Python 2.7, git, curl and GCC 4.8.5) that still fulfills the minimal requirement for spack.\r\n\r\nThe first thing that I noticed is, that I need to build patch, but this already failed:\r\n\r\n```\r\n[sfux@develop02 ~]$ spack purge -a\r\n[sfux@develop02 ~]$ spack find\r\n==> 0 installed packages.\r\n[sfux@develop02 ~]$ spack install patch\r\n==> Installing patch\r\n==> Fetching http://ftp.gnu.org/gnu/patch/patch-2.7.5.tar.xz\r\n######################################################################## 100.0%\r\n==> Staging archive: /local/cluster/spack/var/spack/stage/patch-2.7.5-3jgpfxlxg35dn4l4duohkkoombxag4oo/patch-2.7.5.tar.xz\r\n==> Created stage in /local/cluster/spack/var/spack/stage/patch-2.7.5-3jgpfxlxg35dn4l4duohkkoombxag4oo\r\n==> Ran patch() for patch\r\n==> Building patch [AutotoolsPackage]\r\n==> Executing phase : 'autoreconf'\r\n==> Executing phase : 'configure'\r\n==> Executing phase : 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8'\r\n/local/cluster/spack/lib/spack/spack/build_systems/autotools.py:275, in build:\r\n     270      def build(self, spec, prefix):\r\n     271          \"\"\"Makes the build targets specified by\r\n     272          :py:attr:``~.AutotoolsPackage.build_targets``\r\n     273          \"\"\"\r\n     274          with working_dir(self.build_directory):\r\n  >> 275              inspect.getmodule(self).make(*self.build_targets)\r\n\r\nSee build log for details:\r\n  /local/scratch/sfux/spack-stage/spack-stage-DFYEr8/patch-2.7.5/spack-build.out\r\n```\r\n\r\nLooking at the error message:\r\n\r\n```\r\nmake: GNUmakefile: Too many levels of symbolic links\r\nmake: stat: GNUmakefile: Too many levels of symbolic links\r\nmake: *** No rule to make target `GNUmakefile'.  Stop.\r\n==> Error: ProcessError: Command exited with status 2:\r\n```\r\n\r\nit seems that there is a symlink pointing to itself:\r\n\r\nlrwxrwxrwx 1 sfux sfux-group    105 Mar  9 09:55 GNUmakefile -> /local/cluster/spack/var/spack/stage/patch-2.7.5-3jgpfxlxg35dn4l4duohkkoombxag4oo/patch-2.7.5/GNUmakefile\r\n\r\n\r\nAny ideas ?\r\n\r\nPlease let me know what additional information I can provide to resolve this issue.\r\n\r\nBest regards\r\n\r\nSam",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/3387",
+    "updated_at": "2017-03-09 13:40:06",
+    "created_at": "2017-03-09 10:09:48",
+    "closed_at": "2017-03-09 13:40:06",
+    "state": "closed",
+    "title": "spack fails to build patch@2.7.5 because of symlink problems",
+    "number": 3387,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 212990282,
+    "html_url": "https://github.com/spack/spack/issues/3387",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

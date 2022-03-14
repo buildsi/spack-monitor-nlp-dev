@@ -1,0 +1,19 @@
+{
+    "body": "@scheibelp @mamelara @tgamblin \r\n\r\nThis proposal is the result of previous proposals and discussions.  The idea is to standardize how packages process static vs. shared builds; and to make it easy and logical to control for the user.  Comments welcome.\r\n\r\nThere will be a multi-valued variant `build_type` that can take the values `static` or `shared`.  Packages will interpret the variant as follows.  In each case, if the package is incapable of doing the required task, then the value should not be an option for `build_type` in that package; thus causing an error if the user tries to choose it.  The `build_type` variant should always default to `shared`.\r\n\r\n 1. `static`: The package must produce a static library (preferably without PIC).\r\n 2. `shared`: The package must produce *either* a shared library, *or* a static library with PIC.  Thus, `shared` means \"appropriate for use in a shared-linking context\", not necessarily \"produces a shared library.\"\r\n\r\nThere will be a second multi-valued variant `shared_type` that can take the values `shared` or `pic`.  It is only in effect if `build_type=shared`.  In that case, the package will build true shared libraries if `shared_type=shared`, and static libraries with PIC if `shared_type=pic`.  It should default to `shared`, if the package is capable of building true shared libraries.  If a package cannot build the requested library type, it should not allow that particular value of the `shared_type` variant, thus forcing a concretization error.\r\n\r\nSome upstream packages have builds that simultaneously generate shared and static libraries.  This feature will be ignored by Spack; in fact, Spack packages might choose to delete \"extra\" libraries not specified by the `build_type` variant.  If a user wants multiple build types, then the package will have to be built and installed twice, with different values for the `build_type` or `shared_type` variants.\r\n\r\nUse Cases\r\n-----------\r\n\r\n1. Users will typically set `build_type` as a \"global\" variant (#2644), depending on whether they want to build with shared or static linking.  Users who do shared will do nothing; those who need to build static will set `build_type=static` in the appropriate YAML config file.\r\n\r\n2. For users who have `build_type=shared`, they can additionally configure certain packages for either true shared libs, or static libs with PIC.  It is expected that `shared_type` will be configured on a per-package basis, as appropriate.\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2779",
+    "updated_at": "2017-11-22 13:41:23",
+    "created_at": "2017-01-09 02:56:18",
+    "closed_at": "2017-11-22 13:41:23",
+    "state": "closed",
+    "title": "Variants for static/shared build types",
+    "number": 2779,
+    "milestone": null,
+    "labels": [
+        "proposal"
+    ],
+    "id": 199468777,
+    "html_url": "https://github.com/spack/spack/issues/2779",
+    "assignees": [],
+    "comments": 6
+}

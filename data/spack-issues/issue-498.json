@@ -1,0 +1,17 @@
+{
+    "body": "This PR puts module files for the same program in the same directory named for the program. This will require the modules to be regenerated,\n\n`spack module refresh`\n\nSo, binutils, for example, would be laid out as follows:\n\n```\nls $SPACK_ROOT/share/spack/modules/linux-x86_64/binutils \n2.25-gcc-4.8.5-kby6upoybmx3sz32dpzsalwol3dbx44r  2.25-gcc-5.3.0-6blubrftgydrex3mtrysorgewrg67pbf\n```\n\nThis is a common scheme for module files and opens up several features.\n1. With different builds of the same program in the same directory a conflict can be set up based on directory name.\n2. It is possible to set a default version of the package in the directory.\n3. In the absence of an explicit default version, the module tool will determine one based on name.\n   This is where there is an issue with spack generated modules as the dag_hash could wind up playing a role here.\n4. If the default is acceptable the module can be loaded with the shortcut name, which is the directory name\n\nI made DotKit have the same structure but I do not know much about DotKit so I do not know if that is appropriate. If not, that could be changed. This requires the spec.name to be available in the setup-env scripts. While I was testing this I took a stab at fixing the csh $SYS_TYPE handling. I tried to make it consistent with the '.sh' version but I may be missing something on that.\n\nThe main remaining issue is setting a default value. For the module heuristics the hash will lead to unpredictable settings if the modules can not be distinguished prior to the hash. For manual site specific settings, the hash is not human parsable so I think the naming scheme for module files may need to be tweaked down the road. Here is an example of what lmod sees for binutils on my system.\n\n```\nmodule avail binutils\n\n-------------------------------- /home/gjohnson/spack/share/spack/modules/linux-x86_64 ---------------------------------\n   binutils/2.25-gcc-4.8.5-kby6upoybmx3sz32dpzsalwol3dbx44r\n   binutils/2.25-gcc-5.3.0-6blubrftgydrex3mtrysorgewrg67pbf (D)\n\n  Where:\n   D:  Default Module\n\nUse \"module spider\" to find all possible modules.\nUse \"module keyword key1 key2 ...\" to search for all possible modules matching any of the \"keys\".\n```\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/498",
+    "updated_at": "2016-04-23 18:15:48",
+    "created_at": "2016-03-06 02:24:52",
+    "closed_at": "2016-04-23 18:15:48",
+    "state": "closed",
+    "title": "Modules in directories and fixes for setup-env.csh",
+    "number": 498,
+    "milestone": null,
+    "labels": [],
+    "id": 138744920,
+    "html_url": "https://github.com/spack/spack/pull/498",
+    "assignees": [],
+    "comments": 2
+}

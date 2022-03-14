@@ -1,0 +1,21 @@
+{
+    "body": "Spack attempts to inject it's paths just before the actual\r\nsystem include directories. Currently, if a build utilizes\r\n-isystem, Spack's headers will be injected using -I, and that\r\neffectively inserts them before any specified -isystem headers.\r\nThis leads to unexpected failures. Here, we assume that if a build\r\nattempts to use -isystem (implying that the underlying\r\ncompiler supports the flag) - we change to injecting the paths\r\ninto the end of the -isystem paths. There is a potential\r\nconcern if the build includes system paths in -I *and*\r\nuses -isystem, but I think that's probably an unlikely usage.\r\n\r\nSee:\r\n\r\nhttps://gcc.gnu.org/onlinedocs/gcc/Directory-Options.html\r\n\r\nFixes #14488, Fixes #14234",
+    "user": "aweits",
+    "url": "https://api.github.com/repos/spack/spack/issues/16077",
+    "updated_at": "2021-02-12 13:57:08",
+    "created_at": "2020-04-15 18:57:15",
+    "closed_at": "2020-04-21 20:56:51",
+    "state": "closed",
+    "title": "compiler wrappers: fix out-of-order injection scenario",
+    "number": 16077,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 600518315,
+    "html_url": "https://github.com/spack/spack/pull/16077",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Add a package for lftp.\r\n\r\nMinimally tested on CentOS 7.\r\n\r\nThere's one potential problem:  `ldd` shows me this:\r\n\r\n```\r\n[hartzelg@lb097hmdev spack-lftp]$ ldd /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/lftp-4.7.7-v6psktkhlioyfdcx4pzydyms6ocuyqud/bin/lftp\r\n        linux-vdso.so.1 =>  (0x00002aaaaaaab000)\r\n        libexpat.so.1 => /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/expat-2.2.0-7qhabmvnbgwkv6phrsvaiewsxg3anijo/lib/libexpat.so.1 (0x00002aaaaaaaf000)\r\n        libssl.so.1.0.0 => /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/openssl-1.0.2k-3kq2xnggmaws2wiwbulate2lmulw7s54/lib/libssl.so.1.0.0 (0x00002aaaaacd9000)\r\n        libz.so.1 => /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/zlib-1.2.11-yrijbmajetpxrkyaa4uclsyw62zbhc5m/lib/libz.so.1 (0x00002aaaaaf4c000)\r\n        libcrypto.so.1.0.0 => /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/openssl-1.0.2k-3kq2xnggmaws2wiwbulate2lmulw7s54/lib/libcrypto.so.1.0.0 (0x00002aaaab16a000)\r\n        libiconv.so.2 => /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/libiconv-1.15-bli6oh4rawy6bwdqa7ylbp7wt5tkynyv/lib/libiconv.so.2 (0x00002aaaab5bb000)\r\n        libreadline.so.7 => /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/readline-7.0-kb65ucdvdtspudnrvf6vs5z6jjk7vlxq/lib/libreadline.so.7 (0x00002aaaab8ba000)\r\n        libutil.so.1 => /lib64/libutil.so.1 (0x00002aaaabb13000)\r\n        libtinfo.so.5 => /lib64/libtinfo.so.5 (0x00002aaaabd16000)\r\n        libdl.so.2 => /lib64/libdl.so.2 (0x00002aaaabf41000)\r\n        libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00002aaaac145000)\r\n        libm.so.6 => /lib64/libm.so.6 (0x00002aaaac44d000)\r\n        libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00002aaaac750000)\r\n        libc.so.6 => /lib64/libc.so.6 (0x00002aaaac966000)\r\n        libncursesw.so.6 => /home/hartzelg/tmp/spack-lftp/opt/spack/linux-centos7-x86_64/gcc-4.8.5/ncurses-6.0-75hnzrecoib5eqdvfchl6n2jgcxc6dgo/lib/libncursesw.so.6 (0x00002aaaacd29000)\r\n        /lib64/ld-linux-x86-64.so.2 (0x0000555555554000)\r\n```\r\n\r\n`libtinfo` seems to be curses related, and I'm wondering if it should be coming along with libcurses.\r\n\r\nThe rest appear to be system-ish libraries that Spack does not try to provide.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4634",
+    "updated_at": "2017-06-29 16:11:39",
+    "created_at": "2017-06-28 18:47:13",
+    "closed_at": "2017-06-29 14:27:19",
+    "state": "closed",
+    "title": "Add package for lftp",
+    "number": 4634,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 239259232,
+    "html_url": "https://github.com/spack/spack/pull/4634",
+    "assignees": [],
+    "comments": 1
+}

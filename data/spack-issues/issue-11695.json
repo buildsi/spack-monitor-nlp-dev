@@ -1,0 +1,23 @@
+{
+    "body": "When using the `spack compiler add` command for the Intel compiler there is a mismatch between the package version and the compiler entry. For example, the package version is 19.0.3 but the compiler entry has a spec value of 19.0.3.199. This causes issues with the lmod module layout as well as other breakage.\r\n\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack versions -s intel\r\n==> Safe versions (already checksummed):\r\n  19.0.3  18.0.4  18.0.1  17.0.6  17.0.3  17.0.0  16.0.2\r\n  19.0.1  18.0.3  18.0.0  17.0.5  17.0.2  16.0.4  15.0.6\r\n  19.0.0  18.0.2  17.0.7  17.0.4  17.0.1  16.0.3  15.0.1\r\n$ spack install intel@19.0.3\r\n$ module load intel/19.0.3\r\n$ spack compiler add --scope=site\r\n==> Added 1 new compiler to /opt/packages/gpjohnsn/opt/ssoft/spack/etc/spack/compilers.yaml\r\n    intel@19.0.3.199\r\n==> Compilers are defined in the following files:\r\n    /opt/packages/gpjohnsn/opt/ssoft/spack/etc/spack/compilers.yaml\r\n...\r\n```\r\n\r\n\r\n### Information on your system\r\nlinux-centos7-x86_64\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/11695",
+    "updated_at": "2020-09-08 22:11:22",
+    "created_at": "2019-06-13 16:50:51",
+    "closed_at": "2020-09-08 22:11:22",
+    "state": "closed",
+    "title": "Intel compiler detection reports build number as part of version starting with v19.0.0",
+    "number": 11695,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "intel",
+        "impact-medium"
+    ],
+    "id": 455847711,
+    "html_url": "https://github.com/spack/spack/issues/11695",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 7
+}

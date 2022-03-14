@@ -1,0 +1,17 @@
+{
+    "body": "I added a few memoizations to avoid re-doing work again and again.  Not that this is how things should be in the end... but it DOES speed me up from 30 seconds to 15 for a simple \"spack spec\" command.\n\nOn my run...\n\nIt's true, virtual dependencies are taking a lot of time.  _expand_virtual_packages() is only called 3 times.  But then ProviderIndex() is instantiated 738 (!) times.  Overall, 6838 specs are created --- FAR MORE than there are specs in the entire repo!\n\nI suspect that speedup will happen through some more targeted re-use of objects.  Among other things, it looks like the same Spec is being instantiated multiple times.  And we shouldn't have to instantiate ProviderIndex 738 times.\n\nIn the meantime, I've shaved down the pain for myself somewhat.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/935",
+    "updated_at": "2016-05-12 03:40:55",
+    "created_at": "2016-05-11 01:58:19",
+    "closed_at": "2016-05-12 03:40:55",
+    "state": "closed",
+    "title": "[WIP] Speed up with targeted memoization",
+    "number": 935,
+    "milestone": null,
+    "labels": [],
+    "id": 154144341,
+    "html_url": "https://github.com/spack/spack/pull/935",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,20 @@
+{
+    "body": "The recipe for lua-luaposix attempts to download http://github.com/luaposix/luaposix/archive/release-v33.4.0.zip (see luaposix-33.4.0-1.rockspec in the source tree) and fails when it cannot access the internet (e.g.: air gap system).\r\n\r\nPossible fix: Spack might need to download this zip file as a dependency (I'm not sure how to make this work) and patch the rockspec file to point to a location on the local file system instead of a url.\r\n\r\nI see the same problem with lua-luafilesystem. In fact, even from machines that have internet access I can't access the required files for luafilesystem because it uses a _git_ URL (`git://github.com/keplerproject/luafilesystem`) and the git protocol is blocked by our corporate firewall.  \r\n\r\nMy current work around is to \r\n* Download the files with `git clone git@github.com:keplerproject/luafilesystem`\r\n* Edit `luafilesystem-1.6.3-1.rockspec` that is located in the stage directory so that it the `url` entry points to the local file system location from the above step.\r\n* Run `spack install` again.",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/3909",
+    "updated_at": "2019-09-08 02:06:53",
+    "created_at": "2017-04-19 18:32:36",
+    "closed_at": "2019-09-08 02:06:53",
+    "state": "closed",
+    "title": "lua-luaposix: unable to install from offline system",
+    "number": 3909,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "extensions"
+    ],
+    "id": 222829828,
+    "html_url": "https://github.com/spack/spack/issues/3909",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install flex # @2.6.4\r\n```\r\n\r\nCauses:\r\n\r\n```\r\n==> Installing flex\r\n==> Searching for binary cache of flex\r\n==> No binary for flex found: installing from source\r\n==> Fetching https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz\r\n==> Fetching https://github.com/westes/flex/commit/24fd0551333e7eded87b64dd36062da3df2f6380.patch\r\n==> Staging archive: /usr/local/var/spack/stage/flex-2.6.4-wybwdtmqdlcpo5fkbun55tatbbdxp652/flex-2.6.4.tar.gz\r\n==> Created stage in /usr/local/var/spack/stage/flex-2.6.4-wybwdtmqdlcpo5fkbun55tatbbdxp652\r\n==> Applied patch https://github.com/westes/flex/commit/24fd0551333e7eded87b64dd36062da3df2f6380.patch\r\n==> Building flex [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j28'\r\n\r\n2 errors found in build log:\r\n     396    make[2]: Leaving directory '/tmp/root/spack-stage/spack-stage-QWa6O\r\n            4/flex-2.6.4/examples'\r\n     397    make[1]: Leaving directory '/tmp/root/spack-stage/spack-stage-QWa6O\r\n            4/flex-2.6.4/examples'\r\n     398    Making all in po\r\n     399    make[1]: Entering directory '/tmp/root/spack-stage/spack-stage-QWa6\r\n            O4/flex-2.6.4/po'\r\n     400    *** error: gettext infrastructure mismatch: using a Makefile.in.in \r\n            from gettext version 0.18 but the autoconf macros are from gettext \r\n            version 0.19\r\n     401    Makefile:201: recipe for target 'check-macro-version' failed\r\n  >> 402    make[1]: *** [check-macro-version] Error 1\r\n     403    make[1]: Leaving directory '/tmp/root/spack-stage/spack-stage-QWa6O\r\n            4/flex-2.6.4/po'\r\n     404    Makefile:528: recipe for target 'all-recursive' failed\r\n  >> 405    make: *** [all-recursive] Error 1\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n# Docker (nvidia/cuda:9.0-base)\r\nhttps://github.com/ComputationalRadiationPhysics/picongpu/blob/dev/share/picongpu/dockerfiles/ubuntu-1604/Dockerfile\r\n\r\n$ lsb_release -d\r\nDescription:\tUbuntu 16.04 LTS\r\n``` \r\nand, if relevant, post or attach:\r\n\r\n- `packages.yaml`\r\n```\r\npackages:\r\n  cuda:\r\n    paths:\r\n      cuda@9.0.176%gcc@5.4.0 arch=linux-ubuntu16-x86_64: /usr/local/cuda\r\n    buildable: False\r\n  pkg-config:\r\n    paths:\r\n      pkg-config@0.29.1%gcc@5.4.0 arch=linux-ubuntu16-x86_64: /usr\r\n    buildable: False\r\n  python:\r\n    paths:\r\n      python@2.7.12%gcc@5.4.0 arch=linux-ubuntu16-x86_64: /usr\r\n    buildable: False\r\n  openmpi:\r\n    version: [3.1.3]\r\n    variants: +cuda fabrics=verbs,ucx,libfabric\r\n  hwloc:\r\n    variants: +cuda\r\n  all:\r\n    providers:\r\n      mpi: [openmpi]\r\n```",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/11551",
+    "updated_at": "2020-04-22 03:36:03",
+    "created_at": "2019-05-24 09:00:43",
+    "closed_at": "2020-04-22 03:36:03",
+    "state": "closed",
+    "title": "Installation issue: Flex with gettext",
+    "number": 11551,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "impact-low"
+    ],
+    "id": 448056561,
+    "html_url": "https://github.com/spack/spack/issues/11551",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 11
+}

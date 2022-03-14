@@ -1,0 +1,17 @@
+{
+    "body": "I tried installing NetCDF after my previous changes and it failed miserably. Here are the changes it took to get things working:\n\n**hdf/package.py**\n- Added CFLAGS. NetCDF couldn't link to HDF4 and recommended rebuilding it with `-fPIC`. It worked!\n- Added useful comments.\n\n**netcdf/netcdf-4.3.3-mpi.patch**\n- Removed this patch since we aren't using CMake anymore. It was actually causing the build to fail, most likely because it no longer applies to NetCDF 4.4.0. If we switch back to CMake, we'll have to tell it to only patch specific versions.\n\n**netcdf/package.py**\n- I can't believe I forgot to specify the prefix :disappointed: \n- Added environment variables. Linking failed without them.\n- Added make commands for NetCDF-Fortran bootstrap. These were not in the documentation for some reason.\n\n@mathstuf: Can you see if MPI linking now works for you? Our users don't use NetCDF --parallel, they're using [Parallel-NetCDF](https://trac.mcs.anl.gov/projects/parallel-netcdf) instead. I would probably need to add a '+parallel' variant with --enable-pnetcdf in order to get it working. Hopefully there won't be much more turmoil necessary to get this package working for everyone.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/405",
+    "updated_at": "2016-02-01 09:43:23",
+    "created_at": "2016-01-27 22:37:52",
+    "closed_at": "2016-01-27 23:07:49",
+    "state": "closed",
+    "title": "More NetCDF changes",
+    "number": 405,
+    "milestone": null,
+    "labels": [],
+    "id": 129292793,
+    "html_url": "https://github.com/spack/spack/pull/405",
+    "assignees": [],
+    "comments": 2
+}

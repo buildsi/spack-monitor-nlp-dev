@@ -1,0 +1,19 @@
+{
+    "body": "I imagine this is likely going to be rather unpopular, but I wanted to put the issue here to give the discussions on #6170 a little more visibility. I like Spack very much, and I'm only hoping that we can think of a better strategy to deal with all the competing priorities.\r\n\r\nSince Spack is a package manager for HPC, one of its main use cases is to build computational-intensive software codes that are going to run on hundreds or thousands of nodes. This makes squeezing the performance much more important than a package manager for an OS distribution. My questions are:\r\n\r\n1. What are the current suggestions to do a build that is performance optimized? Given that a package and its dependencies may require different optimization levels, special `configure` flags (e.g., to turn on AVX), etc., how would a user go about figuring out the set of options for each of the packages, without reducing to reading their INSTALL instructions (which is what package managers are supposed to help with)?\r\n   \r\n   A (non-rigorous) observation is that a particular package Spack builds seems to run 30% slower than hand compiled (or about 15% if I add global optimization/tuning flags to `compilers.yaml` -- as it only helps via the Spack compiler wrappers but not with `configure`).\r\n\r\n   See also #6839, #6749, #6745, #6732, #6640, #6714.\r\n   \r\n2. What is the recommended strategy to deal with multiple machines sharing the same networked file system? When newer machines are installed, if say, the user does not want to use the lowest common denominator and wastes the more powerful instruction sets (that probably come at a price premium), how should the user separate the builds for different machine capabilities?",
+    "user": "baip",
+    "url": "https://api.github.com/repos/spack/spack/issues/6712",
+    "updated_at": "2019-12-12 09:54:55",
+    "created_at": "2017-12-18 22:58:03",
+    "closed_at": "2019-12-12 09:54:54",
+    "state": "closed",
+    "title": "Speed of Spack-built executables sub-optimal",
+    "number": 6712,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 283049212,
+    "html_url": "https://github.com/spack/spack/issues/6712",
+    "assignees": [],
+    "comments": 1
+}

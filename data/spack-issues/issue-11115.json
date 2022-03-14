@@ -1,0 +1,25 @@
+{
+    "body": "fixes #6143\r\nfixes #2016\r\n\r\nrefers to https://github.com/spack/spack/issues/2016#issuecomment-258884636\r\n\r\nAs a package maintainer I want different methods to specify the build-time environment and the run-time environment of a package, so that I will know exactly which are the preconditions of the method that is being called.\r\n\r\n### Rationale\r\n\r\nCurrently each package can override two methods:\r\n```python\r\ndef setup_environment(self, build_env, run_env):\r\n    ...\r\n\r\ndef setup_dependent_environment(self, build_env, run_env, dependent_spec):\r\n    ...\r\n```\r\nto modify its build or run environment, or those of a dependent. This has a fundamental issue in that the same method will be called at different times, and will have different preconditions depending when it's called:\r\n\r\n1. If it is called to set-up the build environment the prefix of the spec being installed is not yet there + a few special variables that are needed to build with Spack compiler wrappers will be set\r\n2. If it is called to set-up the run environment the underlying spec is assumed to be already installed\r\n\r\nThis in turn might cause issues like #6143 or https://github.com/spack/spack/issues/2016#issuecomment-258884636. In this PR we split each of the two methods above, e.g. :\r\n```python\r\ndef setup_build_environment(self, env):\r\n   ...\r\n\r\ndef setup_run_environment(self, env):\r\n   ...\r\n```\r\nso that it will be clear which are the preconditions of each method call.\r\n\r\n\r\n### Description\r\n\r\nThis PR splits each `*_environment` method in `spack.package.PackageBase` into two: one that will be called for the build-time environment and one that wil be called for the run-time. As there are a lot of packages overriding these callbacks the default implementation is such to mimic the legacy behavior, and emit a deprecation warning to `tty.debug`, e.g.:\r\n```console\r\n$ spack -d install mpich\r\n[...]\r\n==> [2019-04-05-14:13:38.193971] Installing mpich\r\n==> [2019-04-05-14:13:38.194114] Searching for binary cache of mpich\r\n==> [2019-04-05-14:13:38.194407] Reading config file /home/mculpo/.spack/linux/mirrors.yaml\r\n==> [2019-04-05-14:13:38.195858] Finding buildcaches in /home/mculpo/production/mirror/build_cache\r\n==> [2019-04-05-14:13:38.198158] No binary for mpich found: installing from source\r\n==> [2019-04-05-14:13:38.300407] [DEPRECATED METHOD]\r\n\"pkgconf\" still defines the deprecated method \"setup_dependent_environment\" [should be split into \"setup_dependent_build_environment\" and \"setup_dependent_run_environment\"]\r\n==> [2019-04-05-14:13:38.323784] [DEPRECATED METHOD]\r\n\"perl\" still defines the deprecated method \"setup_dependent_environment\" [should be split into \"setup_dependent_build_environment\" and \"setup_dependent_run_environment\"]\r\n==> [2019-04-05-14:13:38.344990] [DEPRECATED METHOD]\r\n\"libtool\" still defines the deprecated method \"setup_dependent_environment\" [should be split into \"setup_dependent_build_environment\" and \"setup_dependent_run_environment\"]\r\n[...]\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] Split `setup_environment` into two methods\r\n- [x] Split `setup_dependent_environment` into two methods\r\n- [x] Add documentation in the \"Packaging guide\" section of the docs\r\n- [x] Update the tutorial sections of the docs\r\n- [x] Add a test that fails if a package under PR still implements the old methods (this can be used to make the community aware of the new methods, can be removed once the old methods are not supported anymore)\r\n- [x] Add a test that fails if any package implements the old methods, and mark it `xfail` (it will be useful when all packages are ported, in case of people doing PR based on old behavior)\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11115",
+    "updated_at": "2019-10-17 17:18:37",
+    "created_at": "2019-04-05 12:35:05",
+    "closed_at": "2019-10-17 17:17:22",
+    "state": "closed",
+    "title": "Separate setting build environment and run environment in packages",
+    "number": 11115,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "build-error",
+        "modules",
+        "build-environment",
+        "environments"
+    ],
+    "id": 429733170,
+    "html_url": "https://github.com/spack/spack/pull/11115",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

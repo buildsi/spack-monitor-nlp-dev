@@ -1,0 +1,19 @@
+{
+    "body": "The use of templates in a GitHub repo, plus auto-filling of them from `git archive`, can result in unstable hashes.\r\n\r\nWhile installing, I noticed that one package's hash had changed from a year ago: https://github.com/SciTools/cf_units\r\n\r\nThese things must always be investigated.  So I downloaded the tarball using GitHub's archive feature (https://github.com/SciTools/cf_units/archive/v1.1.3.tar.gz) and compared it to the old tarball I had lying around.\r\n\r\n### Expected Result\r\n\r\nI expected the two to be the same.\r\n\r\n### Actual Result\r\n\r\nI got the diff:\r\n```\r\n$ diff -r cf/cf_units-1.1.3 py/cf_units-1.1.3\r\ndiff -r cf/cf_units-1.1.3/cf_units/_version.py py/cf_units-1.1.3/cf_units/_version.py\r\n26c26\r\n<     git_refnames = \" (tag: v1.1.3)\"\r\n---\r\n>     git_refnames = \" (HEAD -> master, tag: v1.1.3)\"\r\n```\r\n\r\n### Digging Deeper\r\n\r\nI looked at `_version.py` in the repo and found the following https://github.com/SciTools/cf_units/blob/master/cf_units/_version.py\r\n```\r\ndef get_keywords():\r\n    \"\"\"Get the keywords needed to look up the version information.\"\"\"\r\n    # these strings will be replaced by git during git-archive.\r\n    # setup.py/versioneer.py will grep for the variable names, so they must\r\n    # each be defined on a line of their own. _version.py will just call\r\n    # get_keywords().\r\n    git_refnames = \"$Format:%d$\"\r\n    git_full = \"$Format:%H$\"\r\n    keywords = {\"refnames\": git_refnames, \"full\": git_full}\r\n    return keywords\r\n```\r\n\r\nApparently, the templates in this file are filled in when `git-archive` is run (GitHub runs `git-archive` when a special archive URL is used, as above).  And even though the version is stable, the presence of additional branches or tags on a commit can cause `git_refnames` to change, and thus the MD5 to change.\r\n\r\n### Proposed Solution\r\n\r\nEncourage upstream authors to avoid the use of git_refnames (above) if they don't need it.  Encourage upstream authors to make sure that tagged releases don't have any additional tags or branches on them.\r\n\r\nThis won't be an issue for the vast majority of upstream authors who don't use `git-archive` to substitute in versions.\r\n\r\nHas anyone else encountered this?",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7937",
+    "updated_at": "2018-05-02 13:56:29",
+    "created_at": "2018-04-28 14:28:54",
+    "closed_at": "2018-05-02 13:56:28",
+    "state": "closed",
+    "title": "Unstable MD5 Due to Git Archive + Versioneer",
+    "number": 7937,
+    "milestone": null,
+    "labels": [
+        "git"
+    ],
+    "id": 318641059,
+    "html_url": "https://github.com/spack/spack/issues/7937",
+    "assignees": [],
+    "comments": 2
+}

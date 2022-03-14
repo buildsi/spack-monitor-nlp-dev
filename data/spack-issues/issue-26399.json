@@ -1,0 +1,17 @@
+{
+    "body": "With this PR you get the following output when both bootstrapping methods fail (I didn't install ca-certificates and make in an ubuntu container):\r\n\r\n```\r\n$ ./spack/bin/spack spec zlib\r\nInput spec\r\n--------------------------------\r\nzlib\r\n\r\nConcretized\r\n--------------------------------\r\n==> Bootstrapping clingo from pre-built binaries\r\n==> Bootstrapping clingo from sources\r\n==> Installing libiconv-1.16-zth4ohvj7y3p532iqjw7fptg3kkn3ixv\r\n==> No binary for libiconv-1.16-zth4ohvj7y3p532iqjw7fptg3kkn3ixv found: installing from source\r\n==> Using cached archive: /home/harmen/spack/var/spack/cache/_source-cache/archive/e6/e6a1b1b589654277ee790cce3734f07876ac4ccfaecbee8afa0b649cf529cc04.tar.gz\r\n==> No patches needed for libiconv\r\n==> libiconv: Executing phase: 'autoreconf'\r\n==> libiconv: Executing phase: 'configure'\r\n==> libiconv: Executing phase: 'build'\r\n==> Error: ProcessError: make: No such file or directory\r\n    Command: 'make' '-j16' 'V=1'\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-libiconv-1.16-zth4ohvj7y3p532iqjw7fptg3kkn3ixv/spack-build-out.txt\r\n\r\n==> Warning: Skipping build of diffutils-3.8-4rwlz7r3qbaxxw5pkfxm67rakinywxli since libiconv-1.16-zth4ohvj7y3p532iqjw7fptg3kkn3ixv failed\r\n==> Warning: Skipping build of bison-3.7.6-omerd6jkiab7src3hkrc5q36gqyxsnbv since diffutils-3.8-4rwlz7r3qbaxxw5pkfxm67rakinywxli failed\r\n==> Warning: Skipping build of clingo-bootstrap-spack-3noqr57b5x2yabkr3oplw6nodw42zx2k since bison-3.7.6-omerd6jkiab7src3hkrc5q36gqyxsnbv failed\r\n==> Warning: Skipping build of bzip2-1.0.8-acrm735zgsyk4wgjgz3o4jlq5vq5h4jd since diffutils-3.8-4rwlz7r3qbaxxw5pkfxm67rakinywxli failed\r\n==> Warning: Skipping build of perl-5.34.0-mdh4pnqbunno4o2mkaa7q7gexnwjd6kg since bzip2-1.0.8-acrm735zgsyk4wgjgz3o4jlq5vq5h4jd failed\r\n==> Warning: Skipping build of openssl-1.1.1l-7kailyhg3esql5mlv34myo7wwyfyloth since perl-5.34.0-mdh4pnqbunno4o2mkaa7q7gexnwjd6kg failed\r\n==> Warning: Skipping build of cmake-3.21.3-mh6eyehef6pqisd7frult6jignowcftp since openssl-1.1.1l-7kailyhg3esql5mlv34myo7wwyfyloth failed\r\n==> Error: Cannot bootstrap the \"clingo\" Python module from spec \"clingo-bootstrap@spack+python %gcc target=x86_64\" due to the following failures:\r\n    'github-actions' raised RuntimeError: Could not populate the binary index\r\n    'spack-install' raised InstallError: Terminating after first install failure: ProcessError: make: No such file or directory\r\n    Command: 'make' '-j16' 'V=1'\r\n    Please run `spack -d spec zlib` for more verbose error messages\r\n```\r\n\r\nAlso note that bootstrapping from sources fails fast now, which has the additional benefit of actually getting the original install error from the specific package, so you immediately see you have a missing dependency.\r\n\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26399",
+    "updated_at": "2021-10-01 11:16:56",
+    "created_at": "2021-10-01 08:24:55",
+    "closed_at": "2021-10-01 11:00:14",
+    "state": "closed",
+    "title": "Better bootstrap errors",
+    "number": 26399,
+    "milestone": null,
+    "labels": [],
+    "id": 1013057517,
+    "html_url": "https://github.com/spack/spack/pull/26399",
+    "assignees": [],
+    "comments": 1
+}

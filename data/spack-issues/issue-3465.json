@@ -1,0 +1,19 @@
+{
+    "body": "I first built gcc (6.3) with a system compiler, then llvm (3.9) with that gcc, both via Spack. I then created a view that contained both gcc and llvm. My intention was to combine the respective Clang and Gfortran.\r\n\r\nHowever, this lead to crashes and segfaults in applications built with that version of gcc. I tracked this down to a shared library confusion: Both gcc and llvm provide a shared library named `libgomp`. For gcc, this is the real thing, for llvm, this is a mere symbolic link to its `libomp`. (Since the two `libgomp` live in different places in the directory hierarchy of the view there is no immediate conflict.)\r\n\r\nI can imagine several solutions:\r\n- Remove the symbolic link for llvm\r\n- Teach llvm to use gcc's libgomp directly (is that even possible?), as there is no need for two OpenMP implementations\r\n- When linking applications, ensure that gcc and clang pick up the correct `libgomp`, even if used via a view, and ensure that that path is hard-coded\r\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/3465",
+    "updated_at": "2019-12-09 13:33:04",
+    "created_at": "2017-03-16 13:39:36",
+    "closed_at": "2019-12-09 13:33:04",
+    "state": "closed",
+    "title": "OpenMP crashes: Cannot install gcc and llvm simultaneously",
+    "number": 3465,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 214707072,
+    "html_url": "https://github.com/spack/spack/issues/3465",
+    "assignees": [],
+    "comments": 1
+}

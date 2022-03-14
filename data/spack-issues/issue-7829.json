@@ -1,0 +1,19 @@
+{
+    "body": "Trouble installing `dealii@develop` with latest `develop`. The problem is in this chunk:\r\n```python\r\n        for library in (\r\n                'gsl', 'hdf5', 'p4est', 'petsc', 'slepc', 'trilinos', 'metis',\r\n                'sundials', 'nanoflann', 'assimp', 'gmsh'):\r\n            if ('+' + library) in spec:\r\n                options.extend([\r\n                    '-D%s_DIR=%s' % (library.upper(), spec[library].prefix),\r\n                    '-DDEAL_II_WITH_%s:BOOL=ON' % library.upper()\r\n                ])\r\n\r\n```\r\nThe problem, it seems, that dependence on `slepc` is in this code:\r\n```python\r\n    depends_on('slepc',            when='+slepc+petsc+mpi')\r\n    depends_on('slepc@:3.6.3',     when='@:8.4.1+slepc+petsc+mpi')\r\n    depends_on('slepc~arpack',     when='+slepc+petsc+mpi+int64')\r\n\r\n```\r\nSo, if `petsc` is explicitly disabled, and `slepc` is not touched (and it's ON by default), one does not get `slepc` dependency, and `spec[library]` will fail.\r\n\r\n### Expected Result\r\n\r\nInstallation of `dealii` completes.\r\n\r\n### Actual Result\r\n\r\nInstallation fails.\r\n\r\n### Steps to reproduce the issue\r\n\r\nTry to install `dealii` as with `~petsc ~oce +mpi +trilinos +p4est`.\r\n\r\n### Information on your system\r\n\r\nLinux",
+    "user": "aprokop",
+    "url": "https://api.github.com/repos/spack/spack/issues/7829",
+    "updated_at": "2018-04-21 15:22:11",
+    "created_at": "2018-04-19 17:35:58",
+    "closed_at": "2018-04-21 15:22:11",
+    "state": "closed",
+    "title": "dealii: cannot configure due to `slepc` not it spec",
+    "number": 7829,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 315972687,
+    "html_url": "https://github.com/spack/spack/issues/7829",
+    "assignees": [],
+    "comments": 1
+}

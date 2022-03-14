@@ -1,0 +1,24 @@
+{
+    "body": "We're using Spack on CentOS 7 systems.  We build our things nightly\r\nto stay on top of changes.\r\n\r\nThe recent changes in #3206 changed the names of the directories in\r\nwhich our modules end up.  We splice a spack tree into our users\r\nenvironments with a shell script that used to refer to the Core\r\ndirectory with something like this:\r\n\r\n```\r\n_APPS_LMOD_CORE_DIR=${APPS_DIR}/share/spack/lmod/linux-centos7-x86_64/Core\r\n```\r\n\r\nwhich worked well enough since all of our systems are x86_64.\r\n\r\nNow I have two problems (and I'm not even using [regular expressions][1]):\r\n\r\n1. the Core modules end up in `linux-centos7-haswell` but there's no\r\n   good way for us to guess the `haswell` bit, it seems to be the arch\r\n   of the system on which the system compiler was built.\r\n\r\n   I poked around at the `gcc` command line a bit, but don't see any\r\n   info about how it was built\r\n\r\n   ```\r\n   $ /usr/bin/gcc -dumpmachine\r\n   x86_64-redhat-linux\r\n   $ /usr/bin/gcc -print-multiarch\r\n\r\n   $\r\n   ```\r\n\r\n2. We use the system gcc (4.8.5) to build gcc@8.2.0 and use that to\r\n   build the rest of the things\r\n\r\n   Unfortunately, the Core module prepends this bit onto the\r\n   MODULEPATH:\r\n\r\n   ```\r\n   $ grep MODULEPATH share/spack/lmod/linux-centos7-haswell/Core/gcc/8.2.0-q5tss7s.lua\r\n   prepend_path(\"MODULEPATH\", \"/home/ELIDED/temp/spack/share/spack/lmod/linux-centos7-haswell/gcc/8.2.0\")\r\n   ```\r\n\r\n   but that directory doesn't exist, all the things that we've built\r\n   with the compiler we built with the system compiler end up in\r\n   `linux-centos7-skylake_avx512`.\r\n\r\n\r\n\r\n\r\n[1]: https://blog.codinghorror.com/regular-expressions-now-you-have-two-problems/\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/13005",
+    "updated_at": "2019-10-15 18:20:50",
+    "created_at": "2019-10-01 23:04:50",
+    "closed_at": "2019-10-15 18:20:50",
+    "state": "closed",
+    "title": "Problems with Lmod modulefile names post-PR#3206",
+    "number": 13005,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "impact-medium",
+        "microarchitectures"
+    ],
+    "id": 501189047,
+    "html_url": "https://github.com/spack/spack/issues/13005",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 31
+}

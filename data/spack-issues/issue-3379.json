@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #2786\r\n\r\nPreviously when a spec had no parents with an equivalent compiler, Spack would default to adding the compiler flags associated with the root of the DAG. This eliminates that default.\r\n\r\nThis also fixes an infinite recursion issue when a child spec has compiler flags that the root spec does not. This was triggered by the following in concretize.py:\r\n\r\n```\r\nif (flag in spec.root.compiler_flags and\r\n    ((flag not in spec.compiler_flags) or\r\n     sorted(spec.compiler_flags[flag]) !=\r\n     sorted(spec.root.compiler_flags[flag]))):\r\n```\r\n\r\nIf ```spec.compiler_flags[flag]``` had a flag that the root did not, this continually evaluated as true without changing the root.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/3379",
+    "updated_at": "2017-03-17 04:07:36",
+    "created_at": "2017-03-08 01:37:59",
+    "closed_at": "2017-03-17 04:07:36",
+    "state": "closed",
+    "title": "Dont propagate flags between different compilers",
+    "number": 3379,
+    "milestone": null,
+    "labels": [
+        "ready"
+    ],
+    "id": 212612758,
+    "html_url": "https://github.com/spack/spack/pull/3379",
+    "assignees": [],
+    "comments": 0
+}

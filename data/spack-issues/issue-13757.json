@@ -1,0 +1,23 @@
+{
+    "body": "When using more than one constraint to list specs in a binary mirror, `spack buildcache list` shows the same spec multiple times base on the number of constraints it satisfies.\r\n\r\n\r\n### Steps to reproduce the issue\r\nCreate a binary mirror with at least one package, for instance:\r\n```console\r\n$ spack buildcache list\r\n==> Finding buildcaches in /home/culpo/.mirror/build_cache\r\n==> Finding buildcaches in /home/culpo/production/spack/binary-mirror/build_cache\r\n==> Finding buildcaches in /home/culpo/production/spack/mirror/build_cache\r\n-- linux-ubuntu18.04-broadwell / gcc@9.0.1 ----------------------\r\nzlib@1.2.11\r\n\r\n-- linux-ubuntu18.04-x86_64 / gcc@9.0.1 -------------------------\r\nzlib@1.2.11\r\n```\r\nThen try to use more than on matching constraint:\r\n```console\r\n$ spack buildcache list -l zlib @1.2.11 \r\n==> Finding buildcaches in /home/culpo/.mirror/build_cache\r\n==> Finding buildcaches in /home/culpo/production/spack/binary-mirror/build_cache\r\n==> Finding buildcaches in /home/culpo/production/spack/mirror/build_cache\r\n-- linux-ubuntu18.04-broadwell / gcc@9.0.1 ----------------------\r\nos3djb5 zlib@1.2.11  os3djb5 zlib@1.2.11\r\n\r\n-- linux-ubuntu18.04-x86_64 / gcc@9.0.1 -------------------------\r\ntn4qvs7 zlib@1.2.11  tn4qvs7 zlib@1.2.11\r\n```\r\nAs the output above shows the same spec is displayed twice.\r\n\r\n### Error Message\r\n\r\nNo error message, just wrong output displayed to `tty`.\r\n\r\n### Information on your system\r\n\r\nNot relevant.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/13757",
+    "updated_at": "2019-11-26 20:24:16",
+    "created_at": "2019-11-15 20:28:32",
+    "closed_at": "2019-11-26 20:24:16",
+    "state": "closed",
+    "title": "\"spack buildcache list\" prints the same spec multiple times",
+    "number": 13757,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "user-experience",
+        "buildcache"
+    ],
+    "id": 523672866,
+    "html_url": "https://github.com/spack/spack/issues/13757",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

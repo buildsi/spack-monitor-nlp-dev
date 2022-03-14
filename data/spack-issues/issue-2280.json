@@ -1,0 +1,20 @@
+{
+    "body": "Trying to install Qt and came across\r\n```\r\n==> Trying to fetch from http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.gz\r\n######################################################################## 100.0%\r\n==> Error: NoDigestError: Attempt to check URLFetchStrategy with no digest.\r\n/Users/davydden/spack/lib/spack/spack/package.py:958, in do_fetch:\r\n     926      def do_fetch(self, mirror_only=False):\r\n     927          \"\"\"\r\n     928          Creates a stage directory and downloads the tarball for this package.\r\n     929          Working directory will be set to the stage directory.\r\n     930          \"\"\"\r\n     931          if not self.spec.concrete:\r\n     932              raise ValueError(\"Can only fetch concrete packages.\")\r\n     933\r\n     934          start_time = time.time()\r\n     935          if spack.do_checksum and self.version not in self.versions:\r\n     936              tty.warn(\"There is no checksum on file to fetch %s safely.\" %\r\n     937                       self.spec.format('$_$@'))\r\n     938\r\n     939              # Ask the user whether to skip the checksum if we're\r\n     940              # interactive, but just fail if non-interactive.\r\n     941              ck_msg = \"Add a checksum or use --no-checksum to skip this check.\"\r\n     942              ignore_checksum = False\r\n     943              if sys.stdout.isatty():\r\n     944                  ignore_checksum = tty.get_yes_or_no(\"  Fetch anyway?\",\r\n     945                                                      default=False)\r\n     946                  if ignore_checksum:\r\n     947                      tty.msg(\"Fetching with no checksum.\", ck_msg)\r\n     948\r\n     949              if not ignore_checksum:\r\n     950                  raise FetchError(\"Will not fetch %s\" %\r\n     951                                   self.spec.format('$_$@'), ck_msg)\r\n     952\r\n     953          self.stage.fetch(mirror_only)\r\n     954\r\n     955          self._fetch_time = time.time() - start_time\r\n     956\r\n     957          if spack.do_checksum and self.version in self.versions:\r\n  >> 958              self.stage.check()\r\n     959\r\n     960          self.stage.cache_local()\r\n```\r\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2280",
+    "updated_at": "2017-06-04 19:05:38",
+    "created_at": "2016-11-08 13:48:55",
+    "closed_at": "2017-04-14 21:30:19",
+    "state": "closed",
+    "title": "Qt: NoDigestError: Attempt to check URLFetchStrategy with no digest",
+    "number": 2280,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "new-package"
+    ],
+    "id": 187996117,
+    "html_url": "https://github.com/spack/spack/issues/2280",
+    "assignees": [],
+    "comments": 3
+}

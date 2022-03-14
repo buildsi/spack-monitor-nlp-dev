@@ -1,0 +1,22 @@
+{
+    "body": "Several recent PRs (including #6824, #6828, and #6829) are failing with the following error message:\r\n```\r\n=================================== FAILURES ===================================\r\n_________________ TestFlagHandlers.test_no_build_system_flags __________________\r\nself = <spack.test.flag_handlers.TestFlagHandlers object at 0x3dfaad0>\r\ntemp_env = None\r\n    def test_no_build_system_flags(self, temp_env):\r\n        # Test that both autotools and cmake work getting no build_system flags\r\n        s1 = spack.spec.Spec('callpath')\r\n        s1.concretize()\r\n        pkg1 = spack.repo.get(s1)\r\n>       spack.build_environment.setup_package(pkg1, False)\r\nlib/spack/spack/test/flag_handlers.py:53: \r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\nlib/spack/spack/build_environment.py:598: in setup_package\r\n    dpkg.setup_dependent_package(pkg.module, spec)\r\nvar/spack/repos/builtin/packages/perl/package.py:186: in setup_dependent_package\r\n    module.perl = self.spec['perl'].command\r\nlib/spack/spack/spec.py:824: in __get__\r\n    value = f()\r\nlib/spack/spack/spec.py:817: in <lambda>\r\n    callbacks_chain.append(lambda: self.default(self, instance, cls))\r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\ndescriptor = <spack.spec.ForwardQueryToPackage object at 0x142f2d0>\r\nspec = perl@5.24.1%gcc@4.5.0+cpanm+shared arch=test-debian6-x86_64 ^gdbm@1.13%gcc@4.5..._glib arch=test-debian6-x86_64 ^readline@7.0%gcc@4.5.0 arch=test-debian6-x86_64\r\ncls = <class 'llnl.util.lang.Spec'>\r\n    def _command_default_handler(descriptor, spec, cls):\r\n        \"\"\"Default handler when looking for the 'command' attribute.\r\n    \r\n        Tries to search for ``spec.name`` in the ``spec.prefix.bin`` directory.\r\n    \r\n        Parameters:\r\n            descriptor (ForwardQueryToPackage): descriptor that triggered the call\r\n            spec (Spec): spec that is being queried\r\n            cls (type(spec)): type of spec, to match the signature of the\r\n                descriptor ``__get__`` method\r\n    \r\n        Returns:\r\n            Executable: An executable of the command\r\n    \r\n        Raises:\r\n            RuntimeError: If the command is not found\r\n        \"\"\"\r\n        path = os.path.join(spec.prefix.bin, spec.name)\r\n    \r\n        if is_exe(path):\r\n            return Executable(path)\r\n        else:\r\n            msg = 'Unable to locate {0} command in {1}'\r\n>           raise RuntimeError(msg.format(spec.name, spec.prefix.bin))\r\nE           RuntimeError: Unable to locate perl command in /home/travis/build/spack/spack/opt/spack/test-debian6-x86_64/gcc-4.5.0/perl-5.24.1-vy4kackxsavhhr7v3vgi5emsmyygu6cw/bin\r\n```\r\nThis appears to be intermittent, especially in the case of #6824 where only a single version of Python exhibited this error.\r\n\r\nPinging @alalazo to see if he has any ideas.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/6830",
+    "updated_at": "2018-09-06 16:41:26",
+    "created_at": "2018-01-04 21:04:46",
+    "closed_at": "2018-09-06 16:41:26",
+    "state": "closed",
+    "title": "Travis failing: Unable to locate perl command",
+    "number": 6830,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "broken-develop",
+        "perl",
+        "travis"
+    ],
+    "id": 286112716,
+    "html_url": "https://github.com/spack/spack/issues/6830",
+    "assignees": [],
+    "comments": 5
+}

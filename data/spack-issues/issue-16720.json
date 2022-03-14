@@ -1,0 +1,26 @@
+{
+    "body": "Forwarding here a severe bug that was reported in a direct conversation with @nazavode. Having ~10 users running at the same time `spack versions` on front-end nodes caused kernel lockup due to the high number of sockets opened (sys-admin reports ~210k distributed over 3 nodes). Users were internal, so they had `ulimit -n` set to ~70k.\r\n\r\n### Steps to reproduce the issue\r\nThe forking behavior can be observed by just running\r\n```console\r\n$ spack versions boost\r\n[ ... ]\r\n```\r\nand checking the number of processes spawned. Not that processes per-se are not the issue, but each one of them opens a socket which might stress `iptables`.\r\n\r\n### Error Message\r\n\r\nIn the original issue the kernel watchdog was reporting:\r\n```console\r\nMessage from syslogd@login03 at May 19 12:01:30 ...\r\nkernel:Watchdog CPU:110 Hard LOCKUP\r\nMessage from syslogd@login03 at May 19 12:01:31 ...\r\nkernel:watchdog: BUG: soft lockup - CPU#110 stuck for 23s! [python3:2756]\r\nMessage from syslogd@login03 at May 19 12:01:31 ...\r\nkernel:watchdog: BUG: soft lockup - CPU#94 stuck for 22s! [iptables:5603]\r\n```\r\n\r\n### Information on your system\r\n\r\nI was able to observe the forking behavior in:\r\n\r\n* **Spack:** 0.14.2-1163-31ccf8029\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n\r\nOriginal issue was reported on a Power 9 front-end node.\r\n\r\n### Additional information\r\n\r\nThe potential fork bomb comes from a recursive generation of pools to scrape `urls` in:\r\n\r\nhttps://github.com/spack/spack/blob/31ccf80294382a391743728a736574737217c23b/lib/spack/spack/util/web.py#L394-L401\r\n\r\nin `_spider`. The pool uses a high number of processes and each process potentially recurse into this same function and generates another pool due to the implementation of `_spider_wrapper`:\r\n\r\nhttps://github.com/spack/spack/blob/31ccf80294382a391743728a736574737217c23b/lib/spack/spack/util/web.py#L437-L439\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/16720",
+    "updated_at": "2020-06-05 07:08:33",
+    "created_at": "2020-05-19 13:07:38",
+    "closed_at": "2020-06-05 07:08:33",
+    "state": "closed",
+    "title": "Potential for a fork bomb in \"spack versions\"",
+    "number": 16720,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high"
+    ],
+    "id": 620962017,
+    "html_url": "https://github.com/spack/spack/issues/16720",
+    "assignees": [
+        "tgamblin",
+        "scheibelp",
+        "alalazo",
+        "becker33",
+        "tldahlgren"
+    ],
+    "comments": 3
+}

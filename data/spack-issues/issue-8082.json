@@ -1,0 +1,21 @@
+{
+    "body": "External packages  are always concretized using the latest compiler available, regardless of the initial request.\r\n\r\n### Expected Result\r\n```console\r\n$ spack compiler list\r\n==> Available compilers\r\n-- gcc ubuntu18.04-x86_64 ---------------------------------------\r\ngcc@8  gcc@7.3.0\r\n\r\n$ spack spec -Il openssl %gcc@7.3.0\r\nInput spec\r\n--------------------------------\r\n     openssl%gcc@7.3.0\r\n\r\nConcretized\r\n--------------------------------\r\n     dobj3bn  openssl@1.0.2n%gcc@7.3.0+systemcerts arch=linux-ubuntu18.04-x86_64 \r\n```\r\n\r\n### Actual Result\r\n```console\r\n$ spack spec -Il openssl %gcc@7.3.0\r\nInput spec\r\n--------------------------------\r\n     openssl%gcc@7.3.0\r\n\r\nConcretized\r\n--------------------------------\r\n     dobj3bn  openssl@1.0.2n%gcc@8+systemcerts arch=linux-ubuntu18.04-x86_64 \r\n```\r\nNote the `%gcc@8` instead of `%gcc%7.3.0` as requested.\r\n\r\n### Steps to reproduce the issue\r\nConfigure Spack with the following `packages.yaml`:\r\n```yaml\r\npackages:\r\n  openssl:\r\n    buildable: False\r\n    paths:\r\n      openssl@1.0.2n: /usr\r\n```\r\nand the following `compilers.yaml`:\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: ubuntu18.04\r\n    paths:\r\n      cc: /usr/bin/gcc-8\r\n      cxx: /usr/bin/g++-8\r\n      f77: /usr/bin/gfortran-8\r\n      fc: /usr/bin/gfortran-8\r\n    spec: gcc@8\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: ubuntu18.04\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    spec: gcc@7.3.0\r\n    target: x86_64\r\n```\r\n\r\n### Information on your system\r\n\r\nThe only relevant part should be the two configuration files above",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/8082",
+    "updated_at": "2020-11-17 18:04:16",
+    "created_at": "2018-05-10 13:25:06",
+    "closed_at": "2020-11-17 18:04:16",
+    "state": "closed",
+    "title": "Compiler constraints not respected for external packages",
+    "number": 8082,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "external-packages"
+    ],
+    "id": 321930178,
+    "html_url": "https://github.com/spack/spack/issues/8082",
+    "assignees": [],
+    "comments": 1
+}

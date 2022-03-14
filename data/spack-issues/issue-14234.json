@@ -1,0 +1,21 @@
+{
+    "body": "I am trying to install tensor flow for cpu via spack.  It falls over at bazel:\r\n```\r\n==> Installing bazel\r\n==> Searching for binary cache of bazel\r\n==> No binary for bazel found: installing from source\r\n==> Using cached archive: /lus/theta-fs0/projects/datascience/cadams/spack/cooley/spack/var/spack/cache/_source-cache/archive/c0/c0e94f8f818759f3f67af798c38683520c540f469cb41aea8f5e5a0e43f11600.zip\r\n==> Staging archive: /tmp/cadams/spack-stage/spack-stage-bazel-0.26.1-4mmpkcidyja4i6smxm2ahqifvh322xsz/bazel-0.26.1-dist.zip\r\n==> Created stage in /tmp/cadams/spack-stage/spack-stage-bazel-0.26.1-4mmpkcidyja4i6smxm2ahqifvh322xsz\r\n==> Applied patch /lus/theta-fs0/projects/datascience/cadams/spack/cooley/spack/var/spack/repos/builtin/packages/bazel/bazelruleclassprovider-0.25.patch\r\n==> Applied patch /lus/theta-fs0/projects/datascience/cadams/spack/cooley/spack/var/spack/repos/builtin/packages/bazel/unix_cc_configure-0.15.patch\r\n==> Applied patch /lus/theta-fs0/projects/datascience/cadams/spack/cooley/spack/var/spack/repos/builtin/packages/bazel/compile-0.21.patch\r\n==> Building bazel [Package]\r\n==> Executing phase: 'bootstrap'\r\n==> Executing phase: 'install'\r\n==> Error: FileNotFoundError: [Errno 2] No such file or directory: 'output/bazel'\r\n\r\n/lus/theta-fs0/projects/datascience/cadams/spack/cooley/spack/var/spack/repos/builtin/packages/bazel/package.py:136, in install:\r\n        134    def install(self, spec, prefix):\r\n        135        mkdir(prefix.bin)\r\n  >>    136        install('output/bazel', prefix.bin)\r\n\r\nSee build log for details:\r\n  /tmp/cadams/spack-stage/spack-stage-bazel-0.26.1-4mmpkcidyja4i6smxm2ahqifvh322xsz/spack-build-out.txt\r\n```\r\nHere was the command I have used:\r\n```console\r\n$ spack install py-tensorflow@1.15 cuda_arch=35 ^cuda@10.1 %gcc@6.3.0\r\n```\r\n\r\nAnd, I am on this system:\r\n```\r\n$ uname -a\r\nLinux cc047 3.10.0-957.27.2.el7.x86_64 #1 SMP Tue Jul 9 16:53:14 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release\r\nLSB Version:\t:core-4.1-amd64:core-4.1-noarch\r\n```\r\n\r\nAny ideas for how to fix this?  I have the latest version of spack as of this morning.  Is there an older version of bazel that will work?",
+    "user": "coreyjadams",
+    "url": "https://api.github.com/repos/spack/spack/issues/14234",
+    "updated_at": "2020-04-21 20:56:51",
+    "created_at": "2019-12-19 21:14:37",
+    "closed_at": "2020-04-21 20:56:51",
+    "state": "closed",
+    "title": "Can't install tensorflow because of bazel",
+    "number": 14234,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 540570521,
+    "html_url": "https://github.com/spack/spack/issues/14234",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 15
+}

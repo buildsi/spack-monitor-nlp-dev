@@ -1,0 +1,23 @@
+{
+    "body": "As I understand it, spack calculates build hashes based at least off the current default compiler (per a comment in #5676) this also seems to impact dependency calculations.\r\n\r\nExample: \r\nI have boost 1.63.0 installed with a now out-of-date hash.\r\nI run `spack install valgrind`, which depends on boost. This will try and install boost 1.65.1\r\nEven if i modify the valgrind package to explicity `depend_on(boost@1.63.0)` this will still attempt to install a new version of `boost@1.63.0`, despite one already existing.\r\n\r\n```\r\n==> bzip2 is already installed in /home/david/spack/opt/spack/linux-sles12-x86_64/gcc-7.2.0/bzip2-1.0.6-ejldscwmg5ltjxhb4ll37bl7myybgobk\r\n==> zlib is already installed in /home/david/spack/opt/spack/linux-sles12-x86_64/gcc-7.2.0/zlib-1.2.11-k42mytqk6ezpgtzrbh5iqmb6emp6goil\r\n==> Installing boost\r\n==> Using cached archive: /home/david/spack/var/spack/cache/boost/boost-1.63.0.tar.bz2\r\n==> Staging archive:/home/david/spack/var/spack/stage/boost-1.63.0-akymp232kvg2bfgqwwnvbgpsbngwmja5/boost_1_63_0.tar.bz2\r\n^C\r\n```\r\nAnd a `spack find -l boost`\r\n```\r\n-- linux-sles12-x86_64 / gcc@7.2.0 ------------------------------\r\nlepwxyn boost@1.63.0\r\n```\r\n",
+    "user": "daveh86",
+    "url": "https://api.github.com/repos/spack/spack/issues/5775",
+    "updated_at": "2018-04-20 07:47:55",
+    "created_at": "2017-10-16 04:15:44",
+    "closed_at": "2018-04-20 07:47:55",
+    "state": "closed",
+    "title": "Change in compiler causes dependency calculations to miss installed packages and thus perform extra work",
+    "number": 5775,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "question",
+        "concretization"
+    ],
+    "id": 265642411,
+    "html_url": "https://github.com/spack/spack/issues/5775",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

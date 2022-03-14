@@ -1,0 +1,20 @@
+{
+    "body": "Hi,\r\nIf I try to compile NAMD with CUDA support, it fails because cannot find the file `{self.arch}.cuda` because it is under the `arch` folder.\r\n\r\nIf I try to compile NAMD with MPI and ~smp (`spack install namd ^charmpp backend=mpi ~smp`), it fails:\r\n```\r\n /usr/bin/ld: /shared/home/vasco/spack/opt/spack/linux-centos7-zen2/gcc-9.2.0/charmpp-6.10.2-mi5x2v26uzsd4fp44mzkpap2ume5u6d5/bin/../lib/libmod\r\n            uleCkLoop.a(CkLoop.o): undefined reference to symbol 'pthread_create@@@@GLIBC_2.2.5'\r\n  >> 782    //usr/lib64/libpthread.so.0: error adding symbols: DSO missing from command line\r\n  >> 783    collect2: error: ld returned 1 exit status\r\n  >> 784    Fatal Error by charmc in directory /dev/shm/vasco/spack-stage/spack-stage-namd-2.15a1-logfiivarcvjf2we7rhmjnb6dne33ptk/spack-src/linux-x86_64-spack\r\n```\r\nAdding the flag `-lpthread` solves the problem\r\n\r\n",
+    "user": "yellowhat",
+    "url": "https://api.github.com/repos/spack/spack/issues/20778",
+    "updated_at": "2021-01-21 00:18:23",
+    "created_at": "2021-01-11 15:49:41",
+    "closed_at": "2021-01-19 05:12:07",
+    "state": "closed",
+    "title": "NAMD: FIX build +cuda and mpi ~smp",
+    "number": 20778,
+    "milestone": null,
+    "labels": [
+        "cuda",
+        "update-package"
+    ],
+    "id": 783486862,
+    "html_url": "https://github.com/spack/spack/pull/20778",
+    "assignees": [],
+    "comments": 1
+}

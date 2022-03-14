@@ -1,0 +1,19 @@
+{
+    "body": "I am trying to build openspeedshop on Ubuntu 16.04 and I see following (while building cbtf-krell) : \r\n\r\n```\r\n.............\r\n  /home/guest/workarena/softwares/sources/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.1/binutils-2.24-dk6wlwesfajvuudbqzutq3fkx5kubp5t/bin/ld:\r\n  final link failed: Bad value\r\n\r\n  collect2: error: ld returned 1 exit status\r\n\r\n  CMakeFiles/cmTC_91ae1.dir/build.make:97: recipe for target 'cmTC_91ae1'\r\n  failed\r\n  make[1]: *** [cmTC_91ae1] Error 1\r\n\r\n  make[1]: Leaving directory\r\n  '/tmp/guest/spack-stage/spack-stage-Wky2l2/cbtf-krell/build_cbtf_krell/CMakeFiles/CMakeTmp'\r\n  Makefile:126: recipe for target 'cmTC_91ae1/fast' failed\r\n\r\n  make: *** [cmTC_91ae1/fast] Error 2\r\n  CMake will not be able to correctly generate this project.\r\nCall Stack (most recent call first):\r\n  CMakeLists.txt:21 (project)\r\n\r\n-- Configuring incomplete, errors occurred!\r\n\r\n```\r\n\r\nIf I look into `CMakeFiles/CMakeError.log` I see:\r\n\r\n```\r\n/home/guest/workarena/softwares/sources/spack/lib/spack/env/gcc/gcc  -O2 -g     CMakeFiles/cmTC_91ae1.dir/testCCompiler.c.o  -o cmTC_91ae1 -rdynamic\r\n/home/guest/workarena/softwares/sources/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.1/binutils-2.24-dk6wlwesfajvuudbqzutq3fkx5kubp5t/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o: unrecognized relocation (0x2a) in section `.init'\r\n/home/guest/workarena/softwares/sources/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.1/binutils-2.24-dk6wlwesfajvuudbqzutq3fkx5kubp5t/bin/ld: final link failed: Bad value\r\n```\r\n\r\n@jgalarowicz : Is this due to old version of binutils that openspeedshop depends on ?\r\n\r\n```\r\ndepends_on(\"binutils@2.24+krellpatch\", type='build')\r\n```",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/4992",
+    "updated_at": "2017-08-07 22:04:16",
+    "created_at": "2017-08-07 15:18:48",
+    "closed_at": "2017-08-07 22:04:16",
+    "state": "closed",
+    "title": "Issue while building openspeedshop  (older version of binutils?)",
+    "number": 4992,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 248444462,
+    "html_url": "https://github.com/spack/spack/issues/4992",
+    "assignees": [],
+    "comments": 4
+}

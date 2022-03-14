@@ -1,0 +1,19 @@
+{
+    "body": "Resolves #4414.\r\nResolves #4334.\r\n\r\n`spack dependents` now shows *possible* dependencies for a package by default, and you can display dependents for an installed spec with `spack dependents --installed`.  By default it shows direct dependents; you can show all transitive dependents with `--transitive`.\r\n\r\nNote that previously the command only operated on installed specs, and it only showed all transitive dependencies.  The default behavior now is to show possible direct dependencies for packages.\r\n\r\nTODO: \r\n- [x] Show possible dependents instead of installed dependents\r\n- [x] `--installed` argument\r\n- [x] `--transitive` argument\r\n- [ ] add analogous `spack dependencies` command\r\n\r\nTwo things that I'll hold off on but might be interesting to think about:\r\n\r\n1. Only show dependencies through certain dependency types.  Really requires a little path expression language.  e.g., only show transitive run dependencies of direct build dependencies might be something like `spack dependents --type 'br*'`.\r\n1. Take partial specs and show only things that could possibly depend on *those*.  e.g. if you write `spack dependents foo@1.6` and `bar` can only ever depend on `foo@:1.5`, then `bar` shouldn't show up in the output.  This requires a fancier solver so I'll hold off on it.\r\n\r\n@samfux84 @adamjstewart @markcmiller86 ",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4478",
+    "updated_at": "2019-08-23 06:34:07",
+    "created_at": "2017-06-12 08:19:39",
+    "closed_at": "2017-08-02 00:40:55",
+    "state": "closed",
+    "title": "Rework `spack dependents` command",
+    "number": 4478,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 235155912,
+    "html_url": "https://github.com/spack/spack/pull/4478",
+    "assignees": [],
+    "comments": 2
+}

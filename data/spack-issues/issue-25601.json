@@ -1,0 +1,21 @@
+{
+    "body": "We can see what is in the bootstrap store with `spack find -b`, and you can clean it with `spack clean -b`, but we can't do much else with it, and if there are bootstrap issues they can be hard to debug.\r\n\r\nWe already have `spack --mock`, which allows you to swap in the mock packages from the command line. This PR introduces `spack -b` / `spack --bootstrap`, which runs all of spack with `ensure_bootstrap_configuration()` set. This means that you can run `spack -b find`, `spack -b install`, `spack -b spec`, etc. to see what *would* happen with bootstrap configuration, to remove specific bootstrap packages, etc. This will hopefully make developers' lives easier as they deal with bootstrap packages.\r\n\r\nThis PR also uses a `nullcontext` context manager. `nullcontext` has been implemented in several other places in Spack, and this PR consolidates them to `llnl.util.lang`, with a note that we can delete the function if we ever reqyire a new enough Python.\r\n\r\n- [x] introduce `spack --bootstrap` option\r\n- [x] consolidated all `nullcontext` usages to `llnl.util.lang`",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/25601",
+    "updated_at": "2022-02-25 18:07:44",
+    "created_at": "2021-08-25 06:40:02",
+    "closed_at": "2022-02-22 19:35:34",
+    "state": "closed",
+    "title": "bootstrap: add `spack --bootstrap` option for accessing bootstrap store",
+    "number": 25601,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "utilities"
+    ],
+    "id": 978775272,
+    "html_url": "https://github.com/spack/spack/pull/25601",
+    "assignees": [],
+    "comments": 9
+}

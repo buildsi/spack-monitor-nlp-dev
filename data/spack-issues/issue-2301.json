@@ -1,0 +1,20 @@
+{
+    "body": "I'm building a docker container (from fedora:latest), setting up spack inside it and running\r\n```bash\r\n$ spack install gcc@4.8.5\r\n```\r\nSpack fails to install gcc, and fails with errors like this:\r\n```\r\n/home/nalu/spack/var/spack/stage/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5/gcc-4.8.5/libiberty/../include/libiberty.h:92:22: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'PARAMS'\r\n extern int writeargv PARAMS ((char **, FILE *));\r\n                      ^~~~~~\r\n```\r\nHere is the full output log:\r\n[spack-build.txt](https://github.com/LLNL/spack/files/584855/spack-build.txt)\r\n\r\n\r\nTrying to run the configure line explicitly\r\n```\r\n'/home/nalu/spack/var/spack/stage/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5/gcc-4.8.5/configure' '--prefix=/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5' '--libdir=/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5/lib64' '--disable-multilib' '--enable-languages=c,java,c++,fortran,objc,go' '--with-mpc=/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/mpc-1.0.3-yff53nnt4ci2z7ps5islaogkieagdzaw' '--with-mpfr=/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/mpfr-3.1.4-pmahifjapbfxmgqibng5uj5jpzvpzlaj' '--with-gmp=/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gmp-6.1.1-jgkljtfxwn43ihlwpupnnm2ubc73x2t2' '--enable-lto' '--with-quad' '--with-sysroot=/' '--with-stage1-ldflags=-Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5/lib64 -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gmp-6.1.1-jgkljtfxwn43ihlwpupnnm2ubc73x2t2/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/mpc-1.0.3-yff53nnt4ci2z7ps5islaogkieagdzaw/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/binutils-2.27-hwg5hotuah2tnoisau6smalgew7ckmnb/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/mpfr-3.1.4-pmahifjapbfxmgqibng5uj5jpzvpzlaj/lib -static-libstdc++ -static-libgcc' '--with-boot-ldflags=-Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gcc-4.8.5-ccusns5lwdiqigdb3fh64qk7kjowgjp5/lib64 -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/gmp-6.1.1-jgkljtfxwn43ihlwpupnnm2ubc73x2t2/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/mpc-1.0.3-yff53nnt4ci2z7ps5islaogkieagdzaw/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/binutils-2.27-hwg5hotuah2tnoisau6smalgew7ckmnb/lib -Wl,-rpath,/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/mpfr-3.1.4-pmahifjapbfxmgqibng5uj5jpzvpzlaj/lib -static-libstdc++ -static-libgcc' '--with-gnu-ld' '--with-ld=/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/binutils-2.27-hwg5hotuah2tnoisau6smalgew7ckmnb/bin/ld' '--with-gnu-as' '--with-as=/home/nalu/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/binutils-2.27-hwg5hotuah2tnoisau6smalgew7ckmnb/bin/as'\r\n```\r\nand then running `make` works.\r\n\r\nThe container's compiler is gcc-6.2.1. As an extra reference, I tried to workaround by first building gcc@5.1.0 (which worked) and then using that downgraded version to build gcc@4.8.5. However, it still failed with the same error.",
+    "user": "aprokop",
+    "url": "https://api.github.com/repos/spack/spack/issues/2301",
+    "updated_at": "2016-11-22 15:48:10",
+    "created_at": "2016-11-11 02:04:16",
+    "closed_at": "2016-11-22 15:48:10",
+    "state": "closed",
+    "title": "Spack fails to compile an older version of gcc inside a container",
+    "number": 2301,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "new-package"
+    ],
+    "id": 188667907,
+    "html_url": "https://github.com/spack/spack/issues/2301",
+    "assignees": [],
+    "comments": 6
+}

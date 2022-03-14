@@ -1,0 +1,23 @@
+{
+    "body": "This PR is meant to move code with \"business logic\" from `spack.cmd.buildcache` to appropriate core modules[^1]. \r\n\r\nModifications:\r\n- [x] Add `spack.binary_distribution.push` to create a binary package from a spec and push it to a mirror\r\n- [x] Add `spack.binary_distribution.install_root_node` to install only the root node of a concrete spec from a buildcache (may check the sha256 sum if it is passed in as input)\r\n- [x] Add `spack.binary_distribution.install_single_spec` to install a single concrete spec from a buildcache\r\n- [x] Add `spack.binary_distribution.download_single_spec` to download a single concrete spec from a buildcache to a local destination\r\n- [x] Add `Spec.from_specfile` that construct a spec given the path of a JSON or YAML spec file\r\n- [x] Removed logic from `spack.cmd.buildcache`\r\n- [x] Removed calls to `spack.cmd.buildcache` in `spack.bootstrap`\r\n- [x] Deprecate `spack buildcache copy` with a message that says it will be removed in v0.19.0\r\n\r\n[^1]: The rationale is that commands should be lightweight wrappers of the core API, since that helps with both testing and scripting (easier mocking and no need to invoke `SpackCommand`s in a script). It's the first of a series of PRs I plan to submit to consolidate code that deals with binary packaging and extend its functionality.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/27776",
+    "updated_at": "2021-12-10 09:25:20",
+    "created_at": "2021-12-03 14:26:24",
+    "closed_at": "2021-12-10 09:23:14",
+    "state": "closed",
+    "title": "Refactor \"spack buildcache\" command",
+    "number": 27776,
+    "milestone": null,
+    "labels": [
+        "refactoring",
+        "tests",
+        "commands",
+        "binary-packages",
+        "maintainers"
+    ],
+    "id": 1070645300,
+    "html_url": "https://github.com/spack/spack/pull/27776",
+    "assignees": [],
+    "comments": 10
+}

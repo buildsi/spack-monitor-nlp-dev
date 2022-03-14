@@ -1,0 +1,23 @@
+{
+    "body": "If an environment yaml initialization file contains a `compilers` section, and one of the compilers in that section contains an `environment` section as described in https://spack-tutorial.readthedocs.io/en/latest/tutorial_configuration.html#advanced-compiler-configuration, then when trying to create a new environment from that file, it fails with `Error: test.yaml: Additional properties are not allowed ('...' was not expected)`\r\n\r\nThis issue appears starting with b9629c3 (the previous commit does not have this problem).\r\n\r\n### Steps to reproduce the issue\r\n\r\nCreate a `test.yaml` which looks like:\r\n\r\n```console\r\nspack:\r\n  compilers:\r\n  - compiler:\r\n      environment:\r\n        prepend-path:\r\n          PATH: /a/test/path\r\n      ... (you can copy any other compiler definition from your compilers.yaml for this)\r\n```\r\n\r\nThen run `spack env create testenv1 test.yaml`\r\n\r\nIt then fails with \r\n\r\n`Error: test.yaml: Additional properties are not allowed ('prepend-path' was not expected)`\r\n\r\n(this also happens if I choose `prepend_path` instead as described in https://spack.readthedocs.io/en/latest/configuration.html#environment-modifications)\r\n\r\n### Information on your system\r\n\r\nPlatform: Mac OS (this has also been observed on a Linux system)",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/14886",
+    "updated_at": "2020-02-11 18:55:54",
+    "created_at": "2020-02-11 02:57:26",
+    "closed_at": "2020-02-11 18:55:54",
+    "state": "closed",
+    "title": "Cannot set env variables in Environment initialization file",
+    "number": 14886,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "unreproducible",
+        "impact-low"
+    ],
+    "id": 562948116,
+    "html_url": "https://github.com/spack/spack/issues/14886",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

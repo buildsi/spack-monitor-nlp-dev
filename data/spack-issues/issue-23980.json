@@ -1,0 +1,24 @@
+{
+    "body": "Previously, we were setting `TCLLIBPATH` to `prefix/lib/tcl8.6`. With this PR, we are now setting `TCLLIBPATH` to `prefix/lib`. As far as I can tell from reading https://wiki.tcl-lang.org/page/TCLLIBPATH, this is the correct way to do things.\r\n\r\nWe are also now setting `(TCL|TK|TIX)_LIBRARY` correctly. Tix now builds for me.\r\n\r\nFixes #23780. The following commands successfully run:\r\n```console\r\n$ spack install python+tkinter\r\n$ spack load python+tkinter\r\n$ python -c 'import tkinter; tkinter._test()'\r\n```\r\n\r\n@skosukhin you can check Python if you want to but I think I have it thoroughly tested.\r\n\r\n@glennpj can you make sure this doesn't break R?\r\n\r\nWe DESPERATELY need an official maintainer for the Tcl/Tk packages, as evidenced by the dozens of comments in the package from lessons hard learned. Pinging some people who have contributed to our Tcl/Tk recipes in the past:\r\n@nazavode @zzzoom @xdelaruelle @gardner48 @lee218llnl @sknigh @citibeth @erimar77 @mjwoods @michaelkuhn \r\n\r\nAlso see:\r\n\r\n* https://core.tcl-lang.org/tk/tktview/447bd3e4abe17452d19a80e6840dcc8a2603fcbc\r\n* https://bugs.python.org/issue44253",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/23980",
+    "updated_at": "2021-06-08 17:45:05",
+    "created_at": "2021-05-28 02:28:40",
+    "closed_at": "2021-06-08 17:45:04",
+    "state": "closed",
+    "title": "Python: fix +tkinter+tix support",
+    "number": 23980,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "stand-alone-tests",
+        "run-environment",
+        "tcl"
+    ],
+    "id": 904563076,
+    "html_url": "https://github.com/spack/spack/pull/23980",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 21
+}

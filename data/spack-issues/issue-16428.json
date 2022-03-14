@@ -1,0 +1,20 @@
+{
+    "body": "`MPICH` will silently disable hydra if it is configured to use `PMIx` leading to the `+hydra` and `~hydra` builds being the same in this context. Moreover, Hydra itself does not support `PMIx`. \r\n\r\nReference : https://lists.mpich.org/pipermail/discuss/2019-December/005841.html\r\n\r\nFor confirmation of the missing hydra libraries with a `pmi=pmix +hydra` build on develop : \r\n```\r\n[sas4990@quser10 ~]$ spack find -lv mpich target=ivybridge %gcc@9.3.0\r\n==> 2 installed packages\r\n-- linux-rhel7-ivybridge / gcc@9.3.0 ----------------------------\r\nbt2izlg mpich@develop device=ch4 ~hydra+libxml2 netmod=ucx +pci pmi=pmix +romio+slurm~verbs+wrapperrpath\r\n2votpqi mpich@develop device=ch4 +hydra+libxml2 netmod=ucx +pci pmi=pmix +romio+slurm~verbs+wrapperrpath\r\n[sas4990@quser10 ~]$ ls $(spack location -i /bt2)/bin\r\nmpic++@  mpicc*  mpichversion*  mpicxx*  mpif77@  mpif90@  mpifort*  mpivars*  parkill*\r\n[sas4990@quser10 ~]$ ls $(spack location -i /2vo)/bin\r\nmpic++@  mpicc*  mpichversion*  mpicxx*  mpif77@  mpif90@  mpifort*  mpivars*  parkill*\r\n[sas4990@quser10 ~]$\r\n```\r\nIf one sets `pmi=pmi2+hydra`, things work as expected : \r\n```\r\n[sas4990@quser10 ~]$ spack find -lv mpich pmi=pmi2 %gcc@9.3.0\r\n==> 1 installed package\r\n-- linux-rhel7-haswell / gcc@9.3.0 ------------------------------\r\napq5h2h mpich@3.3.2 device=ch4 +hydra+libxml2 netmod=ucx +pci pmi=pmi2 +romio+slurm~verbs+wrapperrpath\r\n[sas4990@quser10 ~]$ ls $(spack location -i /apq)/bin\r\nhydra_nameserver*  hydra_pmi_proxy*  mpicc*         mpicxx*   mpiexec.hydra*  mpif90@   mpirun@   parkill*\r\nhydra_persist*     mpic++@           mpichversion*  mpiexec@  mpif77@         mpifort*  mpivars*\r\n[sas4990@quser10 ~]$\r\n``` ",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/16428",
+    "updated_at": "2020-06-24 15:24:02",
+    "created_at": "2020-05-01 23:11:02",
+    "closed_at": "2020-05-02 01:51:55",
+    "state": "closed",
+    "title": "add hydra/pmix conflict to mpich",
+    "number": 16428,
+    "milestone": null,
+    "labels": [
+        "mpi",
+        "conflicts"
+    ],
+    "id": 611029470,
+    "html_url": "https://github.com/spack/spack/pull/16428",
+    "assignees": [],
+    "comments": 0
+}

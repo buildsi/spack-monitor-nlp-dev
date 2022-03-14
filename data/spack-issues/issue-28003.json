@@ -1,0 +1,20 @@
+{
+    "body": "NOTE: To clarify, this PR does not affect which versions of Python can be used to _run_ Spack. Spack will continue to support Python 2.7 and 3.5-3.6 for the foreseeable future. This PR only affects which versions of Python Spack can _install_.\r\n\r\n### Contents\r\n\r\nThis PR deprecates versions of Python that have reached [end-of-life](https://endoflife.date/python). It also deprecates versions of other packages that require deprecated versions of Python. This is in the hopes that maintainers of those packages get pinged on this PR and offer feedback. This PR does not deprecate versions of packages that optionally require deprecated versions of Python (if I could deprecate a specific version/variant combo I would). This PR also does not deprecate versions of packages that rely on deprecated versions of package. I'm hoping that maintainers of those packages will notice this once it is merged. Once these versions are deprecated and a 0.18.0 release comes out, these versions/packages can be removed.\r\n\r\n### Rationale\r\n\r\nPython 2 has been unsupported for almost 2 years, and many of the Spack packages that rely on Python 2 either don't concretize, can't be downloaded, or haven't had a new release in over 10 years. When working on large PRs like #27798, it becomes exceedingly difficult to maintain support for Python 2 and test it properly. If any of these packages/versions are present in a DAG/environment, Spack will install an unsupported version of Python without warning. I don't believe this is safe behavior, and we should work towards deprecating/removing unsupported Python versions.\r\n\r\n### Discussion\r\n\r\nFor anyone who has stumbled upon this PR or was automatically pinged, I would welcome feedback on this PR. This PR is not a hard requirement but a request. For anyone who absolutely needs Python 2 or 3.5-3.6 support, I'm willing to keep it, but I would ask that you add yourself as a maintainer for the Python package so that you can help review PRs like #27798. Also, for any of the packages where all versions have been deprecated, if you are aware of a newer release that adds Python 3 support, let me know and I can add it to the package. Otherwise, packages that only support Python 2 will be removed after the next release.\r\n\r\nCloses #28022",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28003",
+    "updated_at": "2022-01-14 02:14:49",
+    "created_at": "2021-12-14 18:01:01",
+    "closed_at": "2022-01-10 21:45:35",
+    "state": "closed",
+    "title": "Deprecate Python 2 installations",
+    "number": 28003,
+    "milestone": null,
+    "labels": [
+        "python2",
+        "deprecation"
+    ],
+    "id": 1080058680,
+    "html_url": "https://github.com/spack/spack/pull/28003",
+    "assignees": [],
+    "comments": 25
+}

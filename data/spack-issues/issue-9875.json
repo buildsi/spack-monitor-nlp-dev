@@ -1,0 +1,19 @@
+{
+    "body": "Trying to run `spack find -L` inside a non-empty environment (e.g.: with at least one root spec) triggers an error.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env create test\r\n==> Created environment 'test' in /Users/fmontag/Documents/Hacking/spack/var/spack/environments/test\r\n$ spack env activate test\r\n$ spack find -L\r\n==> In environment test\r\n==> No root specs\r\n\r\n==> 0 installed packages\r\n$ spack add zlib\r\n==> Adding zlib to environment test\r\n$ spack find\r\n==> In environment test\r\n==> Root specs\r\nzlib\r\n\r\n==> 0 installed packages\r\n$ spack find -L\r\n==> In environment test\r\n==> Root specs\r\n==> Error: can't multiply sequence by non-int of type 'NoneType'\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack --debug find -L\r\n==> Reading config file /Users/fmontag/Documents/Hacking/spack/etc/spack/defaults/modules.yaml\r\n==> Reading config file /Users/fmontag/Documents/Hacking/spack/etc/spack/defaults/darwin/modules.yaml\r\n==> Reading config file /Users/fmontag/Documents/Hacking/spack/var/spack/environments/test/spack.yaml\r\n==> Reading config file /Users/fmontag/Documents/Hacking/spack/etc/spack/defaults/config.yaml\r\n==> Reading config file /Users/fmontag/.spack/config.yaml\r\n==> DATABASE LOCK TIMEOUT: 120s\r\n==> PACKAGE LOCK TIMEOUT: No timeout\r\n==> READ LOCK: /Users/fmontag/Documents/Hacking/spack/opt/spack/.spack-db/lock[0:0] [Acquiring]\r\n==> READ LOCK: /Users/fmontag/Documents/Hacking/spack/opt/spack/.spack-db/lock[0:0] [Acquired]\r\n==> READ LOCK: /Users/fmontag/Documents/Hacking/spack/opt/spack/.spack-db/lock[0:0] [Released]\r\n==> In environment test\r\n==> Root specs\r\nTraceback (most recent call last):\r\n  File \"/Users/fmontag/Documents/Hacking/spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/spack/main.py\", line 669, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/spack/main.py\", line 440, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/spack/cmd/find.py\", line 180, in find\r\n    decorator=lambda s, f: color.colorize('@*{%s}' % f))\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/spack/cmd/__init__.py\", line 317, in display_specs\r\n    colify((fmt(s) for s in specs), indent=indent)\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/llnl/util/tty/colify.py\", line 140, in colify\r\n    elts = [text_type(elt) for elt in elts]\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/spack/cmd/__init__.py\", line 317, in <genexpr>\r\n    colify((fmt(s) for s in specs), indent=indent)\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/spack/cmd/__init__.py\", line 310, in fmt\r\n    string += gray_hash(s, hlen) + ' '\r\n  File \"/Users/fmontag/Documents/Hacking/spack/lib/spack/spack/cmd/__init__.py\", line 178, in gray_hash\r\n    h = spec.dag_hash(length) if spec.concrete else '-' * length\r\nTypeError: can't multiply sequence by non-int of type 'NoneType'\r\n```\r\n\r\n### Information on your system\r\n\r\n 1. macOSX 10.13\r\n 2. using a fresh clone of spack @ `26e51ff17`\r\n",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/9875",
+    "updated_at": "2019-12-06 20:29:58",
+    "created_at": "2018-11-17 13:53:16",
+    "closed_at": "2019-12-06 20:29:58",
+    "state": "closed",
+    "title": "spack find -L in non-empty environment fails",
+    "number": 9875,
+    "milestone": null,
+    "labels": [
+        "environments"
+    ],
+    "id": 381865124,
+    "html_url": "https://github.com/spack/spack/issues/9875",
+    "assignees": [],
+    "comments": 1
+}

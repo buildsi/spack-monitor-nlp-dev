@@ -1,0 +1,21 @@
+{
+    "body": "fixes #9619\r\nfixes #9206\r\n\r\ncloses #9702 (alternative solution to the same issue)\r\ncloses #9261 (alternative solution to the same issue)\r\n\r\n`ruamel.yaml` generates a `.pth` file when installed via pip that has the effect of always preferring the version of this package installed at site scope (effectively preventing us from vendoring it).\r\n\r\nThis mechanism triggers when implicitly importing the `site` module when the python interpreter is started. In this PR we explicitly delete references to `ruamel.yaml` and `ruamel` in `sys.modules`, if any, after we set `sys.path` to search from the directory where we store vendored packages. This ensures that the imports after those statements will be done from our vendored version.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9725",
+    "updated_at": "2018-11-08 21:13:55",
+    "created_at": "2018-11-05 08:11:47",
+    "closed_at": "2018-11-07 00:06:20",
+    "state": "closed",
+    "title": "Delete references to ruamel.yaml at Spack start-up, if they are present",
+    "number": 9725,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "broken-develop",
+        "hotfix"
+    ],
+    "id": 377290053,
+    "html_url": "https://github.com/spack/spack/pull/9725",
+    "assignees": [],
+    "comments": 5
+}

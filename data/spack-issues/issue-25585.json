@@ -1,0 +1,20 @@
+{
+    "body": "This PR reworks version facts so that:\r\n1. All the information on versions is collected before emitting the facts\r\n2. The same kind of atom is emitted for versions stemming from different origins (`package.py` vs. `packages.yaml`)\r\n\r\nIn the end all the possible versions for a given package have a total order and they are given different and increasing weights starting from zero. This refactor allows us to avoid using negative weights, which in some configurations might make parent node score \"better\" and lead to unexpected \"optimal\" results.\r\n\r\nThe facts emitted for versions look like:\r\n```\r\n%----------------------------------------------------------------------------\r\n% Package rules: zlib\r\n%----------------------------------------------------------------------------\r\nversion_declared(\"zlib\",\"1.2.13\",0,\"external\").\r\nversion_declared(\"zlib\",\"1.2.11\",1,\"external\").\r\nversion_declared(\"zlib\",\"1.2.5\",2,\"packages_yaml\").\r\nversion_declared(\"zlib\",\"1.2.6\",3,\"packages_yaml\").\r\nversion_declared(\"zlib\",\"1.2.0\",4,\"packages_yaml\").\r\nversion_declared(\"zlib\",\"1.2.11\",5,\"package_py\").\r\nversion_declared(\"zlib\",\"1.2.8\",6,\"package_py\").\r\nversion_declared(\"zlib\",\"1.2.3\",7,\"package_py\").\r\n...\r\n```\r\nfor the following `packages.yaml`:\r\n```yaml\r\npackages:\r\n  zlib:\r\n    version: ['1.2.5', '1.2.6', '1.2.0']\r\n    externals:\r\n    - spec: zlib@1.2.11\r\n      prefix: /usr\r\n    - spec: zlib@1.2.13\r\n      prefix: /usr\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/25585",
+    "updated_at": "2021-08-24 16:42:49",
+    "created_at": "2021-08-24 14:49:21",
+    "closed_at": "2021-08-24 16:24:18",
+    "state": "closed",
+    "title": "ASP-based solver: rework version facts",
+    "number": 25585,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "bugfix"
+    ],
+    "id": 978184177,
+    "html_url": "https://github.com/spack/spack/pull/25585",
+    "assignees": [],
+    "comments": 0
+}

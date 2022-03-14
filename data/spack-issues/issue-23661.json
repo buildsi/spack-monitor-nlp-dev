@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #19871.\r\n\r\nSpack doesn't require users to manually index their repos; it reindexes the indexes automatically when things change. To determine when to do this, it has to `stat()` all package files in each repository to make sure that indexes up to date with packages. We currently index virtual providers, patches by sha256, and tags on packages.\r\n\r\nWhen this was originally implemented, we ran the checker all the time, at startup, but that was slow (see #7587). But we didn't go far enough -- it still consults the checker and does all the stat operations just to see if a package exists (`Repo.exists()`).  That might've been a wash in 2018, but as the number of packages has grown, it's gotten slower -- checking 5k packages is expensive and users see this for small operations.  It's a win now to make `Repo.exists()` check files directly.\r\n\r\n**Fix:**\r\n\r\nThis PR does a number of things to speed up `spack load`, `spack info`, and other commands:\r\n\r\n- [x] Make `Repo.exists()` check files directly again with `os.path.exists()` (this is the big one)\r\n- [x] Refactor `Spec.satisfies()` so that a checking for virtual packages only happens if needed\r\n      (avoids some calls to exists())\r\n- [x] Avoid calling `Repo.exists(spec)` in `Repo.get()`. `Repo.get()` will ultimately try to load\r\n      a `package.py` file anyway; we can let the failure to load it indicate that the package doesn't\r\n      exist, and avoid another call to exists().\r\n- [x] Fix up some comments in spec parsing\r\n- [x] Call `UnknownPackageError` more consistently in `repo.py`\r\n\r\nI am not sure yet whether this last change will make some operations slower.  Comments would be appreciated if it does.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/23661",
+    "updated_at": "2021-05-17 18:20:49",
+    "created_at": "2021-05-15 23:50:27",
+    "closed_at": "2021-05-17 08:20:18",
+    "state": "closed",
+    "title": "performance: speed up existence checks in packages",
+    "number": 23661,
+    "milestone": null,
+    "labels": [
+        "performance",
+        "commands",
+        "run-environment"
+    ],
+    "id": 892560882,
+    "html_url": "https://github.com/spack/spack/pull/23661",
+    "assignees": [],
+    "comments": 24
+}

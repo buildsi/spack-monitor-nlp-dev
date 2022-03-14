@@ -1,0 +1,21 @@
+{
+    "body": "This provides some updates to the `spack pkg` command.  This command has been around for a while, though it is [only documented here](https://spack.readthedocs.io/en/latest/command_index.html#spack-pkg).  It'll tell you what packages were present in particular revisions of Spack, e.g.:\r\n\r\n```console\r\n$ spack pkg list v0.10.0 | wc -l\r\n1114\r\n$ spack pkg list v0.11.0 | wc -l\r\n2177\r\n$ spack pkg list v0.12.1 | wc -l\r\n2907\r\n```\r\n\r\nIt can diff two revisions, e.g.:\r\n\r\n```console\r\n$ spack pkg diff HEAD~150 \r\nHEAD~150:\r\n    openfoam-com\r\n\r\nHEAD:\r\n    dimemas       llvm-openmp  powerapi                   py-mlxtend       py-pyke      r-grbase     r-spatialreg\r\n    jube          nim          py-antlr4-python3-runtime  py-mo-pack       py-pyugrid   r-gwmodel    r-spdata\r\n    libmo-unpack  openfoam     py-cf-units                py-nc-time-axis  py-stratify  r-spacetime  umap\r\n```\r\n\r\nThis PR adds the `spack pkg changed` command, which will tell you which packages have *changed* from one commit to another, e.g.:\r\n\r\n```console\r\n$ spack pkg changed  HEAD~40\r\nbmi           cmake      hpcviewer  kim-api  libjpeg-turbo  llvm-openmp-ompt  openkim-models  prrte     py-scikit-learn\r\ncharliecloud  font-util  ibm-java   leveldb  libxpm         ompt-openmp       pmix            py-numpy\r\n```\r\nYou can also ask for added, removed, and changed packages all at once:\r\n\r\n```console\r\n$ spack pkg changed --type ARC HEAD~40\r\nbmi           font-util  kim-api        libxpm            ompt-openmp     prrte       py-scikit-learn\r\ncharliecloud  hpcviewer  leveldb        llvm-openmp       openkim-models  py-mlxtend\r\ncmake         ibm-java   libjpeg-turbo  llvm-openmp-ompt  pmix            py-numpy\r\n```\r\n\r\nThe motivation here is really to support a GitHub action that adds any `maintainers` specified on the package as reviewers for changed packages in the PR.  You can get that with, e.g.:\r\n\r\n```console\r\n$ spack pkg changed develop...\r\n```\r\n\r\n- [x] Added `spack pkg changed` command\r\n- [x] Added tests for all `spack pkg` subcommands",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/12090",
+    "updated_at": "2019-07-25 00:42:04",
+    "created_at": "2019-07-23 00:11:01",
+    "closed_at": "2019-07-23 06:01:46",
+    "state": "closed",
+    "title": "Add `spack pkg changed` command",
+    "number": 12090,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "git",
+        "utilities"
+    ],
+    "id": 471414348,
+    "html_url": "https://github.com/spack/spack/pull/12090",
+    "assignees": [],
+    "comments": 5
+}

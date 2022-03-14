@@ -1,0 +1,19 @@
+{
+    "body": "I'm working to enable LLVM to self-host by default.  From what I can tell there are two primary steps to enabling this.\r\n\r\n1. Add additional steps to build LLVM+clang before the main build.\r\n2. Enable the use of the newly built compiler.\r\n\r\n### Description\r\n\r\nThe thought is to extend the phases of the LLVM Spackage to include `stage1-cmake, stage1-build1`.  Alternatively we could make a `llvm-stage1` Spackage that could be depended on or run the additional steps using `@run_before('cmake')`, but these solutions seem misleading for what we want to do.\r\n\r\nEnabling the newly built clang could be done by pointing directly to it with `-DCMAKE_C_COMPILER` , though this is bypassing Spack.  The other thought was to temporarily register the new compiler during the build.  I had the thought of having a `'temporary'` configuration scope, but  I'm not familiar enough with the Spack core to know if that is a reasonable/desirable solution.\r\n\r\nAny feedback on how best to address these steps or other issues that need to be handled would be appreciated!\r\n",
+    "user": "homerdin",
+    "url": "https://api.github.com/repos/spack/spack/issues/10804",
+    "updated_at": "2019-07-26 14:46:37",
+    "created_at": "2019-03-05 17:24:53",
+    "closed_at": "2019-07-26 14:46:37",
+    "state": "closed",
+    "title": "Self-host LLVM Build",
+    "number": 10804,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 417412194,
+    "html_url": "https://github.com/spack/spack/issues/10804",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "@adamjstewart updated expat to 2.2.2 yesterday.  One of the changes is \r\n\r\n> Protect against compilation without any source of high\r\n>        quality entropy enabled, e.g. with CMake build system;\r\n> from https://github.com/libexpat/libexpat/blob/R_2_2_2/expat/Changes\r\n\r\nHigh quality source of randomness appear to be the getrandom() call (linux 3.17+) the SYS_getrandom system call (linux 3.17+) or arc4random_buf (bsd or libbsd).\r\n\r\nI apparently have none of the above (CentOS 7 kernel running `3.10.0-327.36.3.el7.x86_64`).\r\n\r\nI'm not entirely sure what people in my situation (older kernels) are supposed to do.  \r\n\r\nOne solution might be to add a package for [libbsd](https://libbsd.freedesktop.org/wiki/).\r\n\r\nIt seems like [sjackman ran into the same problem](https://github.com/libexpat/libexpat/issues/88) with Ubuntu 14.04.  His solution was to depend on `libbsd`.\r\n\r\nAlternatively, we could add a variant that defines `XML_POOR_ENTROPY`.\r\n\r\nI'll look into `libbsd`.\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4943",
+    "updated_at": "2017-08-03 19:57:59",
+    "created_at": "2017-08-01 15:30:47",
+    "closed_at": "2017-08-03 19:57:59",
+    "state": "closed",
+    "title": "expat@2.2.2 fails to build w/out high quality source of randomness",
+    "number": 4943,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 247109626,
+    "html_url": "https://github.com/spack/spack/issues/4943",
+    "assignees": [],
+    "comments": 2
+}

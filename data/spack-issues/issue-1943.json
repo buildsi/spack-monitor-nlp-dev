@@ -1,0 +1,22 @@
+{
+    "body": "@davydden  A recent change broke py-scipy:\nhttps://github.com/LLNL/spack/commit/1e10309ff707a29fe91993d9a9b408182ffa77f1\n\nThis PR reverts (part of) that change by re-instating the symlinks to `libblas.so` and `liblapack.so`.\n\nIn hind sight... it looks like @davydden grepped for `depends_on('blas')` and `depends_on('lapack')` in making that change... and made sure that all those places worked.  `py-scipy` did not contain those `depends_on()` declarations, so no surprise it was missed (dependency is implict through `py-numpy`).\n\nThis seemed wrong, and is likely why it was missed by @davydden.  I added `depends_on('blas')` and `depends_on('lapack')`, although that change in and of itself does not fix the build (env['BLAS'], etc. were previously being set properly even without the `depends_on()` statments).\n\nIt's curious that `py-numpy` builds just fine but `py-scipy` seems to need the symlinks to `libblas.so` and `liblapack.so`.  :shrug:\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1943",
+    "updated_at": "2016-10-06 22:06:08",
+    "created_at": "2016-10-06 17:21:11",
+    "closed_at": "2016-10-06 22:06:08",
+    "state": "closed",
+    "title": "Revert change that broke py-scipy",
+    "number": 1943,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "blas-lapack-scalapack"
+    ],
+    "id": 181475645,
+    "html_url": "https://github.com/spack/spack/pull/1943",
+    "assignees": [
+        "davydden"
+    ],
+    "comments": 11
+}

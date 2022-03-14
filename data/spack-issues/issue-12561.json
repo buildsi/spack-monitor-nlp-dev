@@ -1,0 +1,19 @@
+{
+    "body": "This is maybe a cleaner approach to do the same thing as described in #11103.  It gets around some of the ambiguities there and allows any combination of clispecs and yaml paths, including depending on other specs by yaml path.\r\n\r\n## Notes on the approach:\r\n\r\nPaths to spec yaml files (files containing concreted specs) can come in three flavors:\r\n\r\n1. file in current directory (no relative path specifiers included e.g. `pkgconf.yaml`)\r\n2. relative path (e.g. `./pkgconf.yaml`, `../../Documents/pkgconf.yaml`, etc.)\r\n3. absolute path (`/home/me/pkgconf.yaml`, `/home/me/../me/pkgconf.yaml`, etc.)\r\n\r\n### Case 1 (relative path, current directory):\r\n  \r\nThis case collides with existing handling of namespaced specs.  Current examples like `builtin.yaml-cpp`, which need to keep working, provided some of the constraints we needed to handle.  To handle this case, we let the normal tokenization catch, e.g., `pkgconf.yaml` as an ID, which would normally be treated as a namespaced package, but now we first check if there is a file in the current directory with that name, and if that is the case, then we assume the user meant that rather than namespace `pkgconf` and package name `yaml`.\r\n\r\n### Case 2 (relative path starting with or containing \".\" and \"..\"):\r\n\r\nWe added the `DOTS` token to the lexer to notice any instances of `.` or `..` in the input.  These don't get confused with ID tokens because ID must start with a word character.  If we ever see this new token, we look ahead in the input to see if any token ends with '.yaml' and from there try to handle spec yaml path.  We allow `DOTS` to appear anywhere in the path, e.g. `../../some_directory/./pkgconf.yaml`\r\n\r\n### Case 3 (absolute paths starting with '/'):\r\n\r\nThis case collides with the existing parsing that sees `/` as the beginning of a package hash.  So the general approach we took here was to first try to treat anything after a `/` as a hash.  And only if that results in a `NoSuchHashError`, do we attempt to treat what comes next as possibly a path to a yaml file. \r\n\r\nCurrently, there were three cases where \"/<pkg-hash>\" could be expected to appear in cli input taking \"specs\":\r\n\r\n- Just referring to a root spec by hash\r\n- Some other spec depending on a spec by hash\r\n- Hash used to qualify previous spec in input (like a variant)\r\n\r\nIn all those cases, we allow spec parsing to first try to treat what comes after the '/' as a spec hash.  If the result is a `NoSuchHashError`, then we were about to bail anyway, telling the user about the bad hash.  So it seems safe to just peek ahead in the input at this point and see if what comes next could be interpreted as a path to a spec yaml file (it must end in .yaml).  If we don't find that, then we just go ahead and report the `NoSuchHashError`.  Otherwise we assume the user meant to provide a path to a yaml file, and proceed on that assumption.\r\n\r\nThe result of this is that we can now accept path to spec yaml files (but the file must be named with the .yaml extension) anywhere we could accept other types of cli specs on the command line.",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/12561",
+    "updated_at": "2019-09-18 02:45:53",
+    "created_at": "2019-08-23 22:36:58",
+    "closed_at": "2019-09-18 02:45:37",
+    "state": "closed",
+    "title": "Support yaml paths anywhere specs are handled on CLI",
+    "number": 12561,
+    "milestone": null,
+    "labels": [],
+    "id": 484737320,
+    "html_url": "https://github.com/spack/spack/pull/12561",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

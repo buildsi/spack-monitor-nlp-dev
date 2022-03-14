@@ -1,0 +1,19 @@
+{
+    "body": "```spack install subversion``` on Centos 7 produced this error\r\n\r\n``` bash\r\nconfig.status: executing svn_private_config.h.tmp commands\r\n==> 'make'\r\ncd subversion/libsvn_subr && /bin/sh \"/tmp/spack-stage/spack-stage-uEDL_Z/subversion-1.9.5/libtool\" --tag=CC --silent --mode=link spack/lib/spack/env/gcc/gcc  -g -O2  -g -O2 -pthread   -Lspack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/serf-1.3.8-hykdq2iyglzduqjliagtt3xurt7aliyf/lib     -rpath spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/subversion-1.9.5-su23sjmdgfw5kztzd6ly46djwmg4sc4n/lib -version-info 0 -Wl,--no-undefined -o libsvn_subr-1.la  adler32.lo atomic.lo auth.lo base64.lo bit_array.lo cache-inprocess.lo cache-membuffer.lo cache-memcache.lo cache.lo cache_config.lo checksum.lo cmdline.lo compat.lo compress.lo config.lo config_auth.lo config_file.lo config_win.lo crypto.lo ctype.lo date.lo debug.lo deprecated.lo dirent_uri.lo dso.lo eol.lo error.lo fnv1a.lo gpg_agent.lo hash.lo io.lo iter.lo lock.lo log.lo macos_keychain.lo magic.lo md5.lo mergeinfo.lo mutex.lo nls.lo object_pool.lo opt.lo packed_data.lo path.lo pool.lo prefix_string.lo prompt.lo properties.lo quoprint.lo root_pools.lo simple_providers.lo skel.lo sorts.lo spillbuf.lo sqlite.lo sqlite3wrapper.lo ssl_client_cert_providers.lo ssl_client_cert_pw_providers.lo ssl_server_trust_providers.lo stream.lo string.lo subst.lo sysinfo.lo target.lo temp_serializer.lo time.lo token.lo types.lo user.lo username_providers.lo utf.lo utf8proc.lo utf_validate.lo utf_width.lo validate.lo version.lo win32_crashrpt.lo win32_crypto.lo win32_xlate.lo x509info.lo x509parse.lo xml.lo -Lspack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/apr-util-1.5.4-frfa4hqtc6sxdog7u73l5ce4osbfw4ov/lib -laprutil-1 -Lspack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/apr-1.5.2-jjeu2n3zxjasxhytyn3yn4vgji37oqci/lib -lapr-1 -lexpat -Lspack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/zlib-1.2.11-yrijbmajetpxrkyaa4uclsyw62zbhc5m/lib -lz  -Lspack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/sqlite-3.8.5-mzsollqygzja7txlau5xo5lzodmewnv7/lib -lsqlite3\r\n.libs/xml.o: In function `expat_entity_declaration':\r\n/tmp/spack-stage/spack-stage-uEDL_Z/subversion-1.9.5/subversion/libsvn_subr/xml.c:386: undefined reference to `XML_StopParser'\r\ncollect2: error: ld returned 1 exit status\r\nmake: *** [subversion/libsvn_subr/libsvn_subr-1.la] Error 1\r\n```\r\n\r\nSubversion fails because its build system does not check that apr-utils was compiled with expat\r\n\r\nAdding the following to apr-util fixed the subversion build\r\n``` bash \r\ndepends_on('expat')\r\n\r\n```\r\n\r\n``` bash\r\noptions.append('--with-expat=%s' % spec['expat'].prefix)\r\n```",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/3826",
+    "updated_at": "2017-04-18 11:57:50",
+    "created_at": "2017-04-13 17:39:41",
+    "closed_at": "2017-04-18 11:57:50",
+    "state": "closed",
+    "title": "subversion build error",
+    "number": 3826,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 221633267,
+    "html_url": "https://github.com/spack/spack/issues/3826",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I am currently using the following \"modules.yaml\" for creation of lmod modules:\r\n\r\n```\r\nmodules:\r\n  enable:\r\n    - lmod\r\n    - tcl\r\n  lmod:\r\n    hash_length: 0\r\n    core_copmilers: ['gcc@4.8.5']\r\n    all:\r\n      environment:\r\n        set:\r\n          '${PACKAGE}_ROOT': '${PREFIX}'\r\n  prefix_inspections:\r\n    bin:\r\n      - PATH\r\n    man:\r\n      - MANPATH\r\n    share/man:\r\n      - MANPATH\r\n    share/aclocal:\r\n      - ACLOCAL_PATH\r\n    lib:\r\n      - LIBRARY_PATH\r\n      - LD_LIBRARY_PATH\r\n    lib64:\r\n      - LIBRARY_PATH\r\n      - LD_LIBRARY_PATH\r\n    include:\r\n      - CPATH\r\n    lib/pkgconfig:\r\n      - PKG_CONFIG_PATH\r\n    lib64/pkgconfig:\r\n      - PKG_CONFIG_PATH\r\n    '':\r\n      - CMAKE_PREFIX_PATH\r\n```\r\nThis way I have added a variable ${PACKAGE}_ROOT to the standard template.\r\n\r\nNow I would like to ask if also other things different from environment variables can be added to the template (for instance comment lines) ? I would like to add additional tags (in the form of comments) to module files, which I can afterwards parse with some scripts. To give an example, I would like to add a tag \"category\" to classify software. The Matlab or R modules would then contain a tag\r\n\r\n-- #category: mathematics\r\n\r\nThis would allow me to parse the module files and create some documentation for our wiki (for instance to show what version of a software are available on the cluster). My final goal is, that after installing an new application or library I would just run a script and the wiki would be automatically updated.\r\n\r\nIn combination with the Semantic MediaWiki package, these additional tags would allow me to create sublists of all installed software (like a list of all CFD packages, or all chemistry packages)\r\n\r\nI have the scripts and the setup on the wiki in place already, but now I would like to use spack to automatically add the tags to the module files, when they are created.",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/7821",
+    "updated_at": "2018-04-23 11:23:46",
+    "created_at": "2018-04-19 07:04:00",
+    "closed_at": "2018-04-23 11:23:46",
+    "state": "closed",
+    "title": "Is it possible to extend the module template with comment lines ?",
+    "number": 7821,
+    "milestone": null,
+    "labels": [
+        "question",
+        "modules"
+    ],
+    "id": 315751336,
+    "html_url": "https://github.com/spack/spack/issues/7821",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

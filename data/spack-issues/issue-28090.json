@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\nDefine `MACOSX_DEPLOYMENT_TARGET` in the build environment on Darwin platforms based on the target OS (e.g. `bigsur`).\r\n\r\n### Rationale\r\n\r\nThe `MACOSX_DEPLOYMENT_TARGET` environment variable provides a default `-mmacosx-version-min` argument for GCC and Clang compilers, as well as the default value of `CMAKE_OSX_DEPLOYMENT_TARGET` for CMake-based build systems. The default value for the deployment target is usually the major version (11, 10.16, ...) for CMake and Clang, but some versions of GCC specify a minor component as well (11.3), leading to numerous link warnings about inconsistent or incompatible target versions. Setting the environment variable ensures consistent versions for an install toolchain target, even when the host macOS version changes.\r\n\r\n### Description\r\n\r\nAdd a `setup_platform_environment` to `spack/platforms/darwin.py` that sets the variable based on \r\n\r\n### Additional information\r\n\r\n- Error caused by user environment's deployment version: #28014 \r\n- Possibly related issue due to toolchain version and build environment variables: #26290\r\n- Example of confusing warnings caused due to inconsistent gcc/clang treatment of min-macos-version: #21644\r\n- Fallout from the GCC linker target in py-scipy: #20367\r\n\r\n```\r\nld: warning: dylib (../libgfortran.dylib) was built for newer macOS version (11.1) than being linked (11.0)\r\n```\r\n\r\n```console\r\n$ spack --version\r\n0.17.0-588-1a576e732e\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/28090",
+    "updated_at": "2022-02-14 16:42:20",
+    "created_at": "2021-12-20 14:32:07",
+    "closed_at": "2022-02-10 23:22:30",
+    "state": "closed",
+    "title": "Add MACOSX_DEPLOYMENT_TARGET on Darwin",
+    "number": 28090,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1084859619,
+    "html_url": "https://github.com/spack/spack/issues/28090",
+    "assignees": [],
+    "comments": 9
+}

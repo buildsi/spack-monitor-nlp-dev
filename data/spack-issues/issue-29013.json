@@ -1,0 +1,20 @@
+{
+    "body": "fixes #28260\r\n\r\nSince we iterate over variants from different packages, the variant values may have types which are not comparable, which causes errors at runtime. This is not a *real* issue though, since we don't need the facts to be ordered. Thus, to avoid needless sorting, the sorted function has been removed and a comment has been added to tip any developer that might need to inspect these clauses for debugging to add back sorting on the first two items only.\r\n\r\nIt's kind of difficult to add a test for this, since it depends on whether Python sorting algorithm ever needs to compare the third value of a tuple being ordered.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/29013",
+    "updated_at": "2022-02-17 14:38:40",
+    "created_at": "2022-02-16 16:44:35",
+    "closed_at": "2022-02-17 07:50:50",
+    "state": "closed",
+    "title": "ASP-based solver: don't sort when defining variant possible values",
+    "number": 29013,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "bugfix"
+    ],
+    "id": 1140297401,
+    "html_url": "https://github.com/spack/spack/pull/29013",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nOn my latest macOS reinstall, ROOT fails to build because its vendored `afterimage` dependency includes a vendored `libungif` dependency which apparently requires x11, even if x11 is disabled at the ROOT level. Adding an always-on `libx11` dependency doesn't seem to fix it. :(\r\n\r\n```console\r\n$ spack install root ~aqua ~davix ~examples ~opengl ~x ~tbb ~rootfit ~math ~gsl cxxstd=14\r\n```\r\n\r\nFrom the ROOT cmake step:\r\n```\r\n-- Enabled support for:  builtin_afterimage builtin_clang builtin_cling builtin_llvm dataframe exceptions gdml libcxx minuit2 pyroot roofit rpath shared soversion unuran vdt xml\r\n```\r\n\r\nBuild error:\r\n```\r\nCMake Error at /private/var/folders/gy/mrg1ffts2h945qj9k29s1l1dvvmbqb/T/s3j/spack-stage/spack-stage-root-6.24.00-4kle6fzd3mi546sbzli5vwbsi3u7rmhc/spack-build-4kle6fz/AFTERIMAGE-prefix/src/AFTERIMAGE-stamp/AFTERIMAGE-build-RelWithDebInfo.cmake:49 (message):\r\n  Command failed: 2\r\n\r\n   '/Applications/Xcode.app/Contents/Developer/usr/bin/make'\r\n\r\n  See also\r\n\r\n    /private/var/folders/gy/mrg1ffts2h945qj9k29s1l1dvvmbqb/T/s3j/spack-stage/spack-stage-root-6.24.00-4kle6fzd3mi546sbzli5vwbsi3u7rmhc/spack-build-4kle6fz/AFTERIMAGE-prefix/src/AFTERIMAGE-stamp/AFTERIMAGE-build-*.log\r\n\r\n\r\nmake[2]: *** [AFTERIMAGE-prefix/src/AFTERIMAGE-stamp/AFTERIMAGE-build] Error 1\r\nmake[1]: *** [CMakeFiles/AFTERIMAGE.dir/all] Error 2\r\nmake[1]: *** Waiting for unfinished jobs....\r\n```\r\nand in the log file that it points to:\r\n```\r\nIn file included from libungif/dgif_lib.c:37:\r\nIn file included from libungif/gif_lib_private.h:5:\r\nIn file included from libungif/gif_hash.h:24:\r\nIn file included from libungif/../afterbase.h:36:\r\nIn file included from libungif/../asim_afterbase.h:23:\r\nlibungif/../xwrap.h:5:11: fatal error: 'X11/Xlib.h' file not found\r\n# include <X11/Xlib.h>\r\n          ^~~~~~~~~~~~\r\n1 error generated.\r\nmake[3]: *** [libungif/dgif_lib.o] Error 1\r\n```\r\n\r\n### Information on your system\r\n\r\n$ spack debug report\r\n* **Spack:** 0.16.2-2855-35f7959f54\r\n* **Python:** 3.8.5\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** clingo\r\n* \r\n### Additional information\r\n\r\n- [spack-build-env.txt](https://github.com/spack/spack/files/6555335/spack-build-env.txt)\r\n- [spack-build-out.txt](https://github.com/spack/spack/files/6555339/spack-build-out.txt)\r\n- [spack-build-01-cmake-out.txt](https://github.com/spack/spack/files/6555340/spack-build-01-cmake-out.txt)\r\n- [spack-build-02-build-out.txt](https://github.com/spack/spack/files/6555341/spack-build-02-build-out.txt)\r\n- [AFTERIMAGE-build-err.log](https://github.com/spack/spack/files/6555342/AFTERIMAGE-build-err.log)\r\n- [AFTERIMAGE-build-out.log](https://github.com/spack/spack/files/6555343/AFTERIMAGE-build-out.log)\r\n\r\n@HadrienG2 @chissg @drbenmorgan  @vvolkl\r\n\r\n### General information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/23958",
+    "updated_at": "2021-05-28 14:48:07",
+    "created_at": "2021-05-27 16:04:15",
+    "closed_at": "2021-05-28 14:48:07",
+    "state": "closed",
+    "title": "Installation issue: ROOT makes me sad",
+    "number": 23958,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "X11",
+        "vendored-dependencies",
+        "hep"
+    ],
+    "id": 903945307,
+    "html_url": "https://github.com/spack/spack/issues/23958",
+    "assignees": [],
+    "comments": 0
+}

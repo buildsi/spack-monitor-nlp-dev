@@ -1,0 +1,19 @@
+{
+    "body": "I'm trying to add a package for something that depends on flex, but it's generating the following error message:\n\n```\nconfigure:10912: checking for flex\nconfigure:10928: found /home/ajstewart/spack/opt/spack/linux-fedora24-x86_64/gcc-6.1.1/flex-2.6.0-w6wseh5ilzsol36gf4bwo645u3ovounz/bin/flex\nconfigure:10939: result: flex\nconfigure:10977: flex conftest.l\nflex: fatal internal error, exec of /home/ajstewart/spack/opt/spack/linux-fedora24-x86_64/gcc-6.1.1/m4-1.4.17-wrmoocrr55qzqy2es3hjsubmk54hwcn5/bin/m4 failed\nflex: error writing output file lex.yy.c\n```\n\nWhen I checked, I noticed the flex library has some undefined symbols:\n\n```\n$ ldd -r /home/ajstewart/spack/opt/spack/linux-fedora24-x86_64/gcc-6.1.1/flex-2.6.0-w6wseh5ilzsol36gf4bwo645u3ovounz/lib/libfl.so\n    linux-vdso.so.1 (0x00007ffd5375a000)\n    libm.so.6 => /lib64/libm.so.6 (0x00007fe038f38000)\n    libc.so.6 => /lib64/libc.so.6 (0x00007fe038b76000)\n    /lib64/ld-linux-x86-64.so.2 (0x0000560ace3e8000)\nundefined symbol: yylex (/home/ajstewart/spack/opt/spack/linux-fedora24-x86_64/gcc-6.1.1/flex-2.6.0-w6wseh5ilzsol36gf4bwo645u3ovounz/lib/libfl.so)\n```\n\nDoes anyone know how to solve this?\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1864",
+    "updated_at": "2017-01-10 19:15:55",
+    "created_at": "2016-09-27 16:47:09",
+    "closed_at": "2017-01-10 19:15:48",
+    "state": "closed",
+    "title": "Undefined symbols from flex",
+    "number": 1864,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 179549038,
+    "html_url": "https://github.com/spack/spack/issues/1864",
+    "assignees": [],
+    "comments": 3
+}

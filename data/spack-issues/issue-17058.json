@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install readline\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.2-1394-3609f36e6\r\n* **Python:** 3.8.2\r\n* **Platform:** linux-ubuntu20.04-skylake (via WSL)\r\n\r\n### Additional information\r\n\r\nThe installation succeeds just fine, and there are no errors in any logs, but the resulting readline libraries don't link to ncurses:\r\n```console\r\n$ ldd -r lib/libreadline.so\r\n        linux-vdso.so.1 (0x00007fffc89c4000)\r\n        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fccb0930000)\r\n        /lib64/ld-linux-x86-64.so.2 (0x00007fccb0b85000)\r\nundefined symbol: UP    (lib/libreadline.so)\r\nundefined symbol: PC    (lib/libreadline.so)\r\nundefined symbol: BC    (lib/libreadline.so)\r\nundefined symbol: tputs (lib/libreadline.so)\r\nundefined symbol: tgoto (lib/libreadline.so)\r\nundefined symbol: tgetflag      (lib/libreadline.so)\r\nundefined symbol: tgetent       (lib/libreadline.so)\r\nundefined symbol: tgetnum       (lib/libreadline.so)\r\nundefined symbol: tgetstr       (lib/libreadline.so)\r\n```\r\nFrom what I can tell, these symbols are supposed to be provided by ncurses. I tried modifying the package to explicitly RPATH things:\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/readline/package.py b/var/spack/repos/builtin/packages/readline/package.py\r\nindex 7a15595fa..4731ea96c 100644\r\n--- a/var/spack/repos/builtin/packages/readline/package.py\r\n+++ b/var/spack/repos/builtin/packages/readline/package.py\r\n@@ -29,7 +29,10 @@ class Readline(AutotoolsPackage, GNUMirrorPackage):\r\n\r\n     def build(self, spec, prefix):\r\n         options = [\r\n-            'SHLIB_LIBS=-L{0} -lncursesw'.format(spec['ncurses'].prefix.lib)\r\n+            'SHLIB_LIBS=-L{0} {1}{0} -lncursesw'.format(\r\n+                spec['ncurses'].prefix.lib,\r\n+                self.compiler.cc_rpath_arg,\r\n+            )\r\n         ]\r\n\r\n         make(*options)\r\n```\r\nbut that didn't help. Because of this, my Python installation doesn't work properly with arrow keys.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/17058",
+    "updated_at": "2020-06-12 18:05:29",
+    "created_at": "2020-06-11 17:49:37",
+    "closed_at": "2020-06-12 18:05:29",
+    "state": "closed",
+    "title": "Installation issue: readline doesn't link to ncurses",
+    "number": 17058,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "linking"
+    ],
+    "id": 637212890,
+    "html_url": "https://github.com/spack/spack/issues/17058",
+    "assignees": [],
+    "comments": 1
+}

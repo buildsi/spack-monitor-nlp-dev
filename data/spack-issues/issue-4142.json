@@ -1,0 +1,20 @@
+{
+    "body": "```\r\n==> Error: AttributeError: 'dict' object has no attribute 'iteritems'\r\n/home/junghans/spack/var/spack/repos/builtin/packages/boost/package.py:167, in determine_toolset:\r\n     155      def determine_toolset(self, spec):\r\n     156          if spec.satisfies(\"platform=darwin\"):\r\n     157              return 'darwin'\r\n     158\r\n     159          toolsets = {'g++': 'gcc',\r\n     160                      'icpc': 'intel',\r\n     161                      'clang++': 'clang',\r\n     162                      'xlc++': 'xlcpp',\r\n     163                      'xlc++_r': 'xlcpp'}\r\n     164\r\n     165          if spec.satisfies('@1.47:'):\r\n     166              toolsets['icpc'] += '-linux'\r\n  >> 167          for cc, toolset in toolsets.iteritems():\r\n     168              if cc in self.compiler.cxx_names:\r\n     169                  return toolset\r\n     170\r\n     171          # fallback to gcc if no toolset found\r\n     172          return 'gcc'\r\n```\r\nI guess we should do a `git grep iteritems`.",
+    "user": "junghans",
+    "url": "https://api.github.com/repos/spack/spack/issues/4142",
+    "updated_at": "2017-05-05 21:21:16",
+    "created_at": "2017-05-05 19:23:49",
+    "closed_at": "2017-05-05 21:21:16",
+    "state": "closed",
+    "title": "spack install boost fails on python3",
+    "number": 4142,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python3"
+    ],
+    "id": 226668482,
+    "html_url": "https://github.com/spack/spack/issues/4142",
+    "assignees": [],
+    "comments": 0
+}

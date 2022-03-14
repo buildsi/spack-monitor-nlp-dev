@@ -1,0 +1,20 @@
+{
+    "body": "We can control the shared/static build of CMake and [by convention in Spack](https://spack.readthedocs.io/en/latest/packaging_guide.html#style-guidelines-for-packages) one builds shared libraries by default. The old, uncontrolled default of this package is a static build (CMake default).\r\n\r\nPing @teonnik @Sely85 for review :)\r\n\r\nSide note: the static build leads to the following linker error when using `lapackpp` downstream (not addressed with this PR):\r\n```\r\n  >> 871    /usr/bin/ld: opt/spack/linux-ubuntu18.04-skylake/gcc-8.4.0/lapackpp-develop-i67yw6xhv4m6tqm6bqcsqqsqxnquskd5/lib/liblapackpp.a(gesvd.cc.o): undefined reference to symbol \r\n            'cgesvd_'\r\n  >> 872    opt/spack/linux-ubuntu18.04-skylake/gcc-8.4.0/openblas-0.3.9-ai3wimvj7brav75ug24n52e3fojn3awy/lib/libopenblas.so.0: error adding symbols: DSO missing from command line\r\n  >> 873    collect2: error: ld returned 1 exit status\r\n```",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/16419",
+    "updated_at": "2020-05-05 03:05:31",
+    "created_at": "2020-05-01 16:41:49",
+    "closed_at": "2020-05-04 07:39:21",
+    "state": "closed",
+    "title": "LAPACKC++: Shared Control",
+    "number": 16419,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "new-variant"
+    ],
+    "id": 610846680,
+    "html_url": "https://github.com/spack/spack/pull/16419",
+    "assignees": [],
+    "comments": 1
+}

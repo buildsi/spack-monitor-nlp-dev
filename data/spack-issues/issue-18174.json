@@ -1,0 +1,22 @@
+{
+    "body": "Hello, \r\n          I tried to run spack from a centos 8 singularity container\r\n\r\n$ spack install cuda@10.2.89\r\nafter a series of nice library installation, finally I arrived to cuda \r\n```\r\n...\r\n[+] /opt/spack/opt/spack/linux-centos8-power9le/gcc-8.3.1/libxml2-2.9.10-fpwdie2higdag72s2a5jy4iap3b6ij75\r\n==> Installing cuda\r\n==> No binary for cuda found: installing from source\r\n==> Error: FetchError: All fetchers failed for spack-stage-cuda-11.0.2-ckas64rppoqhk7umivrfjezetbraypah\r\n\r\n/opt/spack/lib/spack/spack/package.py:1149, in do_fetch:\r\n       1146                raise FetchError(\"Will not fetch %s\" %\r\n       1147                                 self.spec.format('{name}{@version}'), ck_msg)\r\n       1148\r\n  >>   1149        self.stage.create()\r\n       1150        self.stage.fetch(mirror_only)\r\n       1151        self._fetch_time = time.time() - start_time\r\n       1152\r\n```\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\nSingularity> spack debug report \r\nfatal: No names found, cannot describe anything.\r\n* **Spack:** 0.15.3\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-power9le\r\n\r\nno particular customization \r\n\r\n### Additional information\r\n\r\nI tried to modify /opt/spack/etc/spack/defaults/config.yaml\r\n\r\nchanging\r\n\r\n  Timeout in seconds used for downloading sources etc. This only applies\r\n  to the connection phase and can be increased for slow connections or\r\n  servers. 0 means no timeout.\r\n  \r\nconnect_timeout: 10000\r\n\r\nENV VARIABLES\r\n```console\r\nSingularity> spack find \r\n==> 5 installed packages\r\n-- linux-centos8-power9le / gcc@8.3.1 ---------------------------\r\nlibiconv@1.16  libxml2@2.9.10  pkgconf@1.7.3  xz@5.2.5  zlib@1.2.11\r\nSingularity> env\r\nSINGULARITY_COMMAND=shell\r\nLC_ALL=en_US.UTF-8\r\nLD_LIBRARY_PATH=/.singularity.d/libs\r\nLANG=en_US.UTF-8\r\nNVIDIA_VISIBLE_DEVICES=all\r\nSINGULARITY_CONTAINER=/m100_work/cin_staff/smarocc1/Singularity_spack/only_spack_centos8_docker.sandbox\r\nPWD=/root\r\nHOME=/root\r\nSINGULARITY_ENVIRONMENT=/.singularity.d/env/91-environment.sh\r\nSPACK_ROOT=/opt/spack\r\nTERM=screen-256color\r\nSHELL=/bin/bash\r\nSINGULARITY_NAME=only_spack_centos8_docker.sandbox\r\nNVIDIA_DRIVER_CAPABILITIES=compute,utility\r\nSHLVL=1\r\nLANGUAGE=en_US:en\r\nPATH=/opt/spack/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\r\nPS1=Singularity> \r\n_=/usr/bin/env\r\n```\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt]()\r\n* [spack-build-env.txt]()\r\n\r\nthey do not exists in \r\n\r\n/opt/spack/opt/spack/linux-centos8-power9le/gcc-8.3.1/cuda-11.0.2-ckas64rppoqhk7umivrfjezetbraypah/\r\n\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\nspack maintainers cuda \r\n\r\nThey do not exists\r\n\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "smarocchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/18174",
+    "updated_at": "2020-08-24 23:57:08",
+    "created_at": "2020-08-19 12:42:47",
+    "closed_at": "2020-08-24 21:50:11",
+    "state": "closed",
+    "title": "Installation issue: installing cuda 10.2.89 and 11.0.2 on power 9 (ppc64le)",
+    "number": 18174,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "fetching",
+        "cuda",
+        "power"
+    ],
+    "id": 681809432,
+    "html_url": "https://github.com/spack/spack/issues/18174",
+    "assignees": [],
+    "comments": 5
+}

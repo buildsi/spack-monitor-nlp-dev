@@ -1,0 +1,22 @@
+{
+    "body": "Presumably related to #5718 . On a RHEL7 box, the default perl version has a build failure. This blocks installation of gcc and is therefore significant. I can reproduce the error in a clean spack install with no cached packages or custom configuration. From the same state, qmcpack and all dependencies can be fully installed, so spack is \"working\" on this machine.\r\n\r\nLet me know what else might help diagnose the issue.\r\n\r\n```\r\n[+] /home/pk7/apps/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gdbm-1.13-gugrsmca7ykn6xza5rsyjpxcgvwgzllg\r\n==> Installing perl\r\n==> Fetching http://www.cpan.org/src/5.0/perl-5.24.1.tar.gz\r\n######################################################################## 100.0%\r\n==> Fetching http://search.cpan.org/CPAN/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7042.tar.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /home/pk7/apps/spack/var/spack/stage/perl-5.24.1-tri35dao6ik72tbrfc6nczxqxbq7tf3h/perl-5.24.1.tar.gz\r\n==> Created stage in /home/pk7/apps/spack/var/spack/stage/perl-5.24.1-tri35dao6ik72tbrfc6nczxqxbq7tf3h\r\n==> Staging archive: /home/pk7/apps/spack/var/spack/stage/resource-cpanm-tri35dao6ik72tbrfc6nczxqxbq7tf3h/App-cpanminus-1.7042.tar.gz\r\n==> Created stage in /home/pk7/apps/spack/var/spack/stage/resource-cpanm-tri35dao6ik72tbrfc6nczxqxbq7tf3h\r\n==> Moving resource stage\r\n\tsource : /home/pk7/apps/spack/var/spack/stage/resource-cpanm-tri35dao6ik72tbrfc6nczxqxbq7tf3h/App-cpanminus-1.7042/\r\n\tdestination : /home/pk7/apps/spack/var/spack/stage/perl-5.24.1-tri35dao6ik72tbrfc6nczxqxbq7tf3h/perl-5.24.1/cpanm/cpanm\r\n==> No patches needed for perl\r\n==> Building perl [Package]\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j24'\r\n\r\n25 errors found in build log:\r\n     [ ... ]\r\n     1741    IV  iv;\r\n     1742        ^\r\n     1743  cc -c  -I. -DAPPLLIB_EXP=\"/home/pk7/apps/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/perl-5.24.1-tri35dao6ik72tbrfc6nczxqxbq7tf3h/lib/perl5\" -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/home/pk7/apps/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gdbm-1.13-gugrsmca7ykn6xza5rsyjpxcgvwgzllg/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -Wall -Werror=declaration-after-statement -Wextra -Wc++-compat -Wwrite-strings -O2   -DVERSION=\\\"2.069\\\" -DXS_VERSION=\\\"2.069\\\" -fPIC \"-I../..\"  -DBZ_NO_STDIO  decompress.c\r\n     1744  In file included from ../../perl.h:5615:0,\r\n     1745                   from IO.xs:12:\r\n     1746  IO.xs: In function \u2018XS_IO__Poll__poll\u2019:\r\n  >> 1747  IO.xs:321:40: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct pollfd\u2019\r\n     1748       SV *tmpsv = NEWSV(999,nfd * sizeof(struct pollfd));\r\n```\r\n[spack-build.env.txt](https://github.com/LLNL/spack/files/1428546/spack-build.env.txt)\r\n",
+    "user": "prckent",
+    "url": "https://api.github.com/repos/spack/spack/issues/6028",
+    "updated_at": "2018-04-20 08:42:07",
+    "created_at": "2017-10-30 19:18:21",
+    "closed_at": "2018-04-20 08:41:59",
+    "state": "closed",
+    "title": "Perl 5.24.1 fails to build (RHEL 7)",
+    "number": 6028,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible"
+    ],
+    "id": 269721822,
+    "html_url": "https://github.com/spack/spack/issues/6028",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

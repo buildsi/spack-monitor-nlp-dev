@@ -1,0 +1,24 @@
+{
+    "body": "in order to work around a bug in older gcc versions on x86_64,\r\n__atomic_thread_fence (__ATOMIC_SEQ_CST)\r\nwas replaced with\r\n__atomic_thread_fence (__ATOMIC_ACQUIRE)\r\nbased on the asumption that this did not introduce performance regressions.\r\n\r\nIt was recently found that this did introduce some performance regression,\r\nmainly at scale on fat nodes.\r\n\r\nSo simply use an asm memory globber to both workaround older gcc bugs\r\nand fix the performance regression.\r\n\r\nThanks S. Biplab Raut for bringing this issue to our attention.\r\n\r\nRefs. open-mpi/ompi#8603\r\n\r\nSigned-off-by: Gilles Gouaillardet <gilles@rist.or.jp>",
+    "user": "amd-toolchain-support",
+    "url": "https://api.github.com/repos/spack/spack/issues/22350",
+    "updated_at": "2021-03-19 00:09:30",
+    "created_at": "2021-03-17 11:32:47",
+    "closed_at": "2021-03-19 00:09:21",
+    "state": "closed",
+    "title": "fixing the perf regression issues with OpenMPI v4.0.x till v4.1.0 for x86_64",
+    "number": 22350,
+    "milestone": null,
+    "labels": [
+        "mpi",
+        "performance",
+        "patch",
+        "ecp",
+        "e4s",
+        "AMD"
+    ],
+    "id": 833676023,
+    "html_url": "https://github.com/spack/spack/pull/22350",
+    "assignees": [],
+    "comments": 4
+}

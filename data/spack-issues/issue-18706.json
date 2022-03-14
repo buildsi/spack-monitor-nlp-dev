@@ -1,0 +1,22 @@
+{
+    "body": "Replaces #18646 \r\n\r\nThis PR adds the ability to filter smoke/install test results reporting and optionally include the associated log file output.  There is an additional option, `--failed`, for only showing failed results.\r\n\r\nOutput from `spack test results --help` is:\r\n```\r\nusage: spack test results [-hlf] ...\r\n\r\npositional arguments:\r\n  [name(s)] [-- installed_specs]...\r\n                        suite names and installed package constraints\r\n\r\noptional arguments:\r\n  -h, --help            show this help message and exit\r\n  -l, --logs            print the test log for each matching package\r\n  -f, --failed          only show results for failed tests of matching packages\r\n\r\nTest results will be filtered by space-separated suite name(s) and installed\r\nspecs when provided.  If names are provided, then only results for those test\r\nsuites will be shown.  If installed specs are provided, then ony results\r\nmatching those specs will be shown.\r\n```\r\n\r\nGiven test results for a suite aliased to `both` containing results for `patchelf@0.10` and `sqlite@3.31.1`.  The output of `spack test results both` would be:\r\n```\r\n==> Results for test suite 'both':\r\n==>   sqlite-3.31.1-ca7ibjo PASSED\r\n==>   patchelf-0.10-zazxunw PASSED\r\n```\r\n\r\nThe output for `spack test results -- sqlite` or `spack test results -- @3.31.1` would return the same information though the spec listed in the heading would be `sqlite` in the former (shown below) and `@3.31.1` in the latter.\r\n```\r\n==> Results for test suite 'both', spec matching 'sqlite':\r\n==>   sqlite-3.31.1-ca7ibjo PASSED\r\n```\r\n\r\nUsing the `--logs` option, the output of `spack test results --logs both -- @0.10` would be:\r\n```\r\n==> Results for test suite 'both', spec matching '@0.10':\r\n==>   patchelf-0.10-zazxunw PASSED\r\n==> Testing package patchelf-0.10-zazxunw\r\n==> [2020-09-11-18:39:14.048579] test: ensuring patchelf version is 0.10\r\n==> [2020-09-11-18:39:14.052881] '/g/g21/dahlgren/spack/install/spack/opt/spack/linux-rhel7-broadwell/gcc-8.1.0/patchelf-0.10-zazxunwchc53slfbxahm5ymadxlfevav/bin/patchelf' '--version'\r\npatchelf 0.10\r\nPASSED\r\n==> [2020-09-11-18:39:14.066867] test: ensuring that patchelf can change rpath\r\n==> [2020-09-11-18:39:14.067224] '/g/g21/dahlgren/spack/install/spack/opt/spack/linux-rhel7-broadwell/gcc-8.1.0/patchelf-0.10-zazxunwchc53slfbxahm5ymadxlfevav/bin/patchelf' '--set-rpath' '/g/g21/dahlgren/.spack/test/ikvuy5pa7ajtuwkfcxxcjp3qgbad32qn/patchelf-0.10-zazxunw' '/g/g21/dahlgren/.spack/test/ikvuy5pa7ajtuwkfcxxcjp3qgbad32qn/patchelf-0.10-zazxunw/data/patchelf/hello'\r\nPASSED\r\n==> [2020-09-11-18:39:14.078118] test: ensuring that patchelf changed rpath\r\n==> [2020-09-11-18:39:14.078473] '/g/g21/dahlgren/spack/install/spack/opt/spack/linux-rhel7-broadwell/gcc-8.1.0/patchelf-0.10-zazxunwchc53slfbxahm5ymadxlfevav/bin/patchelf' '--print-rpath' '/g/g21/dahlgren/.spack/test/ikvuy5pa7ajtuwkfcxxcjp3qgbad32qn/patchelf-0.10-zazxunw/data/patchelf/hello'\r\n/g/g21/dahlgren/.spack/test/ikvuy5pa7ajtuwkfcxxcjp3qgbad32qn/patchelf-0.10-zazxunw\r\nPASSED\r\n[..snip..]\r\n```\r\n\r\nIf the patchelf had failed, results of `spack test results --failed both -- @0.10` would show \r\n```\r\n==> Failing results for test suite 'both', spec matching '@0.10':\r\n==>   patchelf-0.10-zazxunw FAILED\r\n```\r\n\r\nUsing the `--logs` option with the above would print the associated test log so you could review which test part(s) failed.\r\n\r\nTODO:\r\n- [x] Fix the heading when the spec is empty\r\n- [x] Switch to use `build-env` syntax for splitting test suite names from installed_specs",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/18706",
+    "updated_at": "2020-10-26 23:46:15",
+    "created_at": "2020-09-17 01:47:07",
+    "closed_at": "2020-10-26 23:46:14",
+    "state": "closed",
+    "title": "Smoke tests: Added test results filter and log display support",
+    "number": 18706,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "stand-alone-tests"
+    ],
+    "id": 703201435,
+    "html_url": "https://github.com/spack/spack/pull/18706",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 0
+}

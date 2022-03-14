@@ -1,0 +1,25 @@
+{
+    "body": "- Use hwloc iff kokkos\r\n    See #19119, also the HWLOC tpl name was misspelled so this was being ignored before.\r\n- Remove package meta-options\r\n    - XSDK settings and \"all opt packages\" are not used anywhere\r\n    - all optional packages are dangerous\r\n- Update dependencies, removing unused\r\n    - GLM, X11 are unused (x11 lacks dependency specs too)\r\n    - Python variant is more like a TPL so rearrange that\r\n    - Gtest internal package shouldn't be compiled or exported\r\n    - Add MPI4PY requirement for pytrilinos\r\n- Group top-level dependencies\r\n- Automatically enable teuchos and remove variant\r\n    - Basically everything in trilinos needs teuchos\r\n    - Simplify dealii dependencies (@jppelteret @luca-heltai)\r\n- Remove metis variant, enable if zoltan or if other transitive dependencies use it\r\n  - Trilinos packages usually conflict if the metis/parmetis options are not locked to the availability of strumpack and superlu-dist \r\n- Rename basker variant\r\n    - The Basker solver is part of amesos2 but is clearer without the extra prefix\r\nscoping.\r\n- Default to disabling external trilinos dependencies (except for mpi)\r\n  - Some of these are troublemakers (e.g. mumps) and get turned off by most downstream spack packages",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/24820",
+    "updated_at": "2021-07-19 05:08:30",
+    "created_at": "2021-07-10 14:11:35",
+    "closed_at": "2021-07-16 18:36:07",
+    "state": "closed",
+    "title": "trilinos: simplify some variants",
+    "number": 24820,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "conflicts",
+        "ecp",
+        "e4s",
+        "gitlab",
+        "new-variant"
+    ],
+    "id": 941257872,
+    "html_url": "https://github.com/spack/spack/pull/24820",
+    "assignees": [],
+    "comments": 32
+}

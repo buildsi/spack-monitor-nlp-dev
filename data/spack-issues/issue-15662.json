@@ -1,0 +1,22 @@
+{
+    "body": "I was trying to add a check to avoid pushing to the buildcache unnecessarily, and used a hash to unambiguously refer to a package. This resulted in an exception. This reproduced for me in develop and releases/v0.14.\r\n\r\n### Spack version\r\n\r\n```console\r\n$ spack --version\r\n0.14.1-344-1a5e4232e\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack buildcache check --mirror-url=s3://build-cache -s /any-valid-hash\r\n==> Error: local variable 'spack' referenced before assignment\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack -d buildcache check --mirror-url=s3://build-cache -s /zexzppv37zdl2pgi7jt5hlrlxfqbripw\r\n==> [2020-03-24-15:44:50.831822, 25104] Imported buildcache from built-in commands\r\n==> [2020-03-24-15:44:50.837586, 25104] Imported buildcache from built-in commands\r\n==> [2020-03-24-15:44:50.838766, 25104] Reading config file src/spack/etc/spack/defaults/config.yaml\r\n==> [2020-03-24-15:44:50.850790, 25104] DATABASE LOCK TIMEOUT: 3s\r\n==> [2020-03-24-15:44:50.850835, 25104] PACKAGE LOCK TIMEOUT: No timeout\r\n==> [2020-03-24-15:44:50.851022, 25104] READ LOCK (database): src/spack/opt/spack/.spack-db/lock[0:0] [Acquiring]\r\n==> [2020-03-24-15:44:50.851127, 25104] read locking [0:0]: timeout 3 sec\r\n==> [2020-03-24-15:44:50.851179, 25104] READ LOCK (database): src/spack/opt/spack/.spack-db/lock[0:0] [Acquired at 15:44:50.851166]\r\n==> [2020-03-24-15:44:50.869195, 25104] READ LOCK (database): src/spack/opt/spack/.spack-db/lock[0:0] [Releasing]\r\n==> [2020-03-24-15:44:50.869277, 25104] READ LOCK (database): src/spack/opt/spack/.spack-db/lock[0:0] [Released at 15:44:50.869263]\r\nTraceback (most recent call last):\r\n  File \"src/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"src/spack/lib/spack/spack/main.py\", line 763, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"src/spack/lib/spack/spack/main.py\", line 488, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"src/spack/lib/spack/spack/cmd/buildcache.py\", line 755, in buildcache\r\n    args.func(args)\r\n  File \"src/spack/lib/spack/spack/cmd/buildcache.py\", line 526, in check_binaries\r\n    specs = [get_concrete_spec(args)]\r\n  File \"src/spack/lib/spack/spack/cmd/buildcache.py\", line 613, in get_concrete_spec\r\n    spec.concretize()\r\n  File \"src/spack/lib/spack/spack/spec.py\", line 2138, in concretize\r\n    raise spack.error.SpecError(\r\nUnboundLocalError: local variable 'spack' referenced before assignment\r\n```\r\n\r\n### Information on your system\r\n\r\nUbuntu 18.04, no special configuration.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "mc-allen",
+    "url": "https://api.github.com/repos/spack/spack/issues/15662",
+    "updated_at": "2020-05-04 07:24:12",
+    "created_at": "2020-03-24 22:47:04",
+    "closed_at": "2020-05-04 07:24:12",
+    "state": "closed",
+    "title": "spack buildcache check fails when hash is used as argument",
+    "number": 15662,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 587325206,
+    "html_url": "https://github.com/spack/spack/issues/15662",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

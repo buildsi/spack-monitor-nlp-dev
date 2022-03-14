@@ -1,0 +1,20 @@
+{
+    "body": "### Summary\n\nI am not sure if this is a bug or if I am asking for a feature that hasn't been added yet. I am trying to install/build gcc (need gfortran) on macOS Monterey. I have tried the following versions so far in a clean stack environment:\r\n```\r\nspack install gcc@11.2.0 %apple-clang@13.0.0\r\nspack install gcc@11.1.0 %apple-clang@13.0.0\r\nspack install gcc@10.3.0 %apple-clang@13.0.0\r\nspack install gcc@10.3.0\r\n```\r\nThe error I get is:\r\n```\r\n...\r\n==> Installing gcc-10.3.0-sn2sgyslqppwjeaidzxvbmzfvsmszhsg\r\n==> No binary for gcc-10.3.0-sn2sgyslqppwjeaidzxvbmzfvsmszhsg found: installing from source\r\n==> Using cached archive: /Users/dom/scratch/spack-test-20211220/spack/var/spack/cache/_source-cache/archive/64/64f404c1a650f27fc33da242e1f2df54952e3963a49e06e73f6940f3223ac344.tar.xz\r\n==> Using cached archive: /Users/dom/scratch/spack-test-20211220/spack/var/spack/cache/_source-cache/archive/ea/eaa00c91e08a5e767f023911a49bc1b2d1a3eea38703b745ab260f90e8da41aa\r\n==> Using cached archive: /Users/dom/scratch/spack-test-20211220/spack/var/spack/cache/_source-cache/archive/28/28c5ab3b564d83dd7e6e35b9c683141a4cb57ee886c5367e54a0828538b3c789\r\n==> Applied patch /Users/dom/scratch/spack-test-20211220/spack/var/spack/repos/builtin/packages/gcc/darwin/gcc-7.1.0-headerpad.patch\r\n==> Applied patch https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=745dae5923aba02982563481d75a21595df22ff8\r\n==> Applied patch /Users/dom/scratch/spack-test-20211220/spack/var/spack/repos/builtin/packages/gcc/zstd.patch\r\n==> Applied patch https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=fc930b3010bd0de899a3da3209eab20664ddb703\r\n==> Ran patch() for gcc\r\n==> gcc: Executing phase: 'autoreconf'\r\n==> gcc: Executing phase: 'configure'\r\n==> gcc: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j4' 'V=1'\r\n\r\n4 errors found in build log:\r\n     3753    checking whether times is declared... yes\r\n     3754    checking whether sigaltstack is declared... yes\r\n     3755    checking for struct tms... yes\r\n     3756    checking for clock_t... yes\r\n     3757    checking for F_SETLKW... yes\r\n     3758    checking if mkdir takes one argument... no\r\n  >> 3759    Error: configuring for an unreleased macOS version x86_64-apple-darwin21.1.0\r\n  >> 3760    make[2]: *** [configure-stage1-gcc] Error 1\r\n  >> 3761    make[1]: *** [stage1-bubble] Error 2\r\n  >> 3762    make: *** [all] Error 2\r\n```\r\nAttached is the `spack-build-out.txt` file from the process.\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7756347/spack-build-out.txt)\r\n\n\n### Rationale\n\nI am not sure if this is a bug or if I am asking for a feature that hasn't been added yet, therefore logging it as a feature request and not as a bug.\n\n### Description\n\nInstalling gcc/gfortran via spack is one of the basic requirements for software stacks. While it is possible to install gcc/gfortran with homebrew and then do the rest with spack, a clean solution using only spack would be preferred.\n\n### Additional information\n\n```\r\n[jedi]  dom@MacBook-Air:~/scratch/spack-test-20211220 [spack]> spack --version\r\n0.17.0-606-494f0053ae\r\n[jedi]  dom@MacBook-Air:~/scratch/spack-test-20211220 [spack]> uname -a\r\nDarwin MacBook-Air.local 21.1.0 Darwin Kernel Version 21.1.0: Wed Oct 13 17:33:23 PDT 2021; root:xnu-8019.41.5~1/RELEASE_X86_64 x86_64\r\n```\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "climbfuji",
+    "url": "https://api.github.com/repos/spack/spack/issues/28112",
+    "updated_at": "2022-02-05 20:18:36",
+    "created_at": "2021-12-21 15:31:14",
+    "closed_at": "2022-02-05 20:18:35",
+    "state": "closed",
+    "title": "Building gcc (gfortran) on macOS Monterey",
+    "number": 28112,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 1085954178,
+    "html_url": "https://github.com/spack/spack/issues/28112",
+    "assignees": [],
+    "comments": 4
+}

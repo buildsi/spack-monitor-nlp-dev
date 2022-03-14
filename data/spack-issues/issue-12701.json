@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install cp2k # Fill in the exact spec you are using\r\n... (lots of packages being installed)\r\n==> Installing libxc\r\n==> Searching for binary cache of libxc\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for libxc found: installing from source\r\n==> Fetching http://www.tddft.org/programs/octopus/down.php?file=libxc/4.3.2/libxc-4.3.2.tar.gz\r\n\r\ncurl: (7) Failed connect to www.tddft.org:80; No route to host\r\n==> Fetching from http://www.tddft.org/programs/octopus/down.php?file=libxc/4.3.2/libxc-4.3.2.tar.gz failed.\r\n==> Error: FetchError: All fetchers failed for libxc-4.3.2-q2c7jlxasl4gim7nve7c4wtex3xgowc6\r\n\r\n/root/usr/spack/lib/spack/spack/package.py:1061, in do_fetch:\r\n       1058                raise FetchError(\"Will not fetch %s\" %\r\n       1059                                 self.spec.format('{name}{@version}'), ck_msg)\r\n       1060\r\n  >>   1061        self.stage.create()\r\n       1062        self.stage.fetch(mirror_only)\r\n       1063        self._fetch_time = time.time() - start_time\r\n       1064\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux arthemis.localdomain 5.0.10-1.el7.elrepo.x86_64 #1 SMP Sat Apr 27 08:40:16 EDT 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nLSB Version:    :core-4.1-amd64:core-4.1-ia32:core-4.1-noarch\r\nDistributor ID: CentOS\r\nDescription:    CentOS Linux release 7.6.1810 (Core)\r\nRelease:        7.6.1810\r\nCodename:       Core\r\n``` \r\n\r\n### Additional information\r\n\r\nThe website hosting the libxc library is down as it is often the case (see https://github.com/pyscf/pyscf/issues/51). \r\n\r\n### Steps to fix (or hack?) it\r\n\r\nI was actually able to install cp2k but the solution is not elegant at all. Note that I am a new spack user and therefore something much simpler may be available. Anyway, I thought of posting the solution either way.\r\n\r\nI was able to find different websites hosting libxc. However, cp2k requires libxc version 4.0.3 or newer. I was only able to find it here:\r\n`git clone https://github.com/dgasmith/libxc.git`\r\n\r\nIssue is spack needs a url with the actual tarball to download it using wget. Therefore, here are the steps to follow:\r\n\r\n- Download an older version of libxc: `wget http://www.sunqm.net/pyscf/files/src/libxc-3.0.1.tar.gz`\r\n\r\n- Obtain its sha256: `sha256sum libxc-3.0.1.tar.gz`\r\n\r\n- Go into `$YOUR_SPACK_DIR/spack/var/spack/repos/builtin/packages/libxc/package.py` and replace the homepage, url variables as well as the version number - choose 4.0.3 - and its sha256 sum so that it downloads from the link above. Also replace the website in the \"if\" statements\r\n\r\n- Run spack install cp2k ==> It will install libxc correctly then other packages. Once it gets to building cp2k, you will get an error saying cp2k requires libxc 4.0.3 or sooner\r\n\r\n- Download the newer libxc (doesn't matter where): `git clone https://github.com/dgasmith/libxc.git`\r\n\r\n- Install `autoreconf -i && ./configure --prefix=$HOME/tmp && make && make install`\r\n\r\n- Find where spack installed the libxc libraries and delete everything: (dir will be something like this `$YOUR_SPACK_DIR/spack/opt/spack/linux-centos7-x86_64/gcc-9.2.0/libxc-4.0.3-linbltlqag7mrzgh57avdqd37tvftbmg/{bin,lib,include}`)\r\n\r\n- Replace those directories with the freshly installed one from git: `cp -r $HOME/tmp/* $YOUR_SPACK_DIR/spack/opt/spack/linux-centos7-x86_64/gcc-9.2.0/libxc-4.0.3-linbltlqag7mrzgh57avdqd37tvftbmg/`\r\n\r\n- `spack install cp2k` will work :)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "user": "s-amouyal12",
+    "url": "https://api.github.com/repos/spack/spack/issues/12701",
+    "updated_at": "2019-12-13 16:22:40",
+    "created_at": "2019-09-04 13:39:12",
+    "closed_at": "2019-12-13 16:22:40",
+    "state": "closed",
+    "title": "Installation issue: cp2k",
+    "number": 12701,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "fetching"
+    ],
+    "id": 489167032,
+    "html_url": "https://github.com/spack/spack/issues/12701",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

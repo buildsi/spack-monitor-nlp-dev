@@ -1,0 +1,17 @@
+{
+    "body": "Adds the ability to have platform-specific configuration scopes.  This allows Spack to know about things like default Blue Gene/Q compiler locations and default modules to load for Cray compilers out of the box.  In particular, this helps with #1980 - where we'd like to get @pramodk's settings into the mainline so that users don't have to do much of anything to configure Spack on BG/Q.\n\nThe platform config scopes go in subdirectories of a normal Spack config scopes.  The precedence looks like this:\n1. `defaults`, in `etc/spack/defaults`: default configs that ship with Spack (e.g. `packages.yaml`)\n2. `defaults/bgq`, in `etc/spack/defaults/bgq`: platform-specific overrides of defaults.\n3. `site`, in `etc/spack`: spack-instance-specific settings.\n4. `site/bgq`, in `etc/spack/bgq`: platform-specific overrides of site settings.\n5. `user`, in `~/.spack`: user-specific settings.\n6. `user/bgq`, in `~/.spack/bgq`: platform-specific overrides of user settings.\n\nAll of these are merged the same way the current `defaults`, `site`, and `user` scopes are merged.\n\n@alalazo @adamjstewart @pramodk\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2030",
+    "updated_at": "2016-10-16 08:08:27",
+    "created_at": "2016-10-15 22:39:24",
+    "closed_at": "2016-10-16 00:00:11",
+    "state": "closed",
+    "title": "Platform-specific config scopes",
+    "number": 2030,
+    "milestone": null,
+    "labels": [],
+    "id": 183237163,
+    "html_url": "https://github.com/spack/spack/pull/2030",
+    "assignees": [],
+    "comments": 6
+}

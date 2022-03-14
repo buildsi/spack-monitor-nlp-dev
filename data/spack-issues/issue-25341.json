@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nSpack is using a newer `isort` option for the settings file than is supported by the earliest version listed in `py-isort`.  I ran into this problem when, IIRC, Spack bootstrapped to the earlier version when I ran the `spack stye` command.\r\n\r\nCurrent `isort` documentation lists three other options that *might* work on older versions.  I tried two (`--settings` and `--settings-file`) despite the help below only showing the third, or shortcut (i.e., `-sp`).  Both of those options worked so it's just the `--settings-file` one that doesn't.\r\n\r\n```\r\n$ spack style --fix hash_types.py\r\n==> Running style checks on spack\r\n  selected: isort, mypy, flake8\r\n==> Modified files\r\n  hash_types.py\r\n==> Running isort checks\r\n  usage: isort [-h] [-y] [-l LINE_LENGTH] [-w LINE_LENGTH] [-s SKIP]\r\n               [-ns NOT_SKIP] [-sg SKIP_GLOB] [-t FORCE_TO_TOP]\r\n               [-f KNOWN_FUTURE_LIBRARY] [-b KNOWN_STANDARD_LIBRARY]\r\n               [-o KNOWN_THIRD_PARTY] [-p KNOWN_FIRST_PARTY] [-m {0,1,2,3,4,5}]\r\n               [-i INDENT] [-a ADD_IMPORTS] [-af] [-r REMOVE_IMPORTS] [-ls] [-d]\r\n               [-c] [-sl] [-ds] [-sd DEFAULT_SECTION] [-df] [-e] [-rc] [-ot]\r\n               [-dt] [-ac] [-cs] [-ca] [-tc] [-v] [-vb] [-q] [-sp SETTINGS_PATH]\r\n               [-ff FROM_FIRST] [-wl WRAP_LENGTH] [-fgw] [-fass] [-fas] [-fss]\r\n               [-lbt LINES_BETWEEN_TYPES]\r\n               [files [files ...]]\r\n  isort: error: unrecognized arguments: --settings-file\r\n  isort found errors\r\n==> Running mypy checks\r\n...\r\n```\r\n\r\nThe file with the problem was reportedly modified BUT `git diff` did not show any changes until I changed the code to use one of the alternatives above.\r\n\r\n### Error message\r\n\r\nSee `Steps to reproduce`.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3877-1f7d825ea9\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-broadwell\r\n* **Concretizer:** original\r\n\r\nNote: Checking (but skipping) step 3 in `General information` below since it wasn't necessary to run the debug command BUT this template requires it be checked.\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/25341",
+    "updated_at": "2021-08-11 07:30:23",
+    "created_at": "2021-08-10 21:06:56",
+    "closed_at": "2021-08-11 07:30:23",
+    "state": "closed",
+    "title": "Style: 'spack style --fix' fails with isort v4.2.15",
+    "number": 25341,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 965393146,
+    "html_url": "https://github.com/spack/spack/issues/25341",
+    "assignees": [],
+    "comments": 1
+}

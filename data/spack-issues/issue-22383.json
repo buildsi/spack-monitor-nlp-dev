@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nDockerfile to reproduce:\r\n\r\n```\r\nFROM ubuntu:trusty\r\n\r\n# fetch build env\r\nRUN apt-get update && apt-get install -y \\\r\n    git \\\r\n    python \\\r\n && rm -rf /var/lib/apt/lists/*\r\nRUN git clone --depth 1 https://github.com/spack/spack.git\r\nRUN cd spack && bin/spack debug report\r\n```\r\n\r\n### Error Message\r\n```\r\n------                                                                                                                                                                         \r\n > [4/4] RUN cd spack && bin/spack debug report:                                                                                                                               \r\n#7 0.676 Traceback (most recent call last):                                                                                                                                    \r\n#7 0.676   File \"bin/spack\", line 67, in <module>                                                                                                                              \r\n#7 0.676     import spack.main  # noqa                                                                                                                                         \r\n#7 0.676   File \"/spack/lib/spack/spack/main.py\", line 28, in <module>                                                                                                         \r\n#7 0.676     from llnl.util.tty.log import log_output\r\n#7 0.676   File \"/spack/lib/spack/llnl/util/tty/log.py\", line 23, in <module>\r\n#7 0.676     from typing import Optional  # novm\r\n#7 0.676 ImportError: No module named 'typing'\r\n------\r\n```\r\n\r\n### Information on your system\r\n\r\nubuntu 14.0.4 with system python (2.7.6)\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform (It fails in this case)\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/22383",
+    "updated_at": "2021-03-18 18:22:55",
+    "created_at": "2021-03-18 17:15:16",
+    "closed_at": "2021-03-18 18:22:55",
+    "state": "closed",
+    "title": "spack fails to run using ubuntu 14.0.4 with system python (2.7.6)",
+    "number": 22383,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 835069256,
+    "html_url": "https://github.com/spack/spack/issues/22383",
+    "assignees": [],
+    "comments": 2
+}

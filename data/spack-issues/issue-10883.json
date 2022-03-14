@@ -1,0 +1,19 @@
+{
+    "body": "I installed multiple arch versions in a spack install_root and I saw that the environment-modules loading with a spack built environment-modules package doesn't work right because --print-shell-vars uses an unqualified spec search and doesn't necessarily choose a good  _sp_module_prefix:\r\n\r\n```\r\nspack --print-shell-vars sh,modules\r\n_sp_sys_type='linux-fedora29-x86_64'\r\n_sp_tcl_root='/opt/spack/share/spack/modules'\r\n_sp_lmod_root='/opt/spack/share/spack/lmod'\r\n_sp_dotkit_root='/opt/spack/share/spack/dotkit'\r\n_sp_module_prefix='/opt/spack/opt/spack/linux-centos6-x86_64/gcc-4.4.7/environment-modules-4.2.2-h7lzl3yy5ouwpj6t2naat67xyzaw7yo5'\r\n```\r\nI added `arch=spack.architecture.sys_type()` to be more selective:\r\n\r\n```\r\ndiff --git a/lib/spack/spack/main.py b/lib/spack/spack/main.py\r\nindex a5b0358..df8f00a 100644\r\n--- a/lib/spack/spack/main.py\r\n+++ b/lib/spack/spack/main.py\r\n@@ -584,7 +584,7 @@ def print_setup_info(*info):\r\n     # print environment module system if available. This can be expensive\r\n     # on clusters, so skip it if not needed.\r\n     if 'modules' in info:\r\n-        specs = spack.store.db.query('environment-modules')\r\n+        specs = spack.store.db.query('environment-modules arch=%s' % spack.architecture.sys_type())\r\n         if specs:\r\n             shell_set('_sp_module_prefix', specs[-1].prefix)\r\n         else:\r\n```\r\n```\r\nspack --print-shell-vars sh,modules\r\n_sp_sys_type='linux-fedora29-x86_64'\r\n_sp_tcl_root='/opt/spack/share/spack/modules'\r\n_sp_lmod_root='/opt/spack/share/spack/lmod'\r\n_sp_dotkit_root='/opt/spack/share/spack/dotkit'\r\n_sp_module_prefix='/opt/spack/opt/spack/linux-fedora29-x86_64/gcc-8.3.1/environment-modules-4.2.2-ha5kdfgbtekleizqdtzsffd3z2lyizgy'\r\n```",
+    "user": "ajw1980",
+    "url": "https://api.github.com/repos/spack/spack/issues/10883",
+    "updated_at": "2019-03-26 20:23:54",
+    "created_at": "2019-03-13 21:01:59",
+    "closed_at": "2019-03-26 20:23:53",
+    "state": "closed",
+    "title": "Environment modules in a shared spack install root doesn't choose the _sp_module_prefix well",
+    "number": 10883,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 420717840,
+    "html_url": "https://github.com/spack/spack/issues/10883",
+    "assignees": [],
+    "comments": 1
+}

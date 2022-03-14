@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n#have a newer version of python installed on the system outside of spack\r\n$ spack install llvm\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n* **Spack:** 0.15.4-1825-08e825f47\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-gentoo2-skylake\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n\r\n### Additional information\r\n\r\nCMake find_package(Python3) doesn't honor the find_package(Python)'s `PYTHON_EXECUTABLE`, but prefers it to be called\r\n`Python3_EXECUTABLE` instead.  However there is also a bug in compiler-rt upstream in LLVM that doesn't honor this variable either which just delays this problem to later on in the build process.\r\n\r\nThe following *mostly* fixes this if compiling LLVM against python3, but we also need to check what verison of python spack is building against and possibly set `Python2_EXECUTABLE` instead.\r\n\r\n```python\r\ncmake_args.append(\"-DPython3_EXECUTABLE:PATH={0}\".format(spec[\"python\"].command.path),)\r\n```\r\n\r\n@naromero77  @trws\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5539978/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5539979/spack-build-out.txt)\r\n[spack-configure-args.txt](https://github.com/spack/spack/files/5539980/spack-configure-args.txt)\r\n\r\n",
+    "user": "robertu94",
+    "url": "https://api.github.com/repos/spack/spack/issues/19908",
+    "updated_at": "2020-12-26 15:47:38",
+    "created_at": "2020-11-14 01:29:21",
+    "closed_at": "2020-12-26 15:47:38",
+    "state": "closed",
+    "title": "Installation issue: llvm attempts to link against the incorrect python and crashes as a result",
+    "number": 19908,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 742888673,
+    "html_url": "https://github.com/spack/spack/issues/19908",
+    "assignees": [],
+    "comments": 9
+}

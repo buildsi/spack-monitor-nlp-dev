@@ -1,0 +1,22 @@
+{
+    "body": "This pull request fixes two issues I observed while trying to install `curl`. (See below). I have introduced a version dependency on `mbedtls` because different versions of curl need different version of that. I am not sure if there is a nicer way to do that. If that is the case, please let me know.\r\n\r\n\r\n---------\r\nIn essence curl doesn't build for me if configured with `tls=mbedtls`. In the dependency tree I am currently trying to build it gets concretized to the following:\r\n```console\r\n[...]\r\n -   di6n2om          ^curl@7.72.0%gcc@9.3.0~gssapi~ldap~libidn2~librtmp~libssh~libssh2~nghttp2 tls=mbedtls arch=linux-ubuntu20.04-x86_64\r\n[+]  woxox4m              ^mbedtls@3.0.0%gcc@9.3.0~pic build_type=Release libs=static arch=linux-ubuntu20.04-x86_64\r\n[...]\r\n```\r\n\r\nTrying to install all of this leads to a configuration error:\r\n```console\r\n==> curl: Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/tmp/tmadlener/spack-stage/spack-stage-curl-7.72.0-di6n2ompu35yvf77y57zyc3g5alfsm27/spack-src/configure' '--prefix=/home/tmadlener/work/spackages/curl/7.72.0/x86_64-ubuntu20.04-gcc9.3.0-opt/di6n2ompu35yvf77y57zyc3g5alfsm27' '--with-zlib=/home/tmadlener/work/spackages/zlib/1.2.11/x86_64-ubuntu20.04-gcc9.3.0-opt/ufqpqnpj5gjkfx5sd2o3twwveuowcz2b' '--without-brotli' '--without-libgsasl' '--without-libpsl' '--without-zstd' '--without-ca-bundle' '--without-ca-path' '--with-ca-fallback' '--without-libmetalink' '--without-gssapi' '--without-gnutls' '--with-mbedtls=/home/tmadlener/work/spackages/mbedtls/3.0.0/x86_64-ubuntu20.04-gcc9.3.0-opt/woxox4mizrsazzraztvh7q4hqyrnw2tf' '--without-nss' '--without-ssl' '--without-secure-transport' '--without-libidn2' '--without-librtmp' '--without-nghttp2' '--without-libssh2' '--without-libssh' '--disable-ldap'\r\n\r\n1 error found in build log:\r\n     194    checking for mbedtls_ssl_init in -lmbedtls... yes\r\n     195    configure: detected mbedTLS\r\n     196    configure: Added /home/tmadlener/work/spackages/mbedtls/3.0.0/x86_64-ubuntu20.04-gcc9.3.0-opt/woxox4mizrsazzraztvh7q4hqyrnw2tf/lib to CURL_LIBRARY_PATH\r\n     197    configure: built with one SSL backend\r\n     198    checking default CA cert bundle/path... no\r\n     199    checking whether to use builtin CA store of SSL library... yes\r\n  >> 200    configure: error: --with-ca-fallback only works with OpenSSL or GnuTLS\r\n```\r\n\r\nFixing the config flags, and trying again then leads to a build error, complaining about a missing header:\r\n```console\r\n            .c  -fPIC -DPIC -o .libs/libcurl_la-curl_addrinfo.o\r\n     768    libtool: compile:  /home/tmadlener/work/spack/lib/spack/env/gcc/gcc -DHAVE_CONFIG_H -I../include -I../lib -I../lib -DBUILDING_LIBCURL -DCURL_HIDDEN_SYMBOLS -isystem /home/tmadlener/work/spackages/zl\r\n            ib/1.2.11/x86_64-ubuntu20.04-gcc9.3.0-opt/ufqpqnpj5gjkfx5sd2o3twwveuowcz2b/include -isystem /home/tmadlener/work/spackages/mbedtls/3.0.0/x86_64-ubuntu20.04-gcc9.3.0-opt/woxox4mizrsazzraztvh7q4hqyrnw\r\n            2tf/include -fvisibility=hidden -Werror-implicit-function-declaration -O2 -Wno-system-headers -pthread -MT libcurl_la-conncache.lo -MD -MP -MF .deps/libcurl_la-conncache.Tpo -c conncache.c  -fPIC -D\r\n            PIC -o .libs/libcurl_la-conncache.o\r\n     769    In file included from asyn-thread.c:23:\r\n  >> 770    curl_setup.h:650:12: fatal error: mbedtls/md4.h: No such file or directory\r\n     771      650 | #  include <mbedtls/md4.h>\r\n     772          |            ^~~~~~~~~~~~~~~\r\n     773    compilation terminated.\r\n```\r\n\r\nThat is because compatibility with `mbedtls@3:` was only introduced in `curl@7.79` (curl/curl#7428)",
+    "user": "tmadlener",
+    "url": "https://api.github.com/repos/spack/spack/issues/26877",
+    "updated_at": "2021-10-29 15:32:10",
+    "created_at": "2021-10-21 16:15:18",
+    "closed_at": "2021-10-29 14:55:48",
+    "state": "closed",
+    "title": "curl: fix mbedtls dependencies and config",
+    "number": 26877,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1032683108,
+    "html_url": "https://github.com/spack/spack/pull/26877",
+    "assignees": [
+        "haampie"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Restoring the features from #4692.\r\n\r\n**WIP because this is a placeholder. There are no fixes yet.**\r\n\r\n@becker33: this is a branch to revert #8888 (or to un-revert #4692, I guess).\r\n\r\nThere are a few remaining things to do before we can merge this back to `develop`:\r\n- [x] FIx the issue found in #8882.\r\n- [x] Fix the issue found in #8887.\r\n- [x] Make sure `openmpi` builds ok on Mac OS X (I got duplicate symbol issues there with the changes in #4692).\r\n- [x] Make sure this does not blow away `ccache` support (currently it does).\r\n- [x] Make sure this doesn't slow down builds using the new wrappers.\r\n\r\nI am not sure what's causing the two issues above yet.\r\n\r\nThe OpenMPI issues I mentioned came from trying to build `petsc` -- OpenMPI won't build with the changes as it gets symbol errors linking `libopen-pal.40.dylib`.  I also noticed that there are warnings in the OpenMPI `clang` build that don't show up without the changes in #4692.  Specifically, stuff like this shows up for all the Spack `-L` arguments:\r\n\r\n```\r\n  CC       base/btl_base_error.lo\r\nclang: warning: argument unused during compilation: '-L/Users/gamblin2/src/spack/opt/spack/darwin-highsierra-x86_64/clang-8.1.0-apple/zlib-1.2.11-oasmkjnms36btaqqiyefr6mprbg2ebgv/lib' [-Wunused-command-line-argument]\r\nclang: warning: argument unused during compilation: '-L/Users/gamblin2/src/spack/opt/spack/darwin-highsierra-x86_64/clang-8.1.0-apple/hwloc-1.11.9-xtrbltqpraetc5jgae3as2rqtwdhdcrx/lib' [-Wunused-command-line-argument]\r\nclang: warning: argument unused during compilation: '-L/Users/gamblin2/src/spack/opt/spack/darwin-highsierra-x86_64/clang-8.1.0-apple/libxml2-2.9.8-vrtvvruz4fsrvtaww7pazkjvkojjuvsr/lib' [-Wunused-command-line-argument]\r\nclang: warning: argument unused during compilation: '-L/Users/gamblin2/src/spack/opt/spack/darwin-highsierra-x86_64/clang-8.1.0-apple/zlib-1.2.11-oasmkjnms36btaqqiyefr6mprbg2ebgv/lib' [-Wunused-command-line-argument]\r\nclang: warning: argument unused during compilation: '-L/Users/gamblin2/src/spack/opt/spack/darwin-highsierra-x86_64/clang-8.1.0-apple/hwloc-1.11.9-xtrbltqpraetc5jgae3as2rqtwdhdcrx/lib' [-Wunused-command-line-argument]\r\nclang: warning: argument unused during compilation: '-L/Users/gamblin2/src/spack/opt/spack/darwin-highsierra-x86_64/clang-8.1.0-apple/libxml2-2.9.8-vrtvvruz4fsrvtaww7pazkjvkojjuvsr/lib' [-Wunused-command-line-argument]\r\nclang: warning: argument unused during compilation: '-L/Users/gamblin2/src/spack/opt/spack/darwin-highsierra-x86_64/clang-8.1.0-apple/xz-5.2.4-osadmc6b5ynkbhavfngeeuamph67zbc6/lib' [-Wunused-command-line-argument]\r\n```\r\n\r\nThat makes me think they should be first or they won't get used.\r\n\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/8889",
+    "updated_at": "2018-09-03 04:49:38",
+    "created_at": "2018-08-05 04:36:46",
+    "closed_at": "2018-08-08 08:51:52",
+    "state": "closed",
+    "title": "cc: package flags before dependency flags, part 2",
+    "number": 8889,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-environment"
+    ],
+    "id": 347668641,
+    "html_url": "https://github.com/spack/spack/pull/8889",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 6
+}

@@ -1,0 +1,21 @@
+{
+    "body": "If Spack is configured with a `packages.yaml` that includes external packages, these packages may appear installed even if they are not. The cause of that is how we compute the `installed` property:\r\n\r\nhttps://github.com/spack/spack/blob/1307ad3979498916011df47121bba1020da9f2e8/lib/spack/spack/package.py#L957-L959\r\n\r\nwhich returns `True` if the prefix is there (without any check of the DB).\r\n\r\n### Expected Result\r\nStarting with this `packages.yaml`:\r\n```yaml\r\npackages:\r\n  openssl:\r\n    buildable: False\r\n    paths:\r\n      openssl@system: /usr/lib\r\n```\r\nand Spack at 231664e22cfcc6f72fcd9d67b718d6723fdb29b2:\r\n```\r\n$ spack find\r\n==> 0 installed packages.\r\n```\r\nI would expect the following:\r\n```console\r\n$ spack-python\r\nSpack version 0.11.2\r\nPython 2.7.15rc1, Linux x86_64\r\n>>> import spack.spec\r\n>>> s = spack.spec.Spec('openssl')\r\n>>> s.concretize()\r\n>>> s.package.installed\r\nFalse\r\n```\r\n\r\n### Actual Result\r\n\r\nWhat we obtain instead is that `openssl` appears to be installed:\r\n```console\r\n$ spack-python\r\nSpack version 0.11.2\r\nPython 2.7.15rc1, Linux x86_64\r\n>>> import spack.spec\r\n>>> s = spack.spec.Spec('openssl')\r\n>>> s.concretize()\r\n>>> s.package.installed\r\nTrue\r\n```\r\n### Information on your system\r\n\r\nThe only relevant part should be the `packages.yaml` above\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/8036",
+    "updated_at": "2018-07-17 18:43:31",
+    "created_at": "2018-05-07 14:55:23",
+    "closed_at": "2018-07-17 18:43:31",
+    "state": "closed",
+    "title": "External packages appear installed even if they are not",
+    "number": 8036,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "pkg-database",
+        "external-packages"
+    ],
+    "id": 320836342,
+    "html_url": "https://github.com/spack/spack/issues/8036",
+    "assignees": [],
+    "comments": 1
+}

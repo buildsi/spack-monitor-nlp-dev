@@ -1,0 +1,21 @@
+{
+    "body": "The packages.py file for albany was outdated - the repo has moved since last time this file was updated, and a number of packages were removed from the develop branch.  I've updated the file to reflect these changes.  @gahansen has reviewed/approved them already.\r\n\r\nTrilinos had multiple global ordinal types defined in the case it was being built with ETI, leading to the following configuration error: \r\n```\r\n1 error found in build log:\r\n     1033    -- Tpetra: Tpetra_INST_INT_UNSIGNED is disabled by default.\r\n     1034    -- Tpetra: Tpetra_INST_INT_UNSIGNED_LONG is disabled by default.\r\n     1035    -- Tpetra: Tpetra_INST_INT_INT is disabled by default.\r\n     1036    -- Tpetra: Tpetra_INST_INT_LONG is disabled by default.\r\n     1037    --\r\n     1038    -- Tpetra: Validate global ordinal setting ...\r\n  >> 1039    CMake Error at packages/tpetra/CMakeLists.txt:1153 (MESSAGE):\r\n     1040      Tpetra requires only one global ordinal, but more than one are set:\r\n     1041      {long;long long}.\r\n     1042    \r\n     1043    \r\n     1044    -- Configuring incomplete, errors occurred!\r\n     1045    See also \"/tmp/gahanse/spack-stage/spack-stage-trilinos-develop-65ytxwstjmjmfht6jh77gkszmxd6wp3m/spack-build/CMakeFile\r\n             s/CMakeOutput.log\".\r\n ```\r\nMy changes fix the problem.  ",
+    "user": "ikalash",
+    "url": "https://api.github.com/repos/spack/spack/issues/14215",
+    "updated_at": "2020-08-22 19:50:03",
+    "created_at": "2019-12-18 21:34:26",
+    "closed_at": "2020-08-22 19:50:03",
+    "state": "closed",
+    "title": "Trilinos, Albany: getting Albany and Trilinos to compile again using spack",
+    "number": 14215,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "don't-merge-yet",
+        "update-package"
+    ],
+    "id": 539936753,
+    "html_url": "https://github.com/spack/spack/pull/14215",
+    "assignees": [],
+    "comments": 32
+}

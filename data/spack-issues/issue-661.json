@@ -1,0 +1,20 @@
+{
+    "body": "I have a Python library that requires Pyhthon3.  Here is `package.py`:\n\n```\nfrom spack import *\n\nclass PyGiss(Package):\n    \"\"\"Misc. Python Stuff.\"\"\"\n\n    homepage = \"https://github.com/citibeth/pygiss\"\n    url      = \"https://github.com/citibeth/pygiss/tarball/v0.1.0\"\n\n    version('0.1.0', '0f6b5c6d2635106963878b4d4e06169c')\n\n    extends('python@3:')\n\n    depends_on('py-numpy+blas+lapack')\n    depends_on('py-netcdf')\n\n    def install(self, spec, prefix):\n        python('setup.py', 'install', '--prefix=%s' % prefix)\n```\n\nThe command:\n\n```\n 1119  spack spec py-giss@local^py-numpy+blas+lapack^atlas\n```\n\nworks, and correctly understands that we need to be using Python3.  But the command:\n\n```\n 1121  spack diy py-giss@local^py-numpy+blas+lapack^atlas\n```\n\ncrashes Spack.  Same behavior on `spack install`.  See attached log files.  The workaround for now is to put `extends('python')` in `package.py`, and supply `^python@3:` on the command line.\n\n[log-spec.txt](https://github.com/LLNL/spack/files/190990/log-spec.txt)\n[log-diy.txt](https://github.com/LLNL/spack/files/190991/log-diy.txt)\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/661",
+    "updated_at": "2017-11-22 07:13:40",
+    "created_at": "2016-03-27 16:45:01",
+    "closed_at": "2017-11-22 07:13:40",
+    "state": "closed",
+    "title": "[BUG] Specifying version number in extends('python')",
+    "number": 661,
+    "milestone": null,
+    "labels": [
+        "unreproducible",
+        "concretization"
+    ],
+    "id": 143826476,
+    "html_url": "https://github.com/spack/spack/issues/661",
+    "assignees": [],
+    "comments": 1
+}

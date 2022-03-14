@@ -1,0 +1,22 @@
+{
+    "body": "The ASP based concretizer currently attaches non-declared dependencies on `libc` when trying to resolve for `iconv`. Doing a bisect the bug started at 0ce08640e08de8f7313a4b3974131e2efa5249e0\r\n\r\n### Steps to reproduce the issue\r\nAt commit 0ce08640e08de8f7313a4b3974131e2efa5249e0 or later:\r\n```console\r\n$ spack solve diffutils\r\n==> Best of 0 answers.\r\n==> Optimization: [0, 0, 10, 0, 1, 0, 0, -2, 0]\r\ndiffutils@3.7%gcc@10.1.0 arch=linux-ubuntu18.04-broadwell\r\n    ^libc@1.0%gcc@10.1.0~iconv~rpc arch=linux-ubuntu18.04-broadwell\r\n    ^libiconv@1.16%gcc@10.1.0 arch=linux-ubuntu18.04-broadwell\r\n```\r\nwhile the expected result is:\r\n```console\r\n$ spack solve diffutils\r\n==> Best of 0 answers.\r\n==> Optimization: [0, 0, 10, 0, 1, 0, 0, -1, 0]\r\ndiffutils@3.7%gcc@10.1.0 arch=linux-ubuntu18.04-broadwell\r\n    ^libiconv@1.16%gcc@10.1.0 arch=linux-ubuntu18.04-broadwell\r\n```\r\n\r\n### Error Message\r\nNo error message, but the DAG has a node that is unexpected.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-440-0ce08640e0\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/20679",
+    "updated_at": "2021-01-06 00:59:16",
+    "created_at": "2021-01-05 09:55:41",
+    "closed_at": "2021-01-06 00:59:16",
+    "state": "closed",
+    "title": "Non-declared dependency attached by the ASP solver",
+    "number": 20679,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high"
+    ],
+    "id": 778824183,
+    "html_url": "https://github.com/spack/spack/issues/20679",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n1. Add `openmpi` as an external package\r\n2. Run `spack test openmpi`\r\n3. Test fails because `examples` directory isn't found in installation prefix\r\n\r\n### Error Message\r\n\r\n```\r\nCommand exited with status 2:\r\n    '/usr/bin/make' 'all'\r\nmake: *** No rule to make target `all'.  Stop.\r\n```\r\n\r\n### Recommended Solution\r\n\r\nWe should skip tests for external packages that require additional files.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.1-6842-6f534ac\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-haswell\r\n* **Concretizer:** original\r\n\r\n```yaml\r\npackages:\r\n  openmpi:\r\n    buildable: false\r\n    externals:\r\n    - spec: openmpi@3.1.6%gcc@9.3.0\r\n      modules:\r\n      - gnu/openmpi-3.1.6-gnu-9.3.0\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/24014",
+    "updated_at": "2022-02-17 18:47:43",
+    "created_at": "2021-05-29 17:25:56",
+    "closed_at": "2022-02-17 18:47:43",
+    "state": "closed",
+    "title": "`spack test` tries to run tests for external packages that require additional files",
+    "number": 24014,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium",
+        "stand-alone-tests"
+    ],
+    "id": 906520438,
+    "html_url": "https://github.com/spack/spack/issues/24014",
+    "assignees": [],
+    "comments": 1
+}

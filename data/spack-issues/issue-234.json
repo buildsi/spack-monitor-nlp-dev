@@ -1,0 +1,19 @@
+{
+    "body": "I was wondering if there are already some thought on exporting linking information for packages providing a virtual dependency.\n\nIn the case of blas/lapack the way to link with a given package could change. For now only `netlib` and `openblas` package are providing `blas`. Openblas already has a trick to have a libblas.a\n\nBut if at a point atlas also provides `blas` it is already not so easy to link with it. Especially if you consider the shared libraries that can be build as a sequential or threaded library `libsatlas.so` and `libtatlas.so`. This becomes even more complicated if you want to link with libraries like the mkl.\n\nFor package using cmake as a make system a way would be to set the environment variable `BLA_VENDOR`. But I guess that this would cover only few packages.\n\nFor all the others, a solution would perhaps be to have a way for packages to express in there spec different {c, fc, cxx}flags and ldflags that can be used to link with them.\nWith variation of this flags with a default that should always be there and then variation of them for example for threaded atlas or mkl.\n",
+    "user": "nrichart",
+    "url": "https://api.github.com/repos/spack/spack/issues/234",
+    "updated_at": "2016-08-16 08:03:16",
+    "created_at": "2015-12-15 10:53:19",
+    "closed_at": "2016-08-16 08:03:16",
+    "state": "closed",
+    "title": "Linking with virtual dependencies ex: blas/lapack",
+    "number": 234,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 122245556,
+    "html_url": "https://github.com/spack/spack/issues/234",
+    "assignees": [],
+    "comments": 11
+}

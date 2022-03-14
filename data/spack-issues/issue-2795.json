@@ -1,0 +1,20 @@
+{
+    "body": "Some packages cannot be built with certain compilers. For example, I am unable to build `openssl`, `libpciaccess`, `bison`, `ncurses`, and `pkg-config` with the PGI compilers. This is not Spack's fault, the packages contain sloppy code and PGI is more strict than GCC. NAG is even more strict, and has a much larger list of packages that it cannot build.\r\n\r\nI need to build a software stack including MPI, HDF 4/5, NetCDF, and pNetCDF with 4 different compilers, including PGI and NAG. But all of these unbuildable packages are picked up as dependencies. I would like to build these dependencies with GCC instead. So how can I do that?\r\n\r\nOne way is to manually put `^libpciaccess%gcc ^bison%gcc ^ncurses%gcc ... etc.` on the install line every time I build them. This is tedious, but it should work. Except it doesn't due to the bug reported in #2786.\r\n\r\nBut that option is still tedious and can't be shared with other users. Is there a way we could do this in our existing framework? One way would be to put something like:\r\n```yaml\r\npackages:\r\n  libpciaccess:\r\n    compiler: [gcc, intel, nag]\r\n```\r\nin the default `packages.yaml`. This would mean build with gcc or intel if we are using those compilers, or build with gcc if we are using pgi. But this is also broken (see #1371)\r\n\r\nSo at this point, I've had to comment out all of those dependencies from the packages I need to install. Luckily they are available on the system. But a better solution would be much appreciated.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2795",
+    "updated_at": "2017-11-22 13:48:33",
+    "created_at": "2017-01-10 16:58:34",
+    "closed_at": "2017-11-22 13:48:33",
+    "state": "closed",
+    "title": "Need a method of blacklisting compilers for packages",
+    "number": 2795,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers"
+    ],
+    "id": 199876425,
+    "html_url": "https://github.com/spack/spack/issues/2795",
+    "assignees": [],
+    "comments": 9
+}

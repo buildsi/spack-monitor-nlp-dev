@@ -1,0 +1,17 @@
+{
+    "body": "The set_permissions() routine claims to prevent users from creating\r\nworld writable suid binaries.  However, it seems to only be checking\r\nfor/preventing group writable suid binaries.\r\n\r\nThis patch modifies the routine to check for both world and group\r\nwritable suid binaries, and complain appropriately.\r\n\r\n(This is a resubmission of #15544 which seems to have slipped between the cracks, and since then I  deleted and recreated my fork of spack, so I am not sure how viable the former is.\r\n\r\nI first encountered this when building singularity a while back and confused by the \"world-writable\" error message on a file which was only group writable.  \r\n\r\nI see that since then, singularity package.py creates a script to add suid rather than go through this script --- that is a better way in my opinion.  But while the set_permissions routine still exists, it should correctly check both group and world write perms on suid binaries and report problems correctly.\r\n)\r\n\r\n\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/17020",
+    "updated_at": "2020-07-01 15:54:06",
+    "created_at": "2020-06-09 14:58:09",
+    "closed_at": "2020-06-24 00:50:20",
+    "state": "closed",
+    "title": "Some minor fixes to set_permissions() in file_permissions.py",
+    "number": 17020,
+    "milestone": null,
+    "labels": [],
+    "id": 635509851,
+    "html_url": "https://github.com/spack/spack/pull/17020",
+    "assignees": [],
+    "comments": 7
+}

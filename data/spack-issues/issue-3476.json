@@ -1,0 +1,17 @@
+{
+    "body": "@alalazo I know you were thinking about how to handle things like `spack module refresh` for packages that were installed on a branch but haven't yet made it into develop. Here is another case that should be solved.\r\n\r\nI added a package for `py-abipy` and installed it. Then I switched back to develop, where this package does not exist. When I run `spack uninstall abipy`, this is what I get:\r\n```\r\n$ spack uninstall py-abipy\r\n==> The following packages will be uninstalled:\r\n\r\n-- darwin-sierra-x86_64 / clang@8.0.0-apple ---------------------\r\nxkka3du py-abipy@master%clang~gui~ipython\r\n\r\n==> Do you want to proceed? [y/N] y\r\nTraceback (most recent call last):\r\n  File \"/Users/Adam/spack/bin/spack\", line 211, in <module>\r\n    main(sys.argv)\r\n  File \"/Users/Adam/spack/bin/spack\", line 207, in main\r\n    _main(args, unknown)\r\n  File \"/Users/Adam/spack/bin/spack\", line 174, in _main\r\n    return_val = command(parser, args)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/uninstall.py\", line 218, in uninstall\r\n    do_uninstall(uninstall_list, args.force)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/uninstall.py\", line 153, in do_uninstall\r\n    spack.Package(item).do_uninstall(force=True)\r\n  File \"/Users/Adam/spack/lib/spack/spack/package.py\", line 534, in __init__\r\n    for v in self.versions:\r\nAttributeError: 'Package' object has no attribute 'versions'\r\n```\r\nI think this would likely have the same fix: to use the `package.py` in the installation directory.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3476",
+    "updated_at": "2017-04-21 23:52:44",
+    "created_at": "2017-03-17 17:08:30",
+    "closed_at": "2017-04-21 23:52:44",
+    "state": "closed",
+    "title": "Unable to uninstall packages that aren't in Spack",
+    "number": 3476,
+    "milestone": null,
+    "labels": [],
+    "id": 215066158,
+    "html_url": "https://github.com/spack/spack/issues/3476",
+    "assignees": [],
+    "comments": 3
+}

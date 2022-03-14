@@ -1,0 +1,19 @@
+{
+    "body": "On a clean `Ubuntu 16.04.3 LTS` (built via [this Dockerfile](https://gist.github.com/nazavode/50c6336f73fca09cf0c4b0997747df08)) the `configure` phase of `gtkplus` fails complaining about missing `cairo-xlib`. When `gtkplus` is asked for `+X` variant, everything works as expected as `cairo-xlib` is provided by `cairo+X`. I tried to configure the source manually using `./configure --without-x` but it keeps complaining: `cairo-xlib` looks like a mandatory dependency.\r\n\r\n### Expected Result\r\n\r\nTo have the `gtkplus` package built and installed.\r\n\r\n### Actual Result\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/spack/spack/var/spack/stage/gtkplus-2.24.31-hbqdviwkldktib7stpuem5mapww527hb/gtk+-2.24.31/configure' '--prefix=/home/spack/spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/gtkplus-2.24.31-hbqdviwkldktib7stpuem5mapww527hb'\r\n\r\n1 error found in build log:\r\n     [ ... ]\r\n     106   checking for library containing strerror... none required\r\n     107   checking whether make sets $(MAKE)... (cached) yes\r\n     108   checking for pkg-config... /home/spack/spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/pkgconf-1.4.0-c5lf2hilcinnqpf3nojkif3eauay2gko/bin/pkg-config\r\n     109   checking pkg-config is at least version 0.9.0... yes\r\n     110   checking for BASE_DEPENDENCIES... yes\r\n     111   checking for CAIRO_BACKEND... no\r\n  >> 112   configure: error: Package requirements (cairo-xlib >= 1.6) were not met:\r\n     113\r\n     114   Package 'cairo-xlib', required by 'virtual:world', not found\r\n     115\r\n     116   Consider adjusting the PKG_CONFIG_PATH environment variable if you\r\n     117   installed software in a non-standard prefix.\r\n     118\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gtkplus\r\n```\r\n\r\n### Information on your system\r\n\r\nThe system used to reproduce this issue has been built via [this Dockerfile](https://gist.github.com/nazavode/50c6336f73fca09cf0c4b0997747df08). It is an `Ubuntu 16.04.3 LTS Server` (no GUI components) running `gcc@5.4.0` and `python@2.7.12`.",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/6940",
+    "updated_at": "2018-01-23 23:24:21",
+    "created_at": "2018-01-14 18:04:36",
+    "closed_at": "2018-01-23 23:24:21",
+    "state": "closed",
+    "title": "gtkplus build failure on Ubuntu LTS",
+    "number": 6940,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 288427079,
+    "html_url": "https://github.com/spack/spack/issues/6940",
+    "assignees": [],
+    "comments": 5
+}

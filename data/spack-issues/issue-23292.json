@@ -1,0 +1,21 @@
+{
+    "body": "`unifyfs@0.9.2` fails to build using:\r\n* spack@develop (295377b2b4695f30e79f4bd877fd85476a8febb9 from `Tue Apr 27 14:20:32 2021 -0400`)\r\n* RHEL 8 - GCC 8.3.1\r\n* Ubuntu 20.04 - GCC 9.3.0\r\n\r\nConcrete spec: [unifyfs-epk2wg.spec.yaml.txt](https://github.com/spack/spack/files/6387011/unifyfs-epk2wg.spec.yaml.txt)\r\nContainer: `ecpe4s/ubuntu20.04-runner-x86_64:2021-03-10`\r\nBuild log: [unifyfs-build-out.txt](https://github.com/spack/spack/files/6387032/unifyfs-build-out.txt)\r\n\r\n```\r\n$> spack mirror add e4s https://cache.e4s.io\r\n$> spack buildcache keys -it\r\n\r\n$> spack install --cache-only --only dependencies --include-build-deps -f ./unifyfs-epk2wg.spec.yaml\r\n\r\n$> spack install --no-cache -f ./unifyfs-epk2wg.spec.yaml\r\n...\r\n==> Installing unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/70/7046625dc0677535f5d960187cb2e2d58a6f8cfb4dc6a3604f825257eb0891aa.tar.gz\r\n###################################################################################################################################################################################### 100.0%\r\n==> No patches needed for unifyfs\r\n==> unifyfs: Executing phase: 'autoreconf'\r\n==> unifyfs: Executing phase: 'configure'\r\n==> unifyfs: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make'\r\n\r\n5 errors found in build log:\r\n     554    /tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/examples/src/testlib.h:221:45: warning: implicit declaration of function 'minor' [-Wi\r\n            mplicit-function-declaration]\r\n     555      221 |            (long) major(sb->st_dev), (long) minor(sb->st_dev));\r\n     556          |                                             ^~~~~\r\n     557      CCLD     sysio-open-static\r\n     558    /usr/bin/ld: ../../client/src/.libs/libunifyfs.a(libunifyfs_la-unifyfs-sysio.o): warning: the `getwd' function is dangerous and should not be used.\r\n     559    /usr/bin/ld: sysio_open_static-sysio-open.o: in function `dump_stat':\r\n  >> 560    /tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/examples/src/testlib.h:221: undefined reference to `minor'\r\n  >> 561    /usr/bin/ld: /tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/examples/src/testlib.h:221: undefined reference to `major'\r\n  >> 562    /usr/bin/ld: /tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/examples/src/testlib.h:242: undefined reference to `minor'\r\n  >> 563    /usr/bin/ld: /tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/examples/src/testlib.h:242: undefined reference to `major'\r\n  >> 564    collect2: error: ld returned 1 exit status\r\n     565    make[3]: *** [Makefile:1361: sysio-open-static] Error 1\r\n     566    make[3]: Leaving directory '/tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/spack-build/examples/src'\r\n     567    make[2]: *** [Makefile:397: all-recursive] Error 1\r\n     568    make[2]: Leaving directory '/tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/spack-build/examples'\r\n     569    make[1]: *** [Makefile:497: all-recursive] Error 1\r\n     570    make[1]: Leaving directory '/tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-src/spack-build'\r\n\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-unifyfs-0.9.2-epk2wgxyrlqe7pl6qddwabc4467a7fko/spack-build-out.txt\r\n```\r\n\r\n@CamStan ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/23292",
+    "updated_at": "2022-03-03 02:08:08",
+    "created_at": "2021-04-27 19:14:28",
+    "closed_at": "2022-03-03 02:08:08",
+    "state": "closed",
+    "title": "unifyfs 0.9.2 build fails: undefined reference to 'major', 'minor'",
+    "number": 23292,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "ecp",
+        "e4s"
+    ],
+    "id": 869181192,
+    "html_url": "https://github.com/spack/spack/issues/23292",
+    "assignees": [],
+    "comments": 1
+}

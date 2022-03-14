@@ -1,0 +1,21 @@
+{
+    "body": "closes #18401 \r\n\r\n**Updated 2020-05-15**\r\n\r\nfixes #12003\r\n\r\nWith this feature, we allow developers to specify package(s) they are working on in an environment.\r\n\r\nFor example, if I were a developer of both `trilinos` and `hdf5`, I could specify in an environment\r\n\r\n```\r\nspack:\r\n  specs:\r\n  - trilinos\r\n  - hdf5\r\n  - mpich\r\n\r\n  develop:\r\n    trilinos:\r\n      source: /path/to/my/trilinos/source\r\n      version: mytrilinosversion\r\n    hdf5:\r\n      source: /path/to/my/hdf5/source\r\n      version: myhdf5version\r\n\r\n  concretization: together\r\n```\r\nI could then install my development versions of both packages, with trilinos using my development version of hdf5 with the simple command `spack install`.\r\n\r\nTODO:\r\n- [x] `spack develop` command to add packages as dev-build\r\n- [x] `spack undevelop` command to turn dev-build packages into TPLs\r\n- [x] Ensure `spack remove` removes dev-build packages fully\r\n- [x] work out strategies for reinstalling dev-build packages on install of dependents\r\n- [x] work out automatically cloning repos from `spack develop` command\r\n- [x] add automatic cloning capabilities to non-git fetchers\r\n- [ ] testing\r\n- [ ] documentation\r\n\r\nMOVED TO OTHER PRs:\r\n- [ ] git integration to compare git commits to versions\r\n\r\nProposed workflow:\r\n\r\n1. `spack env create myenv`  create an environment managed by Spack\r\n2. `spack env activate myenv`  tell spack to use that environment\r\n3. `spack add TPL1 TPL2`  add packages to environment as normal (spack fetches them)\r\n4. `spack develop 1PL1@commit 1PL2@commit application@commit`  add 1st party dependencies to environment as dev-build\r\n5. `spack install`   installs application, 1PL1, 1PL2, TPL1, TPL2\r\n6. <do some development on any of 1PL1, 1PL2, application>\r\n7. `spack install` or `spack install application`  reinstalls application, 1PL1, 1PL2\r\n8. `spack undevelop 1PL2`  done developing, now we fetch it with Spack\r\n9. `spack install`  reinstalls application, 1PL1, does not reinstall 1PL2",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/15256",
+    "updated_at": "2020-11-18 09:06:20",
+    "created_at": "2020-02-27 21:27:49",
+    "closed_at": "2020-10-16 00:23:17",
+    "state": "closed",
+    "title": "Environments: specify packages for developer builds",
+    "number": 15256,
+    "milestone": null,
+    "labels": [
+        "environments",
+        "workflow",
+        "dev"
+    ],
+    "id": 572370272,
+    "html_url": "https://github.com/spack/spack/pull/15256",
+    "assignees": [],
+    "comments": 17
+}

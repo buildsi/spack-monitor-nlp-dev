@@ -1,0 +1,19 @@
+{
+    "body": "This is a first stab at fulfilling #1108. `spack create` previously required a URL. If one was not present, or could not be parsed or fetched, it was useless. This resulted in many users being forced to use `spack edit -f` or manually copy packages by hand. I wanted to draw a line between the two commands. `spack create` is used to create new packages, `spack edit` is used to edit existing packages. In order to remove `spack edit -f`, I needed to allow `spack create` to work even if a URL does not exist.\r\n\r\nThe following commands demonstrate the new abilities of `spack create`:\r\n```\r\n$ spack create\r\n# create an example package\r\n\r\n$ spack create --name foobar\r\n# create a package called foobar\r\n\r\n$ spack create --template cmake\r\n# create an example CMake package\r\n\r\n$ spack create --force --template python --name numpy\r\n$ spack create --force --template python --name py-numpy\r\n# create a python package, both commands create the same package\r\n\r\n$ spack create --template autotools <url>\r\n# convenient when the tarball doesn't contain a configure script and autoreconf needs to be run\r\n```\r\n\r\nI noticed a lot of duplicated code between `spack create` and `spack checksum`. For example, all of the logic that searches for available versions, displays them and asks the user how many they would like to checksum, and formats the output versions was duplicated. I un-duplicated them.\r\n\r\n- [x] Remove duplicated logic in `spack create` and `spack checksum`\r\n- [x] Add `--template` flag to `spack create`\r\n- [x] Allow `spack create` to work even if a URL is not specified\r\n- [x] Document new features of `spack create`\r\n- [x] Remove `spack edit --force`\r\n\r\nWe can change the UI from `spack create --name <name> <url>` to `spack create --url <url> <name>` in another PR, as that seemed like a more controversial change.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2707",
+    "updated_at": "2017-01-17 13:54:46",
+    "created_at": "2016-12-31 23:18:38",
+    "closed_at": "2017-01-17 01:13:12",
+    "state": "closed",
+    "title": "Major improvements to spack create",
+    "number": 2707,
+    "milestone": null,
+    "labels": [
+        "UI"
+    ],
+    "id": 198250461,
+    "html_url": "https://github.com/spack/spack/pull/2707",
+    "assignees": [],
+    "comments": 9
+}

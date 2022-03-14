@@ -1,0 +1,20 @@
+{
+    "body": "I am trying to build our LBANN library in setup mode with:\r\n```\r\n$ spack setup lbann@local build_type=Release dtype=4 %gcc@7.1.0 ^elemental@master blas=mkl ^mvapich2\r\n```\r\nwhen I work around another mkl issue when building with gcc (the fact that it doesn't put in the `-Wl,--no-as-needed -lgomp` link flags), I get a problem with the RPATH that is created by spack.  \r\n\r\nI get spconfig.py file that includes:\r\n```\r\ncmd = cmdlist(\"\"\"\r\n/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/cmake-3.9.0-krz66kb4cqmp5fjahav7ii5feepcfcfo/bin/cmake\r\n   -DCMAKE_INSTALL_PREFIX:PATH=/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/lbann-local-guupxwha6xi6mfpddnky6ewf772rss5b\r\n   -DCMAKE_BUILD_TYPE:STRING=Release\r\n   -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON\r\n   -DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=FALSE\r\n   -DCMAKE_INSTALL_RPATH:STRING=/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/lbann-local-guupxwha6xi6mfpddnky6ewf772rss5b/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/lbann-local-guupxwha6xi6mfpddnky6ewf772rss5b/lib64:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/cnpy-master-fjslq6rxwquxlrk56fzk4gluukg6snxv/lib:/usr/tce/packages/mkl/mkl-2017.1/compilers_and_libraries/linux/mkl/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/metis-5.1.0-ilk4jmuphj6sskw2rns2qe5ienciqiep/lib:/usr/tce/packages/mvapich2/mvapich2-2.2-gcc-7.1.0/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/opencv-3.2.0-f4xzlgkqmajj5durr6q2yxakygtlfyod/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/jasper-1.900.1-ctf7n7bjsfox4w3ddqekuwrzelail3j7/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/libjpeg-turbo-1.5.0-uck322mt5ekddxoqwfbskftvcisonomc/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/libpng-1.6.29-an4ubtcsn3itdxf3qbzlzxfks225djmu/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/zlib-1.2.11-zqrm3wqa4icvkftszlqhyte5ndwxc2r3/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/libtiff-4.0.8-26ovtt6jl3qkzk2zpsv4cswl7px5awse/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/xz-5.2.3-5kcqg45oaqedgqi2i4httoyaofxicdsr/lib:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/elemental-master-4k5lllrp6y2ygztpo3qwasszs6spqcwy/lib64:/usr/workspace/wsa/vanessen/spack.git/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/protobuf-3.2.0-3za6rvajnpjgeqth22ivxn4sjkrfw76m/lib64\r\n```\r\nif you look at the part that include mkl/lib, it is wrong and should have intel64 at the end of it.  The intel-mkl package has the following line:\r\n```python\r\n   def setup_dependent_environment(self, spack_env, run_env, dependent_spec):\r\n       # set up MKLROOT for everyone using MKL package                                                                                                                                                   \r\n       spack_env.set('MKLROOT', self.prefix)\r\n       spack_env.append_path('SPACK_COMPILER_EXTRA_RPATHS',\r\n                             join_path(self.prefix.lib, \u2018intel64\u2019))\r\n```\r\nWhich seems like it wants to set this up correctly, but doesn\u2019t.",
+    "user": "bvanessen",
+    "url": "https://api.github.com/repos/spack/spack/issues/5050",
+    "updated_at": "2017-08-16 17:21:08",
+    "created_at": "2017-08-10 00:34:48",
+    "closed_at": "2017-08-16 17:21:08",
+    "state": "closed",
+    "title": "Intel-mkl fails to properly set the RPATH when using gcc",
+    "number": 5050,
+    "milestone": null,
+    "labels": [
+        "blas-lapack-scalapack",
+        "intel"
+    ],
+    "id": 249200346,
+    "html_url": "https://github.com/spack/spack/issues/5050",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,20 @@
+{
+    "body": "After successfully installing boost 1.63.0 with GCC 5.4.0, I failed to buid it against Intel compiler 16.0.3. The erorro message says \"Archive was empty for boost\".  However, I am pretty sure that the boost package has been downloaded and I can unarchive it manually.\r\n\r\nAny advice on further digging into this issue? Thank you.\r\n\r\n```\r\n$ spack install boost %intel@16.0.3\r\n==> Installing boost\r\n==> bzip2 is already installed in /lustre/spack/sandybridge/linux-centos7-x86_64/intel-16.0.3/bzip2-1.0.6-qz2i6vx23esuzvr3jntzoavyewf5aucw\r\n==> zlib is already installed in /lustre/spack/sandybridge/linux-centos7-x86_64/intel-16.0.3/zlib-1.2.10-exoivhx3ti4qedcevvrr6bcv7s7mjz5c\r\n==> Fetching http://downloads.sourceforge.net/project/boost/boost/1.63.0/boost_1_63_0.tar.bz2\r\n######################################################################## 100.0%\r\n==> Already staged boost-1.63.0-dlne5jb6p33roxb3bn5edke4a3ya6b2h in /home/rpm/spack/var/spack/stage/boost-1.63.0-dlne5jb6p33roxb3bn5edke4a3ya6b2h\r\n==> Error: StageError: Archive was empty for boost-1.63.0-dlne5jb6p33roxb3bn5edke4a3ya6b2h\r\n/home/rpm/spack/lib/spack/spack/package.py:965, in do_stage:\r\n     957      def do_stage(self, mirror_only=False):\r\n     958          \"\"\"Unpacks the fetched tarball, then changes into the expanded tarball\r\n     959             directory.\"\"\"\r\n     960          if not self.spec.concrete:\r\n     961              raise ValueError(\"Can only stage concrete packages.\")\r\n     962\r\n     963          self.do_fetch(mirror_only)\r\n     964          self.stage.expand_archive()\r\n  >> 965          self.stage.chdir_to_source()\r\n \r\n$ ls -alh /home/rpm/spack/var/spack/stage/boost-1.63.0-dlne5jb6p33roxb3bn5edke4a3ya6b2h/            \r\ntotal 79M\r\ndrwx------ 3 rpm rpm  80 Feb  3 23:40 .\r\ndrwxrwxr-x 3 rpm rpm  60 Feb  3 23:33 ..\r\n-rw-rw-r-- 1 rpm rpm 79M Feb  3 23:40 boost_1_63_0.tar.bz2\r\ndrwxrwxr-x 2 rpm rpm  40 Feb  3 23:33 spack-expanded-archive\r\n```",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/3018",
+    "updated_at": "2017-11-23 06:59:50",
+    "created_at": "2017-02-03 15:52:48",
+    "closed_at": "2017-11-23 06:59:50",
+    "state": "closed",
+    "title": "Unable to build boost with error \"Archive was empty\"",
+    "number": 3018,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible"
+    ],
+    "id": 205194238,
+    "html_url": "https://github.com/spack/spack/issues/3018",
+    "assignees": [],
+    "comments": 17
+}

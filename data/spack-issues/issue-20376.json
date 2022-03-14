@@ -1,0 +1,21 @@
+{
+    "body": "This PR does three related things to try to improve developer tooling quality of life:\r\n\r\n1. Adds new options to `.flake8` so it applies the rules of both `.flake8` and `.flake_package` based on paths in the repository.\r\n2. Adds a re-factoring of the `spack flake8` logic into a flake8 plugin so using flake8 directly, or through editor or language server integration, only reports errors that `spack flake8` would.\r\n3. Allows star import of `spack.pkgkit` in packages, since this is now the thing that needs to be imported for completion to work correctly in package files, it's nice to be able to do that.\r\n\r\nI'm sorely tempted to sed over the whole repository and put `from spack.pkgkit import *` in every package, but at least being allowed to do it on a per-package basis helps.\r\n\r\nAs an example of what the result of this is:\r\n\r\n```\r\n~/Workspace/Projects/spack/spack develop* \u21e3\r\n\u276f flake8 --format=pylint ./var/spack/repos/builtin/packages/kripke/package.py\r\n./var/spack/repos/builtin/packages/kripke/package.py:6: [F403] 'from spack.pkgkit import *' used; unable to detect undefined names\r\n./var/spack/repos/builtin/packages/kripke/package.py:25: [E501] line too long (88 > 79 characters)\r\n\r\n~/Workspace/Projects/spack/spack refactor-flake8*\r\n1 \u276f flake8 --format=spack ./var/spack/repos/builtin/packages/kripke/package.py\r\n\r\n~/Workspace/Projects/spack/spack refactor-flake8*\r\n\u276f flake8 ./var/spack/repos/builtin/packages/kripke/package.py\r\n```",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/20376",
+    "updated_at": "2020-12-22 17:28:47",
+    "created_at": "2020-12-14 19:06:24",
+    "closed_at": "2020-12-22 17:28:47",
+    "state": "closed",
+    "title": "Refactor flake8 handling and tool compatibility",
+    "number": 20376,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "flake8",
+        "style"
+    ],
+    "id": 766832013,
+    "html_url": "https://github.com/spack/spack/pull/20376",
+    "assignees": [],
+    "comments": 9
+}

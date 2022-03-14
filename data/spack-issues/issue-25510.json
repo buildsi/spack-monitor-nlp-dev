@@ -1,0 +1,20 @@
+{
+    "body": "A major shortcoming of building `package@main` is that there is no way of knowing what commit has been used for the build, and it has to be uninstalled in order to get an updated build if the branch has been changed. It's possible to add `version(\"foo\", commit=\"12345bar\")` to the recipe, but that is not really practical in most applications. \r\nThis is an alternative attempt to attempt to improve spack for nightly builds and similar applications.\r\n\r\nHere the idea is to add a general `commit_sha` variant, modeled after `dev_path`. `commit_sha` should do two things:\r\n\r\n1. It should be settable on the command line, in order to build any commit of the spackage according to the recipe for any version, e.g.\r\n\r\n```\r\nspack install package@develop commit_sha=abc123\r\n```\r\n\r\n2. If a package is installed from a branch, it should record the acutal commit hash that is used:\r\n```\r\nspack install package@develop\r\n...\r\nspack find -v package\r\n\r\npackage@develop commit_hash=abc123\r\n```\r\n\r\nThis PR is a very quick implementation of 1. There are quite a few implications like changing the concretization, none of which I have thought through yet. A complication is the current possibility of doing:\r\n\r\n```\r\nversion('someversion', commit='abc123')\r\n```\r\n\r\nand if `spack install package@someversion commit_sha=def567` should then override `commit`.\r\n\r\nFor a very simple, but maybe even better, alternative solution to the same problem see: https://github.com/spack/spack/pull/20065",
+    "user": "vvolkl",
+    "url": "https://api.github.com/repos/spack/spack/issues/25510",
+    "updated_at": "2021-08-27 05:34:35",
+    "created_at": "2021-08-19 14:59:18",
+    "closed_at": "2021-08-26 23:57:41",
+    "state": "closed",
+    "title": "Add special commit_sha variant to allow fetching specific commits",
+    "number": 25510,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "directives"
+    ],
+    "id": 974760853,
+    "html_url": "https://github.com/spack/spack/pull/25510",
+    "assignees": [],
+    "comments": 8
+}

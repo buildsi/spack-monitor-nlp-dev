@@ -1,0 +1,19 @@
+{
+    "body": "Two questions about the singularity package:\r\n\r\n1. We're currently using the dynamically generated tarball built from a particular commit/tag on the source tree (aka [this \"archive\" link](https://github.com/singularityware/singularity/archive/2.3.1.tar.gz)).  This is the raw source and requires that the install run the maintainer level autotools bits (and adds prereqs to the package and etc...).\r\n\r\n    The author's *also* upload a release tarball that contains the result of them running the maintainer steps of the autotools dance, e.g. [this \"KB singularity-2.3.1.tar.gz\" link](https://github.com/singularityware/singularity/releases/download/2.3.1/singularity-2.3.1.tar.gz).\r\n\r\n    This tarball just requires running `./configure`, without the additional dependencies.\r\n\r\n    **BUT**, this is a different tarball the diffs change.\r\n\r\n    Diffs look like this:\r\n\r\n    ```diff\r\n    diff --git a/var/spack/repos/builtin/packages/singularity/package.py b/var/spack/repos/builtin/packages/singularity/package.py\r\n    index 61acf5646..2cec1fa6e 100644\r\n    --- a/var/spack/repos/builtin/packages/singularity/package.py\r\n    +++ b/var/spack/repos/builtin/packages/singularity/package.py\r\n    @@ -30,11 +30,6 @@ class Singularity(AutotoolsPackage):\r\n            Compute'\"\"\"\r\n\r\n         homepage = \"http://singularity.lbl.gov/\"\r\n    -    url      = \"https://github.com/singularityware/singularity/archive/2.3.1.tar.gz\"\r\n    +    url      = \"https://github.com/singularityware/singularity/releases/download/2.3.1/singularity-2.3.1.tar.gz\"\r\n\r\n    -    version('2.3.1', '292ff7fe3db09c854b8accf42f763f62')\r\n    -\r\n    -    depends_on('m4',       type='build')\r\n    -    depends_on('autoconf', type='build')\r\n    -    depends_on('automake', type='build')\r\n    -    depends_on('libtool',  type='build')\r\n    +    version('2.3.1', 'd2ae1930024cfadcd472e6b7cc9e01ca')\r\n    ```\r\n\r\n2. We're not doing anything about making the executables setuid.  Are people installing this as root, or???  Does Spack have any hooks for supporting setuid/root-installed stuff?\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4946",
+    "updated_at": "2020-08-23 23:04:32",
+    "created_at": "2017-08-02 00:52:30",
+    "closed_at": "2020-08-23 23:04:32",
+    "state": "closed",
+    "title": "Questions about the singularity package.",
+    "number": 4946,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 247242996,
+    "html_url": "https://github.com/spack/spack/issues/4946",
+    "assignees": [],
+    "comments": 3
+}

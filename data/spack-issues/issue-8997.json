@@ -1,0 +1,22 @@
+{
+    "body": "Trying to install vtk with the `packages.yaml` and Spack version given below results in a CMake-related build-time error.\r\n```bash\r\n$ spack install vtk ^hdf5@1.10.1\r\n...\r\n==> python is already installed in /opt/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-8/python-3.6.5-35lnfnmcextwomefc5kemft53rouy2kc\r\n...\r\n     3445    [  9%] Generating vtk_compile_complete\r\n     3446    cd /tmp/bassen/spack-stage/spack-stage-fl9jdezj/VTK-8.0.1/spack-build/Wrapping/Python && /usr/bin/python2 /tmp/bassen/spack-stage/spack-stage-fl9jdezj/VTK-8.0.1/spac\r\n             k-build/Wrapping/Python/compile_all_vtk.py\r\n     3447    ImportError: No module named site\r\n...\r\n```\r\n`CMake/FindPythonLibs.cmake` obviously picks up the system installation of Python (`/usr/bin/python2`) instead of the one specified with Spack. CMake needs some help with the `PYTHON_EXECUTABLE`.\r\n\r\nThe following diff solves the problem:\r\n```bash\r\n$ git diff\r\ndiff --git a/var/spack/repos/builtin/packages/vtk/package.py b/var/spack/repos/builtin/packages/vtk/package.py\r\nindex e413b4c4e..b7f51abb7 100644\r\n--- a/var/spack/repos/builtin/packages/vtk/package.py\r\n+++ b/var/spack/repos/builtin/packages/vtk/package.py\r\n@@ -24,6 +24,7 @@\r\n ##############################################################################\r\n\r\n import os\r\n+import sys\r\n from spack import *\r\n\r\n\r\n@@ -119,6 +120,7 @@ class Vtk(CMakePackage):\r\n             # Enable/Disable wrappers for Python.\r\n             '-DVTK_WRAP_PYTHON={0}'.format(\r\n                 'ON' if '+python' in spec else 'OFF'),\r\n+            '-DPYTHON_EXECUTABLE={0}'.format(sys.executable),\r\n\r\n             # Disable wrappers for other languages.\r\n             '-DVTK_WRAP_JAVA=OFF',\r\n```\r\n\r\n---\r\n\r\nSpack version:\r\n```bash\r\n$ git describe\r\nv0.8.17-8916-g5be5c486a\r\n```\r\n`packages.yaml`:\r\n```yaml\r\n packages:\r\n     python:\r\n         version: [3.6.5]\r\n     qt:\r\n         version: [4.8.6]\r\n         variants: +dbus+opengl+phonon+webkit\r\n     py-pyqt:\r\n         version: [4.12.1]\r\n     opengl:\r\n         paths:\r\n             opengl@4.5.0: /opt/opengl/\r\n         buildable: False\r\n     hdf5:\r\n         variants: ~cxx~debug~fortran+hl~mpi+pic+shared+szip+threadsafe\r\n     netcdf:\r\n         variants: ~mpi\r\n     vtk:\r\n         variants: +python+qt\r\n```",
+    "user": "bassenj",
+    "url": "https://api.github.com/repos/spack/spack/issues/8997",
+    "updated_at": "2018-08-17 19:51:50",
+    "created_at": "2018-08-16 14:21:33",
+    "closed_at": "2018-08-17 19:51:50",
+    "state": "closed",
+    "title": "vtk@8.0.1 picks up wrong python version",
+    "number": 8997,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies"
+    ],
+    "id": 351227430,
+    "html_url": "https://github.com/spack/spack/issues/8997",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

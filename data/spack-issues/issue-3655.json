@@ -1,0 +1,19 @@
+{
+    "body": "It has something to do with how we handle checksums:\r\n```\r\n$ python3 bin/spack fetch libsigsegv\r\n==> Already downloaded /Users/Adam/spack/var/spack/stage/libsigsegv-2.11-5o3gkmccnzyuuirvrynnm56xebwv2lvd/libsigsegv-2.11.tar.gz\r\nTraceback (most recent call last):\r\n  File \"bin/spack\", line 220, in <module>\r\n    main(sys.argv)\r\n  File \"bin/spack\", line 216, in main\r\n    _main(args, unknown)\r\n  File \"bin/spack\", line 183, in _main\r\n    return_val = command(parser, args)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/fetch.py\", line 65, in fetch\r\n    package.do_fetch()\r\n  File \"/Users/Adam/spack/lib/spack/spack/package.py\", line 955, in do_fetch\r\n    self.stage.check()\r\n  File \"/Users/Adam/spack/lib/spack/spack/util/pattern.py\", line 84, in getter\r\n    getattr(item, self.name)(*args, **kwargs)\r\n  File \"/Users/Adam/spack/lib/spack/spack/stage.py\", line 460, in check\r\n    self.fetcher.check()\r\n  File \"/Users/Adam/spack/lib/spack/spack/fetch_strategy.py\", line 75, in wrapper\r\n    return fun(self, *args, **kwargs)\r\n  File \"/Users/Adam/spack/lib/spack/spack/fetch_strategy.py\", line 352, in check\r\n    if not checker.check(self.archive_file):\r\n  File \"/Users/Adam/spack/lib/spack/spack/util/crypto.py\", line 102, in check\r\n    self.hash_fun, filename, block_size=self.block_size)\r\n  File \"/Users/Adam/spack/lib/spack/spack/util/crypto.py\", line 49, in checksum\r\n    data = file.read(block_size)\r\n  File \"/Users/Adam/anaconda3/lib/python3.5/codecs.py\", line 321, in decode\r\n    (result, consumed) = self._buffer_decode(data, self.errors, final)\r\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte\r\n$ python3 bin/spack fetch --no-checksum libsigsegv\r\n==> Already downloaded /Users/Adam/spack/var/spack/stage/libsigsegv-2.11-5o3gkmccnzyuuirvrynnm56xebwv2lvd/libsigsegv-2.11.tar.gz\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3655",
+    "updated_at": "2017-04-21 22:36:16",
+    "created_at": "2017-04-01 02:07:38",
+    "closed_at": "2017-04-21 22:36:16",
+    "state": "closed",
+    "title": "spack fetch doesn't work in Python 3",
+    "number": 3655,
+    "milestone": null,
+    "labels": [
+        "python3"
+    ],
+    "id": 218659194,
+    "html_url": "https://github.com/spack/spack/issues/3655",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I ran `spack install` with my `spack.yaml` that only includes `cmake` to install `cmake`, but this fails because one of the dependencies of `cmake` is `perl`, which is dependent on `patch`, a package that is not listed as implicit dependency.\r\n\r\n### Steps to reproduce the issue\r\n```console\r\n$ vim spack.yaml\r\n```\r\nwith the spack.yaml looking like\r\n```\r\nspack:\r\n  specs:\r\n  - cmake\r\n```\r\nthen run\r\n```console\r\n$ spack concretize -f\r\n$ spack install\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> Installing environment /home/gitlab-runner/ci-spack/build\r\n==> pkgconf is already installed in /home/gitlab-runner/ci-spack/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/pkgconf-1.4.2-lq2llfax3ikzxy7fel7kvlrxogtolr7w\r\n==> ncurses is already installed in /home/gitlab-runner/ci-spack/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/ncurses-6.1-rqw3cmcwvd76h4rjgtaxpvrqg47prwkg\r\n==> readline is already installed in /home/gitlab-runner/ci-spack/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/readline-7.0-b4z2xcjalfc4z7tgktx7txhe2my3wlfd\r\n==> gdbm is already installed in /home/gitlab-runner/ci-spack/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/gdbm-1.14.1-xdrlyqkflqshxl2so56p5qhwjf77dxbt\r\n==> Installing perl\r\n==> Searching for binary cache of perl\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for perl found: installing from source\r\n==> Using cached archive: /home/gitlab-runner/ci-spack/spack/var/spack/cache/perl/perl-5.26.2.tar.gz\r\n==> Using cached archive: /home/gitlab-runner/ci-spack/spack/var/spack/cache/perl/cpanm-5.26.2.tar.gz\r\n==> Staging archive: /home/gitlab-runner/ci-spack/spack/var/spack/stage/perl-5.26.2-wavwojlef7lshvx2awf4zze2lrx5l7l4/perl-5.26.2.tar.gz\r\n==> Created stage in /home/gitlab-runner/ci-spack/spack/var/spack/stage/perl-5.26.2-wavwojlef7lshvx2awf4zze2lrx5l7l4\r\n==> Staging archive: /home/gitlab-runner/ci-spack/spack/var/spack/stage/resource-cpanm-wavwojlef7lshvx2awf4zze2lrx5l7l4/App-cpanminus-1.7042.tar.gz\r\n==> Created stage in /home/gitlab-runner/ci-spack/spack/var/spack/stage/resource-cpanm-wavwojlef7lshvx2awf4zze2lrx5l7l4\r\n==> Moving resource stage\r\n\tsource : /home/gitlab-runner/ci-spack/spack/var/spack/stage/resource-cpanm-wavwojlef7lshvx2awf4zze2lrx5l7l4/App-cpanminus-1.7042/\r\n\tdestination : /home/gitlab-runner/ci-spack/spack/var/spack/stage/perl-5.26.2-wavwojlef7lshvx2awf4zze2lrx5l7l4/perl-5.26.2/cpanm/cpanm\r\n==> Using cached archive: /home/gitlab-runner/ci-spack/spack/var/spack/cache/perl/perl-5.26.1-guard_old_libcrypt_fix.patch\r\n==> Error: spack requires 'patch'. Make sure it is in your path.\r\n==> Error: SystemExit: 1\r\n\r\n/home/gitlab-runner/ci-spack/spack/lib/spack/spack/package.py:1021, in do_patch:\r\n       1018            except spack.error.SpackError:\r\n       1019                # Touch bad file if anything goes wrong.\r\n       1020                tty.msg('Patch %s failed.' % patch.path_or_url)\r\n  >>   1021                touch(bad_file)\r\n       1022                raise\r\n       1023\r\n       1024        if has_patch_fun:\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n 1. System Info: Linux 3.10.0-957.5.1.el7.x86_64 #1 SMP x86_64 x86_64 x86_64 GNU/Linux\r\n 2. Using `spack.yaml` as described above\r\n",
+    "user": "ktsai7",
+    "url": "https://api.github.com/repos/spack/spack/issues/11241",
+    "updated_at": "2019-05-13 19:15:09",
+    "created_at": "2019-04-19 23:00:28",
+    "closed_at": "2019-05-13 19:14:26",
+    "state": "closed",
+    "title": "spack install cmake fails since 'patch' is not found",
+    "number": 11241,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 435326612,
+    "html_url": "https://github.com/spack/spack/issues/11241",
+    "assignees": [],
+    "comments": 3
+}

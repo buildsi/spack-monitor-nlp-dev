@@ -1,0 +1,19 @@
+{
+    "body": "This is bit opposite to #2191 and I commented there about invalid path.\r\n\r\nHere is long story...today I saw following error:\r\n\r\n```bash\r\n$ spack module refresh\r\n....\r\n  File \"..../spack/var/spack/repos/builtin/packages/python/package.py\", line 223, in setup_dependent_environment\r\n    raise RuntimeError('Cannot locate python executable')\r\nRuntimeError: Cannot locate python executable\r\n```\r\nWas wondering why python executable is suddenly an issue. Then realise @BarrySmith  added logic to detect `PYTHONHOME` in  #2173. That looks all good. My `packages.yaml` has always been like:\r\n```bash\r\n    python:\r\n        paths:\r\n            python@2.7.10: /System/Library/Frameworks/Python.framework/Versions/2.7\r\n```\r\nLooking at installed packages, I saw that the `python` package silently appears in the installed packages and with the `prefix` path that `doesn't` exist. (Note that this doesn't happen right away but I think when I install dependent packages and stuff....) :\r\n\r\n```bash\r\n \u2192 spack find -p python\r\n==> 2 installed packages.\r\n-- darwin-elcapitan-x86_64 / clang@3.9.0 ------------------------\r\n    python@2.7.10  xxx/spack/opt/spack/darwin-elcapitan-x86_64/clang-3.9.0/python-2.7.10-izyruuenr4wd7d4ssfeotod2tqz7g4kz\r\n......\r\n\r\n \u2192 ll xxx/spack/opt/spack/darwin-elcapitan-x86_64/clang-3.9.0/python-2.7.10-izyruuenr4wd7d4ssfeotod2tqz7g4kz\r\nls: xxx/spack/opt/spack/darwin-elcapitan-x86_64/clang-3.9.0/python-2.7.10-izyruuenr4wd7d4ssfeotod2tqz7g4kz: No such file or directory\r\n```\r\n\r\nNow how to get around this issue? I tried to uninstall packages (which I never installed!), `reindex`, `purge` etc.. : \r\n```bash\r\nspack uninstall -af python\r\n==> The following packages will be uninstalled :\r\n....\r\n==> Do you want to proceed ? [y/n]\r\ny\r\n==> Removed stale DB entry for python@2.7.10%clang@3.9.0~tk~ucs4 arch=darwin-elcapitan-x86_64-izyruue\r\n==> Removed stale DB entry for python@2.7.10%gcc@4.9.3~tk~ucs4 arch=darwin-elcapitan-x86_64-mdqov5t\r\n\r\nspack reindex\r\nspack purge -as\r\n\r\n```\r\nIs removing database safe option? or something else?",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2208",
+    "updated_at": "2017-11-12 00:38:23",
+    "created_at": "2016-11-02 11:13:46",
+    "closed_at": "2017-10-19 08:03:37",
+    "state": "closed",
+    "title": "Spack adds external packages to the database (silently) with invalid PREFIX path",
+    "number": 2208,
+    "milestone": "v0.11.0",
+    "labels": [
+        "external-packages"
+    ],
+    "id": 186772909,
+    "html_url": "https://github.com/spack/spack/issues/2208",
+    "assignees": [],
+    "comments": 3
+}

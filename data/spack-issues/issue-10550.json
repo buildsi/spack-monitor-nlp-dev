@@ -1,0 +1,21 @@
+{
+    "body": "The `spack.yaml` environment specification allows users to add their own config (https://spack.readthedocs.io/en/latest/tutorial_environments.html#configuration) according to the familiar schemas used outside of environments (https://spack.readthedocs.io/en/latest/configuration.html). \r\n\r\nHowever, while non-environment configs allow you to override lower-precedence scopes using `::` like\r\n\r\n```\r\nconfig::\r\n  install_tree: /some/other/directory\r\n```\r\n\r\n(see https://spack.readthedocs.io/en/latest/configuration.html#overriding-entire-sections)\r\n\r\nThe same cannot be done within an environment. This can be problematic if a user wants the environment configuration to ignore the configuration stored in `~/.spack`.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ (edit test-spack.yaml)\r\n$ spack env create env1 test-spack.yaml\r\n==> Error: spack-test.yaml:2: Additional properties not allowed ('config:' was unexpected)\r\n```\r\n\r\nNote that for individual package overrides, you can use the `::` syntax,\r\n\r\n```\r\nspack:\r\n  specs:\r\n    - python@3.6.1\r\n  packages:\r\n    python::\r\n      variants: +optimizations\r\n```\r\n\r\nbut you cannot override entire sections",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/10550",
+    "updated_at": "2019-11-27 21:18:41",
+    "created_at": "2019-02-08 02:44:36",
+    "closed_at": "2019-11-27 19:10:47",
+    "state": "closed",
+    "title": "Cannot override config sections in environment spack.yaml",
+    "number": 10550,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 407984960,
+    "html_url": "https://github.com/spack/spack/issues/10550",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

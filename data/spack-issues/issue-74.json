@@ -1,0 +1,19 @@
+{
+    "body": "Hi,\n\nI tried the \"mirror create\" feature on the develop branch.\nIt works when I invoke the command for one package, e.g.\n$ spack mirror create hwloc@1.11.0\n\nBut as soon as it fetches several files only the first is really stored in the mirror directory, e.g.\n$ spack mirror create hwloc\nwill keep only the first version 1.11.0\n\nIn addition the optional way with a file does not work for me\n$ spack mirror create -f specs.txt\nTraceback (most recent call last):\n  File \"/home/pruvost/work/gitwc/spack-morse/bin/spack\", line 146, in <module>\n    main()\n  File \"/home/pruvost/work/gitwc/spack-morse/bin/spack\", line 127, in main\n    return_val = command(parser, args)\n  File \"/home/pruvost/work/gitwc/spack-morse/lib/spack/spack/cmd/mirror.py\", line 170, in mirror\n    action[args.mirror_command](args)\n  File \"/home/pruvost/work/gitwc/spack-morse/lib/spack/spack/cmd/mirror.py\", line 127, in mirror_create\n    specs = _read_specs_from_file(args.file)\n  File \"/home/pruvost/work/gitwc/spack-morse/lib/spack/spack/cmd/mirror.py\", line 111, in _read_specs_from_file\n    args.specs.append(s)\nNameError: global name 'args' is not defined\n\nMy file looks like this:\npruvost@hp9470m:~/work/gitwc/spack-llnl-fpruvost$ cat specs.txt \nstarpu@1.1.4\nfxt@0.3.1\n\nAny idea?\nThanks,\nFlorent\n",
+    "user": "fpruvost",
+    "url": "https://api.github.com/repos/spack/spack/issues/74",
+    "updated_at": "2016-01-25 10:57:55",
+    "created_at": "2015-06-23 09:44:03",
+    "closed_at": "2016-01-25 10:57:55",
+    "state": "closed",
+    "title": "develop: \"spack mirror create\" with multiple packages",
+    "number": 74,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 90337868,
+    "html_url": "https://github.com/spack/spack/issues/74",
+    "assignees": [],
+    "comments": 0
+}

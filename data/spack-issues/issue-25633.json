@@ -1,0 +1,21 @@
+{
+    "body": "This is a direct followup to #13557 which caches additional attributes that were added in #24095 that are expensive to compute. I had to reopen #25556 in another PR to invalidate the GitLab CI cache, but see #25556 for prior discussion.\r\n\r\n### Before\r\n\r\n```console\r\n$ time spack env activate .\r\n\r\nreal\t2m13.037s\r\nuser\t1m25.584s\r\nsys\t0m43.654s\r\n$ time spack env view regenerate\r\n==> Updating view at /Users/Adam/.spack/.spack-env/view\r\n\r\nreal\t16m3.541s\r\nuser\t10m28.892s\r\nsys\t4m57.816s\r\n$ time spack env deactivate\r\n\r\nreal\t2m30.974s\r\nuser\t1m38.090s\r\nsys\t0m49.781s\r\n```\r\n\r\n### After\r\n```console\r\n$ time spack env activate .\r\n\r\nreal\t0m8.937s\r\nuser\t0m7.323s\r\nsys\t0m1.074s\r\n$ time spack env view regenerate\r\n==> Updating view at /Users/Adam/.spack/.spack-env/view\r\n\r\nreal\t2m22.024s\r\nuser\t1m44.739s\r\nsys\t0m30.717s\r\n$ time spack env deactivate\r\n\r\nreal\t0m10.398s\r\nuser\t0m8.414s\r\nsys\t0m1.630s\r\n```\r\n\r\nFixes #25555\r\nFixes #25541",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/25633",
+    "updated_at": "2021-08-26 20:51:46",
+    "created_at": "2021-08-26 16:57:12",
+    "closed_at": "2021-08-26 20:44:32",
+    "state": "closed",
+    "title": "Speedup environment activation, part 2",
+    "number": 25633,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package",
+        "build-systems"
+    ],
+    "id": 980457967,
+    "html_url": "https://github.com/spack/spack/pull/25633",
+    "assignees": [],
+    "comments": 2
+}

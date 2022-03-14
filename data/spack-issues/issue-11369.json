@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ git clone https://github.com/llnl/spack.git spack-git\r\n$ cd spack-git\r\n\r\n# When this is set, the ncurses install will go here instead of under\r\n# the spack installation directory\r\n$ export TERMINFO=/tmp/terminfo_user_dir\r\n\r\n# Nothing in either location yet before the install\r\n$ ls -ld $TERMINFO opt/spack/*/*/ncurses-6.1-*/share/terminfo\r\nls: cannot access /tmp/terminfo_user_dir: No such file or directory\r\nls: cannot access opt/spack/*/*/ncurses-6.1-*/share/terminfo: No such file or directory\r\n\r\n$ bin/spack install ncurses\r\n...\r\n==> Successfully installed ncurses\r\n  Fetch: 7.47s.  Build: 39.02s.  Total: 46.50s.\r\n[+] /home/watson30/src/personal/src/spack/spack-git/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/ncurses-6.1-wkyck363aqihprfuuiipgdmzt6vjk6nk\r\n\r\n# Database installed in the wrong location\r\n$ ls -ld $TERMINFO opt/spack/*/*/ncurses-6.1-*/share/terminfo\r\nls: cannot access opt/spack/*/*/ncurses-6.1-*/share/terminfo: No such file or directory\r\ndrwxr-xr-x 44 watson30 watson30 4096 May  3 16:49 /tmp/terminfo_user_dir\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux auk120.llnl.gov 3.10.0-957.5.1.el7.x86_64 #1 SMP Wed Dec 19 10:46:58 EST 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:    Red Hat Enterprise Linux Workstation release 7.6 (Maipo)\r\n``` \r\n\r\n### Additional information\r\n\r\nI recommend unsetting the TERMINFO environment variable for the ncurses package, so it installs its terminfo database under its installation directory.",
+    "user": "watson6282",
+    "url": "https://api.github.com/repos/spack/spack/issues/11369",
+    "updated_at": "2019-07-23 15:13:42",
+    "created_at": "2019-05-03 23:56:23",
+    "closed_at": "2019-07-23 15:13:42",
+    "state": "closed",
+    "title": "Installation issue: ncurses",
+    "number": 11369,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "impact-low"
+    ],
+    "id": 440261489,
+    "html_url": "https://github.com/spack/spack/issues/11369",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 4
+}

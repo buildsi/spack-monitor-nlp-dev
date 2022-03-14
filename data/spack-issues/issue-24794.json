@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #23891.\r\n\r\nThis adds lockfile tracking to Spack's lock mechanism, so that we ensure that there is only one open file descriptor per inode.\r\n\r\nThe `fcntl` locks that Spack uses are associated with an inode and a process. This is convenient, because if a process exits, it releases its locks. Unfortunately, this also means that if you close a file, *all* locks associated with that file's inode are released, regardless of whether the process has any other open file descriptors on it.\r\n\r\nBecause of this, we need to track open lock files so that we only close them when a process no longer needs them.  We do this by tracking each lockfile by its inode and process id.  This has several nice properties:\r\n\r\n1. Tracking by pid ensures that, if we fork, we don't inadvertently track the parent process's lockfiles. `fcntl` locks are not inherited across forks, so we'll just track new lockfiles in the child.\r\n2. Tracking by inode ensures that referencs are counted per inode, and that we don't inadvertently close a file whose inode still has open locks.\r\n3. Tracking by both pid and inode ensures that we only open lockfiles the minimum number of times necessary for the locks we have.\r\n\r\nNote: as mentioned elsewhere, these locks aren't thread safe -- they're designed to work in Python and assume the GIL.\r\n\r\nTasks:\r\n- [x] Introduce an `OpenFileTracker` class to track open file descriptors by inode.\r\n- [x] Reference-count open file descriptors and only close them if they're no longer needed (this avoids inadvertently releasing locks that should not be released).",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24794",
+    "updated_at": "2021-08-24 21:08:36",
+    "created_at": "2021-07-08 21:55:10",
+    "closed_at": "2021-08-24 21:08:35",
+    "state": "closed",
+    "title": "locks: only open lockfiles once instead of for every lock held",
+    "number": 24794,
+    "milestone": null,
+    "labels": [
+        "locking",
+        "utilities"
+    ],
+    "id": 940249536,
+    "html_url": "https://github.com/spack/spack/pull/24794",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,20 @@
+{
+    "body": "The FEniCS package for `fenics@2019.1.0.post0` is currently too restrictive on the version of Boost to be used. It should restrict Boost to `boost@1.68.0` for all FEniCS versions before `2019.1.0.post` but allow for newer versions of Boost starting from version `2019.1.0` and later. However, the current FEniCS package will also request `boost@1.68.0` if `fenics@2019.1.0.post0` is installed. I guess that is due to the strict comparison for the Boost dependency defined in the package. This PR loosens the dependency check for version `2019.1.0` of FEniCS and later.\r\n\r\n**Without changes from PR**\r\n\r\nConcretization without PR requests `boost@1.68.0`:\r\n```\r\nspack add fenics@2019.1.0.post0\r\n==> Adding fenics@2019.1.0.post0 to environment fenics-2019\r\n> spack concretize -f\r\n==> Concretized fenics@2019.1.0.post0\r\n -   pqtqzzj  fenics@2019.1.0.post0%gcc@9.3.0~doc+hdf5~ipo+mpi+openmp+parmetis+petsc+petsc4py+python~qt+scotch+shared+slepc+slepc4py+suite-sparse~trilinos~vtk~zlib build_type=RelWithDebInfo patches=bdfccb7573b646f7d523d02bca60cc91b08ad0a3ce3cf0a42c1a840518f819ae arch=linux-ubuntu20.04-skylake\r\n -   5a47cse      ^boost@1.68.0%gcc@9.3.0+atomic+chrono~clanglibcpp~container~context~coroutine+date_time~debug+exception~fiber+filesystem+graph~icu+iostreams+locale+log+math~mpi+multithreaded~numpy~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout+wave cxxstd=98 visibility=hidden arch=linux-ubuntu20.04-skylake\r\n[...]\r\n```\r\nSpack should prefer the newest available Boost here (`boost@1.76.0` at the time of writing).\r\n\r\n**After changes from PR**\r\nConcretization with PR requests newest boost accepted by environment (here `boost@1.76.0`):\r\n```\r\nspack concretize -f\r\n==> Concretized fenics@2019.1.0.post0\r\n -   wjnfelh  fenics@2019.1.0.post0%gcc@9.3.0~doc+hdf5~ipo+mpi+openmp+parmetis+petsc+petsc4py+python~qt+scotch+shared+slepc+slepc4py+suite-sparse~trilinos~vtk~zlib build_type=RelWithDebInfo patches=bdfccb7573b646f7d523d02bca60cc91b08ad0a3ce3cf0a42c1a840518f819ae arch=linux-ubuntu20.04-skylake\r\n -   nhquzjn      ^boost@1.76.0%gcc@9.3.0+atomic+chrono~clanglibcpp~container~context~coroutine+date_time~debug+exception~fiber+filesystem+graph~icu+iostreams+locale+log+math~mpi+multithreaded~numpy~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout+wave cxxstd=98 visibility=hidden arch=linux-ubuntu20.04-skylake\r\n[...]\r\n```\r\nThe concretization with PR still requests `boost@1.68.0` for older versions of FEniCS:\r\n```\r\n> spack concretize -f\r\n==> Concretized fenics@2018.1.0.post0\r\n -   elzpmlf  fenics@2018.1.0.post0%gcc@9.3.0~doc+hdf5~ipo+mpi+openmp+parmetis+petsc+petsc4py+python~qt+scotch+shared+slepc+slepc4py+suite-sparse~trilinos~vtk~zlib build_type=RelWithDebInfo arch=linux-ubuntu20.04-skylake\r\n -   5a47cse      ^boost@1.68.0%gcc@9.3.0+atomic+chrono~clanglibcpp~container~context~coroutine+date_time~debug+exception~fiber+filesystem+graph~icu+iostreams+locale+log+math~mpi+multithreaded~numpy~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout+wave cxxstd=98 visibility=hidden arch=linux-ubuntu20.04-skylake\r\n[...]\r\n```",
+    "user": "ajaust",
+    "url": "https://api.github.com/repos/spack/spack/issues/25329",
+    "updated_at": "2021-08-11 07:57:18",
+    "created_at": "2021-08-10 08:51:36",
+    "closed_at": "2021-08-11 07:29:48",
+    "state": "closed",
+    "title": "FEniCS: Loosen restriction on Boost version for FEniCS@2019.1.0 and newer",
+    "number": 25329,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 964746179,
+    "html_url": "https://github.com/spack/spack/pull/25329",
+    "assignees": [],
+    "comments": 1
+}

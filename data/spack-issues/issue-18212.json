@@ -1,0 +1,19 @@
+{
+    "body": "The goal of this PR is to support an option to `spack install`, something shorter than `--require-full-hash-match-on-binary-install`, but which might convey that idea.  Use of the option would cause spack to compare the full hash of the local spec to install against full hashes stored in the `spec.yaml` files on any remote mirrors until it found a match, and only install from binary if it finds one with a matching full hash, otherwise, it would install from source.  When the option is not provided, the current behavior would remain, i.e. spack will install the binary version of the first remote spec it finds with a matching DAG hash.\r\n\r\nThis new behavior will support PR build pipelines in several ways:\r\n\r\n1. The goal of the pipeline is to compare the full hash of a local spec against that of a built spec on a remote mirror, and rebuild/push the updated package to the remote mirror.  When running a pipeline for a PR, we want to configure a temporary \"PR mirror\" for each PR so that untrusted binaries could be re-used by subsequent runs of the pipeline when possible.  This would improve developer experience, for example, when the first push on a PR branch requires a rebuild of a long job, but subsequent pushes do not.  With the feature added by this PR, subsequent pipelines on the same PR could potentially re-use binaries created in earlier pipelines.  The current two-pass install approach required in the pipeline prevents this possibility.\r\n\r\n2. This PR would get rid of the need for the pipeline to do package installation in two passes.  Due to how spack will install any binary it finds with a matching DAG hash, the pipeline code currently has to do a lot of gymnastics.   First it has to manually determine whether the package needs to be rebuilt by comparing the locally computed full hash of the spec against the full hash stored with the binary on the remote mirror.  If a rebuild is required due to a full hash mismatch, pipeline code has to coerce spack to rebuild the package from source using the \"two-pass install\" workaround: first we install only our dependencies with `--cache-only` option, and then install only the package with the `--no-cache` option.  If `spack install` could manage all of this for us, we could remove a lot of code from the `spack ci rebuild` command.",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/18212",
+    "updated_at": "2020-11-03 02:36:55",
+    "created_at": "2020-08-21 19:06:22",
+    "closed_at": "2020-11-03 02:36:55",
+    "state": "closed",
+    "title": "WIP: Binary installation improvements",
+    "number": 18212,
+    "milestone": null,
+    "labels": [
+        "don't-merge-yet"
+    ],
+    "id": 683771547,
+    "html_url": "https://github.com/spack/spack/pull/18212",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "This fails:\r\n```\r\n$ spack install intel-parallel-studio +openmp %gcc@6.3.0-spack\r\n==> Installing intel-parallel-studio\r\n==> Using cached archive: /Users/eschnett/src/spack/var/spack/cache/intel-parallel-studio/intel-parallel-studio-professional.2017.2.tgz\r\n==> Already staged intel-parallel-studio-professional.2017.2-7xgjmf6uvvvvqlfuvldhgrcxqkb6odww in /Users/eschnett/src/spack/var/spack/stage/intel-parallel-studio-professional.2017.2-7xgjmf6uvvvvqlfuvldhgrcxqkb6odww\r\n==> Already patched intel-parallel-studio\r\n==> Building intel-parallel-studio [Package]\r\n==> Found already existing license /Users/eschnett/src/spack/etc/spack/licenses/intel/license.lic\r\n==> Executing phase : 'install'\r\n==> Error: ProcessError: Command exited with status 4:\r\n    './install.sh' '--silent' 'silent.cfg'\r\n/Users/eschnett/src/spack/var/spack/repos/builtin/packages/intel/package.py:96, in install:\r\n     74       def install(self, spec, prefix):\r\n     75\r\n     76           if not hasattr(self, \"intel_prefix\"):\r\n     77               self.intel_prefix = self.prefix\r\n     78\r\n     79           silent_config_filename = 'silent.cfg'\r\n     80           with open(silent_config_filename, 'w') as f:\r\n     81               f.write(\"\"\"\r\n     82   ACCEPT_EULA=accept\r\n     83   PSET_MODE=install\r\n     84   CONTINUE_WITH_INSTALLDIR_OVERWRITE=yes\r\n     85   PSET_INSTALL_DIR=%s\r\n     86   NONRPM_DB_DIR=%s\r\n     87   ACTIVATION_LICENSE_FILE=%s\r\n     88   ACTIVATION_TYPE=license_file\r\n     89   PHONEHOME_SEND_USAGE_DATA=no\r\n     90   CONTINUE_WITH_OPTIONAL_ERROR=yes\r\n     91   COMPONENTS=%s\r\n     92   \"\"\" % (self.intel_prefix, self.intel_prefix, self.global_license_file,\r\n     93                   self.intel_components))\r\n     94\r\n     95           install_script = Executable(\"./install.sh\")\r\n  >> 96           install_script('--silent', silent_config_filename)\r\n\r\nSee build log for details:\r\n  /private/var/folders/gl/zvl8d6415vsbkd50nnll95k40000gs/T/eschnett/spack-stage/spack-stage-HtWWCd/parallel_studio_xe_2017_update2/spack-build.out\r\n```\r\n\r\nThis is the error:\r\n```\r\n==> './install.sh' '--silent' 'silent.cfg'\r\n./install.sh: line 63: cd: /private/var/folders/gl/zvl8d6415vsbkd50nnll95k40000gs/T/eschnett/spack-stage/spack-stage-HtWWCd/parallel_studio_xe_2017_update2/./../Resources/pset: No such file or directory\r\nThe IA-32 architecture host installation is no longer supported.\r\nThe product cannot be installed on this system.\r\nPlease refer to product documentation for more information.\r\n\r\nQuitting!\r\n```\r\n\r\nThe problem seems to be that the install script looks for a path with `../Resources` in its name. The `pset` file mentioned in the error message does exist, but is at a different location.",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/3730",
+    "updated_at": "2017-11-28 17:09:18",
+    "created_at": "2017-04-06 13:58:34",
+    "closed_at": "2017-11-23 11:14:10",
+    "state": "closed",
+    "title": "Cannot install Intel compilers",
+    "number": 3730,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 219908111,
+    "html_url": "https://github.com/spack/spack/issues/3730",
+    "assignees": [],
+    "comments": 4
+}

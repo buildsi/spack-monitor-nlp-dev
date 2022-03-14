@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nYou can reproduce the error with this Dockerfile:\r\n```dockerfile\r\nFROM ubuntu:18.04@sha256:0fedbd5bd9fb72089c7bbca476949e10593cebed9b1fb9edf5b79dbbacddd7d6\r\n\r\nLABEL maintainer=\"Josh Essman <essman1@llnl.gov>, @vsoch\"\r\n\r\nARG uptodate_github_commit_spack__spack__develop=90b4f550014f148601c1b5221cea43d08dddde7c\r\nENV spack_commit=${uptodate_github_commit_spack__spack__develop}\r\nENV DEBIAN_FRONTEND=noninteractive\r\nENV TZ=America/Los_Angeles\r\n\r\nRUN apt-get -qq update && \\\r\n    apt-get -qq install -y --no-install-recommends \\\r\n      build-essential \\\r\n      ca-certificates \\\r\n      curl \\\r\n      dh-autoreconf \\\r\n      git \\\r\n      gnupg2 \\\r\n      libssl-dev \\\r\n      ninja-build \\\r\n      python-dev \\ \r\n      python3-pip \\\r\n      python3-setuptools \\\r\n      sudo \\\r\n      valgrind \\\r\n      vim \\\r\n      wget\r\n\r\n# Install spack\r\nWORKDIR /opt\r\nRUN git clone https://github.com/spack/spack && \\\r\n    cd spack && \\\r\n    git reset --hard ${spack_commit}\r\nENV PATH=/opt/spack/bin:$PATH\r\n\r\n# Use the autamus build cache for maybe faster install?\r\nRUN python3 -m pip install botocore boto3 && \\\r\n    spack mirror add autamus s3://autamus-cache && \\\r\n    curl http://s3.amazonaws.com/autamus-cache/build_cache/_pgp/FFEB24B0A9D81F6D5597F9900B59588C86C41BE7.pub > key.pub && \\\r\n    spack gpg trust key.pub\r\n\r\n# Find packages already installed on system, e.g. autoconf and install cmake\r\nRUN spack external find && \\\r\n    spack config add 'packages:all:target:[x86_64]' && \\\r\n    spack install cmake@3.20.4\r\n\r\nRUN spack view --dependencies no symlink --ignore-conflicts /opt/view cmake@3.20.4\r\nENV PATH=/opt/view/bin:$PATH\r\n\r\nRUN spack external find cmake && \\\r\n    spack config add 'packages:cmake:buildable:False'\r\n```\r\njust build it:\r\n```bash\r\n$ docker build -t not-going-to-build-womp-womp .\r\n```\r\n\r\n### Error message\r\n\r\n```console\r\nError: Failed to install zlib due to TypeError: sequence item 1: expected str instance, NoneType found\r\n```\r\n\r\n### Information on your system\r\n\r\nI'm on Ubuntu 18.04, and it fails across Ubuntu versions https://github.com/rse-ops/docker-images/actions/runs/1501912411\r\n\r\n### General information\r\n\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/27652",
+    "updated_at": "2021-12-22 15:15:51",
+    "created_at": "2021-11-25 02:21:51",
+    "closed_at": "2021-12-22 15:15:51",
+    "state": "closed",
+    "title": "Install with cmake (zlib) fails ",
+    "number": 27652,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1063092590,
+    "html_url": "https://github.com/spack/spack/issues/27652",
+    "assignees": [],
+    "comments": 7
+}

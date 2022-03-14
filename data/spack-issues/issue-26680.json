@@ -1,0 +1,23 @@
+{
+    "body": "@sethrj This PR is ready for **merge** or ***final merge-review***\r\n\r\n# Latest Status: \r\nspack-maintainer and upstream approval by @MarDiehl:\r\n\r\n@MarDiehl did a final rebuild from scratch no a new computer as well and reported (emphasis mine):\r\n> installing from scratch works like a charm, ***green lights from my side.***\r\n\r\n---\r\n---\r\n# Description\r\n\r\nFor reproduibility, this build-only update cleans up the build of the individual packages to use the same concretization of hdf5 for all packages, even when built independenty.\r\n\r\nAs a minor improvement, it cleans up the how the build flags are passed, pending further improvements in upstream `CMakeLists.txt` to enable passing which FFTW Libs to use flags as CMake variables without patching `CMakeLists.txt`\r\n\r\n# Original message\r\n\r\n@MarDiehl - I've built alpha4 and alpha5 with this. I it should explain and fix remaining issues:\r\n\r\n> The package damask depends on py-damask which depends on py-h5py,\r\nwhich depends hdf5@1.8.4:+hl. As spack can only use one concretisation\r\na build, 'spack install damask', spack is forced to use hdf5@1.8.4:+hl.\r\n>\r\n> When damask-grid is built without that concretisation in the picture,\r\ne.g using 'spack install damask-grid', spack would use the hdf5~hl instead.\r\n>\r\n> To avoid producing two different builds of hdf5 (and damask-grid as result),\r\nadd +hl to the list of requested variants of damask-grid and -mesh.\r\n\r\nFurther explanation: the hdf5 libs are now added by CMake itself thru pkg-config, you should install pkg-config on your host as well if you build without spack. But some build machines might not have it, therefore keep is also as a depends_on in the recipes.\r\n\r\nBut it means you would not have to add -lhdf5_fortran to the CMakeLists, cmake and pkgconfig would take care of this as long as hdf5 provide the pkg-config file that enable it.\r\n\r\nThis cleanup therefore removes it. I hope it works for you too, at least in spack!\r\n\r\nUsing LDFLAGS to pass the FFTW libs didn't work, but to enable passing them without patching in the future, this cleanup uses a CMake variable which can be set as a CMake argument to add FFTW libs.\r\n\r\nIdeally, the next improvement would be that the Alpha release should add `${FFTW_LIBS}` to the patched line. Then the damask recipes in `spack` don't have to filter the `CMakeLists.txt` to add it, and you can use it `-DFFTW_LIBS=\"...\"` for other builds as well.\r\n\r\nI hope this helps. If it works for you and you'd approve it, please add a comment that you approve this PR, we can then try to find a spack maintainer for merging it to develop.",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26680",
+    "updated_at": "2022-01-08 11:50:39",
+    "created_at": "2021-10-12 13:50:49",
+    "closed_at": "2022-01-08 11:50:39",
+    "state": "closed",
+    "title": "damask-{grid,mesh}: Use hdf5+hl as py-h5py uses it, cleanup LDFLAGS",
+    "number": 26680,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1023849889,
+    "html_url": "https://github.com/spack/spack/pull/26680",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 12
+}

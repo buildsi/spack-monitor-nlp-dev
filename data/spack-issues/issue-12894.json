@@ -1,0 +1,20 @@
+{
+    "body": "Spack doesn't need `requests`, and neither does `jsonschema`, but `jsonschema` tries to import it, and it'll succeed if `requests` is on your machine (which is likely, given how popular it is).  This commit removes the import in our vendored `jsonschema` to improve Spack's startup time a bit.  (see https://github.com/psf/requests/issues/3213).\r\n\r\nOn my mac, the import of requests is ~28% of Spack's startup time when run as `spack --print-shell-vars sh,modules` (.069 / .25 seconds), which is what `setup-env.sh` runs.\r\n\r\nOn a Linux cluster where Python is mounted from NFS, this reduces `setup-env.sh` source time from ~1s to .75s.\r\n\r\nNote: This issue will be eliminated if we upgrade to a newer `jsonschema` (we'd need to drop Python 2.6 for that).  See https://github.com/Julian/jsonschema/pull/388.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/12894",
+    "updated_at": "2019-09-22 03:27:17",
+    "created_at": "2019-09-21 22:59:07",
+    "closed_at": "2019-09-22 00:57:38",
+    "state": "closed",
+    "title": "externals: avoid importing requests in jsonschema",
+    "number": 12894,
+    "milestone": null,
+    "labels": [
+        "external-packages",
+        "performance"
+    ],
+    "id": 496710785,
+    "html_url": "https://github.com/spack/spack/pull/12894",
+    "assignees": [],
+    "comments": 1
+}

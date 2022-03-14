@@ -1,0 +1,22 @@
+{
+    "body": "Spack Tcl environment-modules backend does not have the `setdefault` version as the LMod backend does.\r\nSo, when one installs an application and uses the Tcl environment-modules backend, it is left to the environment-modules to pick the default. This may change the current default on the system, which is not ideal.\r\n\r\nFor completeness\r\n```\r\nspack module lmod -h\r\nusage: spack module lmod [-h] SUBCOMMAND ...\r\n\r\npositional arguments:\r\n  SUBCOMMAND\r\n    refresh   regenerate module files\r\n    find      find module files for packages\r\n    rm        remove module files\r\n    loads     prompt the list of modules associated with a constraint\r\n    setdefault\r\n              set the default module file for a package\r\n\r\noptional arguments:\r\n  -h, --help  show this help message and exit\r\n```\r\n\r\nFor the Tcl backend...\r\n```\r\nspack module tcl -h\r\nusage: spack module tcl [-h] SUBCOMMAND ...\r\n\r\npositional arguments:\r\n  SUBCOMMAND\r\n    refresh   regenerate module files\r\n    find      find module files for packages\r\n    rm        remove module files\r\n    loads     prompt the list of modules associated with a constraint\r\n\r\noptional arguments:\r\n  -h, --help  show this help message and exit\r\n```\r\n\r\n### Rationale\r\n\r\nAssuming that there is no other GROMACS installation on the system if one uses the Tcl environment-modules backend and he/she performs the operation\r\n```\r\nspack install gromacs@2019.2\r\n```\r\nThe \"default\" module version will be `gromacs/2019.2`. \r\nAfter performing the operation\r\n```\r\nspack install gromacs@2018.3\r\n```\r\nThe default module version will be `gromacs/2018.3`. \r\n\r\nThis is a problem on the HPC centers because care has to be taken when changing default module versions. For this reason, the LMod backend has this option. But this option is also needed by centers that do not use LMod.\r\n\r\n### Description\r\n\r\nThe solution is to add the option to the Tcl backend. I haven't looked at how to implement it yet.\r\n\r\n",
+    "user": "victorusu",
+    "url": "https://api.github.com/repos/spack/spack/issues/13714",
+    "updated_at": "2021-12-17 09:05:33",
+    "created_at": "2019-11-13 08:56:35",
+    "closed_at": "2021-12-17 09:05:33",
+    "state": "closed",
+    "title": "Add setdefault option to tcl environment-modules backend",
+    "number": 13714,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "modules",
+        "commands",
+        "new-command"
+    ],
+    "id": 522051396,
+    "html_url": "https://github.com/spack/spack/issues/13714",
+    "assignees": [],
+    "comments": 0
+}

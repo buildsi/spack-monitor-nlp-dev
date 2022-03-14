@@ -1,0 +1,17 @@
+{
+    "body": "Before this PR it was failing like that:\r\n```console\r\n$ spack spec emacs\r\nInput spec\r\n--------------------------------\r\nemacs\r\n\r\nNormalized\r\n--------------------------------\r\nemacs\r\n    ^ncurses\r\n        ^pkg-config\r\n\r\nConcretized\r\n--------------------------------\r\nTraceback (most recent call last):\r\n  File \"/home/mculpo/PycharmProjects/spack/bin/spack\", line 259, in <module>\r\n    main(sys.argv)\r\n  File \"/home/mculpo/PycharmProjects/spack/bin/spack\", line 255, in main\r\n    _main(args, unknown)\r\n  File \"/home/mculpo/PycharmProjects/spack/bin/spack\", line 194, in _main\r\n    return_val = command(parser, args)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/cmd/spec.py\", line 89, in spec\r\n    spec.concretize()\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 1712, in concretize\r\n    self._concretize_helper())\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 1565, in _concretize_helper\r\n    spack.concretizer.concretize_variants(self)))\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/concretize.py\", line 255, in concretize_variants\r\n    spec.variants[name] = variant.make_default()\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/variant.py\", line 150, in make_default\r\n    return self.make_variant(self.default)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/variant.py\", line 163, in make_variant\r\n    return self.variant_cls(self.name, value)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/variant.py\", line 198, in __init__\r\n    self.value = value\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/variant.py\", line 212, in value\r\n    self._value_setter(value)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/variant.py\", line 394, in _value_setter\r\n    raise ValueError(msg.format(self.name))\r\nValueError: cannot construct a BoolValuedVariant from a value that does not represent a bool\r\n```\r\nNow it would fail like this:\r\n```console\r\n$ spack spec emacs\r\nInput spec\r\n--------------------------------\r\nemacs\r\n\r\nNormalized\r\n--------------------------------\r\nemacs\r\n    ^ncurses\r\n        ^pkg-config\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: cannot construct a BoolValuedVariant for \"toolkit\" from a value that does not represent a bool\r\n```\r\nif it wasn't fixed already:\r\n```console\r\n$ spack spec emacs\r\nInput spec\r\n--------------------------------\r\nemacs\r\n\r\nNormalized\r\n--------------------------------\r\nemacs\r\n    ^ncurses\r\n        ^pkg-config\r\n\r\nConcretized\r\n--------------------------------\r\nemacs@25.2%gcc@4.8~X toolkit=gtk arch=linux-ubuntu14-x86_64 \r\n    ^ncurses@6.0%gcc@4.8~symlinks arch=linux-ubuntu14-x86_64 \r\n        ^pkg-config@0.29.2%gcc@4.8+internal_glib arch=linux-ubuntu14-x86_64 \r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/4098",
+    "updated_at": "2017-05-03 16:48:14",
+    "created_at": "2017-05-02 17:56:39",
+    "closed_at": "2017-05-03 04:21:37",
+    "state": "closed",
+    "title": "spack: no stacktrace if not in debug mode + fix emacs variant",
+    "number": 4098,
+    "milestone": null,
+    "labels": [],
+    "id": 225772532,
+    "html_url": "https://github.com/spack/spack/pull/4098",
+    "assignees": [],
+    "comments": 9
+}

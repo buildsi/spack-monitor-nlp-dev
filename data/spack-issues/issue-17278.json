@@ -1,0 +1,20 @@
+{
+    "body": "Using spack@develop (commit id 1602b7a56192c23fb7fc110a1c8a17ec0837bdd3):\r\n\r\n**/etc/spack/packages.yaml**\r\n```\r\npackages:\r\n  pkgconf:\r\n    version: [1.6.3]\r\n```\r\n\r\n**spack.yaml (respect existing package preferences)**\r\n```\r\nspack:\r\n  view: false\r\n  specs:\r\n  - gcc@7.3.0+strip\r\n```\r\n\r\nThe environment above concretizes to:\r\n```\r\n$> spack concretize -f\r\n...\r\n    ^pkgconf@1.6.3%gcc@7.5.0 arch=linux-ubuntu18.04-broadwell\r\n...\r\n```\r\n\r\nNow, if I add `packages:: {}` to `spack.yaml` so that it will concretize without respecting any existing package preferences:\r\n**spack.yaml (ignore all existing package preferences)**\r\n```\r\nspack:\r\n  packages:: {}\r\n  view: false\r\n  specs:\r\n  - gcc@7.3.0+strip\r\n```\r\n\r\n... it will concretize like this:\r\n```\r\n$> spack concretize -f\r\n...\r\n  ^pkg-config@0.29.2%gcc@7.5.0+internal_glib arch=linux-ubuntu18.04-broadwell\r\n...\r\n```\r\n\r\nThe issue is: the way the environment concretizes with `packages:: {}` is not the same as it concretizes when there is just no packages.yaml at all (and no override in the environment):\r\n```\r\n$> spack concretize -f\r\n...\r\n  ^pkgconf@1.7.3%gcc@7.5.0 arch=linux-ubuntu18.04-broadwell\r\n...\r\n```\r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/17278",
+    "updated_at": "2020-06-26 18:14:13",
+    "created_at": "2020-06-26 18:03:38",
+    "closed_at": "2020-06-26 18:14:12",
+    "state": "closed",
+    "title": "Inconsistent concretization with `packages:: {}` vs no package preferences at all",
+    "number": 17278,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 646426154,
+    "html_url": "https://github.com/spack/spack/issues/17278",
+    "assignees": [],
+    "comments": 1
+}

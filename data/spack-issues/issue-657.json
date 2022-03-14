@@ -1,0 +1,17 @@
+{
+    "body": "@citibeth @eschnett @alalazo @davydden @lee218llnl \n\nI attempted to harden the `py-scipy` builds a bit.  In particular, the following now work on our RHEL6 environment:\n\n``` bash\nspack install py-numpy ^openblas\nspack install py-numpy ^netlib-lapack\nspack install py-numpy ^atlas\n```\n\nThis is an attempt to make the builds do the \"right thing\" by default.\n\nI also started some conventions for passing around bias lib information via `spec` attributes in `setup_dependent_package`. I do not think it is sufficient just to symlink `libblas` and `liblapack` -- Atlas in particular has a particuarly crazy library layout so I think it needs a bit more than this.  scipy at least does a good job of detecting it and linking the right stuff.\n\nOther stuff:\n- py-scipy now builds with netlib-lapack, openblas, and atlas.\n- started a convention for passing lib info from blas/lapack implementations.\n- Improved netlib-lapack:\n  - Also build static libs when `shared` variant is enabled.\n  - Enable CBLAS  build\n    - needed minor patch to build correctly.\n- Added `shared` variant to OpenBLAS.\n  - Made OpenBLAS build properly shared and static.\n\nStill testing on El Capitan and working out some test issues, but most of the changes are there.\n\nFeedback welcome.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/657",
+    "updated_at": "2016-03-31 18:37:17",
+    "created_at": "2016-03-27 03:19:54",
+    "closed_at": "2016-03-31 18:37:17",
+    "state": "closed",
+    "title": "Features/blas lapack hardening",
+    "number": 657,
+    "milestone": null,
+    "labels": [],
+    "id": 143772303,
+    "html_url": "https://github.com/spack/spack/pull/657",
+    "assignees": [],
+    "comments": 9
+}

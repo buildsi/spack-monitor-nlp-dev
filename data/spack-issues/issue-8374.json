@@ -1,0 +1,19 @@
+{
+    "body": "Spak failed to concretize `openfoam-org` due to requirements in flex versions.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec openfoam-org\r\nInput spec\r\n--------------------------------\r\nopenfoam-org\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    flex@2.6.3%gcc@4.8.5+lex arch=linux-centos7-x86_64 \r\n        ^bison@3.0.4%gcc@4.8.5 arch=linux-centos7-x86_64 \r\n            ^m4@1.4.18%gcc@4.8.5+sigsegv arch=linux-centos7-x86_64 \r\n                ^libsigsegv\r\n        ^gettext@0.19.8.1%gcc@4.8.5+bzip2+curses+git~libunistring+libxml2+tar+xz arch=linux-centos7-x86_64 \r\n            ^bzip2\r\n            ^libxml2\r\n                ^pkgconfig\r\n                ^xz\r\n                ^zlib@1.2.11%gcc@4.8.5+optimize+pic+shared arch=linux-centos7-x86_64 \r\n            ^ncurses\r\n            ^tar\r\n        ^help2man@1.47.4%gcc@4.8.5 arch=linux-centos7-x86_64 \r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    scotch~int64~metis+mpi\r\n\r\n\r\nscotch requires flex version :2.6.1,2.6.4:, but spec asked for 2.6.3\r\n```\r\n\r\n### Information on your system\r\n\r\nI am using CentOS 7.4. I found the following specs in `scotch` package.\r\n\r\n```\r\n# Does not build with flex 2.6.[23]\r\ndepends_on('flex@:2.6.1,2.6.4:', type='build')\r\n```",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/8374",
+    "updated_at": "2019-12-08 11:50:35",
+    "created_at": "2018-06-05 04:20:15",
+    "closed_at": "2019-12-08 11:50:35",
+    "state": "closed",
+    "title": "Failed to concretize openfoam-org due to requirements in flex versions",
+    "number": 8374,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 329296894,
+    "html_url": "https://github.com/spack/spack/issues/8374",
+    "assignees": [],
+    "comments": 3
+}

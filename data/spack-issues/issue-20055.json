@@ -1,0 +1,23 @@
+{
+    "body": "I ran `spack spec` to concretize a package and was unable to concretize using non-numeric compiler or dependent package versions.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec -I hdf5%clang@upstream_gfortran\r\n==> [2020-11-23-10:49:21.285015] The following constraints are unsatisfiable:\r\n  node_compiler_version_hard(\"hdf5\",\"clang\",\"upstream_gfortran\")\r\n  root(\"hdf5\")\r\n```\r\nIf the clang version is changed to a fake version (15.7), concretization without MPI succeeds.\r\nBut when MPI is added:\r\n```console\r\n$ spack spec -I hdf5+mpi%clang@15.7\r\n==> [2020-11-23-10:50:54.382014] The following constraints are unsatisfiable:\r\n  # a bunch of external_only facts for other MPI providers\r\n  external_only(\"spectrum-mpi\")\r\n  external_version_declared(\"spectrum-mpi\",\"release\",-1,0)\r\n  external_version_declared(\"spectrum-mpi\",\"release\",-2,1)\r\n # ... other possible_provider clauses for other MPI providers\r\n  node(\"spectrum-mpi\") :- possible_provider(\"mpi\",\"spectrum-mpi\",20).\r\n  root(\"hdf5\")\r\n  single_provider_for(\"mpi\",\":\") :- real_node(\"hdf5\"),node(\"hdf5\"),variant_value(\"hdf5\",\"mpi\",\"True\").\r\n  variant(\"hdf5\",\"mpi\")\r\n  variant_set(\"hdf5\",\"mpi\",\"True\")\r\n```\r\nConcretization succeeds when the external spectrum-mpi is also converted to use a fake numeric version number.\r\n\r\n### Error Message\r\n\r\nAbove\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-23-e75b76f43\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-power9le\r\n* **Concretizer:** clingo\r\n\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    # ...\r\n    spec: clang@upstream_gfortran\r\n```\r\n```yaml\r\npackages:\r\nmpi:\r\n    buildable: false\r\n  spectrum-mpi:\r\n    externals:\r\n      - spec: spectrum-mpi@release%clang@upstream_gfortran\r\n        prefix: /path/to/mpi\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "joshessman-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/20055",
+    "updated_at": "2020-12-03 00:12:29",
+    "created_at": "2020-11-23 18:55:45",
+    "closed_at": "2020-12-02 19:30:29",
+    "state": "closed",
+    "title": "Clingo concretizer does not support non-numeric versions",
+    "number": 20055,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low"
+    ],
+    "id": 749046865,
+    "html_url": "https://github.com/spack/spack/issues/20055",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

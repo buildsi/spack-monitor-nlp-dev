@@ -1,0 +1,22 @@
+{
+    "body": "There is a command `spack list -t <TAG>` that can query packages by tagname but we don't know all registered tags. I know of one tagname `ecp` and there are few packages registered with this tagname\r\n\r\n```\r\n(base) [tutorial@ip-172-31-36-140 Desktop]$ spack list -t ecp\r\n==> 20 packages.\r\namr-wind  chombo            er    kvtree  latte      nek5000   nwchem     qmcpack  redset    spath\r\naxl       ecp-data-vis-sdk  filo  lammps  nalu-wind  nektools  parsplice  rankstr  shuffile  veloc\r\n```\r\n\r\n\r\nThe maintainers should be able to register their product with tagname, so first we should have an option in `spack list` to  report all unique tags with an option like  `--list-tags` or `--get-tags` or `--fetch-tags`. There is an equivalent command in `spack find -t <TAG>` so it can be nice to have similar option in `spack find`. \r\n\r\nIt's up to the maintainers to pick tag names that are relevant. The `tags` is a class attribute in the package definition so it should be relatively easy to register tags. This output will show up in `spack info` which is nice.\r\n\r\n```\r\nclass Axl(CMakePackage):\r\n    \"\"\"Asynchronous transfer library\"\"\"\r\n\r\n    homepage = \"https://github.com/ecp-veloc/AXL\"\r\n    url      = \"https://github.com/ecp-veloc/AXL/archive/v0.1.1.zip\"\r\n    git      = \"https://github.com/ecp-veloc/axl.git\"\r\n\r\n    tags = ['ecp']\r\n\r\n```\r\n\r\n### Rationale\r\n\r\nIt would be nice to filter output of `spack find` and `spack list` by E4S tag to see all the packages registered. I think we should have all tagnames in lower case, to avoid mix case. Tagname should only contain alphabets, no special characters or numbers. \r\n",
+    "user": "shahzebsiddiqui",
+    "url": "https://api.github.com/repos/spack/spack/issues/22938",
+    "updated_at": "2021-11-01 20:40:30",
+    "created_at": "2021-04-12 17:04:39",
+    "closed_at": "2021-11-01 20:40:30",
+    "state": "closed",
+    "title": "list all tags in spack list",
+    "number": 22938,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "ecp"
+    ],
+    "id": 856174222,
+    "html_url": "https://github.com/spack/spack/issues/22938",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 1
+}

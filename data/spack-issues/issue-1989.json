@@ -1,0 +1,22 @@
+{
+    "body": "- Cray compile wrappers are MPI wrappers.\n- Packages that need to be compiled with MPI compile wrappers normally use `mpicc`, `mpic++` and `mpif90` provided by the MPI vendor. However, when using _cray-mpich_ as the MPI vendor, the compile wrappers `CC`, `cc` and `ftn` must be used.\n- In this scenario, the _mpich_ package is hijacked by specifying _cray-mpich_ as an external package under the `mpich:` section of `packages.yaml`. For example:\n\n```\n  packages:\n    mpich:\n      modules:\n        mpich@7.4.2%intel@16.0.3 arch=cray-CNL-haswell: cray-mpich/7.4.2\n      buildable: False\n    all:\n      providers:\n        mpi: [mpich]\n```\n- This change allows packages like _parmetis_ to be built using the Cray compile wrappers. For example: `spack install parmetis%intel@16.0.3 ^mpich@7.4.2 os=CNL`\n- This commit relies on the existence of the environment variable `CRAYPE_VERSION` to determine if the current machine is running a Cray environment. This check is insufficient, but I'm not sure how to improve this logic.\n- Fixes #1827\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/1989",
+    "updated_at": "2016-10-11 13:47:46",
+    "created_at": "2016-10-11 01:11:39",
+    "closed_at": "2016-10-11 13:46:30",
+    "state": "closed",
+    "title": "On Cray machines, use the Cray compile wrappers instead of MPI wrappers.",
+    "number": 1989,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "compilers",
+        "build-environment",
+        "mpi"
+    ],
+    "id": 182150707,
+    "html_url": "https://github.com/spack/spack/pull/1989",
+    "assignees": [],
+    "comments": 1
+}

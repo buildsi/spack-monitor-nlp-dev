@@ -1,0 +1,22 @@
+{
+    "body": "So, I have a `~/.spack/compilers.yaml` file from back in the good ol' days when Spack added new compilers there. Then, we added a second level of configurability and set that to be the default. Now when I run `spack compiler find`, it adds new compilers to `~/.spack/linux/compilers.yaml`. Fine. But the problem is that it adds compilers that it already knows about. Now I have multiple copies of the same compiler:\n\n```\n$ spack compilers\n==> Available compilers\n-- nag ----------------------------------------------------------\nnag@6.1\n\n-- gcc ----------------------------------------------------------\ngcc@6.1.0  gcc@6.1.0  gcc@5.3.0  gcc@4.4.7  gcc@4.4.7\n\n-- intel --------------------------------------------------------\nintel@17.0.0  intel@17.0.0  intel@16.0.3  intel@15.0.0\n\n-- pgi ----------------------------------------------------------\npgi@16.5-0  pgi@16.3-0\n```\n\nWhen I run most commands, I get errors like:\n\n```\n==> Error: Multiple compilers satisfy spec gcc@6.1.0\n```\n\nFor the time being, I guess I'm going to just move `~/.spack/compilers.yaml` to `~/.spack/linux/compilers.yaml`, but we should probably patch this bug. Note that this is the same problem that causes #2042, so we can fix both at once.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2164",
+    "updated_at": "2017-03-17 17:17:45",
+    "created_at": "2016-10-28 20:34:54",
+    "closed_at": "2017-03-17 17:17:45",
+    "state": "closed",
+    "title": "Spack adds duplicates of compilers",
+    "number": 2164,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers"
+    ],
+    "id": 186015685,
+    "html_url": "https://github.com/spack/spack/issues/2164",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

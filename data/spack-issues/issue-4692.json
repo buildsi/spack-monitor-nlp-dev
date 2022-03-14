@@ -1,0 +1,20 @@
+{
+    "body": "We have been prepending Spack include paths, library paths, and rpaths since #248.  This causes problems when a header or library in the package has the same name as one exported by one of its dependencies.  The *dependency's* header will be preferred over the package's, which is not what most builds expect.  This also breaks some of our production codes.\r\n\r\nThis restores the pre-248 behavior of parsing compiler arguments out by type (`-L`, `-I`, `-Wl,-rpath`) and reconstituting the full command at the end.\r\n\r\n`<includes> <other_args> <library dirs> <rpaths>`\r\n\r\nThis differs from the original behavior in one significant way, though: it *appends* the library arguments so that dependency libraries do not shadow those in the build.  So this does not have the issue brought up in #195.\r\n\r\nThis is safe because semantics aren't affected by *interleaving* `-I`, `-L`, and `-Wl,-rpath` arguments with others, only with each other (so the order fo two `-L` args affects the search path, but we search for all libraries on the command line using the same search path).\r\n\r\nWe preserve the following:\r\n1. Any system directory in the paths will be listed last.\r\n2. The root package's include/library/RPATH flags come before flags of the same type for any dependency.\r\n3. Order will be preserved within flags passed by the build (except system paths, which are moved to be last)\r\n4. Flags for dependencies will appear between the root flags and the system flags, and the flags for any dependency will come before those for *its* dependencies (this is for completeness -- we already guarantee this in `build_environment.py`)\r\n\r\n\r\nThis partially addresses concerns raised in #1380, and should eliminate the need for the workaround in #3317.\r\n\r\n@lee218llnl: any chance that you can verify that the last part of that statement is true?",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/4692",
+    "updated_at": "2018-08-05 04:31:11",
+    "created_at": "2017-07-06 22:42:35",
+    "closed_at": "2018-08-01 22:48:01",
+    "state": "closed",
+    "title": "cc: package search paths come before dependency paths",
+    "number": 4692,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-environment"
+    ],
+    "id": 241107042,
+    "html_url": "https://github.com/spack/spack/pull/4692",
+    "assignees": [],
+    "comments": 0
+}

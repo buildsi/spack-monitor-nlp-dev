@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gcc\r\n... \r\n  >> 586650    /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h:443:34: error: expected declaration speci\r\n               fiers before '__OSX_AVAILABLE_STARTING'\r\n     586651      443 | int     getiopolicy_np(int, int) __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);\r\n     586652          |   \r\n[and similar stuff]\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\nhealther@MacBook-Air spack % uname -a\r\nDarwin MacBook-Air.local 19.0.0 Darwin Kernel Version 19.0.0: Wed Sep 25 20:18:50 PDT 2019; root:xnu-6153.11.26~2/RELEASE_X86_64 x86_64\r\n``` \r\n\r\nThis seems to be a partially known issue for example [gnu bugzilla](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90835#c12), and [stackexchange](https://apple.stackexchange.com/questions/372305/compiling-gcc-on-catalina) with a proposed solution essentially ending up patching system headers like [here](https://solarianprogrammer.com/2019/10/12/compiling-gcc-macos/). We should probably follow [homebrew](https://github.com/Homebrew/homebrew-core/blob/master/Formula/gcc.rb)s approach, where they apply this [patch](https://raw.githubusercontent.com/Homebrew/formula-patches/b8b8e65e/gcc/9.2.0-catalina.patch). However I'm not sure whether the bugzilla report should be taken as an indication that upstream gcc will fix things...",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/13232",
+    "updated_at": "2019-10-19 17:18:32",
+    "created_at": "2019-10-16 09:14:42",
+    "closed_at": "2019-10-19 17:18:32",
+    "state": "closed",
+    "title": "Build error: GCC 9.2.0 on Catalina",
+    "number": 13232,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 507721578,
+    "html_url": "https://github.com/spack/spack/issues/13232",
+    "assignees": [],
+    "comments": 4
+}

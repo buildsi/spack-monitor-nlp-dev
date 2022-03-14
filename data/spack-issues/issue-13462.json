@@ -1,0 +1,23 @@
+{
+    "body": "The conflicts in the the cuda build system are not working. For example, the libbeagle package uses the cuda build system.\r\n\r\n```\r\nclass Libbeagle(AutotoolsPackage, CudaPackage):\r\n```\r\n\r\n```console\r\n$ spack --env-dir ../spack-configs/argon/2019.1/environments/gcc_packages/ spec libbeagle\r\nlibbeagle@3.1.2%gcc@9.1.0+cuda cuda_arch=35,60,61,70,75 arch=linux-centos7-sandybridge\r\n    ^autoconf@2.69%gcc@9.1.0 arch=linux-centos7-sandybridge\r\n        ^m4@1.4.18%gcc@9.1.0 patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8 +sigsegv arch=linux-centos7-sandybridge\r\n            ^libsigsegv@2.12%gcc@9.1.0 arch=linux-centos7-sandybridge\r\n        ^perl@5.30.0%gcc@9.1.0+cpanm+shared+threads arch=linux-centos7-sandybridge\r\n            ^gdbm@1.18.1%gcc@9.1.0 arch=linux-centos7-sandybridge\r\n                ^readline@8.0%gcc@9.1.0 arch=linux-centos7-sandybridge\r\n                    ^ncurses@6.1%gcc@9.1.0~symlinks~termlib arch=linux-centos7-sandybridge\r\n                        ^pkgconf@1.6.3%gcc@9.1.0 arch=linux-centos7-sandybridge\r\n    ^automake@1.16.1%gcc@9.1.0 arch=linux-centos7-sandybridge\r\n    ^cuda@10.1.243%gcc@9.1.0 arch=linux-centos7-sandybridge\r\n...\r\n```\r\nThe libbeagle build will then fail with\r\n```\r\n..\r\n            /targets/x86_64-linux/include/crt/host_config.h:138:2: error: #error -- unsupported GNU version! gcc versions later than 8 are\r\n            not supported!\r\n```\r\nThat should have been prevented with the conflicts statement in the cuda build system.\r\n```\r\nconflicts('%gcc@8:', when='+cuda ^cuda@10.0.130' + arch_platform)\r\n```\r\nwhere arch_platform  = ' arch=x86_64 platform=linux'.\r\n\r\nIt would also seem that cuda itself should not install with a gcc > 8 as well. ",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/13462",
+    "updated_at": "2019-10-30 16:25:47",
+    "created_at": "2019-10-27 21:39:56",
+    "closed_at": "2019-10-30 16:25:47",
+    "state": "closed",
+    "title": "cuda gcc conflicts not working",
+    "number": 13462,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "directives",
+        "cuda"
+    ],
+    "id": 513025861,
+    "html_url": "https://github.com/spack/spack/issues/13462",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

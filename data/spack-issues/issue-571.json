@@ -1,0 +1,17 @@
+{
+    "body": "The documentation of external packages has an example\n\n```\npackages:\n   openmpi:\n      paths:\n         openmpi@1.4.3%gcc@4.4.7=chaos_5_x86_64_ib: /opt/openmpi-1.4.3\n```\n\nFor the life of mine I could not make it work to set up system's blas/lapack and avoid Spack trying to install `openblas` as a dependency for `hypre`. I tried something along these lines\n\n```\npackages:\n  blas:\n    paths:\n      blas: <system>\n    buildable: False\n  lapack:\n    paths:\n      lapack: <system>\n    buildable: False\n```\n\nwhich would be my na\u00efve interpretation of the documentation.\n\n~~Btw, the `hypre`'s blas-related configure is not correct as it assumes blas-lapack names as `blas` and `lapack`~~\n\n```\nconfigure_args = [\n                \"--prefix=%s\" % prefix,\n                \"--with-lapack-libs=lapack\",\n                \"--with-lapack-lib-dirs=%s/lib\" % lapack_dir,\n                \"--with-blas-libs=blas\",\n                \"--with-blas-lib-dirs=%s/lib\" % blas_dir]\n```\n\n~~which is certainly not the case for `openblas`.~~\nI see that you symlink `libbas` and `liblapack` when installing openblas. However, this is not a flexible enough solution for things like MKL.  It goes back to the issue https://github.com/LLNL/spack/issues/234 . \n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/571",
+    "updated_at": "2016-05-18 08:45:06",
+    "created_at": "2016-03-18 13:38:22",
+    "closed_at": "2016-05-18 08:45:06",
+    "state": "closed",
+    "title": "external packages for virtual dependencies (blas/mpi)",
+    "number": 571,
+    "milestone": null,
+    "labels": [],
+    "id": 141868609,
+    "html_url": "https://github.com/spack/spack/issues/571",
+    "assignees": [],
+    "comments": 9
+}

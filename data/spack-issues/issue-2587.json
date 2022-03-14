@@ -1,0 +1,21 @@
+{
+    "body": "On the Cray KNL system I see : \r\n\r\n```\r\n$ spack arch\r\ncray-CNL-mic_knl\r\n\r\n$ spack spec tau\r\nInput spec\r\n--------------------------------\r\ntau\r\nNormalized\r\n--------------------------------\r\ntau\r\n    ^pdt\r\nConcretized\r\n--------------------------------\r\nTraceback (most recent call last):\r\n  File \"/home/kumbhar/spack/bin/spack\", line 198, in <module>\r\n    main()\r\n  File \"/home/kumbhar/spack/bin/spack\", line 175, in main\r\n    return_val = command(parser, args)\r\n  File \"/xxxx/home/kumbhar/spack/lib/spack/spack/cmd/spec.py\", line 83, in spec\r\n    spec.concretize()\r\n  File \"/xxxx/home/kumbhar/spack/lib/spack/spack/spec.py\", line 1543, in concretize\r\n    self._concretize_helper())\r\n  File \"/xxxx/home/kumbhar/spack/lib/spack/spack/spec.py\", line 1362, in _concretize_helper\r\n    changed |= dep.spec._concretize_helper(presets, visited)\r\n  File \"/xxxx/home/kumbhar/spack/lib/spack/spack/spec.py\", line 1362, in _concretize_helper\r\n    changed |= dep.spec._concretize_helper(presets, visited)\r\n  File \"/xxxx/home/kumbhar/spack/lib/spack/spack/spec.py\", line 1362, in _concretize_helper\r\n    changed |= dep.spec._concretize_helper(presets, visited)\r\n  File \"/xxxx/home/kumbhar/spack/lib/spack/spack/spec.py\", line 1372, in _concretize_helper\r\n    (spack.concretizer.concretize_architecture(self),\r\n  File \"/xxxx/home/kumbhar/spack/lib/spack/spack/concretize.py\", line 270, in concretize_architecture\r\n    replacement_fields = [k for k, v in arch.to_cmp_dict().iteritems()\r\nAttributeError: 'NoneType' object has no attribute 'to_cmp_dict'\r\n```\r\n\r\nQuickly looked into `lib/spack/spack/concretize.py` : \r\n\r\n```\r\n        default_archs = [root_arch, sys_arch]\r\n        while not spec.architecture.concrete and default_archs:\r\n            arch = default_archs.pop(0)\r\n\r\n            replacement_fields = [k for k, v in arch.to_cmp_dict().iteritems()\r\n                                  if v and not getattr(spec.architecture, k)]\r\n```\r\n\r\nAnd at some point during concretisation, the value of  `default_archs` is:\r\n\r\n```\r\n[None, cray-sles12-None]\r\n```\r\n\r\nCould someone have a look?",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2587",
+    "updated_at": "2017-04-04 22:03:53",
+    "created_at": "2016-12-14 05:54:19",
+    "closed_at": "2017-04-04 22:03:53",
+    "state": "closed",
+    "title": "Spack concretisation issue on Cray KNL ('NoneType' object has no attribute 'to_cmp_dict')",
+    "number": 2587,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "concretization"
+    ],
+    "id": 195446451,
+    "html_url": "https://github.com/spack/spack/issues/2587",
+    "assignees": [],
+    "comments": 1
+}

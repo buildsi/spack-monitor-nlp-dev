@@ -1,0 +1,20 @@
+{
+    "body": "I made a PR for the git package that enables perl and pcre a while back.  Since then another PR has been merged that enables gettext support.\n\nI've rebased my PR and am trying to unsuccessfully to test it, there's a gettext related problem.  I've stepped back to the commit that added gettext support and I have the same problem there.\n\nThe symptom is that it's blowing up with it tries to link executables because it can't find an implementation for libintl_gettext().  E.g. lots and lots of:\n\n```\n    LINK git-show-index\nlibgit.a(wrapper.o): In function `_':\n/tmp/throgg/spack-stage/spack-stage-d4Tihu/git-git-fdeee3d/gettext.h:54: undefined reference to `libintl_gettext'\n/tmp/throgg/spack-stage/spack-stage-d4Tihu/git-git-fdeee3d/gettext.h:54: undefined reference to `libintl_gettext'\n/tmp/throgg/spack-stage/spack-stage-d4Tihu/git-git-fdeee3d/gettext.h:54: undefined reference to `libintl_gettext'\n/tmp/throgg/spack-stage/spack-stage-d4Tihu/git-git-fdeee3d/gettext.h:54: undefined reference to `libintl_gettext'\n/tmp/throgg/spack-stage/spack-stage-d4Tihu/git-git-fdeee3d/gettext.h:54: undefined reference to `libintl_gettext'\n```\n\nIf I `spack env git bash` and cd into the staging dir and run `make -V=1` and then try to run the \"link\" command by hand I can replicate the failure.  If I try again with a `-L... -lintl` added, e.g.:\n\n```\n-L/home/throgg/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/gettext-0.19.8.1-dhus6ppmjmb6ze2pfml3yixa6a5o4ufn/lib -lintl\n```\n\nThen things link fine.\n\nThe `configure` script doesn't seem to have any support for `--with-gettext` so I'm not sure what should be happening.  If I comment the `depends_on('gettext')` out then the build succeeds.\n\nI'm on a fairly sparsely configure CentOS 7 system.\n\n@adamjstewart -- I think that your commit added `depends_on('gettext')` to git.  Did/does it work for you?\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/1436",
+    "updated_at": "2019-05-03 19:24:04",
+    "created_at": "2016-08-04 00:21:45",
+    "closed_at": "2018-01-09 15:40:10",
+    "state": "closed",
+    "title": "git won't build for me now that it `depends_on('gettext')`",
+    "number": 1436,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "git"
+    ],
+    "id": 169264254,
+    "html_url": "https://github.com/spack/spack/issues/1436",
+    "assignees": [],
+    "comments": 9
+}

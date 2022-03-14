@@ -1,0 +1,17 @@
+{
+    "body": "Currently, for the same package with the same dependencies, the hash may change depending on python internals.\n\n`Spec.dag_hash` is created from a hash of a `dict` (via a yaml dump to string). However, `dict` is not ordered, so the same `dict` is not guaranteed to print out in the same order every time.\n\nI see this happening when calling spack directly from a [salt](https://github.com/UCL-RITS/CondimentStation/blob/master/_modules/spack.py) plugin, or when calling the same methods from the ipython commandline.\n\nOne possible change could be to hash the full-spec of the package, as implemented in `Spec.__str__`.\n",
+    "user": "mdavezac",
+    "url": "https://api.github.com/repos/spack/spack/issues/1409",
+    "updated_at": "2016-09-02 14:29:49",
+    "created_at": "2016-08-01 10:15:46",
+    "closed_at": "2016-09-02 14:29:49",
+    "state": "closed",
+    "title": "DAG hash is unstable because python dict is not ordered",
+    "number": 1409,
+    "milestone": null,
+    "labels": [],
+    "id": 168612736,
+    "html_url": "https://github.com/spack/spack/pull/1409",
+    "assignees": [],
+    "comments": 13
+}

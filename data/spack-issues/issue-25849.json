@@ -1,0 +1,23 @@
+{
+    "body": "There is no official tarball for config.guess and config.sub files, they are rather somewhat of a rolling release here:\r\n\r\nhttps://git.savannah.gnu.org/cgit/config.git\r\n\r\nHowever, they are versioned by a timestamp: https://git.savannah.gnu.org/cgit/config.git/tree/config.guess#n7.\r\n\r\nSo I've just mirrored the gnu repo to https://github.com/haampie/config and added the latest timestamp as a tag, so that we can simply download a tarball and install config files as `<prefix>/share/config.{sub,guess}`. Now the idea is to add this in the future as build dependency to autotools packages that ship a tarball with outdated config files, so that we can simply replace them with the files from this package. If for some reason one really needs the system versions of these config files, the package can simply be marked external. This allows us to drop the hard-coded system path `/usr/share` in\r\n\r\nhttps://github.com/spack/spack/blob/f9314d38b0bec2df16e58312fad0cbb01fad7696/lib/spack/spack/build_systems/autotools.py#L154\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25849",
+    "updated_at": "2021-09-09 08:13:44",
+    "created_at": "2021-09-08 21:27:31",
+    "closed_at": "2021-09-09 08:13:44",
+    "state": "closed",
+    "title": "Add new package gnuconfig",
+    "number": 25849,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "new-package",
+        "maintainers"
+    ],
+    "id": 991546520,
+    "html_url": "https://github.com/spack/spack/pull/25849",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 4
+}

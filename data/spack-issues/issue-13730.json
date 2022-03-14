@@ -1,0 +1,19 @@
+{
+    "body": "Currently, guile by default tries to compile its thread variant.\r\nHowever, the threaded version can only be compiled if bdw-gc is\r\ncompiled with some threads support. Currently, the default\r\ncompilation of the bdw garbage collector is compiled without any\r\nthread support resulting in a compilation error.\r\n\r\nI have changed the default guile compilation to the non-threaded\r\nversion. I have also added the appropriated options for the bdw-gc\r\ncompilation in case the user prefers the threaded variant.\r\n\r\nWithout the changes this is the error message you get when installing guile:\r\n```\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j36'\r\n\r\n9 errors found in build log:\r\n     1602      SNARF  socket.doc\r\n     1603      SNARF  regex-posix.doc\r\n     1604      CCLD     libguile-2.2.la\r\n     1605    .libs/libguile_2.2_la-posix.o: In function `scm_tmpnam':\r\n     1606    /tmp/swadm/spack-stage/spack-stage-guile-2.2.6-odygubqttlo7n4oqigw\r\n             4twn6m5hjheds/spack-src/libguile/posix.c:1601: warning: the use of\r\n              `tmpnam' is dangerous, better use `mkstemp'\r\n     1607      CCLD     guile\r\n  >> 1608    ./.libs/libguile-2.2.so: undefined reference to `GC_unregister_my_\r\n             thread'                                                                                                                                                               \r\n  >> 1609    ./.libs/libguile-2.2.so: undefined reference to `GC_get_suspend_si\r\n             gnal'                                                                                                                                                                 \r\n  >> 1610    ./.libs/libguile-2.2.so: undefined reference to `GC_allow_register\r\n             _threads'                                                                                                                                                             \r\n  >> 1611    ./.libs/libguile-2.2.so: undefined reference to `GC_register_my_th\r\n             read'                                                                                                                                                                 \r\n  >> 1612    collect2: error: ld returned 1 exit status\r\n  >> 1613    make[3]: *** [guile] Error 1\r\n     1614    make[3]: Leaving directory `/tmp/swadm/spack-stage/spack-stage-gui\r\n             le-2.2.6-odygubqttlo7n4oqigw4twn6m5hjheds/spack-src/spack-build/li\r\n             bguile'\r\n  >> 1615    make[2]: *** [all] Error 2\r\n     1616    make[2]: Leaving directory `/tmp/swadm/spack-stage/spack-stage-gui\r\n             le-2.2.6-odygubqttlo7n4oqigw4twn6m5hjheds/spack-src/spack-build/li\r\n             bguile'\r\n  >> 1617    make[1]: *** [all-recursive] Error 1\r\n     1618    make[1]: Leaving directory `/tmp/swadm/spack-stage/spack-stage-gui\r\n             le-2.2.6-odygubqttlo7n4oqigw4twn6m5hjheds/spack-src/spack-build'\r\n  >> 1619    make: *** [all] Error 2\r\n\r\nSee build log for details:\r\n  /tmp/swadm/spack-stage/spack-stage-guile-2.2.6-odygubqttlo7n4oqigw4twn6m5hjheds/spack-build-out.txt\r\n```",
+    "user": "hseara",
+    "url": "https://api.github.com/repos/spack/spack/issues/13730",
+    "updated_at": "2019-11-17 07:35:31",
+    "created_at": "2019-11-14 14:42:18",
+    "closed_at": "2019-11-16 21:34:38",
+    "state": "closed",
+    "title": "guile package: Handling the threads option.",
+    "number": 13730,
+    "milestone": null,
+    "labels": [
+        "variants"
+    ],
+    "id": 522902917,
+    "html_url": "https://github.com/spack/spack/pull/13730",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,17 @@
+{
+    "body": "This PR corrects a problem with the opa-psm2 package.  It was installing headers into `<prefix>/usr/include` and libraries into `<prefix>/usr/lib` instead of `<prefix>/include` and `<prefix>/lib`.  The extra level of `usr/` subdirectories causes dependent packages like libfabric to fail to build. \r\n\r\nTo reproduce, run the following on any x86 system (it does not need to have Omni-Path hardware present):\r\n\r\n`spack install libfabric fabrics=psm2`\r\n\r\nThe above command will fail due to lack of psm2 headers (or else mistakenly pick up system psm2 headers if present) unless the PR is applied.",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/11658",
+    "updated_at": "2019-07-02 18:10:43",
+    "created_at": "2019-06-07 17:13:32",
+    "closed_at": "2019-07-02 17:34:59",
+    "state": "closed",
+    "title": "patch opa-psm2 to correct installation prefixes",
+    "number": 11658,
+    "milestone": null,
+    "labels": [],
+    "id": 453613245,
+    "html_url": "https://github.com/spack/spack/pull/11658",
+    "assignees": [],
+    "comments": 0
+}

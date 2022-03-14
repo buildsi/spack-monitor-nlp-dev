@@ -1,0 +1,23 @@
+{
+    "body": "Fixes #2468. (this may have been fixed already but it's related)\r\n\r\nThis PR fixes a number of bugs (one per commit -- this should be rebased not squashed) to get to the main one:\r\n\r\n1. `spack --debug` wasn't in the right place and wouldn't take effect for things at the beginning of `main()`.\r\n2. Config errors had gotten really verbose -- they print a full stack trace and don't just show the user where the error is like they used to.\r\n3. `spack config get <section>` and `spack config --scope <scope> edit <section>` weren't working in environments. `spack config get <section>`  should return the combined configuration for that section (including anything from `spack.yaml`), even in an environment, and `spack config edit` should respect the scope argument.\r\n4. If you don't format `spack.yaml` correctly, `spack config edit` still fails and you have to edit your `spack.yaml` manually. Spack should be smarter than this.\r\n\r\n- [x] Rework `_main()` and add some notes for maintainers on where things need to go for configuration to work properly.\r\n- [x] Move config setup to *after* command-line parsing is done.\r\n- [x] Add some code to `_main()` to defer `ConfigFormatError` when loading the environment, until we know what command is being run.  \r\n- [x] Make `spack config edit` use `SPACK_ENV` instead of the config scope object to find `spack.yaml`, so it can work even if the environment is bad.\r\n- [x] Reorder conditions in `cmd/config.py` to fix environment issues.\r\n- [x] Tests",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24689",
+    "updated_at": "2021-10-29 19:22:08",
+    "created_at": "2021-07-03 20:50:20",
+    "closed_at": "2021-10-28 22:37:45",
+    "state": "closed",
+    "title": "bugfix: `spack config edit` should work in a bad environment",
+    "number": 24689,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "commands",
+        "shell-support"
+    ],
+    "id": 936325087,
+    "html_url": "https://github.com/spack/spack/pull/24689",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

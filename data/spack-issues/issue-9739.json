@@ -1,0 +1,22 @@
+{
+    "body": "Unit tests are failing on Travis for Python 3.7. \r\n\r\n### Steps to reproduce the issue\r\nAny PR or build of the `develop` branch since October 21st started failing for Python 3.7. The error could be reproduced locally by just using python 3.7 as an interpreter:\r\n```console\r\n$ python3.7 \r\nPython 3.7.1 (default, Oct 21 2018, 04:01:51) \r\n[GCC 7.3.0] on linux\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> \r\n\r\n$ python3.7 bin/spack test\r\n...\r\nweb.py:133: AssertionError\r\n_____________________________________________________ test_find_exotic_versions_of_archive_3 _____________________________________________________\r\n\r\n    def test_find_exotic_versions_of_archive_3():\r\n        versions = find_versions_of_archive(root_tarball, root, list_depth=3)\r\n>       assert ver('2.0.0b2') in versions\r\nE       AssertionError: assert Version('2.0.0b2') in {Version('0.0.0'): 'file:///home/mculpo/PycharmProjects/spack/lib/spack/spack/test/data/web/foo-0.0.0.tar.gz'}\r\nE        +  where Version('2.0.0b2') = ver('2.0.0b2')\r\n\r\nweb.py:141: AssertionError\r\n========================================= 9 failed, 1182 passed, 83 skipped, 1 xfailed in 221.95 seconds =========================================\r\n```\r\n\r\n\r\nThe [last successful build](https://travis-ci.org/spack/spack/builds/444198345) appears to be have the same hash as the [first failing build](https://travis-ci.org/spack/spack/builds/444484951). \r\n\r\n### Error Message\r\nThere are 9 tests that seems to be failing. The log can be found [here](https://travis-ci.org/spack/spack/jobs/444484960). \r\n\r\n\r\n### Information on your system\r\n\r\nThe errors have been reproduced on an Ubuntu 18.04 machine and are persistent in Travis.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9739",
+    "updated_at": "2018-11-07 00:02:38",
+    "created_at": "2018-11-06 13:09:54",
+    "closed_at": "2018-11-07 00:02:38",
+    "state": "closed",
+    "title": "Unit tests failing on Travis with Python 3.7",
+    "number": 9739,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "broken-develop",
+        "travis"
+    ],
+    "id": 377839402,
+    "html_url": "https://github.com/spack/spack/issues/9739",
+    "assignees": [],
+    "comments": 5
+}

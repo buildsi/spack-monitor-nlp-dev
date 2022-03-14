@@ -1,0 +1,20 @@
+{
+    "body": "### Summary\r\n\r\nIn some cases, dependencies specified with a when clause can be removed when a spec is fully concretized resulting in a mysterious error.\r\n\r\nThis can be resolved by specifying a more complete spec initially, however the concretizer should be smart enough to avoid this problem.\r\n\r\nWhen the new concretizer is complete, it should handle this situation correctly.\r\n\r\n### Steps to reproduce the issue\r\n\r\nTry the command\r\n\r\n```console\r\nspack spec py-pytest-mock^python@3:\r\n```\r\n\r\nSpecifying that you want py-pytest-mock depending on the latest version of python 3.\r\n\r\n### Expected Result\r\n\r\nOne would expect this to resolve neatly with python 3.6.3 (at the time of this writing)\r\n\r\n### Actual Result\r\n\r\nHowever, instead you get this nasty error message:\r\n\r\n```console\r\n==> Error: py-pytest-mock does not depend on py-enum34\r\n```\r\n\r\n### Cause\r\n\r\nThis happens because `py-pytest-mock` depends on `py-mock` which depends on `py-pbr` which depends on `py-enum34` with a when clause: `when='python@:3.3'`. When the dependencies are initially added during concretization, the when clause is satisfied by `python@3:` and so `py-enum34` is added as a dependency. Later in concretization however, `python@3:` becomes `python@3.6.3` at which point, the when clause is no longer satisfied thus triggering the error.\r\n\r\n### Mitigation\r\n\r\nYou can be more specific with the initial spec.\r\n\r\n```console\r\nspack spec py-pytest-mock^python@3.5:\r\n```\r\n\r\nWorks fine.\r\n\r\n### Information on your system\r\n\r\nOs is Arch,\r\nThis issue should occur regardless of custom configuration settings.",
+    "user": "krafczyk",
+    "url": "https://api.github.com/repos/spack/spack/issues/7211",
+    "updated_at": "2020-11-01 21:40:39",
+    "created_at": "2018-02-09 21:56:33",
+    "closed_at": "2020-11-01 21:40:39",
+    "state": "closed",
+    "title": "Concretization failure with some when clause conditions",
+    "number": 7211,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "concretization"
+    ],
+    "id": 296024649,
+    "html_url": "https://github.com/spack/spack/issues/7211",
+    "assignees": [],
+    "comments": 1
+}

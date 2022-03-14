@@ -1,0 +1,20 @@
+{
+    "body": "My daily build two nights ago worked.  A fresh clone of github.com/llnl/spack late yesterday afternoon failed to build, as did my build last night.\r\n\r\nI'm building gcc@5.4.0 with the CentOS system compiler, gcc@4.8.[35].\r\n\r\nThe compiler appears to be failing.\r\n\r\nHere's a bit from a `config.log` file.  The interesting bit is `n--eh-frame-hdr`, it looks as if there might be a stray 'n' somewhere that's getting pasted onto the front of the `--eh-frame-hdr` switch:\r\n\r\n```\r\nconfigure:3851: /scratch/hartzelg/working-dir/workspace/daily-build/spack/lib/spack/env/gcc/gcc    conftest.c  >&5\r\n/blah/apps/spack/v0.0.10/opt/spack/linux-centos7-x86_64/gcc-4.8.5/binutils-2.28-66ufycihw5nglnjuy4xf6hqpwrru6bx4/bin/ld: cannot find n--eh-frame-hdr: No\r\n such file or directory\r\ncollect2: error: ld returned 1 exit status\r\n```\r\n\r\nI've been fishing for the change, but perhaps it will ring a bell.\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4175",
+    "updated_at": "2017-05-09 23:51:40",
+    "created_at": "2017-05-09 15:24:45",
+    "closed_at": "2017-05-09 23:51:40",
+    "state": "closed",
+    "title": "gcc or binutils seems to have been broken recently",
+    "number": 4175,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error"
+    ],
+    "id": 227404115,
+    "html_url": "https://github.com/spack/spack/issues/4175",
+    "assignees": [],
+    "comments": 26
+}

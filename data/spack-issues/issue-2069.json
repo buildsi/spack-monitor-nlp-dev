@@ -1,0 +1,22 @@
+{
+    "body": "We currently allow users to do this:\n\n``` yaml\npackages:\n  blas:\n    blas: /some/path\n    buildable: False\n  lapack:\n    lapack: /some/path\n    buildable: False\n```\n\n`blas` and `lapack` above are virtual dependencies, but they should be concrete implementations.  \n\nSpack should complain when this happens so that users don't spend a lot of time trying to debug this mistake.\n\nOn the other hand, it's pretty obvious what the _intent_ is when users do this.  They want to do something like:\n\n``` yaml\npackages:\n  all:\n    providers:\n      blas: <some-blas>\n      lapack: <some-lapack>\n  <some-blas>:\n    <some-blas>@<some-version>: /some/path\n    buildable: False\n  <some-lapack>:\n    <some-lapack>@<some-version>: /some/path\n    buildable: False\n```\n\nThe problem is we have no idea which implementation `<some-lapack>` and `<some-blas>` are just from looking at the syntax at top -- Spack would need to auto-detect the implementation at `/some/path`.  \n\nWe should revisit this when we look at auto-detecting system packages as discussed in #2020.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2069",
+    "updated_at": "2016-12-31 20:50:35",
+    "created_at": "2016-10-21 15:25:26",
+    "closed_at": "2016-12-31 16:12:38",
+    "state": "closed",
+    "title": "Spack should complain if entries in packages.yaml are virtual packages",
+    "number": 2069,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "discussion",
+        "blas-lapack-scalapack",
+        "xSDK"
+    ],
+    "id": 184513491,
+    "html_url": "https://github.com/spack/spack/issues/2069",
+    "assignees": [],
+    "comments": 2
+}

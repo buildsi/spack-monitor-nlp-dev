@@ -1,0 +1,21 @@
+{
+    "body": "@tgamblin @krafczyk @davydden @certik @scheibelp \r\n\r\nIn #3347 and similar, I'm coming to believe we don't really know what we mean by build, link and run dependencies.  I'm hoping we can clarify that in this thread.\r\n\r\nFirst of all, I believe we need a list of the different kinds of things that might happen when A->B.  Here is a probably incomplete list:\r\n 1. B's module loaded by A's module?\r\n 2. B added to A's build environment?\r\n 3. B added to A's RPATH?\r\n 4. B built as a prerequisite for A?\r\n 5. ...any other effects that MIGHT happen?\r\n\r\nNext, we need a specification of how a deptype affects the above behaviours (or _should_ affect the behaviors)  For example:\r\n\r\ndeptype=build: (4), (2)\r\ndeptype=link: (3)\r\ndeptype=run: (1)\r\n\r\nFinally, we need to figure out what, if anything, happens transitively.  If A->B->C, deptype(A->B)=x and deptype(B->C)=y, then how does that affect A's behavior?  There are only 3 deptypes, but now 9 combinations of 2-level transitive deptypes we have to decide upon.  Ideally, we won't need any special rules for transitive deptypes; but if we must, we must.\r\n\r\nIf we can get these right, then we have a definition of deptypes that we can rely upon and work with in cases like #3347.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3768",
+    "updated_at": "2020-09-02 20:46:53",
+    "created_at": "2017-04-08 02:52:48",
+    "closed_at": "2020-09-02 20:46:53",
+    "state": "closed",
+    "title": "Document the meaning of deptypes",
+    "number": 3768,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "specs",
+        "dependencies"
+    ],
+    "id": 220370400,
+    "html_url": "https://github.com/spack/spack/issues/3768",
+    "assignees": [],
+    "comments": 11
+}

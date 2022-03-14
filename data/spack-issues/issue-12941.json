@@ -1,0 +1,20 @@
+{
+    "body": "related #10411\r\n\r\n@alalazo @scheibelp @adamjstewart \r\nWith a mass migration to `CMake` and Spack having lasted more than a couple of years, it is now becoming common for Spack packages to change build system due to upstream changes in build system.  For example, `superlu-dist` changed from ad-hoc manually-edited makefiles to CMake (see #12938).  This introduces a problem because now there need to be two fundamentally different Spack recipes for the same package --- one to build older versions, and one to build newer versions.  So far, there is no way to do this.  Instead, people have simply been dropping old versions of packages, which can create its own problems.\r\n\r\nThis PR provides a prototype of how a multiple build systems can be handled for a package in Spack, using `superlu-dist` as a real-world example.  I have used it successfully to install `superlu-dist@4.3`.  The downside of this is that now, the phases of the CMake-build package are hidden.  I'm sure that could cause headaches somewhere; but remember that early versions of Spack only had a single `install()` phase and life went on.  Maybe there is some what to finess the phase issue; for example, make the top-level package inherit phaes from the most-recent sub-package (in this case, the `CMakePackage` version of `superlu-dist`).\r\n\r\nComments / improvements welcome.  Ultimately, it would be great if this could be turned into a top-level, reusable `MultiBuildPackage` or something of the sort.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/12941",
+    "updated_at": "2021-08-01 20:06:32",
+    "created_at": "2019-09-25 03:16:03",
+    "closed_at": "2021-06-11 13:54:22",
+    "state": "closed",
+    "title": "Multi Build System Packages [Prototype; Please Review]",
+    "number": 12941,
+    "milestone": null,
+    "labels": [
+        "revisit",
+        "build-systems"
+    ],
+    "id": 498023928,
+    "html_url": "https://github.com/spack/spack/pull/12941",
+    "assignees": [],
+    "comments": 38
+}

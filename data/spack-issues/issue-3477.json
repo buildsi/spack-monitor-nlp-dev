@@ -1,0 +1,20 @@
+{
+    "body": "Trinity has two types of back-end machines: haswell and mic-knl.  Spack works great for targeting the haswells.  When targeting the mic-knl nodes, I normally `module swap craype-haswell craype-mic-knl`, but I can't figure out how to do this with spack. BTW - All builds are done from the haswell front-end.\r\n\r\nFor example:\r\n``` \r\nspack spec libelf%intel@17.0.1\r\n...\r\nlibelf@0.8.13%intel@17.0.1 arch=cray-CNL-haswell\r\n```\r\n\r\nOkay that looks good for the haswells, but we want to target the mic-knl nodes:\r\n``` \r\nspack spec libelf%intel@17.0.1 target=mic-knl\r\n...\r\nlibelf@0.8.13%intel@17.0.1 arch=cray-CNL-mic-knl\r\n```\r\n\r\nThat looks good, let's install:\r\n``` \r\nspack install libelf%intel@17.0.1 target=mic-knl\r\n...\r\n % spack install libelf%intel@17.0.1  target=mic-knl\r\n==> Installing libelf\r\n==> Error: ValueError: Can't recreate arch for spec cray-CNL-mic-knl on current arch cray-CNL-haswell; spec architecture is too different\r\n/usr/projects/draco/vendors/spack.tt.20170316/lib/spack/spack/package.py:893, in architecture:\r\n     887      @property\r\n     888      def architecture(self):\r\n     889          \"\"\"Get the spack.architecture.Arch object that represents the\r\n     890          environment in which this package will be built.\"\"\"\r\n     891          if not self.spec.concrete:\r\n     892              raise ValueError(\"Can only get the arch for concrete package.\")\r\n  >> 893          return spack.architecture.arch_for_spec(self.spec.architecture)\r\n```\r\n\r\nAny suggestions for debugging this? How do I know that `mic-knl` is even a valid target for spack?\r\n\r\n\r\n\r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/3477",
+    "updated_at": "2021-05-22 23:43:12",
+    "created_at": "2017-03-17 17:40:25",
+    "closed_at": "2021-05-22 23:43:12",
+    "state": "closed",
+    "title": "Cray: Unable to target mic-knl on LANL's Trinity machine",
+    "number": 3477,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray"
+    ],
+    "id": 215074174,
+    "html_url": "https://github.com/spack/spack/issues/3477",
+    "assignees": [],
+    "comments": 5
+}

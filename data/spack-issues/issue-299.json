@@ -1,0 +1,17 @@
+{
+    "body": "##### Rationale\n\nThis PR extends the `when=<arg>` keyword to Boolean arguments in both multi-methods and `depends_on` directives. This opens the possibility to use predicates that can be evaluated at package definition time to conditionally enable a dependency.\n##### Modifications\n- [x] `depends_on` directive and `when` type objects can now manage Boolean arguments\n- [x] fixed a typo at line 196 in `multimethod.py` (class declaration repeated twice)\n##### Example of use : OS related dependencies\n\n~~I started this PR as an alternative solution to what is proposed in #268 and similar PRs. You may refer there for the details of the discussion, but to make it short the idea is to use `sys.platform` to discriminate among different operative systems and provide a less invasive way to build packages on OSX. The benefits of this approach are that:~~ \n- ~~nobody will be forced to use a given name for his architecture~~ \n- ~~inconsistencies among similar systems will be hopefully avoided (`=linux` won't be satisfied by `=chaos_5_x86_64_ib` or by `=linux-x86_64`, etc.)~~ \n- ~~the set of possible values to be used in the predicates is part of [python documentation](https://docs.python.org/2/library/sys.html#sys.platform) (and as such we don't have to agree on them)~~\n\n@tgamblin , @eschnett , @nrichart , @trws : any comment is appreciated. ~~Also, I don't have access to a MAC so I was not able to try an installation of OpenSSL on `darwin`. I tried though to switch the two install methods (having the `darwin` one as default and using `@when(arch.os_is_in('linux2'))` on the other) and that worked for me.~~ \n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/299",
+    "updated_at": "2016-02-25 22:38:59",
+    "created_at": "2016-01-02 22:43:45",
+    "closed_at": "2016-02-25 21:38:03",
+    "state": "closed",
+    "title": "enhancement proposal : boolean support for when=<arg>",
+    "number": 299,
+    "milestone": null,
+    "labels": [],
+    "id": 124615438,
+    "html_url": "https://github.com/spack/spack/pull/299",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Discovered by @rmetzler\r\n\r\n### Expected Result\r\n\r\nIf there's a syntax error in a config file like `modules.yaml`, it should be possible to run `spack config edit <config>`.\r\n\r\n### Actual Result\r\n\r\nYAML configs are parsed at the beginning of a Spack run, and Spack complains when there is even a small error in the configuration file.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack config edit --scope=site modules\r\n... edit the file so that it has invalid YAML syntax\r\n$ spack config --scope=site edit modules \r\nTraceback (most recent call last):\r\n  File \"/Users/gamblin2/src/spack/bin/spack\", line 81, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/main.py\", line 547, in main\r\n    return _main(command, parser, args, unknown)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/main.py\", line 435, in _main\r\n    spack.hooks.pre_run()\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/hooks/__init__.py\", line 69, in __call__\r\n    for module in all_hook_modules():\r\n  File \"/Users/gamblin2/src/spack/lib/spack/llnl/util/lang.py\", line 182, in __call__\r\n    self.cache[args] = self.func(*args)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/hooks/__init__.py\", line 57, in all_hook_modules\r\n    mod = imp.load_source(mod_name, path)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/hooks/module_file_generation.py\", line 25, in <module>\r\n    import spack.modules\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/modules/__init__.py\", line 32, in <module>\r\n    from .dotkit import DotkitModulefileWriter\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/modules/dotkit.py\", line 28, in <module>\r\n    from .common import BaseConfiguration, BaseFileLayout\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/modules/common.py\", line 71, in <module>\r\n    configuration = spack.config.get_config('modules')\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/config.py\", line 409, in get_config\r\n    data = scope.get_section(section)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/config.py\", line 180, in get_section\r\n    data   = _read_config_file(path, schema)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/spack/config.py\", line 287, in _read_config_file\r\n    \"Error parsing yaml%s: %s\" % (str(e.context_mark), e.problem))\r\nspack.config.ConfigFileError: Error parsing yaml  in \"/Users/gamblin2/src/spack/etc/spack/modules.yaml\", line 1, column 1: expected <block end>, but found ':'\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\nmacOS, no custom configuration\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/6296",
+    "updated_at": "2022-03-09 11:33:18",
+    "created_at": "2017-11-13 23:05:54",
+    "closed_at": "2022-03-09 11:33:18",
+    "state": "closed",
+    "title": "spack config edit fails when there are syntax errors in modules.yaml",
+    "number": 6296,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 273610382,
+    "html_url": "https://github.com/spack/spack/issues/6296",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

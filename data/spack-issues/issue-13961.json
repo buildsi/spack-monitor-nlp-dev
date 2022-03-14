@@ -1,0 +1,21 @@
+{
+    "body": "\r\nThis is a spinoff of #8957.  But I think this is small and separate\r\nand a clear bug.  I'm hoping this can be prioritized and fixed before\r\nwaiting for the full solution in #8957.\r\n\r\nTBB has multiple-length version numbers: 2018, 2018.1, 2019, 2019.1,\r\netc.  There are patches that apply to :2019.4, 2019.5:, etc.\r\n\r\nI tried `spack install intel-tbb @2019` and the concretizer picks rev\r\nexactly 2019, not 2019.8. (This much is correct.)  The problem (for\r\nwriting `package.py` files) is that 2019 satisfies both of these:\r\n\r\n```\r\npatch(..., when='@2019.6:')\r\npatch(..., when='@:2019.2')\r\n```\r\n\r\nSo, rev 2019 is both >= 2019.6 and <= 2019.2.\r\n\r\nThis makes it impossible to use version ranges for any package that\r\nhas variable-length versions. There is no valid order where this makes\r\nsense.  I'm guessing there are probably several packages with broken\r\nversion ranges that don't know it.\r\n\r\nIMO, this is a clear bug, seperate from how you want to interpret\r\n`when='@2019'` (the essence of #8957).\r\n\r\n@adamjstewart diagnosed this in #8957 as:\r\n\r\n```\r\nI'm starting to get a better understanding of this most recent\r\nbug. ver('2019') is a Version object and ver('2019.1:') is a\r\nVersionRange object. In order to compare these two types of objects,\r\nwe coerce Version('2019') into VersionRange('2019:2019'). Thus,\r\n2019.1: overlaps with 2019:2019.\r\n```\r\n\r\nSo, maybe this problem can be fixed by redoing the comparisson: don't\r\ntest for overlap between two VersionRange objects.  Instead, test if a\r\nsingle Version is a member of a VersionRange.\r\n\r\nAnyway, I think this is small and isolated and maybe can be fixed\r\nwithout waiting for a full solution on how to interpret shortened\r\nversion names.\r\n\r\n@scheibelp Would you like to self-assign?\r\n@tgamblin for nagging.  :-)\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/13961",
+    "updated_at": "2019-12-09 05:05:27",
+    "created_at": "2019-12-03 05:09:21",
+    "closed_at": "2019-12-09 05:05:27",
+    "state": "closed",
+    "title": "variable length version numbers don't obey a linear order",
+    "number": 13961,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 531724926,
+    "html_url": "https://github.com/spack/spack/issues/13961",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

@@ -1,0 +1,23 @@
+{
+    "body": "This is an additional commit on top of https://github.com/spack/spack/pull/25409\r\n\r\nWith this PR we can activate an environment in Spack itself, without computing changes to environment variables only necessary for \"shell aware\" env activation.\r\n\r\n1. Activating an environment:\r\n    \r\n    ```python\r\n    spack.environment.activate(Environment(xyz)) -> None\r\n    ```\r\n    this basically just sets `_active_environment` and modifies some config scopes.\r\n\r\n2. Activating an environment **and** getting environment variable modifications for the shell:\r\n\r\n    ```python\r\n    spack.environment.shell.activate(Environment(xyz)) -> EnvironmentModifications\r\n    ```\r\n\r\nThis should make it easier/faster to do unit tests and scripting with spack, without the cli interface.\r\n\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25564",
+    "updated_at": "2021-08-31 09:33:43",
+    "created_at": "2021-08-23 13:33:05",
+    "closed_at": "2021-08-25 13:17:46",
+    "state": "closed",
+    "title": "Move environment shell stuff into its own module",
+    "number": 25564,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "shell-support",
+        "environments",
+        "utilities"
+    ],
+    "id": 977043005,
+    "html_url": "https://github.com/spack/spack/pull/25564",
+    "assignees": [],
+    "comments": 1
+}

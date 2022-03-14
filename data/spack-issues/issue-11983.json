@@ -1,0 +1,24 @@
+{
+    "body": "Follow-up of https://github.com/spack/spack/issues/3690#issuecomment-510020811. Basically everything that relies on computing dependents is broken when a spec has more than one dependent with the same name.\r\n\r\n\r\n\r\n\r\n### Steps to reproduce the issue\r\nThe issue can be reproduced with e.g. Spack at d3be42fccaabbdc71c03da0886214b31a29921e5. Let's start by installing 2 different versions of `hdf5` depending on the same `zlib`:\r\n```console\r\n$ spack install --fake hdf5~mpi+fortran hdf5~mpi~fortran\r\n```\r\nLet's then check that they actually both depend on the same `zlib` and they have different hashes:\r\n```console\r\n$ spack find -ld hdf5\r\n==> 2 installed packages\r\n-- linux-ubuntu18.04-x86_64 / gcc@9.0.1 -------------------------\r\nxyhss36    hdf5@1.10.5\r\ntn4qvs7        ^zlib@1.2.11\r\n\r\n4f3j7km    hdf5@1.10.5\r\ntn4qvs7        ^zlib@1.2.11\r\n```\r\nAsking which are the installed dependents of `zlib` will give the wrong answer an **skip one of the two specs**:\r\n```console\r\n$ spack dependents -i zlib\r\n==> Dependents of zlib@1.2.11%gcc@9.0.1/tn4qvs7\r\n-- linux-ubuntu18.04-x86_64 / gcc@9.0.1 -------------------------\r\nxyhss36 hdf5@1.10.5\r\n```\r\nThis is ultimately due to how dependents are computed in `spack.spec.Spec`:\r\n\r\nhttps://github.com/spack/spack/blob/c2de2558b6423711e3b2cdbaaca1c0b0dfb61757/lib/spack/spack/spec.py#L1063-L1072\r\n\r\nby constructing a map **from the package name** to the branch connecting it to the current spec. When there is more than one dependent with the same name only the last dependent added will be recorded.\r\n\r\nThis might be fine if we are working on a single tree DAG (where we are ensured there's at most one spec with the same name), but it is not if we are analyzing the entire DAG of all the installed applications. For instance the method:\r\n\r\nhttps://github.com/spack/spack/blob/d3be42fccaabbdc71c03da0886214b31a29921e5/lib/spack/spack/database.py#L878-L911\r\n\r\nwill return wrong results when we ask to analyze in the `parents` direction.\r\n\r\n### Error Message\r\n\r\nThere's no error message, just the information on dependents of an installed spec is computed wrongly. This lead for instance to issues like #3690 or #5637.\r\n\r\n### Information on your system\r\n\r\nThe platform is not relevant for this bug.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11983",
+    "updated_at": "2022-03-10 19:53:46",
+    "created_at": "2019-07-11 08:06:31",
+    "closed_at": "2022-03-10 19:53:46",
+    "state": "closed",
+    "title": "Incomplete computation of installed dependents",
+    "number": 11983,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs",
+        "dependencies",
+        "impact-medium"
+    ],
+    "id": 466731112,
+    "html_url": "https://github.com/spack/spack/issues/11983",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

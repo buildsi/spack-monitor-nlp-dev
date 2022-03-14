@@ -1,0 +1,20 @@
+{
+    "body": "Our importer was always parsing from source (which is considerably slower) because the source size recorded in the `.pyc` file differed from the size of the input file.\r\n\r\n- [x] Override `path_stats` in the prepending importer to fool it into thinking that the source size is the size *with* the prepended code.\r\n\r\nThis speeds up importing all of Spack's packages by about 25% for me (13 seconds vs. 10 seconds).  In conjunction with #13238, this brings `import` time for all 3500 packages down to about 7 seconds (from 13).",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/13239",
+    "updated_at": "2019-10-17 01:13:35",
+    "created_at": "2019-10-16 20:44:57",
+    "closed_at": "2019-10-17 00:07:19",
+    "state": "closed",
+    "title": "importing: make importlib_importer recognize .pyc cache files",
+    "number": 13239,
+    "milestone": null,
+    "labels": [
+        "performance",
+        "imports"
+    ],
+    "id": 508089299,
+    "html_url": "https://github.com/spack/spack/pull/13239",
+    "assignees": [],
+    "comments": 0
+}

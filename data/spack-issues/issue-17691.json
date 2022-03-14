@@ -1,0 +1,21 @@
+{
+    "body": "With the latest versions of spack I run into a link error when running\r\n```\r\nspack install py-pymol\r\n```\r\nThe error message is\r\n```\r\n            /temp.linux-x86_64-3.7/ov/src/OVLexicon.o build/temp.linux-x86_64-3.7/ov/src/OVOneToAny.o build/temp.linux-x86_64-3.7/o\r\n            v/src/OVOneToOne.o build/temp.linux-x86_64-3.7/ov/src/OVRandom.o build/temp.linux-x86_64-3.7/ov/src/ov_utility.o -L/usr\r\n            /lib64 -L/usr/lib -L/dss/dsshome1/07/lu64bag3/src/spack_fork/opt/spack/linux-sles15-haswell/gcc-8.4.0/python-3.7.7-pehn\r\n            4dcqx6q73aytm4jsddc5dse4dxcl/lib -lpng -lfreetype -lxml2 -lGL -lGLEW -lpython3.7m -o build/lib.linux-x86_64-3.7/pymol/_\r\n            cmd.cpython-37m-x86_64-linux-gnu.so\r\n  >> 986    /dss/dsshome1/lrz/sys/spack/release/20.1/opt/x86_64/binutils/2.32-gcc-luqbviq/bin/ld: cannot find -lGLEW\r\n  >> 987    collect2: error: ld returned 1 exit status\r\n  >> 988    error: command '/lrz/sys/spack/release/20.1/opt/x86_64/gcc/8.4.0-gcc-cozjb4b/bin/g++' failed with exit status 1\r\n\r\n> spack debug report\r\n* **Spack:** 0.15.1\r\n* **Python:** 3.6.10\r\n* **Platform:** linux-sles15-haswell\r\n```\r\nThe build node runs on SLES15 (target=x86_64); the glew package is **not** installed on the host system.\r\n\r\nThere is no maintainer for py-pymol but @hseara has worked on the package lately.\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/4970852/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/4970853/spack-build-env.txt)\r\n\r\nA striped down version of the package builds on spack@0.13.4. On spack@0.15.1 it yields the same error.\r\nI checked:\r\n- compilers:\r\n    - gcc@7.5.0 (system)\r\n    - gcc@8.4.0 (spack-installed)\r\n- python:\r\n    - python@3.7.8\r\n    - python@3.7.4 (same as in spack 0.13.4)\r\n    - python@3.8.3\r\n- spack\r\n    - development ( on 2020-07-22)\r\n\r\nall yielding the same error. \r\n\r\nI don't see how the libdirs are passed to the linker. There are no corresponding -L statements, but that has not changed from spack@0.13.4. However, glew is provided in the SPACK_LINK_DIRS and SPACK_RPATH_DIRS (see spack-build-env.txt). The glew package has not changed since spack@0.13.4.\r\n\r\nAny help is appreciated.\r\nGerald\r\n\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "g-mathias",
+    "url": "https://api.github.com/repos/spack/spack/issues/17691",
+    "updated_at": "2022-01-10 07:59:32",
+    "created_at": "2020-07-24 08:52:13",
+    "closed_at": "2022-01-10 07:59:32",
+    "state": "closed",
+    "title": "Installation issue: py-pymol cannot link against libGLEW.so",
+    "number": 17691,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 665022370,
+    "html_url": "https://github.com/spack/spack/issues/17691",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 3
+}

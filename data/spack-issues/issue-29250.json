@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #29204\r\n\r\nWhen the cran attribute is set, a url attribute is derived. This was\r\nusing the first version found in the array of versions. The expectation\r\nwsa that if that version was not present at the URL that it would fall\r\nback to list_url. That was not happening. Instead, the version in the\r\nderived url was always associated with the url and was not falling back\r\nto list_url. Thus, if the most recent version of a package in spack was\r\nolder than what was in CRAN, the download would fail, because the\r\narchive had been moved. Using an older version for the derived url\r\nwould work but sometimes there is only one version present in spack\r\nuntil the package is updated. Instead, use a fake version that would\r\nnever exist in the wild so that spack does not lock what it thinks is\r\nthe most current version to the url attribute.",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/29250",
+    "updated_at": "2022-03-07 01:15:02",
+    "created_at": "2022-02-28 21:51:52",
+    "closed_at": "2022-03-07 01:14:46",
+    "state": "closed",
+    "title": "Fix r- package downloads from list_url",
+    "number": 29250,
+    "milestone": null,
+    "labels": [
+        "build-systems"
+    ],
+    "id": 1154587996,
+    "html_url": "https://github.com/spack/spack/pull/29250",
+    "assignees": [
+        "trws",
+        "adamjstewart"
+    ],
+    "comments": 11
+}

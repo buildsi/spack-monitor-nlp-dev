@@ -1,0 +1,24 @@
+{
+    "body": "This is a long-standing bug but I'm just getting around to reporting it. Let's say you install 3 things:\n1. `hdf5~mpi`\n2. `hdf5+mpi ^mvapich2`\n3. `hdf5+mpi ^openmpi`\n\nIf you run `spack find -vd hdf5`, you get all 3. If you run `spack find -vd hdf5+mpi`, you get 2 and 3. If you run `spack find -vd hdf5+mpi ^openmpi`, you only get 3. This is the expected behavior.\n\nBut, if you run `spack find -vd hdf5 ^openmpi`, you get 1 and 3, even though 1 doesn't depend on openmpi. Even if you run `spack find -vd hdf5~mpi ^openmpi`, it still gives you 1 when it should return none.\n\nSimilarly, if you run `spack uninstall -a hdf5 ^openmpi`, it will ask if you want to uninstall 1 and 3, making uninstalls require the use of a hash.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2015",
+    "updated_at": "2021-01-23 03:19:15",
+    "created_at": "2016-10-13 21:42:41",
+    "closed_at": "2021-01-23 03:19:15",
+    "state": "closed",
+    "title": "Bug with spack find/uninstall and virtual deps",
+    "number": 2015,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "specs",
+        "virtual-dependencies"
+    ],
+    "id": 182910016,
+    "html_url": "https://github.com/spack/spack/issues/2015",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

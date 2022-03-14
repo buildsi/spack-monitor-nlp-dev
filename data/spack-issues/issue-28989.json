@@ -1,0 +1,22 @@
+{
+    "body": "This is a minimal change toward getting the right archive from places\r\nlike github in checksum and create.  The heuristic is:\r\n\r\n\r\n* if an archive url exists, prefer it and take its version\r\n  * if a reference package is available\r\n    * generate a url from the package with pkg.url_from_version\r\n    * if they match\r\n      * stop considering other URLs for this version\r\n      * otherwise, continue replacing the url for the version\r\n  * otherwise use specified archive url list to generate a list of urls with\r\n    substitute_version\r\n    * if url matches one in the list, use it and don't re-assign it\r\n* if all else fails, just keep assigning over the url repeatedly like it used to\r\n\r\nI doubt this will always work, but it should address a variety of\r\nversions of this bug.  A good test right now is `spack checksum gh`,\r\nwhich checksums macos binaries without this, and the correct source\r\npackages with it.\r\n\r\n\r\n\r\nfixes https://github.com/spack/spack/issues/15985\r\nfixes https://github.com/spack/spack/issues/14129\r\nfixes https://github.com/spack/spack/issues/13940\r\n",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/28989",
+    "updated_at": "2022-02-23 00:56:00",
+    "created_at": "2022-02-16 00:28:27",
+    "closed_at": "2022-02-23 00:56:00",
+    "state": "closed",
+    "title": "Checksum match",
+    "number": 28989,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "utilities"
+    ],
+    "id": 1139352755,
+    "html_url": "https://github.com/spack/spack/pull/28989",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 9
+}

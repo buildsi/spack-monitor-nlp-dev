@@ -1,0 +1,24 @@
+{
+    "body": "After having some problem with the latest release, I was trying the current develop 66b9009a0713f9ce1d63f518ab1528af7587eaa5 branch.\r\n\r\nHowever, on develop, there seems to be an inconsistency with the architecture, that prohibits the use of `modules`. As a consequence, `spack load` does not work anymore. The issue is related to my architecture, Ubuntu 19.04 with kernel 5.3.0-050300rc3-generic, running on a Ryzen 3900X processor. I did not have the issue with a previous commit from the develop branch from one or two months ago. At that time my architecture was recognized as `linux-ubuntu19.04-x86_64`.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI started with a fresh clone and did the bootstrapping. The first use of `spack load` fails\r\n```console\r\n$ git clone https://github.com/spack/spack.git\r\n$ export SPACK_ROOT=/opt/spack\r\n$ export PATH=$SPACK_ROOT/bin:$PATH\r\n$ source $SPACK_ROOT/share/spack/setup-env.sh\r\n$ export SPACK_SHELL=\"bash\"\r\n$ export EDITOR=\"vim\"\r\n$ spack bootstrap\r\n...\r\n$ spack load tcl\r\nmodule: command not found\r\n```\r\n\r\n### Error Message\r\n\r\n`module` should be a bash function, which it isn't here.\r\n```console\r\n$ type module\r\n-bash: type: module: not found\r\n$ spack find\r\n==> 3 installed packages\r\n-- linux-ubuntu19.04-zen / gcc@8.3.0 ----------------------------\r\nenvironment-modules@4.3.1  tcl@8.6.8  zlib@1.2.11\r\n$ spack --print-shell-vars modules\r\n_sp_sys_type='linux-ubuntu19.04-zen2'\r\n_sp_compatible_sys_types='linux-ubuntu19.04-zen2:linux-ubuntu19.04-zen:linux-ubuntu19.04-x86_64'\r\n_sp_tcl_roots='/opt/spack/share/spack/modules'\r\n_sp_lmod_roots='/opt/spack/share/spack/lmod'\r\n_sp_module_prefix='not_installed'\r\n```\r\nIt is notable, that `find` shows the architecture as `zen`, whereas `--print-shell-vars modules` shows the architecture as `zen2`. 'not_installed' is the result of this inconsistency and breaks `spack load`.\r\n\r\nChecking the difference in `main.py` reveals:\r\n```python\r\nprint('specs=%s' % spack.store.db.query('environment-modules arch=linux-ubuntu19.04-zen'))\r\n>> specs=[environment-modules@4.3.1%gcc@8.3.0~X arch=linux-ubuntu19.04-zen ^tcl@8.6.8%gcc@8.3.0 arch=linux-ubuntu19.04-zen ^zlib@1.2.11%gcc@8.3.0+optimize+pic+shared arch=linux-ubuntu19.04-zen]\r\n```\r\n```python\r\nprint('specs=%s' % spack.store.db.query('environment-modules arch=linux-ubuntu19.04-zen2'))\r\n>> specs=[]\r\n```\r\nThe latter happens in my case. The architecture is checked since e5b86c5527c458df7434c499842d659dd086b7f8 and microarchitectures are available since 3c4322bf1abb7af691179434652188b64e90e4dc.\r\n\r\nI don't know where the decision about the architecture is made but the inconsistency, that I have shown, prevents `spack load` from working.",
+    "user": "bassenj",
+    "url": "https://api.github.com/repos/spack/spack/issues/13073",
+    "updated_at": "2019-10-21 18:20:06",
+    "created_at": "2019-10-08 15:34:51",
+    "closed_at": "2019-10-21 18:20:06",
+    "state": "closed",
+    "title": "zen vs zen2 inconsitency breaks modules() in spack load",
+    "number": 13073,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "platform-support",
+        "modules",
+        "microarchitectures"
+    ],
+    "id": 504119759,
+    "html_url": "https://github.com/spack/spack/issues/13073",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

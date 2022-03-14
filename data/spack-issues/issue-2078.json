@@ -1,0 +1,19 @@
+{
+    "body": "Notes:\n- Without edits to build process: doing a CTRL-C during tests which invoke package.do_install may fail to clean up child process state (in which case the child process continues on). This should actually only be an issue during \"spack test\" since it in part results from the fact that the test runner catches exceptions which would normally terminate the child process. So at the moment IMO it is overly complex.\n- Currently the InterruptRecorder is not inter-process compatible, but the issue did not result from multi-process so it is sufficient\n- nose itself is stored in spack externals, and this issue could also be resolved by editing the following selection to raise in nose/core.py: \n\n```\n        try:\n            test(result)\n        except KeyboardInterrupt:\n            pass\n```\n\nHowever, I preferred to leave the library code alone.\n\nCommit message below:\n\nFixes #2029\n\nSpack runs tests on a per-module basis. Prior to this commit, if a user\nran \"spack test\" and attempted to stop it part-way through with CTRL-C,\nonly the tests for the particular module being tested at the time were\ninterrupted (at which point it would move on to the next module). With\nthis commit, CTRL-C will stop all tests, though Spack will still print\nstats for all tests run before the interrupt before exiting.\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/2078",
+    "updated_at": "2016-10-24 18:07:04",
+    "created_at": "2016-10-22 04:25:14",
+    "closed_at": "2016-10-24 18:07:04",
+    "state": "closed",
+    "title": "[WIP] Allow CTRL-C to stop all spack tests",
+    "number": 2078,
+    "milestone": null,
+    "labels": [
+        "WIP"
+    ],
+    "id": 184607094,
+    "html_url": "https://github.com/spack/spack/pull/2078",
+    "assignees": [],
+    "comments": 0
+}

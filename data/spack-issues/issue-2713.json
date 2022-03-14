@@ -1,0 +1,17 @@
+{
+    "body": "When trying to create a spack mirror with the latest develop branch (1/1/17), I get this traceback.\r\n\r\n[jeg@localhost]$ spack mirror create -d /home/jeg/spack-mirror -D openspeedshop+cbtf%gcc@4.8.3\r\nTraceback (most recent call last):\r\n  File \"/home/jeg/spack/bin/spack\", line 212, in <module>\r\n    main(sys.argv)\r\n  File \"/home/jeg/spack/bin/spack\", line 208, in main\r\n    _main(args, unknown)\r\n  File \"/home/jeg/spack/bin/spack\", line 174, in _main\r\n    return_val = command(parser, args)\r\n  File \"/home/jeg/spack/lib/spack/spack/cmd/mirror.py\", line 224, in mirror\r\n    action[args.mirror_command](args)\r\n  File \"/home/jeg/spack/lib/spack/spack/cmd/mirror.py\", line 202, in mirror_create\r\n    directory, specs, num_versions=args.one_version_per_spec)\r\n  File \"/home/jeg/spack/lib/spack/spack/mirror.py\", line 167, in create\r\n    s.concretize()\r\n  File \"/home/jeg/spack/lib/spack/spack/spec.py\", line 1527, in concretize\r\n    self._expand_virtual_packages(),\r\n  File \"/home/jeg/spack/lib/spack/spack/spec.py\", line 1422, in _expand_virtual_packages\r\n    self_index = ProviderIndex(self.traverse(), restrict=True)\r\n  File \"/home/jeg/spack/lib/spack/spack/provider_index.py\", line 87, in __init__\r\n    self.update(spec)\r\n  File \"/home/jeg/spack/lib/spack/spack/provider_index.py\", line 104, in update\r\n    if spec.satisfies(provider_spec, deps=False):\r\n  File \"/home/jeg/spack/lib/spack/spack/spec.py\", line 2054, in satisfies\r\n    if not self.variants.satisfies(other.variants, strict=var_strict):\r\n  File \"/home/jeg/spack/lib/spack/spack/spec.py\", line 633, in satisfies\r\n    if strict or self.spec._concrete:\r\nAttributeError: 'NoneType' object has no attribute '_concrete'\r\n[jeg@localhost spack]$ \r\n",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/2713",
+    "updated_at": "2017-01-11 17:10:06",
+    "created_at": "2017-01-01 23:48:19",
+    "closed_at": "2017-01-11 17:10:06",
+    "state": "closed",
+    "title": "spack create mirror gives: Traceback with AttributeError: 'NoneType' object has no attribute '_concrete' message",
+    "number": 2713,
+    "milestone": null,
+    "labels": [],
+    "id": 198286565,
+    "html_url": "https://github.com/spack/spack/issues/2713",
+    "assignees": [],
+    "comments": 2
+}

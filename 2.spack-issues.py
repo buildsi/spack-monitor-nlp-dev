@@ -6,9 +6,14 @@ from github import Github
 import os
 import argparse
 import sys
+import os
 
 sys.path.insert(0, os.getcwd())
 from helpers import write_json
+
+token = os.environ.get("GITHUB_TOKEN")
+if not token:
+    sys.exit("Yo dawg this is a LOT of API calls, you really need a GITHUB_TOKEN")
 
 
 def get_issues(issues_dir):
@@ -17,7 +22,7 @@ def get_issues(issues_dir):
     org = g1.get_organization("spack")
     repo = org.get_repo("spack")
 
-    issues = repo.get_issues()
+    issues = repo.get_issues(state="all")
     for issue in issues:
         outfile = os.path.join(issues_dir, "issue-%s.json" % issue.number)
         if os.path.exists(outfile):
@@ -33,7 +38,7 @@ def get_issues(issues_dir):
             "state": issue.state,
             "title": issue.title,
             "number": issue.number,
-            "milestone": issue.milestone,
+            "milestone": issue.milestone.title if issue.milestone else None,
             "labels": [x.name for x in issue.labels],
             "id": issue.id,
             "html_url": issue.html_url,
@@ -41,11 +46,6 @@ def get_issues(issues_dir):
             "comments": issue.comments,
         }
         write_json(meta, outfile)
-
-
-token = os.environ.get("GITHUB_TOKEN")
-if not token:
-    sys.exit("Yo dawg this is a LOT of API calls, you really need a GITHUB_TOKEN")
 
 
 def get_parser():

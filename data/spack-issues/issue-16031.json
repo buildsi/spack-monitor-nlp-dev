@@ -1,0 +1,23 @@
+{
+    "body": "Packages that `depedns_on` both `hdf5` and `netcdf-c` won't concretize.\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Clone the latest Spack.\r\n\r\n2. Create the `mypackage/package.py`:\r\n\r\n```\r\nfrom spack import *\r\n\r\n\r\nclass Mypackage(CMakePackage):\r\n    \"\"\"Sample Package\"\"\"\r\n\r\n    homepage = \"https://qgis.org\"\r\n    url      = \"https://qgis.org/downloads/qgis-3.8.1.tar.bz2\"\r\n\r\n    maintainers = ['adamjstewart', 'Sinan81']\r\n\r\n    version('3.12.1', sha256='a7dc7af768b8960c08ce72a06c1f4ca4664f4197ce29c7fe238429e48b2881a8')\r\n\r\n    # the below dependencies are shown in cmake config\r\n    depends_on('hdf5')\r\n    depends_on('netcdf-c')\r\n```\r\n\r\nDo: `spack spec mypackage`.\r\n\r\n### Error Message\r\n\r\n```\r\n$ spack spec mypackage\r\nInput spec\r\n--------------------------------\r\nmypackage\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: clang@11.0.3-apple cannot build optimized binaries for \"broadwell\". Using best target possible: \"x86_64\"\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    hdf5@1.10.6%clang@11.0.3-apple~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe arch=darwin-catalina-x86_64\r\n        ^mpi\r\n        ^zlib@1.2.11%clang@11.0.3-apple+optimize+pic+shared arch=darwin-catalina-x86_64\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    netcdf-c@4.7.3%clang@11.0.3-apple~dap~hdf4+mpi~parallel-netcdf+pic+shared arch=darwin-catalina-x86_64\r\n        ^m4@1.4.18%clang@11.0.3-apple+sigsegv arch=darwin-catalina-x86_64\r\n            ^libsigsegv\r\n        ^mpi\r\n        ^zlib@1.2.11%clang@11.0.3-apple+optimize+pic+shared arch=darwin-catalina-x86_64\r\n\r\n\r\nnetcdf-c requires hdf5 variant +hl, but spec asked for ~hl\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/16031",
+    "updated_at": "2020-11-02 22:46:36",
+    "created_at": "2020-04-13 22:44:07",
+    "closed_at": "2020-11-02 22:46:36",
+    "state": "closed",
+    "title": "Concretizer Bug",
+    "number": 16031,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate",
+        "concretization"
+    ],
+    "id": 599179411,
+    "html_url": "https://github.com/spack/spack/issues/16031",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

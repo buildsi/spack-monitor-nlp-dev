@@ -1,0 +1,23 @@
+{
+    "body": "### Summary\r\n\r\nAs of [13cf6d55e42042a5b605c2d91c1ac68e41466164](https://github.com/spack/spack/commit/13cf6d55e42042a5b605c2d91c1ac68e41466164),\r\n\r\n```console\r\n$ spack install petsc\r\n```\r\n\r\nsucceeds. But this command fails on my laptop running macOS 10.12.6 at commit [8e1cc26be7b1d6594ada6d1433ce4fa5b1bb4de1](https://github.com/spack/spack/commit/8e1cc26be7b1d6594ada6d1433ce4fa5b1bb4de1). \r\n\r\n### Expected Result\r\n\r\n`spack install petsc` succeeds.\r\n\r\n### Actual Result\r\n\r\n`spack install petsc` fails.\r\n\r\nFull logs (`spack-build.out`, PETSc's `configure.log`, `packages.yaml`, output of `spack find`) are at https://gist.github.com/goxberry/b1cbe35d711300cd03ff13831d41fe5d.\r\n\r\nThe specific failure inside PETSc BuildSystem appears to be \r\n\r\n```console\r\nChecking for program /usr/local/Cellar/open-mpi/3.1.1/bin/mpicc...found\r\n                Defined make macro \"CPP\" to \"/usr/local/Cellar/open-mpi/3.1.1/bin/mpicc --use cpp32\"\r\n              Pushing language C\r\nExecuting: /usr/local/Cellar/open-mpi/3.1.1/bin/mpicc --use cpp32  -I/var/folders/37/zqjg7vn97kggmzjdbcm55j6h001b24/T/petsc-aBEbNA/config.setCompilers  /var/folders/37/zqjg7vn97kggmzjdbcm55j6h001b24/T/petsc-aBEbNA/config.setCompilers/conftest.c \r\nPossible ERROR while running preprocessor: exit code 256\r\nstderr:\r\nclang: error: unsupported option '--use'\r\nclang: error: no such file or directory: 'cpp32'\r\nSource:\r\n#include \"confdefs.h\"\r\n#include \"conffix.h\"\r\n#include <stdlib.h>\r\nPreprocess stderr before filtering:clang: error: unsupported option '--use'\r\nclang: error: no such file or directory: 'cpp32'\r\n:\r\nPreprocess stderr after filtering:clang: error: unsupported option '--use'clang: error: no such file or directory: 'cpp32':\r\n              Popping language C\r\n*******************************************************************************\r\n         UNABLE to CONFIGURE with GIVEN OPTIONS    (see configure.log for details):\r\n-------------------------------------------------------------------------------\r\nCannot find a C preprocessor\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cd $SPACK_ROOT\r\n$ git fetch\r\n$ git checkout 8e1cc26be7b1d6594ada6d1433ce4fa5b1bb4de\r\n$ spack install petsc\r\n```\r\n\r\n### Information on your system\r\n\r\nMy machine is running macOs 10.12.6. A `packages.yaml` is included in the GitHub gist at https://gist.github.com/goxberry/b1cbe35d711300cd03ff13831d41fe5d.",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/8882",
+    "updated_at": "2018-08-05 03:31:56",
+    "created_at": "2018-08-03 07:04:55",
+    "closed_at": "2018-08-05 03:31:56",
+    "state": "closed",
+    "title": "Regression: petsc build fails on macOS 10.12.6",
+    "number": 8882,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "regression"
+    ],
+    "id": 347282945,
+    "html_url": "https://github.com/spack/spack/issues/8882",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,24 @@
+{
+    "body": "Libabigail is updated to 2.0, and this fix is important because the previously working libabigail analyzer doesn't appear to work. I can't figure out what changed between it and it's dependencies, but without the fix (it's a bit of hack) here, a missing symbol is used that I was not able to compile with any set of dependencies. The missing symbol is documented on line 7 here:\r\n\r\nhttps://chromium.googlesource.com/external/elfutils/+/515dd0acc77673c953380bcf5ccfb05b83c5a3ab/NEWS and my error again:\r\n\r\nAnd the error without the fix is:\r\n\r\n```bash\r\n error: 'DW_LANG_PL1' was not declared in this scope; did you mean 'DW_LANG_PLI'\r\n```\r\n\r\nSo this line https://sourceware.org/git/?p=libabigail.git;a=blob;f=src/abg-dwarf-reader.cc;h=1d6ad24cbfcc2d94c07311bb04112f14f4f0e71c;hb=HEAD#l11056 needs to be DW_LANG_PLI.  needs to be updated. from PL1 to PLI. I'll make sure to ping the libabigail folks about it, and update the hack here as soon as it's fixed in a new release.\r\n\r\nBut this should be important to merge because as far as I've tested, the current recipe no longer works, period.\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/26753",
+    "updated_at": "2021-10-15 05:53:30",
+    "created_at": "2021-10-15 02:53:41",
+    "closed_at": "2021-10-15 05:53:30",
+    "state": "closed",
+    "title": "Updating libabigail to 2.0",
+    "number": 26753,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "patch",
+        "update-package"
+    ],
+    "id": 1027025011,
+    "html_url": "https://github.com/spack/spack/pull/26753",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

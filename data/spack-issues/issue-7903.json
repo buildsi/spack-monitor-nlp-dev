@@ -1,0 +1,19 @@
+{
+    "body": "This commit fixes #7900.\r\n\r\nIn short: in the absence of constraints to the contrary, spack will\r\ndownload the preferred version of a package, which is usually the most\r\nrecent non-develop version. On a clean spack installation without\r\nhypre installed, `spack install mfem` will download hypre 2.14.0,\r\nwhich is API-incompatible with mfem 3.3.2 (and earlier versions of\r\nmfem), so spack will throw compiler errors re: the API mismatch.\r\n\r\nThis commit fixes that error by restricting mfem release versions\r\n3.3.2 and earlier to hypre version 2.10.0 to 2.13.999 (only 2.13.0\r\ncurrently exists, but if it has a non-2.14.x maintenance release,\r\nthese versions of hypre should also be permitted).",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/7903",
+    "updated_at": "2018-04-26 13:43:21",
+    "created_at": "2018-04-25 17:41:39",
+    "closed_at": "2018-04-26 13:43:21",
+    "state": "closed",
+    "title": "mfem: add valid range of hypre version numbers",
+    "number": 7903,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 317727294,
+    "html_url": "https://github.com/spack/spack/pull/7903",
+    "assignees": [],
+    "comments": 3
+}

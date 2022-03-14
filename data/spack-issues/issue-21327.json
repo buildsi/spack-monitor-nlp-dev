@@ -1,0 +1,19 @@
+{
+    "body": "### Description\r\n\r\nMxnet now builds fine, but there is a runtime error. It happens on both x86_64 and ppc64le.\r\n\r\n### Steps to reproduce the issue\r\n\r\nMake sure that nvidia drivers are installed (outside of spack), this is needed at runtime.\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install -j64 mxnet +cuda cuda_arch=60 -opencv ^cuda@10.1.243 ^cudnn@7.6.5.32-10.1 ^openblas@0.3.12 ^python@3.7.0:3.7.999\r\n(should work)\r\n$ spack load mxnet\r\n$ python3 -c \"import mxnet; print('Num GPUs Available:', mxnet.context.num_gpus())\"\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\n  File \"/grid5000/spack/opt/spack/linux-debian10-x86_64/gcc-8.3.0/mxnet-1.6.0-qjv4wocfd4jns7e5mbjtem3tga3spsgb/lib/python3.7/site-packages/mxnet/__init__.py\", line 24, in <module>\r\n    from .context import Context, current_context, cpu, gpu, cpu_pinned\r\n  File \"/grid5000/spack/opt/spack/linux-debian10-x86_64/gcc-8.3.0/mxnet-1.6.0-qjv4wocfd4jns7e5mbjtem3tga3spsgb/lib/python3.7/site-packages/mxnet/context.py\", line 24, in <module>\r\n    from .base import classproperty, with_metaclass, _MXClassPropertyMetaClass\r\n  File \"/grid5000/spack/opt/spack/linux-debian10-x86_64/gcc-8.3.0/mxnet-1.6.0-qjv4wocfd4jns7e5mbjtem3tga3spsgb/lib/python3.7/site-packages/mxnet/base.py\", line 214, in <module>\r\n    _LIB = _load_lib()\r\n  File \"/grid5000/spack/opt/spack/linux-debian10-x86_64/gcc-8.3.0/mxnet-1.6.0-qjv4wocfd4jns7e5mbjtem3tga3spsgb/lib/python3.7/site-packages/mxnet/base.py\", line 205, in _load_lib\r\n    lib = ctypes.CDLL(lib_path[0], ctypes.RTLD_LOCAL)\r\n  File \"/grid5000/spack/opt/spack/linux-debian10-x86_64/gcc-8.3.0/python-3.7.9-c3a4tza6pxa35dfx5tinqxurisfyuxxa/lib/python3.7/ctypes/__init__.py\", line 364, in __init__\r\n    self._handle = _dlopen(self._name, mode)\r\nOSError: /grid5000/spack/opt/spack/linux-debian10-x86_64/gcc-8.3.0/mxnet-1.6.0-qjv4wocfd4jns7e5mbjtem3tga3spsgb/lib/libmxnet.so: undefined symbol: _ZN5mxnet2op16ElemwiseBinaryOp11DnsCsrCsrOpIN7mshadow3gpuENS0_10mshadow_op3mulEEEvRKN4nnvm9NodeAttrsERKNS_9OpContextERKNS_7NDArrayESG_NS_9OpReqTypeESG_b\r\n$ which python3\r\n/grid5000/spack/opt/spack/linux-debian10-x86_64/gcc-8.3.0/python-3.7.9-c3a4tza6pxa35dfx5tinqxurisfyuxxa/bin/python3\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.0-1006-cbdf87cd28\r\n* **Python:** 3.7.9\r\n* **Platform:** linux-debian10-skylake_avx512\r\n* **Concretizer:** original\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n@adamjstewart \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "jonglezb",
+    "url": "https://api.github.com/repos/spack/spack/issues/21327",
+    "updated_at": "2021-02-05 18:48:21",
+    "created_at": "2021-01-27 14:12:41",
+    "closed_at": "2021-02-05 18:48:21",
+    "state": "closed",
+    "title": "Installation issue: mxnet python runtime error",
+    "number": 21327,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 795136369,
+    "html_url": "https://github.com/spack/spack/issues/21327",
+    "assignees": [],
+    "comments": 4
+}

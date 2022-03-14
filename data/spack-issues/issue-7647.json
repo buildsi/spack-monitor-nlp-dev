@@ -1,0 +1,22 @@
+{
+    "body": "## Summary\r\n\r\nThe compiler caching mechanism in `spack.compilers.__init__.py` is fragile and prone to both erroneous hits and misses due to the fact that it uses the _address_ of the dictionary passed to `compilers.compiler_from_config_entry()` as a lookup in the cache. If `compilers.compiler_from_config_entry()` is called with two equivalent dictionaries which happen to be different objects, two cache entries will be made instead of the second call returning the cached entry from the first. Conversely (and more seriously), if the function is called twice with an object at the same address but with different content (which can happen _either_ if the dictionary object is reused by the caller, _or_ if the dictionary is function-local and garbage-collection has caused the reuse of an address previously seen by the cache), then `compilers.compiler_from_config_entry()` will return an incorrect compiler object rather than creating and caching a new one.\r\n\r\nWhile it is entirely possible that the _current_ use of this function during spack initialization will only produce, at worst, a couple of unnecessary compiler object constructions, the intensive use of the compiler system that one might expect during comprehensive tests is very likely to trigger erroneous cache hits (see PR #7601, for example). Additionally, this is a massive gotcha lying in wait for any enhancement to Spack that changes the way compilers are handled during or after initialization.\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Download and decompress the attached python script:  [compiler-cache-fail.py.gz](https://github.com/spack/spack/files/1864126/compiler-cache-fail.py.gz)\r\n1. Set up your favorite instance of Spack.\r\n1. Execute the test script:\r\n   ```console\r\n   $ python compiler-cache-fail.py\r\n   FF\r\n   ======================================================================\r\n   FAIL: test_compiler_cache_hits (__main__.TestCompilerCache)\r\n   ----------------------------------------------------------------------\r\n   Traceback (most recent call last):\r\n     File \"/home/greenc/compiler-cache-fail.py\", line 79, in test_compiler_cache_hits\r\n       self.assertEqual(len(spack.compilers._compiler_cache), 1)\r\n   AssertionError: 2 != 1\r\n   \r\n   ======================================================================\r\n   FAIL: test_compiler_cache_misses (__main__.TestCompilerCache)\r\n   ----------------------------------------------------------------------\r\n   Traceback (most recent call last):\r\n     File \"/home/greenc/compiler-cache-fail.py\", line 65, in test_compiler_cache_misses\r\n       compiler.spec.versions), spec)\r\n   AssertionError: 'gcc@2.7.3' != 'clang@9.2-apple'\r\n   \r\n   ----------------------------------------------------------------------\r\n   Ran 2 tests in 0.003s\r\n   \r\n   FAILED (failures=2)\r\n   ```\r\n\r\n### Information on your system\r\n\r\nSLF7, Spack from develop\r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/7647",
+    "updated_at": "2019-08-17 00:05:40",
+    "created_at": "2018-03-30 17:02:10",
+    "closed_at": "2019-08-16 22:02:23",
+    "state": "closed",
+    "title": "Compiler caching mechanism in compilers.__init__.py  is fragile and can produce erroneous cache hits and misses",
+    "number": 7647,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers"
+    ],
+    "id": 310116569,
+    "html_url": "https://github.com/spack/spack/issues/7647",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

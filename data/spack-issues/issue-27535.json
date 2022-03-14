@@ -1,0 +1,26 @@
+{
+    "body": "Modified the rocm recipes to support the rocm-4.5.0 release.\r\n1. llvm-amdgpu will now build in 2 stages . build the libcxx,libcxxabi using the just built clang. I tried to invoke the LLVM_ENABLE_RUNTIMES but doing so i did not get the build to pass. my changes will try to achieve the same thing.\r\n2. hip - starting 4.5.0 , hip is cloning the rocm-opencl-runtime ,hip-rocclr, hipamd( https://github.com/ROCm-Developer-Tools/hipamd)   For release version  the usual build procedure is  cmake -DHIP_COMMON_DIR=\"$HIP_DIR\" -DAMD_OPENCL_PATH=$OPENCL_DIR -DROCCLR_PATH=$ROCCLR_DIR -DCMAKE_PREFIX_PATH=\"/opt/rocm/\" -DCMAKE_INSTALL_PREFIX=</where/to/install/hip> .\r\n I made some of the changes to reflect this approach . \r\n3. rocclr (hip-rocclr) - starting with rocm-4.5.0 , there is no cmake install() for this and hip is using it differently . i still have few recipes which currently refer to the header files of rocclr. rocm-opencl and few others which depend on rocm-opencl that would require changes which are not part of this PR\r\n4. rocrand - i see some cleanup for this recipe that is pending for review .(PR 26919 ) . leveraged some of those changes.\r\n5. rocblas - starting with rocm-4.3.0 , rocm-tensile was supporting the passing of multiple gpu architectures. The current rocblas was having an issue when we tried to do spack install rocblas@4.0.0 or spack install rocblas@4.0.0 tensile_architecture=gfx906 . This is corrected with in the PR\r\n6. All rocm recipes except for rocm-openmp-extras are now updated in this PR\r\nTesting:\r\nI tested all the recipes by building the changes for rocm-4.3.0 in addition to rocm-4.5.0. \r\nIn addition to that i tested the following for rocblas\r\nspack install -v rocblas@4.5.0 tensile_architecture=gfx906:xnack-,gfx908:xnack-\r\nspack install -v rocblas@4.0.0 => this will build the dependency recipes for rocm-4.0.0\r\nspack install -v rocblas@4.3.1  => this will build the dependency recipes for rocm-4.3.1\r\nspack install -v rocblas@4.5.0\r\ni ran the rocm-bandwidth-test ,rocminfo, rocm-agent-enumerator  etc \r\n**observations -**\r\nfor the rocm-4.5.0 , In the prefix install path for hip, 'hipify-perl', 'hipcc', 'hipconfig', 'hipify-cmakefile', 'hipvars.pm' i see the perl is still /usr/bin/perl and not the perl from the spack installed path.\r\n\r\n",
+    "user": "srekolam",
+    "url": "https://api.github.com/repos/spack/spack/issues/27535",
+    "updated_at": "2022-01-06 21:24:01",
+    "created_at": "2021-11-18 19:30:39",
+    "closed_at": "2022-01-06 21:24:00",
+    "state": "closed",
+    "title": "Update the rocm recipes for 4.5.0 release",
+    "number": 27535,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "resources",
+        "patch",
+        "update-package",
+        "conflicts"
+    ],
+    "id": 1057722809,
+    "html_url": "https://github.com/spack/spack/pull/27535",
+    "assignees": [
+        "haampie"
+    ],
+    "comments": 24
+}

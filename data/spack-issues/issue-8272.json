@@ -1,0 +1,19 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/7885\r\n\r\nhttps://github.com/spack/spack/pull/7193 added the `patches_to_apply` function to collect patches which are then applied in `Package.do_patch`. However this only collects patches that are associated with the `Package` object and does not include `Spec`-related patches (which are applied by dependents, added in https://github.com/spack/spack/pull/5476). ~This updates the `Package.patches_to_apply` function to add `Spec` patches.~\r\n\r\nEDIT: turns out `Spec.patches` already collects patches from the package so the `Package.patches_to_apply` function isn't necessary. All uses of `Package.patches_to_apply` are replaced with `Package.spec.patches`.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/8272",
+    "updated_at": "2018-06-07 01:55:48",
+    "created_at": "2018-05-25 01:02:04",
+    "closed_at": "2018-06-07 01:28:26",
+    "state": "closed",
+    "title": "Fix bug where patches specified by dependents were not applied",
+    "number": 8272,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 326346778,
+    "html_url": "https://github.com/spack/spack/pull/8272",
+    "assignees": [],
+    "comments": 12
+}

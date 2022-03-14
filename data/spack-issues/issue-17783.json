@@ -1,0 +1,22 @@
+{
+    "body": "See #4209 (Similar problem in Clay)\r\nThis patch patches `runtime_library_dir_option` function in distutils/unixccompiler.py\r\nFujitsu compiler use GNU LD. However, it recognized as \"unknown compiler\"\r\nSo I patched \"unknown compiler\" case to use GNU LD style options.\r\n\r\n>    def runtime_library_dir_option(self, dir):\r\n        compiler = os.path.basename(sysconfig.get_config_var(\"CC\"))\r\n        if sys.platform[:6] == \"darwin\":\r\n            # MacOSX's linker doesn't understand the -R flag at all\r\n            return \"-L\" + dir\r\n        elif sys.platform[:7] == \"freebsd\":\r\n            return \"-Wl,-rpath=\" + dir\r\n        elif sys.platform[:5] == \"hp-ux\":\r\n            if self._is_gcc(compiler):\r\n                return [\"-Wl,+s\", \"-L\" + dir]\r\n            return [\"+s\", \"-L\" + dir]\r\n        else:\r\n            if self._is_gcc(compiler):\r\n                if sysconfig.get_config_var(\"GNULD\") == \"yes\":\r\n                    # GNU ld needs an extra option to get a RUNPATH\r\n                    # instead of just an RPATH.\r\n                    return \"-Wl,--enable-new-dtags,-R\" + dir\r\n                else:\r\n                    return \"-Wl,-R\" + dir\r\n            else:\r\n                # No idea how --enable-new-dtags would be passed on to\r\n                # ld if this system was using GNU ld.  Don't know if a\r\n                # system like this even exists.\r\n                return \"-R\" + dir\r\n",
+    "user": "ketsubouchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/17783",
+    "updated_at": "2020-08-03 03:53:15",
+    "created_at": "2020-07-30 08:36:12",
+    "closed_at": "2020-08-03 03:53:15",
+    "state": "closed",
+    "title": "python: RPATH on fj",
+    "number": 17783,
+    "milestone": null,
+    "labels": [
+        "python",
+        "rpath",
+        "patch",
+        "fujitsu"
+    ],
+    "id": 668494619,
+    "html_url": "https://github.com/spack/spack/pull/17783",
+    "assignees": [],
+    "comments": 4
+}

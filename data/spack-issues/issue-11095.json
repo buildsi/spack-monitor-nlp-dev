@@ -1,0 +1,26 @@
+{
+    "body": "We are investigating spack environments as a way to replicate build environments and noticed top level dependencies being built as separate variants.\r\n\r\nIs this expected behavior or should the concretization process be spread across all specs in the spack.yaml?\r\n\r\n### Steps to reproduce the issue\r\nReproduced on multiple platforms and verified in the spack/ubuntu:18.04 container with commit 7a28a61a59b1233a82ea21c1b09dd40e4628183f \r\n\r\n\r\n```\r\n[ubuntu] tmp2: cat spack.yaml\r\nspack:\r\n  specs:\r\n  - boost@1.68.0\r\n  - trilinos@12.12.1\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n[ubuntu] tmp2: spack concretize -f\r\n==> Concretizing boost@1.68.0\r\n -   7znc464  boost@1.68.0%gcc@7.3.0+atomic+chrono~clanglibcpp cxxstd=default +date_time~debug+exception+filesystem+graph~icu+iostreams+locale+log+math~mpi+multithreaded~numpy patches=2ab6c72d03dec6a4ae20220a9dfd5c8c572c5294252155b85c6874d97c323199 ~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout+wave arch=linux-ubuntu18.04-x86_64\r\n...\r\n==> Concretizing trilinos@12.12.1\r\n -   kmmhk7k  trilinos@12.12.1%gcc@7.3.0~alloptpkgs+amesos+amesos2+anasazi+aztec+belos+boost build_type=RelWithDebInfo ~cgns~complex~debug~dtk+epetra+epetraext+exodus+explicit_template_instantiation~float+fortran~fortrilinos+gtest+hdf5+hypre+ifpack+ifpack2~intrepid~intrepid2~isorropia+kokkos+metis~minitensor+ml+muelu+mumps~nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards+shared~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos+tpetra~x11~xsdkflags~zlib+zoltan+zoltan2 arch=linux-ubuntu18.04-x86_64\r\n -   tumf2uc      ^boost@1.69.0%gcc@7.3.0+atomic+chrono~clanglibcpp cxxstd=default +date_time~debug+exception+filesystem+graph~icu+iostreams+locale+log+math~mpi+multithreaded~numpy patches=2ab6c72d03dec6a4ae20220a9dfd5c8c572c5294252155b85c6874d97c323199 ~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout+wave arch=linux-ubuntu18.04-x86_64\r\n```\r\n",
+    "user": "rspavel",
+    "url": "https://api.github.com/repos/spack/spack/issues/11095",
+    "updated_at": "2019-11-04 01:50:14",
+    "created_at": "2019-04-02 22:46:39",
+    "closed_at": "2019-10-07 16:53:24",
+    "state": "closed",
+    "title": "Spack Environment Concretization Duplicating Dependencies",
+    "number": 11095,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "feature",
+        "concretization",
+        "impact-high",
+        "environments",
+        "snl-atdm"
+    ],
+    "id": 428479391,
+    "html_url": "https://github.com/spack/spack/issues/11095",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 10
+}

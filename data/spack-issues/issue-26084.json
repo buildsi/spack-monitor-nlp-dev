@@ -1,0 +1,19 @@
+{
+    "body": "# This fixes the build of up to 21 packages/specs (pango and it's 20 dependents) provided in spack's builtin repo.\r\n\r\n## Summary\r\nFix the pango build by restoring it to build the autoconf-enabled versions only.\r\nThe conversion to MesonPackage in #25472has not progressed so far to be usable soon.\r\n\r\n## Details\r\n\r\nThe build of pango is broken since Aug 11 when new sha256sums were added to the package which only build with Meson.\r\n\r\nThe PR #25472 was created to convert pango to MesonPackage, but the submitted didn't even start properly and since then, there is no apparent activitly to get the build breakage introduced on Aug 11 fixed.\r\n\r\nIssue #25651 reported the build failure, but maybe due to the bug misleading error\r\n```\r\n==> Error: AttributeError: module 'spack.pkg.builtin.pango' has no attribute 'autoreconf'\r\n```\r\nbecause of a wrong check which we are fixing in #26101 and #26115, the issue #25651 might have not been tackled yet.\r\n\r\nThis PR fixes issue #25651 (build `'pango@1.43:'` broken) in the only way currently feasible, by removing the meson-only sha256sums which were added in error on Aug 11.",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26084",
+    "updated_at": "2021-09-22 19:34:57",
+    "created_at": "2021-09-21 00:59:30",
+    "closed_at": "2021-09-22 11:13:50",
+    "state": "closed",
+    "title": "pango: Fix build: restore autotools-based versions",
+    "number": 26084,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1001621723,
+    "html_url": "https://github.com/spack/spack/pull/26084",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,22 @@
+{
+    "body": "The output order for `spack diff` is nondeterministic for larger diffs -- if you ran it several times it will not put the fields in the spec in the same order on successive invocations.\r\n\r\nThis makes a few fixes to `spack diff`:\r\n\r\n- [x] Implement the change discussed in https://github.com/spack/spack/pull/22283#discussion_r598337448, to make `AspFunction` comparable in and of itself and to eliminate the need for `to_tuple()`.  To do this I brought back `@key_ordering`, which was removed in https://github.com/spack/spack/pull/21618 because we weren't using it for anything. `@key_ordering` is simpler than `@lazy_lexicographic_ordering` for small stuff.\r\n- [x] Sort the lists of diff properties so that the output is always in the same order.\r\n- [x] Make the output for different fields the same as what we use in the solver. Previously, we would use `Type(value)` for non-string values and `value` for strings.  Now we just use the value.  So the output looks a little cleaner:\r\n\r\n      == Old ==========================        == New ====================\r\n      @@ node_target @@                        @@ node_target @@\r\n      -  gdbm Target(x86_64)                   -  gdbm x86_64\r\n      +  zlib Target(skylake)                  +  zlib skylake\r\n      @@ variant_value @@                      @@ variant_value @@\r\n      -  ncurses symlinks bool(False)          -  ncurses symlinks False\r\n      +  zlib optimize bool(True)              +  zlib optimize True\r\n      @@ version @@                            @@ version @@\r\n      -  gdbm Version(1.18.1)                  -  gdbm 1.18.1\r\n      +  zlib Version(1.2.11)                  +  zlib 1.2.11\r\n      @@ node_os @@                            @@ node_os @@\r\n      -  gdbm catalina                         -  gdbm catalina\r\n      +  zlib catalina                         +  zlib catalina\r\n\r\nI suppose if we want to use `repr()` in the output we could do that and could be consistent but we don't do that elsewhere -- the types of things in Specs are all stringifiable so the string and the name of the attribute (`version`, `node_os`, etc.) are sufficient to know what they are.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/25169",
+    "updated_at": "2021-08-01 05:15:35",
+    "created_at": "2021-07-31 09:34:44",
+    "closed_at": "2021-08-01 05:15:34",
+    "state": "closed",
+    "title": "spack diff: make output order deterministic",
+    "number": 25169,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "tests",
+        "commands",
+        "utilities"
+    ],
+    "id": 957210947,
+    "html_url": "https://github.com/spack/spack/pull/25169",
+    "assignees": [],
+    "comments": 4
+}

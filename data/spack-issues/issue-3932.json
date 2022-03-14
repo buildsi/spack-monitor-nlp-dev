@@ -1,0 +1,19 @@
+{
+    "body": "I realized that we were actually already ignoring redefinition errors, but we were doing it incorrectly. I think flake8's API must have changed recently because this previously worked on my laptop until I updated flake8. Before, things like `# noqa: ignore=501` worked, but then the syntax changed to `# noqa: E501`. @lee218llnl fixed this in #3651, but didn't realize that `811` was actually `F811`, not `E811`. This PR fixes that.\r\n\r\n### Features\r\n\r\n- Properly ignore flake8 F811 redefinition errors\r\n- Fix bug causing trailing whitespace characters to be ignored\r\n  - They should now properly raise \"W291: trailing whitespace\"\r\n- Don't use git features unavailable in older versions\r\n  - Fixes #3199\r\n  - Previously, `spack flake8` didn't work with git 1.7.1, the default on CentOS 6\r\n- Ignore more directives\r\n  - `list_url`\r\n  - `provides()`\r\n  - `conflicts()`\r\n  - `resource()`\r\n- Add unit tests",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3932",
+    "updated_at": "2017-04-25 18:23:42",
+    "created_at": "2017-04-21 13:27:38",
+    "closed_at": "2017-04-25 18:01:26",
+    "state": "closed",
+    "title": "Properly ignore flake8 F811 redefinition errors",
+    "number": 3932,
+    "milestone": null,
+    "labels": [
+        "flake8"
+    ],
+    "id": 223383452,
+    "html_url": "https://github.com/spack/spack/pull/3932",
+    "assignees": [],
+    "comments": 5
+}

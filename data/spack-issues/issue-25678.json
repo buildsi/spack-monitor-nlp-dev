@@ -1,0 +1,24 @@
+{
+    "body": "This PR adds a `__reduce__` method to `spack.environment.Environment`. Without this, we hit the maximum recursion limit when trying to pickle `Environment` objects.\r\n\r\nFixes #20025. This PR is very similar in spirit to #25658, which fixed #23892.\r\n\r\nThis PR was just the bare minimum needed to fix the issue. I have no idea if I implemented `__reduce__` correctly or not...\r\n\r\nAlso, I would really like to avoid catching `BaseException` in `spack.install_test.TestSuite.__call__` so that this kind of issue would be easier to diagnose in the future. On develop, `spack test run` doesn't raise any exception and silently doesn't do anything.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/25678",
+    "updated_at": "2021-09-15 13:49:32",
+    "created_at": "2021-08-28 18:24:15",
+    "closed_at": "2021-09-15 05:37:36",
+    "state": "closed",
+    "title": "Add a __reduce__ method to Environment",
+    "number": 25678,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "tests",
+        "environments",
+        "python3",
+        "bugfix",
+        "stand-alone-tests"
+    ],
+    "id": 981898960,
+    "html_url": "https://github.com/spack/spack/pull/25678",
+    "assignees": [],
+    "comments": 0
+}

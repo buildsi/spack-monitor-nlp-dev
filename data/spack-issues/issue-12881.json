@@ -1,0 +1,21 @@
+{
+    "body": "**Change**\r\nfile: `var/spack/repos/builtin/packages/fftw/package.py`\r\nmethod: `flag_handler`\r\nchange: `('arm',)  ==>  ('arm','arm_thunderx2')`\r\n\r\n**Before: \"arm_thunderx2\" conflicts with \"simd=neon\"**\r\n```\r\n$ spack install fftw % gcc @ 8.3.0 arch=cray-cnl7-arm_thunderx2\r\n...\r\n==> Error: ConflictsInSpecError: Conflicts in concretized spec \"fftw@3.3.8%arm@19.2+double+float~fma+long_double+mpi~openmp~pfft_patches~quad simd=neon arch=cray-cnl7-arm_thunderx2/mwdjb7s\"\r\n\r\n    List of matching conflicts for spec:\r\n\r\n    fftw@3.3.8%arm@19.2+double+float~fma+long_double+mpi~openmp~pfft_patches~quad simd=neon arch=cray-cnl7-arm_thunderx2\r\n        ^mpich@3.3.1%arm@19.2 device=ch3 +hydra netmod=tcp +pci pmi=pmi +romio~slurm~verbs+wrapperrpath arch=cray-cnl7-arm_thunderx2\r\n\r\n1. \"arm_thunderx2\" conflicts with \"simd=neon\" [simd=neon are valid only on arm]\r\n```\r\n**After: FFTW builds successfully**\r\n```\r\n$ spack install fftw % cce @ 9.0.1 arch=cray-cnl7-arm_thunderx2\r\n...\r\n==> Successfully installed fftw\r\n  Fetch: 0.15s.  Build: 5m 1.13s.  Total: 5m 1.28s.\r\n[+] /pfs/scratch4/yellow/.mdt2/dantopa/flag/fftw-pr.spack/opt/spack/cray-cnl7-arm_thunderx2/cce-9.0.1/fftw-3.3.8-4zscwzopcr4i3nhrec3ygev7zzdkeoom\r\n\r\n$ spack install fftw % cce @ 9.0.2 arch=cray-cnl7-arm_thunderx2\r\n...\r\n==> Successfully installed fftw\r\n  Fetch: 0.02s.  Build: 5m 2.62s.  Total: 5m 2.64s.\r\n[+] /pfs/scratch4/yellow/.mdt2/dantopa/flag/fftw-pr.spack/opt/spack/cray-cnl7-arm_thunderx2/cce-9.0.2/fftw-3.3.8-qdaonrk6rw67qgcqgki5uvtsdnfx7ode\r\n\r\n$ spack install fftw % gcc @ 8.3.0 arch=cray-cnl7-arm_thunderx2\r\n...\r\n==> Successfully installed fftw\r\n  Fetch: 0.02s.  Build: 4m 23.94s.  Total: 4m 23.96s.\r\n[+] /pfs/scratch4/yellow/.mdt2/dantopa/flag/fftw-pr.spack/opt/spack/cray-cnl7-arm_thunderx2/gcc-8.3.0/fftw-3.3.8-u6b3bdetpxjwakq4mp5quqjimthdvpjj\r\n```\r\n\r\n**Confirmation**\r\n```\r\n$ spack find -ldf fftw\r\n==> 3 installed packages\r\n-- cray-cnl7-arm_thunderx2 / cce@9.0.1 --------------------------\r\n4zscwzo fftw@3.3.8%cce\r\n3xm7hnr     mpich@3.3.1%cce\r\n\r\n-- cray-cnl7-arm_thunderx2 / cce@9.0.2 --------------------------\r\nqdaonrk fftw@3.3.8%cce\r\niffmiyw     mpich@3.3.1%cce\r\n\r\n-- cray-cnl7-arm_thunderx2 / gcc@8.3.0 --------------------------\r\nu6b3bde fftw@3.3.8%gcc\r\nxbbpd7i     mpich@3.3.1%gcc\r\n```\r\n\r\n**Test Platform: LANL HPC Capulin (Cray ARM)**\r\n```\r\n$ uname -a\r\nLinux nid00001 4.12.14-25.22_5.0.70-cray_ari_c #1 SMP Tue Mar 5 00:08:48 UTC 2019 (bc16c54) aarch64 aarch64 aarch64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tSUSE Linux Enterprise Server 15\r\n```\r\n\r\nThanks to @scheibelp\r\n\r\nSigned-off-by: Daniel Topa <dantopa@lanl.gov>\r\nThu Sep 19 17:33:48 MDT 2019",
+    "user": "floquet",
+    "url": "https://api.github.com/repos/spack/spack/issues/12881",
+    "updated_at": "2020-08-20 10:35:57",
+    "created_at": "2019-09-19 23:37:30",
+    "closed_at": "2020-08-20 10:35:57",
+    "state": "closed",
+    "title": "FFTW now recognizes Cray arm_thunderx2 as an ARM processor",
+    "number": 12881,
+    "milestone": null,
+    "labels": [
+        "microarchitectures"
+    ],
+    "id": 496073065,
+    "html_url": "https://github.com/spack/spack/pull/12881",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

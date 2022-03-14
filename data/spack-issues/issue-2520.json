@@ -1,0 +1,21 @@
+{
+    "body": "There is a bug in Spack that causes a dependency's `spec` to be resolved incorrectly if the dependent package specifies the dependency through its hash when invoking `spack install` (e.g. `spack install package ^/dephash`).\r\n\r\nTo reproduce this error, perform a fresh install of the latest version of Spack and run the following commands:\r\n\r\n```\r\n./bin/spack install zlib~pic\r\n./bin/spack install hdf5~shared~pic~mpi ^/abcdefg # 'abcdefg' is the hash of 'zlib~pic'\r\n```\r\n\r\nThe second command will fail to install `hdf5~shared~pic~mpi` since the directory containing the `zlib` dependency cannot be found.  Based on the name of the `zlib` directory that this command attempts to use, it's clear that the hash for `zlib` is being resolved incorrectly in the `hdf5` install method.  This error affects all packages that evaluate a `spec['dependency'].prefix` expression at any point during their installation.",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/2520",
+    "updated_at": "2017-01-12 00:00:17",
+    "created_at": "2016-12-08 00:09:43",
+    "closed_at": "2017-01-12 00:00:17",
+    "state": "closed",
+    "title": "Incorrect Spec Resolution When Specifying Hash for Dependency at Install",
+    "number": 2520,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "hashes",
+        "specs"
+    ],
+    "id": 194211813,
+    "html_url": "https://github.com/spack/spack/issues/2520",
+    "assignees": [],
+    "comments": 4
+}

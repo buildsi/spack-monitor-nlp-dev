@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\n$ spack install py-zipp ^py-setuptools-scm@6.3.2\r\n(...)\r\nError: ProcessError: Command exited with status 1:\r\n(...)\r\n==> Error: py-zipp-3.6.0-u26np7v3tncfi32jyu4pbby6xbkqxoio: Package was not installed\r\n==> Error: Installation request failed.  Refer to reported errors for failing package(s).\r\n$ tail .../spack-build-out.txt\r\npkg_resources.DistributionNotFound: The 'packaging>=20.0' distribution was not found and is required by the application\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3-4967-3720d06e26\r\n* **Python:** 3.10.0\r\n* **Platform:** linux-debian11-skylake_avx512\r\n* **Concretizer:** clingo\n\n### Additional information\n\n@adamjstewart \r\n\r\nLogs: https://gist.github.com/8ea20ef00793767a46e48ed6d4b320cf\r\n\r\nAdding an explicit build dependency on `py-packaging` to `py-zipp` allows the installation to complete. \r\n\r\npy-zipp is not the only package with this problem, I think that any package that depends on `py-setuptools-scm` will fail with the newest version.\r\n\r\nSo, I propose to add `py-packaging` as a run-time dependency to `py-setuptools-scm` with condition `@6.3.1:`\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "iarspider",
+    "url": "https://api.github.com/repos/spack/spack/issues/26872",
+    "updated_at": "2021-11-01 17:22:32",
+    "created_at": "2021-10-21 15:24:38",
+    "closed_at": "2021-11-01 17:22:31",
+    "state": "closed",
+    "title": "Installation issue: py-zipp with py-setuptools-scm@6.3.2",
+    "number": 26872,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1032633142,
+    "html_url": "https://github.com/spack/spack/issues/26872",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 13
+}

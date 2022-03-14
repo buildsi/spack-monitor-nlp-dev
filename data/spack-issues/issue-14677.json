@@ -1,0 +1,19 @@
+{
+    "body": "I've created an external repo to override native packages in spack.\r\nI can use the namespace to properly reference most packages, but yaml-cpp fails when I add the compiler in the spec.\r\n\r\n\r\n### Steps to reproduce the issue\r\nFor example,\r\n`spack find builtin.yaml-cpp`\r\n\r\nreturns the proper references, but\r\n\r\n`spack find builtin.yaml-cpp%gcc@7.2.0`\r\n\r\nreturns\r\n\r\n`==> Error: Spec filename must end in .yaml: 'builtin.yaml-cpp%gcc@7.2.0'`\r\n\r\nThe following also return the expected results:\r\n\r\n`spack find builitin.nalu-wind%gcc@7.2.0`\r\n`spack find builtin.trilinos%gcc@7.2.0`\r\n\r\nSo it appears to be an issue with yaml-cpp (as far as I know). Guessing it is because there is a \"*.yaml\" in the spec for this corner case.\r\n\r\nDebug output:\r\n\r\n[myconsole]$ spack -d find builtin.yaml-cpp%gcc%7.2.0\r\n==> [2020-01-29-14:55:12.384485] Imported find from built-in commands\r\n==> [2020-01-29-14:55:12.386274] Imported find from built-in commands\r\n==> [2020-01-29-14:55:12.387341] SpackError: Spec filename must end in .yaml: 'builtin.yaml-cpp%gcc%7.2.0'\r\n==> [2020-01-29-14:55:12.387410] Error: Spec filename must end in .yaml: 'builtin.yaml-cpp%gcc%7.2.0'\r\nTraceback (most recent call last):\r\n  File \"/projects/wind/snl-ceerws/spack/lib/spack/spack/main.py\", line 711, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/projects/wind/snl-ceerws/spack/lib/spack/spack/main.py\", line 456, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/projects/wind/snl-ceerws/spack/lib/spack/spack/cmd/find.py\", line 197, in find\r\n    results = args.specs(**q_args)\r\n  File \"/projects/wind/snl-ceerws/spack/lib/spack/spack/cmd/common/arguments.py\", line 69, in _specs\r\n    qspecs = spack.cmd.parse_specs(self.values)\r\n  File \"/projects/wind/snl-ceerws/spack/lib/spack/spack/cmd/__init__.py\", line 161, in parse_specs\r\n    raise spack.error.SpackError(msg)\r\nspack.error.SpackError: Spec filename must end in .yaml: 'builtin.yaml-cpp%gcc%7.2.0'\r\n\r\n### Information on your system\r\n\r\nRHEL6, custom package in repo that just allows me to access additional sha's for yaml-cpp, but inherits from yaml-cpp in builtin.  I don't think my package configuration has anything to do with this.\r\n",
+    "user": "psakievich",
+    "url": "https://api.github.com/repos/spack/spack/issues/14677",
+    "updated_at": "2020-06-16 18:27:34",
+    "created_at": "2020-01-29 21:59:30",
+    "closed_at": "2020-06-16 18:27:34",
+    "state": "closed",
+    "title": "Package specs fail for yaml-cpp package when using namespaces",
+    "number": 14677,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 557141799,
+    "html_url": "https://github.com/spack/spack/issues/14677",
+    "assignees": [],
+    "comments": 2
+}

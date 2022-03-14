@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #3998 \r\n\r\nThis introduces a method for packages to modify their compiler flags. These modifications do NOT become a part of the spec.\r\n\r\nA package can define a function <flag>_handler(self, env, flag_val) for each compiler flag (current values are 'cflags', 'cxxflags', 'cppflags', 'fflags', 'ldflags', 'ldlibs'). The package can also define a function default_flag_handler(self, env, flag_val) that will be called for each flag for which a specific function is not defined.\r\n\r\nThe env parameter to these functions is an EnvironmentModifications object, as in setup_environment(). This environment can be used to \"trap\" the compiler flags so that they are presented to the build system through environment variables, rather than injected directly by the compiler wrapper. The flag_val parameter is a tuple, with the first value being the flag name and the second being a list of set flags. These functions should return a list, which is the set of flags to inject via the compiler wrappers.\r\n\r\nWe expect there to be three primary idioms for these functions. \r\n\r\n1) This is the default behavior\r\n```\r\ndef default_flag_handler(self, env, flag_val):\r\n    return flag_val[1]\r\n```\r\n\r\n2) This default function is defined in the autotools and cmake build systems classes, and is the default for those packages\r\n```\r\ndef default_flag_handler(self, env, flag_val):\r\n    env.append_flags(flag_val[0].upper(), ' '.join(flag_val[1]))\r\n    return []\r\n```\r\n\r\n3) Packages may have additional flags to add to the build. These flags can be added to either idiom above. For example:\r\n```\r\ndef default_flag_handler(self, env, flag_val):\r\n    flags = flag_val[1]\r\n    flags.append('-flag')\r\n    return flags\r\n```\r\nOR\r\n```\r\ndef default_flag_handler(self, env, flag_val):\r\n    env.append_flags(flag_val[0].upper(), ' '.join(flag_val[1]))\r\n    env.append_flags(flag_val[0].upper(), '-flag')\r\n    return []\r\n```\r\n\r\nPackages may also opt for methods that include aspects of any of the idioms above. E.g.\r\n```\r\ndef default_flag_handler(self, env, flag_val):\r\n    flags = []\r\n    if len(flag_val[1]) > 3:\r\n        env.append_flags(flag_val[0].upper(), ' '.join(flag_val[1][3:]))\r\n        flags = flag_val[1][:3]\r\n    else:\r\n        flags = flag_val[1]\r\n    flags.append('-flag')\r\n    return flags\r\n```\r\n\r\nAlso note the addition of the append_flags() method on the EnvironmentModifications class. This method should be used in any situation in the package file in which we are not certain that we want any previous value of this variable to be wiped. This is particularly important in cmake and autotools packages, where the default behavior now is to pre-populate the environment with the values from the spack compiler flags.\r\n\r\nThis PR does not yet contain documentation. I will mark it as WIP until documentation is complete. I will leave this for the rest of this week for comments and suggestions and begin working on documentation on Monday.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/4421",
+    "updated_at": "2017-11-12 01:00:35",
+    "created_at": "2017-06-01 22:27:24",
+    "closed_at": "2017-07-20 03:12:01",
+    "state": "closed",
+    "title": "Allow packages to control handling of compiler flags",
+    "number": 4421,
+    "milestone": "v0.11.0",
+    "labels": [],
+    "id": 233028270,
+    "html_url": "https://github.com/spack/spack/pull/4421",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

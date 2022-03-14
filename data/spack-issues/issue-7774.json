@@ -1,0 +1,23 @@
+{
+    "body": "This is still WIP but it's almost done, so feel free to start reviewing.  It hurt a lot but it's needed. \ud83d\ude04\r\n\r\nSpack's `__init__.py` has served us well but it's time to get rid of all the stuff in it.  It's essentially a small set of global variables to manage the state of a Spack run.  The fact that they are all in one top-level `__init__.py` has some serious negatives as Spack scales.  Specifically:\r\n\r\n1. `spack` is loaded when `spack.anything` is imported.  This means everything in `__init__.py` has to be imported for every Spack run, which causes startup time to suffer (see #7585 and #7587).\r\n2. All the imports mean that we have very little control over initialization order in Spack, and it's easy to get circular dependencies among the top-level modules. It also means we can't force certain imports to after before certain command-line options (see #6903 and #7692).\r\n3. The imports in `__init__.py` pollute the top-level Spack namespace.  This will be dealt with in a future PR.\r\n\r\nThe way `spack.config` is currently written, it suffers from some of the same problems as (2), so it also needs to be made more lazy.\r\n\r\nThis PR will do the following:\r\n\r\n- [x] Remove all module-scope initialization from `__init__.py`, so that pieces of spack can be imported selectively.\r\n- [x] Rework `spack.config` so that module-scope state is in a `Configuration` class.  This makes it easy to override \r\n- [x] Simplify the `spack.config` interface to allow getting/setting either entire YAML files or specific parts (single variables).\r\n- [x] Make it possible to handle command-line configuration settings and defaults through `spack.config`, by adding new, internal-only configuration scopes (i.e. scopes that don't correspond to files).  This unifies the way Spack handles user configuration settings and its own.\r\n- [x] Replace all globals in `__init__.py` with configuration options via `spack.config`\r\n- [x] Convert significant module-scope initialization in submodules into lazy initialization through functions or classes.\r\n\r\nThe last TODO was to make `__init__.py` load lazily for the `from spack import *` case used by `package.py` files, but I will continue this in another PR.\r\n\r\nThis should allow #6903 and #7692 to move forward and should hopefully help reduce the remaining startup latency discussed in #7587.  It should also make internal Spack code more clear, and give us more control going forward.  Finally, it moves us a little closer to #1385.\r\n\r\n@alalazo @scheibelp @becker33 @mwkrentel @cyrush FYI",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/7774",
+    "updated_at": "2018-05-17 23:27:38",
+    "created_at": "2018-04-16 18:53:26",
+    "closed_at": "2018-05-17 21:10:32",
+    "state": "closed",
+    "title": "Refactor initialization and configuration to remove globals",
+    "number": 7774,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "refactoring",
+        "initialization"
+    ],
+    "id": 314775979,
+    "html_url": "https://github.com/spack/spack/pull/7774",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I have a package called [DataTransferKit](https://github.com/ORNL-CEES/DataTransferKit). I'd like to add it to Spack as it is a part of an ECP project. However, there are some unusual challenges associated with this that I'm not sure how to address.\r\n\r\nDataTransferKit, or DTK, is one of a few examples of an external package to Trilinos (another examples is [ForTrilinos](https://github.com/Trilinos/ForTrilinos)). What this means is that it lives in a separate repository from the main Trilinos, but depends on the Trilinos CMake build system for building. So to build it you need both the package *and* Trilinos repositories. The package may also have its own dependencies.\r\n\r\nWhat would be the best way to write a spec for something like this? I can only see 2 ways, none of them are attractive:\r\n1. Implement this as a variant to the trilinos package. Not sure how that would work with two repositories, but probably could be hacked via overloading some of the download and unpack functions.\r\n2. Write a new spec (with a big similarity to existing Trilinos spec) that would install this package. Would this potentially lead to conflicts if both DTK and Trilinos modules are loaded? Probably yes, as they would both contain some of the similar Trilinos libraries.\r\n\r\nI think an ideal way would be to somehow extend a Trilinos package to allow extensions to link in an external package that use its build system. I know that Spack has extensions (particularly, for Python), but not sure if it's applicable here in any form.",
+    "user": "aprokop",
+    "url": "https://api.github.com/repos/spack/spack/issues/4285",
+    "updated_at": "2017-05-25 14:41:12",
+    "created_at": "2017-05-18 03:18:45",
+    "closed_at": "2017-05-25 14:41:12",
+    "state": "closed",
+    "title": "A spec for an external Trilinos package",
+    "number": 4285,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 229543811,
+    "html_url": "https://github.com/spack/spack/issues/4285",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I'm getting the same warning message, for which I may have found the root cause, even if the problem may be slightly different.\r\n\r\n### Steps to reproduce the issue\r\nI get a warning when I do `spack spec llvm@8.0.0`, which requires python. For the latter one, I changed `packages.yaml` to use a module provided by the system.\r\n\r\nThe interesting line inside the python module is\r\n```console\r\nprepend-path    LD_LIBRARY_PATH    /opt/cray/pe/gcc-libs\r\n```\r\n\r\n### Error Message\r\n```console\r\n==> Warning: Extracted path from module does not exist:\r\n\tExtracted path: /opt/cray/pe/gcc-lib\r\n```\r\n\r\n***The problem, in my case, is that the last character gets truncated.***\r\n\r\nI saw that #12662, but I think that the issue is slightly different, even if the problem may reside in the same code portion.",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/12684",
+    "updated_at": "2019-09-11 17:51:45",
+    "created_at": "2019-09-02 13:18:35",
+    "closed_at": "2019-09-11 17:51:45",
+    "state": "closed",
+    "title": "\"Extracted path from module does not exist\": Truncated path from module ",
+    "number": 12684,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "actions"
+    ],
+    "id": 488186688,
+    "html_url": "https://github.com/spack/spack/issues/12684",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 2
+}

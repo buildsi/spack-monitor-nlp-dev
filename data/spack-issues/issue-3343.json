@@ -1,0 +1,17 @@
+{
+    "body": "@davydden mentioned that this a regression and that it worked a couple of days ago in #3333 .\r\n\r\nI see the following (taking ```0.2.15``` because it isn't installed yet)\r\n\r\n```\r\nspack install openblas@0.2.15\r\n==> Installing openblas\r\n==> Fetching http://github.com/xianyi/OpenBLAS/archive/v0.2.15.tar.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /scratch/wv385/Documents/git/spack/var/spack/stage/openblas-0.2.15-zazopc3jb6345biluudxxx4qo4igdukz/v0.2.15.tar.gz\r\n==> Created stage in /scratch/wv385/Documents/git/spack/var/spack/stage/openblas-0.2.15-zazopc3jb6345biluudxxx4qo4igdukz\r\n==> Building openblas [MakefilePackage]\r\n==> Executing phase : 'edit'\r\n==> Executing phase : 'build'\r\n==> Executing phase : 'install'\r\n==> Error: AttributeError: 'Spec' object has no attribute 'cppflags'\r\n/scratch/wv385/Documents/git/spack/var/spack/repos/builtin/packages/openblas/package.py:143, in check_install:\r\n     132      @run_after('install')\r\n     133      def check_install(self):\r\n     134          spec = self.spec\r\n     135          # Openblas may pass its own test but still fail to compile Lapack\r\n     136          # symbols. To make sure we get working Blas and Lapack, do a small\r\n     137          # test.\r\n     138          source_file = join_path(os.path.dirname(self.module.__file__),\r\n     139                                  'test_cblas_dgemm.c')\r\n     140          blessed_file = join_path(os.path.dirname(self.module.__file__),\r\n     141                                   'test_cblas_dgemm.output')\r\n     142  \r\n  >> 143          include_flags = spec.cppflags\r\n     144          link_flags = spec.libs.ld_flags\r\n     145          if self.compiler.name == 'intel':\r\n     146              link_flags += ' -lifcore'\r\n     147          link_flags += ' -lpthread'\r\n     148          if '+openmp' in spec:\r\n     149              link_flags += ' ' + self.compiler.openmp_flag\r\n     150  \r\n     151          output = compile_c_and_execute(\r\n     152              source_file, [include_flags], link_flags.split()\r\n     153          )\r\n     154          compare_output_file(output, blessed_file)\r\n\r\nSee build log for details:\r\n```",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/3343",
+    "updated_at": "2017-03-04 01:30:35",
+    "created_at": "2017-03-03 15:13:36",
+    "closed_at": "2017-03-04 01:30:35",
+    "state": "closed",
+    "title": " Spec object has no attribute cppflags - openblas fails to build",
+    "number": 3343,
+    "milestone": null,
+    "labels": [],
+    "id": 211715090,
+    "html_url": "https://github.com/spack/spack/issues/3343",
+    "assignees": [],
+    "comments": 12
+}

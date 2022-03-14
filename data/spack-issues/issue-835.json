@@ -1,0 +1,17 @@
+{
+    "body": "When functions `try_compile()` and `try_execute()` are there (see https://github.com/LLNL/spack/pull/812#issuecomment-214278819 ), it would be good to be able to run some **small unit tests** for each package that implements a certain package.\nFor example, if `openblas` declares that it `provides(lapack)`, we should run a very small unit test (e.g. https://github.com/LLNL/spack/pull/829) to see if we indeed deliver on this promise. \n\nThis is quite important for `openblas` which may silently turn off compiling Lapack part. It is equally important for system provided implementation (say `mkl` or blas/lapack from Ubuntu) to make sure that we pick them up correctly and prevent surprises when a user tries to compile packages which, in this case, `depends_on('lapack')`. \n\nThe intention is **not to cover the whole target library**, but have a quick check that we indeed have something installed that _looks like_ a target library. Same would apply to `depends_on('mpi')` and `depends_on('blas')`. One could think of applying this framework to other virtual packages where needed.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/835",
+    "updated_at": "2016-07-08 12:01:09",
+    "created_at": "2016-04-26 04:49:01",
+    "closed_at": "2016-07-08 12:01:09",
+    "state": "closed",
+    "title": "encapsulate and run small unit tests for 'xyz' in provides('xyz')",
+    "number": 835,
+    "milestone": null,
+    "labels": [],
+    "id": 151041228,
+    "html_url": "https://github.com/spack/spack/issues/835",
+    "assignees": [],
+    "comments": 1
+}

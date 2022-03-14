@@ -1,0 +1,21 @@
+{
+    "body": "I've run into a few Python packages so far that built without any trouble, but raised error messages when trying to import them. See https://github.com/LLNL/spack/pull/1156#issuecomment-233030464 for an example.\n\nA quick and easy sanity check would be to import the newly installed Python package using the Python installation it was built with. In the case of py-meep, the module name depends on how it was built. For `py-meep+mpi`, the module name is `meep_mpi`. For `py-meep~mpi`, it is `meep`. We will need some kind of function to return the correct module name for each package. It is probably safe to default to `self.name.replace('py-', '')`.\n\nI believe the actual implementation should wait until after #1186 is complete. That way, it can easily be added to a PythonPackage class.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1305",
+    "updated_at": "2017-03-31 20:39:07",
+    "created_at": "2016-07-19 19:47:00",
+    "closed_at": "2017-03-31 20:39:07",
+    "state": "closed",
+    "title": "[Proposal] Add sanity check to import Python modules",
+    "number": 1305,
+    "milestone": null,
+    "labels": [
+        "python",
+        "tests",
+        "proposal"
+    ],
+    "id": 166417635,
+    "html_url": "https://github.com/spack/spack/issues/1305",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,19 @@
+{
+    "body": "The torchvision headers link to PyTorch headers, which link to pybind11 headers, so these should all be connected via link-type dependencies (unless we add include-types someday).\r\n\r\nWithout this, I see the following build failure:\r\n```\r\nIn file included from /private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/Adam/spack-stage/spack-stage-py-torchvision-0.6.0-regfy53rf4x4ucc6yj4iakpiuywleetv/spack-src/torchvision/csrc/vision.cpp:11:\r\nIn file included from /private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/Adam/spack-stage/spack-stage-py-torchvision-0.6.0-regfy53rf4x4ucc6yj4iakpiuywleetv/spack-src/torchvision/csrc/DeformConv.h:3:\r\nIn file included from /private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/Adam/spack-stage/spack-stage-py-torchvision-0.6.0-regfy53rf4x4ucc6yj4iakpiuywleetv/spack-src/torchvision/csrc/cpu/vision_cpu.h:2:\r\nIn file included from /Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/py-torch-1.5.0-ktctoccu4qvf6e4jkzstkw7d7ff56eyq/lib/python3.7/site-packages/torch/include/torch/extension.h:6:\r\nIn file included from /Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/py-torch-1.5.0-ktctoccu4qvf6e4jkzstkw7d7ff56eyq/lib/python3.7/site-packages/torch/include/torch/csrc/api/include/torch/python.h:12:\r\n/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/py-torch-1.5.0-ktctoccu4qvf6e4jkzstkw7d7ff56eyq/lib/python3.7/site-packages/torch/include/torch/csrc/utils/pybind.h:6:10: fatal error: 'pybind11/pybind11.h' file not found\r\n#include <pybind11/pybind11.h>\r\n         ^~~~~~~~~~~~~~~~~~~~~\r\n1 error generated.\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/16495",
+    "updated_at": "2020-05-06 23:05:28",
+    "created_at": "2020-05-06 20:48:22",
+    "closed_at": "2020-05-06 23:05:27",
+    "state": "closed",
+    "title": "PyTorch/Torchvision: fix deptype",
+    "number": 16495,
+    "milestone": null,
+    "labels": [
+        "linking"
+    ],
+    "id": 613603530,
+    "html_url": "https://github.com/spack/spack/pull/16495",
+    "assignees": [],
+    "comments": 0
+}

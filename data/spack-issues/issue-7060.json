@@ -1,0 +1,17 @@
+{
+    "body": "On Darwin and other BSD systems, the system 'libtool' and 'libtoolize'\r\nare BSD libtool and libtoolize, respectively. Some build systems\r\nrequire the GNU versions of these commands, so BSD package systems\r\ntend to name the GNU versions 'glibtool' and 'glibtoolize',\r\nrespectively, to avoid namespace collisions.\r\n\r\nA problem with the current libtool package is that it installs the GNU\r\nlibtool commands as 'libtool' and 'libtoolize', respectively, but\r\nbuild systems on BSD platforms will attempt to run 'glibtool' and\r\n'glibtoolize'. The expedient solution to this problem is to symlink\r\n'libtool' to 'glibtool' and 'libtoolize' to 'glibtoolize', because\r\nattempting to patch the detection logic one build system at a time\r\nseems impractical.\r\n\r\nThe motivation for this patch came when trying to run `spack install\r\nlibharu` on a macOS/OS X Sierra 10.12.6 system (i.e., Darwin 16.7.0),\r\nwhich fails in the `configure` step because the build system attempts\r\nto run `join_path(spec['libtool'].prefix.bin, 'glibtoolize')`, resulting in an\r\nerror because this command doesn't currently exist when spack installs\r\n`libtool`.",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/7060",
+    "updated_at": "2018-02-01 07:16:52",
+    "created_at": "2018-01-25 00:23:27",
+    "closed_at": "2018-01-25 02:48:29",
+    "state": "closed",
+    "title": "libtool: symlink libtool{ize} to glibtool{ize}",
+    "number": 7060,
+    "milestone": null,
+    "labels": [],
+    "id": 291408537,
+    "html_url": "https://github.com/spack/spack/pull/7060",
+    "assignees": [],
+    "comments": 2
+}

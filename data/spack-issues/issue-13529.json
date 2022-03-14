@@ -1,0 +1,24 @@
+{
+    "body": "Spack Environments crashes when you try to concretize/update an environment that contains Python, but Python hasn't been installed yet.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cd foo  # directory containing spack.yaml\r\n$ spack install\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> Updating view at /mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view\r\nTraceback (most recent call last):\r\n  File \"/u/sciteam/stewart1/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/main.py\", line 653, in main\r\n    ev.activate(env, args.use_env_repo)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/environment.py\", line 163, in activate\r\n    cmds += env.add_default_view_to_shell(shell)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/environment.py\", line 1074, in add_default_view_to_shell\r\n    spec, self.default_view))\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/environment.py\", line 1055, in environment_modifications_for_spec\r\n    spec, context='run'\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/build_environment.py\", line 759, in modifications_from_dependencies\r\n    dpkg.setup_dependent_package(pkg.module, spec)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/var/spack/repos/builtin/packages/python/package.py\", line 729, in setup_dependent_package\r\n    module.setup_py = Executable(\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/var/spack/repos/builtin/packages/python/package.py\", line 526, in command\r\n\r\nRuntimeError: Unable to locate python command in /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-5.3.0/python-3.7.4-6qsrqzoxsh2tvcsoyfec5gdfibgtlsiq/bin\r\n```\r\nThe problem is that Python is not yet installed, so the installation directory does not exist, and `spec['python'].command` crashes.\r\n\r\n### Information on your system\r\n\r\nCray CNL5, GCC 5.3.0\r\n\r\n`spack.yaml`:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - gdal+python\r\n  - python@3.7:+sqlite3\r\n  - py-flake8\r\n  - py-matplotlib\r\n  - py-numpy\r\n  - py-pandas\r\n  - 'py-pytest@3.9:'\r\n  - py-scikit-learn\r\n  - 'py-scipy@0.14:'\r\n  - 'py-tables@3.0.0:'\r\n  - 'py-torch@0.4:'\r\n  - py-torchvision\r\n  concretization: together\r\n```\r\n@becker33 I believe this is related to #13249. Spack is trying to run `setup_run_environment` even for packages that are not yet installed, causing this crash.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/13529",
+    "updated_at": "2019-11-11 12:02:36",
+    "created_at": "2019-10-31 23:34:36",
+    "closed_at": "2019-11-11 12:02:36",
+    "state": "closed",
+    "title": "Unable to concretize environment if python isn't installed yet",
+    "number": 13529,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "environments"
+    ],
+    "id": 515815806,
+    "html_url": "https://github.com/spack/spack/issues/13529",
+    "assignees": [
+        "alalazo",
+        "becker33"
+    ],
+    "comments": 2
+}

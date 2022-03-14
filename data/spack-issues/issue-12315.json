@@ -1,0 +1,17 @@
+{
+    "body": "Spack stacks drop invalid dependencies applied to packages by a spec_list matrix operation\r\n\r\nWithout this fix, Spack would raise an error if orthogonal dependency constraints and non-dependency constraints were applied to the same package by a matrix and the dependency constraint was invalid for that package. This is an error, fixed by this PR.\r\n\r\n```\r\nspack:\r\n  definitions:\r\n  - packages: [libelf, hdf5+mpi]\r\n  - compilers: ['%gcc']\r\n  - mpis: [^openmpi]\r\n\r\n  specs:\r\n  - matrix:\r\n    - $packages\r\n    - $compilers\r\n    - $mpis\r\n```",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/12315",
+    "updated_at": "2019-09-03 05:30:20",
+    "created_at": "2019-08-07 22:00:37",
+    "closed_at": "2019-08-08 01:34:42",
+    "state": "closed",
+    "title": "stacks: fix conditional dependencies",
+    "number": 12315,
+    "milestone": null,
+    "labels": [],
+    "id": 478158657,
+    "html_url": "https://github.com/spack/spack/pull/12315",
+    "assignees": [],
+    "comments": 2
+}

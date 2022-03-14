@@ -1,0 +1,17 @@
+{
+    "body": "While the main goal of spack should probably remain installation of production-quality software, over time I've come to appreciate its usefulness for configuration and dependency management in software development. For full support of this use case, however, `spack diy` could use more flexibility.\r\n\r\n### Rationale\r\n\r\nSoftware that is painful to install due to an excessively convoluted dependency setup is also painful to work on as a software developer. Spack can help here by collecting the needs of software projects and managing the installation of \"uninteresting\" dependencies, leaving the developer free to focus on the \"interesting\" software project at hand. Basically, it quickly gets you to the point where you have a working build of your software project, and then you can enter the usual read-edit-compile cycle.\r\n\r\nThe way I currently do this is to setup a git repo on my development system in the usual way (upstream repo + fork), then do a `spack diy <project>@develop <options>` to configure a build, kill it after configuration (I'll explain why in a minute), and trigger further work with a `spack build-env <project>@develop <command>`. For example, on a CMake-based project, the cycle `spack build-env <project>@develop make -j8 && spack build-env <project>@develop ctest -j8` is common.\r\n\r\nObviously though, the whole process is hacky, especially the \"starting the diy and killing it in the middle\" part, and I'm wondering how I could do this better.\r\n\r\n### Description\r\n\r\nTo make the workflow above more convenient, I would need two things:\r\n\r\n1. A way to make \"spack diy\" stop after the configuration or the build instead of installing\r\n2. A way to permanently load the build environment of a project so as not to type \"build-env\" over and over again.\r\n\r\nI suspect that the recently introduced spack features such as advanced module usage or environments might help with point 2. I need to look into that. However, as far as I know, nobody is currently exploring point 1 (making spack diy more flexible), which is why I'm opening a ticket to discuss it.",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/9855",
+    "updated_at": "2020-02-05 12:56:53",
+    "created_at": "2018-11-15 11:18:12",
+    "closed_at": "2020-02-05 12:56:53",
+    "state": "closed",
+    "title": "Support more development use cases in \"spack diy\"",
+    "number": 9855,
+    "milestone": null,
+    "labels": [],
+    "id": 381114967,
+    "html_url": "https://github.com/spack/spack/issues/9855",
+    "assignees": [],
+    "comments": 13
+}

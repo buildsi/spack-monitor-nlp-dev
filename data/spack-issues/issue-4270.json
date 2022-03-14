@@ -1,0 +1,17 @@
+{
+    "body": "Building qt currently fails if spack dependencies include pcre (see #1517).\r\n\r\nIt seems that the qtscript component of qt requires heavily customised pcre functions, and these clash with other pcre headers that spack may find. A clue is given in the file `qtscript/src/3rdparty/javascriptcore/JavaScriptCore/pcre/pcre.h` in the qt source directory:\r\n\r\n> // FIXME: This file needs to be renamed to JSRegExp.h; it's no longer PCRE.\r\n\r\nUnfortunately, the suggested renaming has not been done in any version of `qt@5` (so far). This means it is easy for a build system to find a pcre.h in the search path and override the customised qt version.\r\n\r\nTo avoid this problem, I have patched the JavaScriptCore source files that need to include the customised pcre.h. I replace statements of the form `#include <pcre.h>` by `#include \"pcre.h\"`. The quoted form is interpreted by most compilers as a path relative to the file being preprocessed, and other locations will not be searched if the specified file is found.\r\n\r\nI have successfully built `qt@5.2.1`, `qt@5.7.1` and `qt@5.8.0` with spack using the patch.",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/4270",
+    "updated_at": "2017-05-21 23:01:27",
+    "created_at": "2017-05-17 08:00:10",
+    "closed_at": "2017-05-21 23:01:27",
+    "state": "closed",
+    "title": "qt: patch JavaScriptCore to favour internal pcre headers",
+    "number": 4270,
+    "milestone": null,
+    "labels": [],
+    "id": 229267894,
+    "html_url": "https://github.com/spack/spack/pull/4270",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,17 @@
+{
+    "body": "The rdma-core code base will use the build path to construct string constants at cmake time (see https://github.com/linux-rdma/rdma-core/blob/master/CMakeLists.txt#L102), which can then trigger the failure of compile time string length safety checks in the code base (see https://github.com/linux-rdma/rdma-core/blob/master/librdmacm/acm.c#L170) if the path is too deep.\r\n\r\nThis problem is relatively easy to trigger in spack if your staging path is something like \"/gpfs/mira-home/carns/working/src/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/rdma-core-20-jseuuuvggown67ufiu74quv64aopa2xp/\"\r\n\r\nThis PR explicitly sets a cmake option to override the rundir and set it to a fixed absolute path (/var/run) so that the rdma-core spack package will build reliably regardless of spack staging path.",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/9370",
+    "updated_at": "2018-10-11 01:53:32",
+    "created_at": "2018-09-27 17:29:43",
+    "closed_at": "2018-10-11 01:51:20",
+    "state": "closed",
+    "title": "update rdma-core package to specify rundir",
+    "number": 9370,
+    "milestone": null,
+    "labels": [],
+    "id": 364578111,
+    "html_url": "https://github.com/spack/spack/pull/9370",
+    "assignees": [],
+    "comments": 2
+}

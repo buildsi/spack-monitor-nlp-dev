@@ -1,0 +1,17 @@
+{
+    "body": "\r\nncurses fails to build on a Cray platform at LANL.  It builds on the front-end node but not on the backend node (os=CNL).   I added the work around for pkg-config, but can't build ncurses on this Cray.\r\nIt fails in a similar way to the failure on the NERSC Cori Cray where the pkg-config work around was successful.  The work around doesn't appear to work on this Cray.\r\n\r\n\r\njegsgi/jeg_spack> **spack install ncurses os=CNL**\r\n==> Installing pkg-config\r\n==> Using cached archive: /usr/projects/packages/openspeedshop/jegsgi/jeg_spack/var/spack/cache/pkg-config/pkg-config-0.29.2.tar.gz\r\n==> Staging archive: /usr/projects/packages/openspeedshop/jegsgi/jeg_spack/var/spack/stage/pkg-config-0.29.2-biyt4qbpfkxcr5s6jcmonmzd7pxvvagw/pkg-config-0.29.2.tar.gz\r\n==> Created stage in /usr/projects/packages/openspeedshop/jegsgi/jeg_spack/var/spack/stage/pkg-config-0.29.2-biyt4qbpfkxcr5s6jcmonmzd7pxvvagw\r\n==> No patches needed for pkg-config\r\n==> Building pkg-config [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Successfully installed pkg-config\r\n  Fetch: 0.01s.  Build: 1m 9.26s.  Total: 1m 9.27s.\r\n[+] /usr/projects/packages/openspeedshop/jegsgi/jeg_spack/opt/spack/cray-CNL-haswell/gcc-7.2.0/pkg-config-0.29.2-biyt4qbpfkxcr5s6jcmonmzd7pxvvagw\r\n==> Installing ncurses\r\n==> Error: SyntaxError: invalid syntax (<string>, line 486)\r\nSyntaxError: SyntaxError: invalid syntax (<string>, line 486)\r\n\r\n/usr/projects/packages/openspeedshop/jegsgi/jeg_spack/lib/spack/spack/build_environment.py:684, in child_process:\r\n     27    \r\n     28                # build up some context from the offending package so we can\r\n     29                # show that, too.\r\n  >> 30                package_context = get_package_context(tb)\r\n     31    \r\n     32                build_log = None\r\n     33                if hasattr(pkg, 'log_path'):\r\n\r\n\r\n\r\njegsgi/jeg_spack> **cat ~/.spack/cray/packages.yaml** \r\npackages:\r\n   bison:\r\n      buildable: False\r\n      paths:\r\n         bison@2.7%gcc@4.9.3 arch=cray-CNL-haswell: /usr\r\n   all:\r\n      providers:\r\n         pkgconfig: [pkg-config]\r\n   mpich:\r\n      buildable: False\r\n      paths:\r\n         mpich@7.6.2%gcc@4.9.3 arch=cray-CNL-haswell: /opt/cray/pe/mpt/7.6.2/gni//mpich-gnu/5.1\r\n\r\n\r\n",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/7315",
+    "updated_at": "2018-02-22 19:19:11",
+    "created_at": "2018-02-22 03:12:09",
+    "closed_at": "2018-02-22 19:07:32",
+    "state": "closed",
+    "title": "ncurses fails to build on Cray system at LANL",
+    "number": 7315,
+    "milestone": null,
+    "labels": [],
+    "id": 299207494,
+    "html_url": "https://github.com/spack/spack/issues/7315",
+    "assignees": [],
+    "comments": 6
+}

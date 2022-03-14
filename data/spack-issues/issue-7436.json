@@ -1,0 +1,20 @@
+{
+    "body": "The nightly build that includes Mac OS is failing on `develop` as #7314 removed the option to create unsigned binary packages with `-y`. An example of a failing build log is [here](https://travis-ci.org/spack/spack/jobs/350987182). For convenience, the relevant part of the stack trace is:\r\n```console\r\n<omitted>\r\n       else:\r\n            # create build cache without signing\r\n            args = parser.parse_args(\r\n>               ['create', '-d', mirror_path, '-y', str(spec)])\r\nlib/spack/spack/test/packaging.py:160: \r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\nlib/spack/external/argparse.py:1728: in parse_args\r\n    self.error(msg % ' '.join(argv))\r\nlib/spack/external/argparse.py:2392: in error\r\n    self.exit(2, _('%s: error: %s\\n') % (self.prog, message))\r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\nself = ArgumentParser(prog='spack', usage=None, description=None, version=None, forma...lass=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)\r\nstatus = 2, message = 'spack: error: unrecognized arguments: -y\\n'\r\n    def exit(self, status=0, message=None):\r\n        if message:\r\n            self._print_message(message, _sys.stderr)\r\n>       _sys.exit(status)\r\nE       SystemExit: 2\r\nlib/spack/external/argparse.py:2380: SystemExit\r\n```\r\n\r\n### Expected Result\r\n\r\nA reassuring green light from Travis CI\r\n\r\n### Actual Result\r\n\r\nMac OS tests failing, as one of the test was not updated (see above)\r\n\r\n@gartung @scheibelp @tgamblin ",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/7436",
+    "updated_at": "2018-03-09 23:30:21",
+    "created_at": "2018-03-09 07:49:23",
+    "closed_at": "2018-03-09 23:30:20",
+    "state": "closed",
+    "title": "Mac OSx unit tests failing on develop",
+    "number": 7436,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "travis"
+    ],
+    "id": 303753118,
+    "html_url": "https://github.com/spack/spack/issues/7436",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,21 @@
+{
+    "body": "I finally came up with some sanity tests I think could be used in a pretty general way.  [The way I saw at EasyBuild, where sanity tests are based on the presence/absence of certain key files, is brittle and not very effective.]\n- For binary packages: search the install directory for any ELF files and make sure that `ldd xxx` does not yield any \"not found\" on them.  This test method could be configured to include/exclude particular files.  But by default, it would not impose any particular files being installed, just look for any ELF binaries.  Because of RPATHs, this should work with a blank LD_LIBRARY_PATH.\n- For Python packages: Look into the installed \"egg\" and make sure that the top-level packages (at least) can be imported via `python -c import xxx` (or probably better... write a short script to import everything and then run it).  Because Python doesn't (yet) have RPATH-like capabilities, Spack would have to load the correct modules to make this work... it should work if Spack loads the modules for package xxx and all its dependencies (eg: `spack module loads -r`)\n\nBoth of these sanity tests are general, and robust to arbitrary changes the package might make to what files it installs.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1950",
+    "updated_at": "2017-04-13 18:08:43",
+    "created_at": "2016-10-06 20:18:19",
+    "closed_at": "2017-04-13 18:08:43",
+    "state": "closed",
+    "title": "Good Sanity Tests",
+    "number": 1950,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "feature",
+        "tests"
+    ],
+    "id": 181514994,
+    "html_url": "https://github.com/spack/spack/issues/1950",
+    "assignees": [],
+    "comments": 1
+}

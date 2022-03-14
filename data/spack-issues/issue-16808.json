@@ -1,0 +1,22 @@
+{
+    "body": "This is more like unexpected behaviour than an actual bug, but 'bug' is the closest fit. I ran `spack mirror create --all` expecting it to mirror \"all packages in the current environment\", but it only mirrors the `user_specs` for the environment not `all_specs`.\r\n\r\nPassing through a combination of `--all --dependencies` doesn't mirror everything either.\r\n\r\nFor me the expected behaviour of `--all` or `--all --dependencies` would be to mirror everything in the current environment, so everything in `all_specs` not just `user_specs`.\r\n\r\nI made a [fork](https://github.com/RobertRosca/spack/tree/bugfix/mirror-env-dependencies) that allows you to run `spack mirror create --dependencies` to mirror everything non-external, and was going to do a PR but maybe my expectation is wrong and this is supposed to behave as it currently does :stuck_out_tongue:\r\n\r\nIs there another way to mirror everything in an environment that I'm not aware of, or is it worth me making this PR?\r\n\r\nEdit: if this does have to be a new flag, the options I can think of are:\r\n- `spack mirror --dependencies` with an environment activated fetches everything in `all_specs` (what I do in my fork); currently this throws a `No packages were specified` error so adding this in as an option wouldn't break people's existing workflows as it's new.\r\n- `spack mirror --all` with an environment activated fetches everything in `all_specs`, with a new `--user` flag that behaves the same way as `--all` currently does, might confuse people used to the current behaviour.\r\n- `spack mirror --all --dependencies` might make more sense, but it could change existing behaviour as passing `--all --dependencies` currently 'works' but ignores the flags.",
+    "user": "RobertRosca",
+    "url": "https://api.github.com/repos/spack/spack/issues/16808",
+    "updated_at": "2020-06-04 00:43:51",
+    "created_at": "2020-05-26 13:38:29",
+    "closed_at": "2020-06-04 00:43:51",
+    "state": "closed",
+    "title": "Mirror All Dependencies in Environment",
+    "number": 16808,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 624891092,
+    "html_url": "https://github.com/spack/spack/issues/16808",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

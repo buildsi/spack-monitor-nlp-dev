@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nThis is happening across our autamus builds - you can see the full output here https://github.com/autamus/registry/runs/3852451587?check_suite_focus=true and I'm attaching an example Dockerfile to reproduce (a different package but same error).\r\n```dockerfile\r\n# Build stage with Spack pre-installed and ready to be used\r\nFROM ghcr.io/spack/ubuntu-bionic:latest as builder\r\n\r\nADD repo /opt/spack/var/spack/repos/builtin/packages/\r\n\r\n# Install OS packages needed to build the software\r\nRUN apt-get -yqq update && apt-get -yqq upgrade \\\r\n && apt-get -yqq install python3-boto3 python3-dev gringo \\\r\n && rm -rf /var/lib/apt/lists/*\r\n\r\n# What we want to install and how we want to install it\r\n# is specified in a manifest file (spack.yaml)\r\nRUN mkdir /opt/spack-environment \\\r\n&&  (echo \"spack:\" \\\r\n&&   echo \"  specs:\" \\\r\n&&   echo \"  - caliper\" \\\r\n&&   echo \"  view: /opt/view\" \\\r\n&&   echo \"  packages:\" \\\r\n&&   echo \"    all:\" \\\r\n&&   echo \"      target:\" \\\r\n&&   echo \"      - x86_64_v3\" \\\r\n&&   echo \"  config:\" \\\r\n&&   echo \"    concretizer: clingo\" \\\r\n&&   echo \"    compiler:\" \\\r\n&&   echo \"      target:\" \\\r\n&&   echo \"      - x86_64_v3\" \\\r\n&&   echo \"    install_missing_compilers: true\" \\\r\n&&   echo \"    install_tree: /opt/software\" \\\r\n&&   echo \"  mirrors:\" \\\r\n&&   echo \"    autamus: s3://autamus-cache\" \\\r\n&&   echo \"  concretization: together\") > /opt/spack-environment/spack.yaml\r\n\r\n# Install the software, remove unnecessary deps\r\nRUN cd /opt/spack-environment && . /opt/spack/share/spack/setup-env.sh && spack env activate . && curl http://s3.amazonaws.com/autamus-cache/build_cache/_pgp/FFEB24B0A9D81F6D5597F9900B59588C86C41BE7.pub > key.pub && spack gpg trust key.pub && spack install --fail-fast --monitor --monitor-save-local --monitor-tags autamus; stat=$?; cd ~/.spack/reports/monitor/; tar -czvf monitor.tar.gz *; curl -F \"upload=@monitor.tar.gz\" http://localhost:4500/upload; exit $stat && spack gc -y; \r\n\r\n# Strip all the binaries\r\nRUN find -L /opt/view/* -type f -exec readlink -f '{}' \\; | \\\r\n    xargs file -i | \\\r\n    grep 'charset=binary' | \\\r\n    grep 'x-executable\\|x-archive\\|x-sharedlib' | \\\r\n    awk -F: '{print $1}' | xargs strip -s\r\n\r\n# Modifications to the environment that are necessary to run\r\nRUN cd /opt/spack-environment && \\\r\n    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh\r\n\r\n\r\n# Bare OS image to run the installed executables\r\nFROM ubuntu:18.04\r\n\r\nENV PATH=/opt/view/bin:/opt/spack/bin:$PATH\r\n\r\nCOPY --from=builder /opt/spack-environment /opt/spack-environment\r\nCOPY --from=builder /opt/software /opt/software\r\nCOPY --from=builder /opt/view /opt/view\r\nCOPY --from=builder /etc/profile.d/z10_spack_environment.sh /etc/profile.d/z10_spack_environment.sh\r\n\r\nENTRYPOINT [\"/bin/bash\", \"--rcfile\", \"/etc/profile\", \"-l\", \"-c\"]\r\n```\r\ncc @alecbcs \r\n\r\n\r\n### Error message\r\n\r\n```console\r\n #13 2.514 ==> Error: cannot bootstrap the \"clingo\" Python module from spec \"clingo-bootstrap@spack+python %gcc target=x86_64\" due to the following failures:\r\n#13 2.514     'github-actions' raised ImportError: cannot import name 'architecture'\r\n#13 2.514     Please run `spack -d spec zlib` for more verbose error messages\r\n------\r\n```\r\n\r\n### Information on your system\r\n\r\nSee container.\r\n\r\n### General information\r\n\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/26644",
+    "updated_at": "2021-10-19 04:17:55",
+    "created_at": "2021-10-10 17:35:10",
+    "closed_at": "2021-10-19 04:17:55",
+    "state": "closed",
+    "title": "Clingo bootstrap \"cannot import name architecture\"",
+    "number": 26644,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1022045028,
+    "html_url": "https://github.com/spack/spack/issues/26644",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,21 @@
+{
+    "body": "This should fix #676.\n\n@citibeth, @davydden, @alalazo, @becker33, @mplegendre and others will be interested in this.  The changes here bring `deal` concretization down to around 3 seconds from around 20.  `dealii` might be one of the most complicated packages in off-the-shelf spack.  We have larger ones internally and so does @citibeth, so hopefully this will ease their life a bit.\n\nThings in this PR (or related to it):\n- [X] e8b4d5fb6 (already in `develop` because it was a major time saver) fixes large amount of time spent in [re.Scanner](http://lucumr.pocoo.org/2015/11/18/pythons-hidden-re-gems/).  A `Lexer` (implemented with `re.Scanner`), which compiles regexes, was being constructed every time we parse a spec, and that is expensive.  Since spec parsing is a large part of evaluating directives like `depends_on`, this caused `package.py` import to take a long time.  Adding a single lexer for all parsers fixes this.\n- [X] Cache the `ProviderIndex`.  We have to import _all_ `package.py` files when we concretize specs that have virtual dependencies, because we have to find providers but we don't know which `package.py` files actually call `provides`.  The `ProviderIndex` holds that information and is now cached per package repository and automatically updated when `package.py` files are newer than the index.  It can also be updated incrementally, so updates after the first will not be very expensive.\n- [X] Lazy evaluation of `all_package_names()` so that processing small specs doesn't even look at most `package.py` files.\n- [X] Faster hash key function for compiler flags (`FlagMap`) -- uses tuples and doesn't manipulate strings.  This saves a second or so for `dealii`.\n- [X] To make the `ProviderIndex` compact, `Spec.to_yaml` won't write out empty fields in abstract specs.  This should not affect things like `spec.yaml` or the install database, as those only contain concrete specs.\n- [x] Allow ProviderIndex caches to be stored in `~/.spack/caches` when `$repo/index.yaml` is not writable.  This would let users cache providers even for multi-user spack repos.\n- [x] Tests for the new `ProviderIndex` cache.\n\nAll of these commits attack the problem that concretization (and running many spack commands) require some fairly expensive operations to happen _for every `package.py` file_.  This PR reduces the cost of these operations and avoids _O(num packages)_ operations where it can.  In the best case, only has to `stat` each `package.py` file instead of loading all of them and parsing specs.  Generally just running`stat` is pretty fast.\n\nThe concretization algorithm is still at least quadratic, but the DAGs are still small by modern standards in Spack, so this is not killing us yet.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/1015",
+    "updated_at": "2016-10-12 23:05:26",
+    "created_at": "2016-06-02 08:31:31",
+    "closed_at": "2016-08-09 17:33:40",
+    "state": "closed",
+    "title": "Faster virtuals and concretization",
+    "number": 1015,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "virtual-dependencies",
+        "performance"
+    ],
+    "id": 158086111,
+    "html_url": "https://github.com/spack/spack/pull/1015",
+    "assignees": [],
+    "comments": 7
+}

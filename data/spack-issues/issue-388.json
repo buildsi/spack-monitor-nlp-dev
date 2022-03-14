@@ -1,0 +1,19 @@
+{
+    "body": "As of now any unit test which uses Executable.call without return_output=True will cause a failure in the test framework. As it happens every unit test does this but I can imagine someone writing one and not setting return_output (default is false).\n\nSome nose plugins assign stdout to a stream object that does not have a .fileno attribute. This is required by subprocess.Popen (in executable.call). executable.call uses a pipe if return_output is true.\n\nPossible fix: detect whether stdout has a .fileno attribute and always use a pipe if so. \n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/388",
+    "updated_at": "2017-01-13 01:56:45",
+    "created_at": "2016-01-21 18:38:23",
+    "closed_at": "2017-01-13 01:56:45",
+    "state": "closed",
+    "title": "Tests invoking executable.call are fragile",
+    "number": 388,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 127991812,
+    "html_url": "https://github.com/spack/spack/issues/388",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Fixes https://github.com/numpy/numpy/issues/14180\r\n\r\n### Before\r\n\r\n```console\r\n$ otool -L /Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/blis-0.6.0-rufmzbffyfzqafiolixs4ztwdwz73adj/lib/libblis.dylib \r\n/Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/blis-0.6.0-rufmzbffyfzqafiolixs4ztwdwz73adj/lib/libblis.dylib:\r\n\tlibblis.2.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1252.250.1)\r\n```\r\n\r\n### After\r\n\r\n```console\r\n$ otool -L /Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/blis-0.6.0-v7dirtoptoe5d3vaxjb223mr6to6y3sb/lib/libblis.dylib \r\n/Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/blis-0.6.0-v7dirtoptoe5d3vaxjb223mr6to6y3sb/lib/libblis.dylib:\r\n\t/Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/blis-0.6.0-v7dirtoptoe5d3vaxjb223mr6to6y3sb/lib/libblis.2.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1252.250.1)\r\n```\r\n\r\nWith this PR, I'm finally able to build `py-numpy +blas~lapack ^blis+cblas`! All numpy unit tests pass, and library is linked correctly:\r\n```console\r\n$ otool -L /Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/py-numpy-1.17.2-pi2y57jtkngucg44dn2w5m3rgtkd2r66/lib/python3.7/site-packages/numpy/core/_multiarray_umath.cpython-37m-darwin.so \r\n/Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/py-numpy-1.17.2-pi2y57jtkngucg44dn2w5m3rgtkd2r66/lib/python3.7/site-packages/numpy/core/_multiarray_umath.cpython-37m-darwin.so:\r\n\t/Users/Adam/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.1-apple/blis-0.6.0-v7dirtoptoe5d3vaxjb223mr6to6y3sb/lib/libblis.2.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1252.250.1)\r\n```\r\nSince `--enable-cblas` is required to build `py-numpy`, I opted to switch it to `default=True` in the `blis` package.\r\n\r\n@s-sajid-ali ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12869",
+    "updated_at": "2019-09-19 03:46:38",
+    "created_at": "2019-09-18 20:30:21",
+    "closed_at": "2019-09-19 03:46:34",
+    "state": "closed",
+    "title": "blis: fix darwin install name",
+    "number": 12869,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "blas-lapack-scalapack",
+        "rpath",
+        "linking"
+    ],
+    "id": 495439362,
+    "html_url": "https://github.com/spack/spack/pull/12869",
+    "assignees": [],
+    "comments": 0
+}

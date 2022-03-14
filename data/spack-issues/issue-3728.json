@@ -1,0 +1,21 @@
+{
+    "body": "Trying to install a new own package in local (probably wrong created by myself) I got this trace error:\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"/my/path/spack/bin/spack\", line 220, in <module>\r\n    main(sys.argv)\r\n  File \"/my/path/spack/bin/spack\", line 216, in main\r\n    _main(args, unknown)\r\n  File \"/my/path/spack/bin/spack\", line 183, in _main\r\n    return_val = command(parser, args)\r\n  File \"/mnt/my/path/spack/lib/spack/spack/cmd/install.py\", line 317, in install\r\n    specs = spack.cmd.parse_specs(args.package, concretize=True)\r\n  File \"/mnt/my/path/spack/lib/spack/spack/cmd/__init__.py\", line 116, in parse_specs\r\n    spec.concretize()  # implies normalize\r\n  File \"/mnt/my/path/spack/lib/spack/spack/spec.py\", line 1681, in concretize\r\n    self._expand_virtual_packages(),\r\n  File \"/mnt/my/path/spack/lib/spack/spack/spec.py\", line 1598, in _expand_virtual_packages\r\n    spec)\r\n  File \"/mnt/my/path/spack/lib/spack/spack/concretize.py\", line 113, in choose_virtual_or_external\r\n    candidates = self._valid_virtuals_and_externals(spec)\r\n  File \"/mnt/my/path/spack/lib/spack/spack/concretize.py\", line 87, in _valid_virtuals_and_externals\r\n    if is_spec_buildable(cspec):\r\n  File \"/mnt/my/path/spack/lib/spack/spack/package_prefs.py\", line 239, in is_spec_buildable\r\n    allpkgs = get_packages_config()\r\n  File \"/mnt/my/path/spack/lib/spack/spack/package_prefs.py\", line 53, in get_packages_config\r\n    if spack.repo.is_virtual(pkg_name)]\r\n  File \"/mnt/my/path/spack/lib/spack/spack/repository.py\", line 347, in is_virtual\r\n    return pkg_name in self.provider_index\r\n  File \"/mnt/my/path/spack/lib/spack/spack/repository.py\", line 233, in provider_index\r\n    self._provider_index.merge(repo.provider_index)\r\n  File \"/mnt/my/path/spack/lib/spack/spack/repository.py\", line 652, in provider_index\r\n    self._update_provider_index()\r\n  File \"/mnt/my/path/spack/lib/spack/spack/repository.py\", line 646, in _update_provider_index\r\n    self._provider_index.to_yaml(new)\r\n  File \"/mnt/my/path/spack/lib/spack/llnl/util/lock.py\", line 312, in __exit__\r\n    if self._as.__exit__(type, value, traceback):\r\n  File \"/mnt/my/path/spack/lib/spack/spack/file_cache.py\", line 152, in __exit__\r\n    raise value\r\nTypeError: exceptions must be old-style classes or derived from BaseException, not str\r\n```\r\n\r\nThe last error comes from [here](https://github.com/LLNL/spack/blob/develop/lib/spack/spack/file_cache.py#L152). The trace suggests that `value` does not derive from an Exception class. Any idea what is happening?",
+    "user": "JavierCVilla",
+    "url": "https://api.github.com/repos/spack/spack/issues/3728",
+    "updated_at": "2022-03-02 14:48:27",
+    "created_at": "2017-04-06 12:14:10",
+    "closed_at": "2022-03-02 14:48:26",
+    "state": "closed",
+    "title": "Improve error message when package name is not consistent with Spack's conventions",
+    "number": 3728,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 219878863,
+    "html_url": "https://github.com/spack/spack/issues/3728",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 10
+}

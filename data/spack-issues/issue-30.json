@@ -1,0 +1,19 @@
+{
+    "body": "For instance, building bcftools is simply untar and make;  there is no ./configure file in the tarball.\n\nBut the spackage developer (erhm, that is me) failed to remove the default \n\n```\n    configure(\"--prefix=%s\" % prefix)\n```\n\nAs a result,\n\n```\nspack install bcftools\n```\n\nfails with\n\n```\n==> Building bcftools.\nTraceback (most recent call last):\n  File \"/n/local/sc/lib/spack/spack/build_environment.py\", line 268, in fork\n    function()\n  File \"/n/local/sc/lib/spack/spack/package.py\", line 833, in real_work\n    self.install(self.spec, self.prefix)\n  File \"/n/local/sc/var/spack/packages/bcftools/package.py\", line 40, in install\n    configure(\"--prefix=%s\" % prefix)\n  File \"/n/local/sc/lib/spack/spack/util/executable.py\", line 77, in __call__\n    stdout=subprocess.PIPE if return_output else sys.stdout)\n  File \"/usr/lib64/python2.7/subprocess.py\", line 711, in __init__\n    errread, errwrite)\n  File \"/usr/lib64/python2.7/subprocess.py\", line 1308, in _execute_child\n    raise child_exception\nOSError: [Errno 2] No such file or directory\n```\n\nCertainly 'No such file or directory' tells me something is missing.  Shouldn't it be more informative and tell me **WHAT** is missing?\n",
+    "user": "malcook",
+    "url": "https://api.github.com/repos/spack/spack/issues/30",
+    "updated_at": "2015-04-14 22:20:35",
+    "created_at": "2015-04-10 21:35:44",
+    "closed_at": "2015-04-14 22:14:32",
+    "state": "closed",
+    "title": "provide more informative error message when package.py execs non-existent binary",
+    "number": 30,
+    "milestone": null,
+    "labels": [],
+    "id": 67688659,
+    "html_url": "https://github.com/spack/spack/issues/30",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

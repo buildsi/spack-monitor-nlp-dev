@@ -1,0 +1,19 @@
+{
+    "body": "fixes #12800 \r\n\r\nWarnings in `detect_scheduler()` print out whenever the package is loaded, which  means you can see them in Spack commands that load all packages but have nothing to do with UPC++ (e.g., `spack clean -a`,  `spack dependents`, and others).\r\n\r\n- [x] Remove these and other warnings, since the scheduler is visible in the package variant anyway.\r\n\r\n- [x] Also remove the `user` scheduler option from `upcxx`, as it depends on the user's environment in a way that is not likely to be the same across systems.\r\n\r\n@bonachea, @mjacquel can you take a look at this one?  The main thing I need feedback on is what the user setting for `CROSS` can be.  Is it needed?  Can it be something other than SLURM or ALPS?  If not we should remove it.  If so, then it should be changed to be a string-valued variant, so the user can set its value in a way Spack will actually understand.   Basically we're trying to avoid environment-dependent things in Spack --  one hash should map to one build.\r\n\r\nJust for my own edification, does the UPC++  build link to different libraries depending on what CROSS is set to?  Does it actually affect the final binary somehow, or is that just a build-time thing?",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/12758",
+    "updated_at": "2019-09-23 21:28:08",
+    "created_at": "2019-09-08 02:51:10",
+    "closed_at": "2019-09-23 21:10:34",
+    "state": "closed",
+    "title": "upcxx: remove warnings from package",
+    "number": 12758,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 490703198,
+    "html_url": "https://github.com/spack/spack/pull/12758",
+    "assignees": [],
+    "comments": 3
+}

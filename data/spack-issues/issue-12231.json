@@ -1,0 +1,19 @@
+{
+    "body": "`spack setup -i <package>@<version>` results in the following error:\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"<spack prefix>/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"<spack prefix>/lib/spack/spack/main.py\", line 697, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"<spack prefix>/lib/spack/spack/main.py\", line 447, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"<spack prefix>/lib/spack/spack/cmd/setup.py\", line 166, in setup\r\n    inst_args = parser.parse_args(\r\nUnboundLocalError: local variable 'parser' referenced before assignment\r\n```\r\n\r\nThe local variable `parser` is defined inside the block:\r\n\r\n```\r\n$ cat <spack prefix>/lib/spack/spack/cmd/setup.py\r\n...\r\n        # Install dependencies if requested to do so\r\n        if not args.ignore_deps:\r\n            parser = argparse.ArgumentParser()\r\n            install.setup_parser(parser)\r\n```\r\n\r\nBut is later used outside of the scope of this `if`:\r\n\r\n```\r\n$ cat <spack prefix>/lib/spack/spack/cmd/setup.py\r\n...\r\n        # Install dependencies if requested to do so\r\n        if not args.ignore_deps:\r\n            parser = argparse.ArgumentParser()\r\n            install.setup_parser(parser)\r\n...\r\n        inst_args = copy.deepcopy(args)\r\n        inst_args = parser.parse_args(\r\n            ['--only=package', '--fake'] + args.spec,\r\n            namespace=inst_args\r\n        )\r\n```\r\n\r\nIf the user ignores dependencies, you get the error noted above.  Creating a new parser object seems to fix the issue:\r\n\r\n```\r\ndiff --git a/lib/spack/spack/cmd/setup.py b/lib/spack/spack/cmd/setup.py\r\nindex aa391b2..668440d 100644\r\n--- a/lib/spack/spack/cmd/setup.py\r\n+++ b/lib/spack/spack/cmd/setup.py\r\n@@ -45,7 +45,7 @@ def setup_parser(subparser):\r\n def spack_transitive_include_path():\r\n     return ';'.join(\r\n         os.path.join(dep, 'include')\r\n-        for dep in os.environ['SPACK_DEPENDENCIES'].split(os.pathsep)\r\n+        for dep in os.environ.get('SPACK_DEPENDENCIES', '').split(os.pathsep)\r\n     )\r\n\r\n\r\n@@ -162,6 +162,8 @@ def setup(self, args):\r\n\r\n         # Install this package to register it in the DB and permit\r\n         # module file regeneration\r\n+        parser = argparse.ArgumentParser()\r\n+        install.setup_parser(parser)\r\n         inst_args = copy.deepcopy(args)\r\n         inst_args = parser.parse_args(\r\n             ['--only=package', '--fake'] + args.spec,\r\n```\r\n\r\nThis diff also include a fix for the case that `SPACK_DEPENDENCIES` does not exist in `os.environ`",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/12231",
+    "updated_at": "2020-09-02 01:07:49",
+    "created_at": "2019-08-01 19:02:35",
+    "closed_at": "2020-09-02 01:07:49",
+    "state": "closed",
+    "title": "spack setup broken if ignore_deps is requested",
+    "number": 12231,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 475840360,
+    "html_url": "https://github.com/spack/spack/issues/12231",
+    "assignees": [],
+    "comments": 0
+}

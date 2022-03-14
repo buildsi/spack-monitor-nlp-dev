@@ -1,0 +1,40 @@
+{
+    "body": "This PR ensures that the package hash is consistent across Python versions, and adds a lot of tests to ensure that.  It also makes the package hash less sensitive, to avoid superfluous rebuilds in CI.\r\n\r\nNow that we have #25310 (reusing installed packages), we want to make Spack hashes more fine-grained to preserve provenance.  To do that we want to switch to using full hashes everywhere.  Full hashes include all build dependencies, a hash of the canonicalized package file, and the hashes of artifacts and patches used in the build.\r\n\r\nThe existing full hash worked by editing the AST of a `package.py` file, removing multimethods (where statically possible b/c we know they won't be triggered), and stripping comments, docstrings, and directives.  Comments and docstrings don't affect the build, and directives are represented by other metadata on the spec.  Once all these modifications were done, we dumped the `repr()` of the AST and hashed that.\r\n\r\nThere were a few problems with the old package hash:\r\n1. The AST changes pretty frequently from Python version to Python version, and so does its `repr()`.  So, Spack running under Python 2.7, 3.5, and 3.8 may calculate entirely different full hashes for the same `package.py` file.  This isn't as big a deal *right now*, but it needs to be fixed if we are going to move to full hashes.\r\n2. Static multimethod reosolution (removing multi-methods if we know they won't be used) was not working in all cases in the previous version of the hash, and there weren't a lot of tests for it.  This resulted in the old package hash stripping *any* function with a decorator from the canonical representation, so we would lose some functions that affected builds.\r\n3. The old docstring remover would only strip the first free-standing string in a module/class/method.  We want to strip all of them (a few packages had extra strings lying around).\r\n4. The old package hash would not remove directive nested in complex logic at the package level (`if`, `for`, `with when()`, etc.), and that constitutes a lot of logic for some packages, even when all the loops are doing is setting up complex directives.  \r\n5. The old package hash was considering changes to `maintainers` and `tags`, and we really don't want those to require a rebuild.  \r\n\r\nThis PR makes the following modifications:\r\n\r\n- [x] To solve the AST issue, add `spack.util.unparse`, which regenerates Python source code from a parsed AST.  This is based on https://github.com/simonpercivall/astunparse, which is consistent across Python 2.7-3.8, with back ports from the new `ast.unparse` function in Python 3.9+.\r\n    * The `unparse()` method implemented here is consistent for Python 2.7 and 3.5-3.10.\r\n    * We added a `py_ver_consistent=True` argument to `unparse()`, which handles the following cases:\r\n         * Ensure that `*args` and `**kwargs` are last in function calls, for consistency with the Python 2 AST (which has no idea what position they're in)\r\n         * Always unparse `print()` as a function (Python 2's AST treats it as its own statement) and do *not* differentiate between `print(a, b, c)` and `print((a, b, c))`.  These have different semantics in Python 2 and Python 3, but they almost certainly do not affect the results of builds, so switching between them won't affect the package hash.\r\n         * Unparse unicode literals the way Python 2 would.  Basically, this means that all non-ASCII characters will use `\\x` encoding in output, and unicode literals will be unparsed with a `u` prefix.\r\n    * Our `unparse()` is consistent with `ast.unparse()` when `py_ver_consistent` is not used, so that we *may* be able to switch to the builtin `ast.unparse()` one day (if we ever only support Python 3.9+).  This is done with backports of things like `ast.unparse`'s parenthesis precedence algorithm.\r\n    * Add some tests that guarantee that packages will have the same hash across different python versions.\r\n- [x] Fix multimethod resolution in `package_hash.py` to preserve non-`when` decorators, and handle dynamic `@when` statements better. Add a bunch of tests for this.\r\n- [x] Fix docstring stripping to remove any free-standing string in a `package.py` file.  This is safe as these strings are used as comments -- they don't affect build results.\r\n- [x] Add some new commands to deal with package hashes:\r\n    * `spack pkg source <spec>`: dump source for a `package.py` file\r\n    * `spack pkg source --canonical <spec>`: dump canonical source for a `package.py` file, with comments and docstrings stripped and multimethods removed.\r\n    * `spack pkg hash <spec>`: print the canonical package hash for the spec.\r\n- [x] Remove the old AST-dump-based `package_hash` and use the new, stable `unparse`-based one.\r\n- [x] New unparser descends into control logic a the package level and removes anything (loops, ifs, with statements) that is comprised only of directives.  This makes the package hash less sensitive.\r\n- [x] Added more attributes for removal (`maintainers`, `tags`) to make the hash less sensitive.\r\n\r\nI've verified that this is consistent for Python 2.7 and 3.5-3.10 across all Spack packages by unparsing them and comparing their canonicalized source.  The test packages in `lib/spack/spack/test/data/unparse` and the `test_package_hash_consistency()` test are meant to preserve this with some spot checks of interesting cases.\r\n\r\nThis should trigger a large CI rebuild on *this PR*, but it may reduce CI churn in the future (though I think CI was only using one version of Python, so maybe not).",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/28156",
+    "updated_at": "2022-01-12 14:14:19",
+    "created_at": "2021-12-24 00:51:42",
+    "closed_at": "2022-01-12 14:14:18",
+    "state": "closed",
+    "title": "Make the package hash consistent",
+    "number": 28156,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "new-version",
+        "hashes",
+        "dependencies",
+        "virtual-dependencies",
+        "tests",
+        "commands",
+        "resources",
+        "directives",
+        "patch",
+        "update-package",
+        "conflicts",
+        "libraries",
+        "headers",
+        "utilities",
+        "vendored-dependencies",
+        "maintainers",
+        "new-variant",
+        "stand-alone-tests",
+        "extends"
+    ],
+    "id": 1088068709,
+    "html_url": "https://github.com/spack/spack/pull/28156",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,24 @@
+{
+    "body": "### Steps to reproduce\n\nSpack's GCC install hardwires (through the `specs` file) the linker to adding an rpath entry to GCC's library dir, so that compiled binaries get the right `libstdc++` etc. This is mostly necessary because Spack doesn't currently treat spack-compiled compilers as part of the spec (you can't install `zlib %gcc@8.3 % gcc@4.8` where 4.8 is the system compiler and 8.3 is built by spack): otherwise, you could have GCC add a runtime environment flag to append rpaths to the LDFLAGS.\r\n\r\nThe problem I'm having is that CMake isn't able to detect this sneaky compiler-added rpath entry when attempting to set the install rpath, so when I ask for the install rpaths to be set to `$ORIGIN/../lib` it actually ends up as `/spack/gcc/lib:$ORIGIN/../lib`. So what I'd *like* to do is add the ability to build *without* forcibly adding this rpath.\r\n\r\nI think what I will do is have the GCC package *move* the default `specs` to `specs.norpath` and then write a new `specs` file:\r\n```\r\n%include <specs.norpath>\r\n\r\n%rename link orig_link\r\n\r\n*link:\r\n-rpath ${GCC}/lib:${GCC}/lib64 $(orig_link)\r\n```\r\n\r\nSee [kitware/cmake/cmake#22730](https://gitlab.kitware.com/cmake/cmake/-/issues/22730)\n\n### Error message\n\n```\r\n$ patchelf --print-rpath bin/foo\r\n/projects/spack/opt/spack/gcc-4.4.7/gcc/punpbku/lib:/projects/spack/opt/spack/gcc-4.4.7/gcc/punpbku/lib64:$ORIGIN/../lib64\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.2-3016-1fd1f1c93f\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-rhel6-broadwell\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/26582",
+    "updated_at": "2021-10-24 17:46:53",
+    "created_at": "2021-10-07 18:39:57",
+    "closed_at": "2021-10-24 17:46:53",
+    "state": "closed",
+    "title": "GCC rpath installation in specs has unintended consequences",
+    "number": 26582,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "rpath",
+        "gcc",
+        "triage"
+    ],
+    "id": 1020346013,
+    "html_url": "https://github.com/spack/spack/issues/26582",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 3
+}

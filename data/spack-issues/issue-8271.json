@@ -1,0 +1,20 @@
+{
+    "body": "I would love to slap the first person who thought 0-based indexing was a good idea...\r\n\r\nFixes the following bugs:\r\n\r\n- [x] `>>` points to the line number _after_ the line where the error actually occurs\r\n- [x] the line number in `package.py:lineno` was off by one\r\n- [x] the line numbers displayed in context were the line numbers of the function, not the line numbers of the file\r\n\r\n### Before\r\n\r\n```\r\n==> Error: KeyError: 'No spec with name geos in gdal...'\r\n\r\n/Users/Adam/spack/var/spack/repos/builtin/packages/gdal/package.py:269, in configure_args:\r\n     126   \r\n     127           if '+geos' in spec:\r\n     128               args.append('--with-geos={0}'.format(spec['geos'].prefix))\r\n  >> 129           else:\r\n     130               args.append('--with-geos=no')\r\n     131   \r\n     132           if '+qhull' in spec:\r\n\r\nSee build log for details:\r\n  /Users/Adam/spack/var/spack/stage/gdal-2.3.0-2twd2kcvmb6cnvb3ku4y3h5lh7i6vi4j/gdal-2.3.0/spack-build.out\r\n```\r\nFor reference, the bug actually occurs on line 268 of the file, not 269 or 129.\r\n\r\n### After\r\n\r\n```\r\n==> Error: KeyError: 'No spec with name geos in gdal...'\r\n\r\n/Users/Adam/spack/var/spack/repos/builtin/packages/gdal/package.py:268, in configure_args:\r\n     265               args.append('--with-pcre=no')\r\n     266   \r\n     267           if '+geos' in spec:\r\n  >> 268               args.append('--with-geos={0}'.format(spec['geos'].prefix))\r\n     269           else:\r\n     270               args.append('--with-geos=no')\r\n     271   \r\n\r\nSee build log for details:\r\n  /Users/Adam/spack/var/spack/stage/gdal-2.3.0-2twd2kcvmb6cnvb3ku4y3h5lh7i6vi4j/gdal-2.3.0/spack-build.out\r\n```\r\nIt now uses the correct line numbers to highlight the bug.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8271",
+    "updated_at": "2018-06-03 16:58:03",
+    "created_at": "2018-05-24 22:52:57",
+    "closed_at": "2018-06-03 03:53:18",
+    "state": "closed",
+    "title": "Fix package error message line numbers",
+    "number": 8271,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "error-messages"
+    ],
+    "id": 326324181,
+    "html_url": "https://github.com/spack/spack/pull/8271",
+    "assignees": [],
+    "comments": 2
+}

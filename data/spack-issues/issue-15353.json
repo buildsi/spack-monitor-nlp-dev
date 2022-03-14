@@ -1,0 +1,20 @@
+{
+    "body": "https://github.com/spack/spack/pull/14414\r\nWith this pull request, binaries are optimized for release builds, and the following optimization flags are now referenced when using Fujitsu compiler. \r\n```\r\nspack-src/Modules/Compiler/GNU.cmake\r\n  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT \" -O3 -DNDEBUG\")\r\n```\r\nHowever Fujitsu compiler@4.0.0 can' t build `cmake` with `-O3` optimization flags, because it got following error.\r\n```\r\n[ 22%] Building C object Tests/RunCMake/CMakeFiles/pseudo_cppcheck.dir/pseudo_cppcheck.c.o\r\n/\uff5e/libLLVMSupport.so.6(_ZN4llvm3sys15PrintStackTraceERNS_11raw_ostreamE+0x28)[0xffffaa9a0888]\r\nStack dump:\r\n0.      Program arguments: \uff5e\r\n1.      <eof> parser at end of file\r\n2.      Per-module optimization passes\r\n3.      Running pass 'CallGraph Pass Manager' on module '/tmp/pytest-of-ogura/pytest-77/mock-stage0/spack-stage-cmake-3.16.2-nbu3bjflndl6vew3miollwl6cvybjsar/spack-src/Utilities/cmzstd/lib/compress/zstd_opt.c'.\r\n4.      Running pass 'Loop Pass Manager' on function '@ZSTD_compressBlock_opt_generic'\r\n5.      Running pass 'Tree Height Reduction' on basic block '%7102'\r\nScanning dependencies of target pseudo_tidy\r\n```\r\nSo, I changed optimization flags to `O2` from `O3` only when using Fujitsu compiler@4.0.0.",
+    "user": "t-karatsu",
+    "url": "https://api.github.com/repos/spack/spack/issues/15353",
+    "updated_at": "2021-09-16 10:41:52",
+    "created_at": "2020-03-05 10:18:46",
+    "closed_at": "2021-09-16 10:41:51",
+    "state": "closed",
+    "title": "cmake: change optimization flags for fj@4.0.0",
+    "number": 15353,
+    "milestone": null,
+    "labels": [
+        "cmake",
+        "fujitsu"
+    ],
+    "id": 576142417,
+    "html_url": "https://github.com/spack/spack/pull/15353",
+    "assignees": [],
+    "comments": 9
+}

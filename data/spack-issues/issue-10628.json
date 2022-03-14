@@ -1,0 +1,23 @@
+{
+    "body": "\u2026not work\r\n\r\nfor\r\n```\r\n  intel-mpi:\r\n    version: [2018.3.222]\r\n    paths:\r\n      intel-mpi@2018.3.222%intel@18.0.3: /apps/intel/ComposerXE2018/\r\n    buildable: False\r\n```\r\n\r\nto work with\r\n\r\n```\r\n$ ls /apps/intel/ComposerXE2018/\r\nbin                      compilers_and_libraries_2018        compilers_and_libraries_2018.2.199  daal           documentation_2018  imb   include  itac  man  parallel_studio_xe_2018        pstl          tbb\r\ncompilers_and_libraries  compilers_and_libraries_2018.1.163  compilers_and_libraries_2018.3.222  debugger_2018  ide_support_2018    impi  ipp      lib   mkl  parallel_studio_xe_2018.3.051  samples_2018  uninstall\r\n```\r\n\r\nwe shall NOT unconditionally add neither `include` nor `lib` in this case. `IntelPackage` is [clever enough](https://github.com/spack/spack/blob/develop/lib/spack/spack/build_systems/intel.py#L918-L951) to dig into `compilers_and_libraries_2018.3.222` and setup `libs()` and `headers()` correctly.\r\n\r\n\r\nfollow up to https://github.com/spack/spack/pull/10622",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/10628",
+    "updated_at": "2021-02-19 08:54:08",
+    "created_at": "2019-02-16 06:09:23",
+    "closed_at": "2021-02-19 08:54:08",
+    "state": "closed",
+    "title": "build environment: fallback to default prefix.lib only if libs() did \u2026",
+    "number": 10628,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "intel",
+        "bugfix"
+    ],
+    "id": 411034758,
+    "html_url": "https://github.com/spack/spack/pull/10628",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

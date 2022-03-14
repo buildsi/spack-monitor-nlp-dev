@@ -1,0 +1,29 @@
+{
+    "body": "This PR proposes to add a new optional section to the packages configuration.  Through this section, users can amend the set of environment modifications that are applied to a spec's `build` and `run` environments.\r\n\r\nThe motivating use case for this proposal is for external hardware-accelerated opengl implementations where the API calls are dispatched dynamically using [libglvnd](https://github.com/NVIDIA/libglvnd).  These are examples of external packages that would need to set environment variables at build and/or run time for correct operation.\r\n\r\nThis PR proposes to extend the packages configuration so users may customize build and/or run environments for these and other packages without having to write a modulefile.\r\n\r\nThe following is an example of a packages configuration that is supported by the current implementation.  This PR seeks feedback on the syntax of the configuration as well as the implementation:\r\n\r\n```Yaml\r\n---\r\npackages:\r\n  all:\r\n    env:\r\n      target=x86_64:\r\n        - [\"set\", \"ABC\", \"123\"]\r\n        - [\"unset\", \"XYZ\"]\r\n        - build:\r\n          - [\"append_path\", \"BUILD_ABC\", \"BUILD_123\"] # build environment only\r\n          - ... other build-only settings ...\r\n        - run:\r\n          - [\"prepend_path\", \"RUN_ABC\", \"RUN_123\"] # run environment only\r\n          - ... other run-only settings ...\r\n        - ... other settings (both build and run environments) ...\r\n\r\n  opengl:\r\n    buildable: False\r\n    path:\r\n      \"opengl +glvnd\": /usr/local/nvidia/...\r\n    env:\r\n      \"opengl +glvnd\":\r\n        - run:\r\n          - [\"set\", \"__GLX_VENDOR_LIBRARY_NAME\", \"nvidia\"]\r\n          - [\"set\", \"__EGL_VENDOR_LIBRARY_FILENAMES\", \"30_nvidia.json\"]\r\n          - - set\r\n            - __EGL_VENDOR_LIBRARY_DIRS\r\n            - /usr/.../share/glvnd/egl_vendor.d\r\n```\r\n",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/13525",
+    "updated_at": "2022-02-11 11:21:22",
+    "created_at": "2019-10-31 19:33:26",
+    "closed_at": "2022-02-11 11:21:21",
+    "state": "closed",
+    "title": "[RFC] Package Environment Configuration",
+    "number": 13525,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "configuration",
+        "build-environment",
+        "external-packages",
+        "proposal",
+        "RFC",
+        "ecp",
+        "opengl",
+        "yaml"
+    ],
+    "id": 515690682,
+    "html_url": "https://github.com/spack/spack/pull/13525",
+    "assignees": [
+        "opadron"
+    ],
+    "comments": 4
+}

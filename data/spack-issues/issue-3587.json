@@ -1,0 +1,21 @@
+{
+    "body": "PythonPackage now builds flat installs instead of egg directories.\r\n\r\n@dhmunro noticed that eggs cause extra filesystem operations and more poking around on `sys.path`, which will cause slowdowns on HPC runs.  Yes, you can use [Spindle](http://computation.llnl.gov/projects/spindle) for that, and we do, but there are other good reasons to use a flat layout instead of eggs:\r\n\r\n1. Spack doesn't need eggs -- it manages its own directories and symlinks extensions into place.\r\n\r\n2. Eggs are deprecated for wheels, and wheels install flat.\r\n\r\n3. We don't *have* to do all the `easy-install.pth` merging (#3569, #3583), though we should still support that for packages that want to override this behavior for some reason.\r\n\r\nWe now supply the --single-version-externally-managed argument to `setup.py install` for setuptools packages and setuptools.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/3587",
+    "updated_at": "2018-03-07 20:02:50",
+    "created_at": "2017-03-28 16:58:23",
+    "closed_at": "2017-04-22 06:35:03",
+    "state": "closed",
+    "title": "Don't build eggs.",
+    "number": 3587,
+    "milestone": "v0.11.0",
+    "labels": [
+        "python",
+        "performance",
+        "extensions"
+    ],
+    "id": 217626718,
+    "html_url": "https://github.com/spack/spack/pull/3587",
+    "assignees": [],
+    "comments": 25
+}

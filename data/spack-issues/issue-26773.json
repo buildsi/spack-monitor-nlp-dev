@@ -1,0 +1,22 @@
+{
+    "body": "phist is a required part of spack GitLab CI pipelines. In them, `mpich` is requested to provide 'mpi' like this:\r\n```py\r\nspack install phist ^mpich %gcc@7.5.0\r\n```\r\nFailure of this command to succeed breaks spack's gitlab CI pipelines.\r\n\r\nphist-1.9.6 updated from the older \"use mpi\" to the newer \"use mpi_f08\" (MPI3.1):\r\n* The motivation was fixing it on Cray: https://github.com/spack/spack/issues/26002\r\n* Documentation: https://www.mpi-forum.org/docs/mpi-3.1/mpi31-report/node408.htm\r\n\r\nBut, mpich does not provide mpi_f08.mod with gfortran-[789], it needs gfortran>=10: https://stackoverflow.com/questions/65750862\r\n\r\nTis means, as long as spack GitLab CI pipelines use `^mpich %gcc@7.5.0`, we cannot use `phist@1.9.6` in them.\r\n\r\nI personlally guess moving the gitlab pipelines and E4S to **openmpi** would be the best solution, which is the default also, but I don't know if that is possible.\r\n\r\n### Note:\r\n\r\nThe tests of all `phist` versions run into timeouts when **`^mpich`** is used. With **`^openmpi`**, they work.\r\n\r\nI added all needed ingredents to run them with **`spack install --test=root`**, with the previous PR:\r\n\r\nThis means that the test timeouts with **`^mpich`** are easy to confirm and reproduce now.",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26773",
+    "updated_at": "2021-10-17 01:12:03",
+    "created_at": "2021-10-15 22:03:39",
+    "closed_at": "2021-10-16 18:18:08",
+    "state": "closed",
+    "title": "[Fix for the GitLab CI] phist: prefer @1.9.5 (1.9.6 is not compatible w/ mpich%gcc:9)",
+    "number": 26773,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package"
+    ],
+    "id": 1027852468,
+    "html_url": "https://github.com/spack/spack/pull/26773",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 8
+}

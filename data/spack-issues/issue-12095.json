@@ -1,0 +1,19 @@
+{
+    "body": "When leveraging the `definitions` found int he Spack Stacks enhancement I encounter a `Invalid character` error after successful concretization. This only occurs in an environment with a definition reference in the spec (e.g. `$first` from the https://spack.readthedocs.io/en/latest/environments.html#spec-list-references).\r\n\r\nThis occurs with both Python 2.7.5 and 3.7.3\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cat spack.yaml\r\nspack:\r\n  definitions:\r\n    - first: [libelf, libdwarf]\r\n    - compilers: ['%gcc@4.8.5']\r\n    - second:\r\n      - $first\r\n      - matrix:\r\n        - [zlib]\r\n        - [$compilers]\r\n  specs:\r\n    - $second\r\n    - cmake\r\n\r\n$ spack concretize\r\n==> Error: Invalid character\r\n```\r\n\r\n### Error Message\r\n```console\r\n$ spack --debug concretize\r\n...\r\n==> [2019-07-23-09:09:34.269444] LexError: Invalid character\r\n==> [2019-07-23-09:09:34.269503] Error: Invalid character\r\nTraceback (most recent call last):\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/main.py\", line 697, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/main.py\", line 447, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/cmd/concretize.py\", line 22, in concretize\r\n    env.write()\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/environment.py\", line 1242, in write\r\n    Spec(s) in speclist.specs]\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/spec.py\", line 949, in __init__\r\n    spec_list = SpecParser(self).parse(spec_like)\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/parse.py\", line 151, in parse\r\n    self.setup(text)\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/parse.py\", line 148, in setup\r\n    self.push_tokens(self.lexer.lex(text))\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/parse.py\", line 86, in lex\r\n    tokens = self.lex_word(word)\r\n  File \"/Users/pbryant/Development/40-ECP/spack/lib/spack/spack/parse.py\", line 79, in lex_word\r\n    raise LexError(\"Invalid character\", word, word.index(remainder))\r\nspack.parse.LexError: Invalid character\r\n```",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/12095",
+    "updated_at": "2019-08-06 19:53:42",
+    "created_at": "2019-07-23 15:14:15",
+    "closed_at": "2019-08-06 19:53:42",
+    "state": "closed",
+    "title": "Invalid character error when referencing definitions in an environment's spec",
+    "number": 12095,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 471757742,
+    "html_url": "https://github.com/spack/spack/issues/12095",
+    "assignees": [],
+    "comments": 0
+}

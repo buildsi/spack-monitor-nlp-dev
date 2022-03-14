@@ -1,0 +1,21 @@
+{
+    "body": "When playing around with Spack 0.11.0 to compare it with other software installation tools (for my upcoming talk https://fosdem.org/2018/schedule/event/installing_software_for_scientists/), I was benchmarking FFTW installations and noticed that the FFTW installed by Spack was *very* slow.\r\n\r\nIt turns out that FFTW is being installed without any optimisation flags, which is quite bad since the default for GCC is to compile with `-O0` (i.e. no optimisation), as opposed to other compilers like Intel which default to using `-O2`.\r\n\r\nI consulted the Spack Slack channel, and @alalazo confirmed that he was seeing the same issue when using Spack 0.11.0 (but not current `develop`).\r\n\r\n### Expected Result\r\n\r\n* FFTW is built with optimisations\r\n* FFTW benchmark runs in about 5 seconds\r\n\r\n### Actual Result\r\n\r\n* FFTW is built without optimisations\r\n* FFTW benchmark runs in > 30 seconds\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install fftw\r\nspack load fftw@3.3.6-pl2\r\n```\r\n\r\n```console\r\ncurl -OL http://micro.stanford.edu/mediawiki/images/a/a9/Simple_example.tar\r\ntar xfv Simple_example.tar\r\ncd simple_example\r\nsed -i'' 's/\\(N[01] =\\) [0-9]*/\\1 8192/g' simple_example.c\r\ngcc -O2 -march=native simple_example.c -lfftw3 -o simple_example -lm\r\ntime ./simple_example\r\n```\r\n\r\n### Information on your system\r\n\r\n* CentOS 7.4 (system compiler is GCC 4.8.5)\r\n* Intel E5-2680v3 (Haswell-EP) 2.5GHz, 64GB RAM\r\n* Spack 0.11.0 (default configuration)",
+    "user": "boegel",
+    "url": "https://api.github.com/repos/spack/spack/issues/6999",
+    "updated_at": "2018-01-20 21:35:31",
+    "created_at": "2018-01-19 15:04:45",
+    "closed_at": "2018-01-20 21:35:31",
+    "state": "closed",
+    "title": "FFTW installed with Spack 0.11.0 gets built without optimisations",
+    "number": 6999,
+    "milestone": null,
+    "labels": [
+        "performance",
+        "releases",
+        "regression"
+    ],
+    "id": 290004388,
+    "html_url": "https://github.com/spack/spack/issues/6999",
+    "assignees": [],
+    "comments": 3
+}

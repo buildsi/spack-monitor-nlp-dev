@@ -1,0 +1,22 @@
+{
+    "body": "The [containerize feature](https://github.com/spack/spack/pull/14202) should allow more customization of the container spec file.\r\n\r\n### Rationale\r\n\r\nConsider the use case of an application container to be run multi-node over InfiniBand.  The MPI library needs to be built with fabric support.  E.g.,\r\n\r\n```\r\nspack:\r\n  specs:\r\n  - gromacs@2019.4 build_type=Release\r\n  - openmpi@3.1.4 fabrics=verbs\r\n  - fftw precision=float\r\n  packages:\r\n    all:\r\n      target: [broadwell]\r\n\r\n  container:\r\n    format: docker\r\n\r\n    base:\r\n      image: \"ubuntu:16.04\"\r\n      spack: develop\r\n\r\n    strip: true\r\n\r\n    os_packages:\r\n    - libgomp1\r\n```\r\n\r\nThis container build will fail because the IB verbs packages are not present in the container base image.\r\n\r\n### Description\r\n\r\nThe set of base images is highly restricted, so the option of using a custom base image with the IB libraries already included is not allowed.\r\n\r\nThe `os_packages` section applies only to the runtime stage of the spec, not the build stage.  Regardless, the packages are installed after spack, not before as would be necessary in this case.\r\n\r\nThe `extra_instructions` `build` section is executed after spack, so it's also not an option.\r\n\r\nBased on the failed approaches, there are 3, not mutually exclusive, potential containerize enhancements.\r\n\r\n1. Remove the base image restriction.  Perhaps display a warning if a custom base image is selected, but don't disallow it outright.\r\n\r\n2. Extend the `os_packages` section to include `build` and `runtime` sections.  E.g.,\r\n```\r\n  os_packages:\r\n    build: libibverbs-dev\r\n    runtime: libibverbs\r\n```\r\n\r\nThe behavior should also be changed to install the packages before spack, not after.\r\n\r\n3. Add a new `extra_instructions` section that is inserted prior to spack, e.g., `prebuild` or `setup`.\r\n```\r\n  extra_instructions:\r\n    prebuild: RUN apt-get update -y && apt-get install libibverbs-dev \r\n```\r\n\r\nMy suggestion would be 2 to address this particular use case, but 3 would be a more general, if less user friendly, solution.  \r\n",
+    "user": "samcmill",
+    "url": "https://api.github.com/repos/spack/spack/issues/14802",
+    "updated_at": "2020-11-17 19:25:14",
+    "created_at": "2020-02-06 21:49:09",
+    "closed_at": "2020-11-17 19:25:14",
+    "state": "closed",
+    "title": "Additional containerize spec file customization",
+    "number": 14802,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "containers"
+    ],
+    "id": 561290144,
+    "html_url": "https://github.com/spack/spack/issues/14802",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

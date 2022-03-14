@@ -1,0 +1,20 @@
+{
+    "body": "I have the following in `~/.spack/packages.py`:\r\n```python\r\npackages:\r\n    cmake:\r\n        version: [3.1.0]\r\n```\r\nHowever, spack quietly ignores it\r\n```bash\r\n$ spack spec -I cmake\r\n...\r\nConcretized\r\n--------------------------------\r\n     cmake@3.6.1%gcc@6.2.1~doc+ncurses+openssl+ownlibs~qt arch=linux-fedora24-x86_64\r\n         ^ncurses@6.0%gcc@6.2.1 arch=linux-fedora24-x86_64\r\n         ^openssl@1.0.2j%gcc@6.2.1 arch=linux-fedora24-x86_64\r\n             ^zlib@1.2.8%gcc@6.2.1 arch=linux-fedora24-x86_64\r\n\r\n$ spack install -v --fake cmake\r\n==> Installing cmake\r\n==> Installing ncurses\r\n==> Building ncurses [Package]\r\n==> Successfully installed ncurses\r\n  Fetch: .  Build: 0.05s.  Total: 0.05s.\r\n[+] /home/xap/code/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/ncurses-6.0-7abjubw7hxme3k7dufbfuc2jw3b2tajv\r\n==> Installing openssl\r\n==> Installing zlib\r\n==> Building zlib [AutotoolsPackage]\r\n==> Successfully installed zlib\r\n  Fetch: .  Build: 0.05s.  Total: 0.05s.\r\n[+] /home/xap/code/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/zlib-1.2.8-ybm75pptqd3rhst5z73hbaqmkhbdqvpn\r\n==> Building openssl [Package]\r\n==> Successfully installed openssl\r\n  Fetch: .  Build: 0.06s.  Total: 0.06s.\r\n[+] /home/xap/code/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/openssl-1.0.2j-zikexdynkn4gigubc62d6fnq6rmf4wm7\r\n==> Building cmake [Package]\r\n==> Successfully installed cmake\r\n  Fetch: .  Build: 0.09s.  Total: 0.09s.\r\n[+] /home/xap/code/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/cmake-3.6.1-nyaqkijdsnrnb5j3ecrowtul6u3m7u7f\r\n```\r\nIf I explicitly add 3.1.0 checsum \r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/cmake/package.py b/var/spack/repos/builtin/packages/cmake/package.py\r\nindex 93bdb72..d0f64d7 100644\r\n--- a/var/spack/repos/builtin/packages/cmake/package.py\r\n+++ b/var/spack/repos/builtin/packages/cmake/package.py\r\n@@ -39,6 +39,7 @@ class Cmake(Package):\r\n     version('3.4.3',    '4cb3ff35b2472aae70f542116d616e63')\r\n     version('3.4.0',    'cd3034e0a44256a0917e254167217fc8')\r\n     version('3.3.1',    '52638576f4e1e621fed6c3410d3a1b12')\r\n+    version('3.1.0',    '188eb7dc9b1b82b363bc51c0d3f1d461')\r\n     version('3.0.2',    'db4c687a31444a929d2fdc36c4dfb95f')\r\n     version('2.8.10.2', '097278785da7182ec0aea8769d06860c')\r\n```\r\nthe behaviour changes to the expected one\r\n```bash\r\n$ spack spec -I cmake\r\nConcretized\r\n--------------------------------\r\n[+]  cmake@3.1.0%gcc@6.2.1~doc+ncurses+openssl+ownlibs~qt arch=linux-fedora24-x86_64\r\n[+]      ^ncurses@6.0%gcc@6.2.1 arch=linux-fedora24-x86_64\r\n[+]      ^openssl@1.0.2j%gcc@6.2.1 arch=linux-fedora24-x86_64\r\n[+]          ^zlib@1.2.8%gcc@6.2.1 arch=linux-fedora24-x86_64\r\n\r\n$ spack install -v --fake cmake\r\n==> cmake is already installed in /home/xap/code/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/cmake-3.1.0-gyssgl5imzkcrbyjkzhx7yxuenwbfhth\r\n```\r\n\r\nIt looks as a bug with a clear workaround, i.e. one should add used versions checksums.",
+    "user": "aprokop",
+    "url": "https://api.github.com/repos/spack/spack/issues/2360",
+    "updated_at": "2022-03-02 14:41:15",
+    "created_at": "2016-11-18 16:35:35",
+    "closed_at": "2022-03-02 14:41:15",
+    "state": "closed",
+    "title": "spack ignores version if it is not checksummed",
+    "number": 2360,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization"
+    ],
+    "id": 190363213,
+    "html_url": "https://github.com/spack/spack/issues/2360",
+    "assignees": [],
+    "comments": 4
+}

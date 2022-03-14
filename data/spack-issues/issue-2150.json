@@ -1,0 +1,22 @@
+{
+    "body": "`packages.yaml` has following:\n\n``` bash\n  cmake:\n       modules:\n           cmake@2.8.12: cmake/2.8.12\n       version: [2.8.12]\n       buildable: False\n```\n\nAnd `spack install` for some package gives:\n\n``` bash\n==> Installing cmake\n==> Warning: There is no checksum on file to fetch cmake@2.8.12 safely.\n\u00a0Fetch anyway? [y/N] Traceback (most recent call last):\n\u00a0File \"/somepath/spack/bin/spack\", line 192, in <module>\n\u00a0\u00a0\u00a0main()\n\u00a0File \"/somepath/spack/bin/spack\", line 169, in main\n\u00a0\u00a0\u00a0return_val = command(parser, args)\n\u00a0File \"/somepath/spack/lib/spack/spack/cmd/install.py\", line 117, in install\n\u00a0\u00a0\u00a0package.do_install(**kwargs)\n\u00a0File \"/somepath/spack/lib/spack/spack/package.py\", line 1183, in do_install\n\u00a0\u00a0\u00a0dirty=dirty)\n\u00a0File \"/somepath/spack/lib/spack/spack/package.py\", line 1268, in do_install\n\u00a0\u00a0\u00a0spack.build_environment.fork(self, build_process, dirty=dirty)\n\u00a0File \"/somepath/spack/lib/spack/spack/build_environment.py\", line 550, in fork\n\u00a0\u00a0\u00a0raise exception\nEOFError: EOF when reading a line\n```\n\nI change that `modules` to `paths` as:\n\n``` bash\n   cmake:\n       paths:\n           cmake@2.8.12:/somepathotherpath/cmake/cmake-2.8.12/install\n       version: [2.8.12]\n       buildable: False\n```\n\nAnd then it was fine. Anything that I am obviously missing?\nI am using spack more for development workflow i.e. on multiple systems I am setting spack and only using `external` packages. During last two days I have seen similar issue multiple times (like #2130). \n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2150",
+    "updated_at": "2021-03-12 13:01:02",
+    "created_at": "2016-10-27 18:56:26",
+    "closed_at": "2021-03-12 13:01:02",
+    "state": "closed",
+    "title": " \"buildable: False\" not always working?",
+    "number": 2150,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "external-packages"
+    ],
+    "id": 185751790,
+    "html_url": "https://github.com/spack/spack/issues/2150",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

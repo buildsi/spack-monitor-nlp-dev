@@ -1,0 +1,19 @@
+{
+    "body": "This might be related to: https://github.com/LLNL/spack/issues/1517#issuecomment-239710073, https://github.com/LLNL/spack/pull/1455#issuecomment-239507716, https://github.com/LLNL/spack/pull/1041#issuecomment-238363551\n\nBut, I get a failure when attempting to build glib on Mac OS X 10.11.6:\n\n```\n==> Building glib\n==> Error: Command exited with status 2:\n'make' '-j8'\n\nSee build log for details:\n  /private/var/folders/vr/7lfgcgzd0wb4brywdhg86ygw00157w/T/lee1001/spack-stage/spack-stage-QAjlc9/glib-2.49.4/spack-build.out\n\n/Users/lee1001/projs/llnl/spack/var/spack/repos/builtin/packages/glib/package.py:57, in install:\n     55       def install(self, spec, prefix):\n     56           configure(\"--prefix=%s\" % prefix)\n  >> 57           make()\n     58           make(\"install\", parallel=False)\n==> Error: Installation process had nonzero exit code : 256\n```\n\nAnd the last bit of that log is:\n\n```\n2 warnings generated.\n  CC       libglib_2_0_la-gerror.lo\n  CC       libglib_2_0_la-gfileutils.lo\n  CC       libglib_2_0_la-ggettext.lo\n  CC       libglib_2_0_la-ghash.lo\n1 warning generated.\n  CC       libglib_2_0_la-ghmac.lo\n  CC       libglib_2_0_la-ghook.lo\n  CC       libglib_2_0_la-ghostutils.lo\n  CC       libglib_2_0_la-giochannel.lo\n  CC       libglib_2_0_la-gkeyfile.lo\n  CC       libglib_2_0_la-glib-init.lo\n  CC       libglib_2_0_la-glib-private.lo\n  CC       libglib_2_0_la-glist.lo\n  CC       libglib_2_0_la-gmain.lo\n  CC       libglib_2_0_la-gmappedfile.lo\n  CC       libglib_2_0_la-gmarkup.lo\n  CC       libglib_2_0_la-gmem.lo\n  CC       libglib_2_0_la-gmessages.lo\n  CC       libglib_2_0_la-gnode.lo\n  CC       libglib_2_0_la-goption.lo\n  CC       libglib_2_0_la-gpattern.lo\n  CC       libglib_2_0_la-gpoll.lo\ngmessages.c:1446:53: error: format string is not a string literal [-Werror,-Wformat-nonliteral]\n      size = _g_vsnprintf (buffer, sizeof (buffer), format, args);\n                                                    ^~~~~~\n/usr/include/secure/_stdio.h:75:63: note: expanded from macro 'vsnprintf'\n  __builtin___vsnprintf_chk (str, len, 0, __darwin_obsz(str), format, ap)\n                                                              ^\ngmessages.c:1451:55: error: format string is not a string literal [-Werror,-Wformat-nonliteral]\n      message = message_allocated = g_strdup_vprintf (format, args);\n                                                      ^~~~~~\n2 errors generated.\nmake[4]: *** [libglib_2_0_la-gmessages.lo] Error 1\nmake[4]: *** Waiting for unfinished jobs....\nmake[3]: *** [all-recursive] Error 1\nmake[2]: *** [all] Error 2\nmake[1]: *** [all-recursive] Error 1\nmake: *** [all] Error 2\n```\n",
+    "user": "IanLee1521",
+    "url": "https://api.github.com/repos/spack/spack/issues/1755",
+    "updated_at": "2020-02-22 15:56:31",
+    "created_at": "2016-09-12 22:19:30",
+    "closed_at": "2020-02-22 15:56:31",
+    "state": "closed",
+    "title": "glib fails to build on OS X",
+    "number": 1755,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 176499815,
+    "html_url": "https://github.com/spack/spack/issues/1755",
+    "assignees": [],
+    "comments": 3
+}

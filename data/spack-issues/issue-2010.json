@@ -1,0 +1,21 @@
+{
+    "body": "I threw this together working on #1562, and thought I'd just get it merged.\n\nSpack ships with its own `PyYAML` module in `lib/spack/external/yaml`, but it doesn't use the C `libyaml` because we don't want to require compiling anything -- Spack _must_ run out of the box.  \n\ncYAML is pretty fast, though, and with things like #1015 and #1535 the main bottleneck to operations like `spack find` is YAML parsing.  \n\nThis patch makes Spack use an already-installed PyYAML and the `CParser` and `CLoader` from `libyaml` if they're available.  It makes a `spack find` on @adamjstewart's 400+ installed packages from #1562 run **3x faster** (1s vs 3s) on my laptop.\n\n@alalazo @davydden @adamjstewart @citibeth \n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2010",
+    "updated_at": "2016-10-15 13:14:03",
+    "created_at": "2016-10-12 23:12:08",
+    "closed_at": "2016-10-13 01:25:18",
+    "state": "closed",
+    "title": "Use cYAML if it is available",
+    "number": 2010,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "pkg-database",
+        "performance"
+    ],
+    "id": 182656902,
+    "html_url": "https://github.com/spack/spack/pull/2010",
+    "assignees": [],
+    "comments": 11
+}

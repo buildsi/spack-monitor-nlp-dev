@@ -1,0 +1,24 @@
+{
+    "body": "As a packager I want the possibility to attach variants to a spec depending on its version so that I can model in a more natural way the evolution of the features of a package over time.\r\n\r\n### Rationale\r\n\r\nMany packages evolve during time and they add or remove features as they see fit. As we support more and more versions of the same package we might be faced with the problem of having either to expose just the \"lowest common denominator\" (i.e. only the features supported by *all* the versions) or to explicitly manage conflicts among variants and package versions. A prime example of this is `boost`, for which we have an issue open since a couple of years (see #1486). If variants could depend on the package version this issue would be solved neatly.\r\n\r\n### Description\r\n\r\nThe proposal here is to extend the allowed syntax for the variant directive to allow for a version range to be specified:\r\n```python\r\nclass Boost(Package):\r\n    ...\r\n    variant('atomic', description='...', applies_to='@1.53:')\r\n```\r\nThe directive above means that the variant `atomic` exists for the package starting at version 1.53. Any command that refers to it for a version that does not satisfy the constraint should fail with an error:\r\n```console\r\n$ spack spec boost@1.52.0+atomic\r\nInput spec\r\n--------------------------------\r\nboost@1.52.0+atomic\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Package boost has no variant 'atomic' at version 1.52.0 [the variant starts at 1.53.0]\r\n```\r\nThis should also affect the concretizer in the other way around (if we ask for `boost+atomic` we have an implicit constraint on `boost@1.53.0:`). Probably also `spack info` should be updated to match the new feature:\r\n```console\r\n$ spack info boost\r\n...\r\nVariants:\r\n    Name [Default]       Allowed values      Description                    Range of validity\r\n\r\n\r\n    atomic [on]          True, False         Compile with atomic library    @1.53.0:\r\n    chrono [on]          True, False         Compile with chrono library\r\n...\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9740",
+    "updated_at": "2021-11-03 07:11:32",
+    "created_at": "2018-11-06 13:47:25",
+    "closed_at": "2021-11-03 07:11:32",
+    "state": "closed",
+    "title": "Variants might be conditional on the version of the package",
+    "number": 9740,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "concretization",
+        "discussion",
+        "proposal",
+        "directives",
+        "conflicts"
+    ],
+    "id": 377853951,
+    "html_url": "https://github.com/spack/spack/issues/9740",
+    "assignees": [],
+    "comments": 3
+}

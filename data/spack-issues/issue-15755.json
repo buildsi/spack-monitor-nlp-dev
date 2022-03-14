@@ -1,0 +1,22 @@
+{
+    "body": "Hello,\r\nI was trying to install a package using the command `spack install <spec>` **via Jenkins** using the new spack release v0.14.1 and ran into the following error:\r\n\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.1\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ ssh user@daint.cscs.ch 'spack install <spec>'\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n\r\nTraceback (most recent call last):\r\n  File \"/project/g110/spack/user/admin-daint/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/spack/main.py\", line 770, in main\r\n    if spack.config.get('config:debug'):\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/spack/config.py\", line 650, in get\r\n    return config.get(path, default, scope)\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/llnl/util/lang.py\", line 552, in __getattr__\r\n    return getattr(self.instance, name)\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/llnl/util/lang.py\", line 548, in instance\r\n    self._instance = self.factory()\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/spack/config.py\", line 632, in _config\r\n    _add_platform_scope(cfg, ConfigScope, name, path)\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/spack/config.py\", line 585, in _add_platform_scope\r\n    platform = spack.architecture.platform().name\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/llnl/util/lang.py\", line 178, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/spack/architecture.py\", line 516, in platform\r\n    return platform_cls()\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/spack/platforms/cray.py\", line 63, in __init__\r\n    _target = self._default_target_from_env()\r\n  File \"/project/g110/spack/user/admin-daint/spack/lib/spack/spack/platforms/cray.py\", line 121, in _default_target_from_env\r\n    env={'TERM': os.environ['TERM']},\r\n  File \"/usr/lib64/python3.6/os.py\", line 669, in __getitem__\r\n    raise KeyError(key) from None\r\nKeyError: 'TERM'\r\n\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\nStatic hostname: daint102elf.spec:\r\nIcon name: computer-server\r\nChassis: server\r\nMachine ID: 3c702e3731a14a76aecdd784a323529epy\" \r\nBoot ID: 64c4c855a3a940e7a1846942dd9a2109\r\nOperating System: SUSE Linux Enterprise Server 15\r\nCPE OS Name: cpe:/o:suse:sles:15\r\nKernel: Linux 4.12.14-150.35-default\r\nArchitecture: x86-64\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\nI found that the problem came from the fact that Jenkins is sending its commands remotely via SSH and not opening a terminal, thus not setting the $TERM variable. Setting the variable to a default value in the Jenkins script solves the problem, but it would be great not to have to do that manually.\r\nThe problem is only happening with the new released version (v0.14.1), until then I never had this problem. Also, I found that some servers do still find a way to set the $TERM variable, but on Piz Daint for example it is not working.\r\n\r\nThanks a lot in advance for any answer\r\n\r\n",
+    "user": "elsagermann",
+    "url": "https://api.github.com/repos/spack/spack/issues/15755",
+    "updated_at": "2020-04-15 23:09:51",
+    "created_at": "2020-03-30 08:57:17",
+    "closed_at": "2020-04-15 23:09:51",
+    "state": "closed",
+    "title": "v0.14.1: Impossible to send a command remotely via SSH since $TERM variable must be set",
+    "number": 15755,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 590113002,
+    "html_url": "https://github.com/spack/spack/issues/15755",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 3
+}

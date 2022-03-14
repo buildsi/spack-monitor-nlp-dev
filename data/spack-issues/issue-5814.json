@@ -1,0 +1,21 @@
+{
+    "body": "Suppose the following `packages.yaml`:\r\n\r\n```yaml\r\npackages:\r\n    qt:\r\n        buildable: false\r\n        variants: +gtk+opengl+webkit+phonon\r\n        version: [5.7.1]\r\n        paths:\r\n            qt@5.7.1+gtk+opengl+webkit+phonon: /usr\r\n    opencv:\r\n        variants: +core~cuda+eigen+gtk+highgui+imgproc+ipp+jasper+java+jpeg+openmp+png+python+qt+shared+tiff~vtk+zlib\r\n```\r\n\r\nThen `spack fetch -D opencv+python ^python@3.6.2+tk` will download all of that, **including** `qt`.  Qt is the root of all evil, and so I just installed everything with `dnf`.\r\n\r\nIs this the expected behaviour, or should the `buildable: False` be preventing `spack fetch -D` from downloading it?\r\n\r\nI could see the argument for either, but for large packages such as `qt`, it seems more appropriate to not fetch it if `buildable: false` is set.  On the other hand, my use case for `spack fetch` is probably atypical.  I am about to sync Dropbox so I wanted to download all of the things I need to let `spack` do its thing while syncing Dropbox.  Given that `packages.yaml` can easily change, and the presumed purpose of `spack fetch` is for gathering things for e.g., an air-gapped cluster, it makes sense to download it all.\r\n\r\nIt's more just that `spack fetch` considers everything else in the `packages.yaml`, except for `buildable: false`.  AKA in order for it to even know to download `qt`, it saw I was asking for `opencv+qt` in `packages.yaml` (I think).",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/5814",
+    "updated_at": "2019-02-06 11:57:35",
+    "created_at": "2017-10-18 21:40:58",
+    "closed_at": "2019-02-06 11:57:35",
+    "state": "closed",
+    "title": "Should `spack fetch` ignore or obey `buildable: false`?",
+    "number": 5814,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 266651413,
+    "html_url": "https://github.com/spack/spack/issues/5814",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I ran `spack mirror create -d /home/razumov/eos -D -n 1 my-bundle` (where `my-bundle` is a bundle packages with a ton of dependencies). The command ran fine, but the symlinks in `/home/razumov/eos` were broken, e.g.:\r\n\r\n```\r\n$ pwd\r\n/home/razumov/spack \r\n$ ls -l /home/razumov/eos/aida\r\neos/aida/aida-3.2.1.tar.gz -> ../../spack/_source-cache/archive/c5/c51da83e99c0985a7ef3e8bc5a60c3ae61f3ca603b61100c2438b4cdadd5bb2e.tar.gz\r\n$ ls -l /home/razumov/eos/aida/../../spack/_source-cache/archive/c5/c51da83e99c0985a7ef3e8bc5a60c3ae61f3ca603b61100c2438b4cdadd5bb2e.tar.gz\r\nls: cannot access /home/razumov/eos/aida/../../spack/_source-cache/archive/c5/c51da83e99c0985a7ef3e8bc5a60c3ae61f3ca603b61100c2438b4cdadd5bb2e.tar.gz: No such file or directory\r\n```\r\n\r\nThere is no `_source-cache` under `/home/razumov/spack` - but there is one under `/home/razumov/eos`:\r\n\r\n```\r\n$ ls /home/razumov/eos/_source-cache/archive/c5/c51da83e99c0985a7ef3e8bc5a60c3ae61f3ca603b61100c2438b4cdadd5bb2e.tar.gz\r\nrw-r--r--. 1 razumov razumov 313562 Dec 10 14:50 /home/razumov/eos/_source-cache/archive/c5/c51da83e99c0985a7ef3e8bc5a60c3ae61f3ca603b61100c2438b4cdadd5bb2e.tar.gz\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack mirror create -d /some/path -D -n1 aida@3.2.1\r\n$ ls /some/path/aida\r\n```\r\n\r\n### Error Message\r\n\r\nNone\r\n\r\n### Information on your system\r\n\r\n`spack` commit c627e5a6fcefb44330b4980835f0cf3a34ff2944\r\n\r\n\r\n",
+    "user": "iarspider",
+    "url": "https://api.github.com/repos/spack/spack/issues/14067",
+    "updated_at": "2019-12-13 07:38:52",
+    "created_at": "2019-12-10 14:01:58",
+    "closed_at": "2019-12-13 07:38:52",
+    "state": "closed",
+    "title": "`spack mirror create` creates broken symlinks",
+    "number": 14067,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high"
+    ],
+    "id": 535749676,
+    "html_url": "https://github.com/spack/spack/issues/14067",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

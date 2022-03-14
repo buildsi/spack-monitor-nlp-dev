@@ -1,0 +1,20 @@
+{
+    "body": "This came out of an offline discussion of #3356 \r\n\r\nThe rough idea here is that we'd like better default CMake packages. Spack wants to encode all the ways to build a piece of software. Meanwhile, a build of a piece of software contains info on one way to build it. This enhances the default template by trying the default cmake configuration for a file, scraping the cmake cache file to see what variables the user set for the build, and adding variants to the generated package to support those options, giving a slightly fuller template for their package.\r\n\r\nThe idea is solid'ish. I worry that people might make that package and immediately submit it as a good package, but the people who might do that will submit bad packages without our help. It's still worth considering whether there's a way to mitigate that though.\r\n\r\nThe engineering is fairly rough, I'm not a Python person, and don't really know the Spack idioms. Immediately after submitting this I'm going to comment in places where I'm not sure of the design, I'd appreciate feedback, some of it feels obviously wrong.\r\n\r\nEdit: I'm testing against LLNL/Caliper, using this tarball \r\n```\r\nspack create --force https://github.com/LLNL/Caliper/archive/v1.5.0.zip\r\n```\r\n\r\nIf you want to try it in terms of what I've been using\r\n\r\nEditedit: If \"tell me how to do things\" is obnoxious, I've very consciously checked the \"allow maintainers to just fix the stupid thing\" box if that's easier.",
+    "user": "DavidPoliakoff",
+    "url": "https://api.github.com/repos/spack/spack/issues/3626",
+    "updated_at": "2019-08-06 16:59:00",
+    "created_at": "2017-03-29 17:18:44",
+    "closed_at": "2019-08-06 16:59:00",
+    "state": "closed",
+    "title": "Enhanced Default CMake Package",
+    "number": 3626,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "cmake"
+    ],
+    "id": 217947321,
+    "html_url": "https://github.com/spack/spack/pull/3626",
+    "assignees": [],
+    "comments": 16
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Fixes https://github.com/LLNL/spack/issues/5633\r\n\r\n@becker33 @tgamblin\r\n\r\nspec and spec.package.spec can refer to different objects in the database. When these two instances of spec differ in terms of the value of the 'concrete' property, Spec._mark_concrete can fail when checking Spec.package.installed (which requires package.spec to be concrete). This skips the check for spec.package.installed when _mark_concrete is called with 'True' (in other words, when the database is marking all specs as being concrete).\r\n\r\nFor a concrete example of\r\n\r\n> spec and spec.package.spec can refer to different objects in the database.\r\n\r\nIn #5633 we have a case like X->Y where X is libtiff and Y is libjpeg-turbo which itself has 1 build dependency\r\n\r\n* repository.get was first called with the non-concrete copy of `libjpeg-turbo@1.5.0%gcc@4.6.1 arch=linux-rhel6-x86_64` (this happens sometime during concretization), so the package stored in repository has package.spec.concrete = False\r\n* database however stores a copy of `libjpeg-turbo@1.5.0%gcc@4.6.1 arch=linux-rhel6-x86_64` and considers it concrete (because it marks it as such) and it is ok with omitting the dependency because it is a build dep\r\n* `database._add` assigns the concrete version of 'libjpeg-turbo@1.5.0%gcc@4.6.1 arch=linux-rhel6-x86_64' to libtiff\r\n* when that libjpeg spec calls package, it will match the repository key of the package associated with the non-concrete spec and so it will get that package",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/5634",
+    "updated_at": "2017-10-06 21:23:29",
+    "created_at": "2017-10-06 04:18:06",
+    "closed_at": "2017-10-06 21:23:29",
+    "state": "closed",
+    "title": "Don't check package.installed in _mark_concrete if value=True",
+    "number": 5634,
+    "milestone": null,
+    "labels": [],
+    "id": 263331994,
+    "html_url": "https://github.com/spack/spack/pull/5634",
+    "assignees": [],
+    "comments": 6
+}

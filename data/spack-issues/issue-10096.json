@@ -1,0 +1,22 @@
+{
+    "body": "I encountered a race condition during package fetching. In two separate terminals, I tried installing two packages that both happened to depend on Perl. Both processes crashed at exactly the same time with slightly different error messages:\r\n```console\r\n==> No binary for perl found: installing from source\r\n==> Fetching http://www.cpan.org/src/5.0/perl-5.26.2.tar.gz\r\n######################################################################## 100.0%\r\n==> Fetching http://search.cpan.org/CPAN/authors/id/M/MI/MIYAGAWA/App-cpanminus-1.7042.tar.gz\r\n######################################################################## 100.0%\r\n==> Error: ChecksumError: md5 checksum failed for /Users/Adam/spack/var/spack/stage/perl-5.26.2-uhov4vq4lk3u7biruczmxbytm22agi66/perl-5.26.2.tar.gz\r\n    Expected dc0fea097f3992a8cd53f8ac0810d523 but got 561f783354f933c81d1c852950f70426\r\n\r\n/Users/Adam/spack/lib/spack/spack/package.py:920, in do_fetch:\r\n        917        self.stage.fetch(mirror_only)\r\n        918        self._fetch_time = time.time() - start_time\r\n        919\r\n  >>    920        if checksum and self.version in self.versions:\r\n        921            self.stage.check()\r\n        922\r\n        923        self.stage.cache_local()\r\n```\r\n```console\r\n==> No binary for perl found: installing from source\r\n==> Fetching http://www.cpan.org/src/5.0/perl-5.26.2.tar.gz\r\n######################################################################## 100.0%\r\n==> Error: FileNotFoundError: [Errno 2] No such file or directory: '/Users/Adam/spack/var/spack/stage/perl-5.26.2-uhov4vq4lk3u7biruczmxbytm22agi66/perl-5.26.2.tar.gz.part' -> '/Users/Adam/spack/var/spack/stage/perl-5.26.2-uhov4vq4lk3u7biruczmxbytm22agi66/perl-5.26.2.tar.gz'\r\n\r\n/Users/Adam/spack/lib/spack/spack/package.py:916, in do_fetch:\r\n        913                raise FetchError(\"Will not fetch %s\" %\r\n        914                                 self.spec.format('$_$@'), ck_msg)\r\n        915\r\n  >>    916        self.stage.create()\r\n        917        self.stage.fetch(mirror_only)\r\n        918        self._fetch_time = time.time() - start_time\r\n        919\r\n```\r\nWhen I deleted the partial download and started over, things worked fine. I think we need to put a lock on the download cache directory during fetching.\r\n\r\n@tgamblin ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/10096",
+    "updated_at": "2020-04-13 21:41:11",
+    "created_at": "2018-12-13 20:46:35",
+    "closed_at": "2020-04-13 21:41:10",
+    "state": "closed",
+    "title": "Race condition during fetching",
+    "number": 10096,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "locking"
+    ],
+    "id": 390853051,
+    "html_url": "https://github.com/spack/spack/issues/10096",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

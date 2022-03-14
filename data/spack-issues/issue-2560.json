@@ -1,0 +1,17 @@
+{
+    "body": "fixes https://github.com/LLNL/spack/issues/2534\r\n\r\nThanks to @jppelteret who actually wrote in https://github.com/LLNL/spack/issues/2555\r\n\r\n> I was able to fix the problem by adding depends_on('python @2.6:2.7') to slepc's package (which mirrors a line in petsc), but I'm not sure if this the \"correct\" fix.\r\n\r\nAt the end of the day, @citibeth was right that there was a confusion between different python's: presumably PETSc used Spack built python, whereas SLEPc was using system's python since it did not depend on python explicitly.\r\n\r\ntested on Sierra with Spack's python.\r\n\r\n@tgamblin OT: here is strange example where two packages have build-only dependency on python, but they still need to use the same python. One could trick it to pretend that it's `build+link` dependency, of course.\r\n\r\n@BarrySmith ping.\r\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2560",
+    "updated_at": "2017-05-28 21:00:27",
+    "created_at": "2016-12-12 09:51:49",
+    "closed_at": "2016-12-13 09:32:42",
+    "state": "closed",
+    "title": "slepc/petsc: fix python dependencies",
+    "number": 2560,
+    "milestone": null,
+    "labels": [],
+    "id": 194930825,
+    "html_url": "https://github.com/spack/spack/pull/2560",
+    "assignees": [],
+    "comments": 5
+}

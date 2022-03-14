@@ -1,0 +1,17 @@
+{
+    "body": "Change the location of the CMake build area from the staged source directory to the stage directory.\r\n\r\nThis change addresses an unfortunate consequence of the original choice combined with the case where a recipe needs to have information about the build directory in the environment set by `setup_environment()` (_e.g._ if tests need to have a directory in `PATH`). Specifically, staging happens _after_ the call to `setup_environment()`, and if the stage area does not exist, then `spec.stage.source_path` returns, `None`.\r\n\r\nIt should be noted that in the core Spack code, the destination of `out` and `env` files has been changed to the top level stage area, and the \"base\" directory for archiving has also been set to the stage area. In the latter case this is necessary to allow the archiving of build products when the build area is outside the source tree, but one consequence is that the expanded source directory now appears in the archive tree when a source file is saved, the name of which could be arbitrary and possibly confusing to an onlooker. A resolution for this would likely be dispersed throughout the Spack code and would require significant thought and discussion.\r\n\r\nI have not changed the definition of `build_directory` for any other build system than CMake, so if any non-CMake spec needs `spec.stage.build_directory` to be resolved earlier than source expansion in the future, an accommodation will have to be made within the support for that build system. \r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/8431",
+    "updated_at": "2019-04-10 18:43:25",
+    "created_at": "2018-06-08 21:49:51",
+    "closed_at": "2019-03-26 22:40:50",
+    "state": "closed",
+    "title": "Feature/build location",
+    "number": 8431,
+    "milestone": null,
+    "labels": [],
+    "id": 330812977,
+    "html_url": "https://github.com/spack/spack/pull/8431",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,24 @@
+{
+    "body": "- Fixes #8703.\r\n- Closes #25380.\r\n- Supersedes #25557.\r\n\r\nThis PR removes the use of several bash-specific features, in particular the use of arrays and the more featureful `[[ ... ]]` comparison operator. In short:\r\n1. Array operations are replaced with `append()`, `prepend()`, `concatenate()`, etc methods which use the alarm bell ASCII character `'\\a'` (`'\\007'` in octal) to delimit entries in the array. The alarm bell character is then used as the `IFS` special variable to split up and iterate over these pseudo-arrays.\r\n2. Several verbose `if` comparisons which have gotten crusty over the years have been converted into should-be-easier-to-read `case` statements.\r\n3. `eval` is used in a couple more places instead of bash's indirect variable dereference operator `${!...}`.\r\n4. `$SPACK_TARGET_ARGS` is set to `'\\n'` in `cc.py` and `build_environment.py`, since posix `sh` does not have the ability to distinguish whether a variable is unset or set to the empty string.\r\n5. `printf` is used over `echo` in all cases, since `echo` has unpredictable behavior across shells (see \"Printing the value of a variable\" in https://www.etalabs.net/sh_tricks.html).\r\n    - Relatedly, since `\"\\n\"` does not get encoded into a newline in posix `sh` unless as part of an `echo` or `printf`, there is an annoyingly verbose check to see whether `$SPACK_TARGET_ARGS` is set to a newline. \r\n6. `set -u` is set at the top of the script, and variables are all explicitly set to a default value if not provided.\r\n\r\n### Performance Analysis: 14.5% slowdown\r\n\r\nThe current changes appear to induce a **14.5% slowdown** in the time to configure `gettext@0.21` compared to `develop`. As per @haampie's strategy in https://github.com/spack/spack/pull/25380#issuecomment-901155651:\r\n```bash\r\n# Tested on ubuntu 21.10, kernel 5.13.0-16, AMD Ryzen 9 5900HX.\r\n# On develop (using /bin/bash -> gnu bash version 5.1.8):\r\nTime =  71.29999876022339 # first run\r\nTime =  70.31215143203735 # second run\r\n# On this branch (using /bin/sh -> dash version 0.5.11):\r\nTime =  81.6425609588623 # first run\r\nTime =  81.04689812660217 # second run\r\n# On this branch (using /bin/bash -> gnu bash version 5.1.8):\r\nTime = 104.45283937454224\r\n```\r\nI *believe* this can be explained mostly by the use of string operations and `IFS` splitting noted above instead of native bash arrays. This suspicion is circumstantiated by noting the final timing number, where I swapped out `#!/bin/sh` for `#!/bin/bash` to see whether using `dash` over `bash` had any negative performance effect. It seems like the opposite occurred, where `bash` was actually significantly slower than `dash` to execute the same script, which might make sense given that `bash` users are more likely to use its native arrays over string operations, and that that's likely where the gnu `bash` project has focused its optimization efforts.\r\n\r\nAs a final note, it might be useful to consider performance regression testing in the above vein in the future, especially since we can then perform such testing over e.g. macOS and (in the future) windows, instead of the developer's local machine which may be running other interactive applications. For the case of improving `./configure` performance though, we may want to consider looking to this discussion I created recently proposing to allow reusing stage directories across subsequent installs of the same package: #25851.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/26048",
+    "updated_at": "2021-09-27 23:27:22",
+    "created_at": "2021-09-19 02:49:48",
+    "closed_at": "2021-09-27 23:27:22",
+    "state": "closed",
+    "title": "cc: convert compiler wrappers to POSIX sh",
+    "number": 26048,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "tests",
+        "commands"
+    ],
+    "id": 1000189647,
+    "html_url": "https://github.com/spack/spack/pull/26048",
+    "assignees": [
+        "haampie",
+        "tgamblin"
+    ],
+    "comments": 11
+}

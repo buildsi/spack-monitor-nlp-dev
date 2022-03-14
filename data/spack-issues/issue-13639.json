@@ -1,0 +1,22 @@
+{
+    "body": "Draft of a package shipping the [Geant4 python bindings](https://gitlab.cern.ch/geant4/geant4/tree/master/environments/g4py).\r\nSame-version-pinning as already working in `adios` package for a very similar situation.\r\n\r\nNote 1: `-lG4OpenGL` lib seam to be required to build `g4py`, otherwise related libs are not found during linking. Even with `^geant4+opengl` the lib is still missing in the install, but `^geant4+opengl+x11` helps.\r\n\r\nThe error that is then showing up in linking is\r\n```\r\n/usr/bin/ld: aTouchableHistoryAllocator: TLS reference in /home/axel/src/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-8.3.0/geant4-10.04-bch5g6maf7srrfzageovu34dk3zyapmf/bin/../lib/libG4tracking.so mismatches non-TLS reference in CMakeFiles/pyG4geometry.dir/pyG4TouchableHistory.cc.o\r\n/home/axel/src/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-8.3.0/geant4-10.04-bch5g6maf7srrfzageovu34dk3zyapmf/bin/../lib/libG4tracking.so: error adding symbols: Bad value\r\ncollect2: error: ld returned 1 exit status\r\n```\r\n\r\nNote 2: `g4py` tries to link `-lboost_python` instead of `-lboost_python37`\r\nNote 3: somehow `-lG4gl2ps` and `-lG4clhep` are also non-optional.\r\n\r\nNote 3: due to some problems installing root #13637 I am testing this package via `spack install py-geant4 ^root~xml~x~opengl`.\r\nNote 5: `root +x` (default) does not build (seen via `root ~xml`).\r\nNote 6: `root ~x` does not build unless I also deactivate `~opengl` (default: `+opengl`).\r\n",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/13639",
+    "updated_at": "2019-11-17 22:33:12",
+    "created_at": "2019-11-08 03:08:37",
+    "closed_at": "2019-11-17 22:32:11",
+    "state": "closed",
+    "title": "[Draft] py-geant4 (g4py)",
+    "number": 13639,
+    "milestone": null,
+    "labels": [
+        "new-package",
+        "python",
+        "don't-merge-yet",
+        "hep"
+    ],
+    "id": 519632494,
+    "html_url": "https://github.com/spack/spack/pull/13639",
+    "assignees": [],
+    "comments": 5
+}

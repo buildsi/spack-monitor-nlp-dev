@@ -1,0 +1,19 @@
+{
+    "body": "Right now, `spack dependents` returns the installed packages that depend on another (presumably, the supplied spec). However, when adding, for instance, a new version of a package (see #750), it may be necessary to patch package scripts for packages that are not installed (e.g., when adding metis 4.0.3, I had to modify the `trilinos` package, which I do not have installed). In order to figure out which packages depend on `metis` -- even ones I don't have installed -- I resorted to grepping, which yields some false positives (e.g., `metis` in a comment). A command-line query through spack would be better to find all packages depending on `metis`, even those that aren't installed. For package creators and maintainers, it would also be useful to have an option to return all packages that have a given package even as an optional dependency (e.g., `metis` is often an optional dependency, but not always).\n\nRecursive dependency queries could also be desirable, for instance, if I want to know what packages should (or in the case of recursive uninstall, will) be uninstalled if I uninstall a given package. Reverse (recursive) dependency resolution is also occasionally desirable; in the Homebrew package manager, this feature is useful to understand what packages should be recompiled if I, for instance, switch MPI implementations. Since spack's design accounts for changing MPI implementations, compilers, etc., I am not sure that reverse dependency resolution will be as useful.\n",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/753",
+    "updated_at": "2019-08-23 06:34:28",
+    "created_at": "2016-04-06 17:58:25",
+    "closed_at": "2019-08-23 06:34:28",
+    "state": "closed",
+    "title": "[Feature request] Generalize `spack dependents`",
+    "number": 753,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 146388226,
+    "html_url": "https://github.com/spack/spack/issues/753",
+    "assignees": [],
+    "comments": 8
+}

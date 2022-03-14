@@ -1,0 +1,19 @@
+{
+    "body": "On mpi4py's web-page, they mention Cython is only needed when developing mpi4py, its not needed to build their releases\r\n\r\nmpi4py's ``setup.py`` logic seems to confirm this:\r\n\r\n```\r\ndef build_sources(cmd):\r\n    from distutils.errors import DistutilsError\r\n    has_src = os.path.exists(os.path.join(\r\n        topdir, 'src', 'mpi4py.MPI.c'))\r\n    has_vcs = (os.path.isdir(os.path.join(topdir, '.git')) or\r\n               os.path.isdir(os.path.join(topdir, '.hg' )))\r\n    if (has_src and not has_vcs and not cmd.force): return\r\n    # mpi4py.MPI\r\n    source = 'mpi4py.MPI.pyx'\r\n    depends = ['mpi4py/MPI/*.pyx',\r\n               'mpi4py/MPI/*.pxd',\r\n               'mpi4py/MPI/*.pxi',]\r\n    destdir_h = os.path.join('mpi4py', 'include', 'mpi4py')\r\n    run_cython(source, depends, destdir_h=destdir_h,\r\n               wdir='src', force=cmd.force, VERSION=CYTHON)\r\n```\r\n\r\nI checked and their source release for 3.0.0 does contain `src/mpi4py.MPI.c' see the early return:\r\n\r\n`if (has_src and not has_vcs and not cmd.force): return`\r\n\r\nit seems that the development ver (``develop``) would require cython, but its only being added when 3.0.0 is built:\r\n\r\n`    depends_on('py-cython', when='@3.0.0:', type='build')`\r\n\r\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/6760",
+    "updated_at": "2018-01-02 19:38:08",
+    "created_at": "2017-12-22 17:44:59",
+    "closed_at": "2018-01-02 19:34:25",
+    "state": "closed",
+    "title": "is Cython needed for mpi4py 3.0?",
+    "number": 6760,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 284217538,
+    "html_url": "https://github.com/spack/spack/issues/6760",
+    "assignees": [],
+    "comments": 2
+}

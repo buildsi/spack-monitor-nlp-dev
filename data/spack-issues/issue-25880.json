@@ -1,0 +1,20 @@
+{
+    "body": "This PR makes a distinction between packages that that do not have tests -- with test status reported as `NO-TESTS` -- from those that `PASSED`.\r\n\r\nThis is an initial distinction based on the lack or presence of *at least one* non-`pass`-only test method associated with the package.  In addition to implementing their own `test` method, packages can \"inherit\" them the virtual interfaces they provide (e.g., `mpi`).\r\n\r\n By checking for non-`pass`-only methods, packages that don't override the `test` method inherited from `PackageBase` and don't provide interfaces with `test` methods are reported as `NO-TESTS`.\r\n \r\nThis PR does not make any attempt to distinguish status based on the contents or actions of package-provided tests as there are a couple of approaches to be considered that could be taken to handle things like `skipped` tests , especially given that the tests are run from forked or spawned child processes.\r\n\r\nExamples of test result output:\r\n\r\n```\r\n$ spack test results\r\n==> Results for test suite 'cmppcmurnkm2qqddqosnolmhuji45a5b':\r\n==>   umpire-1.1.0-i43hck4 PASSED\r\n==>   umpire-2.0.0-2xjsztl PASSED\r\n==>   umpire-2.0.0-svz25qg PASSED\r\n==>   umpire-4.1.2-2b3i7cy PASSED\r\n==>   umpire-5.0.1-6ohwphk PASSED\r\n==>   umpire-develop-6wfdlow FAILED\r\n==>   zlib-1.2.11-s4yfeca NO-TESTS\r\n==>   zlib-1.2.11-c7zv5ft NO-TESTS\r\n==>   zlib-1.2.11-kzsxhof NO-TESTS\r\n```\r\n\r\nand, for a class that currently only 'inherits' its tests:\r\n```\r\n$ spack test results\r\n==> Results for test suite '62yrvhufhdktw2euwxmh7apqnxk6xkuj':\r\n==>   mpich-3.4.2-2bnxajb PASSED\r\n$ spack test results -l\r\n==> Results for test suite '62yrvhufhdktw2euwxmh7apqnxk6xkuj':\r\n==>   mpich-3.4.2-2bnxajb PASSED\r\n==> Testing package mpich-3.4.2-2bnxajb\r\n==> [2021-09-09-17:47:54.416046] test: mpicc: expect command status in [0]\r\n==> [2021-09-09-17:47:54.416294] '/usr/WS1/dahlgren/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.1/mpich-3.4.2-2bnxajb37bdwrmeju6j2ococuzwyk6va/bin/mpicc' '-o' 'mpi_hello_c' '/g/g21/dahlgren/.spack/test/62yrvhufhdktw2euwxmh7apqnxk6xkuj/mpich-3.4.2-2bnxajb/data/mpi/mpi_hello.c'\r\nPASSED\r\n==> [2021-09-09-17:47:54.539348] test: mpirun: expect command status in [0]\r\n==> [2021-09-09-17:47:54.539692] '/usr/WS1/dahlgren/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.1/mpich-3.4.2-2bnxajb37bdwrmeju6j2ococuzwyk6va/bin/mpirun' '-np' '1' 'mpi_hello_c'\r\nHello world! From rank 0 of 1\r\nPASSED\r\n==> [2021-09-09-17:47:54.789795] test: mpif90: expect command status in [0]\r\n==> [2021-09-09-17:47:54.790151] '/usr/WS1/dahlgren/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.1/mpich-3.4.2-2bnxajb37bdwrmeju6j2ococuzwyk6va/bin/mpif90' '-o' 'mpi_hello_f' '/g/g21/dahlgren/.spack/test/62yrvhufhdktw2euwxmh7apqnxk6xkuj/mpich-3.4.2-2bnxajb/data/mpi/mpi_hello.f'\r\nPASSED\r\n==> [2021-09-09-17:47:54.892304] test: mpirun: expect command status in [0]\r\n==> [2021-09-09-17:47:54.892656] '/usr/WS1/dahlgren/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.1/mpich-3.4.2-2bnxajb37bdwrmeju6j2ococuzwyk6va/bin/mpirun' '-np' '1' 'mpi_hello_f'\r\n Hello world! From rank           0 of            1\r\nPASSED\r\n```",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/25880",
+    "updated_at": "2021-10-04 19:57:08",
+    "created_at": "2021-09-10 01:12:23",
+    "closed_at": "2021-10-04 19:57:08",
+    "state": "closed",
+    "title": "Stand-alone tests: distinguish NO-TESTS from PASSED",
+    "number": 25880,
+    "milestone": null,
+    "labels": [
+        "stand-alone-tests",
+        "core"
+    ],
+    "id": 992794220,
+    "html_url": "https://github.com/spack/spack/pull/25880",
+    "assignees": [],
+    "comments": 3
+}

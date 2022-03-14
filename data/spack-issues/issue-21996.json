@@ -1,0 +1,20 @@
+{
+    "body": "This allows users to use relative paths for mirrors and repos and other things that may be part of a Spack environment.  There are two ways to do it.\r\n\r\n1. Relative to the file\r\n\r\n    ```yaml\r\n    spack:\r\n      repos:\r\n      - local_dir/my_repository\r\n    ```\r\n\r\n    Which will refer to a repository like this in the directory where `spack.yaml` lives:\r\n\r\n    ```\r\n    env/\r\n      spack.yaml  <-- the config file above\r\n      local_dir/\r\n        my_repository/  <-- this repository\r\n          repo.yaml\r\n          packages/\r\n    ```\r\n\r\n2. Relative to the environment\r\n\r\n    ```yaml\r\n    spack:\r\n      repos:\r\n      - $env/local_dir/my_repository\r\n    ```\r\n\r\nBoth of these would refer to the same directory, but they differ for included files.  For example, if you had this layout:\r\n\r\n```\r\nenv/\r\n    spack.yaml\r\n    repository/\r\n    includes/\r\n        repos.yaml\r\n        repository/\r\n```\r\n\r\nAnd this `spack.yaml`:\r\n\r\n```yaml\r\nspack:\r\n    include: includes/repos.yaml\r\n```\r\n\r\nThen, these two `repos.yaml` files are functionally different:\r\n\r\n```yaml\r\nrepos:\r\n    - $env/repository    # refers to env/repository/ above\r\n\r\nrepos:\r\n    - repository    # refers to env/includes/repository/ above\r\n```\r\n    \r\nThe $env variable will not be evaluated if there is no active environment. This generally means that it should not be used outside of an environment's spack.yaml file. However, if other aspects of your workflow guarantee that there is always an active environment, it may be used in other config scopes.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/21996",
+    "updated_at": "2021-03-05 06:29:49",
+    "created_at": "2021-02-26 18:23:17",
+    "closed_at": "2021-03-05 06:29:49",
+    "state": "closed",
+    "title": "Allow relative paths in config files (relative to file dirname)",
+    "number": 21996,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "environments"
+    ],
+    "id": 817569020,
+    "html_url": "https://github.com/spack/spack/pull/21996",
+    "assignees": [],
+    "comments": 6
+}

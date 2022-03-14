@@ -1,0 +1,20 @@
+{
+    "body": "The problem here was tricky:\r\n```python\r\nspec.satisfies(other)\r\n```\r\nchanges already the MV variants in others into SV variants (where necessary) if spec is concrete. If it is not concrete it does nothing because we may be acting at a purely syntactical level.\r\n\r\nWhen evaluating a `when=` keyword, spec is for sure not concrete as it is in the middle of the concretization process. In this case we have to trigger manually the substitution in other to not end up comparing a MV variant \"foo=bar\" to a SV variant \"foo=bar\" and having False in return. Which is wrong.\r\n\r\n##### Modifications\r\n- [x] added a regression test based on `wget` bug in #4113 \r\n- [x] factored common code in `variants.py`\r\n- [x] fixes #4113, fixes #4124",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/4118",
+    "updated_at": "2017-05-04 18:25:28",
+    "created_at": "2017-05-03 21:13:54",
+    "closed_at": "2017-05-04 18:01:03",
+    "state": "closed",
+    "title": "SV variants are evaluated correctly in \"when=\" ",
+    "number": 4118,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "ready"
+    ],
+    "id": 226116564,
+    "html_url": "https://github.com/spack/spack/pull/4118",
+    "assignees": [],
+    "comments": 4
+}

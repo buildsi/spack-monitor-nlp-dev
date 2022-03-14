@@ -1,0 +1,27 @@
+{
+    "body": "This is a major rework of Spack's core core `spec.yaml` metadata format.  It moves from `spec.yaml` to `spec.json` for speed, and it changes the format in several ways. Specifically:\r\n\r\n1. The spec format now has a `_meta` section with a version (now set to version `2`).  This will simplify major changes like this one in the future.\r\n2. The node list in spec dictionaries is no longer keyed by name. Instead, it is a list of records with no required key. The name, hash, etc. are fields in the dictionary records like any other.\r\n3. Dependencies can be keyed by any hash (`hash`, `full_hash`, `build_hash`).\r\n4. `build_spec` provenance from #20262 is included in the spec format. This means that, for spliced specs, we preserve the *full* provenance of how to build, and we can reproduce a spliced spec from the original builds that produced it.\r\n\r\n**NOTE**: Because we have switched the spec format, this PR changes Spack's hashing algorithm.  This means that after this commit, Spack will think a lot of things need rebuilds.\r\n\r\nThere are two major benefits this PR provides:\r\n* The switch to JSON format speeds up Spack significantly, as Python's builtin JSON implementation is orders of magnitude faster than YAML. \r\n* The new Spec format will soon allow us to represent DAGs with potentially multiple versions of the same dependency -- e.g., for build dependencies or for compilers-as-dependencies.  This PR lays the necessary groundwork for those features.\r\n\r\nThe old `spec.yaml` format continues to be supported, but is now considered a legacy format, and Spack will opportunistically convert these to the new `spec.json` format.",
+    "user": "nhanford",
+    "url": "https://api.github.com/repos/spack/spack/issues/22845",
+    "updated_at": "2022-02-28 21:00:26",
+    "created_at": "2021-04-07 17:05:00",
+    "closed_at": "2021-09-09 08:48:31",
+    "state": "closed",
+    "title": "specs: move to new spec.json format with build provenance",
+    "number": 22845,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "tests",
+        "commands",
+        "environments",
+        "binary-packages",
+        "utilities",
+        "yaml"
+    ],
+    "id": 852610604,
+    "html_url": "https://github.com/spack/spack/pull/22845",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I've installed libxsmm-1.11 and ended up with the following `libxsmmf.pc` file:\r\n\r\n```\r\nName: libxsmm/f\r\nDescription: LIBXSMM for Fortran\r\nURL: https://github.com/hfp/libxsmm\r\nVersion: 1.11.0\r\n\r\nprefix=/tmp/tiziano/spack-stage/spack-stage-GBJeMX/libxsmm-1.11\r\nincludedir=include\r\nlibdir=lib\r\n\r\nRequires: libxsmm\r\nCflags: -I${includedir}\r\nLibs: -L${libdir} -lxsmmf\r\n```\r\n\r\nyielding two problems:\r\n\r\n* referencing in `prefix` the staging area instead of the final installation path\r\n* `includedir` containing only a relative path instead of the full path\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install libxsmm+no-header-only\r\n```\r\n\r\n@hfp any ideas?",
+    "user": "dev-zero",
+    "url": "https://api.github.com/repos/spack/spack/issues/11413",
+    "updated_at": "2019-07-19 23:18:32",
+    "created_at": "2019-05-10 09:40:07",
+    "closed_at": "2019-07-19 23:18:31",
+    "state": "closed",
+    "title": "libxsmm-1.11: libxsmmf.pc contains relative incdir instead of absolute one and points to staging",
+    "number": 11413,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 442629845,
+    "html_url": "https://github.com/spack/spack/issues/11413",
+    "assignees": [],
+    "comments": 3
+}

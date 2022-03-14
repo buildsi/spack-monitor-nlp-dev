@@ -1,0 +1,26 @@
+{
+    "body": "To do release management as described in #7116 and #7117, we need to include the hash of `package.py` files in the `spec`, so that changes to builds are reflected in the Spack hash.\r\n\r\nWe have had logic to do this for a while, in the `features/package-hash` branch.  This branch canonicalizes packages by removing comments, directive metadata, and unused version-specific `@when` decorators, then it hashes what's left and factors that into the spec.\r\n\r\nWe haven't worked this into Spack proper yet, because there needs to be additional support in the concretizer to make it less disruptive.  But we'll at least need it to detect that packages have changed meaningfully since the last build.\r\n\r\n- [x] Rebase `features/package-hash` on `develop` and get it working. (#7193)\r\n\r\n- [x] Depending on whether the new concretizer is ready, decide whether to make the package hash part of the spec hash, or whether we should just use it for builds.\r\n     * merge in appropriate support\r\n     * **Decision**: we will just use this to detect builds for now.  The support for full hashing is in place, but full hashing won't be in production until we have the new concretizer.\r\n\r\n- [x] ensure that binaries are rebuilt when changes are made to `package.py` files on a release branch, see #8387 for discussion.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/7119",
+    "updated_at": "2019-08-22 23:59:23",
+    "created_at": "2018-01-30 10:48:55",
+    "closed_at": "2019-08-22 23:59:23",
+    "state": "closed",
+    "title": "package.py hashing",
+    "number": 7119,
+    "milestone": null,
+    "labels": [
+        "hashes",
+        "specs",
+        "tests",
+        "releases",
+        "buildcache",
+        "task"
+    ],
+    "id": 292736414,
+    "html_url": "https://github.com/spack/spack/issues/7119",
+    "assignees": [
+        "scottwittenburg"
+    ],
+    "comments": 6
+}

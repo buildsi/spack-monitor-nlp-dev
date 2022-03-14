@@ -1,0 +1,22 @@
+{
+    "body": "This PR addresses #25447, build failures encountered with `netlib-lapack@3.9.1%xl_r`. It incorporates some of the fixes provided in an earlier patch, `ibm-xl.patch` (the rest have been upstreamed).\r\n\r\nAdditionally, it adds correct detection for the `xlf`'s `-qrecur` option. Note that the current logic will test ALL possible recursive flags against a target compiler; in the case of `xlf` this unexpectedly \"succeeds\" when the Intel-specific `-recursive` flag is passed in. Actually it doesn't really succeed, but `xlf` does not correctly report failure, so `cmake` CheckFortranCompilerFlag ends up tacking `-recursive` onto `CMAKE_Fortran_FLAGS`. The resulting attempt to compile with this bogus flag fails.\r\n\r\nYou can see the errant compiler behavior with a simple example \"Hello World\" program:\r\n```\r\n$ xlf_r -recursive -o hello-dumb hello.f90\r\n** helloworld   === End of Compilation 1 ===\r\n1501-510  Compilation successful for file hello.f90.\r\nld: cannot find -lgcc_s\r\nld: cannot find -lgcc_s\r\n\r\n$ ls\r\nhello.f90  hello.o\r\n\r\n$ file hello.o\r\nhello.o: ELF 64-bit LSB relocatable, 64-bit PowerPC or cisco 7500, version 1 (SYSV), not stripped\r\n```\r\nThe `xlf` compiler produces an intermediate object code that will not link.\r\n\r\nI've reported this problem to the [LAPACK maintainers](https://github.com/Reference-LAPACK/lapack/issues/606#issuecomment-888463053) and will direct them here so they can evaluate this solution for upstreaming.",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/25793",
+    "updated_at": "2021-09-08 08:09:13",
+    "created_at": "2021-09-04 02:58:45",
+    "closed_at": "2021-09-08 08:09:13",
+    "state": "closed",
+    "title": "netlib-lapack: Fixes for IBM XL builds",
+    "number": 25793,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "update-package"
+    ],
+    "id": 988194752,
+    "html_url": "https://github.com/spack/spack/pull/25793",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,23 @@
+{
+    "body": "Store a dictionary mapping of original dependency prefixes to dependency hashes. \r\n\r\nNote: old buildcaches will not have the dictionary needed to relocate into a non-default layout.\r\n\r\nUse the loaded spec to grab the new dependency prefixes in the new directory layout.\r\n\r\nMap the original dependency prefixes to the new dependency prefixes using the dependency hashes.\r\n\r\nUse the dependency prefixes map to replace original rpaths with new rpaths preserving the order. \r\nFor mach-o binaries, use the dependency prefixes map to replace the dependency library entires for libraries and executables and the replace the library id for libraries. \r\n\r\nOn Linux, patchelf is used to replace the rpaths of elf binaries.\r\nOn macOS, install_name_tool is used to replace the rpaths and  dependency libraries  of mach-o binaries and the id of mach-o libraries.\r\nOn Linux, macholib is used to replace the dependency libraries of mach-o binaries and the id of mach-o libraries.\r\n\r\nBinary text with padding replacement is attempted for all binaries for the following paths:\r\nspack layout root\r\nspack prefix\r\nsbang script location\r\ndependency prefixes\r\npackage prefix\r\n\r\nText replacement is attempted for all text files using the paths above.\r\n\r\nRelatived rpaths are generated for the new directory layout as follows. The old rpaths are recreated by getting the nromalized path of the directory name of the original file path name added combined with the relative rpath. The old rpaths are then replace with new rpaths using the prefix to prefix dictionary. Then the relativized rpath is then calculated with respect to the new directory layout. The same thing is done with relativized symbolic links.\r\n\r\nSymbolic links to the absolute path of the package install prefix are replaced, all others produce warnings.",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/13797",
+    "updated_at": "2020-03-16 13:49:04",
+    "created_at": "2019-11-20 00:05:33",
+    "closed_at": "2020-03-16 13:42:24",
+    "state": "closed",
+    "title": "Buildcache: Install into non-default directory layouts",
+    "number": 13797,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 525339749,
+    "html_url": "https://github.com/spack/spack/pull/13797",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

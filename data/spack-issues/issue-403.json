@@ -1,0 +1,17 @@
+{
+    "body": "Lately I've had a lot of trouble with Spack installing things that are already installed. For example, I installed 2 different packages which depend on jpeg. Now I have 2 copies of jpeg installed. Both are the same version. jpeg doesn't have any dependencies or variants, so that isn't causing problems. But somehow they resolve to a different hash, so Spack installs it twice.\n\nThis problem isn't restricted to jpeg. I'm having the exact same problem with szip, which also only has 1 version and no variants or dependencies. I installed szip, then I installed hdf, which depends on szip, so now I have 2 copies. At one point, I installed mpich+verbs and mpich~verbs. Then I installed hdf5 ^mpich+verbs and hdf5 ^mpich~verbs. Now I have 4 different installations of mpich, but they're all the same version.\n\nDid Spack recently change how it's spec hash is calculated? That could affect older installations. Or am I just going crazy? Here are some examples that are on my machine:\n\n```\n$ spack find -ld jpeg %gcc\n==> 2 installed packages.\n-- linux-x86_64 / gcc@5.3.0 -------------------------------------\nek6lol7    jpeg@9a\n\n6t2bktj    jpeg@9a\n```\n\n```\n$ spack find -ld szip %gcc\n==> 2 installed packages.\n-- linux-x86_64 / gcc@5.3.0 -------------------------------------\nmmd6ubg    szip@2.1\n\n6xhnf6b    szip@2.1\n```\n\n```\n$ spack find -ld mpich %gcc\n==> 4 installed packages.\n-- linux-x86_64 / gcc@5.3.0 -------------------------------------\np4pthu4    mpich@3.2~verbs\n\nwntaxzk    mpich@3.2+verbs\n\n2nbkpti    mpich@3.2~verbs\n\nwraqufu    mpich@3.2+verbs\n```\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/403",
+    "updated_at": "2016-01-27 16:26:21",
+    "created_at": "2016-01-27 16:02:44",
+    "closed_at": "2016-01-27 16:26:21",
+    "state": "closed",
+    "title": "Spack installing multiple copies of the same spec",
+    "number": 403,
+    "milestone": null,
+    "labels": [],
+    "id": 129187949,
+    "html_url": "https://github.com/spack/spack/issues/403",
+    "assignees": [],
+    "comments": 2
+}

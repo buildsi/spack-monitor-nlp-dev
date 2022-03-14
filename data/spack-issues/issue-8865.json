@@ -1,0 +1,19 @@
+{
+    "body": "I am getting the following issue on scientific linux 6 when using spack with gcc 7\r\n```\r\n$ spack spec heppy\r\nInput spec\r\n--------------------------------\r\nheppy\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: [Errno 22] Invalid argument: '/path/to/lib64/libstdc++.so'\r\n```\r\nRunning with -d shows this stack trace\r\n```\r\nTraceback (most recent call last):\r\n  File \"/build/paul/spack/bin/spack\", line 61, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/var/build/paul/spack/lib/spack/spack/main.py\", line 653, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/var/build/paul/spack/lib/spack/spack/main.py\", line 432, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/var/build/paul/spack/lib/spack/spack/cmd/spec.py\", line 85, in spec\r\n    spec.concretize()\r\n  File \"/var/build/paul/spack/lib/spack/spack/spec.py\", line 1841, in concretize\r\n    self._expand_virtual_packages(),\r\n  File \"/var/build/paul/spack/lib/spack/spack/spec.py\", line 1749, in _expand_virtual_packages\r\n    candidates = concretizer.choose_virtual_or_external(spec)\r\n  File \"/var/build/paul/spack/lib/spack/spack/concretize.py\", line 149, in choose_virtual_or_external\r\n    key=lambda spec: (\r\n  File \"/var/build/paul/spack/lib/spack/spack/concretize.py\", line 151, in <lambda>\r\n    _abi.compatible(spec, abi_exemplar)))\r\n  File \"/var/build/paul/spack/lib/spack/spack/abi.py\", line 133, in compatible\r\n    self.compiler_compatible(parent, child, loose=loosematch)\r\n  File \"/var/build/paul/spack/lib/spack/spack/abi.py\", line 122, in compiler_compatible\r\n    self._gcc_compiler_compare(pversion, cversion)):\r\n  File \"/var/build/paul/spack/lib/spack/llnl/util/lang.py\", line 182, in __call__\r\n    self.cache[args] = self.func(*args)\r\n  File \"/var/build/paul/spack/lib/spack/spack/abi.py\", line 86, in _gcc_compiler_compare\r\n    plib = self._gcc_get_libstdcxx_version(pversion)\r\n  File \"/var/build/paul/spack/lib/spack/llnl/util/lang.py\", line 182, in __call__\r\n    self.cache[args] = self.func(*args)\r\n  File \"/var/build/paul/spack/lib/spack/spack/abi.py\", line 77, in _gcc_get_libstdcxx_version\r\n    libpath = os.readlink(output.strip())\r\nOSError: [Errno 22] Invalid argument: '/path/to/lib64/libstdc++.so'\r\n```\r\n\r\nSwitching the read method to os.path.realpath instead of os.readlink seems to fix this problem.",
+    "user": "paul-chelarescu",
+    "url": "https://api.github.com/repos/spack/spack/issues/8865",
+    "updated_at": "2018-08-07 05:30:30",
+    "created_at": "2018-08-02 08:58:28",
+    "closed_at": "2018-08-07 05:30:30",
+    "state": "closed",
+    "title": "os.path.realpath instead of os.readlink for checking gcc libstdcxx version",
+    "number": 8865,
+    "milestone": null,
+    "labels": [
+        "gcc"
+    ],
+    "id": 346920900,
+    "html_url": "https://github.com/spack/spack/pull/8865",
+    "assignees": [],
+    "comments": 3
+}

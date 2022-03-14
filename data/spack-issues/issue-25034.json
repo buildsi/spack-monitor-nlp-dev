@@ -1,0 +1,23 @@
+{
+    "body": "It seems my develop spec in an environment gets marked as installed in the database even though it fails to build.\r\n\r\nMaybe this database corruption wasn't noted before #24049, which now only uses the database to see if a spec is installed, not the filesystem.\r\n\r\nI haven't verified this, but I can imagine the issue is that this only happens after a previous successful install, and we simply forget to mark the spec as uninstalled after a failed rebuild?\r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\n$ cat spack.yaml\r\nspack:\r\n  specs:\r\n  - sirius +cuda ^openblas ^mpich\r\n  develop:\r\n    sirius:\r\n      spec: sirius@develop\r\n\r\n$ # create some syntax error or so\r\n\r\n$ spack -e . install\r\n...\r\nSee build log for details:                                                                                                                                                                                                                            \r\n  /path/to/SIRIUS/spack-build-out.txt                                                                                                                                                                                   \r\n                                                                                                                           \r\n==> Error: Failed to install sirius due to RuntimeError: the transactional move of \"/opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/sirius-develop-or4jbkc2zlvlnnozvcb4gj4q4zal52gl\" failed.                                           \r\n    ProcessError: Command exited with status 2:                                                                                                                                                                                                       \r\n    'make' '-j16'                                                                                                          \r\n==> Error: the transactional move of \"/opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/sirius-develop-or4jbkc2zlvlnnozvcb4gj4q4zal52gl\" failed.\r\n    ProcessError: Command exited with status 2:                                                                            \r\n    'make' '-j16'       \r\n\r\n$ spack -e . install\r\n...\r\n[+] /opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/sirius-develop-or4jbkc2zlvlnnozvcb4gj4q4zal52gl         \r\n\r\n$ ls /opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/sirius-develop-or4jbkc2zlvlnnozvcb4gj4q4zal52gl         \r\nls: cannot access '/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/sirius-develop-or4jbkc2zlvlnnozvcb4gj4q4zal52gl': No such file or directory\r\n```\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3636-7ad72de0d3\r\n* **Python:** 3.8.9\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n* **Concretizer:** clingo",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25034",
+    "updated_at": "2021-08-31 09:45:33",
+    "created_at": "2021-07-22 13:42:55",
+    "closed_at": "2021-08-31 09:45:33",
+    "state": "closed",
+    "title": "develop spec marked installed after build failure.",
+    "number": 25034,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 950685136,
+    "html_url": "https://github.com/spack/spack/issues/25034",
+    "assignees": [
+        "scheibelp",
+        "becker33"
+    ],
+    "comments": 4
+}

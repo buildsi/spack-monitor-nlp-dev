@@ -1,0 +1,24 @@
+{
+    "body": "**Short story:**\r\n\r\nPyMol package specification had impossible constraint. It was working with old concretizer, but it doesn't work with new one.\r\n\r\n**Long story**:\r\n\r\n`spack install py-pymol` was working in Spack `1.16.3`, but it stopped in `1.17.0`. The commit that breaks it (`git bisect`) is the one that changes default concretizer. `1.17.0` works if the old concretizer is selected.\r\n\r\nConstraint `libpng@1.5.13` is invalid, because there is no such version of `libpng` in Spack packages. \r\n\r\nI checked few versions of Spack back and there was no such version in the past either.\r\n\r\nAll three listed versions of PyMol (`2.5.0`, `2.4.0` and `2.3.0`) seems to be fine without this constraint so I assume it is not needed for it. Also https://pymolwiki.org/index.php/Linux_Install doesn't specify any particular version of `libpng`.\r\n\r\n# Test\r\n\r\n```bash\r\nspack install py-pymol py-pymol@2.4.0 py-pymol@2.3.0\r\n```\r\n\r\n```bash\r\nspack load py-pymol\r\npymol\r\n```\r\n\r\n```bash\r\nspack load py-pymol@2.4.0\r\npymol\r\n```\r\n\r\n```bash\r\nspack load py-pymol@2.3.0\r\npymol\r\n```",
+    "user": "w8jcik",
+    "url": "https://api.github.com/repos/spack/spack/issues/27358",
+    "updated_at": "2021-12-20 10:17:16",
+    "created_at": "2021-11-11 15:28:07",
+    "closed_at": "2021-12-20 10:17:14",
+    "state": "closed",
+    "title": "py-pymol: Remove invalid constraint, add new version",
+    "number": 27358,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "python",
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1051096979,
+    "html_url": "https://github.com/spack/spack/pull/27358",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 3
+}

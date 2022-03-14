@@ -1,0 +1,21 @@
+{
+    "body": "This isn't a rework of the concretizer but it speeds things up a LOT.\r\n    \r\nThe main culprits were:\r\n  1. Variant code and `provider_index` were calling `spec.package` when they\r\n     could use `spec.package_class`\r\n      - `spec.package` looks up a package instance by `Spec`, which requires a\r\n        (fast-ish but not that fast) DAG compare.\r\n      - `spec.package_class` just looks up the package's class by name, and you\r\n          should use this when all you need is metadata (most of the time).\r\n      - not really clear that the current way packages are looked up is\r\n        necessary -- we can consider refactoring that in the future.\r\n    \r\n  2. `Repository.repo_for_pkg` parses a `str` argument into a `Spec` when\r\n     called with one, via `@_autospec`, but this is not needed.\r\n     - Add some faster code to handle strings directly and avoid parsing\r\n   \r\nThis **speeds up concretization ~~3-6x~~  3-9x** in my limited tests.  Probably more for bigger DAGs.  Still not super fast but much more bearable:\r\n\r\nBefore:\r\n  - `spack spec xsdk` took 33.6s\r\n  - `spack spec dealii` took 1m39s\r\n  - `spack spec r-rminer` takes \ud83d\ude31 \r\n\r\nAfter:\r\n  - `spack spec xsdk` takes ~~11.4s~~ 6.8s\r\n  - `spack spec dealii` takes ~~18.6s~~ 10.8s\r\n  - `spack spec r-rminer` takes 1m42s (this one is kind of an upper bound for us so far)\r\n\r\n@adamjstewart @davydden \ud83d\ude04 \u261d\ufe0f ",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/5716",
+    "updated_at": "2017-11-12 00:43:19",
+    "created_at": "2017-10-12 07:48:05",
+    "closed_at": "2017-10-12 16:52:39",
+    "state": "closed",
+    "title": "Speed up concretization",
+    "number": 5716,
+    "milestone": "v0.11.0",
+    "labels": [
+        "concretization",
+        "specs",
+        "variants"
+    ],
+    "id": 264844582,
+    "html_url": "https://github.com/spack/spack/pull/5716",
+    "assignees": [],
+    "comments": 6
+}

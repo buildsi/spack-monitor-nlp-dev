@@ -1,0 +1,20 @@
+{
+    "body": "fixes #11678 \r\n\r\nIn ea7910a4727862d7fab03edc3583efc7bf2f42f8 the semantic of `find_compilers` was changed slightly, see https://github.com/spack/spack/pull/10190#discussion_r291039122, but we forgot to change the calling site accordingly. This introduced a bug that compromises the correct execution of:\r\n```console\r\n$ spack compiler find\r\n```\r\nwhen no specific path is specified. Unit tests didn't catch the bug.\r\n\r\nThis PR:\r\n- [x] Adds a regression test that fails for the case reported #11678\r\n- [x] Fixes the bug by modifying the calling site in `spack/cmd/compiler.py`",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11683",
+    "updated_at": "2019-06-17 23:52:21",
+    "created_at": "2019-06-12 11:17:26",
+    "closed_at": "2019-06-12 22:28:17",
+    "state": "closed",
+    "title": "Compiler find looks again into PATH by default",
+    "number": 11683,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers"
+    ],
+    "id": 455154674,
+    "html_url": "https://github.com/spack/spack/pull/11683",
+    "assignees": [],
+    "comments": 1
+}

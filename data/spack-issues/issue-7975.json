@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n`. spack/share/spack/setup-env.sh` fails on ERDC-DSRC Onyx (Cray XC40/50).\r\n\r\nSubsequent `spack install` commands fail as well.\r\n\r\n### Expected Result\r\nSetup environment variables and install packages.\r\n\r\n### Actual Result\r\nRunning the `setup-env.sh` command returns:\r\n```\r\nreadline: /etc/inputrc: line 19: term: unknown variable name\r\n```\r\n\r\nTrying to install `eigen` or `cereal` returns the same error with regards to `ncurses`:\r\n```\r\n==> Installing ncurses\r\n==> Error: SyntaxError: invalid syntax (<string>, line 471)\r\nSyntaxError: SyntaxError: invalid syntax (<string>, line 471)\r\n\r\n/dependencies/spack/lib/spack/spack/build_environment.py:684, in child_process:\r\n     27    \r\n     28                # build up some context from the offending package so we can\r\n     29                # show that, too.\r\n  >> 30                package_context = get_package_context(tb)\r\n     31    \r\n     32                build_log = None\r\n     33                if hasattr(pkg, 'log_path'):\r\n```\r\n\r\n### Steps to Reproduce the Issues\r\n#### `setup-env.sh` error:\r\n```\r\n$ git clone https://github.com/spack/spack.git\r\n$ . spack/share/spack/setup-env.sh\r\n```\r\n\r\nLine 19 in `/etc/inputrc` is:\r\n```\r\nset term xy\r\n```\r\n\r\n\r\n#### Install error:\r\n```console\r\n$ spack install eigen\r\n```\r\n\r\nI'm able to run the `setup-env.sh` and `install` commands on my local machine just fine. It's only on the Cray machine that I'm having these issues. \r\n\r\nAny insights would be greatly appreciated. Thanks in advance!\r\n\r\n### System Information\r\nPlatform:\r\n```\r\n$ uname -a\r\nLinux onyx07 3.12.61-52.111-default #1 SMP Tue Jan 9 14:03:30 UTC 2018 (75215ba) x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\nOnyx is a Cray XC40/50.\r\n\r\nBash version is:\r\n```\r\n$ echo $BASH_VERSION \r\n4.2.47(1)-release\r\n```",
+    "user": "westb",
+    "url": "https://api.github.com/repos/spack/spack/issues/7975",
+    "updated_at": "2018-05-03 18:49:40",
+    "created_at": "2018-05-02 18:22:31",
+    "closed_at": "2018-05-03 18:49:40",
+    "state": "closed",
+    "title": "Setup and install errors on ERDC-DSRC Onyx (Cray) ",
+    "number": 7975,
+    "milestone": null,
+    "labels": [
+        "cray"
+    ],
+    "id": 319661160,
+    "html_url": "https://github.com/spack/spack/issues/7975",
+    "assignees": [],
+    "comments": 1
+}

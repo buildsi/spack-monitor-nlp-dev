@@ -1,0 +1,17 @@
+{
+    "body": "Prior to this commit, running `spack module refresh` with `gdbm`\r\ninstalled throws the warning:\r\n\r\n```console\r\n==> Warning: Could not write module file [/Users/oxberry1/spack/share/spack/lmod/darwin-sierra-x86_64/Core/gdbm/1.14.1.lua]\r\n==> Warning:    --> global name 'spack_cc' is not defined <--\r\n```\r\n\r\nThis warning is repeated for every `gdbm` installation in Spack.\r\n\r\nThe cause of the issue seems to be the same as in spack/spack (#6089):\r\nusing `spack_cc`, `spack_cxx`, or similar inside `configure_args`\r\ncauses the warnings to throw when module files are generated.\r\n\r\nMoving the use of `spack_cc` into `setup_environment` seems to fix the\r\nproblem, even though it's a bit of a kludge.\r\n\r\nI've tested this commit both on my MacBook Pro with clang@8.1.0-apple and gcc@7.3.0, and on RHEL 7 with intel@16.0.3 (which uses gcc@4.9.3), and #5892 does not recur (it is still fixed).",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/7225",
+    "updated_at": "2018-09-18 11:44:07",
+    "created_at": "2018-02-13 04:05:08",
+    "closed_at": "2018-02-14 07:41:51",
+    "state": "closed",
+    "title": "[bugfix] gdbm: fix lmod global name 'spack_cc' undefined",
+    "number": 7225,
+    "milestone": null,
+    "labels": [],
+    "id": 296607210,
+    "html_url": "https://github.com/spack/spack/pull/7225",
+    "assignees": [],
+    "comments": 0
+}

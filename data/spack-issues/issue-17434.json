@@ -1,0 +1,19 @@
+{
+    "body": "With %fj, build failed because fail to find libcurl.\r\n\r\n> /opt/arm/gcc-8.2.0_Generic-AArch64_RHEL-7_aarch64-linux/lib/gcc/aarch64-linux-gnu/8.2.0/../../../../aarch64-linux-gnu/bin/ld: cannot find -lcurl\r\n\r\nSo -L(spack's curl/lib) should be add to compiler option.\r\nI could not find fault in setup.py, so added LDFLAGS directly.\r\n `env.set('LDFLAGS', '-L' + self.spec['curl'].prefix.lib)`\r\nWith %gcc, build succeed. But options were similar to %fj.\r\nAnd probably link to /usr/lib64.\r\nTherefore, this patch should be applied to all compiler.",
+    "user": "ketsubouchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/17434",
+    "updated_at": "2020-07-10 13:26:22",
+    "created_at": "2020-07-09 04:54:15",
+    "closed_at": "2020-07-10 13:26:22",
+    "state": "closed",
+    "title": "py-pysam: add LDFLAGS to curl",
+    "number": 17434,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 653762375,
+    "html_url": "https://github.com/spack/spack/pull/17434",
+    "assignees": [],
+    "comments": 1
+}

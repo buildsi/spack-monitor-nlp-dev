@@ -1,0 +1,17 @@
+{
+    "body": "Multimethods (using the `@when` decorator) previously did not work with package inheritance.\r\n\r\nIf package `foo` extended package `bar` and `bar` used multimethods, `spack install foo` would enter an infinite recursion and hit python's maximum recursion depth.\r\n\r\nThis was due to our reliance on the `super` method to recurse up the method resolution order. The `super` builtin ~uses~ returns a proxy object that delegates method lookup to the superclass but does not change the bound object of methods of the proxy object. This lead to a recursion error when searching for possible matches for a multimethod.\r\n\r\nThis PR changes the search algorithm for multimethods to use `inspect.getmro()` to search the MRO DAG for the class and uses an iterative instead of recursive algorithm to ensure we follow MRO properly when looking for matching specs in multimethods.\r\n\r\nThis also includes some refactoring of the Spec object that @tgamblin found convenient to do at the same time. It removes the `parse_anonymous_spec` call from multimethod.py, relying on the newer anonymous spec feature.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/10028",
+    "updated_at": "2018-12-17 19:15:59",
+    "created_at": "2018-12-05 20:40:47",
+    "closed_at": "2018-12-06 23:48:24",
+    "state": "closed",
+    "title": "bugfix: multimethod inheritance",
+    "number": 10028,
+    "milestone": null,
+    "labels": [],
+    "id": 387936479,
+    "html_url": "https://github.com/spack/spack/pull/10028",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "This adds a new `mark` command that can be used to mark packages as either explicitly or implicitly installed. Apart from fixing the package database after installing a dependency manually, it can be used to implement upgrade workflows as outlined in #13385.\r\n\r\nThe following commands demonstrate how the `mark` and `gc` commands can be used to only keep the current version of a package installed:\r\n```console\r\n$ spack install pkgA\r\n$ spack install pkgB\r\n$ git pull # Imagine new versions for pkgA and/or pkgB are introduced\r\n$ spack mark -i -a\r\n$ spack install pkgA\r\n$ spack install pkgB\r\n$ spack gc\r\n```\r\n\r\nIf there is no new version for a package, `install` will simply mark it as explicitly installed and `gc` will not remove it.\r\n\r\nFixes #9626",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/16662",
+    "updated_at": "2020-11-18 11:20:58",
+    "created_at": "2020-05-15 14:04:30",
+    "closed_at": "2020-11-18 11:20:58",
+    "state": "closed",
+    "title": "cmd: Add new mark command",
+    "number": 16662,
+    "milestone": null,
+    "labels": [
+        "new-command"
+    ],
+    "id": 618991369,
+    "html_url": "https://github.com/spack/spack/pull/16662",
+    "assignees": [],
+    "comments": 10
+}

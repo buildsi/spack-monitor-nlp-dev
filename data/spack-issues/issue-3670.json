@@ -1,0 +1,19 @@
+{
+    "body": "I have problems building `libxcb` on Cori. The problem is that this package finds a version of `xcb-proto` that is too old, although Spack just installed a newer of this package.\r\n\r\nI tracked down the problem to this setting of `PKG_CONFIG_PATH` while Spack is running:\r\n\r\n```\r\n$ spack env libxcb | grep PKG_CONFIG_PATH\r\nPKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/xcb-proto-1.12-gvfp74jkzfuerqxvohhcybivqaw5ts3v/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/sqlite-3.8.5-esif7eg3rfoneqll2snxf4jz55xrdcom/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/zlib-1.2.11-b7dx6xah5twbll4f2vtbwwf2husbpaxl/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/openssl-1.0.2k-6t2y3u5htsrkkffpbanzmrwftn4dhtoy/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/ncurses-6.0-ndm4sflka535lhge3yhpxstbf4jspfsx/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/python-2.7.13-5tssjghckgwlldxlxlnbxhnintt2mkq2/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/libxdmcp-1.1.2-hyxfmfczedliy5rs6mgr3qoxcjaoc52h/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/xproto-7.0.29-rw2zmcnlbc6qqcj2fw7dxvr5a3yirxr3/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/util-macros-1.19.1-avbfnl2hx7fsimm64emh7kmnyx4c5pkj/share/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/libxau-1.0.8-l42xxi5panwmko6rgvarhr7k5o6r4swu/lib/pkgconfig:/global/project/projectdirs/m152/schnette/cori/src/spack/opt/spack/cray-CNL-haswell/gcc-6.3.0-spack/libpthread-stubs-0.3-45cokmhjghejkvvhi4fzyvgb6ddv4mo6/lib/pkgconfig:/opt/cray/rca/2.1.6_g2c60fbf-2.265/lib64/pkgconfig:/opt/cray/alps/6.3.4-2.21/lib64/pkgconfig:/opt/cray/xpmem/2.1.1_gf9c9084-2.38/lib64/pkgconfig:/opt/cray/gni-headers/5.0.11-2.2/lib64/pkgconfig:/opt/cray/dmapp/7.1.1-39.37/lib64/pkgconfig:/opt/cray/pe/pmi/5.0.10-1.0000.11050.0.0.ari/lib64/pkgconfig:/opt/cray/ugni/6.0.15-2.2/lib64/pkgconfig:/opt/cray/udreg/2.3.2-7.54/lib64/pkgconfig:/usr/common/software/darshan/3.0.1.1/lib/pkgconfig:/opt/cray/pe/craype/2.5.7/pkg-config:/opt/cray/pe/iobuf/2.0.8/lib/pkgconfig:/opt/cray/pe/atp/2.1.0/lib/pkgconfig:/opt/cray/pe/atp/2.0.3/lib/pkgconfig\r\n```\r\n\r\nNote the two system directories `/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig` in the beginning. They should not be there; if at all, they need to be listed in the end (see discussions about `LD_LIBRARY_PATH` etc.)",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/3670",
+    "updated_at": "2017-04-09 01:50:17",
+    "created_at": "2017-04-03 15:52:42",
+    "closed_at": "2017-04-09 01:50:17",
+    "state": "closed",
+    "title": "/usr/local should not be at beginning of PKG_CONFIG_PATH",
+    "number": 3670,
+    "milestone": null,
+    "labels": [
+        "build-environment"
+    ],
+    "id": 218979038,
+    "html_url": "https://github.com/spack/spack/issues/3670",
+    "assignees": [],
+    "comments": 7
+}

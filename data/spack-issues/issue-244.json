@@ -1,0 +1,19 @@
+{
+    "body": "spack uninstall fails for libxml2, when without python bindings (see error below). Does spack need to keep track of extensions like it does with dependences? I don't know if it will happen in practice, but it's possible that different variants of a package could result in 3 scenarios:\n\n1) libxml2 can be built w/o depending on and w/o extending python\n2) libxml2 can be build extending (and necessarily depending on) python\n3) libxml2 could depend on python without extending it\n\n``` bash\ncab687@lee218:spack uninstall libxml2\nTraceback (most recent call last):\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/bin/spack\", line 163, in\n    main()\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/bin/spack\", line 144, in main\n    return_val = command(parser, args)\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/lib/spack/spack/cmd/uninstall.py\", line 96, in uninstall\n    pkg.do_uninstall(force=args.force)\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/lib/spack/spack/package.py\", line 932, in do_uninstall\n    spack.hooks.pre_uninstall(self)\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/lib/spack/spack/hooks/init.py\", line 69, in call\n    hook(pkg)\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/lib/spack/spack/hooks/extensions.py\", line 35, in pre_uninstall\n    if pkg.activated:\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/lib/spack/spack/package.py\", line 518, in activated\n    exts = spack.install_layout.extension_map(self.extendee_spec)\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/lib/spack/spack/directory_layout.py\", line 345, in extension_map\n    _check_concrete(spec)\n  File \"/nfs/tmp2/lee218/pkg/spack3/spack/lib/spack/spack/directory_layout.py\", line 44, in _check_concrete\n    raise ValueError('Specs passed to a DirectoryLayout must be concrete!')\nValueError: Specs passed to a DirectoryLayout must be concrete!\n```\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/244",
+    "updated_at": "2015-12-19 16:06:36",
+    "created_at": "2015-12-16 19:47:31",
+    "closed_at": "2015-12-19 16:06:36",
+    "state": "closed",
+    "title": "Uninstall of libxml2 still failing",
+    "number": 244,
+    "milestone": null,
+    "labels": [],
+    "id": 122587044,
+    "html_url": "https://github.com/spack/spack/issues/244",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

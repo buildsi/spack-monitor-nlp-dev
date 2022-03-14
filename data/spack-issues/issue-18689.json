@@ -1,0 +1,21 @@
+{
+    "body": "I'm opening this issue since this popped up twice on Slack in a short time, and I've had the same issue too.\r\n\r\nIf you're on older OS, it is very likely that running `spack load [any package]` will break system executables like `git`, `lua` and others (or at least generate warnings). The problem is spack modifies `LD_LIBRARY_PATH` when running `spack load ...`, and system executables will now start using incompatible, new spack libraries (e.g. git needs openssl, lua needs curses).\r\n\r\n### Steps to reproduce the issue\r\n\r\nIn my case `spack load [pkg]` where [pkg] is any dependent of ncurses made my terminal completely unusable, because I'm using [z.lua](https://github.com/skywind3000/z.lua) to jump around between directories, which is based on lua, which would fail and output warning message every time I would hit enter in the terminal.\r\n\r\nAnother example on CentOS 8, when you run\r\n\r\n```console\r\n$ spack load cmake\r\n$ git pull\r\n/usr/libexec/git-core/git-remote-https: symbol lookup error: /lib64/libk5crypto.so.3: undefined symbol: EVP_KDF_ctrl, version OPENSSL_1_1_1b\r\n```\r\n\r\nThe problem here is that before and after running `spack load cmake` different libs are loaded:\r\n\r\n```\r\n$ ldd /usr/libexec/git-core/git-remote-https\r\n\t...\r\n\tlibz.so.1 => /path/to/projects/spack/opt/spack/linux-centos8-thunderx2/gcc-10.2.0/zlib-1.2.11-3jsx5es2g3wrh7zw45a4yk7qgi2cioot/lib/libz.so.1 (0x0000ffffbe3f0000)\r\n\t...\r\n\tlibcrypto.so.1.1 => /path/to/projects/spack/opt/spack/linux-centos8-thunderx2/gcc-10.2.0/openssl-1.1.1g-xrglcntszao4zn6btswk2o6svrapsjeu/lib/libcrypto.so.1.1 (0x0000ffffbe0b0000)\r\n\t...\r\n\tlibssl.so.1.1 => /path/to/projects/spack/opt/spack/linux-centos8-thunderx2/gcc-10.2.0/openssl-1.1.1g-xrglcntszao4zn6btswk2o6svrapsjeu/lib/libssl.so.1.1 (0x0000ffffbdd10000)\r\n\t...\r\n$ ldd /usr/libexec/git-core/git-remote-https\r\n\t...\r\n\tlibz.so.1 => /lib64/libz.so.1 (0x0000ffff97510000)\r\n\t...\r\n\tlibcrypto.so.1.1 => /lib64/libcrypto.so.1.1 (0x0000ffff971e0000)\r\n\t...\r\n\tlibssl.so.1.1 => /lib64/libssl.so.1.1 (0x0000ffff96e40000)\r\n\t...\r\n```\r\n\r\n\r\n### Potential solution\r\n\r\nI think it is best to never set `LD_LIBRARY_PATH` upon `spack load` by default, since \r\na. it causes too many annoying side effects, and \r\nb. spack already sets up rpaths for its executables and libraries.\r\n\r\nMaybe we can instead have `LD_LIBRARY_PATH` set _only_ when a certain flag is provided `spack load --ld-library-path [pkg]`?\r\n\r\nPinging @tgamblin, since I remember some potential troubles about openmpi and rpath / ld_library_path.\r\n\r\n### Additional information\r\n\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18689",
+    "updated_at": "2020-09-16 15:36:14",
+    "created_at": "2020-09-16 11:39:39",
+    "closed_at": "2020-09-16 15:36:04",
+    "state": "closed",
+    "title": "`spack load` often interferes with system executables by setting LD_LIBRARY_PATH",
+    "number": 18689,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate",
+        "triage"
+    ],
+    "id": 702691754,
+    "html_url": "https://github.com/spack/spack/issues/18689",
+    "assignees": [],
+    "comments": 1
+}

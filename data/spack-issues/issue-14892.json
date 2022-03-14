@@ -1,0 +1,20 @@
+{
+    "body": "The `<math.h>` implementation in libc++ distributed with clang@9 differs from the one in clang@8: it uses `#include_next` to include the system's `math.h`, which defines macros `DOMAIN` and `RANGE`. There are a few files in Silo that unwittingly use these macro-like names as type names. Since Silo has no public repo I can't submit a patch directly, but it looks like the upstream [fpzip library](https://github.com/LLNL/fpzip) is available and the [peccant source files have been fixed](https://github.com/LLNL/fpzip/blob/master/src/pcmap.h).\r\n\r\n```\r\nIn file included from read.cpp:3:\r\nIn file included from ./pcdecoder.h:5:\r\n./pcmap.h:17:13: error: expected member name or ';' after declaration\r\nspecifiers\r\n  typedef T DOMAIN;\r\n  ~~~~~~~~~ ^\r\n/usr/include/math.h:335:18: note: expanded from macro 'DOMAIN'\r\n\\# define DOMAIN         1\r\n                        ^\r\nIn file included from read.cpp:3:\r\nIn file included from ./pcdecoder.h:5:\r\n./pcmap.h:21:17: error: expected parameter declarator\r\n  RANGE forward(DOMAIN d) const { return d >> shift; }\r\n                ^\r\n/usr/include/math.h:335:18: note: expanded from macro 'DOMAIN'\r\n\\# define DOMAIN         1\r\n```",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14892",
+    "updated_at": "2020-02-14 14:42:49",
+    "created_at": "2020-02-11 18:27:22",
+    "closed_at": "2020-02-14 01:45:56",
+    "state": "closed",
+    "title": "Fix Silo build on %clang@9",
+    "number": 14892,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "clang"
+    ],
+    "id": 563393729,
+    "html_url": "https://github.com/spack/spack/pull/14892",
+    "assignees": [],
+    "comments": 1
+}

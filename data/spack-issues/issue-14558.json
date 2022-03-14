@@ -1,0 +1,23 @@
+{
+    "body": "The example in the docs is incorrect -- spack env expects a subcommand:\r\n\r\n```\r\n$ spack env myenv loads -r\r\nusage: spack env [-h] SUBCOMMAND ...\r\nspack env: error: argument SUBCOMMAND: invalid choice: 'myenv' choose from:\r\n    activate  create  deactivate  list  loads  ls  remove  rm  st  status  view\r\n```\r\n\r\nI also have a question about the resulting `loads` script.  The docs cheerfully state: *This creates a file called loads in the environment directory. Sourcing that file in Bash will make the environment available to the user; and can be included in .bashrc files, etc.*\r\n\r\nHowever, when I try to source the script on a vanilla Ubuntu 18.04 box, I get:\r\n\r\n```\r\n$ source path/to/spack/var/spack/environments/myenv/loads\r\nmodule: command not found\r\nmodule: command not found\r\nmodule: command not found\r\nmodule: command not found\r\nmodule: command not found\r\n```\r\n\r\nApparently, the script expects that lmod (or some kin) is already installed on the system.  Shouldn't the docs at least mention this, and better yet, explain how this process could be bootstrapped by a spack-provided lmod?",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/14558",
+    "updated_at": "2020-01-28 04:49:54",
+    "created_at": "2020-01-19 22:27:49",
+    "closed_at": "2020-01-28 04:49:54",
+    "state": "closed",
+    "title": "fix spack env loads example",
+    "number": 14558,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "modules",
+        "environments"
+    ],
+    "id": 551995990,
+    "html_url": "https://github.com/spack/spack/pull/14558",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

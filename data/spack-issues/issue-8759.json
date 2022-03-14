@@ -1,0 +1,20 @@
+{
+    "body": "without link type specified, I could not install nwchem.  I would get a linking error like so:\r\n\r\n```\r\ngfortran  -Wl,--export-dynamic  -L/opt/spack/var/spack/stage/nwchem-6.8-fdlc5rncsvahrf26hbuueahg6byx6nt5/nwchem-6.8-release/lib/LINUX64 -L/opt/spack/var/spack/stage/nwchem-6.8-fdlc5rncsvahrf26hbuueahg6byx6nt5/nw\r\nchem-6.8-release/src/tools/install/lib   -o /opt/spack/var/spack/stage/nwchem-6.8-fdlc5rncsvahrf26hbuueahg6byx6nt5/nwchem-6.8-release/bin/LINUX64/nwchem nwchem.o stubs.o -lnwctask -lccsd -lmcscf -lselci -lmp2 -l\r\nmoints -lstepper -ldriver -loptim -lnwdft -lgradients -lcphf -lesp -lddscf -ldangchang -lguess -lhessian -lvib -lnwcutil -lrimp2 -lproperty -lsolvation -lnwints -lprepar -lnwmd -lnwpw -lofpw -lpaw -lpspw -lband \r\n-lnwpwlib -lcafe -lspace -lanalyze -lqhop -lpfft -ldplot -lnwpython -ldrdy -lvscf -lqmmm -lqmd -letrans -lpspw -ltce -lbq -lmm -lcons -lperfm -ldntmc -lccca -ldimqm -lnwcutil -lga -larmci -lpeigs -lperfm -lcons \r\n-lbq -lnwcutil  -L/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/netlib-scalapack-2.0.2-sakcdletgobmppuxysmgpnrwnoxutosl/lib -lscalapack  -l64to32 -L/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/openblas-0.2.\r\n20-zp4k2ficko2rvgkkoce4ickfzpebkhp7/lib -lopenblas  -L/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/openblas-0.2.20-zp4k2ficko2rvgkkoce4ickfzpebkhp7/lib -lopenblas -L/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4\r\n.8.5/openblas-0.2.20-zp4k2ficko2rvgkkoce4ickfzpebkhp7/lib -lopenblas  -L/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/hwloc-1.11.9-gold4447lbyzvnxhxnbbzzo7zw6ijcof/lib -L/opt/rit/spack-app/linux-rhel7-x86_64/g\r\ncc-4.8.5/openmpi-3.1.0-athyebf66bybb6al2kcplnkbx5mjtujd/lib -lmpi_usempi -lmpi_mpifh -lmpi     -lrt -lpthread -lm  -lpthread  -lnwcutil -lpython2.7 -lpthread -ldl -lutil -lm  -lpython2.7 -lpthread -ldl -lutil -l\r\nm -Xlinker -export-dynamic\r\n/usr/bin/ld: cannot find -lpython2.7\r\ncollect2: error: ld returned 1 exit status\r\nmake: *** [all] Error 1\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j24' 'NWCHEM_TOP=/opt/spack/var/spack/stage/nwchem-6.8-fdlc5rncsvahrf26hbuueahg6byx6nt5/nwchem-6.8-release' 'CC=gcc' 'FC=gfortran' 'USE_MPI=y' 'MPI_LOC=/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.\r\n5/openmpi-3.1.0-athyebf66bybb6al2kcplnkbx5mjtujd' 'USE_PYTHONCONFIG=y' 'PYTHONVERSION=2.7' 'PYTHONHOME=/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/python-2.7.14-ljwrzcsrq75kt2lkm5k52mkvk3aiacip' 'BLASOPT=-L/\r\nopt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/openblas-0.2.20-zp4k2ficko2rvgkkoce4ickfzpebkhp7/lib -lopenblas' 'BLAS_LIB=-L/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/openblas-0.2.20-zp4k2ficko2rvgkkoce4ick\r\nfzpebkhp7/lib -lopenblas' 'LAPACK_LIB=-L/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/openblas-0.2.20-zp4k2ficko2rvgkkoce4ickfzpebkhp7/lib -lopenblas' 'USE_SCALAPACK=y' 'SCALAPACK=-L/opt/rit/spack-app/linux-rh\r\nel7-x86_64/gcc-4.8.5/netlib-scalapack-2.0.2-sakcdletgobmppuxysmgpnrwnoxutosl/lib -lscalapack' 'NWCHEM_MODULES=all python' 'NWCHEM_LONG_PATHS=Y' 'USE_64TO32=y' 'BLAS_SIZE=4' 'LAPACK_SIZE=4' 'SCALAPACK_SIZE=4' 'NW\r\nCHEM_TARGET=LINUX64'\r\n```\r\nThis was on latest develop, with spack built python\r\n\r\nAdding the link type fixed the error, and install succeeded",
+    "user": "baberlevi",
+    "url": "https://api.github.com/repos/spack/spack/issues/8759",
+    "updated_at": "2018-08-21 21:57:52",
+    "created_at": "2018-07-19 16:10:43",
+    "closed_at": "2018-07-19 17:03:40",
+    "state": "closed",
+    "title": "nwchem: add link type to python dep",
+    "number": 8759,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies"
+    ],
+    "id": 342795610,
+    "html_url": "https://github.com/spack/spack/pull/8759",
+    "assignees": [],
+    "comments": 0
+}

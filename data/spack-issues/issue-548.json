@@ -1,0 +1,19 @@
+{
+    "body": "I requested the following in my packages.yaml:\n\n```\n    pism:\n        version: [local]\n```\n\nThere is no version called \"local\" in pism/package.py; only 0.7.3.  The \"local\" version was installed by running \"spack diy\" (actually, spack spconfig, which is pretty equivalent for our purposes here).\n\nI then requested:\n\n```\nspack spec icebin@local +python +coupler +pism ^netlib-lapack+shared ^netlib-blas+fpic ^netcdf+mpi ^eigen~suitesparse ^python@3:\n```\n\nSpack tried to get pism@0.7.3, ignoring the request for local in packages.py.  My guess is it did an algorithm as follows:\n1. User made no version request on command line.\n2. Default in packages.yaml is \"lcoal\"; let's see if we can find such a version.\n3. pism/packages.py doesn't list any version called \"local,\" so let's throw that out\n4. No other defaults are listed in packages.yaml, so just use the latest version listed in pism/packages.py\n\nNot sure what the best approach to solving this issue is.  For now, I'm adding \"^pism@local\" to my command lines.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/548",
+    "updated_at": "2021-03-30 12:01:25",
+    "created_at": "2016-03-14 01:50:02",
+    "closed_at": "2021-03-30 12:01:25",
+    "state": "closed",
+    "title": "Version requested in packages.yaml not respected",
+    "number": 548,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 140554387,
+    "html_url": "https://github.com/spack/spack/issues/548",
+    "assignees": [],
+    "comments": 4
+}

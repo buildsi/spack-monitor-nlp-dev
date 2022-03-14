@@ -1,0 +1,20 @@
+{
+    "body": "Spack's error detection is a little too sensitive. It erroneously picked up the following lines and marked them as errors:\r\n\r\n```\r\n10 errors found in build log:\r\n     29     libtoolize: copying file 'm4/ltversion.m4'\r\n     30     libtoolize: copying file 'm4/lt~obsolete.m4'\r\n     31     autoreconf: running: /Users/Adam/spack/opt/spack/darwin-highsierra-x86_64/clang-9.0.0-apple/autoconf-2.69-2pkhucokgg4327geidao7hfcjnhtcipg/bin/au\r\n            toconf --force\r\n     32     autoreconf: running: /Users/Adam/spack/opt/spack/darwin-highsierra-x86_64/clang-9.0.0-apple/autoconf-2.69-2pkhucokgg4327geidao7hfcjnhtcipg/bin/au\r\n            toheader --force\r\n     33     autoreconf: running: automake --add-missing --copy --force-missing\r\n     34     configure.ac:6: warning: AM_INIT_AUTOMAKE: two- and three-arguments forms are deprecated.  For more info, see:\r\n  >> 35     configure.ac:6: https://www.gnu.org/software/automake/manual/automake.html#Modernize-AM_005fINIT_005fAUTOMAKE-invocation\r\n  >> 36     configure.ac:7: installing './compile'\r\n  >> 37     configure.ac:7: installing './config.guess'\r\n  >> 38     configure.ac:7: installing './config.sub'\r\n  >> 39     configure.ac:6: installing './install-sh'\r\n  >> 40     configure.ac:6: installing './missing'\r\n...\r\n```\r\nThis was discovered while working on a new package. I'll submit it when I get the bugs worked out, but the package looks like:\r\n```python\r\nfrom spack import *                                                             \r\n                                                                                \r\n                                                                                \r\nclass Fyba(AutotoolsPackage):                                                   \r\n    \"\"\"OpenFYBA is the source code release of the FYBA library, distributed     \r\n    by the National Mapping Authority of Norway (Statens kartverk) to read      \r\n    and write files in the National geodata standard format SOSI.\"\"\"            \r\n                                                                                \r\n    homepage = \"https://github.com/kartverket/fyba\"                             \r\n    url      = \"https://github.com/kartverket/fyba/archive/4.1.1.tar.gz\"        \r\n                                                                                \r\n    version('4.1.1', 'ab687582efdef26593796271529a10cb')                        \r\n                                                                                \r\n    # configure: error: cannot find install-sh or install.sh                    \r\n    force_autoreconf = True                                                     \r\n                                                                                \r\n    depends_on('autoconf', type='build')                                        \r\n    depends_on('automake', type='build')                                        \r\n    depends_on('libtool',  type='build')                                        \r\n    depends_on('m4',       type='build')\r\n```\r\nThe error messages can be reproduced by trying to build this package on macOS. \r\n\r\n@tgamblin ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8199",
+    "updated_at": "2018-06-03 04:07:02",
+    "created_at": "2018-05-19 16:25:42",
+    "closed_at": "2018-06-03 04:07:02",
+    "state": "closed",
+    "title": "Incorrect parsing of errors in build log",
+    "number": 8199,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "error-messages"
+    ],
+    "id": 324641671,
+    "html_url": "https://github.com/spack/spack/issues/8199",
+    "assignees": [],
+    "comments": 4
+}

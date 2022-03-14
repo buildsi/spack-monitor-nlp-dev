@@ -1,0 +1,20 @@
+{
+    "body": "This is a bit of a vague feature request, but hoping it may at least start some good discussion.\r\n\r\nMy typical CMake workflow in a project is to have multiple build directories with different compilers, build types, configurations, etc. I might move between them depending on what I'm testing. Each of these directories may want to depend on a different version of a spackage. e.g. The intel build directory should depend on a matching intel compiled version of the spackage, similarly with gcc, clang, etc.\r\n\r\nYou can do this today by using a combination of `spack load` and `find_package` when configuring each compiler. However, it requires the user to have already installed the package and know how to correctly load it. The process of registering compilers, crafting the correct spack spec, and going through the process of installing dependencies is kind of complex for people not familiar with spack, and creates a bit of a learning curve for people new to a project that prefers to fill its dependencies from spack.\r\n\r\nIt would be convenient if there was a CMake module for Spack that made adding dependencies from Spack very easy. I'm imagining something like this in a CMakeLists.txt:\r\n\r\n```cmake\r\nfind_package(Spack REQUIRED)\r\n\r\nfind_spackage(Kokkos +cuda REQUIRED)\r\n\r\ninclude_directories(${Kokkos_SPACK_INCLUDE_DIR})\r\nlink_directories(${Kokkos_SPACK_LINK_DIR})\r\n```\r\n\r\n`find_spackage` would, during CMake configuration, produce a compiler spec from the currently loaded `CMAKE_C_COMPILER`, `CMAKE_CXX_COMPILER`, etc., if one does not already exist, install Kokkos according to the spec (including any options specified in find_spackage) if it is not already installed, produce some variables like `${<package_name>_SPACK_INCLUDE_DIR}`, and save those variables to the CMake cache.\r\n\r\nThis would make it much easier for people building the project for the first time - the only dependency they're required to install independently is spack. Once they've done that, their CMake configuration will take care of the rest of the work, and they don't have to understand spack too intimately. More-so, it makes adding new dependencies to a CMake project almost completely painless, kind of like [Cargo](https://crates.io/) or [npm](https://www.npmjs.com/).\r\n\r\nAny thoughts?",
+    "user": "AndrewGaspar",
+    "url": "https://api.github.com/repos/spack/spack/issues/7904",
+    "updated_at": "2020-05-12 21:37:00",
+    "created_at": "2018-04-25 18:20:44",
+    "closed_at": "2018-06-22 21:38:35",
+    "state": "closed",
+    "title": "Better Out-of-the-box CMake Support",
+    "number": 7904,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "cmake"
+    ],
+    "id": 317740579,
+    "html_url": "https://github.com/spack/spack/issues/7904",
+    "assignees": [],
+    "comments": 11
+}

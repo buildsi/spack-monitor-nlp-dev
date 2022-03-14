@@ -1,0 +1,21 @@
+{
+    "body": "Since a few months, I see that about 1 out of 5 fetches for `libtool` fails. Maybe we can try to find a new url for it?\r\n\r\nThe typical error is, that instead of the source file a HTML file is delivered. Trying to repeat the download usually fixes it, but it's inconvenient on cronjobs and CI.\r\n\r\n```\r\n==> Installing libtool\r\n==> Warning: The contents of \r\n  the archive\r\n   look like HTML.\r\n  The checksum will likely be bad.  If it is, you can use\r\n  'spack clean <package>' to remove the bad archive, then\r\n  fix your internet gateway issue and install again.\r\n==> Fetching http://ftpmirror.gnu.org/libtool/libtool-2.4.6.tar.gz\r\n==> Error: ChecksumError: md5 checksum failed for /usr/local/var/spack/stage/libtool-2.4.6-o2pfwjf44353ajgr42xqtvzyvqsazkgu/libtool-2.4.6.tar.gz\r\n    Expected addf44b646ddb4e3919805aa88fa7c5e but got b9e0e01f4dd18d95f7b6ea5084bd688f\r\nChecksumError: ChecksumError: md5 checksum failed for /usr/local/var/spack/stage/libtool-2.4.6-o2pfwjf44353ajgr42xqtvzyvqsazkgu/libtool-2.4.6.tar.gz\r\n    Expected addf44b646ddb4e3919805aa88fa7c5e but got b9e0e01f4dd18d95f7b6ea5084bd688f\r\n\r\n/usr/local/lib/spack/spack/package.py:982, in do_fetch:\r\n     29            self._fetch_time = time.time() - start_time\r\n     30    \r\n     31            if spack.do_checksum and self.version in self.versions:\r\n  >> 32                self.stage.check()\r\n     33    \r\n     34            self.stage.cache_local()\r\n```\r\n",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/5613",
+    "updated_at": "2019-12-20 22:32:19",
+    "created_at": "2017-10-05 08:08:52",
+    "closed_at": "2019-12-20 22:32:19",
+    "state": "closed",
+    "title": "libtool: failing fetches",
+    "number": 5613,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 263037561,
+    "html_url": "https://github.com/spack/spack/issues/5613",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Up to this commit `PackageBase.do_install` was installing the root package of a DAG unconditionally and its dependencies conditionally (depending on the value of the boolean argument `install_deps`).\r\n\r\nHowever, a sensible operation in many contexts is to install *only* the dependencies. This was not possible via API, and the code to do that was replicated in the implementation of `PackageBase.do_install` and of the `spack install` command. Further, the code in those two places was not doing *exactly* the same thing.\r\n\r\nThis commit extracts a new function that is used in both places, and is external to `PackageBase`. This choice has been preferred over extending `PackageBase.do_install` API because:\r\n- the method was already complex enough (10-15 arguments) and needed to be simplified \r\n- having a method on an instance that installs anything but that instance spec didn't seem a sensible choice",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6833",
+    "updated_at": "2019-02-12 12:35:38",
+    "created_at": "2018-01-05 08:50:02",
+    "closed_at": "2019-02-12 12:35:34",
+    "state": "closed",
+    "title": "Extract installation of dependencies from PackageBase.do_install",
+    "number": 6833,
+    "milestone": null,
+    "labels": [
+        "ready",
+        "refactoring"
+    ],
+    "id": 286226888,
+    "html_url": "https://github.com/spack/spack/pull/6833",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Reproducible by : \n\n```\n$ spack info openjpeg\nPackage:    openjpeg\nHomepage:   https://github.com/uclouvain/openjpeg\n\nSafe versions:  \n    2.1      https://github.com/uclouvain/openjpeg/archive/version.2.1.tar.gz\n    2.0.1    https://github.com/uclouvain/openjpeg/archive/version.2.0.1.tar.gz\n    2.0      https://github.com/uclouvain/openjpeg/archive/version.2.0.tar.gz\n    1.5.2    https://github.com/uclouvain/openjpeg/archive/version.1.5.2.tar.gz\n    1.5.1    https://github.com/uclouvain/openjpeg/archive/version.1.5.1.tar.gz\n\nVariants:\n    None\n\nBuild Dependencies:\nTraceback (most recent call last):\n  File \"/home/mculpo/github/spack-llnl/bin/spack\", line 179, in <module>\n    main()\n  File \"/home/mculpo/github/spack-llnl/bin/spack\", line 157, in main\n    return_val = command(parser, args)\n  File \"/home/mculpo/github/spack-llnl/lib/spack/spack/cmd/info.py\", line 111, in info\n    print_text_info(pkg)\n  File \"/home/mculpo/github/spack-llnl/lib/spack/spack/cmd/info.py\", line 87, in print_text_info\n    deps = pkg.dependencies(deptype)\nTypeError: 'dict' object is not callable\n```\n\nI tried to modify : \n\n```\n$ git diff\ndiff --git a/lib/spack/spack/cmd/info.py b/lib/spack/spack/cmd/info.py\nindex 5774034..6fd4ac6 100644\n--- a/lib/spack/spack/cmd/info.py\n+++ b/lib/spack/spack/cmd/info.py\n@@ -84,7 +84,7 @@ def print_text_info(pkg):\n     for deptype in ('build', 'link', 'run'):\n         print\n         print \"%s Dependencies:\" % deptype.capitalize()\n-        deps = pkg.dependencies(deptype)\n+        deps = pkg.spec.dependencies(deptype)\n         if deps:\n             colify(deps, indent=4)\n         else:\n```\n\nBut the result was no good either : \n\n```\n$ spack info openjpeg\nPackage:    openjpeg\nHomepage:   https://github.com/uclouvain/openjpeg\n\nSafe versions:  \n    2.1      https://github.com/uclouvain/openjpeg/archive/version.2.1.tar.gz\n    2.0.1    https://github.com/uclouvain/openjpeg/archive/version.2.0.1.tar.gz\n    2.0      https://github.com/uclouvain/openjpeg/archive/version.2.0.tar.gz\n    1.5.2    https://github.com/uclouvain/openjpeg/archive/version.1.5.2.tar.gz\n    1.5.1    https://github.com/uclouvain/openjpeg/archive/version.1.5.1.tar.gz\n\nVariants:\n    None\n\nBuild Dependencies:\n****    None   ****\n\nLink Dependencies:\n    None\n\nRun Dependencies:\n    None\n\nVirtual packages: \n    None\n\nDescription:\n     OpenJPEG is an open-source JPEG 2000 codec written in C language. It\n    has been developed in order to promote the use of JPEG 2000, a still-\n    image compression standard from the Joint Photographic Experts Group\n    (JPEG). Since April 2015, it is officially recognized by ISO/IEC and\n    ITU-T as a JPEG 2000 Reference Software.\n```\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/1256",
+    "updated_at": "2016-07-18 10:03:05",
+    "created_at": "2016-07-15 12:04:15",
+    "closed_at": "2016-07-18 10:03:05",
+    "state": "closed",
+    "title": "spack info : broken after build-dep merge",
+    "number": 1256,
+    "milestone": null,
+    "labels": [],
+    "id": 165772569,
+    "html_url": "https://github.com/spack/spack/issues/1256",
+    "assignees": [],
+    "comments": 1
+}

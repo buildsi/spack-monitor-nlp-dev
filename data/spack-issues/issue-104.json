@@ -1,0 +1,20 @@
+{
+    "body": "Some Python packages install python scripts to be executed via bash.\nIf we use the Python installed with `spack`, the path of the python is something like:\n`#!/<SOME_DIR>/spack_git_repo/opt/spack/chaos_5_x86_64_ib/gcc-4.4.7/python-2.7.10-              yqkr6m74axh3nafjscgtjb3zj3htx3fe/bin/python`\n\nSomehow the bash interpreter will cut it off when the shebang is longer than a certain number of characters as documented [here](http://www.in-ulm.de/~mascheck/various/shebang/#issues)\n\nFor me it cut off so the she-bang looked like:\n``#!/<SOME_DIR>/spack_git_repo/opt/spack/chaos_5_x86_64_ib/gcc-4.4.7/python-2.7.10-              yqkr6m74axh3nafjscgtjb3zj3htx3fe/bin/p`\n\nA simple fix is to change the line of shebang to:\n`#!/bin/env python` \n\nIs there a better solution than manually changing all the shebangs for the python scripts?\nIn any case, I thought it may be nice to document this behavior somewhere in the `spack` documentation for Python use.\nThanks.\n",
+    "user": "karenyyng",
+    "url": "https://api.github.com/repos/spack/spack/issues/104",
+    "updated_at": "2016-01-25 11:06:03",
+    "created_at": "2015-09-04 21:44:11",
+    "closed_at": "2016-01-25 11:06:03",
+    "state": "closed",
+    "title": "problem with shebang of Python scripts being too long",
+    "number": 104,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate"
+    ],
+    "id": 104974966,
+    "html_url": "https://github.com/spack/spack/issues/104",
+    "assignees": [],
+    "comments": 2
+}

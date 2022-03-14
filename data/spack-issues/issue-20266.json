@@ -1,0 +1,20 @@
+{
+    "body": "Currently, the spack stages directory & file permissions are set to `700`. I believe this is only due to historical reasons.\r\n\r\nBasically, this behavior was added here https://github.com/spack/spack/pull/8773/commits/be7c5f684e80f63293380cb309b1c7bf4e9c7f8e#diff-ef561cde79864134a9c7c4fd5746f04535ebcf460065d212ba2d5d07986b9e93. I can only assume that someone noticed that the file permissions for temporary files are `700` by default and so ported this behavior also for normal stage directories.\r\n\r\nLater on, temporary stage directories were removed here https://github.com/spack/spack/pull/12072 and now normal stage directories are stuck with hardcoded `700` file permissions.\r\n\r\nThis is overly restrictive and an issue if one wants to inspect someone else's stage directory (e.g., to look at the build log). Specifically, we use jenkins to build spack packages nightly. When they fail, the build logs are only accessible to the jenkins user.\r\n\r\nPermissions of the install directories are configurable (https://spack.readthedocs.io/en/latest/build_settings.html#package-permissions) whereas stage directories have hardcoded permissions:\r\nhttps://github.com/spack/spack/blob/af9bf816fe17a92f56ca0354779ac2fa7892f377/lib/spack/spack/stage.py#L601-L614\r\n\r\nI think at least group members should get read permissions. Possibly this should also be configurable.",
+    "user": "BenWeber42",
+    "url": "https://api.github.com/repos/spack/spack/issues/20266",
+    "updated_at": "2021-02-09 18:12:44",
+    "created_at": "2020-12-07 14:18:40",
+    "closed_at": "2021-02-09 18:12:44",
+    "state": "closed",
+    "title": "Spack stages file/directory permissions hardcoded to `700`",
+    "number": 20266,
+    "milestone": null,
+    "labels": [
+        "permissions",
+        "stage"
+    ],
+    "id": 758553304,
+    "html_url": "https://github.com/spack/spack/issues/20266",
+    "assignees": [],
+    "comments": 0
+}

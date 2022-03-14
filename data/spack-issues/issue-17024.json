@@ -1,0 +1,17 @@
+{
+    "body": "Whenever attempting to use any ncurses functionality within cscope, a\r\npage fault would result within the ncurses library.\r\n\r\n    Program received signal SIGSEGV, Segmentation fault.\r\n    0x00007ffff7fad3cf in termattrs_sp () from .../lib/libncursesw.so.6\r\n    (gdb) bt\r\n    #0  0x00007ffff7fad3cf in termattrs_sp () from .../lib/libncursesw.so.6\r\n    #1  0x00007ffff7faa794 in _nc_setupscreen_sp () from .../lib/libncursesw.so.6\r\n    #2  0x00007ffff7fa614c in newterm_sp () from .../lib/libncursesw.so.6\r\n    #3  0x00007ffff7fa65b9 in newterm () from .../lib/libncursesw.so.6\r\n    #4  0x00007ffff7fa2970 in initscr () from .../lib/libncursesw.so.6\r\n    #5  0x0000000000403dc2 in main (argc=<optimized out>, argv=0x7fffffffcea8) at main.c:574\r\n\r\nThis is due to a conflict between libtinfo.so and libtinfow.so. Both are\r\nlinked into cscope:\r\n\r\n    $ ldd $(which cscope)\r\n    /bin/bash: .../lib/libtinfo.so.6: no version information available (required by /bin/bash)\r\n        linux-vdso.so.1 (0x00007fff5dbcb000)\r\n        libncursesw.so.6 => .../lib/libncursesw.so.6 (0x00007f435cc69000)\r\n        libtinfo.so.6 => .../lib/libtinfo.so.6 (0x00007f435cc2c000)\r\n        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f435ca29000)\r\n        libtinfow.so.6 => .../lib/libtinfow.so.6 (0x00007f435c9e8000)\r\n        /lib64/ld-linux-x86-64.so.2 (0x00007f435cca7000)\r\n\r\nSpecifically linking libtinfow.so instead of libtinfo.so resolves the\r\nissue.\r\n\r\nAll instances of '...' above represent the path to the installed ncurses\r\nfor Spack.",
+    "user": "jjolly",
+    "url": "https://api.github.com/repos/spack/spack/issues/17024",
+    "updated_at": "2020-06-12 19:29:44",
+    "created_at": "2020-06-09 18:36:24",
+    "closed_at": "2020-06-12 19:29:44",
+    "state": "closed",
+    "title": "cscope: Link tinfow instead of tinfo",
+    "number": 17024,
+    "milestone": null,
+    "labels": [],
+    "id": 635669383,
+    "html_url": "https://github.com/spack/spack/pull/17024",
+    "assignees": [],
+    "comments": 0
+}

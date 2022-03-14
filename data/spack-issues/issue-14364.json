@@ -1,0 +1,19 @@
+{
+    "body": "This is related to #12974 but that issue was closed in a rather confusing way.  I am seeing exactly the same error on mac, and would like to resolve it.  I tried to install cmake on mac, but it failed at gdbm.  Reproducible with:\r\n```\r\n$ spack install gdbm\r\n```\r\nFails like this:\r\n```\r\n==> Installing gdbm\r\n==> Searching for binary cache of gdbm\r\n==> No binary for gdbm found: installing from source\r\n==> Using cached archive: /Users/corey.adams/spack/spack/var/spack/cache/_source-cache/archive/86/86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f745b91dc.tar.gz\r\n==> Staging archive: /var/folders/f_/5dsy8_2x1wd93w36cdk7twz9s8nq7s/T/corey.adams/spack-stage/spack-stage-gdbm-1.18.1-vt6s3h6mkxz3pzjlsobjoovxdfc2kvta/gdbm-1.18.1.tar.gz\r\n==> Created stage in /var/folders/f_/5dsy8_2x1wd93w36cdk7twz9s8nq7s/T/corey.adams/spack-stage/spack-stage-gdbm-1.18.1-vt6s3h6mkxz3pzjlsobjoovxdfc2kvta\r\n==> No patches needed for gdbm\r\n==> Building gdbm [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8'\r\n\r\n6 errors found in build log:\r\n     608    4 warnings generated.\r\n     609    1 warning generated.\r\n     610    1 warning generated.\r\n     611      CCLD     gdbmtool\r\n     612      CCLD     gdbm_load\r\n     613      CCLD     gdbm_dump\r\n  >> 614    Undefined symbols for architecture x86_64:\r\n     615      \"_history_list\", referenced from:\r\n     616          _input_history_handler in input-rl.o\r\n     617    ld: symbol(s) not found for architecture x86_64\r\n  >> 618    clang: error: linker command failed with exit code 1 (use -v to see invocation)\r\n  >> 619    make[3]: *** [gdbmtool] Error 1\r\n     620    make[3]: *** Waiting for unfinished jobs....\r\n  >> 621    make[2]: *** [all] Error 2\r\n  >> 622    make[1]: *** [all-recursive] Error 1\r\n  >> 623    make: *** [all] Error 2\r\n\r\nSee build log for details:\r\n  /var/folders/f_/5dsy8_2x1wd93w36cdk7twz9s8nq7s/T/corey.adams/spack-stage/spack-stage-gdbm-1.18.1-vt6s3h6mkxz3pzjlsobjoovxdfc2kvta/spack-build-out.txt\r\n```\r\n\r\nI note there is a warning when spack starts up:\r\n```\r\n==> Warning: clang@10.0.1-apple cannot build optimized binaries for \"skylake\". Using best target possible: \"x86_64\"\r\n```\r\n\r\n### Platform and user environment\r\n```\r\n$ spack config get compilers\r\n```\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: mojave\r\n    paths:\r\n      cc:\r\n      cxx:\r\n      f77: /opt/local/bin/gfortran-mp-9\r\n      fc: /opt/local/bin/gfortran-mp-9\r\n    spec: clang@10.0.1-apple\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: mojave\r\n    paths:\r\n      cc: /opt/local/bin/clang-mp-8.0\r\n      cxx: /opt/local/bin/clang++-mp-8.0\r\n      f77:\r\n      fc:\r\n    spec: clang@8.0.0\r\n    target: x86_64\r\n```\r\n```console\r\n$ spack arch\r\ndarwin-mojave-skylake\r\n```\r\n\r\nPlease report your OS here:\r\n```console\r\n$ uname -a\r\nDarwin alcfwl081.alcf.anl.gov 18.7.0 Darwin Kernel Version 18.7.0: Tue Aug 20 16:57:14 PDT 2019; root:xnu-4903.271.2~2/RELEASE_X86_64 x86_64\r\n```\r\n",
+    "user": "coreyjadams",
+    "url": "https://api.github.com/repos/spack/spack/issues/14364",
+    "updated_at": "2020-01-02 23:06:28",
+    "created_at": "2020-01-02 22:36:07",
+    "closed_at": "2020-01-02 23:06:28",
+    "state": "closed",
+    "title": "Installation issue: gdbm ",
+    "number": 14364,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 544776556,
+    "html_url": "https://github.com/spack/spack/issues/14364",
+    "assignees": [],
+    "comments": 4
+}

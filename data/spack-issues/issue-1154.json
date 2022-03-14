@@ -1,0 +1,19 @@
+{
+    "body": "This builds on #631 (which adds support for installing to a directory that differs from the final intended destination of a package). Using that as a base for comparison may help distinguish the important functionality.\n\nThis adds the following functionality:\n1. Using a command with similar syntax to \"spack install\", create RPM specs which invoke spack installations to generate RPMs \n2. Update RPM packages and use Spack's spec DAG logic to transitively update dependencies \n3. Allow in-place updates for RPM package dependencies - achieved by specifying (on a per-package basis) how Spack specs should be projected onto a namespace\n\nAt the moment it is expected that all packages are managed by Spack. Support for specifying non-Spack RPMs as dependencies is planned.\n\n~~This is currently in the process (mostly finished) of transitioning from using a single one-size-fits-all RPM spec template to allowing users to create their own templates and defining a set of variable substitutions.~~\n\nUpdate 8/30/16: template substitution is now available. A default template is supplied if the user does not want a customized spec template.\n\nExamples:\nUsing [packages.yaml.txt](https://github.com/LLNL/spack/files/342631/packages.yaml.txt)\n\n~~`>spack rpm-install --output-dir=rpms1/ --universal-ring=ringX --rpm-db=rpms1/rpmdb.pkl gcc@4.9.3  %gcc@4.8.5 ~gold`~~\n\n~~`>spack rpm-install --specs-dir=rpms1/ --rpm-db-from-spec=gccnogold-4.9.3-binutils-2.25.spec --output-dir=rpms2/ --universal-ring=ringX gcc@4.9.3 %gcc@4.8.5 ~gold ^gmp@6.0.0a`~~\n\nUpdate 8/30/16: new command syntax is simpler; RPM DB is replaced with property files that can be stored in a centralized repository (e.g. the git repo maintained by fedpkg)\n\n`>spack rpm --output-dir rpms1 --universal-ring=ringX gcc@4.9.3 %gcc@4.8.5 ~gold`\n\n`>spack rpm --specs-dir rpms1/ --output-dir rpms2 --universal-ring=ringX gcc@4.9.3 %gcc@4.8.5 ~gold ^gmp@6.0.0a`\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/1154",
+    "updated_at": "2019-04-23 09:26:28",
+    "created_at": "2016-07-01 01:03:31",
+    "closed_at": "2019-04-23 09:26:28",
+    "state": "closed",
+    "title": "Create rpms and update rpms in a DB",
+    "number": 1154,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 163299077,
+    "html_url": "https://github.com/spack/spack/pull/1154",
+    "assignees": [],
+    "comments": 10
+}

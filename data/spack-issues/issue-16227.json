@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install visit %gcc@9.2.0\r\n==> Error: AttributeError: 'Gcc' object has no attribute 'cxx_pic_flag'\r\n\r\n/ccs/opt/vendors/spack-0.14.2/var/spack/repos/builtin/packages/visit/package.py:75, in cmake_args:\r\n         72            '-DVISIT_VTK_DIR:PATH=' + spec['vtk'].prefix,\r\n         73            '-DVISIT_ZLIB_DIR:PATH=' + spec['zlib'].prefix,\r\n         74            '-DVISIT_USE_GLEW=OFF',\r\n  >>     75            '-DCMAKE_CXX_FLAGS=' + self.compiler.cxx_pic_flag,\r\n         76            '-DCMAKE_C_FLAGS=' + self.compiler.cc_pic_flag,\r\n         77        ]\r\n         78\r\n```\r\n\r\n### Information on your system\r\n\r\nI'm using `spack-0.14.2`.  `spack debug report` doesn't work.\r\n\r\n### Additional information\r\n\r\n* No other spackage uses ` self.compiler.cxx_pic_flag`.  This looks like a possible recipe bug.\r\n* No maintainer listed for this package.\r\n* I will try modifying the recipe to use the cmake option `-DCMAKE_POSITION_INDEPENDENT_CODE=ON`.\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files (didn't upload because the build error seems obvious and not related to build environment.  I can add these later if needed.)\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/16227",
+    "updated_at": "2020-04-22 18:41:11",
+    "created_at": "2020-04-22 04:38:57",
+    "closed_at": "2020-04-22 18:41:11",
+    "state": "closed",
+    "title": "Installation issue: visit%gcc: Gcc object has no attribute 'cxx_pic_flag'",
+    "number": 16227,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "pic"
+    ],
+    "id": 604448387,
+    "html_url": "https://github.com/spack/spack/issues/16227",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 5
+}

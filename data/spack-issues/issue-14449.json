@@ -1,0 +1,19 @@
+{
+    "body": "Installing mpifileutils from build cache fails\r\n```\r\n==> Installing mpifileutils\r\n==> Searching for binary cache of mpifileutils\r\n==> Fetching s3://uoregon/spack/build_cache/linux-ubuntu18.04-x86_64/gcc-7.3.0/mpifileutils-develop/linux-ubuntu18.04-x86_64-gcc-7.3.0-mpifileutils-develop-4lo3yspw6662oc2o6oj7iv77kdnh6vtt.spack\r\n==> Installing mpifileutils from binary cache\r\ngpg: Signature made Sat Dec 21 17:23:01 2019 UTC\r\ngpg:                using RSA key 7D344E2992071B0AAAE1EDB0E68DE2A80314303D\r\ngpg: Good signature from \"prl\" [unknown]\r\ngpg: WARNING: This key is not certified with a trusted signature!\r\ngpg:          There is no indication that the signature belongs to the owner.\r\nPrimary key fingerprint: 7D34 4E29 9207 1B0A AAE1  EDB0 E68D E2A8 0314 303D\r\n==> Relocating package from\r\n  /super/absurdly/ridiculously/obnoxiously/long/path/for/relocation to /super/absurdly/ridiculously/obnoxiously/long/path/for/relocation.\r\n==> Successfully installed mpifileutils from binary cache\r\n[+] /super/absurdly/ridiculously/obnoxiously/long/path/for/relocation/linux-ubuntu18.04-x86_64/gcc-7.3.0/mpifileutils-develop-4lo3yspw6662oc2o6oj7iv77kdnh6vtt\r\n==> Error: name 'pwd' is not defined\r\n```\r\n\r\nI believe this is because the package for mpifileutils has this:\r\n```\r\n    def configure_args(self):\r\n        ...\r\n        args.append(\"CPPFLAGS=-I%s/src/common\" % pwd())\r\n        ...\r\n```\r\nhttps://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/mpifileutils/package.py#L102\r\n\r\nPossibly / probably related to closed issue https://github.com/spack/spack/pull/14361 and pending PR https://github.com/spack/spack/pull/11084",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/14449",
+    "updated_at": "2020-03-16 00:40:36",
+    "created_at": "2020-01-09 15:23:48",
+    "closed_at": "2020-03-16 00:40:35",
+    "state": "closed",
+    "title": "mpifileutils: install from buildcache fails due to configure_args",
+    "number": 14449,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 547545987,
+    "html_url": "https://github.com/spack/spack/issues/14449",
+    "assignees": [],
+    "comments": 0
+}

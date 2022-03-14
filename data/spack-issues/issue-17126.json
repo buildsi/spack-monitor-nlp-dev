@@ -1,0 +1,19 @@
+{
+    "body": "Maintainers: @chuckatkins @danlipsa\r\n\r\nIt appears `vtk` restructured their python bindings starting `8.2.0` (https://blog.kitware.com/vtk-8-2-0/). However, this change is apparently not reflected in `spack`, and therefore, I am not getting the correct `PYTHONPATH`.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI can install version `8.2.0` successfully, and it puts python bindings in `lib64`. Upon loading the package, `spack` puts `lib` in the `PYTHONPATH`, and I cannot import the python package.\r\n\r\n```console\r\n$ spack install vtk@8.2.0 +python # i installed with +mpi+osmesa, but that should not matter here\r\n$ spack cd -i vtk@8.2.0\r\n$ ls lib/python3.7/site-packages/          # returns empty\r\n$ ls lib64/python3.7/site-packages/\r\nvtk.py\tvtkmodules\r\n\r\n$ spack load -r vtk@8.2.0\r\n$ echo $PYTHONPATH\r\n$SPACK_ROOT/opt/spack/linux-rhel7-broadwell/gcc-7.3.0/vtk-8.2.0-75xr5zuecmun6av2rmgbrzjammyh62sz/lib/python3.7/site-packages: .....\r\n```\r\n\r\n\r\nHere is the behavior for `vtk@8.1.2` (works correctly)\r\n```console\r\n$ spack install vtk@8.1.2 +python # i installed with +mpi+osmesa, but that should not matter here\r\n$  spack cd -i vtk@8.1.2\r\n$ ls lib/python3.7/site-packages/\r\nvtk               # python package\r\n$ ls lib64/python3.7/site-packages/          # does not exist\r\n\r\n$ spack load -r vtk@8.1.2\r\n$ echo $PYTHONPATH\r\n$SPACK_ROOT/opt/spack/linux-rhel7-broadwell/gcc-7.3.0/vtk-8.1.2-6emg5zldy6rw5qgcf33x7s3unh55s6z6/lib/python3.7/site-packages: ....\r\n```\r\n\r\n### Information on your system\r\n\r\nTried this on `linux-rhel7-broadwell` architecture. \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "bhatiaharsh",
+    "url": "https://api.github.com/repos/spack/spack/issues/17126",
+    "updated_at": "2020-10-13 00:59:21",
+    "created_at": "2020-06-17 01:29:09",
+    "closed_at": "2020-10-13 00:59:21",
+    "state": "closed",
+    "title": "vtk8.2 python modules do not get loaded in PYTHONPATH",
+    "number": 17126,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 640073150,
+    "html_url": "https://github.com/spack/spack/issues/17126",
+    "assignees": [],
+    "comments": 2
+}

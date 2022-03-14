@@ -1,0 +1,20 @@
+{
+    "body": "Currently, `spack mirror create bzip2` fails with the following error:\r\n```\r\n==> Warning: Error while fetching bzip2@1.0.6\r\n  global name 'spack_cc' is not defined\r\n```\r\n\r\nThis is due to the fact that `mirror create` invokes `do_patch`, which calls the package's `patch` method. Since `mirror create` does not set up the appropriate environment, variables like `spack_cc` are not set.\r\n\r\nThis change introduces `fetch` and `clean` methods for patches. They are no-ops for `FilePatch` but perform the appropriate actions for `UrlPatch`. This allows `mirror create` to invoke `do_fetch`, which does not call the package's `patch` method.",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/10150",
+    "updated_at": "2020-10-31 06:22:19",
+    "created_at": "2018-12-19 12:49:37",
+    "closed_at": "2019-01-02 19:44:51",
+    "state": "closed",
+    "title": "patch: split up fetch and clean into separate methods",
+    "number": 10150,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "patch"
+    ],
+    "id": 392587136,
+    "html_url": "https://github.com/spack/spack/pull/10150",
+    "assignees": [],
+    "comments": 2
+}

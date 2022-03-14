@@ -1,0 +1,22 @@
+{
+    "body": "In the process of installing `cmake%gcc@8.3.0`, it looks like the bootstrapped `cmake` command has been correctly built against `gcc@8.3.0`'s own `libstdc++` while the build environment makes the dynamic linker to find the system-shipped `/lib64/libstdc++.so.6` instead (which seems to be too old to provide the same versioned symbols):\r\n\r\n```console\r\n$ spack install cmake%gcc@8.3.0\r\n...\r\n/gpfs/scratch/userinternal/fficarel/spack/build/spack-stage/spack-stage-7sL976/cmake-3.14.2/Bootstrap.cmk/cmake: /lib64/libstdc++.so.6: v\r\n            ersion `GLIBCXX_3.4.20' not found (required by /gpfs/scratch/userinternal/fficarel/spack/build/spack-stage/spack-stage-7sL976/cmake-3.14.\r\n            2/Bootstrap.cmk/cmake)\r\n...\r\n```\r\n\r\nPlease note that neither adding `+ownlibs` variant nor trying with different versions of `gcc` (`8.2.0` and `7.3.0`) changes this behaviour.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gcc@8.3.0\r\n$ spack compiler find $(spack location -i gcc@8.3.0)\r\n$ spack install cmake%gcc@8.3.0\r\n```\r\n\r\nParsing the output for errors I end up with:\r\n\r\n```console\r\n$ cd $(spack location -s cmake%gcc@8.3.0)\r\n$ spack log-parse --show=errors,warnings spack-build.out\r\n1 errors\r\n0 warnings\r\n     226    /gpfs/scratch/userinternal/fficarel/spack/build/spack-stage/spack-stage-7sL976/cmake-3.14.2/Bootstrap.cmk/cmake: /lib64/libstdc++.so.6: v\r\n            ersion `GLIBCXX_3.4.20' not found (required by /gpfs/scratch/userinternal/fficarel/spack/build/spack-stage/spack-stage-7sL976/cmake-3.14.\r\n            2/Bootstrap.cmk/cmake)\r\n     227    /gpfs/scratch/userinternal/fficarel/spack/build/spack-stage/spack-stage-7sL976/cmake-3.14.2/Bootstrap.cmk/cmake: /lib64/libstdc++.so.6: v\r\n            ersion `GLIBCXX_3.4.21' not found (required by /gpfs/scratch/userinternal/fficarel/spack/build/spack-stage/spack-stage-7sL976/cmake-3.14.\r\n            2/Bootstrap.cmk/cmake)\r\n     228    ---------------------------------------------\r\n  >> 229    Error when bootstrapping CMake:\r\n     230    Problem while running initial CMake\r\n     231    ---------------------------------------------\r\n```\r\n\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux node166 3.10.0-327.36.3.el7.x86_64 #1 SMP Mon Oct 24 16:09:20 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tCentOS Linux release 7.0.1406 (Core)\r\n``` \r\n\r\n### Additional information\r\n\r\n```console\r\n$ spack spec --install-status cmake%gcc@8.3.0\r\nInput spec\r\n--------------------------------\r\n -   cmake%gcc@8.3.0\r\n\r\nConcretized\r\n--------------------------------\r\n -   cmake@3.14.2%gcc@8.3.0~doc+ncurses+openssl+ownlibs~qt arch=linux-centos7-x86_64\r\n[+]      ^ncurses@6.1%gcc@8.3.0~symlinks~termlib arch=linux-centos7-x86_64\r\n[+]          ^pkgconf@1.6.0%gcc@8.3.0 arch=linux-centos7-x86_64\r\n[+]      ^openssl@1.1.1b%gcc@8.3.0+systemcerts arch=linux-centos7-x86_64\r\n[+]          ^perl@5.26.2%gcc@8.3.0+cpanm patches=0eac10ed90aeb0459ad8851f88081d439a4e41978e586ec743069e8b059370ac +shared+threads arch=linux-centos7-x86_64\r\n[+]              ^gdbm@1.18.1%gcc@8.3.0 arch=linux-centos7-x86_64\r\n[+]                  ^readline@7.0%gcc@8.3.0 arch=linux-centos7-x86_64\r\n[+]          ^zlib@1.2.11%gcc@8.3.0+optimize+pic+shared arch=linux-centos7-x86_64\r\n```\r\n\r\nThe build environment looks quite tidy:\r\n\r\n```console\r\n$ cd $(spack location -s cmake%gcc@8.3.0)\r\n$ grep lib64 spack-build.env\r\nexport SPACK_SYSTEM_DIRS=\"/bin:/usr/bin:/usr/local/bin:/bin64:/usr/bin64:/usr/local/bin64:/include:/usr/include:/usr/local/include:/lib:/usr/lib:/usr/\r\ne\r\n```\r\n\r\nPlease find debug logs, `compilers.yaml` and `spack-build.out` [here](https://gist.github.com/nazavode/3fe3165f1f762f1b04dd563b754ec01d).\r\n\r\nPinging @alalazo  that pointed me to #11188 which looks like a plausible cause for this.",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/11224",
+    "updated_at": "2020-06-01 04:09:30",
+    "created_at": "2019-04-18 22:08:17",
+    "closed_at": "2020-06-01 04:09:30",
+    "state": "closed",
+    "title": "installation issue: system-shipped libstdc++ leaked while bootstrapping CMake",
+    "number": 11224,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "triage"
+    ],
+    "id": 434978479,
+    "html_url": "https://github.com/spack/spack/issues/11224",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 5
+}

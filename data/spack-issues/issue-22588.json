@@ -1,0 +1,19 @@
+{
+    "body": "Currently, module configurations are inconsistent because modulefiles are generated with the configs for the active environment, but are shared among all environments (and spack outside any environment).\r\n\r\nThis PR fixes that by allowing Spack environments (or other spack config scopes) to define additional sets of modules to generate. Each set of modules can enable either lmod or tcl modules, and contains all of the previously available module configuration. The user defines the name of each module set -- the set configured in Spack by default is named \"default\", and is the one returned by module manipulation commands in the absence of user intervention.\r\n\r\nAs part of this change, the module roots configuration moved from the `config` section to inside each module configuration.\r\n\r\nAdditionally, it adds a feature that the modulefiles for an environment can be configured to be relative to an environment view rather than the underlying prefix. This will not be enabled by default, as it should only be enabled within an environment and for non-default views constructed with separate projections per-spec.\r\n\r\nTODO:\r\n- [x] code changes to support multiple module sets\r\n- [x] code changes to support modules relative to a view\r\n- [x] Tests for multiple module configurations\r\n- [x] Tests for modules relative to a view\r\n- [x] Backwards compatibility for module roots from config section\r\n- [x] Backwards compatibility for default module set without the name specified\r\n- [x] Tests for backwards compatibility\r\n- [ ] Documentation changes",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/22588",
+    "updated_at": "2021-05-17 11:35:06",
+    "created_at": "2021-03-26 23:56:51",
+    "closed_at": "2021-05-14 22:03:29",
+    "state": "closed",
+    "title": "Separable module configurations",
+    "number": 22588,
+    "milestone": null,
+    "labels": [
+        "breaking-change"
+    ],
+    "id": 842364253,
+    "html_url": "https://github.com/spack/spack/pull/22588",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,17 @@
+{
+    "body": "I suspect that this has been solved before but I haven't found any direct hits.\r\n\r\nI'm putting together a package for [bcl2fastq2](https://support.illumina.com/downloads/bcl2fastq-conversion-software-v2-18.html).\r\n\r\nThe [source link](https://support.illumina.com/content/dam/illumina-support/documents/downloads/software/bcl2fastq/bcl2fastq2-v2-18-0-12-tar.zip) points to a zip file that Spack unpacks for me into:\r\n\r\n```\r\nvar/spack/stage/bcl2fastq2-2fastq2-v2-18-0-12-t3cez4v7rtnp3hidzsyf5eaaq73dla5m/spack-expanded-archive\r\n```\r\n\r\nThat directory contains a gzipped tarball:\r\n\r\n```\r\nvar/spack/stage/bcl2fastq2-2fastq2-v2-18-0-12-t3cez4v7rtnp3hidzsyf5eaaq73dla5m/spack-expanded-archive/bcl2fastq2-v2.18.0.12.tar.gz\r\n```\r\n\r\nI need to unpack that tarball, it contains a `src` dir.  Illumina's build instructions say that I should `cd` into that directory and run configure.  I'm planning to let/help `CMakePackage` handle that final step.\r\n\r\nThe install method of the turbomole package [does a little dance in the install method](https://github.com/LLNL/spack/blob/develop/var/spack/repos/builtin/packages/turbomole/package.py#L82) untar-ing something and then doing everything inside a `with working_dir(...`.\r\n\r\nAre there any other existing examples of packages for which the source is doubly archived?\r\n\r\nWould it be cleaner to extend/override `fetch` or ....\r\n\r\nThanks in advance!\r\n\r\n\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4206",
+    "updated_at": "2017-05-12 18:41:06",
+    "created_at": "2017-05-10 22:47:35",
+    "closed_at": "2017-05-11 21:57:20",
+    "state": "closed",
+    "title": "Need advice on unpacking cmake project thats' in a tar.gz that's inside a .zip.",
+    "number": 4206,
+    "milestone": null,
+    "labels": [],
+    "id": 227831789,
+    "html_url": "https://github.com/spack/spack/issues/4206",
+    "assignees": [],
+    "comments": 23
+}

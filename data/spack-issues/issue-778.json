@@ -1,0 +1,17 @@
+{
+    "body": "Hello,\n\nI'm testing Spack for possible use in my organization and I found a little issue when trying to install gcc (v5.3.0). At first I just tried `spack install gcc@5.3.0`, but there was an error during the binutils installation. So I tried to install only binutils first and I received and error again (link to the stdout and the log from `spack install binutils`):\n\n**Stdout**\nhttps://drive.google.com/open?id=0B0eJDPNaAh6BLXNmQUt6eHBIQ0k\n**Log**\nhttps://drive.google.com/open?id=0B0eJDPNaAh6BWDQ2eFV4NnZDWVU\n\nLooking at the binutils info, I decided to try to install it without the gold variant. For some unknown reason, it worked and spack was able to install binutils.\nApart from that (if someone knows why it worked the second time and not the first please tell me) I thought my problem was solved, but as said in other issues like #311, when I tried `spack install gcc@5.3.0` it didn't recognized my previous installation of binutils (due to the variant, I assume) and tried to install it again, which ended failing.\n\nThe real problem came when I tried to install gcc referring directly to my successful installation of binutils with the command `spack install gcc@5.3.0 ^binutils -gold` and the response was that gcc doesn't depend on binutils. After looking at the file of gcc, it does say that gcc depends on binutils, the only difference I can see is that it has a conditional `when` in the `depends_on()` clause.\n\nI assume that spack shouldn't say that it doesn't depend, when actually it tries to install it during gcc installation. Can someone tell if this is actually an error or it's something that I'm doing wrong?\n\nthanks for your help\n",
+    "user": "AdrianRodriguezVilas",
+    "url": "https://api.github.com/repos/spack/spack/issues/778",
+    "updated_at": "2016-04-14 17:32:39",
+    "created_at": "2016-04-13 11:03:20",
+    "closed_at": "2016-04-14 11:58:44",
+    "state": "closed",
+    "title": "GCC dependencies not detected properly",
+    "number": 778,
+    "milestone": null,
+    "labels": [],
+    "id": 148023596,
+    "html_url": "https://github.com/spack/spack/issues/778",
+    "assignees": [],
+    "comments": 12
+}

@@ -1,0 +1,24 @@
+{
+    "body": "There is no error or warning by environments if the `spack.yaml` file has an `include` entry that does not exist.  The reason is the missing entries are treated as if they are files and assumed to specify `SingleFileScopes`.  \r\n\r\nThis PR terminates execution with an error that includes the missing path(s).  For example, the output with this PR is:\r\n\r\n```\r\n==> Error: Detected 2 missing include path(s):\r\n   $HOME/spack/clean/spacktest/A\r\n   $HOME/spack/clean/spacktest/B\r\nPlease correct and try again.\r\n```\r\n\r\nwhen the two include paths do not exist.\r\n\r\n(Note: Adrien Bernede requested a fix to this issue in the `#environments` slack channel.  )",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/18074",
+    "updated_at": "2020-09-03 12:37:37",
+    "created_at": "2020-08-14 21:29:39",
+    "closed_at": "2020-09-03 12:37:25",
+    "state": "closed",
+    "title": "Bugfix: Terminate if a spack.yaml include path does not exist",
+    "number": 18074,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "environments",
+        "bugfix"
+    ],
+    "id": 679411112,
+    "html_url": "https://github.com/spack/spack/pull/18074",
+    "assignees": [
+        "alalazo",
+        "tldahlgren"
+    ],
+    "comments": 3
+}

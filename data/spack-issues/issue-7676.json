@@ -1,0 +1,19 @@
+{
+    "body": "Adding `depends_on('tcl')` to a spec when Tcl is specified in `packages.yaml` as being in the system results in `/usr/bin` being put at the front of `PATH`, ahead of the compiler wrapper locations. \r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Apply the following patch to the `zlib` spec:\r\n   ```patch\r\n   diff --git a/var/spack/repos/builtin/packages/zlib/package.py b/var/spack/repos/builtin/packages/zlib/package.py\r\n   index 7ff6a9a..a602018 100644\r\n   --- a/var/spack/repos/builtin/packages/zlib/package.py\r\n   +++ b/var/spack/repos/builtin/packages/zlib/package.py\r\n   @@ -23,7 +23,7 @@\r\n    # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\r\n    ##############################################################################\r\n    from spack import *\r\n   -\r\n   +import os\r\n    \r\n    # Although zlib comes with a configure script, it does not use Autotools\r\n    # The AutotoolsPackage causes zlib to fail to build with PGI\r\n   @@ -48,6 +48,9 @@ class Zlib(Package):\r\n        variant('optimize', default=True,\r\n                description='Enable -O2 for a more optimized lib')\r\n \r\n   +    depends_on('tcl')\r\n   +    print(\"PATH after depends_on() calls: {0}\".format(os.environ['PATH']))\r\n   +\r\n        patch('w_patch.patch', when=\"@1.2.11%cce\")\r\n    \r\n        @property\r\n   @@ -64,6 +67,7 @@ class Zlib(Package):\r\n                spack_env.append_flags('CFLAGS', '-O2')\r\n    \r\n        def install(self, spec, prefix):\r\n   +        print(\"PATH on entry to install(): {0}\".format(os.environ['PATH']))\r\n            config_args = []\r\n            if '~shared' in spec:\r\n                config_args.append('--static')\r\n   ```\r\n1. Add the following clause to `etc/spack/packages.yaml`:     \r\n   ```yaml\r\n     tcl:\r\n       paths:\r\n         tcl@8.5.13 arch=linux-rhel7-x86_64: /usr\r\n   ```\r\n1. Attempt to build `zlib`\r\n   ```\r\n   spack install zlib\r\n   ```\r\n1. Look at the output and in `<install-dir>/.spack.build.out` for `PATH` diagnostic printouts.\r\n\r\n### Root cause.\r\n\r\nhttps://github.com/spack/spack/blob/a63450bc4537f8db04530d0dacdc98babbdd38f2/var/spack/repos/builtin/packages/tcl/package.py#L105\r\n\r\n### Information on your system\r\n\r\nSLF7, Spack from `develop@6a0f9ccf8`.\r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/7676",
+    "updated_at": "2018-04-05 21:39:06",
+    "created_at": "2018-04-05 19:59:14",
+    "closed_at": "2018-04-05 21:39:06",
+    "state": "closed",
+    "title": "Adding depends_on('tcl') with Tcl in packages.yaml causes /usr/bin to be at front (!) of PATH in install()",
+    "number": 7676,
+    "milestone": null,
+    "labels": [
+        "build-environment"
+    ],
+    "id": 311748687,
+    "html_url": "https://github.com/spack/spack/issues/7676",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I tried to build the xsdk on my linux box. This time I got further, after it couldn't find the compilers, I was able to add them with spack find compilers.\r\nI was then able to start the build, however it failed with the following messages:\r\n```\r\n==> Executing phase : 'install'\r\n==> Successfully installed libxml2\r\n  Fetch: 4.54s.  Build: 31.00s.  Total: 35.54s.\r\n[+] /home/yang11/Spacktest/spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.2/libxml2-2.9.4-avqchmhxvn54cmwbybmnkxksecg4c24y\r\n==> Fetching http://www.open-mpi.org/software/hwloc/v1.11/downloads/hwloc-1.11.6.tar.gz\r\n######################################################################## 100.0%\r\ncurl: (35) Encountered end of file\r\n==> Fetching from http://www.open-mpi.org/software/hwloc/v1.11/downloads/hwloc-1.11.6.tar.gz failed.\r\n==> Could not determine url from list_url.\r\n==> Error: FetchError: All fetchers failed for hwloc-1.11.6-olz5gu5ndzljgcdrnh6rm3pnaq44nz3x\r\n/home/yang11/Spacktest/spack/lib/spack/spack/package.py:948, in do_fetch:\r\n     921      def do_fetch(self, mirror_only=False):\r\n     922          \"\"\"\r\n     923          Creates a stage directory and downloads the tarball for this package.\r\n     924          Working directory will be set to the stage directory.\r\n     925          \"\"\"\r\n     926          if not self.spec.concrete:\r\n     927              raise ValueError(\"Can only fetch concrete packages.\")\r\n     928  \r\n     929          start_time = time.time()\r\n     930          if spack.do_checksum and self.version not in self.versions:\r\n     931              tty.warn(\"There is no checksum on file to fetch %s safely.\" %\r\n     932                       self.spec.format('$_$@'))\r\n     933  \r\n     934              # Ask the user whether to skip the checksum if we're\r\n     935              # interactive, but just fail if non-interactive.\r\n     936              ck_msg = \"Add a checksum or use --no-checksum to skip this check.\"\r\n     937              ignore_checksum = False\r\n     938              if sys.stdout.isatty():\r\n     939                  ignore_checksum = tty.get_yes_or_no(\"  Fetch anyway?\",\r\n     940                                                      default=False)\r\n     941                  if ignore_checksum:\r\n     942                      tty.msg(\"Fetching with no checksum.\", ck_msg)\r\n     943  \r\n     944              if not ignore_checksum:\r\n     945                  raise FetchError(\"Will not fetch %s\" %\r\n     946                                   self.spec.format('$_$@'), ck_msg)\r\n     947  \r\n  >> 948          self.stage.fetch(mirror_only)\r\n     949  \r\n     950          self._fetch_time = time.time() - start_time\r\n     951  \r\n     952          if spack.do_checksum and self.version in self.versions:\r\n     953              self.stage.check()\r\n     954  \r\n     955          self.stage.cache_local()\r\n```",
+    "user": "ulrikeyang",
+    "url": "https://api.github.com/repos/spack/spack/issues/3522",
+    "updated_at": "2017-03-24 18:18:50",
+    "created_at": "2017-03-22 22:50:38",
+    "closed_at": "2017-03-24 18:16:24",
+    "state": "closed",
+    "title": "failed xsdk build on linux box",
+    "number": 3522,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 216232329,
+    "html_url": "https://github.com/spack/spack/issues/3522",
+    "assignees": [],
+    "comments": 15
+}

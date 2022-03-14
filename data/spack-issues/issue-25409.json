@@ -1,0 +1,26 @@
+{
+    "body": "Currently on develop you can run `spack env activate` multiple times to switch\r\nbetween environments, but they leave traces, even though Spack only supports\r\none active environment at a time.\r\n\r\nCurrently:\r\n\r\n```\r\n$ spack env create a\r\n$ spack env create b\r\n$ spack env activate -p a\r\n[a] $ spack env activate -p b\r\n[b] [a] $ spack env activate -p a\r\n[a] [b] [a] $ echo $MANPATH | tr \":\" \"\\n\"\r\n/path/to/environments/a/.spack-env/view/share/man\r\n/path/to/environments/a/.spack-env/view/man\r\n/path/to/environments/b/.spack-env/view/share/man\r\n/path/to/environments/b/.spack-env/view/man\r\n```\r\n\r\nThis PR fixes that by deactivating the previous environment before activating a new one (basically merging env modifications for deactiviate + activate and applying them after the shell \"headers\" for activation / deactivation)\r\n\r\n```\r\n$ spack env activate -p a\r\n[a] $ spack env activate -p b\r\n[b] $ spack env activate -p a\r\n[a] $ echo $MANPATH | tr \":\" \"\\n\"\r\n/path/to/environments/a/.spack-env/view/share/man\r\n/path/to/environments/a/.spack-env/view/man\r\n```\r\n\r\nWith this PR shell modifications work like this:\r\n\r\n1. Activating a new environment with no prior environment activated:\r\n\r\n```console\r\n$ spack env activate --sh -p a\r\nexport SPACK_ENV=/environments/a;\r\nalias despacktivate='spack env deactivate';\r\nif [ -z ${SPACK_OLD_PS1+x} ]; then\r\n    if [ -z ${PS1+x} ]; then\r\n        PS1='$$$$';\r\n    fi;\r\n    export SPACK_OLD_PS1=\"${PS1}\";\r\nfi;\r\nexport PS1=\"[a]  ${PS1}\";\r\nexport CMAKE_PREFIX_PATH=/environments/a/.spack-env/view;\r\nexport MANPATH=/environments/a/.spack-env/view/share/man:/environments/a/.spack-env/view/man;\r\nexport PATH='/environments/a/.spack-env/view/bin:/usr/local/go/bin:~/.cargo/bin:/home/harmen/bin:/home/harmen/spack/bin:/home/harmen/clingo/.spack-env/view/bin:/home/harmen/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin';\r\nexport ACLOCAL_PATH=/environments/a/.spack-env/view/share/aclocal;\r\nexport PKG_CONFIG_PATH=/environments/a/.spack-env/view/share/pkgconfig:/environments/a/.spack-env/view/lib64/pkgconfig:/environments/a/.spack-env/view/lib/pkgconfig;\r\n```\r\n\r\n2. \"Reactivating\" the environment (usually a no-op, but it will also modify the environment variables in case you somehow unset them):\r\n\r\n```console\r\n$ spack env activate -p a\r\n[a] $ spack env activate --sh a\r\nif [ ! -z ${SPACK_ENV+x} ]; then\r\nunset SPACK_ENV; export SPACK_ENV;\r\nfi;\r\nunalias despacktivate;\r\nif [ ! -z ${SPACK_OLD_PS1+x} ]; then\r\n    if [ \"$SPACK_OLD_PS1\" = '$$$$' ]; then\r\n        unset PS1; export PS1;\r\n    else\r\n        export PS1=\"$SPACK_OLD_PS1\";\r\n    fi;\r\n    unset SPACK_OLD_PS1; export SPACK_OLD_PS1;\r\nfi;\r\nexport SPACK_ENV=/environments/a;\r\nalias despacktivate='spack env deactivate';\r\nif [ -z ${SPACK_OLD_PS1+x} ]; then\r\n    if [ -z ${PS1+x} ]; then\r\n        PS1='$$$$';\r\n    fi;\r\n    export SPACK_OLD_PS1=\"${PS1}\";\r\nfi;\r\nexport PS1=\"[a]  ${PS1}\";\r\n```\r\n\r\n3. Switching environments from `a` to `b` (undoes env a, applies b):\r\n\r\n```console\r\nif [ ! -z ${SPACK_ENV+x} ]; then\r\nunset SPACK_ENV; export SPACK_ENV;\r\nfi;\r\nunalias despacktivate;\r\nif [ ! -z ${SPACK_OLD_PS1+x} ]; then\r\n    if [ \"$SPACK_OLD_PS1\" = '$$$$' ]; then\r\n        unset PS1; export PS1;\r\n    else\r\n        export PS1=\"$SPACK_OLD_PS1\";\r\n    fi;\r\n    unset SPACK_OLD_PS1; export SPACK_OLD_PS1;\r\nfi;\r\nexport SPACK_ENV=/environments/b;\r\nalias despacktivate='spack env deactivate';\r\nif [ -z ${SPACK_OLD_PS1+x} ]; then\r\n    if [ -z ${PS1+x} ]; then\r\n        PS1='$$$$';\r\n    fi;\r\n    export SPACK_OLD_PS1=\"${PS1}\";\r\nfi;\r\nexport PS1=\"[b]  ${PS1}\";\r\nexport PKG_CONFIG_PATH=/environments/b/.spack-env/view/share/pkgconfig:/environments/b/.spack-env/view/lib64/pkgconfig:/environments/b/.spack-env/view/lib/pkgconfig;\r\nexport LD_LIBRARY_PATH=/environments/b/.spack-env/view/lib64:/environments/b/.spack-env/view/lib;\r\nexport PATH='/environments/b/.spack-env/view/bin:/usr/local/go/bin:~/.cargo/bin:/home/harmen/bin:/home/harmen/spack/bin:/home/harmen/clingo/.spack-env/view/bin:/home/harmen/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin';\r\nexport ACLOCAL_PATH=/environments/b/.spack-env/view/share/aclocal;\r\nexport MANPATH=/environments/b/.spack-env/view/share/man:/environments/b/.spack-env/view/man;\r\nexport CMAKE_PREFIX_PATH=/environments/b/.spack-env/view;\r\n```\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25409",
+    "updated_at": "2021-10-28 19:23:21",
+    "created_at": "2021-08-13 11:33:36",
+    "closed_at": "2021-10-28 18:39:25",
+    "state": "closed",
+    "title": "Deactivate previous env before activating new one",
+    "number": 25409,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "shell-support",
+        "environments",
+        "utilities"
+    ],
+    "id": 970317995,
+    "html_url": "https://github.com/spack/spack/pull/25409",
+    "assignees": [
+        "scheibelp",
+        "tldahlgren"
+    ],
+    "comments": 19
+}

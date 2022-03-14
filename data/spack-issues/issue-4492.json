@@ -1,0 +1,23 @@
+{
+    "body": "@tgamblin @scheibelp @alalazo @davydden This is a really weird one that I've never seen before. \r\n\r\nFrom a fresh clone of Spack, with no `packages.yaml`, I'm seeing the following behavior. If I don't specify an MPI provider and let it pick up the default (`openmpi`), I see:\r\n```\r\n$ spack spec -L hdf5+mpi\r\n...\r\ntgprd6nwfgifpaff4a7dvcv3tynuaowd  hdf5@1.10.1%gcc@6.3.1+cxx~debug+fortran+mpi+pic+shared~szip~threadsafe arch=linux-fedora25-x86_64 \r\nhj3i67mhesgu3x5ymwpj67m4nbq6d3c2      ^openmpi@2.1.1%gcc@6.3.1~cuda fabrics= ~java schedulers= ~sqlite3~thread_multiple+vt arch=linux-fedora25-x86_64 \r\neva5cqpkbjggxvpp23ycr62yiocie64g          ^hwloc@1.11.7%gcc@6.3.1~cuda+libxml2+pci arch=linux-fedora25-x86_64 \r\nreafmcemqbmvzqzyiitmyfcdc4ia7tzl              ^libpciaccess@0.13.5%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\n4w4hvmepes4p75z37og3dn3gbzjpnwho                  ^libtool@2.4.6%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\nzcwwrrt7od3rrhxb5du2iybu65jlrlbw                      ^m4@1.4.18%gcc@6.3.1+sigsegv arch=linux-fedora25-x86_64 \r\n625n6uiwuqes737tignpxu3snoibyc43                          ^libsigsegv@2.11%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\nywniw4sq7xd3fzz6c4c7jrhqj5htwobl                  ^pkg-config@0.29.2%gcc@6.3.1+internal_glib arch=linux-fedora25-x86_64 \r\nlnv6kl5fucdneeh7h7ickta4vdis7u4v                  ^util-macros@1.19.1%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\nggtx25lpnfriqn4n35fsgquiug6uju7t              ^libxml2@2.9.4%gcc@6.3.1~python arch=linux-fedora25-x86_64 \r\nyw6ju7g3kyc27eonzrrvu73cdpiy5hzq                  ^xz@5.2.3%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\njcukpuaeyykzu647duoufe2bdrgru5ko                  ^zlib@1.2.11%gcc@6.3.1+pic+shared arch=linux-fedora25-x86_64 \r\n```\r\nIf I do specify the MPI provider and explicitly tell it to use `openmpi`, I see:\r\n```\r\n$ spack spec -L hdf5+mpi^openmpi\r\n...\r\nohnyu6ch2ewnkf2dnd32qrb6t2hlopgj  hdf5@1.10.1%gcc@6.3.1+cxx~debug+fortran+mpi+pic+shared~szip~threadsafe arch=linux-fedora25-x86_64 \r\nyyiri5gxf7jtu2c3vrhj6on4wz3jf2jh      ^openmpi@2.1.1%gcc@6.3.1~cuda fabrics= ~java schedulers= ~sqlite3~thread_multiple+vt arch=linux-fedora25-x86_64 \r\neva5cqpkbjggxvpp23ycr62yiocie64g          ^hwloc@1.11.7%gcc@6.3.1~cuda+libxml2+pci arch=linux-fedora25-x86_64 \r\nreafmcemqbmvzqzyiitmyfcdc4ia7tzl              ^libpciaccess@0.13.5%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\n4w4hvmepes4p75z37og3dn3gbzjpnwho                  ^libtool@2.4.6%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\nzcwwrrt7od3rrhxb5du2iybu65jlrlbw                      ^m4@1.4.18%gcc@6.3.1+sigsegv arch=linux-fedora25-x86_64 \r\n625n6uiwuqes737tignpxu3snoibyc43                          ^libsigsegv@2.11%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\nywniw4sq7xd3fzz6c4c7jrhqj5htwobl                  ^pkg-config@0.29.2%gcc@6.3.1+internal_glib arch=linux-fedora25-x86_64 \r\nlnv6kl5fucdneeh7h7ickta4vdis7u4v                  ^util-macros@1.19.1%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\nggtx25lpnfriqn4n35fsgquiug6uju7t              ^libxml2@2.9.4%gcc@6.3.1~python arch=linux-fedora25-x86_64 \r\nyw6ju7g3kyc27eonzrrvu73cdpiy5hzq                  ^xz@5.2.3%gcc@6.3.1 arch=linux-fedora25-x86_64 \r\njcukpuaeyykzu647duoufe2bdrgru5ko                  ^zlib@1.2.11%gcc@6.3.1+pic+shared arch=linux-fedora25-x86_64 \r\n```\r\nAs you can see, the packages to be installed are identical. However, the hash for `openmpi` (and consequently `hdf5`) changed!",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4492",
+    "updated_at": "2017-06-22 16:38:43",
+    "created_at": "2017-06-13 16:07:31",
+    "closed_at": "2017-06-16 10:41:15",
+    "state": "closed",
+    "title": "Virtual dependencies incorrectly affecting the hash",
+    "number": 4492,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "hashes",
+        "virtual-dependencies"
+    ],
+    "id": 235607175,
+    "html_url": "https://github.com/spack/spack/issues/4492",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 13
+}

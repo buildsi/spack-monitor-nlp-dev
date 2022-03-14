@@ -1,0 +1,17 @@
+{
+    "body": "The problem is that spack passes -G \"Unix Makefiles\" into cmake, which normally\r\nworks. But in the Exodus package, it is being passed into a bash wrapper\r\nscript. In there, the $@ then loses the information about \"Unix Makefiles\"\r\nbeing just one argument, and in effect passes -G Unix Makefiles into the cmake\r\n(without quotes), and so cmake only sees -G Unix, and then fails. This is a\r\nknown problem with bash with no simple solutions. As a workaround, this patch\r\nskips the first two arguments, i.e., -G and \"Unix Makefiles\". This makes it\r\nwork.\r\n\r\nFixes #5895.",
+    "user": "certik",
+    "url": "https://api.github.com/repos/spack/spack/issues/5906",
+    "updated_at": "2017-10-26 22:50:09",
+    "created_at": "2017-10-24 16:24:07",
+    "closed_at": "2017-10-26 19:50:19",
+    "state": "closed",
+    "title": "Exodus: skip the -G \"Unix Makefiles\" part",
+    "number": 5906,
+    "milestone": null,
+    "labels": [],
+    "id": 268098706,
+    "html_url": "https://github.com/spack/spack/pull/5906",
+    "assignees": [],
+    "comments": 5
+}

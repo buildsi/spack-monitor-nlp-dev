@@ -1,0 +1,23 @@
+{
+    "body": "Both 4.5.0 and 3.4.12 successfully build for me on macOS 10.15.7 with Apple Clang 12.0.0.\r\n\r\nThis PR includes the following changes:\r\n\r\n- [x] Simplified description\r\n- [x] Updated homepage and URL\r\n- [x] Added new versions 4.5.0 and 3.4.12\r\n- [x] Removed `-openvino` versions (not sure what these are, do we need these?)\r\n- [x] Added myself as a maintainer (I maintain all the other ML packages anyway)\r\n- [x] Added new variant `+imgcodecs`\r\n- [x] Fixed `+contrib` for several versions\r\n- [x] Added a conflict for `+calib3d~flann`\r\n\r\nThe conflict is needed because if you build `+calib3d~flann` it silently disables `+calib3d` with the following warning msg:\r\n```\r\nModule opencv_calib3d disabled because opencv_flann dependency can't be resolved!\r\n```\r\n\r\nFuture work that still needs to be done:\r\n\r\n1. It looks like there are several other modules that don't yet have variants. We need to add variants for these and figure out which versions they are valid for\r\n2. There may be other variants that are missing conflicts. Is there a way to crash instead of silently fail?\r\n3. Need to figure out a better way to handle `+contrib` so it doesn't get forgotten. Can we loop through all versions of the package?\r\n\r\n@bvanessen can you review? Those future work suggestions are just suggestions, they probably won't happen in this PR but feel free to take a stab at them if you want in a follow-up PR.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/20378",
+    "updated_at": "2020-12-17 16:37:24",
+    "created_at": "2020-12-14 19:11:44",
+    "closed_at": "2020-12-17 16:06:29",
+    "state": "closed",
+    "title": "OpenCV: add new versions, variants",
+    "number": 20378,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package",
+        "conflicts",
+        "maintainers",
+        "new-variant"
+    ],
+    "id": 766836477,
+    "html_url": "https://github.com/spack/spack/pull/20378",
+    "assignees": [],
+    "comments": 0
+}

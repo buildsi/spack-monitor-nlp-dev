@@ -1,0 +1,22 @@
+{
+    "body": "Installing slate fails as shown below. I tried setting f_mkl to 1 without checking for mkl in the spec but that resulted in errors like:\r\ntest/scalapack_copy.hh:70:32: error: 'cublasGetMatrix' was not declared in this scope\r\nSo presumably the intel_mkl package is noit providing the intended cublas functionality that package.py says it is expecting.\r\n\r\n\r\n---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install slate~cuda^mpich\r\n==> Executing phase: 'install'\r\n==> Error: KeyError: 'mkl'\r\n\r\n/spack/var/spack/repos/builtin/packages/slate/package.py:50, in install:\r\n         47        f_cuda = \"1\" if spec.variants['cuda'].value else \"0\"\r\n         48        f_mpi = \"1\" if spec.variants['mpi'].value else \"0\"\r\n         49        f_openmp = \"1\" if spec.variants['openmp'].value else \"0\"\r\n  >>     50        f_mkl = \"1\" if spec.variants['mkl'].value else \"0\"\r\n         51\r\n         52        compiler = 'mpicxx' if spec.variants['mpi'].value else ''\r\n         53\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux 0b38ba5118cc 3.10.0-862.14.4.el7.x86_64 #1 SMP Wed Sep 26 15:12:11 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n``` \r\n",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/11278",
+    "updated_at": "2019-08-02 20:09:02",
+    "created_at": "2019-04-24 17:26:42",
+    "closed_at": "2019-08-02 20:09:02",
+    "state": "closed",
+    "title": "Installation Issue: slate",
+    "number": 11278,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "impact-low"
+    ],
+    "id": 436817909,
+    "html_url": "https://github.com/spack/spack/issues/11278",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Mono's vendor'ed boringssl interacts badly with openssl, so you need to use `cmake~openssl`.\r\n\r\nLeft to its own devices, it wants to refer to things in `/usr/share/.mono`.  Applications seem to try to write there but it's not usually writable by non-root users.  If you install this as-is, you'll need to create the directory and arrange for it to be writable as necessary.  This package includes a variant to redirect those paths to `prefix.share`, which is more likely to be writable by the Spack installer.\r\n\r\nThis package works for my non-trivial test cases, but there's a lot of ground to cover.\r\n\r\nI do not have a use case, so at the moment I have no plans for including the graphics library (GDI).",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4435",
+    "updated_at": "2017-06-09 00:26:11",
+    "created_at": "2017-06-06 03:54:09",
+    "closed_at": "2017-06-08 22:55:46",
+    "state": "closed",
+    "title": "Package for mono",
+    "number": 4435,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 233772397,
+    "html_url": "https://github.com/spack/spack/pull/4435",
+    "assignees": [],
+    "comments": 4
+}

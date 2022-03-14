@@ -1,0 +1,22 @@
+{
+    "body": "fixes #28749 \r\n\r\nBefore this PR the construction of a spec list for software stacks was based on string concatenation rather than constraint merging. This may cause issues like #28749 if a line in the matrix contains constrains on both the root spec and a dependency. This PR fixes the issue by using `Spec.constrain` instead of string concatenation to construct the spec list.\r\n\r\nNested matrices and temporarily converted back to string to allow for a sigil to be applied in front of them when they are expanded as `$^` or as `$%`.\r\n\r\nModifications:\r\n\r\n- [x] Add a regression test based on #28749\r\n- [x] Fix a bug in `Spec.constrain` that wasn't adding a name or a namespace to an anonymous spec if constrained with a named spec\r\n- [x] Use `Spec.constrain` to merge the constraints for spec matrices",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/28783",
+    "updated_at": "2022-02-04 19:18:40",
+    "created_at": "2022-02-04 15:32:54",
+    "closed_at": "2022-02-04 19:17:24",
+    "state": "closed",
+    "title": "Use Spec.constrain to construct spec lists for stacks",
+    "number": 28783,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "environments",
+        "stacks",
+        "bugfix"
+    ],
+    "id": 1124332293,
+    "html_url": "https://github.com/spack/spack/pull/28783",
+    "assignees": [],
+    "comments": 3
+}

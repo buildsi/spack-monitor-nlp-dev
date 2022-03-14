@@ -1,0 +1,19 @@
+{
+    "body": "I was getting errors trying to `spack use` on a system where multiple spack installs are available. My local spack is in `~/src/spack` but there is a global spack in `/collab/usr/global/tools/spack/`. I want to use my local install exclusively, but it seems the global one is still causing conflicts for dotkit resolution.\n\nIn my `~/.bashrc` I execute `. ~/src/spack/share/spack/setup-env.sh` and I do not do anything with the global install. However, `use` still uses the global spack install.\n\nHere is an example:\n\n```\n$ use -l spack\nspack ----------\n         git-2.2.1 - git @2.2.1\n```\n\nBut git is not actually installed locally:\n\n```\n$ spack find git\n==> 0 installed packages.\n```\n\nLet's see what `use` is finding:\n\n```\n$ use git-2.2.1\nPrepending: git-2.2.1 (ok)\n$ which use\n/collab/usr/global/tools/spack/opt/chaos_5_x86_64_ib/gcc@4.4.7/git@2.2.1-ad2560bb/bin/git\n```\n\nSure enough, `use` is using the global spack install. Furthermore, none of my locally installed spack packages are available:\n\n```\n$ spack find hwloc\n==> 1 installed packages.\n-- chaos_5_x86_64_ib / gcc@4.4.7 --------------------------------\nhwloc@1.11.2\n$ spack use hwloc\nPrepending: hwloc@1.11.2%gcc@4.4.7-3cntzof (not found)\n$ use -l spack\nspack ----------\n         git-2.2.1 - git @2.2.1\n```\n\nAs you can see, local spack installs are not showing up at all in `use`. \n\nIs there a way to point `use` to a specific spack install? Or an alternative fix? I deleted `~/.spack` and `~/.spackconfig` and cleaned my spack install completely, am on the latest develop branch.\n",
+    "user": "alfredo-gimenez",
+    "url": "https://api.github.com/repos/spack/spack/issues/357",
+    "updated_at": "2017-04-12 19:45:58",
+    "created_at": "2016-01-15 18:44:45",
+    "closed_at": "2017-04-12 19:45:58",
+    "state": "closed",
+    "title": "[site-specific] Multiple spack installs are confusing dotkit",
+    "number": 357,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 126932136,
+    "html_url": "https://github.com/spack/spack/issues/357",
+    "assignees": [],
+    "comments": 5
+}

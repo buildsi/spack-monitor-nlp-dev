@@ -1,0 +1,24 @@
+{
+    "body": "fixes #23951 \r\n\r\nPreferred providers had a non-zero weight because in an earlier formulation of the logic program that was needed to prefer external providers over default providers. With the current formulation for externals this is not needed anymore, so we can give a weight of zero to both default choices and providers that are externals. _Using zero ensures that we don't introduce any drift towards having less providers, which was happening when minimizing positive weights_.\r\n\r\nModifications:\r\n\r\n- [x] Default weight for providers starts at 0 (instead of 10, needed before to prefer externals)\r\n- [x] Rules to compute the `provider_weight` have been refactored. There are multiple possible weights for a given `Virtual`. Only one gets selected by the solver (the one that minimizes the objective function).\r\n- [x] `provider_weight` are now accounting for each different `Virtual`. Before there was a single weight per provider, even if the package was providing multiple virtuals.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/25331",
+    "updated_at": "2021-08-11 05:47:05",
+    "created_at": "2021-08-10 11:57:41",
+    "closed_at": "2021-08-10 21:15:46",
+    "state": "closed",
+    "title": "Rework rules for provider weights",
+    "number": 25331,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "concretization",
+        "dependencies",
+        "virtual-dependencies",
+        "tests",
+        "bugfix"
+    ],
+    "id": 964902482,
+    "html_url": "https://github.com/spack/spack/pull/25331",
+    "assignees": [],
+    "comments": 1
+}

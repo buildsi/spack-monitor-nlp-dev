@@ -1,0 +1,17 @@
+{
+    "body": "When package_b:\r\ndepends_on('package_a+non_existing_variant)\r\n\r\nthen sometimes the error does not get trapped\r\n\r\n-----\r\n\r\nmake an error in dependency like \r\ndepends_on('tcl+missing_tcl_variant')\r\n\r\n### Expected Result\r\n==> Error: Package tcl has no variant set(['missing_tcl_variant'])!\r\n\r\n### Actual Result\r\n\r\n==> Error: 'missing_tcl_variant'\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack edit tk\r\n:1,$s/'tcl'/'tcl+missing_tcl_variant'\r\n:wq\r\n$ spack spec tk\r\n==> Error: 'missing_tcl_variant'    <-----------_ non informative error, not trapped:\r\nlib/spack/spack/variant.py\", line 613, in substitute_abstract_variants\r\n    pkg_variant = spec.package_class.variants[name]\r\nKeyError: 'missing_tcl_variant'\r\n\r\n instead, for unknown reason, spec python+tk correctly trap\r\n$ spack -d spec python+tk\r\n...............\r\nlib/spack/spack/spec.py\", line 2228, in validate_or_raise\r\n    raise UnknownVariantError(spec.name, not_existing)\r\nspack.variant.UnknownVariantError: Package tcl has no variant set(['missing_tcl_variant'])!\r\n\r\n\r\n",
+    "user": "luigi-calori",
+    "url": "https://api.github.com/repos/spack/spack/issues/7158",
+    "updated_at": "2019-12-13 11:41:35",
+    "created_at": "2018-02-01 18:43:28",
+    "closed_at": "2019-12-13 11:41:35",
+    "state": "closed",
+    "title": "Non trapped error when depending on a non-existing variant",
+    "number": 7158,
+    "milestone": null,
+    "labels": [],
+    "id": 293640582,
+    "html_url": "https://github.com/spack/spack/issues/7158",
+    "assignees": [],
+    "comments": 1
+}

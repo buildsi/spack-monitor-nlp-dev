@@ -1,0 +1,21 @@
+{
+    "body": "cscope fails to build on Centos 7. The configure script output says it can't find curses. As a shot-in-the-dark I tried adding ```depends_on('ncurses')``` and get the same result\r\n\r\n``` bash\r\n$ spack install -j1 cscope\r\n==> Installing cscope\r\n==> ncurses is already installed in spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/ncurses-6.0-75hnzrecoib5eqdvfchl6n2jgcxc6dgo\r\n==> Using cached archive: spack/var/spack/cache/cscope/cscope-15.8b.tar.gz\r\n==> Staging archive: spack/var/spack/stage/cscope-15.8b-prz66vexnihyvq54as3ry3f6fucox2rk/cscope-15.8b.tar.gz\r\n==> Created stage in spack/var/spack/stage/cscope-15.8b-prz66vexnihyvq54as3ry3f6fucox2rk\r\n==> Ran patch() for cscope\r\n==> Building cscope [AutotoolsPackage]\r\n==> Executing phase : 'autoreconf'\r\n==> Executing phase : 'configure'\r\n==> Executing phase : 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make'\r\nspack/lib/spack/spack/build_systems/autotools.py:273, in build:\r\n     268      def build(self, spec, prefix):\r\n     269          \"\"\"Makes the build targets specified by\r\n     270          :py:attr:``~.AutotoolsPackage.build_targets``\r\n     271          \"\"\"\r\n     272          with working_dir(self.build_directory):\r\n  >> 273              inspect.getmodule(self).make(*self.build_targets)\r\n\r\nSee build log for details:\r\n  /tmp/spack-stage/spack-stage-RqIblB/cscope-15.8b/spack-build.out\r\n```\r\n\r\nFrom spack-build.out\r\n``` bash\r\nspack/lib/spack/env/gcc/gcc  -g -O2   -o cscope fscanner.o egrep.o alloc.o basename.o build.o command.o compath.o crossref.o dir.o display.o edit.o exec.o find.o help.o history.o input.o invlib.o logdir.o lookup.o main.o mouse.o mygetenv.o mypopen.o vpaccess.o vpfopen.o vpinit.o vpopen.o -lcurses\r\n/bin/ld: cannot find -lcurses\r\ncollect2: error: ld returned 1 exit status\r\nmake[2]: *** [cscope] Error 1\r\nmake[2]: Leaving directory `/tmp/spack-stage/spack-stage-RqIblB/cscope-15.8b/src'\r\nmake[1]: *** [all-recursive] Error 1\r\nmake[1]: Leaving directory `/tmp/spack-stage/spack-stage-RqIblB/cscope-15.8b'\r\nmake: *** [all] Error 2\r\n```",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/3783",
+    "updated_at": "2017-04-11 19:09:29",
+    "created_at": "2017-04-10 21:43:03",
+    "closed_at": "2017-04-11 19:09:29",
+    "state": "closed",
+    "title": "cscope build errors on Centos 7",
+    "number": 3783,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 220779753,
+    "html_url": "https://github.com/spack/spack/issues/3783",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 1
+}

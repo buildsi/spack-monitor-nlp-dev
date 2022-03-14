@@ -1,0 +1,21 @@
+{
+    "body": "There is a package `openjpeg` with the following versions:\r\n```python\r\nversion('2.1',   '3e1c451c087f8462955426da38aa3b3d')\r\nversion('2.0.1', '105876ed43ff7dbb2f90b41b5a43cfa5')\r\n```\r\nNote that the version tuples have different lengths.\r\n\r\nNow, there is a package `eccodes` that depends on `openjpeg`. Recently, I have learnt that it can be built only with `openjpeg` `1.5.x` or `2.1.x`. So, I decided to put the constraint on the version of `openjpeg`: `1.5:1.5.999,2.1:2.1.999`. And got an infinie loop while doing `spack spec` or `spac install` here: https://github.com/spack/spack/blob/3dafbe901a2a2ade232f3221dd27786ee6f42097/lib/spack/spack/spec.py#L1793-L1798\r\n\r\nThe problem remains even if we specify just `depends_on('openjpeg@2.1:2.1.999')`. What solves the problem is making all the version tuples of `openjpeg` to have the same length, which I plan to do for now.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/6524",
+    "updated_at": "2020-11-01 21:41:53",
+    "created_at": "2017-11-30 13:23:34",
+    "closed_at": "2020-11-01 21:41:53",
+    "state": "closed",
+    "title": "Inifinite loop during concretization",
+    "number": 6524,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "versions"
+    ],
+    "id": 278118328,
+    "html_url": "https://github.com/spack/spack/issues/6524",
+    "assignees": [],
+    "comments": 2
+}

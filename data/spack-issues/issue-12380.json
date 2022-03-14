@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nEven when building LLVM with a spack-installed GCC compiler, Clang includes the system GCC installation in its search paths:\r\n\r\n```console\r\n$ spack install llvm@7.0.1%gcc@8.2.0\r\n$ $(spack location -i llvm)/bin/clang -print-search-dirs\r\nprograms: =/projects/spack/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-avafczo6dbasez3obndejep4rwbmwnrl/bin:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../x86_64-redhat-linux/bin\r\nlibraries: =/projects/spack/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-avafczo6dbasez3obndejep4rwbmwnrl/lib/clang/7.0.1:/usr/lib/gcc/x86_64-redhat-linux/4.8.5:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64:/lib/../lib64:/usr/lib/../lib64:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../..:/projects/spack/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-avafczo6dbasez3obndejep4rwbmwnrl/bin/../lib:/lib:/usr/lib\r\n```\r\n\r\nThis is the source of a problem that took a long time to debug, wherein a code that's compiled using both Clang (built using GCC 8.2) for C++ and Gfortran (the same GCC 8.2) can link against both the system-provided `libgfortran` and the GCC 8.2 version, even though all the spack-built dependencies correctly use the GCC 8.2 version!:\r\n```console\r\n$ ldd libSenlib.so | grep gfort\r\n\tlibgfortran.so.3 => /lib64/libgfortran.so.3 (0x00007f9230507000)\r\n\tlibgfortran.so.5 => /projects/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-8.2.0-3gf5hj6qpbqqh44sdsnueyyvbnjtbgnh/lib64/libgfortran.so.5 (0x00007f922f577000)\r\n```\r\n\r\nThe source of this error is that, even though nothing in my CMake configuration references the system GCC, the CMake link command still links against the system path:\r\n```\r\n-L/usr/lib/gcc/x86_64-redhat-linux/4.8.5\r\n```\r\nand thus overrides the GCC 8.2 library.\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux node2 3.10.0-327.10.1.el7.x86_64 #1 SMP Sat Jan 23 04:54:55 EST 2016 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tRed Hat Enterprise Linux Workstation release 7.2 (Maipo)\r\n``` ",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12380",
+    "updated_at": "2019-08-11 17:40:13",
+    "created_at": "2019-08-10 16:09:08",
+    "closed_at": "2019-08-11 17:40:13",
+    "state": "closed",
+    "title": "Clang always references system gcc, even if being built with spack gcc",
+    "number": 12380,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 479281657,
+    "html_url": "https://github.com/spack/spack/issues/12380",
+    "assignees": [],
+    "comments": 0
+}

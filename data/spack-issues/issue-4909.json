@@ -1,0 +1,20 @@
+{
+    "body": "The boost package should not hardcode `\"mpicxx\"` as the compiler to use with the variant `+mpi`.\r\n\r\nI ran into this issue when attempting to install `boost +mpi +python ^python@3:` on a system with the Cray compiler wrapper `CC` instead of the normal MPI wrapper `mpicxx`.\r\n\r\nAt first, it seemed like the boost package installed correctly, or at least it didn't fail with an error.  But that's because boost will just silently refuse to compile the Boost MPI library if the MPI compile doesn't work, with just some warnings like this:\r\n```\r\nMPI auto-detection failed: unknown wrapper compiler /opt/cray/mpt/7.2.4/gni/mpich2-gnu/49/bin/mpicxx\r\nPlease report this error to the Boost mailing list: http://www.boost.org\r\nYou will need to manually configure MPI support.\r\n```\r\nand this:\r\n```\r\nwarning: skipping optional Message Passing Interface (MPI) library.\r\nnote: to enable MPI support, add \"using mpi ;\" to user-config.jam.\r\nnote: to suppress this message, pass \"--without-mpi\" to bjam.\r\nnote: otherwise, you can safely ignore this message.\r\n```\r\nand then the MPI library just doesn't exist after the install is done:\r\n```\r\n$ cd ~/spack/opt/spack/cray-CNL-haswell/gcc-4.9.3/boost-1.63.0-aehtg2wu2aht3eybqubbrdqtimcxngfm/lib/\r\n$ ls libboost_python*\r\nlibboost_python-mt.a          libboost_python.so         libboost_python3-mt.so.1.63.0\r\nlibboost_python-mt.so         libboost_python.so.1.63.0  libboost_python3.a\r\nlibboost_python-mt.so.1.63.0  libboost_python3-mt.a      libboost_python3.so\r\nlibboost_python.a             libboost_python3-mt.so     libboost_python3.so.1.63.0\r\n$ ls libboost_mpi*\r\nls: cannot access libboost_mpi*: No such file or directory\r\n```\r\n\r\nAfter I made the changes in this pull request (using `spec['mpi'].mpicxx` and adding the `MPICH_SKIP_MPICXX` option), the Boost MPI library compiled and installed correctly:\r\n```\r\n$ cd ~/spack/opt/spack/cray-CNL-haswell/gcc-4.9.3/boost-1.63.0-aehtg2wu2aht3eybqubbrdqtimcxngfm/lib/\r\n$ ls libboost_python*\r\nlibboost_python-mt.a          libboost_python.so         libboost_python3-mt.so.1.63.0\r\nlibboost_python-mt.so         libboost_python.so.1.63.0  libboost_python3.a\r\nlibboost_python-mt.so.1.63.0  libboost_python3-mt.a      libboost_python3.so\r\nlibboost_python.a             libboost_python3-mt.so     libboost_python3.so.1.63.0\r\n$ ls libboost_mpi*\r\nlibboost_mpi-mt.a          libboost_mpi.so            libboost_mpi_python-mt.so.1.63.0\r\nlibboost_mpi-mt.so         libboost_mpi.so.1.63.0     libboost_mpi_python.a\r\nlibboost_mpi-mt.so.1.63.0  libboost_mpi_python-mt.a   libboost_mpi_python.so\r\nlibboost_mpi.a             libboost_mpi_python-mt.so  libboost_mpi_python.so.1.63.0\r\n```",
+    "user": "YtterbiJum",
+    "url": "https://api.github.com/repos/spack/spack/issues/4909",
+    "updated_at": "2017-08-05 17:06:47",
+    "created_at": "2017-07-26 20:16:54",
+    "closed_at": "2017-08-05 17:06:47",
+    "state": "closed",
+    "title": "Correct boost +mpi for Cray compiler wrappers",
+    "number": 4909,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "mpi"
+    ],
+    "id": 245841371,
+    "html_url": "https://github.com/spack/spack/pull/4909",
+    "assignees": [],
+    "comments": 0
+}

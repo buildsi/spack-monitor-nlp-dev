@@ -1,0 +1,17 @@
+{
+    "body": "Python will look to link with libncursesw in preference to libncurses. Since\nncurses in spack is built without suffixes there is no libncursesw and\npython will link to the system libncursesw for _curses.so and\n_curses_panel.so, as well as libpanelw for _curses_panel.so.\n\nThis PR introduces a patch that simple removes the check for ncursesw in\nsetup.py and therefore sets `curses_library` to `ncurses`.\n\nAn alternative solution would be to have the ncurses package build the suffixed versions as well as the non-suffixed versions.\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/1672",
+    "updated_at": "2016-09-21 11:02:28",
+    "created_at": "2016-08-30 21:48:51",
+    "closed_at": "2016-09-21 11:02:28",
+    "state": "closed",
+    "title": "Stop python from linking with system ncurses",
+    "number": 1672,
+    "milestone": null,
+    "labels": [],
+    "id": 174134683,
+    "html_url": "https://github.com/spack/spack/pull/1672",
+    "assignees": [],
+    "comments": 0
+}

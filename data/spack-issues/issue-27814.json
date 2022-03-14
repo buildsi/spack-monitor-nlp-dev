@@ -1,0 +1,19 @@
+{
+    "body": "The previous version, `'--with-hepmc3=' + self.spec['hepmc'].prefix`, ends up putting the (empty) hepmc(2) prefix in the library linker list, resulting in the error:\r\n```\r\n     614    libtool: link: ranlib .libs/libRivetAnalysisTools.a\r\n     615    libtool: link: ( cd \".libs\" && rm -f \"libRivetAnalysisTools.la\" && ln -s \"../libRivetAnalysisTools.la\" \"libRivetAnalysisTools.la\" )\r\n     616    make[2]: Leaving directory '/home/wdconinc/.spack/stage/spack-stage-rivet-3.1.4-lphues43oironi27qiyi5ntfe66taqll/spack-src/src/AnalysisTools'\r\n     617    make[2]: Entering directory '/home/wdconinc/.spack/stage/spack-stage-rivet-3.1.4-lphues43oironi27qiyi5ntfe66taqll/spack-src/src'\r\n     618    /bin/bash ../libtool  --tag=CC   --mode=link /home/wdconinc/git/spack/lib/spack/env/gcc/gcc  -g -O2 -export-dynamic -avoid-version -L/opt/software/linux-ubuntu21.10-skylake/gcc-11.2.0/yoda-1.9.0-5ab4x46uqjof3xjki75okc56razw\r\n            fnuo/lib -L  -L/usr/lib -L/usr/lib -o libRivet.la -rpath /opt/software/linux-ubuntu21.10-skylake/gcc-11.2.0/rivet-3.1.4-lphues43oironi27qiyi5ntfe66taqll/lib  Core/libRivetCore.la Projections/libRivetProjections.la Tools/lib\r\n            RivetTools.la AnalysisTools/libRivetAnalysisTools.la -lYODA -ldl -lm -Wl,-rpath,/opt/software/linux-ubuntu21.10-skylake/gcc-11.2.0/fastjet-3.3.3-3gacqzwwhixwlezvjsjwnawngm4mtupi/lib -L/opt/software/linux-ubuntu21.10-skylake\r\n            /gcc-11.2.0/fastjet-3.3.3-3gacqzwwhixwlezvjsjwnawngm4mtupi/lib -lfastjettools -lfastjet -lm -lfastjetplugins -lsiscone_spherical -lsiscone    -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../l\r\n            ib  -lgfortran -lm -lquadmath -L/opt/software/linux-ubuntu21.10-skylake/gcc-11.2.0/fjcontrib-1.044-remjayzdrkszoeguhgfexihieakv6ap2/lib -lfastjetcontribfragile -lfastjettools -lHepMC3 -lHepMC3search  -lz\r\n     619    libtool:   error: require no space between '-L' and '-L/usr/lib'\r\n  >> 620    make[2]: *** [Makefile:532: libRivet.la] Error 1\r\n     621    make[2]: Leaving directory '/home/wdconinc/.spack/stage/spack-stage-rivet-3.1.4-lphues43oironi27qiyi5ntfe66taqll/spack-src/src'\r\n  >> 622    make[1]: *** [Makefile:553: all-recursive] Error 1\r\n     623    make[1]: Leaving directory '/home/wdconinc/.spack/stage/spack-stage-rivet-3.1.4-lphues43oironi27qiyi5ntfe66taqll/spack-src/src'\r\n  >> 624    make: *** [Makefile:560: all-recursive] Error 1\r\n```\r\n\r\nI confirmed that this error does not occur after this PR is applied.\r\n\r\nNo maintainers, but @bernhardkaindl @vvolkl @iarspider may be willing to review.",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/27814",
+    "updated_at": "2021-12-07 18:14:42",
+    "created_at": "2021-12-06 00:19:33",
+    "closed_at": "2021-12-06 09:42:54",
+    "state": "closed",
+    "title": "[rivet] --with-hepmc3 should use hepmc3 prefix",
+    "number": 27814,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1071601024,
+    "html_url": "https://github.com/spack/spack/pull/27814",
+    "assignees": [],
+    "comments": 2
+}

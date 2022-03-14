@@ -1,0 +1,21 @@
+{
+    "body": "When installing packages into a spack environment, module files are created for all packages, including build only dependencies. However, since build only dependencies are not registered in the environment, the module files for the build only dependencies can not be regenerated with\r\n`spack module refresh tcl`\r\n \r\n This means that those modules could be lost with no way to recover them, ie., with the\r\n`--delete-tree`\r\noption, which is sometimes needed for cleanup. This is an issue if the module files for the dependencies had already been deployed in a stack and then disappear. I currently run \r\n`spack module refresh tcl --delete-tree` prior to updating the Lmod cache to avoid the problem, but it is an easy thing to forget.\r\n \r\nInternally consistent behavior could be achieved by either of the following two mechanisms:\r\n\r\n1. Allow all modules to be rebuilt in an environment\r\n1. Do not create module files for build only dependencies at all\r\n\r\nThe second option is probably the most sensible one as the first option would likely require registration of the dependencies in the environment. Either one avoids the risk of deploying modules, getting them in an Lmod cache, and then having them potentially disappear with no quick way to recover.",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14334",
+    "updated_at": "2020-09-08 22:16:19",
+    "created_at": "2019-12-31 19:29:47",
+    "closed_at": "2020-09-08 22:16:19",
+    "state": "closed",
+    "title": "inconsistent module behavior in spack environments",
+    "number": 14334,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "environments"
+    ],
+    "id": 544255884,
+    "html_url": "https://github.com/spack/spack/issues/14334",
+    "assignees": [],
+    "comments": 1
+}

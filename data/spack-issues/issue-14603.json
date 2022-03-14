@@ -1,0 +1,19 @@
+{
+    "body": "\r\n### Steps to reproduce the issue\r\n\r\ncheckout out spack at sha  5eed196f\r\n\r\n```console\r\n$ spack install python@3.7.4  % gcc@9.1.0\r\n```\r\n\r\nGets to building and dies with this error message:\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status -6:\r\n    '/projects/artab/users/hpp/spack-environments-cc/DWARMG_9.1.0/1.0/spack/opt/spack/linux-rhel7-aarch64/gcc-9.1.0/python-3.7.4-3op4hzriixljjkkqjjv4bsuk7lc3ripe/bin/python3.7' '-c' 'from distutils.sysconfig import get_config_var; print(get_config_var('\"'\"'LIBDEST'\"'\"'))'\r\n\r\n1 error found in build log:\r\n     8982    \t\tinstall|*) ensurepip=\"\" ;; \\\r\n     8983    \tesac; \\\r\n     8984    \tLD_LIBRARY_PATH=/ram/tmp/hpp/spack-stage/spack-stage-python-3.7.4-3op4hzriixljjkkqjjv4bsuk7lc3ripe/spack-src/spack-build:/projects/opt\r\n             /aarch64/gcc/9.1.0/lib64:/projects/opt/aarch64/gcc/9.1.0/lib:/usr/local/lib ./python -E -m ensurepip \\\r\n     8985    \t\t$ensurepip --root=/ ; \\\r\n     8986    fi\r\n     8987    ==> [2020-01-22-14:37:30.087737] '/projects/artab/users/hpp/spack-environments-cc/DWARMG_9.1.0/1.0/spack/opt/spack/linux-rhel7-aarch64/\r\n             gcc-9.1.0/python-3.7.4-3op4hzriixljjkkqjjv4bsuk7lc3ripe/bin/python3.7' '-c' 'from distutils.sysconfig import get_config_var; print(get_\r\n             config_var('\"'\"'LIBDEST'\"'\"'))'\r\n  >> 8988    Fatal Python error: initfsencoding: unable to load the file system codec\r\n     8989    ModuleNotFoundError: No module named 'encodings'\r\n     8990    \r\n     8991    Current thread 0x0000400033217750 (most recent call first):\r\n\r\nSee build log for details:\r\n  /tmp/hpp/spack-stage/spack-stage-python-3.7.4-3op4hzriixljjkkqjjv4bsuk7lc3ripe/spack-build-out.txt\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux cn811 4.14.0-115.16.1.el7a.aarch64 #1 SMP Wed Nov 27 13:05:06 EST 2019 aarch64 aarch64 aarch64 GNU/Linux\r\n$ cat /etc/redhat-release\r\nRed Hat Enterprise Linux Server release 7.6 (Maipo)\r\n``` \r\nGit bisect indicates commit 808c80d65ae2e19e79a14a7ecfb67d2788954aaf introduced this problem.  If I revert this commit, the problem vanishes.  We see this problem for other 3.7 versions of python as well.\r\n",
+    "user": "hppritcha",
+    "url": "https://api.github.com/repos/spack/spack/issues/14603",
+    "updated_at": "2021-03-01 15:48:32",
+    "created_at": "2020-01-23 01:43:08",
+    "closed_at": "2021-03-01 15:48:32",
+    "state": "closed",
+    "title": "Installation issue: python 3.7.4 package fails to build with very recent spack checkout",
+    "number": 14603,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 553892416,
+    "html_url": "https://github.com/spack/spack/issues/14603",
+    "assignees": [],
+    "comments": 4
+}

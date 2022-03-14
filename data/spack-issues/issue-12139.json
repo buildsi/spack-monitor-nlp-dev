@@ -1,0 +1,21 @@
+{
+    "body": "I'm unable to build Qt 4 on macOS. Qt 5 built fine.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install qt@:4 platform=darwin\r\n...\r\n  >> 287     Undefined symbols for architecture i386:\r\n     288       \"_CFArrayCreate\", referenced from:\r\n     289           macList(QList<QVariant> const&) in qsettings_mac.o\r\n     290       \"_CFArrayGetCount\", referenced from:\r\n     291           qtValue(void const*) in qsettings_mac.o\r\n     292           QMacSettingsPrivate::children(QString const&, QSettingsPrivate::ChildSpec) const in qsettings_mac.o\r\n     293           QMacSettingsPrivate::sync() in qsettings_mac.o\r\n\r\n     ...\r\n\r\n     1201      \"_vsnprintf\", referenced from:\r\n     1202          qvsnprintf(char*, unsigned long, char const*, char*) in qvsnprintf.o\r\n     1203          qsnprintf(char*, unsigned long, char const*, ...) in qvsnprintf.o\r\n     1204      \"_write$UNIX2003\", referenced from:\r\n     1205          QFSFileEnginePrivate::writeFdFh(char const*, long long) in qfsfileengine.o\r\n     1206    ld: symbol(s) not found for architecture i386\r\n  >> 1207    clang: error: linker command failed with exit code 1 (use -v to see invocation)\r\n  >> 1208    make: *** [/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/Adam/spack-stage/spack-stage-KDjE7V/spack-src/bin/qmake] Error 1\r\n```\r\nIt's interesting that it detects the architecture as i386 instead of x86_64.\r\n\r\n### Platform\r\n\r\n```commandline\r\n$ uname -a \r\nDarwin Vesuvius 18.6.0 Darwin Kernel Version 18.6.0: Thu Apr 25 23:16:27 PDT 2019; root:xnu-4903.261.4~2/RELEASE_X86_64 x86_64\r\n```\r\n\r\n### Additional information\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/3433475/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/3433476/spack-build-env.txt)\r\n\r\n@davydden you helped me last time I had problems building Qt on macOS. Any thoughts?\r\n\r\nEDIT: Also note that if you run Spack with Python 3, you'll need #12138 to get `qt` to work. These error logs were produced using the current package and Python 2.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12139",
+    "updated_at": "2019-08-01 17:22:36",
+    "created_at": "2019-07-25 22:31:36",
+    "closed_at": "2019-08-01 17:22:36",
+    "state": "closed",
+    "title": "Installation issue: Qt 4 on macOS",
+    "number": 12139,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "qt"
+    ],
+    "id": 473097597,
+    "html_url": "https://github.com/spack/spack/issues/12139",
+    "assignees": [],
+    "comments": 2
+}

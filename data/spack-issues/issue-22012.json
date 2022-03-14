@@ -1,0 +1,19 @@
+{
+    "body": "This PR adds the updated Python bindings for the current versions preCICE (#19264 and #21166) \r\nThe PR has been reopened due to a bad merge in the previous PR (see https://github.com/spack/spack/pull/21881)\r\n\r\nThe following changes have been made to the recipe:\r\n- Handle of maintainer has been updated: `BenjaminRueth` -> `BenjaminRodenberg`\r\n- Added `py-precice` versions 2.1.1.2 and 2.2.0.1\r\n- The installation procedure of `pyprecice` has been improved which made changes to the Spack package necessary:\r\n    - Now, the patch `deactivate-version-check-via-pip.patch` is only needed for versions <= 2.1.1.1 of the pyprecice. This is reflected accordingly in the Spack recipe. \r\n    - For these old versions (<= 2.1.1.1) the `install` routine of Spack had to be overwritten (see https://github.com/spack/spack/pull/19558) due to non-standard installation procedures of `pyprecice`. This is not needed for the newer releases anymore.\r\n    - Added phase `install_lib`. This is needed since new versions of `pyprecice` use versioneer to create the `__version__` property of the package. This needs the `install_lib` step such that necessary files (e.g. `_version.py`) are created for compiling `pyprecice` in  the `build_ext` step. The phase `install_lib` is not needed for the old versions (<= 2.1.1.1), but I did not find a way to have version dependent phases. I tested that the old version still worked after adding `install_lib` as phase and they do. (See also explanations by @BenjaminRodenberg  in https://github.com/spack/spack/pull/21881)\r\n- We added some comments to the Spack recipe to make some decisions/dependencies more clear, e.g., that the dependency of `py-wheel` is specified in `pyproject.toml`. However, not all dependencies listed in `pyproject.toml` are needed to build `pyprecice` with Spack, i.e. `pip` is not needed.\r\n- Removed the `mpi` variant and made `mpi4py` a mandatory dependency as pointed out it https://github.com/spack/spack/pull/21881\r\n- Adding `import_modules` for testing installation of the module.\r\n\r\nAdding @BenjaminRodenberg  for reference.",
+    "user": "ajaust",
+    "url": "https://api.github.com/repos/spack/spack/issues/22012",
+    "updated_at": "2021-03-03 14:30:22",
+    "created_at": "2021-03-01 10:00:42",
+    "closed_at": "2021-03-03 13:44:05",
+    "state": "closed",
+    "title": "py-pyprecice: Add version 2.1.1.2 and 2.2.0.1",
+    "number": 22012,
+    "milestone": null,
+    "labels": [
+        "new-version"
+    ],
+    "id": 818697607,
+    "html_url": "https://github.com/spack/spack/pull/22012",
+    "assignees": [],
+    "comments": 0
+}

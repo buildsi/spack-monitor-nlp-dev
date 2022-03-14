@@ -1,0 +1,20 @@
+{
+    "body": "When using LMod backend, the install path of the modules does not contain the architecture of the machine, while it does for the TMod.\r\n\r\n```\r\n$ ml av\r\n\r\n------------------------------------ /opt/apps/spack/share/spack/lmod/linux-ubuntu18.04-x86_64/Core ------------------------------------\r\n   gcc/4.9.4    gcc/5.5.0    gcc/6.5.0    gcc/7.4.0    gcc/8.3.0    gcc/9.2.0 (D)\r\n\r\n------------------------------------ /opt/apps/spack/share/spack/modules/linux-ubuntu18.04-skylake -------------------------------------\r\n   gcc-7.4.0/gcc/4.9.4    gcc-7.4.0/gcc/5.5.0    gcc-7.4.0/gcc/6.5.0    gcc-7.4.0/gcc/7.4.0    gcc-7.4.0/gcc/8.3.0    gcc-7.4.0/gcc/9.2.0 (D)\r\n```\r\n\r\nJust to emphasize: the installation path for lua modules is\r\n`/opt/apps/spack/share/spack/lmod/linux-ubuntu18.04-x86_64/Core`, while the `tcl` modules is `/opt/apps/spack/share/spack/modules/linux-ubuntu18.04-skylake`.\r\n\r\n### Steps to reproduce the issue\r\n```\r\nspack module lmod refresh -y --delete-tree\r\nspack module tcl refresh -y --delete-tree\r\n```\r\nYou need to module use the `lmod` module path. The `tcl` one, at least for me, is added automatically by `. $SPACK_ROOT/share/spack/setup-env.sh`.\r\n",
+    "user": "victorusu",
+    "url": "https://api.github.com/repos/spack/spack/issues/14098",
+    "updated_at": "2019-12-20 10:23:10",
+    "created_at": "2019-12-10 20:01:19",
+    "closed_at": "2019-12-20 10:23:10",
+    "state": "closed",
+    "title": "Lua Modules install path does not contain the correct arch",
+    "number": 14098,
+    "milestone": null,
+    "labels": [
+        "question",
+        "modules"
+    ],
+    "id": 535958540,
+    "html_url": "https://github.com/spack/spack/issues/14098",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Issue #4423 describes a problem where perl packages installed by spack are not found by perl after being activated.\r\n\r\nWhen perl packages are installed using `Makefile.PL`, we use the configure option `INSTALL_BASE` as recommended by http://search.cpan.org/~bingos/ExtUtils-MakeMaker-7.30/lib/ExtUtils/MakeMaker.pm. Similarly, for packages installed using `Build.PL`, we use the option `--install_base`. These options provide a consistent and predictable directory structure for all packages.\r\n\r\nWhen perl packages are activated by spack, the result is equivalent to setting `INSTALL_BASE` or `--install_base` to the base directory of the perl installation. But for reasons known only to perl experts, the packages are not installed in a location that perl searches by default.\r\n\r\nAs a workaround, I have modified the configure options used to install perl so that an extra directory is prepended to the package search path. With this change, packages can be used after activation without needing to define `PERL5LIB`.",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/4540",
+    "updated_at": "2017-07-23 14:41:46",
+    "created_at": "2017-06-19 03:47:27",
+    "closed_at": "2017-07-23 14:41:46",
+    "state": "closed",
+    "title": "Perl - allow package activation without PERL5LIB variable",
+    "number": 4540,
+    "milestone": null,
+    "labels": [
+        "perl"
+    ],
+    "id": 236773242,
+    "html_url": "https://github.com/spack/spack/pull/4540",
+    "assignees": [],
+    "comments": 3
+}

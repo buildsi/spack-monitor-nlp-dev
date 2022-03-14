@@ -1,0 +1,21 @@
+{
+    "body": "Fixes a bug I introduced in #27798. Before #27798 we ran:\r\n```console\r\n$ python setup.py build --rpath\r\n$ python setup.py install ...\r\n```\r\nAfter #27798 we run `pip install .` which runs:\r\n```console\r\n$ python setup.py install --rpath ...\r\n```\r\nHowever, the `--rpath` flag is only valid for the build phase, not the install phase. After removing `install_options` and changing the deptypes to link, the build succeeds and RPATHs to `unixodbc` correctly, so it seems like `--rpath` isn't needed.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28454",
+    "updated_at": "2022-01-19 14:51:38",
+    "created_at": "2022-01-17 17:12:44",
+    "closed_at": "2022-01-19 11:33:09",
+    "state": "closed",
+    "title": "py-pyodbc: remove install_options",
+    "number": 28454,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1106095580,
+    "html_url": "https://github.com/spack/spack/pull/28454",
+    "assignees": [],
+    "comments": 0
+}

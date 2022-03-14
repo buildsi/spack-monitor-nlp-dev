@@ -1,0 +1,17 @@
+{
+    "body": "I played a bit with environment modules. I would like to discuss a couple of enhancement points:\n1. In some cases it makes sense to set up some extra environment variables for a given package. Say if you use `deal.II` in your personal project, most likely your `CMakeFiles` have `DEAL_II_DIR` as a hint to CMake where to look for a library. In case of `petsc`, the commonly used variable is `PETSC_DIR`. It possible, one could reuse  `def setup_dependent_environment(self, spack_env, run_env, dependent_spec):` assuming that `spack_env.set('PETSC_DIR', self.prefix)` would also set the environment variable. Otherwise one could define another method for a package which is to be called when `module load package` is executed.\n2. Currently, the `lib` folder is added to `LD_LIBRARY_PATH`. It would make sense to use `DYLD_LIBRARY_PATH` on OS-X, if possible. I don't know whether it is modules-ecosystem or Spack's related. This feature is not relevant to the latest OSX where `DYLD_LIBRARY_PATH` shall not be used anyway.\n\n(2) is not a deal breaker, whereas IMHO (1) would be a good feature to have.\n\n@citibeth ping.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/815",
+    "updated_at": "2016-04-21 14:33:06",
+    "created_at": "2016-04-21 11:43:42",
+    "closed_at": "2016-04-21 14:33:05",
+    "state": "closed",
+    "title": "[environment modules] setup_dependent_environment() and DYLD_LIBRARY_PATH?",
+    "number": 815,
+    "milestone": null,
+    "labels": [],
+    "id": 150049899,
+    "html_url": "https://github.com/spack/spack/issues/815",
+    "assignees": [],
+    "comments": 2
+}

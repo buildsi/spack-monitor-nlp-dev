@@ -1,0 +1,17 @@
+{
+    "body": "Merge #2030 added a cyclic dependency between the Cray platform needing\nto read a `targets.yaml` config file and `config.py` needing to get the\nplatform names.\n\nThis commit removes the cyclic dependency in favor of the more general\nconfig scheme. It also removes the now functionless `targets.yaml`\nconfig file. This breaks 'frontend' targets on the Cray platform but\nall architecture targets, including the frontend, that are provided by\nCrayPE are added to the Platform anyway so users can be explicit about\nthe architecture targeted by the Cray compiler wrappers:\n\n```\nspack spec libelf arch=cray-CNL-frontend\n```\n\nbecomes\n\n```\nspack spec libelf arch=cray-CNL-mc8         # on an XK7 or\nspack spec libelf arch=cray-CNL-sandybridge # on an older XC30, etc..\n```\n\nThe only way the 'frontend' target can be defined after this commit is\nthrough target environment variables.\n",
+    "user": "mpbelhorn",
+    "url": "https://api.github.com/repos/spack/spack/issues/2121",
+    "updated_at": "2016-10-31 04:03:48",
+    "created_at": "2016-10-25 16:03:39",
+    "closed_at": "2016-10-31 04:02:27",
+    "state": "closed",
+    "title": "Removes cyclic dependency on spack.config.",
+    "number": 2121,
+    "milestone": null,
+    "labels": [],
+    "id": 185161667,
+    "html_url": "https://github.com/spack/spack/pull/2121",
+    "assignees": [],
+    "comments": 2
+}

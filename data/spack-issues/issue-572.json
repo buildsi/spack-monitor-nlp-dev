@@ -1,0 +1,17 @@
+{
+    "body": "As soon as someone tries to install things with Intel fortran, then `mpicxx`, `mpicc` etc will fail. I saw this in a couple of formulae.\n\nAs a user, it is also not clear to me what spack compiler wrappers are and why are they here, i.e. in `openmpi`\n\n```\n    def setup_dependent_environment(self, module, spec, dep_spec):\n        \"\"\"For dependencies, make mpicc's use spack wrapper.\"\"\"\n        os.environ['OMPI_CC'] = 'cc'\n        os.environ['OMPI_CXX'] = 'c++'\n        os.environ['OMPI_FC'] = 'f90'\n        os.environ['OMPI_F77'] = 'f77'\n```\n\nI would actually expect something like\n\n```\n    def setup_dependent_environment(self, module, spec, dep_spec):\n        os.environ['MPI_CC'] = 'mpicc'\n        os.environ['MPI_CXX'] = 'mpic++'\n        os.environ['MPI_FC'] = 'mpif90'\n        os.environ['MPI_F77'] = 'mpif77'\n```\n\nand then those will be used throughout in each formula where needed.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/572",
+    "updated_at": "2016-05-05 08:40:11",
+    "created_at": "2016-03-18 16:15:45",
+    "closed_at": "2016-05-05 08:40:11",
+    "state": "closed",
+    "title": "avoid hardcoding MPI compiler names in formulae",
+    "number": 572,
+    "milestone": null,
+    "labels": [],
+    "id": 141911910,
+    "html_url": "https://github.com/spack/spack/issues/572",
+    "assignees": [],
+    "comments": 5
+}

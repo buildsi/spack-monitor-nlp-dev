@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #3428\r\n\r\nUsers can run 'spack compiler find' to automatically initialize their\r\ncompilers.yaml configuration file. It also turns out that Spack will\r\nimplicitly initialize the compilers configuration file as part of\r\ndetecting compilers if none are found (so if a user were to attempt to\r\nconcretize a spec without running 'spack compiler find' it would not\r\nfail). However, in this case Spack was overlooking its own implicit\r\ninitialization of the config files and would report that no new\r\ncompilers were found. This commit removes implicit initialization when\r\nthe user calls 'spack compiler find'.\r\n\r\nThis did not surface until #2999 because the 'spack compiler' command\r\ndefaulted to using a scope 'user/platform' that was not accounted for\r\nin get_compiler_config (where the implicit initialization logic\r\npredates the addition of this new scope); #2999 removed the scope\r\nspecification when checking through config files, leading to the\r\nimplicit initialization.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/3439",
+    "updated_at": "2017-03-16 18:24:36",
+    "created_at": "2017-03-14 20:04:26",
+    "closed_at": "2017-03-16 18:24:35",
+    "state": "closed",
+    "title": "Dont auto-init compiler conf for 'compiler find'",
+    "number": 3439,
+    "milestone": null,
+    "labels": [
+        "ready"
+    ],
+    "id": 214190354,
+    "html_url": "https://github.com/spack/spack/pull/3439",
+    "assignees": [],
+    "comments": 0
+}

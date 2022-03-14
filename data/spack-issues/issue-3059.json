@@ -1,0 +1,20 @@
+{
+    "body": "@alalazo \r\n\r\nI want to add the env var `PISM_BIN` to a single module.  I added the following to `pism/package.py`:\r\n```\r\n    def setup_environment(self, spack_env, env):\r\n        \"\"\"Add <prefix>/bin to the module; this is not the default if we\r\n        extend python.\"\"\"\r\n        env.prepend_path('PATH', join_path(self.prefix, 'bin'))\r\n        env.set('PISM_PREFIX', self.prefix)\r\n        env.set('PISM_BIN', join_path(self.prefix, 'bin', ''))\r\n```\r\n\r\nThe result is the `PISM_BIN` variable got copied to many modules.  For example:\r\n```\r\n$ grep PISM_BIN ~/spack5/share/spack/modules/linux-centos7-x86_64/*\r\n/home2/rpfische/spack5/share/spack/modules/linux-centos7-x86_64/icebin-develop-gcc-4.9.3-z7c3fls:setenv PISM_BIN \"/home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/pism-dev-d7jqt5feieehbqavwrmpbibd3oezglli/bin\"\r\n/home2/rpfische/spack5/share/spack/modules/linux-centos7-x86_64/icebin-develop-gcc-4.9.3-z7c3fls:setenv PISM_BIN \"/home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/pism-dev-d7jqt5feieehbqavwrmpbibd3oezglli/bin\"\r\n/home2/rpfische/spack5/share/spack/modules/linux-centos7-x86_64/modele-landice-gcc-4.9.3-p2z7gtp:setenv PISM_BIN \"/home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/pism-dev-d7jqt5feieehbqavwrmpbibd3oezglli/bin\"\r\n/home2/rpfische/spack5/share/spack/modules/linux-centos7-x86_64/modele-landice-gcc-4.9.3-p2z7gtp:setenv PISM_BIN \"/home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/pism-dev-d7jqt5feieehbqavwrmpbibd3oezglli/bin\"\r\n/home2/rpfische/spack5/share/spack/modules/linux-centos7-x86_64/pism-dev-gcc-4.9.3-d7jqt5f:setenv PISM_BIN \"/home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/pism-dev-d7jqt5feieehbqavwrmpbibd3oezglli/bin/\"\r\n```\r\n\r\nAm I doing something wrong (and this is the correct behavior of Spack)?  Or is this a bug?  How do I get `PISM_BIN` in just one module?\r\n\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3059",
+    "updated_at": "2017-02-11 00:09:44",
+    "created_at": "2017-02-07 21:16:13",
+    "closed_at": "2017-02-11 00:09:44",
+    "state": "closed",
+    "title": "Variables leaking from setup_environment?",
+    "number": 3059,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 206017162,
+    "html_url": "https://github.com/spack/spack/issues/3059",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Hello,\r\n\r\nI'm trying to install paraview@master and it needs nlohmann-json. Spack tried to fetch it but received this error:\r\n```\r\n==> Installing nlohmann-json-3.10.4-we7v7j3d756cdkftron4ztkrdmpcianf\r\n==> No binary for nlohmann-json-3.10.4-we7v7j3d756cdkftron4ztkrdmpcianf found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/11/1155fd1a83049767360e9a120c43c578145db3204d2b309eba49fbbedd0f4ed3.tar.gz\r\n==> Error: timeout: The read operation timed out\r\n\r\n/home/billae/install_08.09.21/spackinstaller/spack/lib/spack/spack/package.py:1386, in do_fetch:\r\n       1383\r\n       1384        self.stage.create()\r\n       1385        err_msg = None if not self.manual_download else self.download_instr\r\n  >>   1386        start_time = time.time()\r\n       1387        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1388        self._fetch_time = time.time() - start_time\r\n\r\n```\r\n\r\nI try to fetch manually this package but the checksum seems not good:\r\n```\r\n spack fetch  nlohmann-json@3.10.4\r\n==> Error: sha256 checksum failed for /tmp/billae/spack-stage/spack-stage-nlohmann-json-3.10.4-we7v7j3d756cdkftron4ztkrdmpcianf/v3.10.4.tar.gz\r\nExpected 1155fd1a83049767360e9a120c43c578145db3204d2b309eba49fbbedd0f4ed3 but got ffcbf31d9af729155f8b2f7a869030aba406373227a558c2a7055a0ee87fdfd5\r\n```\r\n\r\nHowever when I checksum this version, the spack recipe is right:\r\n```\r\n spack checksum nlohmann-json@3.10.4\r\n==> Found 1 version of nlohmann-json:\r\n  \r\n  3.10.4  https://github.com/nlohmann/json/archive/v3.10.4.tar.gz\r\n\r\n==> Fetching https://github.com/nlohmann/json/archive/v3.10.4.tar.gz\r\n\r\n    version('3.10.4', sha256='1155fd1a83049767360e9a120c43c578145db3204d2b309eba49fbbedd0f4ed3')\r\n```\r\n\r\nI am not sure which checksum is the righ one,\r\n@ax3l have you an idea ?\r\n\r\nRegards, \r\nElo\u00efse",
+    "user": "Billae",
+    "url": "https://api.github.com/repos/spack/spack/issues/27819",
+    "updated_at": "2021-12-08 23:46:46",
+    "created_at": "2021-12-06 15:15:51",
+    "closed_at": "2021-12-08 23:45:46",
+    "state": "closed",
+    "title": "fetching nlohmann-json-3.10.4 failed ",
+    "number": 27819,
+    "milestone": null,
+    "labels": [],
+    "id": 1072270248,
+    "html_url": "https://github.com/spack/spack/issues/27819",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

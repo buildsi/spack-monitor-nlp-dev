@@ -1,0 +1,24 @@
+{
+    "body": "Close #4480: This adds a workflow section on how to use spack on Docker.\r\n\r\nIt provides an example on the best-practices I collected over the last months and circumvents the common pitfalls I tapped in.\r\n\r\nWorks with MPI, CUDA, Modules, execution as root, etc.\r\n\r\nIf you want to give it a swing, I pushed [an image](https://github.com/ax3l/dockerfiles/tree/master/spack/base) (without CUDA but MPI capable) of the latest `dev` to dockerhub. Just run\r\n```bash\r\ndocker run -it ax3l/spack\r\n```\r\n\r\nand do `spack ...` magic!\r\n\r\nNote: For the pushed image above, I already added a bit of convenience (+380MB) such as an editor, openssh server for MPI, installed `tar` via spack, etc. If you want to set up a CI job I would recommend to keep it more minimal, see the example for the docs in this PR.\r\n\r\nSetting up a regularly pushed, minimal `spack:develop` image would be a great thing, since it helps a lot to check and fix package build errors.\r\n\r\nHappy shipping! \ud83d\udea2 \r\n\r\nBackground: developed initially for [PIConGPU](https://github.com/ComputationalRadiationPhysics/picongpu/tree/dev/share/picongpu/dockerfiles). Here are [more spack based dockerfiles](https://github.com/ax3l/dockerfiles/tree/master/spack) of mine.\r\n\r\nP.S. Works also splendit on Singularity with docker image import.\r\n```\r\nBootstrap: docker\r\nFrom: ax3l/spack:latest\r\n\r\n%runscript\r\nexec /bin/bash -l\r\n```",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/5582",
+    "updated_at": "2017-10-15 21:25:58",
+    "created_at": "2017-10-03 16:30:19",
+    "closed_at": "2017-10-13 19:17:21",
+    "state": "closed",
+    "title": "Docker Workflow",
+    "number": 5582,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "build-environment",
+        "user-experience",
+        "environments",
+        "containers",
+        "singularity"
+    ],
+    "id": 262497019,
+    "html_url": "https://github.com/spack/spack/pull/5582",
+    "assignees": [],
+    "comments": 11
+}

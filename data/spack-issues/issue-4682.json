@@ -1,0 +1,17 @@
+{
+    "body": "The vcftools package was installing its Perl libraries into a directory in the staging directory named 'lib', instead of installing them into `prefix.lib` because I was passing a silly value to the `--with-pmdir`option.\r\n\r\nThe result was that any attempt to run one of the scripts in the package failed with something like:\r\n\r\n> Can't locate VcfStats.pm in @INC (you may need to install the\r\n> VcfStats module) [...]\r\n\r\nThis fix provides the correct information in `configure_args`.\r\n\r\nTested lightly on CentOS 7.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4682",
+    "updated_at": "2017-07-06 20:00:00",
+    "created_at": "2017-07-06 00:29:47",
+    "closed_at": "2017-07-06 18:33:58",
+    "state": "closed",
+    "title": "Make vcftools actually install its libraries",
+    "number": 4682,
+    "milestone": null,
+    "labels": [],
+    "id": 240812155,
+    "html_url": "https://github.com/spack/spack/pull/4682",
+    "assignees": [],
+    "comments": 7
+}

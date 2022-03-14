@@ -1,0 +1,19 @@
+{
+    "body": "Tries to solve the same problem as #24760 without surpressing stderr\r\nfrom gpg commands.\r\n\r\nThis PR makes every imported key trusted in the gpg database.\r\n\r\nThe output is like this:\r\n\r\n```\r\n$ spack gpg trust ./public_key.asc\r\n...\r\ngpg: key 9348461C2515CABE: public key \"name <name@mail.xyz>\" imported\r\ngpg: Total number processed: 1\r\ngpg:               imported: 1\r\ngpg: inserting ownertrust of 6\r\n\r\n$ spack install ...\r\n==> Installing fftw-3.3.9-d5imv7npndvzyb5kgemckbtereianyub\r\ngpg: Signature made Mon Jul 19 14:08:27 2021 UTC\r\ngpg:                using RSA key C0A013FE0ED9F8AEB6D852379348461C2515CABE\r\n...\r\ngpg: Good signature from \"name <name@mail.xyz>\" [ultimate]\r\n```\r\n\r\nNote: I've outlined [here](https://github.com/spack/spack/pull/24760#issuecomment-883183175) that gpg's trust model makes sense, since how\r\ncan we trust a random public key we download from a binary cache?\r\nIf others find that a compelling argument, then we should not move\r\nforward with this PR...\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/24976",
+    "updated_at": "2021-09-19 09:28:59",
+    "created_at": "2021-07-20 13:33:17",
+    "closed_at": "2021-08-26 19:59:45",
+    "state": "closed",
+    "title": "Set pubkey trust to ultimate during `gpg trust`",
+    "number": 24976,
+    "milestone": null,
+    "labels": [
+        "utilities"
+    ],
+    "id": 948659440,
+    "html_url": "https://github.com/spack/spack/pull/24976",
+    "assignees": [],
+    "comments": 3
+}

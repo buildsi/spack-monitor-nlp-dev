@@ -1,0 +1,20 @@
+{
+    "body": "Currently, `openmpi` has there implicit dependencies, which it tries to find in the system directories (see  `_verbs_dir()`, `_mxm_dir()`, and `_tm_dir()`). This PR makes those dependencies explicit and the users now can specify custom prefixes to those libraries in `packages.yaml`.\r\n\r\n1. Function `_verbs_dir()` is removed. Instead, `openmpi` depends on `rdma-core`:\r\n    ```python\r\n    depends_on('rdma-core', when='fabrics=verbs')`\r\n    ```\r\n    If the users want to use libraries from the system directories, they need to specify `rdma-core` as an external package in `packages.yaml`:\r\n    ```yaml\r\n    packages:\r\n      rdma-core:\r\n        paths:\r\n          rdma-core: /usr\r\n          buildable: False\r\n    ```\r\n2. Function `_mxm_dir()` is removed. Instead, `openmpi` depends on a new dummy package `mxm`:\r\n    ```python\r\n   depends_on('mxm', when='fabrics=mxm')\r\n    ```\r\n    `mxm` can't be installed with Spack (at least for now) and needs to be specified in `packages.yaml`:\r\n    ```yaml\r\n    packages:\r\n      mxm:\r\n        paths:\r\n          mxm: /opt/mellanox/mxm\r\n          buildable: False\r\n    ```\r\n3. Function `_tm_dir()` is removed. Instead, `openmpi` depends on a new package ~`pbspro`~  `openpbs`:\r\n    ```python\r\n    depends_on('openpbs', when='schedulers=tm')\r\n    ```\r\n    ~`pbspro`~ `openpbs` can be installed with Spack. It depends on a new package `libical` and a new virtual package `sendmail` provided be a new real package `ssmtp`. Although ~`pbspro`~ `openpbs` can be installed with Spack, I can't guarantee that it will be usable: I don't have experience with the package to test it properly. Additionally, its scripts do not seem to properly account for the case when the package is installed to a non-system directory. Therefore, I would recommend the users to specify it as an external package too:\r\n    ```yaml\r\n    packages:\r\n      openpbs:\r\n        paths:\r\n          openpbs: /opt/pbs\r\n          buildable: False\r\n    ```\r\n4. Package `lsf` is updated to allow for:\r\n    ```console\r\n    $ spack spec openmpi schedulers=lsf\r\n    $ spack fetch lsf\r\n    ```",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16758",
+    "updated_at": "2021-02-16 02:17:38",
+    "created_at": "2020-05-22 11:59:31",
+    "closed_at": "2020-05-26 00:14:47",
+    "state": "closed",
+    "title": "openmpi: get rid of implicit system dependencies",
+    "number": 16758,
+    "milestone": null,
+    "labels": [
+        "external-packages",
+        "mpi"
+    ],
+    "id": 623158970,
+    "html_url": "https://github.com/spack/spack/pull/16758",
+    "assignees": [],
+    "comments": 3
+}

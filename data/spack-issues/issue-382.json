@@ -1,0 +1,19 @@
+{
+    "body": "The latest updates seem to have broken the support for mirror look-up during installation:\n\n<pre>\n$ spack mirror create -d /home/mculpo/production/<b>spack-mirror</b> -D netlib-scalapack\n\n==> Trying to fetch from http://ftp.gnu.org/pub/gnu/ncurses/ncurses-6.0.tar.gz\n######################################################################## 100,0%\n==> Checksum passed for ncurses@6.0\n==> Added ncurses@6.0.\n==> Trying to fetch from http://cmake.org/files/v3.4/cmake-3.4.0.tar.gz\n######################################################################## 100,0%\n==> Checksum passed for cmake@3.4.0\n==> Added cmake@3.4.0.\n==> Trying to fetch from http://www.netlib.org/scalapack/scalapack-2.0.2.tgz\n######################################################################## 100,0%\n==> Checksum passed for netlib-scalapack@2.0.2\n==> Added netlib-scalapack@2.0.2.\n==> Trying to fetch from http://www.netlib.org/lapack/lapack-3.5.0.tgz\n######################################################################## 100,0%\n==> Checksum passed for netlib-blas@3.5.0\n==> Added netlib-blas@3.5.0.\n==> Trying to fetch from http://www.netlib.org/lapack/lapack-3.5.0.tgz\n######################################################################## 100,0%\n==> Checksum passed for netlib-lapack@3.5.0\n==> Added netlib-lapack@3.5.0.\n==> Trying to fetch from http://www.mpich.org/static/downloads/3.2/mpich-3.2.tar.gz\n######################################################################## 100,0%\n==> Checksum passed for mpich@3.2\n==> Added mpich@3.2.\n==> Successfully updated mirror in /home/mculpo/production/spack-mirror.\n  Archive stats:\n    0    already present\n    6    added\n    0    failed to fetch.\n</pre>\n\nthen : \n\n```\n$ spack install netlib-lapack+shared ^ netlib-blas+fpic\n==> Installing netlib-lapack\n==> cmake is already installed in /home/mculpo/jetbrains/PyCharmProjects/spack/opt/spack/nuvolari/gcc-5.3.0/cmake-3.4.0-st54n6p6kjqrke3s7mk3yahiogpsi4uo.\n==> netlib-blas is already installed in /home/mculpo/jetbrains/PyCharmProjects/spack/opt/spack/nuvolari/gcc-5.3.0/netlib-blas-3.5.0-eslnxxpgkvhqgkcr7znhuzm3jnkctirl.\n==> Trying to fetch from file:///home/mculpo/production/netlib-lapack/netlib-lapack-3.5.0.tgz\ncurl: (37) Couldn't open file /home/mculpo/production/netlib-lapack/netlib-lapack-3.5.0.tgz\n==> Fetching from file:///home/mculpo/production/netlib-lapack/netlib-lapack-3.5.0.tgz failed.\n...\n```\n\n It seems that `spack install` wrongly uses the parent of the mirror as the root of the mirror, i.e. it uses\n\n<pre> /home/mculpo/production </pre>\n\ninstead of:\n\n<pre> /home/mculpo/production/<b>spack-mirror</b> </pre>\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/382",
+    "updated_at": "2016-01-25 10:10:52",
+    "created_at": "2016-01-21 08:10:19",
+    "closed_at": "2016-01-25 10:10:52",
+    "state": "closed",
+    "title": "spack install : glitches with mirrors",
+    "number": 382,
+    "milestone": null,
+    "labels": [],
+    "id": 127868325,
+    "html_url": "https://github.com/spack/spack/issues/382",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,20 @@
+{
+    "body": "@tgamblin @alalazo I'm planning on walking through the [Modules Tutorial](http://spack.readthedocs.io/en/latest/tutorial_modules.html#modules-tutorial) at our ANL Spack Tutorial and I noticed that it requires you to build the following software:\r\n```\r\n$ spack install gcc\r\n$ spack install netlib-scalapack ^openmpi ^openblas\r\n$ spack install netlib-scalapack ^mpich ^openblas\r\n$ spack install netlib-scalapack ^openmpi ^netlib-lapack\r\n$ spack install netlib-scalapack ^mpich ^netlib-lapack\r\n$ spack install py-scipy ^openblas\r\n```\r\nDepending on whether you are building on a supercomputer or a laptop, installing GCC can take anywhere from 15 minutes (32-core Broadwell) to 4 hours (MacBook Pro). OpenMPI and MPICH usually take another half hour as well. Is there any way we can speed this up??\r\n\r\nI was thinking about using `spack install --fake`, but that won't work for GCC. You can't `spack compiler add` GCC unless the executables print the right version message. Apparently, it also doesn't work for Python packages due to my changes in #3367 (still trying to track down why). Does anyone have a better idea?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4448",
+    "updated_at": "2017-06-12 06:37:41",
+    "created_at": "2017-06-07 16:19:05",
+    "closed_at": "2017-06-12 06:37:41",
+    "state": "closed",
+    "title": "Speeding up Modules Tutorial",
+    "number": 4448,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "modules"
+    ],
+    "id": 234265872,
+    "html_url": "https://github.com/spack/spack/issues/4448",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,17 @@
+{
+    "body": "As discussed in #590, I was having trouble getting the Spack compiler wrappers to work for the NAG Fortran compiler. After doing some digging, I found [this blog](http://baradi09.blogspot.com/2014/08/compiling-openmpi-with-nag-fortran.html) that describes a solution.\n\nMost compilers allow you to send options (like `-rpath`) to the linker by wrapping them with `-Wl,`. NAG is completely backwards, and instead of sending these options to the linker, it first sends them to GCC, which passes them to the linker. If you wrap them normally, NAG passes `-rpath` directly to GCC, resulting in copious error messages like:\n\n```\ngcc: error: unrecognized command line option '-rpath'\n```\n\nThe solution is to doubly wrap rpath arguments with `-Wl,-Wl,,`\n\nI am still unable to build anything with NAG though. I'm going to continue investigating the issue. In the meantime, this PR solves the rpath problem for me.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/748",
+    "updated_at": "2016-05-05 15:57:51",
+    "created_at": "2016-04-05 21:48:06",
+    "closed_at": "2016-05-05 15:57:51",
+    "state": "closed",
+    "title": "Add support for NAG's clunky rpath linking",
+    "number": 748,
+    "milestone": null,
+    "labels": [],
+    "id": 146114165,
+    "html_url": "https://github.com/spack/spack/pull/748",
+    "assignees": [],
+    "comments": 1
+}

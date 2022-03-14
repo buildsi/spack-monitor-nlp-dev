@@ -1,0 +1,19 @@
+{
+    "body": "updated singularity 3.4.0, with patch to allow non-root make install.\r\n\r\nTested with updates in pending PRs #12783 #12762 \r\n\r\nThe major new feature in v3.4.0 is container encryption, which appears to work:\r\n\r\n```console\r\n$ singularity build --encrypt lolcow.sif library://sylabsed/examples/lolcow\r\nFATAL:   You must be root to build an encrypted container\r\n\r\n$ sudo -i\r\n\r\n# export SINGULARITY_ENCRYPTION_PASSPHRASE=lolcow\r\n\r\n# singularity build --encrypt lolcow.sif library://sylabsed/examples/lolcow\r\nINFO:    Starting build...\r\nINFO:    Downloading library image\r\nINFO:    Creating SIF file...\r\nINFO:    Build complete: lolcow.sif\r\n\r\n# singularity run lolcow.sif \r\n ______________________________________\r\n/ You will soon meet a person who will \\\r\n\\ play an important role in your life. /\r\n --------------------------------------\r\n        \\   ^__^\r\n         \\  (oo)\\_______\r\n            (__)\\       )\\/\\\r\n                ||----w |\r\n                ||     ||\r\n\r\n# unset SINGULARITY_ENCRYPTION_PASSPHRASE\r\n\r\n# singularity run lolcow.sif \r\nFATAL:   Unable to use container encryption. Must supply encryption material through enironment variables or flags.\r\n```\r\n\r\nAnd switching back to normal user, the sif file can be run with the passphrase.\r\n```console\r\n$ export SINGULARITY_ENCRYPTION_PASSPHRASE=lolcow\r\n$ singularity run lolcow.sif \r\n ________________________________________\r\n/ You possess a mind not merely twisted, \\\r\n\\ but actually sprained.                 /\r\n ----------------------------------------\r\n        \\   ^__^\r\n         \\  (oo)\\_______\r\n            (__)\\       )\\/\\\r\n                ||----w |\r\n                ||     ||\r\n```",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/12785",
+    "updated_at": "2019-09-12 20:45:25",
+    "created_at": "2019-09-10 21:10:36",
+    "closed_at": "2019-09-12 20:45:01",
+    "state": "closed",
+    "title": "singularity: updated to 3.4.0",
+    "number": 12785,
+    "milestone": null,
+    "labels": [
+        "new-version"
+    ],
+    "id": 491900370,
+    "html_url": "https://github.com/spack/spack/pull/12785",
+    "assignees": [],
+    "comments": 1
+}

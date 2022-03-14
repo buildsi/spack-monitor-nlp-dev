@@ -1,0 +1,17 @@
+{
+    "body": "I'm starting a new thread here to get going on the Intel compilers. Some of the previous issues #553 and #558 started the discussion.\n\nThere are a few decisions that need to be made regarding the Intel compilers. First, is the fact that there are 3 product suites. The product is Parallel Studio and the various suites are 1. Composer Edition, 2. Professional Edition, and 3. Cluster Edition. The first is just the compiler and some libraries, the second adds Inspector, Advisor, and VTune, and the third adds MPI and the Intel Trace Analyzer. I guess they could all be separate packages in spack that provide the Intel compiler. One can actually download one of the 3 suites or download each component separately. My personal preference would be to package each component separately. Thoughts?\n\nAnother issue will be how to point it to an appropriate license. In general, one can do this with the Intel compilers by 1. putting a .lic file in a specific directory in the compiler, 2. setting an INTEL_LICENSE_FILE env var, or 3. (an extension of 1) putting a .lic file in a few other set locations such as $HOME/intel/licenses and somewhere in /opt. At LLNL, we do option 1 since it doesn't require user intervention.\n\nYet another issue is how to deal with customizations. At LLNL, I do a few things post install. One is to create .cfg files that add the appropriate rpath to the compiler's lib dir. Another is to add some symlinks since the compiler installation is quite messy.\n\nI already have something working that will just install the compilers without adding the license or doing any customizations, so it's just a matter of deciding what is the best way to implement those features. I am also open to the name of the package, which I plainly set at \"intelcompilers\".\n\nLet me know what folks think about all of this or if there are other issues that will need to be addressed.\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/761",
+    "updated_at": "2016-07-22 21:16:35",
+    "created_at": "2016-04-07 13:26:49",
+    "closed_at": "2016-07-22 21:16:35",
+    "state": "closed",
+    "title": "Packaging of Intel Compilers",
+    "number": 761,
+    "milestone": null,
+    "labels": [],
+    "id": 146624270,
+    "html_url": "https://github.com/spack/spack/issues/761",
+    "assignees": [],
+    "comments": 19
+}

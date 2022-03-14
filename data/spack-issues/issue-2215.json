@@ -1,0 +1,24 @@
+{
+    "body": "Assume I have installed two versions of OpenMPI with matching versions of Boost by running the following:\r\n```\r\nspack install boost +mpi ^openmpi@1.10.3+slurm+verbs+pmi\r\nspack install boost +mpi ^openmpi@1.8.8+slurm+verbs+pmi\r\n```\r\n\r\nNow if a user does the obvious thing\r\n```\r\nspack load openmpi\r\nspack load boost\r\n```\r\nthey end up with all matching modules loaded:\r\n```\r\nCurrently Loaded Modulefiles:\r\n  1) spack                              4) boost-1.62.0-gcc-4.9.4-bb3jpvq\r\n  2) openmpi-1.8.8-gcc-4.9.4-gyda6cg    5) boost-1.62.0-gcc-4.9.4-5kz43yc\r\n  3) openmpi-1.10.3-gcc-4.9.4-mnqdpir\r\n```\r\nThis is of course never the intended action. To get the correct set of modules, a user will need to run commands like these instead:\r\n```\r\nspack load openmpi@1.10.3\r\nspack load boost ^openmpi@1.10.3\r\n```\r\n`spack find --deps` can tell me what dependencies a package is linked to, but constructing dependency specs is not something you'd want to bother a novel user with if you can avoid it (also, they shouldn't need to care whether they're using OpenMPI 1.10.1 or 1.10.3). I think this could be made easier on the `spack load` level:\r\n1. Since loading the same package in multiple versions or with multiple different dependencies never makes sense, first of all, all spack-generated module files should declare conflicts against all modules with the same name.\r\n2. It should be possible to specify a default version that will be loaded if no version number is specified (e.g. `spack load openmpi` could translate into `spack load openmpi@1.10.3` or `spack load openmpi@1.8.8` depending on configuration). Similar to how `spack install openmpi` will always install the most recent version, except it should be configurable to a different version. Maybe _etc/spack/packages.yaml_ can already be used for this purpose.\r\n3. If a dependency module (e.g. _openmpi@1.10.3_) is already loaded, then loading the dependent without further dependency specification (e.g. `spack load boost`) should automatically load the version of the dependent that is linked against the loaded dependency (in this example, _boost ^openmpi@1.10.3_)",
+    "user": "mkuron",
+    "url": "https://api.github.com/repos/spack/spack/issues/2215",
+    "updated_at": "2018-05-02 09:07:06",
+    "created_at": "2016-11-02 15:28:07",
+    "closed_at": "2018-05-02 09:07:06",
+    "state": "closed",
+    "title": "spack load: don't load multiple variants of same packages and don't load packages that depend on different versions of already-loaded packages",
+    "number": 2215,
+    "milestone": null,
+    "labels": [
+        "python",
+        "modules",
+        "virtual-dependencies",
+        "python3"
+    ],
+    "id": 186833516,
+    "html_url": "https://github.com/spack/spack/issues/2215",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 24
+}

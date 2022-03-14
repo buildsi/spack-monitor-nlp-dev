@@ -1,0 +1,20 @@
+{
+    "body": "While trying to install `cuda@10.2.89` on `ppc64le` (not yet in spack, installer for the current `10.1` [is broken](https://devtalk.nvidia.com/default/topic/1063995/cuda-setup-and-installation/cuda-10-1-243-10-1-update-2-ppc64le-run-file-installation-issue/)), I stumbled upon the same issue we faced when dealing with another binary package in #11198: the current `cuda` package is implicitly `linux-x86_64` only, and trying to install it on other OS/arch ends up in really obscure errors. While waiting for #11206 to be worked on, I'm here to ask what would be the most acceptable way to add `cuda` installers for `ppc64le` given the tools spack currently provides.\r\n\r\nAdopting the same pattern we used in #11198 would end up in something like this:\r\n\r\n```python\r\nversion('10.2.89-ppc64le',\r\n        sha256='5227774fcb8b10bd2d8714f0a716a75d7a2df240a9f2a49beb76710b1c0fc619',\r\n        expand=False,\r\n        url='http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux_ppc64le.run')\r\n```\r\n\r\nWhat do you think about a provisional solution like this? Do you folks foresee some possible issue that would break everyone's `cuda` stuff (e.g.: as there is no way to constrain `x86_64` versions to `x86_64` platforms only, the reverse is also true)?\r\n\r\n",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/13827",
+    "updated_at": "2019-11-27 21:45:08",
+    "created_at": "2019-11-21 22:50:46",
+    "closed_at": "2019-11-27 21:45:08",
+    "state": "closed",
+    "title": "cuda: how to add non x86_64 versions without breaking the whole world",
+    "number": 13827,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "cuda"
+    ],
+    "id": 526885760,
+    "html_url": "https://github.com/spack/spack/issues/13827",
+    "assignees": [],
+    "comments": 8
+}

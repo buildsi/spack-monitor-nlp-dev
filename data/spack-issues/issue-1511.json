@@ -1,0 +1,17 @@
+{
+    "body": "The `qt` library includes a submodule named `pcre` that it needs to build some of its components.  Unfortunately, Spack fails to build these components if the `pcre` package exists as a dependency of `qt` since the Spack `pcre` package shadows Qt's internal `pcre` (see #1041 and #1455 for details).\n\nAs far as I can tell, the easiest way to solve this problem generally is to simply exclude `pcre` from the `qt` package's dependency list while the `Qt.install` function is being invoked (which would prevent `pcre` being included by the Spack compiler).  Is this sort of behavior supported by Spack in any way?  If not, would there be any easy way to implement it?  Alternatively, if this sort of behavior seems too kludgey, is there any other way that I can prevent a particular package from being included by the Spack compiler during the install step of a package?\n\nThanks in advance to all who respond!\n",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/1511",
+    "updated_at": "2016-08-17 18:30:29",
+    "created_at": "2016-08-12 22:28:02",
+    "closed_at": "2016-08-17 18:30:29",
+    "state": "closed",
+    "title": "Question : The Best/Easiest Way to Ignore a Dependency at Install?",
+    "number": 1511,
+    "milestone": null,
+    "labels": [],
+    "id": 170970930,
+    "html_url": "https://github.com/spack/spack/issues/1511",
+    "assignees": [],
+    "comments": 1
+}

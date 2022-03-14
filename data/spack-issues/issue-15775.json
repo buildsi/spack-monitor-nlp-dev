@@ -1,0 +1,20 @@
+{
+    "body": "When I build lmod modules from installed intel packages (including intel, intel-mkl, and intel-mpi) the generated modules include LMOD and related environment variables from the point-in-time environment. This breaks for us because our default lmod environment is different from the environment I'm building the modulefiles for.\r\n\r\n### Spack version\r\n```console\r\n$ spack --version\r\n0.14.1-415-cbcac72\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install intel\r\n$ spack module lmod refresh --delete-tree\r\n$ module show intel/19.0.5 2>&1 | grep 'LMOD_'\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nsetenv(\"LMOD_CMD\",\"/curc/sw/lmod/lmod/libexec/lmod\")\r\nsetenv(\"LMOD_DIR\",\"/curc/sw/lmod/lmod/libexec\")\r\nsetenv(\"LMOD_PKG\",\"/curc/sw/lmod/lmod\")\r\nsetenv(\"LMOD_VERSION\",\"6.3.7\")\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n1. RHEL7.6\r\n\r\n```\r\nmodules:\r\n  enable:\r\n  - lmod\r\n  lmod:\r\n    hash_length: 0\r\n    core_compilers:\r\n    - gcc@4.8.5\r\n    hierarchy:\r\n    - mpi\r\n    - lapack\r\n    blacklist:\r\n      - '%gcc'\r\n      - '%intel'\r\n    whitelist:\r\n      - intel@19.0.5\r\n      - gcc@9.3.0\r\n      - intel-mkl\r\n      - intel-mpi\r\n      - openmpi\r\n```\r\n\r\n```\r\npackages:\r\n  intel:\r\n    variants: auto_dispatch=AVX,CORE-AVX2,CORE-AVX512,SSE4.2\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "anderbubble",
+    "url": "https://api.github.com/repos/spack/spack/issues/15775",
+    "updated_at": "2020-04-06 08:00:43",
+    "created_at": "2020-03-31 03:25:23",
+    "closed_at": "2020-04-06 08:00:43",
+    "state": "closed",
+    "title": "lmod modules generated for intel packages include LMOD_* environment variables",
+    "number": 15775,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 590758988,
+    "html_url": "https://github.com/spack/spack/issues/15775",
+    "assignees": [],
+    "comments": 9
+}

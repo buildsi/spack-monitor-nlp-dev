@@ -1,0 +1,22 @@
+{
+    "body": "@mamelara  I'm getting the following error on `spack install`:\r\n\r\n```\r\n('rrrrrrrpaths', ['/gpfsm/dnb53/rpfische/spack6/opt/spack/linux-suse_linux11-x86_64/gcc-5.3.0/zlib-1.2.11-hi5w6recfqqqffad6vsnidjx3zy2js6k/lib', '/gpfsm/dnb53/rpfische/spack6/opt/spack/linux-suse_linux11-x86_64/gcc-5.3.0/zlib-1.2.11-hi5w6recfqqqffad6vsnidjx3zy2js6k/lib64', None])\r\n==> Error: TypeError: sequence item 2: expected string, NoneType found\r\nTypeError: TypeError: sequence item 2: expected string, NoneType found\r\n\r\n/gpfsm/dnb53/rpfische/spack6/lib/spack/spack/build_environment.py:689, in child_process:\r\n     27    \r\n     28                # build up some context from the offending package so we can\r\n     29                # show that, too.\r\n  >> 30                package_context = get_package_context(tb)\r\n     31    \r\n     32                build_log = None\r\n     33                if hasattr(pkg, 'log_path'):\r\n\r\n\r\nTraceback (most recent call last):\r\n  File \"/gpfsm/dnb53/rpfische/spack6/lib/spack/spack/build_environment.py\", line 670, in child_process\r\n    setup_package(pkg, dirty=dirty)\r\n  File \"/gpfsm/dnb53/rpfische/spack6/lib/spack/spack/build_environment.py\", line 607, in setup_package\r\n    set_module_variables_for_package(pkg, pkg.module)\r\n  File \"/gpfsm/dnb53/rpfische/spack6/lib/spack/spack/build_environment.py\", line 374, in set_module_variables_for_package\r\n    m.std_cmake_args = spack.CMakePackage._std_args(pkg)\r\n  File \"/gpfsm/dnb53/rpfische/spack6/lib/spack/spack/build_systems/cmake.py\", line 168, in _std_args\r\n    rpaths = ';'.join(spack.build_environment.get_rpaths(pkg))\r\nTypeError: sequence item 2: expected string, NoneType found\r\n```\r\n\r\nThis is code from 175a042fd332c13200fb30f7f834541c3bbaa6c4:\r\n```\r\nAuthor: Mario Melara <maamelara@gmail.com>\r\nDate:   Thu May 19 16:42:13 2016 -0700\r\n\r\n    Changed rpaths method so that it only grabs rpaths using the compiler module\r\n name instead of PrgEnv-x module name\r\n```\r\nQuestions:\r\n\r\n1. Do you know why the `rpaths` varaible ends up with a `None` in it?\r\n2. Why is the second module our compiler name?  That doesn't make sense to me.  I have in `compilers.yaml`:\r\n```\r\ncompilers:\r\n- compiler:\r\n    modules: [other/comp/gcc-5.3-sp3,linux-suse_linux11-x86_64/binutils-2.27-gcc-5.3.0-p7ewifc]\r\n```\r\n3. What is wrong and how should it best be fixed?  (I'm NOT running on a Cray).\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/8131",
+    "updated_at": "2022-03-10 09:58:51",
+    "created_at": "2018-05-14 23:19:18",
+    "closed_at": "2022-03-10 09:58:51",
+    "state": "closed",
+    "title": "Compilers Requiring Modules Broken",
+    "number": 8131,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "compilers",
+        "modules"
+    ],
+    "id": 323014450,
+    "html_url": "https://github.com/spack/spack/issues/8131",
+    "assignees": [],
+    "comments": 3
+}

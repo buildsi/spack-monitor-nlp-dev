@@ -1,0 +1,19 @@
+{
+    "body": "I spend the last hour debugging this from a colleague....\r\n\r\n### Expected Result\r\n\r\nUsable `jupyter notebook` after a `spack install py-jupyter-notebook` \r\n\r\n### Actual Result\r\n```\r\n$ jupyter notebook\r\njupyter: 'notebook' is not a Jupyter command\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ git clone https://github.com/spack/spack.git && cd spack && . share/spack/setup-env.sh\r\n$ spack install py-jupyter-notebook\r\n$ spack view --dependencies yes add --ignore-conflicts $PWD/spackview py-jupyter-notebook\r\n==> Error: Extension blocked by file: /wang/users/wv385/cluster_home/spack_failure/spack3/spackview/lib/python2.7/site-packages/backports/__init__.pyc\r\n$ prepend_root spackview\r\n$ jupyter notebook\r\njupyter: 'notebook' is not a Jupyter command\r\n```\r\n\r\nThe problem is that the `view` command in the current develop seems to ignore (at least sometimes) the `--ignore-conflicts` flag aborting the view generation. In our local trunk there are patches tackling that but I currently don't know exactly what they are doing (even though I apparently authored them...)\r\n\r\nI'm not sure if its worth fixing now as #7152 is taking a larger view onto that and also actually fixing the conflicts rather than just ignore any conflicts and pray for the best (I believe that is what we are doing). \r\n\r\nThoughts? Comments? @scheibelp @alalazo @obreitwi ",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/7159",
+    "updated_at": "2018-02-02 22:46:13",
+    "created_at": "2018-02-01 19:05:21",
+    "closed_at": "2018-02-02 22:46:13",
+    "state": "closed",
+    "title": "View generation sometimes ignores --ignore-conflicts (e.g. py-jupyter-notebook)",
+    "number": 7159,
+    "milestone": null,
+    "labels": [],
+    "id": 293647320,
+    "html_url": "https://github.com/spack/spack/issues/7159",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

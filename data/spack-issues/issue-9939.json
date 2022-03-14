@@ -1,0 +1,22 @@
+{
+    "body": "Lets say we have intel-mkl as external package in packages.yaml: \r\n\r\n```\r\npackages:\r\n  intel-mkl:\r\n    paths:\r\n      intel-mkl@2018.1.163 threads=none ~ilp64+shared: /some/path\r\n```\r\n\r\nWe expect this to match with `threads=none` only. But we see:\r\n\r\n```\r\n$ spack install intel-mkl@2018.1.163 threads=none ~ilp64+shared\r\n==> intel-mkl@2018.1.163 : externally installed in /some/path\r\n==> intel-mkl@2018.1.163 : generating module file\r\n==> intel-mkl@2018.1.163 : registering into DB\r\n\r\n$ spack install intel-mkl@2018.1.163 threads=openmp ~ilp64+shared\r\n==> intel-mkl@2018.1.163 : externally installed in /some/path   => WRONG, shouldn't match with threads=openmp\r\n==> intel-mkl@2018.1.163 : already registered in DB\r\n```\r\n\r\nAs the second spec asks for `threads=openmp`, we expect to have separate installation.",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/9939",
+    "updated_at": "2020-11-02 15:34:55",
+    "created_at": "2018-11-23 19:51:47",
+    "closed_at": "2020-11-02 15:34:54",
+    "state": "closed",
+    "title": "Non-boolean variant for external package is not respected",
+    "number": 9939,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "external-packages",
+        "variants"
+    ],
+    "id": 383916809,
+    "html_url": "https://github.com/spack/spack/issues/9939",
+    "assignees": [],
+    "comments": 1
+}

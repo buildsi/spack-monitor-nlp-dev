@@ -1,0 +1,17 @@
+{
+    "body": "I noticed that Spec.prefix should never be called on an abstract spec, so I added an assert statement.\r\n\r\nI added a similar statement for Spec.dag_hash(), although that required slight changes to database and graph code. Once those were done the same was true for Spec.to_dict(), which underpins Spec.to_yaml() and Spec.to_json(), so I added an assert statement to it as well.\r\n\r\nThese follow my intuitions: It is nonsense to look for the prefix of an abstract spec, we can't know yet. Similarly for its hash. And we treat all read specs as concrete, so we'd better only write them once they're concrete as well.\r\n\r\nDatabase._add already threw an error if the spec was not concrete, so there was no need to add to that.\r\n\r\nPlease comment or edit if you've noticed other invariants that should be enshrined in the code with assert statements, or of course any problem with these invariants.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/4644",
+    "updated_at": "2017-07-31 20:42:20",
+    "created_at": "2017-06-30 00:25:16",
+    "closed_at": "2017-07-19 17:14:25",
+    "state": "closed",
+    "title": "Adding assert statements",
+    "number": 4644,
+    "milestone": null,
+    "labels": [],
+    "id": 239646455,
+    "html_url": "https://github.com/spack/spack/pull/4644",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "We are trying to build MyBayes with containerize, and hitting several [build errors](https://github.com/autamus/registry/pull/66/checks?check_run_id=2114274745):\r\n\r\nSpecifically, it looks like we cannot build serf because uuid is missing. It's a dependency for MrBayes, but not serf.\r\n\r\n```bash\r\n           -laprutil-1 -lexpat -liconv\r\n  >> 89    /usr/bin/ld: cannot find -luuid\r\n  >> 90    collect2: error: ld returned 1 exit status\r\n     91    scons: *** [libserf-1.so.1.3.0] Error 1\r\n     92    scons: building terminated because of errors.\r\n\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-serf-1.3.9-kfnmuhyiolrxhuvgpqnuq4xhhsucthiw/spack-build-out.txt\r\n```\r\nThe spack.yaml for containerize is:\r\n\r\n```yaml\r\nspack:\r\n  specs: [\"mrbayes\"]\r\n  view: true\r\n  container:\r\n    os_packages:\r\n      build:\r\n        - python3-dev\r\n      final:\r\n        - ca-certificates\r\n    strip: false\r\n```",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/22335",
+    "updated_at": "2021-07-27 12:50:59",
+    "created_at": "2021-03-16 19:39:47",
+    "closed_at": "2021-07-27 12:50:59",
+    "state": "closed",
+    "title": "Installation issue: [MyBayes] serf cannot find libuuid",
+    "number": 22335,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 833137039,
+    "html_url": "https://github.com/spack/spack/issues/22335",
+    "assignees": [],
+    "comments": 1
+}

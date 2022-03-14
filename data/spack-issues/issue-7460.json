@@ -1,0 +1,21 @@
+{
+    "body": "### Summary\r\nInstallation of the package gearshifft fails due to issue in dependency pocl. \r\n### Issue\r\nI tried installing the package using spack and I get this error : \r\n```\r\n  >> 69    /usr/bin/ld: final link failed: Bad value\r\n  >> 70    collect2: error: ld returned 1 exit status\r\n  >> 71    gmake[1]: *** [cmTC_77038] Error 1\r\n     72    gmake[1]: Leaving directory `/tmp/sajid/spack-stage/spack-stage-adwwsb95/pocl-0.14/spack-build/CMakeFiles/CMakeTmp'\r\n  >> 73    gmake: *** [cmTC_77038/fast] Error 2\r\n     74\r\n  >> 75    CMake Error at cmake/LLVM.cmake:643 (message):\r\n     76      LLVM link test FAILED.  This mostly happens when your LLVM installation\r\n     77      does not have all dependencies installed.\r\n     78    Call Stack (most recent call first):\r\n     79      CMakeLists.txt:225 (include)\r\n     80\r\n     81\r\n```\r\nHere is the relevant file : [spack_build_output.txt](https://github.com/spack/spack/files/1801084/spack_build_output.txt) \r\n\r\nWhen I tried to install pocl as a stand alone package, I got this error : \r\n```\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    llvm@5.0.1%gcc@7.3.0+all_targets build_type=Release +clang+compiler-rt+gold+internal_unwind+libcxx~link_dylib+lld+lldb+polly~python~shared_libs arch=linux-centos7-x86_64\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    pocl@0.14%gcc@7.3.0 build_type=RelWithDebInfo ~distro~icd arch=linux-centos7-x86_64\r\n        ^cmake@3.10.2%gcc@7.3.0~doc+ncurses+openssl+ownlibs~qt arch=linux-centos7-x86_64\r\n            ^ncurses@6.0%gcc@7.3.0~symlinks~termlib arch=linux-centos7-x86_64\r\n                ^pkgconf@1.4.0%gcc@7.3.0 arch=linux-centos7-x86_64\r\n            ^openssl@1.0.2n%gcc@7.3.0 arch=linux-centos7-x86_64\r\n                ^zlib@1.2.11%gcc@7.3.0+optimize+pic+shared arch=linux-centos7-x86_64\r\n        ^hwloc@1.11.8%gcc@7.3.0~cuda+libxml2+pci+shared arch=linux-centos7-x86_64\r\n            ^libpciaccess\r\n                ^libtool@2.4.6%gcc@7.3.0 arch=linux-centos7-x86_64\r\n                    ^m4@1.4.18%gcc@7.3.0+sigsegv arch=linux-centos7-x86_64\r\n                        ^libsigsegv\r\n                ^util-macros\r\n            ^libxml2\r\n                ^xz\r\n\r\n\r\npocl requires llvm version 3.7:4.0, but spec asked for 5.0.1\r\n```\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ ./spack install gearshifft (fist issue)\r\n$ ./spack install pocl (second issue)\r\n```\r\n\r\n### Information \r\n\r\n 1. Platform : Linux x86-64,  OS : CentOS 7.4\r\n 2. I've been trying to do this in an isolated conda environment and don't know if that's causing an issue. \r\n\r\nTagging maintainer of the gearshifft package : @ax3l ",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/7460",
+    "updated_at": "2020-06-27 20:38:42",
+    "created_at": "2018-03-12 01:04:49",
+    "closed_at": "2020-06-12 16:41:38",
+    "state": "closed",
+    "title": "Installation of pocl fails",
+    "number": 7460,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "concretization",
+        "opencl"
+    ],
+    "id": 304212991,
+    "html_url": "https://github.com/spack/spack/issues/7460",
+    "assignees": [],
+    "comments": 18
+}

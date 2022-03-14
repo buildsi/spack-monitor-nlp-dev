@@ -1,0 +1,17 @@
+{
+    "body": "Satisfaction checks on dependencies should be strict when the parent check is strict\r\n\r\nThis is intended for constraints like \r\n\r\n```\r\ndepends_on('py-backports-functools-lru-cache', when='^python@:2')\r\n```\r\n\r\ncurrently, Spack will add the `py-backports-functools-lru-cache` dependency at a point in the concretization when the dependency is just `^python` (without a version) because strict constraint checking does not propagate to dependency constraint checking.\r\n\r\nNote that because the concretizer is greedy, the constraints applied by the `py-backports-functools-lru-cache` dependency will be applied later and may generate concretizer conflicts (which requires the user to specify certain constraints on the command line), but this avoids the concretizer incorrectly adding the `py-backports-functools-lru-cache` dependency. \r\n\r\nAn example package this fixes is `py-soupsieve`.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/13243",
+    "updated_at": "2019-11-26 23:14:57",
+    "created_at": "2019-10-16 23:52:14",
+    "closed_at": "2019-10-17 18:02:15",
+    "state": "closed",
+    "title": "Strict dependency constraint checking",
+    "number": 13243,
+    "milestone": null,
+    "labels": [],
+    "id": 508157212,
+    "html_url": "https://github.com/spack/spack/pull/13243",
+    "assignees": [],
+    "comments": 0
+}

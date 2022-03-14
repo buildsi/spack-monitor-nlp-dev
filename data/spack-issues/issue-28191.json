@@ -1,0 +1,21 @@
+{
+    "body": "This addresses (in largest part) #28181 by having `qt` depend on `assimp` when `+opengl`.\r\n\r\nQt [requires](https://github.com/qt/qtquick3d/blob/5.14.0/src/plugins/assetimporters/configure.json#L16) assimp>=5.0.0 for all versions qt@5.14:5 and qt@6:.\r\n\r\nStarting with qt@6.3: it [requires](https://github.com/qt/qtquick3d/blob/6.3/src/plugins/assetimporters/configure.cmake#L19) assimp>=5.1, though that Qt version is not in spack, so it can't be a depends_on, yet.\r\n\r\nBecause of changes in assimp (https://github.com/assimp/assimp/pull/3952 and https://github.com/assimp/assimp/pull/4184) which are in all 5.1 releases, the assetimporterplugin fails to compile with assimp@5.1 due to undefined `AI_MATKEY_GLTF_PBRSPECULARGLOSSINESS` [until](https://github.com/qt/qtquick3d/blob/6.2.2/src/plugins/assetimporters/assimp/assimpimporter.cpp#L1421) qt@6.2.2. It would make sense to make this a `conflicts('^assimp@5.1:', when='@:6.2')`, but again this would fail as long as qt@6 is not in spack yet.\r\n\r\nAll this to explain why we currently depend on a closed range assimp@5.0 and not an open ended version range...\r\n\r\nThis successfully concretizes and builds\r\n```yaml\r\nspack:\r\n  specs:\r\n  - qt +opengl ^mesa -llvm\r\n  - pkg-config\r\n  - assimp\r\n  concretization: together\r\n  view: /opt/qt\r\n```\r\nwhere it previously failed.\r\n\r\nHowever\r\n```console\r\nldd $(spack location -i qt)/lib/libQt5Quick3DAssetImport.so.5.15.2  | grep assimp\r\n```\r\nis empty so I'm going to mark this as WIP until there has been some more testing...\r\n\r\nMaintainer: @sethrj ",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/28191",
+    "updated_at": "2022-01-03 19:56:12",
+    "created_at": "2021-12-30 18:59:49",
+    "closed_at": "2022-01-03 19:56:11",
+    "state": "closed",
+    "title": "qt: depends_on assimp@5.0 when @5.14: +opengl",
+    "number": 28191,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "patch",
+        "update-package"
+    ],
+    "id": 1091260269,
+    "html_url": "https://github.com/spack/spack/pull/28191",
+    "assignees": [],
+    "comments": 6
+}

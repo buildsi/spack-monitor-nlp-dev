@@ -1,0 +1,21 @@
+{
+    "body": "VecGeom 1.1.18 requires *exactly* version 0.8.0 of VecCore, which hasn't been tagged. The CMake logic inside VecGeom silently overrides the \"disable vendored copy\" option that spack sets, so vecgeom@1.1.18 always ends up installing a vendored copy of veccore alongside vecgeom. This causes a conflict when building an environment with the spack-provided (but ignored) version of veccore, leading downstream packages to choke:\r\n```\r\nCMake Error at /rnsdhpc/code/spack/opt/spack/apple-clang/cmake/7zgbrwt/share/cmake-3.22/Modules/CMakeFindDependencyMacro.cmake:47 (find_package):\r\n  Could not find a configuration file for package \"VecCore\" that is\r\n  compatible with requested version \"0.8.0\".\r\n\r\n  The following configuration files were considered but not accepted:\r\n\r\n    /rnsdhpc/code/spack/var/spack/environments/celeritas/.spack-env/view/lib/cmake/VecCore/VecCoreConfig.cmake, version: 0.6.0\r\n```\r\n\r\n@drbenmorgan I recommend respecting the `BUILTIN_VECCORE` option in VecGeom if defined, and officially tagging 0.8.0 of VecCore so that it's available.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/28164",
+    "updated_at": "2022-02-08 09:46:34",
+    "created_at": "2021-12-26 23:30:57",
+    "closed_at": "2022-01-21 13:11:13",
+    "state": "closed",
+    "title": "vecgeom/veccore: fix version interdependency",
+    "number": 28164,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1088864313,
+    "html_url": "https://github.com/spack/spack/pull/28164",
+    "assignees": [],
+    "comments": 10
+}

@@ -1,0 +1,22 @@
+{
+    "body": "`spack setup` does not work.  For posterity, here is a relatively simple example of it not working.  Looking inside `setup.py`, I barely recognize what I see:\r\n\r\n1. `spack setup` was originally derived directly from the `spack diy` code; but now the two look nothing alike.\r\n\r\n2. `spack setup` ends up concretizing the spec twice.  When specs take about a minute to concretize, that can be a serious problem.  It could also be a cause of the problem below.\r\n\r\n3. It looks like changes were made to `install.py` without corresponding changes to `setup.py` (or `diy.py`).\r\n\r\nI'll see what I can do; this Issue is posted to document that whatever fix I come up with actually solved a problem.\r\n\r\n```\r\n$ spack -d setup everytrace@develop\r\n==> WRITE LOCK: /home2/rpfische/spack5/opt/spack/.spack-db/lock[0:0] [Acquiring]\r\n==> Reading config file /home2/rpfische/.spack/compilers.yaml\r\n==> READ LOCK: /home2/rpfische/.spack/cache/providers/.builtin-index.yaml.lock[0:0] [Acquiring]\r\n==> READ LOCK: /home2/rpfische/.spack/cache/providers/.builtin-index.yaml.lock[0:0] [Released]\r\n==> WRITE LOCK: /home2/rpfische/spack5/opt/spack/.spack-db/lock[0:0] [Released]\r\n==> Error: The spec 'm4' is configured as not buildable, and no matching external installs were found\r\nTraceback (most recent call last):\r\n  File \"/home2/rpfische/spack5/bin/spack\", line 175, in main\r\n    return_val = command(parser, args)\r\n  File \"/home2/rpfische/spack5/lib/spack/spack/cmd/setup.py\", line 178, in setup\r\n    install.install(parser, inst_args)\r\n  File \"/home2/rpfische/spack5/lib/spack/spack/cmd/install.py\", line 317, in install\r\n    specs = spack.cmd.parse_specs(args.package, concretize=True)\r\n  File \"/home2/rpfische/spack5/lib/spack/spack/cmd/__init__.py\", line 108, in parse_specs\r\n    spec.concretize()  # implies normalize\r\n  File \"/home2/rpfische/spack5/lib/spack/spack/spec.py\", line 1505, in concretize\r\n    self._expand_virtual_packages(),\r\n  File \"/home2/rpfische/spack5/lib/spack/spack/spec.py\", line 1422, in _expand_virtual_packages\r\n    spec)\r\n  File \"/home2/rpfische/spack5/lib/spack/spack/concretize.py\", line 122, in choose_virtual_or_external\r\n    candidates = self._valid_virtuals_and_externals(spec)\r\n  File \"/home2/rpfische/spack5/lib/spack/spack/concretize.py\", line 91, in _valid_virtuals_and_externals\r\n    raise NoBuildError(spec)\r\nspack.concretize.NoBuildError: The spec 'm4' is configured as not buildable, and no matching external installs were found\r\n```\r\nSee here that `spack install` works on this package:\r\n```\r\n$ spack install everytrace@develop\r\n==> Installing everytrace\r\n==> openmpi is already installed in /home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/openmpi-1.10.1-2ew2gg7hvoc7vj7fc4s6c3mdfeoblp76\r\n==> cmake is already installed in /home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/cmake-3.7.1-nscyuby65ynomqwybkldstqgcxqzxipp\r\n==> Fetching file:///home/rpfische/.spack/manual_mirror/everytrace/everytrace-develop.tar.gz\r\ncurl: (37) Couldn't open file /home/rpfische/.spack/manual_mirror/everytrace/everytrace-develop.tar.gz\r\n==> Fetching from file:///home/rpfische/.spack/manual_mirror/everytrace/everytrace-develop.tar.gz failed.\r\n==> Trying to clone git repository:\r\n  https://github.com/citibeth/everytrace.git\r\n  on branch develop\r\nCloning into 'everytrace'...\r\nremote: Counting objects: 34, done.\r\nremote: Compressing objects: 100% (31/31), done.\r\nremote: Total 34 (delta 2), reused 23 (delta 1), pack-reused 0\r\nUnpacking objects: 100% (34/34), done.\r\n==> No checksum needed when fetching with git\r\n==> Already staged everytrace-develop-gyeos66xokjpztn4ez7cgmkzgftvtqfh in /home2/rpfische/spack5/var/spack/stage/everytrace-develop-gyeos66xokjpztn4ez7cgmkzgftvtqfh\r\n==> No patches needed for everytrace\r\n==> Building everytrace [CMakePackage]\r\n==> Executing phase : 'cmake'\r\n...\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2662",
+    "updated_at": "2017-01-11 14:06:25",
+    "created_at": "2016-12-22 01:55:24",
+    "closed_at": "2017-01-11 14:06:25",
+    "state": "closed",
+    "title": "`spack setup` is just plain broken",
+    "number": 2662,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization"
+    ],
+    "id": 197076859,
+    "html_url": "https://github.com/spack/spack/issues/2662",
+    "assignees": [
+        "citibeth"
+    ],
+    "comments": 3
+}

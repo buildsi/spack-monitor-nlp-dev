@@ -1,0 +1,27 @@
+{
+    "body": "Resolves #1341\r\n\r\n##### TLDR\r\nThis PR adds support for multi-valued variants. An example from the `openmpi` module is:\r\n```python\r\nvariant(\r\n    'schedulers',\r\n    default='',\r\n    description='List of schedulers for which support is enabled',\r\n    values=('alps', 'lsf', 'tm', 'slurm', 'sge', 'loadleveler'),\r\n    exclusive=False\r\n)\r\n```\r\nHere `values` is the list of allowed values and `exclusive=False` means that more than one value can be selected simultaneously. One can thus say from the command line:\r\n```console\r\nspack install openmpi schedulers=lsf,loadleveler\r\n```\r\nThe appropriate configure options will be activated by the line:\r\n```python\r\nconfig_args.extend(self.with_or_without('schedulers'))\r\n```\r\nin the `Openmpi.configure_args` method. The method `Autotools.with_or_without` is automatically transforming all the values activated in the variant into `--with-{value}`, and all the missing ones into `--without-{value}`.\r\n\r\nThe PR also refactors variant dependent code moving it in the `spack.variant` module and adds unit tests for the classes in `variant.py`.\r\n\r\n##### Variant directive\r\nThis PR changes the variant directive in the following, **backward-compatible** way:\r\n```python\r\ndef variant(pkg, name, default=False, description='', values=(True, False), exclusive=True, validator=None):\r\n    ....\r\n```\r\nThe semantics for the new arguments is:\r\n\r\n1. `values`: either a tuple of allowed values, or a callable used as a single value validator (see `netcdf` for an example)\r\n2. `exclusive`: if True only one value per spec is allowed for this variant\r\n3. `validator`: optional callable used to enforce group logic during the semantic validation\r\n\r\nThe last argument (`validator`) won't be needed most of the time, but in complex cases like `mvapich2` it provides a convenient hook to enforce additional validation logic (in that particular case one can select either `slurm` alone as the scheduler or any other combination of all the non-slurm schedulers).\r\n\r\n##### Miscellaneous notes\r\n1. as far as I can see the hash for the packages I used to test this PR didn't change, but as I touched things that go into `_cmp_key` I put the `hash-change` tag to stay on the safe side\r\n2. I changed the base class of `HashableMap`, see below\r\n3. the `Variant` class (attached to packages) will act as a validator for the `VariantSpec` class (attached to specs). I considered a couple of different designs for this (like `Variant` being a factory for `VariantSpec` instances) and the one implemented here seems the cleanest to me.\r\n\r\n##### Modifications\r\n- [x] added support for multi-valued variants\r\n- [x] refactored code related to variants into variant.py\r\n- [x] added new generic features to AutotoolsPackage that leverage multi-valued variants\r\n- [x] modified `openmpi`, `netcdf`, `mvapich2` and `cdo` to use new features\r\n- [x] added unit tests for the new semantics (more to come)\r\n- [ ] reference documentation",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/2386",
+    "updated_at": "2017-11-12 00:38:40",
+    "created_at": "2016-11-22 18:36:09",
+    "closed_at": "2017-05-01 20:08:48",
+    "state": "closed",
+    "title": "variant: added support for multi-valued variants",
+    "number": 2386,
+    "milestone": "v0.11.0",
+    "labels": [
+        "feature",
+        "ready",
+        "concretization",
+        "hashes",
+        "refactoring",
+        "proposal",
+        "autotools"
+    ],
+    "id": 191089150,
+    "html_url": "https://github.com/spack/spack/pull/2386",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 87
+}

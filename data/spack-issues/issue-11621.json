@@ -1,0 +1,28 @@
+{
+    "body": "Fixes several issues that prevented the docker image builds from completing.  Also, removes and simplifies much of the current docker offerings.\r\n\r\n### Removed Images\r\n - `spack/ubuntu`\r\n - `spack/scilinux`\r\n - `spack/opensuse`\r\n - `spack/fedora`\r\n - `spack/centos`\r\n - `spack/archlinux`\r\n\r\nNow, all images meant for general use are under the single `spack/spack` image name, with tags to differentiate between versions of Spack and OS.  In addition, this PR integrates work from @scottwittenburg that brings the docker images we use for our Gitlab CI process into the Spack repo.  These images are under the `spack/ci` name.\r\n\r\n### Added Images and Tags\r\n\r\nThe tags follow the general format `{SPACK_VERSION}-${OS_NAME_AND_VERSION}`.  Aliasing tags are included so that `SPACK_VERSION` and/or `OS_NAME_AND_VERSION` can be omitted.  The default version of Spack is whatever is the \"latest\" version at the time, and the default OS + version is \"centos-7\".  Note that per Docker tagging standards, the tag `latest` is used for the case where both are omitted, as it is the default tag used when none is provided.  This is a special case, and there is no other corresponding tag as in e.g.: `spack/spack:latest-ubuntu-18.04`; such a tag is simply spelled `spack/spack:ubuntu-18.04`.\r\n\r\n<table>\r\n  <thead>\r\n    <tr>\r\n      <th>Image & Tag</td>\r\n      <th>Contents</td>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr>\r\n      <td>spack/spack:{VERSION}-centos-6</td>\r\n      <td>The given Spack version on centos 6.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:{VERSION}-centos-7</td>\r\n      <td rowspan=\"2\">The given Spack version on centos 7.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:{VERSION}</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:{VERSION}-ubuntu-16.04</td>\r\n      <td rowspan=\"2\">The given Spack version on ubuntu 16.04.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:{VERSION}-ubuntu-xenial</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:{VERSION}-ubuntu-18.04</td>\r\n      <td rowspan=\"2\">The given Spack version on ubuntu 18.04.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:{VERSION}-ubuntu-bionic</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:centos-6</td>\r\n      <td>The latest Spack version on centos 6.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:centos-7</td>\r\n      <td rowspan=\"2\">The latest Spack version on centos 7.</td>\r\n    </tr>\r\n    <tr>\r\n      <td>spack/spack:latest</td>\r\n    </tr>\r\n    <tr>\r\n      <td><s>spack/ci:centos-7</s></td>\r\n      <td><s>CI image with the latest version of Spack on centos 7.</s></td>\r\n    </tr>\r\n    <tr>\r\n      <td><s>spack/ci:ubuntu-18.04</s></td>\r\n      <td><s>CI image with the latest version of Spack on ubuntu-18.04.</s></td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n#### Related to-do items.\r\n\r\n- [ ] Remove old dockerhub repos/add new dockerhub repos.\r\n- [ ] Decide on a policy for mapping Spack version to docker tag.\r\n    - Right now, the current PR just checks for the output of `spack --version` and assumes that we are always building using the \"latest\" version of Spack.  Is this behavior enough?\r\n- [x] ~~Finish S3 work (#11117) and start populating the public mirror with binary packages.~~\r\n    - ~~I expect this step to be necessary because it takes a very long time to build e.g.: llvm in a docker container (for the centos CI image); far longer than I expect travis to run before timing out.  Once binary packages become available, this issue should go away.~~ EDIT: This should no longer be necessary, since we have eliminated the CI images in favor of \"bootstrapping\" compilers as part of the CI process.\r\n- [ ] Also, once these builds are running successfully and consistently, I think we should turn them \"back on\" in the Travis build matrix, that is, allow their failures to fail the whole build.  Looking at docker hub, it's clear that we haven't been building up-to-date images for the last several months.  If not from Travis, we should at least have *some* kind of notification that our docker images have stopped building.\r\n\r\nEDIT: Added Travis todo item.",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/11621",
+    "updated_at": "2019-09-02 15:27:39",
+    "created_at": "2019-06-04 17:40:41",
+    "closed_at": "2019-07-20 21:46:07",
+    "state": "closed",
+    "title": "fix docker builds/remove extra builds/add ci builds",
+    "number": 11621,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "releases",
+        "repos",
+        "tags",
+        "travis",
+        "containers",
+        "docker",
+        "binary-packages",
+        "ecp",
+        "utilities"
+    ],
+    "id": 452123270,
+    "html_url": "https://github.com/spack/spack/pull/11621",
+    "assignees": [],
+    "comments": 8
+}

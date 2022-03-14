@@ -1,0 +1,19 @@
+{
+    "body": "The -j flag in spack behaves different from make, ctest, ninja, etc,\r\nbecause it caps the number of jobs to an arbitrary number 16.\r\n\r\nWhat makes a lot more sense is if `spack install` uses some reasonable\r\ndefault, and `spack install -j <num>` *overrides* that default. This is\r\nhow it's done in all other build systems.\r\n\r\nIn particular I want to be able to write `spack install -j256` on some\r\nAMD EPYC system if I feel like it, and spack shouldn't silently stop me\r\nfrom doing that. Maybe spack was meant for HPC login nodes, but even\r\nlogin nodes get fat and in some centers you are encouraged to compile on\r\nlogin nodes with many cores instead of on compute nodes.\r\n\r\nAlso if I don't specify `-j` on the command line, I'm fine if spack\r\nlimits the number of build jobs to `min(number of cpus, 16)` -- I can\r\nsee that's a reasonable default, although the 16 is still quite peculiar\r\nand unlike other build systems -- however, as it is right now, spack\r\ndoes a poor job at determining the number of cpus on linux, since it\r\ndoesn't take cgroups into account. In particular this is problematic if\r\nyou use distributed builds with slurm. On an AMD EPYC machine with 256\r\nthreads, if I would build a big spack environment with many tasks like\r\n`srun -c2 -n128 spack -e my_env install`, spack will happily start 128\r\nprocesses using make -j256, instead of actually checking the process\r\naffinity, which reveals only 2 threads can be used. So this PR\r\nintroduces `spack.util.cpus.cpus_available()` which does the sensible\r\nthing on linux. This should also improve the situation with Docker /\r\nKubernetes, which also use cgroups.\r\n\r\nCloses #17598 \r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22360",
+    "updated_at": "2021-03-30 19:12:57",
+    "created_at": "2021-03-17 18:12:16",
+    "closed_at": "2021-03-30 19:03:51",
+    "state": "closed",
+    "title": "Make -j flag less exceptional",
+    "number": 22360,
+    "milestone": null,
+    "labels": [
+        "build"
+    ],
+    "id": 834053719,
+    "html_url": "https://github.com/spack/spack/pull/22360",
+    "assignees": [],
+    "comments": 2
+}

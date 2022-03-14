@@ -1,0 +1,19 @@
+{
+    "body": "As the name suggests, ~I'm not 100% sure if this is a bug in `spack` or `htop` but~(see EDIT) in both the **develop** and **v0.10.0** branches, `ncurses` does not use lib-suffixes when compiling version 6.0.   \r\nVersion 5.9 seems to not have this issue.\r\n\r\nThis was discovered while attempting to compile `htop ^ncurses@6.0` via spack and finding that it failed to use the located ncurses headers leading to an `htop` interface lacking in text.\r\n```\r\nconfigure: WARNING: ncursesw/curses.h: present but cannot be compiled\r\nconfigure: WARNING: ncursesw/curses.h:     check for missing prerequisite headers?\r\nconfigure: WARNING: ncursesw/curses.h: see the Autoconf documentation\r\nconfigure: WARNING: ncursesw/curses.h:     section \"Present But Cannot Be Compiled\"\r\nconfigure: WARNING: ncursesw/curses.h: proceeding with the compiler's result\r\nconfigure: WARNING:     ## ----------------------------------- ##\r\nconfigure: WARNING:     ## Report this to hisham@gobolinux.org ##\r\nconfigure: WARNING:     ## ----------------------------------- ##\r\n```\r\n\r\nThis appears to be due to `htop` looking for `ncurses` with the lib-suffixes, but the default spack install of `ncurses` disables this with `--disable-lib-suffixes`.  Ncurses 5.9 does not have `--disable-lib-suffixes` as an option...at least it looks that way after a quick grep of its INSTALL doc.\r\n\r\nFrom ncurses 6.0 docs:\r\n> --disable-lib-suffixes\r\n> \r\n> Suppress the \u201cw\u201d, \u201ct\u201d or \u201ctw\u201d suffixes which normally would be added to the library names for the --enable-widec and --with-pthread options.\r\n\r\n\r\nThere is an open issue at https://github.com/hishamhm/htop/issues/573 that seems to be related to what I'm seeing here, so depending on the debate of lib-suffixes V. no lib-suffixes, this may not be something Spack will need to address.\r\n\r\n[EDIT] Honestly, after doing more digging on this issue, it *seems* like this is more of an `htop` issue than a `spack` issue...but I figured I'd submit this to get record of this issue.  Hopefully I'm not the only one that can reproduce this issue :expressionless: ",
+    "user": "TheQueasle",
+    "url": "https://api.github.com/repos/spack/spack/issues/3126",
+    "updated_at": "2017-11-22 15:34:49",
+    "created_at": "2017-02-10 20:55:44",
+    "closed_at": "2017-11-22 15:34:49",
+    "state": "closed",
+    "title": "Ncurses spack build appears to not yield `ncursesw6-config` OR Htop has a bug",
+    "number": 3126,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 206904343,
+    "html_url": "https://github.com/spack/spack/issues/3126",
+    "assignees": [],
+    "comments": 4
+}

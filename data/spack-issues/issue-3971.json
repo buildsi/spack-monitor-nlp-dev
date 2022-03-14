@@ -1,0 +1,23 @@
+{
+    "body": "Do not overwrite a concretized version or compiler and or version with a\r\nnon concretized version! This can happen from external packages if\r\ntheir definition is not concrete!\r\n\r\nExample: In `packages.yaml` you add an external package with a non-fully concretized spec:\r\n\r\n```\r\npackages:\r\n  external-package:\r\n    paths:\r\n      external-package%gcc: /path/to/external-package-with-gcc\r\n    buildable: False\r\n```\r\n\r\nThen you install this package with `spack install external-package`.\r\nWhen checking for external and virtual packages, `external-package%gcc` matches the spec, so the install spec is replaced with `external-package%gcc`. The spec is then concretized to something more specific like `external-package%gcc@5.3.0`. During the next stage, `external-package%gcc` matches the spec again, so the spec is replaced with `external-package%gcc` thus starting an infinite loop.\r\n\r\nThis commit adds an option `soft_dup` to the `_dup` routine of a spec. When `soft_dup=True`, `_dup` prevents overwriting a spec which is concrete with one which is not.\r\n\r\nI ment to include this set of patches with the external pacakges pull request from @alalazo but I forgot to add it.",
+    "user": "krafczyk",
+    "url": "https://api.github.com/repos/spack/spack/issues/3971",
+    "updated_at": "2020-07-07 01:39:56",
+    "created_at": "2017-04-24 16:45:06",
+    "closed_at": "2020-07-07 01:39:56",
+    "state": "closed",
+    "title": "More sensible duplication of version and compiler info.",
+    "number": 3971,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "external-packages",
+        "revisit"
+    ],
+    "id": 223882113,
+    "html_url": "https://github.com/spack/spack/pull/3971",
+    "assignees": [
+        "krafczyk"
+    ],
+    "comments": 9
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Makes the following changes:\r\n\r\n- [x] Add myself as a maintainer\r\n- [x] Add Pillow 7.0.0 (drops Python 2 support)\r\n- [x] Add support for webp and webpmux\r\n- [x] Add tests\r\n- [x] Add test dependencies\r\n- [x] Remove binutils dependency (see [Getting Started docs](https://spack.readthedocs.io/en/latest/getting_started.html#binutils))\r\n- [x] Simplify patching logic (previous logic didn't work for webp)\r\n- [x] Fix bug where zlib and jpeg were always disabled\r\n\r\nSuccessfully installs and passes all unit tests on macOS 10.15.2 with Python 3.7.4 and Clang 11.0.0 with all variants enabled and all variants disabled. \r\n\r\n```\r\n--------------------------------------------------------------------\r\nPIL SETUP SUMMARY\r\n--------------------------------------------------------------------\r\nversion      Pillow 7.0.0\r\nplatform     darwin 3.7.4 (default, Nov  6 2019, 16:24:25)\r\n             [Clang 11.0.0 (clang-1100.0.33.12)]\r\n--------------------------------------------------------------------\r\n--- JPEG support available\r\n--- OPENJPEG (JPEG2000) support available (2.3)\r\n--- ZLIB (PNG/ZIP) support available\r\n*** LIBIMAGEQUANT support not available\r\n--- LIBTIFF support available\r\n--- FREETYPE2 support available\r\n--- LITTLECMS2 support available\r\n--- WEBP support available\r\n--- WEBPMUX support available\r\n--------------------------------------------------------------------\r\n```\r\nLibraries are correctly linked:\r\n```console\r\n$ otool -L $(find . -name '*.so') | sort | uniq\r\n...\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/freetype-2.10.1-52goouhw7dni3yozivnw2py5d2x36yck/lib/libfreetype.6.dylib (compatibility version 24.0.0, current version 24.1.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/lcms-2.9-5duz5uysiwmclvgga3euiyinxa3lyfpg/lib/liblcms2.2.dylib (compatibility version 3.0.0, current version 3.8.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/libtiff-4.0.10-nlewmdvi5wqohlp3dp5waxe4djy3cl46/lib/libtiff.5.dylib (compatibility version 10.0.0, current version 10.0.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/libwebp-1.0.3-uj3feqesh44l7lpkkocstg4xe4zmi2pb/lib/libwebp.7.dylib (compatibility version 8.0.0, current version 8.5.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/libwebp-1.0.3-uj3feqesh44l7lpkkocstg4xe4zmi2pb/lib/libwebpdemux.2.dylib (compatibility version 3.0.0, current version 3.6.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/libwebp-1.0.3-uj3feqesh44l7lpkkocstg4xe4zmi2pb/lib/libwebpmux.3.dylib (compatibility version 4.0.0, current version 4.4.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/openjpeg-2.3.1-zp442otrfpxcdknldup7lq4p5nnc3oau/lib/libopenjp2.7.dylib (compatibility version 7.0.0, current version 2.3.1)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/zlib-1.2.11-cvrek7vtvob6v2dfnvdowu2rkqtqtmmi/lib/libz.1.dylib (compatibility version 1.0.0, current version 1.2.11)\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1281.0.0)\r\n\t@rpath/libjpeg.62.dylib (compatibility version 62.0.0, current version 62.3.0)\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/14385",
+    "updated_at": "2020-01-05 04:49:44",
+    "created_at": "2020-01-04 23:17:55",
+    "closed_at": "2020-01-05 04:49:40",
+    "state": "closed",
+    "title": "Overhaul py-pillow package",
+    "number": 14385,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 545344230,
+    "html_url": "https://github.com/spack/spack/pull/14385",
+    "assignees": [],
+    "comments": 0
+}

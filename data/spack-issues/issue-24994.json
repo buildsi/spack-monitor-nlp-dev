@@ -1,0 +1,26 @@
+{
+    "body": "with out the /opt/rocm installtion we are currently seeing  warning WARNING \"Profiling API header not found. Disabling roctracer integration. Use -DPROF_API_HEADER_PATH=<path to prof_protocol.h header>\" while building  hip.\r\nAlso , when the rocm rpm's are installed in the /opt/rocm path it is picking up the header files from /opt/rocm path which i think is not correct ( -I/opt/rocm/roctracer/include/ext is included )   while compiling the hip files eg hip_context.cpp  \r\n\r\nthe change inside the hip recipe is meant to fix this issue . After the changes i do not see the warning and also header file is properly picked.\r\nexample o/p from the terminal - Profiling API: /tmp/root/spack-stage/spack-stage-hip-4.1.0-csml555jn4u7qbl3mgplbxrjvw36gvlp/spack-src/roctracer/inc/ext \r\n\r\nthe changes to the rocprofiler-dev is cleanup code. basically replaces with smaller lines of code.\r\n\r\ntesting - i have built hip for rocm-4.2.0 ,rocm-4.1.0 and rocfft recipe for rocm-4.2.0 and rocm-4.1.0 \r\nfor rocprofiler-dev i have built and installed for rocm-4.2.0 and rocm-4.1.0 releases.\r\n",
+    "user": "srekolam",
+    "url": "https://api.github.com/repos/spack/spack/issues/24994",
+    "updated_at": "2021-07-28 08:36:36",
+    "created_at": "2021-07-20 21:07:43",
+    "closed_at": "2021-07-28 08:36:36",
+    "state": "closed",
+    "title": "fix roctracer references in hip and cleanup code in rocprofiler-dev recipe",
+    "number": 24994,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "new-package",
+        "dependencies",
+        "resources",
+        "update-package",
+        "maintainers"
+    ],
+    "id": 949093481,
+    "html_url": "https://github.com/spack/spack/pull/24994",
+    "assignees": [
+        "haampie"
+    ],
+    "comments": 8
+}

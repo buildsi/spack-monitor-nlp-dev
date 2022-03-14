@@ -1,0 +1,17 @@
+{
+    "body": "(This is a bugfix for an issue incidentally uncovered due to another bug in spack develop fixed here https://github.com/spack/spack/pull/25583)\r\n\r\nPackageInstaller and pkg.installed disagree over what it means for a package to be installed.\r\n\r\nPackageInstaller believes it should be enough for a database entry to exist, whereas pkg.installed requires a database entry & a prefix directory.\r\n\r\nThis leads to the following niche issue:\r\n- a develop spec in an environment is successfully installed\r\n- then *somehow* its install prefix is removed (e.g. through a bug fixed in 25583)\r\n- you modify the sources and reinstall the environment\r\n   1. spack checks pkg.installed and realizes the develop spec is NOT installed, therefore it doesn't need to have 'overwrite: true'\r\n   2. the installer gets the build task and checks the database and realizes the spec IS installed, hence it doesn't have to install it.\r\n   3. the develop spec is not rebuilt.\r\n\r\nThe solution is to make `PackageInstaller` and `pkg.installed` agree over what it means to be installed, and this PR does that by dropping the prefix directory check from `pkg.installed`, so that it only checks the database.\r\n\r\nAs a result, spack will create a build task with `overwrite: true` for the develop spec, and the installer in fact handles overwrite requests fine even if the install prefix doesn't exist (it just does a normal install).\r\n\r\nThe arguments for making pkg.installed behave like this are:\r\n1. `pkg.installed` should be cheap to evaluate\r\n2. An installed spec can be corrupt, but it remains an installed spec\r\n3. There are many ways in which an installed spec can be corrupt, and a missing install prefix is just one way. E.g. a spec that fails the `spack verify spec` test is still an installed spec.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25579",
+    "updated_at": "2021-08-31 09:43:20",
+    "created_at": "2021-08-24 09:30:36",
+    "closed_at": "2021-08-26 01:14:12",
+    "state": "closed",
+    "title": "Fix spack develop reinstall after failure / make definition of 'installed' uniform in different code paths",
+    "number": 25579,
+    "milestone": null,
+    "labels": [],
+    "id": 977899903,
+    "html_url": "https://github.com/spack/spack/pull/25579",
+    "assignees": [],
+    "comments": 12
+}

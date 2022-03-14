@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nMAGMA is configured to build CUDA support by default (magma+cuda).  This can optionally be changed to ROCm if CUDA is disabled (magma+rocm~cuda).  However, if a specific version of cuda is requested, the concretizer changes to using rocm and completely disabled cuda:\r\n\r\n```\r\nspack spec magma ^cuda@11.0.3\r\nInput spec\r\n--------------------------------\r\nmagma\r\n    ^cuda@11.0.3\r\n\r\nConcretized\r\n--------------------------------\r\nmagma@2.6.1%gcc@10.3.0~cuda+fortran~ipo+rocm+shared amdgpu_target=gfx1012 build_type=RelWithDebInfo cuda_arch=none arch=linux-centos7-zen2\r\n    ^cmake@3.21.2%gcc@10.3.0~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=linux-centos7-zen2\r\n        ^ncurses@5.9.20130511%gcc@10.3.0~symlinks+termlib abi=5 patches=f84b2708a42777aadcc7f502a261afe10ca5646a51c1ef8b5e60d2070d926b57 arch=linux-centos7-zen2\r\n        ^openssl@1.0.2k-fips%gcc@10.3.0~docs+systemcerts arch=linux-centos7-zen2\r\n    ^hip@4.3.1%gcc@10.3.0~ipo build_type=RelWithDebInfo patches=2a4190477b7d9206b9cd8d70770ba0bc007273cbe54772efb12f9ca2e37c0392,3d20c8737ff8d0a00053f6bf23009df060fb26d39545aa34c74428b69d02257a,99190b4616edb362d48f9b265c3018a3c6339481b0729d9fe46185fca25bc54b,e276c4acf3d37712b6bea306fea34f539d3c4f743471e9da208b5eb17b16ae67 arch=linux-centos7-zen2\r\n        ^comgr@4.3.1%gcc@10.3.0~ipo build_type=Release arch=linux-centos7-zen2\r\n            ^llvm-amdgpu@4.3.1%gcc@10.3.0~ipo+openmp+rocm-device-libs build_type=Release patches=d999f3b235e655ee07f6dd2590302082feaa06d32c5c6b53aae9c5cf1e45b644 arch=linux-centos7-zen2\r\n...\r\n```\n\n### Error message\n\n_No response_\n\n### Information on your system\n\n* **Spack:** 0.16.2-4339-24500d4\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-zen2\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "G-Ragghianti",
+    "url": "https://api.github.com/repos/spack/spack/issues/26122",
+    "updated_at": "2021-09-21 19:22:02",
+    "created_at": "2021-09-21 18:55:53",
+    "closed_at": "2021-09-21 19:22:02",
+    "state": "closed",
+    "title": "clingo disables cuda variant when specific cuda version is requested",
+    "number": 26122,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1003079398,
+    "html_url": "https://github.com/spack/spack/issues/26122",
+    "assignees": [],
+    "comments": 3
+}

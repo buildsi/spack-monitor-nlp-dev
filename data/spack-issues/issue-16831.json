@@ -1,0 +1,21 @@
+{
+    "body": "1. Fixes a bug introduced in #16758 ([in particular](https://github.com/spack/spack/blob/8f208b17e260c6469d7cf9acd97a42c6cdb589d1/var/spack/repos/builtin/packages/openmpi/package.py#L406-L408)):\r\n    ```console\r\n    $ spack install openmpi fabrics=psm\r\n    Error: KeyError: 'No spec with name psm in openmpi...\r\n    ```\r\n    Along the way, `libtool` (`lib/*.la`) and `pkg-config` (`lib/pkgconfig/*.pc`) now contain `-L` flags providing paths to the dependencies (required if the library is used without Spack).\r\n2. ~Renames the variant `fabrics` to `transports`.~\r\n3. Enables the choice of [shared memory transports](https://blogs.cisco.com/performance/the-vader-shared-memory-transport-in-open-mpi-now-featuring-3-flavors-of-zero-copy): `fabrics=cma,xpmem,knem`. The latter two introduce dependencies on two new packages `xpmem` and `knem`, which are Linux kernel modules and are recommended to be provided as externals in `packages.yaml`.\r\n4. Renames `fabrics=libfabric` to `fabrics=ofi`. The argument `--with-libfabric` is a deprecated synonym for `--with-ofi` starting version `3.0.4`.\r\n5. Adds support for the legacy and the modern [FCA](https://www.mellanox.com/products/fca) interfaces: `fabrics=fca,hcoll`, which introduce dependencies on two new dummy packages `fca` and `hcoll`.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16831",
+    "updated_at": "2020-06-17 19:41:25",
+    "created_at": "2020-05-27 19:42:31",
+    "closed_at": "2020-06-17 19:41:25",
+    "state": "closed",
+    "title": "openmpi: options for local transport",
+    "number": 16831,
+    "milestone": null,
+    "labels": [
+        "new-package",
+        "mpi",
+        "new-variant"
+    ],
+    "id": 625980282,
+    "html_url": "https://github.com/spack/spack/pull/16831",
+    "assignees": [],
+    "comments": 3
+}

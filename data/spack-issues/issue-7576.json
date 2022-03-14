@@ -1,0 +1,20 @@
+{
+    "body": "I'm trying to install cistem, but it Spack states that the archive looks like HTML:\r\n\r\n### Actual Result\r\n```\r\n==> Installing cistem\r\n==> Fetching https://cistem.org/system/tdf/upload3/cistem-1.0.0.tar.gz?file=1&type=cistem_details&id=37&force=0\r\n\r\n==> Warning: The contents of \r\n  the archive\r\n   look like HTML.\r\n  The checksum will likely be bad.  If it is, you can use\r\n  'spack clean <package>' to remove the bad archive, then\r\n  fix your internet gateway issue and install again.\r\n==> Error: OSError: [Errno 2] No such file or directory\r\n`OSError: OSError: [Errno 2] No such file or directory\r\n\r\n./spack/lib/spack/spack/package.py:1019, in do_fetch:\r\n     25                                     self.spec.format('$_$@'), ck_msg)\r\n     26    \r\n     27            self.stage.create()\r\n  >> 28            self.stage.fetch(mirror_only)\r\n     29            self._fetch_time = time.time() - start_time\r\n     30    \r\n     31            if spack.do_checksum and self.version in self.versions:`\r\n```\r\n\r\nI think the problem is the download link. If I grab the file with wget:\r\n\r\n`wget \"https://cistem.org/system/tdf/upload3/cistem-1.0.0.tar.gz?file=1&type=cistem_details&id=37&force=0\"`\r\n\r\nThen the delivered file has the name: \r\n`cistem-1.0.0-beta-source-code.tar.gz?file=1&type=cistem_details&id=37&force=0`\r\n\r\nIf I truncate the link to:\r\n`https://cistem.org/system/tdf/upload3/cistem-1.0.0.tar.gz`\r\n\r\nI just get an empty file when I try to download it. So I think the problem may be that the archive doesn't end in .tar.gz, and therefore Spack doesn't know what to do with it.\r\n\r\nThanks in advance for any help! \r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install cistem\r\n```\r\n\r\n### Information on your system\r\n\r\nCentOS Linux release 7.4.1708 (Core)\r\n",
+    "user": "des2037",
+    "url": "https://api.github.com/repos/spack/spack/issues/7576",
+    "updated_at": "2019-12-17 12:44:49",
+    "created_at": "2018-03-23 16:50:24",
+    "closed_at": "2019-12-17 12:44:48",
+    "state": "closed",
+    "title": "cistem: contents of the archive look like HTML",
+    "number": 7576,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "fetching"
+    ],
+    "id": 308105005,
+    "html_url": "https://github.com/spack/spack/issues/7576",
+    "assignees": [],
+    "comments": 3
+}

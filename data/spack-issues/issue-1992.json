@@ -1,0 +1,21 @@
+{
+    "body": "From @adamjstewart:\n\n> I'm still seeing a problem on our CentOS 6 cluster. Here is the output:\n> \n> ```\n> $ spack install gmp %pgi\n> ==> Installing gmp\n> ==> Installing m4\n> ==> libsigsegv is already installed in /blues/gpfs/home/software/spack-0.9.1/opt/spack/linux-centos6-x86_64/pgi-16.5-0/libsigsegv-2.10-3zrk2bhqrgknreumylyvff2tzpqlrt2d\n> Traceback (most recent call last):\n>   File \"/soft/spack-0.9.1/bin/spack\", line 192, in <module>\n>     main()\n>   File \"/soft/spack-0.9.1/bin/spack\", line 169, in main\n>     return_val = command(parser, args)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/cmd/install.py\", line 97, in install\n>     explicit=True)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 1007, in do_install\n>     dirty=dirty)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 1007, in do_install\n>     dirty=dirty)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 985, in do_install\n>     rec = spack.installed_db.get_record(self.spec)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 79, in converter\n>     return function(self, spec_like, *args, **kwargs)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 527, in get_record\n>     key = self._get_matching_spec_key(spec, **kwargs)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 519, in _get_matching_spec_key\n>     match = self.query_one(spec, **kwargs)\n>   File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 653, in query_one\n>     assert len(concrete_specs) <= 1\n> AssertionError\n> ```\n\nTwo things are going on here:\n1. OS descriptors are read incorrectly and get assigned `None` if Spack doesn't know about the particular OS, which is wrong.\n2. Concrete specs that have hashes should compare by hash for `satisfies()`.  This is faster, cheaper, _and_ it avoids cases where a concrete spec might match several non-concrete ones that have supersets of its attributes. \n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/1992",
+    "updated_at": "2016-12-19 17:09:54",
+    "created_at": "2016-10-11 09:02:38",
+    "closed_at": "2016-12-19 17:09:54",
+    "state": "closed",
+    "title": "Fix satisfaction rules for concrete specs",
+    "number": 1992,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "hashes"
+    ],
+    "id": 182211096,
+    "html_url": "https://github.com/spack/spack/issues/1992",
+    "assignees": [],
+    "comments": 3
+}

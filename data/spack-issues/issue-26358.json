@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\n$ spack install gdb@10.2 +python\r\n[+] /usr (external python-3.6.8-42zz3vk7tj5ooiq2s33wqd4zx2njlxqj)\r\n[+] /usr (external texinfo-6.5-uzihy7vowlztilxfy6wrzmos226rgcqn)\r\n[+] /usr (external xz-5.2.4-aznlbqrcwv5pwolhte6xmvjwtvjrduaq)\r\n==> Installing gdb-10.2-ejd5glajzmzhn647bg6aekb2y4zbuztj\r\n==> No binary for gdb-10.2-ejd5glajzmzhn647bg6aekb2y4zbuztj found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/b3/b33ad58d687487a821ec8d878daab0f716be60d0936f2e3ac5cf08419ce70350.tar.gz\r\n==> Applied patch /home/bc/spack/var/spack/repos/builtin/packages/gdb/gdb-libintl-10.patch\r\n==> Applied patch /home/bc/spack/var/spack/repos/builtin/packages/gdb/importlib.patch\r\n==> gdb: Executing phase: 'autoreconf'\r\n==> gdb: Executing phase: 'configure'\r\n==> gdb: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16' 'V=1'\r\n\r\n1 error found in build log:\r\n     4954    checking for libmpfr... no\r\n     4955    configure: WARNING: MPFR is missing or unusable; some features may be unavailable.\r\n     4956    checking whether to use python... yes\r\n     4957    checking for python... missing\r\n     4958    checking for python... no\r\n     4959    checking for python... no\r\n  >> 4960    configure: error: python is missing or unusable\r\n     4961    make[1]: *** [Makefile:10370: configure-gdb] Error 1\r\n     4962    make[1]: Leaving directory '/tmp/bc/spack-stage/spack-stage-gdb-10.2-ejd5glajzmzhn647bg6aekb2y4zbuztj/sp\r\n             ack-src/spack-build'\r\n     4963    make: *** [Makefile:854: all] Error 2\r\n\r\nSee build log for details:\r\n  /tmp/bc/spack-stage/spack-stage-gdb-10.2-ejd5glajzmzhn647bg6aekb2y4zbuztj/spack-build-out.txt\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3-4399-cdcecda9d0\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rocky8-zen2\r\n* **Concretizer:** clingo\r\n\r\nThe relevant part of packages.yaml is that we're using EL8 python as an external, which doesn't include a /usr/bin/python symlink.\r\n```\r\n  python:\r\n    externals:\r\n    - spec: python@3.6.8+bz2+ctypes+dbm+lzma+nis+pyexpat~pythoncmd+readline+sqlite3+ssl~tix~tkinter+uuid+zlib\r\n      prefix: /usr\r\n```\n\n### Additional information\n\ngdb looks for a `python` binary to execute, but it isn't present when spack selects a `python~pythoncmd` package for the dependency.\r\n\r\n@robertu94\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7255146/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7255149/spack-build-env.txt)\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "zzzoom",
+    "url": "https://api.github.com/repos/spack/spack/issues/26358",
+    "updated_at": "2021-09-30 22:40:35",
+    "created_at": "2021-09-29 21:31:17",
+    "closed_at": "2021-09-30 22:40:35",
+    "state": "closed",
+    "title": "Installation issue: gdb +python",
+    "number": 26358,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1011463691,
+    "html_url": "https://github.com/spack/spack/issues/26358",
+    "assignees": [],
+    "comments": 2
+}

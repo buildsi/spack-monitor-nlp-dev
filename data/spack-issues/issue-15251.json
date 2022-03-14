@@ -1,0 +1,19 @@
+{
+    "body": "Spack detects a different os depending on whether I'm on a compute node or a login node\r\n\r\non a compute node it's\r\n```\r\nt.cri.nknoblauch@cri16cn084:~:lsb_release -a\r\nLSB Version:    :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch\r\nDistributor ID: RedHatEnterpriseComputeNode\r\nDescription:    Red Hat Enterprise Linux ComputeNode release 6.7 (Santiago)\r\nRelease:        6.7\r\nCodename:       Santiago\r\nt.cri.nknoblauch@cri16cn084:~:spack arch\r\nlinux-redhatenterprisecomputenode6-haswell\r\n```\r\n\r\nand on a login node it's:\r\n```\r\nt.cri.nknoblauch@cri16in001:~:lsb_release -a\r\nLSB Version:    :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch\r\nDistributor ID: RedHatEnterpriseServer\r\nDescription:    Red Hat Enterprise Linux Server release 6.7 (Santiago)\r\nRelease:        6.7\r\nCodename:       Santiago\r\nt.cri.nknoblauch@cri16in001:~:spack arch\r\nlinux-rhel6-haswell\r\n```\r\n\r\nUnfortunately spack won't let me build across os\r\n```\r\nValueError: Can't recreate arch for spec linux-rhel6-haswell on current arch linux-redhatenterprisecomputenode6-haswell; spec architecture is too different\r\n```\r\n\r\nThis wouldn't be a big deal except for the fact that compute nodes don't have access to the internet.\r\n\r\nI'm quite sure that `redhatenterprisecomputenode6` and `rhel6` are binary compatible, but I'm not sure how to tell spack that.  The error message `architecture is too different` is kind of tantalizing, because it implies that the architectures don't have to be identical.\r\n",
+    "user": "CreRecombinase",
+    "url": "https://api.github.com/repos/spack/spack/issues/15251",
+    "updated_at": "2020-02-28 17:31:28",
+    "created_at": "2020-02-27 17:56:50",
+    "closed_at": "2020-02-28 17:31:28",
+    "state": "closed",
+    "title": "Spack is too picky about os compatibility",
+    "number": 15251,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 572253846,
+    "html_url": "https://github.com/spack/spack/issues/15251",
+    "assignees": [],
+    "comments": 2
+}

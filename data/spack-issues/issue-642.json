@@ -1,0 +1,19 @@
+{
+    "body": "Allow Spack environments to \"chain\" on top of others.  For example, a sysadmin creates a Spack environment with some compilers and basic libraries.  And a user builds a Spack environment, chained off of the first, that adds more application software to the stack.  See discussion below...\n\nIncremental builds / chained environments\nIn our development workflows we often have a local area that overlays a central base install area. For this to work, spack areas would need to be chainable. Being chainable requires:\n  1) for compile time a well-defined, cross-checked environment\n  2) for runtime the possibility of overriding libraries from the base area with ones from the local area. In particular most usage of RPATH would require to be replaced with RUNPATH. Unless using fully relocatable packages. \n\nCould you elaborate further?  I'm not sure I understand the details of this chained environment.  I also suspect it might be the kind of thing that seems like a good idea when manually installing software, but is not so useful with Spack managing things.\n\nOur use case is the following. We have central installations of plenty of packages, which are being used by O(100) developers. Now developers frequently build new packages or new versions of packages against these central installations. There is no way for every developer to set up a new stack from scratch for this. Thus a nice feature would be to enable developers to do things like:\n  spack external addarea /path/to/central/spack/install\n  spack install < new package building against central area >\n\nOK, this sounds like a nice feature.  As I see it, the idea might be to have the sysadmins manage Spack tree A, and I manage Spack tree B.  Somewhere in the config for Spack tree B, I point it to A.  B then sees all the packages in A.  Is anyone opposed to such a feature?\n\nUnfortunately, every nice feature comes with complications.  Here are the ones I see:\n1. The ideas we're working up on filling \"holes\" in the software DAG would have to take account of this:\n   https://github.com/LLNL/spack/issues/562\n   In particular... suppose the sysadmins find that openssh-1.2.1 has a security problem, so they remove it from TreeA.  Spack will not be able to tell whether its removal creates a hole, because it will not know what other trees might be using TreeA.  I think we can figure this one out.\n2. If TreeA and TreeB exist at arbitrary locations, then relative RPATHs ($ORIGIN) will no longer work when referencing packages between trees.  MAYBE this can be solved if we use softlinks to create virtual super-trees of Spack software.  For example...\n     SpackVirtualEnv/\n          TreeA --> /opt/spack/TreeA\n          TreeB --> ~/spack/TreeB\n   With such a setup, there will always be a predictable path between trees, as well as within a Spack tree.\n\nPoint 1) I don\u2019t consider such a big problem. Point 2) looks to me like already thinking about an implementation path. Maybe here as well it is the time to open a new mail thread just dealing with this feature request. In case others find it useful. \n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/642",
+    "updated_at": "2017-11-22 06:59:19",
+    "created_at": "2016-03-25 17:00:14",
+    "closed_at": "2017-11-22 06:59:19",
+    "state": "closed",
+    "title": "Chained Spack Environments",
+    "number": 642,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 143541866,
+    "html_url": "https://github.com/spack/spack/issues/642",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "A `depends_on()` with no variants specified is concretized as requiring a version built with _exactly default variants_ because of the `concretize_variants` behavior.  I would contend that this is unnecessary, and actually unfortunate.  This is the root cause of #267 for example, and requires rebuilds to get a _less_ complete version when variants are used to enable extra features.  For example, testing the new llvm rework by adding a dependent rust compiler package, depending on `llvm` required a rebuild of llvm because the installed version had `+gold` when the default was `-gold`.\n\nWhy are variants this draconian, rather than accepting any package that matches all _specified_ variants?\n",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/303",
+    "updated_at": "2021-01-18 14:39:47",
+    "created_at": "2016-01-05 18:38:49",
+    "closed_at": "2020-11-17 18:04:15",
+    "state": "closed",
+    "title": "variant resolution is overly strict",
+    "number": 303,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 125025256,
+    "html_url": "https://github.com/spack/spack/issues/303",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "(UPDATE: Was #16654 but renamed to fix typo in the branch name.)\r\n\r\nThis PR addresses an issue raised in `slack` where a package that is already installed but has uninstalled dependencies was having its dependencies re-installed even when those dependencies were not needed to use the package.\r\n\r\nTodd recommended using pre- (versus post-) order traversals to prune installed dependencies when initializing the build queue so that has been included.\r\n\r\nThere is a third commit to replace `try-finally` blocks with attribute assignments that attempt to do the equivalent of `monkeypatch` but does not always work as expected.  For example, at one point tests using `canfail` with initial installs with `succeed` set to `False` then run after setting `succeed` to `True` would fail with complaints that `succeed` was [still] `False`.  Using the testing framework's `monkeypatch` seemed to solve this problem.",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/16724",
+    "updated_at": "2020-11-17 10:41:08",
+    "created_at": "2020-05-19 18:36:08",
+    "closed_at": "2020-11-17 10:41:08",
+    "state": "closed",
+    "title": "Skip rebuilding installed packages",
+    "number": 16724,
+    "milestone": null,
+    "labels": [
+        "build"
+    ],
+    "id": 621198229,
+    "html_url": "https://github.com/spack/spack/pull/16724",
+    "assignees": [
+        "scheibelp",
+        "tldahlgren"
+    ],
+    "comments": 7
+}

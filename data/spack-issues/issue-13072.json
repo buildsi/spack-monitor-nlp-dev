@@ -1,0 +1,24 @@
+{
+    "body": "Scenario:\r\n\r\n- Frontend node arch is `linux-centos7-zen`. \r\n- Some compute nodes are on `linux-centos7-x86_64`\r\n\r\nWhen building formula `r` on the frontend using `target=x86_64` (to get it running on the computes) everything builds. However, when trying to build the same formula directly on the computes (which the spack dir shared via NFS to the nodes) I get\r\n\r\n```sh\r\n     51    checking for gcc... /opt/spack/lib/spack/env/gcc/gcc\r\n     52    checking whether the C compiler works... no\r\n  >> 53    configure: error: in `/tmp/patrick/r-3.6.1-wjtv4kc2vxt4vtdwxjgab4er6wfnfsbv/spack-src':\r\n  >> 54    configure: error: C compiler cannot create executables\r\n     55    See `config.log' for more details\r\n```\r\n\r\n- [build log](https://transfer.sh/O0q25/spack-build-out.txt)\r\n- I'm on c8c795e7dbde22dc47c9ae285a4dd59004b115b1 \r\n- On the \"frontend\" I do `spack install r target=x86_64`\r\n- On the node I do `spack install r` (defaults to arch=x86_64)\r\n\r\n#### Why do I want to build the formula on the computes directly?\r\nCurrently when loading the x86_64 env module (which was built on the frontend) and executing the binary on the computes, I receive segfaults on the computes. I wanted to see if building the formula directly on the computes might solves this due to \"better\" support for the arch and cpu of the computes.\r\n\r\n\r\n",
+    "user": "pat-s",
+    "url": "https://api.github.com/repos/spack/spack/issues/13072",
+    "updated_at": "2019-12-02 15:34:42",
+    "created_at": "2019-10-08 15:06:00",
+    "closed_at": "2019-12-02 15:33:30",
+    "state": "closed",
+    "title": "Error building r with target=x86_64",
+    "number": 13072,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible",
+        "platform-support",
+        "microarchitectures"
+    ],
+    "id": 504102788,
+    "html_url": "https://github.com/spack/spack/issues/13072",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 9
+}

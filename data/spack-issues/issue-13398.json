@@ -1,0 +1,22 @@
+{
+    "body": "Spack is failing to build gcc on ARM systems using our side-installed gcc compilers:\r\n\r\n[lee218@ulna2:spack-gcc-arm]$ ./bin/spack install --keep-stage gcc@9.2.0%gcc@7.3 \r\n\r\n...\r\n\r\n  >> 10226    /tmp/lee218/spack-stage/spack-stage-gcc-9.2.0-fm7js2yexc7zo54qv54\r\n              jjanbxft5jorq/spack-src/spack-build/./gcc/cc1: error while loadin\r\n              g shared libraries: libisl.so.19: cannot open shared object file:\r\n               No such file or directory\r\n\r\nOn our ARM systems, the side-installed gcc compiler (i.e., /opt/rh/devtoolset-7/root/bin/gcc ) hardcodes LD as /opt/rh/devtoolset-7/root/usr/libexec/gcc/aarch64-redhat-linux/7/ld. This is found by configure when running gcc -print-prog-name=ld:\r\n \r\n[lee218@ulna2:spack-src]$ /opt/rh/devtoolset-7/root/bin/gcc -print-prog-name=ld\r\n/opt/rh/devtoolset-7/root/usr/libexec/gcc/aarch64-redhat-linux/7/ld\r\n \r\nEffectively, this finds anything in the in th/opt/rh/devtoolset-7/root/usr/libexec/gcc/aarch64-redhat-linux/7 directory and will print the full path, otherwise, it will just echo the \u201c-print-prog-name\u201d value:\r\n \r\n[lee218@ulna2:spack-src]$ /opt/rh/devtoolset-7/root/bin/gcc -print-prog-name=blahblahblah\r\nblahblahblah\r\n \r\nWith most of our other gcc builds (on x86 systems, /usr/bin/gcc on x86 and arm, spack-built gcc, etc.), the search directory does not contain ld and thus the command just prints \u201cld\u201d and effectively uses Spack\u2019s wrapper and gets the necessary rpaths for libisl.so.\r\n\r\nThis method of finding ld is in gcc's configure script, so one solution may be to add a patch that modifies the configure script to avoid using the full-path ld and just use ld instead. I'm not sure if there are any unintended consequences. It's also not clear to me at this point whether other configure scripts do similar things and thus merits a more general solution.\r\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/13398",
+    "updated_at": "2020-06-27 23:51:12",
+    "created_at": "2019-10-23 13:58:22",
+    "closed_at": "2020-06-27 23:51:12",
+    "state": "closed",
+    "title": "gcc: build issue on aarch64",
+    "number": 13398,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "impact-medium"
+    ],
+    "id": 511342991,
+    "html_url": "https://github.com/spack/spack/issues/13398",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,19 @@
+{
+    "body": "(I just wanted to open an issue since this was not obvious to me and should perhaps be fixed in the spack view code.)\r\n\r\nWhen using #3227 to create a spack view that both contains python and a python package installed as a `.egg` file (i.e. present in `easy_install.pth`), a python process started via the spack view path fails to import that package.\r\nAs explained in e.g. https://docs.python.org/2.7/library/site.html, python will look inside the `site-packages` directory relative to `sys.exec_prefix` and `sys.prefix` for `.pth` files:\r\n> Importing this module will append site-specific paths to the module search path and add a few builtins.\r\n> It starts by constructing up to four directories from a head and a tail part. For the head part, it uses sys.prefix and sys.exec_prefix; empty heads are skipped. \r\n\r\nBut those do not point into the filesystem view but to the install directory of the package:\r\n\r\n```\r\nIn [3]: sys.exec_prefix\r\nOut[3]: '/path/to/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/python-2.7.13-jtpih7wfgjrzzk4reevynswu54pmif5m'\r\n\r\nIn [4]: sys.prefix\r\nOut[4]: '/path/to/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/python-2.7.13-jtpih7wfgjrzzk4reevynswu54pmif5m'\r\n```\r\nConsequently python will not see the `easy_install.pth` created by `spack view`. I was able to work around this by using `export PYTHONUSERBASE=/path/to/spack/spackview/`.\r\n\r\nBut perhaps `spack view` should create a `sitecustomize.py` inside the `site-packages` of the view directory to adjust the site prefix path such that `sys.prefix` points to the filesystem view:\r\n> After these path manipulations, an attempt is made to import a module named `sitecustomize`, which can perform arbitrary site-specific customizations.\r\n> `site.addsitedir(sitedir, known_paths=None)`\r\n>    Add a directory to sys.path and process its .pth files. Typically used in sitecustomize or usercustomize (see above).\r\n\r\nFrom looking at #5415 this issue still is present in the merged version. Maybe @mathstuf or @obreitwi can share their thoughts.",
+    "user": "kljohann",
+    "url": "https://api.github.com/repos/spack/spack/issues/6131",
+    "updated_at": "2018-11-02 19:44:27",
+    "created_at": "2017-11-03 13:03:00",
+    "closed_at": "2018-11-02 19:44:26",
+    "state": "closed",
+    "title": "spack view needs to install sitecustomize.py for easy_install.pth to be found",
+    "number": 6131,
+    "milestone": null,
+    "labels": [],
+    "id": 270970805,
+    "html_url": "https://github.com/spack/spack/issues/6131",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

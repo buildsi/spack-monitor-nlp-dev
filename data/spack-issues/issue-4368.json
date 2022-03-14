@@ -1,0 +1,19 @@
+{
+    "body": "OK this compiles but does not install properly.\r\n\r\nThe `make install` phase simply moves the compiled binaries to `../bin `directory under the staging directory.  I cannot discern from the developer's [docs](https://github.com/alexdobin/STAR/blob/master/README.md) how I can pass Spack prefix to `make install`.\r\n\r\nTo get around that I added:\r\n\r\n```\r\nshutil.move(\"../bin/STAR\", prefix)\r\nshutil.move(\"../bin/STARlong\",  prefix)\r\n\r\n```\r\n\r\nWhich puts the binaries into the prefix\r\n\r\n```\r\nuser@node103[~/repos/spack]$ spack find -p star\r\n==> 1 installed packages.\r\n-- linux-rhel6-x86_64 / gcc@6.3.0 -------------------------------\r\n    star@2.5.3a  /pbtech_mounts/homes027/user/repos/spack/opt/spack/linux-rhel6-x86_64/gcc-6.3.0/star-2.5.3a-pptd3lygyhgy3p5qgmzkmkgw4taq7mkq\r\nuser@node103[~/repos/spack]$ ls -ltr /pbtech_mounts/homes027/user/repos/spack/opt/spack/linux-rhel6-x86_64/gcc-6.3.0/star-2.5.3a-pptd3lygyhgy3p5qgmzkmkgw4taq7mkq\r\ntotal 3.7M\r\n-rwxr-xr-x 1 user physbio 1.9M May 26 15:00 STARlong\r\n-rwxr-xr-x 1 user physbio 1.9M May 26 15:00 STAR\r\n```\r\nThough `spack load` does not add that to `$PATH`.  I read the docs on `Package()` class though I must have missed a step.  Can you point me in the right direction as I am hoping it's some trivial thing.\r\n",
+    "user": "ifelsefi",
+    "url": "https://api.github.com/repos/spack/spack/issues/4368",
+    "updated_at": "2017-05-27 20:02:39",
+    "created_at": "2017-05-26 19:08:32",
+    "closed_at": "2017-05-27 20:02:39",
+    "state": "closed",
+    "title": "added STAR aligner package",
+    "number": 4368,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 231711298,
+    "html_url": "https://github.com/spack/spack/pull/4368",
+    "assignees": [],
+    "comments": 10
+}

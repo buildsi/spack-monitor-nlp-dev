@@ -1,0 +1,20 @@
+{
+    "body": "Enable explicitly building glib with or without libiconv.\r\n\r\nWe're seeing something like what was described in #6962.  In our case it seems to be caused by glib depending on libxm2, which in turn has a dependency on libiconv.  This puts the libiconv bits in the build environment and glib trips over them.\r\n\r\nHeads up: if you build with `~iconv` but there is something else in the spec that includes libiconv then glib will *still* automagically discover it and the build will fail.\r\n\r\nI don't currently have the cycles to dig into glib's configure script and figure out why it's still tripping over the libiconv header when it's explicitly been configured with `--with-libiconv=no`.\r\n\r\nIn order for our build to succeed, we need to build `glib+iconv`.  I've made the default `~iconv`.  I could make it `+iconv` if that seems preferable.\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/10165",
+    "updated_at": "2018-12-29 17:25:56",
+    "created_at": "2018-12-20 17:22:38",
+    "closed_at": "2018-12-21 17:33:29",
+    "state": "closed",
+    "title": "Add libiconv variant to glib",
+    "number": 10165,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "variants"
+    ],
+    "id": 393140332,
+    "html_url": "https://github.com/spack/spack/pull/10165",
+    "assignees": [],
+    "comments": 10
+}

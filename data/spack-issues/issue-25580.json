@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\n\npy-pybind11 builds fine, but is unusable because spack doesn't correctly make PYTHONPATH point to it when using a system-provided python installation. I don't know if it's a problem with spack or with the pybind11 package itself.\r\n\r\nTo reproduce, first make sure you have a system-installed python, listed in your packages.yaml file, then do the following:\r\n\r\n```console\r\n$ spack install py-pybind11\r\n$ spack load -r py-pybind11\r\n$ python3 -c \"import pybind11\"\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\nModuleNotFoundError: No module named 'pybind11'\r\n```\r\n\r\nUpon examining `PYTHONPATH`, I see this:\r\n```\r\n/projects/spack/opt/spack/linux-ubuntu21.04-sandybridge/gcc-10.3.0/py-pybind11-2.5.0-tolbywo4itr2xvmg6ttre3ltuu6ucmcl/lib/python3/dist-packages\r\n```\r\n\r\nHowever this `lib/python3/dist-packages` folder is empty. If I want to be able to import pybind11, I need to add the `lib/python3.9/site-packages` folder to `PYTHONPATH`. The problem makes all the packages that depend on py-pybind11 fail to build.\r\n\r\nAll the above was done done with a system-provided python 3.9 (installed in /usr and listed in my packages.yaml file). However if I do the following:\r\n\r\n```console\r\n$ spack install py-pybind11 ^python@3.8.2    # force installing a python package other than the one provided by the system\r\n$ spack load -r  py-pybind11 ^python@3.8.2\r\n```\r\nthe correct `site-packages` folder is added to PYTHONPATH and I can successfully import the module.\r\n\r\n@ax3l\n\n### Information on your system\n\n* **Spack:** 0.16.2-4011-5823a9b302\r\n* **Python:** 3.9.5\r\n* **Platform:** linux-ubuntu21.04-sandybridge\r\n* **Concretizer:** original\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/25580",
+    "updated_at": "2021-09-15 18:57:34",
+    "created_at": "2021-08-24 10:26:53",
+    "closed_at": "2021-09-15 18:57:34",
+    "state": "closed",
+    "title": "py-pybind11 not usable with system-provided python due to PYTHONPATH problem",
+    "number": 25580,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "python"
+    ],
+    "id": 977948464,
+    "html_url": "https://github.com/spack/spack/issues/25580",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 3
+}

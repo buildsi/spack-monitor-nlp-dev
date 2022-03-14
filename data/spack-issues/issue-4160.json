@@ -1,0 +1,19 @@
+{
+    "body": "I've been trying to patch this myself but I can't figure out what's going on, and honestly don't know how to debug `spack` very well (I literally raise exceptions and print out `__dict__` half the time, is there a way for me to open up `pdb` or something somehow?)\r\n\r\nThe issue: `suite-sparse+tbb`:\r\n\r\n```\r\n../Source/spqr_parallel.cpp:10:37: fatal error: tbb/task_scheduler_init.h: No such file or directory\r\n```\r\n\r\nThe file definitely exists, but I can't quite figure out how to include it for this package.\r\n\r\n```\r\n 98         if 'tbb' in spec:\r\n 99             make_args.extend([\r\n100                 'SPQR_CONFIG=-DHAVE_TBB',\r\n101                 'TBB=-L%s -ltbb' % spec['tbb'].prefix.lib,\r\n102             ])```\r\n```\r\n\r\nI tried to add just a straight `'-I%s' % spec['tbb'].prefix.include` as well as instead setting `'TBB_PATH=%s' % spec['tbb'].prefix`, but it's clearly not the right way to do this.\r\n\r\nUnrelated, I'm noticing a bunch of cuda stuff.  I was gonna tinker with this a bit since I'm here, but should that go in a different PR (assuming I can fix the include thing)?",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/4160",
+    "updated_at": "2017-05-12 07:50:36",
+    "created_at": "2017-05-08 19:58:03",
+    "closed_at": "2017-05-11 23:07:28",
+    "state": "closed",
+    "title": "suite-sparse+tbb cannot find include ",
+    "number": 4160,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 227156377,
+    "html_url": "https://github.com/spack/spack/issues/4160",
+    "assignees": [],
+    "comments": 4
+}

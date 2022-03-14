@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install skilion-onedrive %gcc@4.8.5\r\n...\r\n1 error found in build log:\r\n     4     ==> [2019-12-17-13:13:31.845228] FILTER FILE: src/sqlite.d [replacing \"std.c.stdlib\"]\r\n     5     ==> Executing phase: 'build'\r\n     6     ==> [2019-12-17-13:13:31.846711] 'make' '-j6' 'onedrive' 'DESTDIR=/lustre/home/acct-hpc/hpc-jianwen/opt/cascadelake/linux-ce\r\n           ntos7-haswell/gcc-4.8.5/skilion-onedrive-1.1.1-ohthifmfl67taullatpi2dixgilfs4bs' 'PREFIX=/'\r\n     7     echo 1.1.1 >version\r\n     8     dmd -g -ofonedrive -O -L-lcurl -L-lsqlite3 -L-ldl -J. src/config.d src/itemdb.d src/log.d src/main.d src/monitor.d src/onedr\r\n           ive.d src/qxor.d src/selective.d src/sqlite.d src/sync.d src/upload.d src/util.d\r\n     9     make: dmd: Command not found\r\n  >> 10    make: *** [onedrive] Error 127\r\n...\r\n$ tail /tmp/hpc-jianwen/spack-stage-skilion-onedrive-1.1.1-ohthifmfl67taullatpi2dixgilfs4bs/spack-build-out.txt\r\nmake: dmd: Command not found\r\nmake: *** [onedrive] Error 127\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux 3.10.0-862.el7.x86_64 #1 SMP Fri Apr 20 16:44:24 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.5.1804 (Core)\r\n``` \r\n\r\n`dmd` (the reference compiler for D programming language) has been installed as dependency, located in `~/opt/cascadelake/linux-centos7-haswell/gcc-4.8.5/dmd-2.081.1-2gzzuz4ut26pj4l7om4k7lejm2r5ty6s/linux/bin64/dmd`. Location `linux/bin64` has been added to PATH in `dmd` package via:\r\n\r\n```\r\nrun_env.prepend_path('PATH', self.prefix.linux.bin64)\r\n```\r\n\r\nIt seems that Spack isn't aware of this when loading dmd as a dependency when building \r\nskilion-onedrive.\r\n",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/14191",
+    "updated_at": "2019-12-23 22:35:22",
+    "created_at": "2019-12-17 05:20:22",
+    "closed_at": "2019-12-19 18:47:05",
+    "state": "closed",
+    "title": "Installation issue: skilion-onedrive due to dmd not in $PATH",
+    "number": 14191,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 538839115,
+    "html_url": "https://github.com/spack/spack/issues/14191",
+    "assignees": [],
+    "comments": 4
+}

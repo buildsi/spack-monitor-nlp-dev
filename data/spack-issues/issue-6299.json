@@ -1,0 +1,17 @@
+{
+    "body": "There are a couple places in lib/spack/spack/directives.py that\r\n(incorrectly) try to concatenate string literals across multiple\r\nlines, but the first line is not escaped or inside a scope.  As a\r\nresult, python treats the statement as a single line, and half of the\r\nerror message goes missing.\r\n\r\nFor example, in directives.py:\r\n\r\n523     # Check if the path is relative\r\n524     if os.path.isabs(destination):\r\n525         message = 'The destination keyword of a resource directive '\r\n526         'can\\'t be an absolute path.\\n'\r\n527         message += \"\\tdestination : '{dest}\\n'\".format(dest=destination)\r\n528         raise RuntimeError(message)\r\n\r\n536     if test_path not in normalized_destination:\r\n537         message = \"The destination folder of a resource must fall \"\r\n538         \"within the main package stage directory.\\n\"\r\n539         message += \"\\tdestination : '{dest}'\\n\".format(dest=destination)\r\n540         raise RuntimeError(message)\r\n\r\nA simple way to trigger the problem is to set destination=\"/tmp\" (an\r\nillegal value) in package.py for package lua and then try to install it.\r\n\r\n$ ./spack install lua  \r\n==> Error: The destination keyword of a resource directive  destination : '/tmp\r\n'\r\n\r\nA simple fix is to put the two string literals inside a scope (or else\r\nescape the first line).\r\n\r\n  message = ('The destination keyword of a resource directive '\r\n      'can\\'t be an absolute path.\\n')\r\n\r\nBtw, the close quote for '{dest}' is misplaced in line 527, it should\r\ncome before \\n, as in line 539.\r\n\r\n--Mark\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/6299",
+    "updated_at": "2017-11-15 18:34:18",
+    "created_at": "2017-11-14 05:04:10",
+    "closed_at": "2017-11-15 18:34:00",
+    "state": "closed",
+    "title": "incorrect use of multi-line statement in directives.py",
+    "number": 6299,
+    "milestone": null,
+    "labels": [],
+    "id": 273668865,
+    "html_url": "https://github.com/spack/spack/issues/6299",
+    "assignees": [],
+    "comments": 1
+}

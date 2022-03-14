@@ -1,0 +1,21 @@
+{
+    "body": "See #27369 for primary motivation, though this is a general problem with the ncurses install.  The non-wide headers are not being installed anywhere.  Normally they would be available as `include/ncurses.h` or `include/ncurses/ncurses.h` but both of this are wide (ncursesw) headers.  As such, they do not match the installed `libncurses.so` library so building a non-wide ncurses application results in broken applications (especially when dealing with colors and background colors, where relevant datatypes have changed).\r\n\r\nThis installs the non-wide headers into `include/ncurses`, and the wide headers into `include/ncursesw`.  This leaves the problem of what to put in `include`.  Some distributions put nothing, so you're forced to choose, which seems like the safest option, except that as a result many things will fall back to the system `/usr/include/ncurses.h`, which is bad.  Most distributions put non-wide headers in `include` and wide in `include/ncursesw`, so I've chosen to link the non-wide ncurses headers into top-level include to be more broadly consistent with standards.  Some distributions put wide headers in include as well, and there's an argument for leaving it this way to minimize the change (so non-wide are only in include/ncurses).  I'm open to this as well if people prefer.\r\n\r\nAs a broader comment, I think it might make more sense and simplify things to separate ncurses and ncursesw with a variant so dependents could choose more clearly which they wanted, but this may make concretization problematic in spack where both get pulled in.\r\n\r\nI have tested this with python and a few other ncurses apps but by no means everything.",
+    "user": "dylex",
+    "url": "https://api.github.com/repos/spack/spack/issues/27372",
+    "updated_at": "2021-12-08 07:04:50",
+    "created_at": "2021-11-11 21:26:06",
+    "closed_at": "2021-12-08 07:04:50",
+    "state": "closed",
+    "title": "ncurses: install correct separate ncurses/ncursesw headers",
+    "number": 27372,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1051374068,
+    "html_url": "https://github.com/spack/spack/pull/27372",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

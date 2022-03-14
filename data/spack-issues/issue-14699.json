@@ -1,0 +1,20 @@
+{
+    "body": "This is a proposal to change or add to the `--until` option of `spack dev-build`.\r\n\r\nOften, I want to run my own CMake/configure/manually-build-step and taking CMake packages as an example, there is often no phase before the first `cmake` phase to stop *after* (this is what `--until` does).\r\n\r\n`--until` currently stops *after* a phase, which makes `-u install` (or whatever is the last phase of a package) useless as this is the same as no option. I would generally propose to change the meaning of `-u|--until` to stop at start of that specified phase, but in case we want to avoid breakage we can also add something like `-b|--before`.\r\n\r\nNote: somehow the build environment is not set up when testing this, e.g. no `LD_LIBRARY_PATH` and `CMAKE_PREFIX_PATH` is set on `spack dev-build --before cmake <package-name>` ... this is a preparation for #14887",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/14699",
+    "updated_at": "2020-04-28 18:09:21",
+    "created_at": "2020-01-30 23:32:59",
+    "closed_at": "2020-04-28 16:55:58",
+    "state": "closed",
+    "title": "dev-build: stop before phase",
+    "number": 14699,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "dev"
+    ],
+    "id": 557820620,
+    "html_url": "https://github.com/spack/spack/pull/14699",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,21 @@
+{
+    "body": "- Fix narrowing error\r\n```\r\n  >> 84     /tmp/pytest-of-ogura/pytest-77/mock-stage0/spack-stage-macsio-1.1-b\r\n            oj45ykokozxfqahtdfktmn2yvpbmovq/spack-src/plugins/macsio_silo.c:709\r\n            :9: error: non-constant-expression cannot be narrowed from type 'in\r\n            t' to 'unsigned int' in initializer list [-Wc++11-narrowing]\r\n     85             JsonGetInt(main_obj, \"clargs/exercise_scr\")&0x1};\r\n     86             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n```\r\n\r\nI did typecast for `JsonGetInt` to 'unsigned int'.\r\nI did the same fix as the reference.\r\n\u30fbRef: https://github.com/LLNL/MACSio/commit/51b8c40cd9813adec5dd4dd6cee948bb9ddb7ee1#diff-211e5531b37ad0c24fea756d482d80f9\r\n\r\nI submitted this pull request to upstream.\r\n\u30fbupstream: https://github.com/LLNL/MACSio/pull/20",
+    "user": "noguchi-k",
+    "url": "https://api.github.com/repos/spack/spack/issues/14736",
+    "updated_at": "2020-02-19 01:10:18",
+    "created_at": "2020-02-04 06:23:28",
+    "closed_at": "2020-02-13 02:13:27",
+    "state": "closed",
+    "title": "macsio: cast JsonGetInt from int to unsigned int",
+    "number": 14736,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 559512834,
+    "html_url": "https://github.com/spack/spack/pull/14736",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

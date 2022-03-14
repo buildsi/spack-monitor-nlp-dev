@@ -1,0 +1,22 @@
+{
+    "body": "In past behavior the modules generated for software compiled using clang would correctly denote this such as `linux-centos7-x86_64/clang` when the core compiler would be specified as some version of GCC. With the most recent version of Spack (tested against a commit form last night) I'm seeing naming conflicts between the modules being generated.\r\n\r\n### Error Message\r\n\r\nI'm seeing two errors. The first has to do with the creation of the `llvm` module:\r\n\r\n```console\r\n$ cat /ecp/sw/dev/ecp-x86_64/modulefiles/nmc/lmod/linux-centos7-x86_64/Core/llvm/7.0.1.lua\r\n-- -*- lua -*-\r\n-- Module file created by spack (https://github.com/spack/spack) on 2019-12-19 09:50:45.730494\r\n...\r\n-- Services provided by the package\r\nfamily(\"compiler\")\r\n\r\n-- Loading this module unlocks the path below unconditionally\r\nprepend_path(\"MODULEPATH\", \"/ecp/sw/dev/ecp-x86_64/modulefiles/nmc/lmod/linux-centos7-x86_64/Core\")\r\n...\r\n```\r\n\r\nIn this above example even the module is generated correctly it is trying to prepend the Core module path, which creates a loop and causes Lmod to crash when attempting an `ml avail`. After manually addressing the above issue I'm able to move onto building software using Clang successfully. However, if I attempt to generate the associated modulefiles:\r\n\r\n```console\r\n$ spack module lmod refresh\r\n-- linux-centos7-haswell / clang@7.0.1 --------------------------\r\n...\r\n-- linux-centos7-haswell / gcc@4.8.5 ----------------------------\r\n...\r\n-- linux-centos7-haswell / gcc@8.3.0 ----------------------------\r\n...\r\n==> Do you want to proceed? [y/n] y\r\n==> Error: Name clashes detected in module files:\r\n\r\nfile: /ecp/sw/dev/ecp-x86_64/modulefiles/nmc/lmod/linux-centos7-x86_64/Core/python/2.7.16.lua\r\nspec: python@2.7.16%clang@7.0.1+bz2+ctypes+dbm+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4~uuid+zlib arch=linux-centos7-haswell\r\nspec: python@2.7.16%gcc@4.8.5+bz2+ctypes+dbm+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4~uuid+zlib arch=linux-centos7-haswell\r\n\r\nfile: /ecp/sw/dev/ecp-x86_64/modulefiles/nmc/lmod/linux-centos7-x86_64/Core/libevent/2.1.8.lua\r\nspec: libevent@2.1.8%clang@7.0.1+openssl arch=linux-centos7-haswell\r\nspec: libevent@2.1.8%gcc@4.8.5+openssl arch=linux-centos7-haswell\r\n...\r\n```\r\n\r\nIf we examine my `modules.yaml` I have only specified one core compiler:\r\n\r\n```yaml\r\nmodules:\r\n  enable:\r\n  - lmod\r\n\r\n  lmod:\r\n    hierarchy:\r\n      - mpi\r\n      - lapack\r\n    hash_length: 0\r\n    core_compilers: ['gcc@4.8.5']\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ uname -a\r\nLinux xx-fe1.cluster 3.10.0-957.12.2.el7.x86_64 #1 SMP Tue May 14 21:24:32 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ cat /etc/os-release\r\nNAME=\"CentOS Linux\"\r\nVERSION=\"7 (Core)\"\r\nID=\"centos\"\r\nID_LIKE=\"rhel fedora\"\r\nVERSION_ID=\"7\"\r\nPRETTY_NAME=\"CentOS Linux 7 (Core)\"\r\n```\r\n\r\nEnvironment and lock files for both the compiler deployment as we as software deployed using Clang.\r\n\r\n* https://github.com/paulbry/nmc-swd/tree/initial-dev/prod/ecp-x86_64/0-base\r\n* https://github.com/paulbry/nmc-swd/tree/initial-dev/prod/ecp-x86_64/1-core\r\n",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/14253",
+    "updated_at": "2020-01-22 16:56:30",
+    "created_at": "2019-12-20 19:18:42",
+    "closed_at": "2020-01-22 16:56:29",
+    "state": "closed",
+    "title": "Lmod modules generated for Clang compiled software not different from Core (GCC) built software",
+    "number": 14253,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 541156893,
+    "html_url": "https://github.com/spack/spack/issues/14253",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

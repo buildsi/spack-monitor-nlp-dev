@@ -1,0 +1,17 @@
+{
+    "body": "Fixes #6841 \r\nFixes #1436\r\n\r\n[edit, wordsmithing]\r\n\r\nSpack needs to pass information about where the linker can find `libintl`.  We're currently using `LDFLAGS` to do so.  The `LDFLAGS` info is pasted into the command line upstream of the a file (`libgit.a`) that includes unresolved symbols that need that library.  This approach fails on Ubuntu, although it seems to work on CentOS (see #6841 for additional background).\r\n\r\nThis change allows git to build on a Ubuntu 16.04.3 droplet.\r\n\r\nTODO:\r\n\r\n- [x] test on other platforms...\r\n  - [x] Ubuntu 16.04.03 using system gcc 5.4.1.\r\n  - [x] Ubuntu 14.04 using gcc 5.4.0\r\n  - [x] CentOS 7 using system gcc 4.8.5.\r\n  - [x] CentOS 7 using Spack gcc 5.4.0.\r\n  - [x] CentOS 6 using Spack intel 17.0.2.\r\n  - [x] Debian 9.3 using gcc 6.3.0.\r\n  - [x] macOS 10.13.2 using system clang 9.0.0.\r\n- [x] add commentary to package.py",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/6859",
+    "updated_at": "2018-01-09 17:28:28",
+    "created_at": "2018-01-08 23:51:59",
+    "closed_at": "2018-01-09 15:40:10",
+    "state": "closed",
+    "title": "[WIP] Fix git gettext/libintl handling (builds on ubuntu)",
+    "number": 6859,
+    "milestone": null,
+    "labels": [],
+    "id": 286926684,
+    "html_url": "https://github.com/spack/spack/pull/6859",
+    "assignees": [],
+    "comments": 6
+}

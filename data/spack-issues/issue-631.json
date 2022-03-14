@@ -1,0 +1,22 @@
+{
+    "body": "IMO this could be merged before rpm support is ready (although is still a WIP). Right now it does the following:\n1. (conditionally) Redirect makefile, python distutils, and boost installation methods\n2. (conditionally) Redirect Spack commands that create files/directories \n3. Creates a separate .pth file for each python extension\n4. (optionally) automatically activates python extensions as part of the install process (so an rpm for a python extension would include symlinks within site-packages of the base python installation)\n\nIn short: a combination of DESTDIR support and splitting the unified python extension installation state (i.e. the single .pth file) into per-package state.\n\nNotes on [2]:\n- These alternative redirected commands are implicit within Package.install and otherwise must be called explicitly (e.g. call \u201cmkdirp_redirect\u201d for other functions in Package)\n- The redirected commands make assumptions about the desired source and/or destination\n  - e.g. \u201cinstall\u201d assumes that one is always intending to take a file outside the package installation directory and install it within the package installation directory\n  - build_environment adds a redirected working_dir which assumes by default that the user is not intending to work in package.prefix, but will attempt to redirect if the destination directory does not exist.\n  - I haven\u2019t redirected \u201cmove\u201d yet but I assume it should make the same assumptions as working_dir (i.e. users may want to move files around within the staging dir, within package.prefix, or between the two)\n\nRegarding [3] it may be the case that using the distutils DESTDIR equivalent eliminates .pth files (i.e. it does the installation so that .pth files are not required) so this may not be necessary.\n\nRegarding [4]: the activating linkage is also redirected.\n\nThere are still a few TODOs, including:\n- [x] redirection of all commands provided by build_environment to Package.install\n- [x] Python extensions creating _markerlib and pkg_resources directories. That likely needs to be omitted from linking.\n- [x] CustomDirectoryLayout in the install command does not do anything essential for this PR and should be removed \n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/631",
+    "updated_at": "2019-04-23 09:25:13",
+    "created_at": "2016-03-25 03:09:15",
+    "closed_at": "2019-04-23 09:25:13",
+    "state": "closed",
+    "title": "DESTDIR support",
+    "number": 631,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "ready"
+    ],
+    "id": 143413723,
+    "html_url": "https://github.com/spack/spack/pull/631",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 7
+}

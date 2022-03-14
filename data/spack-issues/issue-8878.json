@@ -1,0 +1,19 @@
+{
+    "body": "Not sure how many people use Lmod's `pushenv()` routine, but we use it in the Lmod hierarchy as a core feature. For example, when a user loads a gcc module, the env var `CC` is set to the spack installed `gcc`. Then a user loads an MPI environment, `CC` is not set for `mpicc` by default. However, we prefer it to do so. So originally, in our modules.yaml file, we'd issue set `CC` to the `mpicc`. But when the user unloaded the MPI module, `CC` was then empty unset because it doesn't know about the previous value for `CC`. With `pushenv()` in as an addtional option `setenv` as an option for Lmod, when the user unloads the MPI environment, `CC` will then be reset to spack installed gcc. \r\n\r\nAn example segment in our modules.yaml file would be:\r\n```\r\n    intel:\r\n      environment:\r\n        push:\r\n          CC: icc\r\n          CXX: icpc\r\n          FC: ifort\r\n          F77: ifort\r\n          F90: ifort\r\n    intel-mpi:\r\n      environment:\r\n        push:\r\n          I_MPI_CC: icc\r\n          I_MPI_CXX: icpc\r\n          I_MPI_FC: ifort\r\n          I_MPI_F77: ifort\r\n          I_MPI_F90: ifort\r\n          CC: mpiicc\r\n          CXX: mpiicpc\r\n          FC: mpiifort\r\n          F77: mpiifort\r\n          F90: mpiifort\r\n```\r\n\r\nand should result in a module file with following entries (intel and intel-mpi respectfully):\r\n\r\n```\r\npushenv(\"CC\",\"icc\")\r\npushenv(\"CXX\",\"icpc\")\r\npushenv(\"FC\",\"ifort\")\r\npushenv(\"F77\",\"ifort\")\r\npushenv(\"F90\",\"ifort\")\r\n```\r\n\r\n```\r\npushenv(\"I_MPI_CC\",\"icc\")\r\npushenv(\"I_MPI_CXX\",\"icpc\")\r\npushenv(\"I_MPI_FC\",\"ifort\")\r\npushenv(\"I_MPI_F77\",\"ifort\")\r\npushenv(\"I_MPI_F90\",\"ifort\")\r\npushenv(\"CC\",\"mpiicc\")\r\npushenv(\"CXX\",\"mpiicpc\")\r\npushenv(\"FC\",\"mpiifort\")\r\npushenv(\"F77\",\"mpiifort\")\r\npushenv(\"F90\",\"mpiifort\")\r\n```\r\n\r\nExample of the flow as implemented:\r\n\r\n```\r\n$ echo $CC\r\n\r\n$ module load intel\r\n$ echo $CC\r\nicc\r\n$ module load intel-mpi\r\n$ echo $CC\r\nmpiicc\r\n$ module unload intel-mpi\r\n$ echo $CC\r\nicc\r\n$\r\n```\r\n\r\nWithout the use of `pushenv()` and over `setenv()` as an option, the environment maintains the original value of `CC`. I think I caught all the pieces for this capability.",
+    "user": "jbaksta",
+    "url": "https://api.github.com/repos/spack/spack/issues/8878",
+    "updated_at": "2019-11-18 11:40:12",
+    "created_at": "2018-08-02 21:32:34",
+    "closed_at": "2019-11-18 11:40:12",
+    "state": "closed",
+    "title": "Lmod pushenv",
+    "number": 8878,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 347182344,
+    "html_url": "https://github.com/spack/spack/pull/8878",
+    "assignees": [],
+    "comments": 8
+}

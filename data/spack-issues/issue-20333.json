@@ -1,0 +1,19 @@
+{
+    "body": "This fixes a logging error, observed on macOS 11.0.1 (Big Sur). Running Spack in debugging mode, for instance `spack -dd install py-scipy`, results in log files from the compiler wrappers not getting written, instead printing errors such as \u201cNo such file or directory: None/<log file name>.\u201d This is because the log file directory gets set from `spack.main.spack_working_dir`, but that variable is not set in the spawned process. This PR passes the working directory into the subprocess through `kwargs`, and then assigns `spack.main.spack_working_dir` to it, so that the logging directory is set correctly.",
+    "user": "benc303",
+    "url": "https://api.github.com/repos/spack/spack/issues/20333",
+    "updated_at": "2020-12-13 23:54:08",
+    "created_at": "2020-12-11 04:19:29",
+    "closed_at": "2020-12-11 23:54:12",
+    "state": "closed",
+    "title": "Fix logging error",
+    "number": 20333,
+    "milestone": null,
+    "labels": [],
+    "id": 761878278,
+    "html_url": "https://github.com/spack/spack/pull/20333",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

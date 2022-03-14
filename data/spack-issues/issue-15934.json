@@ -1,0 +1,24 @@
+{
+    "body": "Spack Environment: if one adds a couple of packages, one of them `python`, and the `spack install` fails then the environment will be corrupted because spack tries to take the new (not yet installed) python\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack env create test\r\nspack env activate test\r\nspack add py-h5py\r\nspack add hdf5\r\nspack add mpi\r\nspack add python\r\n\r\nspack install # fails on h5py no being HDF5 1.12.0 compatible\r\n\r\nspack add hdf5@1.10.6\r\n# uauaauauuaa nothing works anymore\r\nspack --help\r\n# aua aua\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\nspack --help\r\nTraceback (most recent call last):\r\n  File \"/home/axel/src/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home/axel/src/spack/lib/spack/spack/main.py\", line 704, in main\r\n    ev.activate(env, args.use_env_repo)\r\n  File \"/home/axel/src/spack/lib/spack/spack/environment.py\", line 163, in activate\r\n    cmds += env.add_default_view_to_shell(shell)\r\n  File \"/home/axel/src/spack/lib/spack/spack/environment.py\", line 1107, in add_default_view_to_shell\r\n    spec, self.default_view))\r\n  File \"/home/axel/src/spack/lib/spack/spack/user_environment.py\", line 89, in environment_modifications_for_spec\r\n    spec.package.setup_run_environment(env)\r\n  File \"/home/axel/src/spack/var/spack/repos/builtin/packages/python/package.py\", line 742, in setup_run_environment\r\n  File \"/home/axel/src/spack/var/spack/repos/builtin/packages/python/package.py\", line 709, in headers\r\n  File \"/home/axel/src/spack/var/spack/repos/builtin/packages/python/package.py\", line 599, in get_config_h_filename\r\n  File \"/home/axel/src/spack/var/spack/repos/builtin/packages/python/package.py\", line 556, in command\r\nRuntimeError: Unable to locate python command in /home/axel/src/spack/var/spack/environments/test/.spack-env/view/bin\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n```\r\nusage: spack debug [-h] SUBCOMMAND ...\r\nspack debug: error: argument SUBCOMMAND: invalid choice: 'report' choose from:\r\n    create-db-tarball\r\n```\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/15934",
+    "updated_at": "2020-04-09 01:05:58",
+    "created_at": "2020-04-08 02:21:21",
+    "closed_at": "2020-04-09 01:05:51",
+    "state": "closed",
+    "title": "Environment Install: Failure Corrupts Python",
+    "number": 15934,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate",
+        "python",
+        "commands",
+        "environments",
+        "triage"
+    ],
+    "id": 596262388,
+    "html_url": "https://github.com/spack/spack/issues/15934",
+    "assignees": [],
+    "comments": 2
+}

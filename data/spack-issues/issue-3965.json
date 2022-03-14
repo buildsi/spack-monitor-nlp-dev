@@ -1,0 +1,17 @@
+{
+    "body": "**Edit**.  Thank the gods for `grep -r`.  In my rampant testing of `flann`, I uninstalled versions that had already been `activate`d.  They remained in the respective `extensions.yaml` file of my python installations.  This means that any `activate` call will break for all.\r\n\r\nThe solution would be to `deactivate` by force when `uninstall` is performed, or maybe give a warning?  Feel free to close, I don't know if this is already known but probably is.  I thought the error was something else.\r\n\r\n```console\r\nsven:/opt/spack> mv var/spack/repos/builtin/packages/flann/ ~/Desktop/\r\nsven:/opt/spack> spack activate /4ufq46n\r\n==> Error: Spec b5rjo5qif5gs44ymukihkgmy2innvwcf not found in /opt/spack/opt/spack/linux-fedora23-x86_64/gcc-5.3.1/flann-1.9.1-b5rjo5qif5gs44ymukihkgmy2innvwcf\r\nsven:/opt/spack> spack reindex\r\nsven:/opt/spack> spack find -lv py-numpy\r\n==> 2 installed packages.\r\n-- linux-fedora23-x86_64 / gcc@5.3.1 ----------------------------\r\n4ufq46n py-numpy@1.12.1+blas+lapack  fgzexrq py-numpy@1.12.1+blas+lapack\r\nsven:/opt/spack> spack info flann\r\n==> Error: Package flann not found.\r\nsven:/opt/spack> spack activate /4ufq46n\r\n==> Error: Spec b5rjo5qif5gs44ymukihkgmy2innvwcf not found in /opt/spack/opt/spack/linux-fedora23-x86_64/gcc-5.3.1/flann-1.9.1-b5rjo5qif5gs44ymukihkgmy2innvwcf\r\nsven:/opt/spack> grep 'flann' opt/spack/.spack-db/\r\nindex.json   lock         prefix_lock  \r\nsven:/opt/spack> grep 'flann' opt/spack/.spack-db/index.json \r\nsven:/opt/spack> echo \":'(\"\r\n:'(\r\n```\r\n\r\n**How does activate know about `flann`**?  That particular `py-numpy` came from a `flann` installation, but I moved the `flann` package out of the working tree. [i'm packaging flann right now, removed links since no longer relevant]",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/3965",
+    "updated_at": "2017-04-24 00:45:14",
+    "created_at": "2017-04-23 23:54:24",
+    "closed_at": "2017-04-24 00:45:14",
+    "state": "closed",
+    "title": "uninstall should remove activated packages",
+    "number": 3965,
+    "milestone": null,
+    "labels": [],
+    "id": 223677251,
+    "html_url": "https://github.com/spack/spack/issues/3965",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,24 @@
+{
+    "body": "In scripts in environment views, the shebang line (e.g. `#!/usr/bin/python3.8`) is replaced by the (hidden) view directory. However, this leaves a backup file with `~` with the original shebang line. Probably harmless.\r\n\r\n### Steps to reproduce the issue\r\n\r\nWith a `spack.yaml` in the current directory\r\n```yaml\r\nspack:\r\n  specs:\r\n  - py-setuptools\r\n  view: /opt/bug-tilde\r\n```\r\nsetup the environment as follows:\r\n```console\r\n$ spack env activate .\r\n$ spack concretize -f\r\n$ spack install\r\n```\r\n\r\n### Error Message\r\n\r\nWhen correctly installed, I don't expect to see any files with `~` suffixed. However,\r\n```console\r\n$ ls /opt/bug-tilde/bin/*~\r\n```\r\nreturns\r\n```console\r\n$ ls /opt/bug-tilde/bin/*~\r\n/opt/bug-tilde/bin/easy_install~  /opt/bug-tilde/bin/easy_install-3.8~\r\n```\r\n\r\nThe first lines of the `easy_install` and `easy_install~` files are:\r\n```console\r\n$ head -n 1 /opt/bug-tilde/bin/easy_install /opt/bug-tilde/bin/easy_install~\r\n==> /opt/bug-tilde/bin/easy_install <==\r\n#!/opt/._bug-tilde/6x4nr3otmtjkbustvme6h3nogieg7or4/bin/python3.8\r\n\r\n==> /opt/bug-tilde/bin/easy_install~ <==\r\n#!/opt/software/linux-ubuntu21.04-skylake/gcc-10.3.0/python-3.8.11-q2cz5f6dqnom6d453ob4eg3bvurbhfuc/bin/python3.8\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3642-10461c68ac\r\n* **Python:** 3.9.5\r\n* **Platform:** linux-ubuntu21.04-skylake\r\n* **Concretizer:** original\r\n\r\n### Additional information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/25073",
+    "updated_at": "2021-12-16 12:50:20",
+    "created_at": "2021-07-24 00:20:16",
+    "closed_at": "2021-12-16 12:50:20",
+    "state": "closed",
+    "title": "Replacement of shebang in environment views leaves tilde backup files",
+    "number": 25073,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments",
+        "views",
+        "triage"
+    ],
+    "id": 951962848,
+    "html_url": "https://github.com/spack/spack/issues/25073",
+    "assignees": [
+        "haampie"
+    ],
+    "comments": 2
+}

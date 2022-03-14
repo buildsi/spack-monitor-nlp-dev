@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nI encountered an issue when building with the most recent Spack version where my override \r\n\r\n```\r\n    def setup_environment(self, spack_env, run_env):\r\n        if '+mpi' in self.spec:\r\n            spack_env.set('CXX', self.spec['mpi'].mpicxx)\r\n```\r\nis not being called during the install process, resulting in the build failing due to linker errors from undefined MPI symbols. Reverting to a version from January 25th resolved the issue. Looking at the Spack source, it seems to be happening because an override for  setup_build_environment has been added to AutotoolsPackage to resolve some MacOS compile issues which does not call out to the method in PackageBase which deals with the legacy support.\r\n\n\n### Error message\n\n_No response_\n\n### Information on your system\n\n[ckelly@login4.summit PerformanceAnalysis]$ spack debug report\r\n* **Spack:** 0.17.1-957-bed3a69498\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-power9le\r\n* **Concretizer:** clingo\r\n\r\nThis version works correctly. The latest commit,  \r\n\r\n* **Spack:** 0.17.1-1521-428c63087a\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-power9le\r\n* **Concretizer:** clingo\r\n* \r\ndoes not\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "giltirn",
+    "url": "https://api.github.com/repos/spack/spack/issues/29446",
+    "updated_at": "2022-03-13 15:51:55",
+    "created_at": "2022-03-10 18:48:49",
+    "closed_at": "2022-03-13 15:51:55",
+    "state": "closed",
+    "title": "AutotoolsPackage no longer supports legacy setup_environment ",
+    "number": 29446,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 1165596449,
+    "html_url": "https://github.com/spack/spack/issues/29446",
+    "assignees": [],
+    "comments": 3
+}

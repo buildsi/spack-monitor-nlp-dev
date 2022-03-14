@@ -1,0 +1,17 @@
+{
+    "body": "I don't recall if we ever tried to address this issue, but if I attempt to build something like scipy on top of a spack python with numpy, it tries to bring in the spack compilers:\n\n$ /usr/apps/python3.5.1/bin/python3 setup.py -v build\n\n...\n\ncompiling C sources\nC compiler: /collab/usr/gapps/python/build/spack-python-3.5.1/lib/spack/env/gcc/gcc -pthread -Wsign-compare -Wunreachable-code -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC\n\ncompile options: '-I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include -I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include -I/usr/apps/python3.5.1/include/python3.5m -c'\ngcc: scipy/cluster/_hierarchy.c\nexec_command(['/collab/usr/gapps/python/build/spack-python-3.5.1/lib/spack/env/gcc/gcc', '-pthread', '-Wsign-compare', '-Wunreachable-code', '-DNDEBUG', '-g', '-fwrapv', '-O3', '-Wall', '-Wstrict-prototypes', '-fPIC', '-I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include', '-I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include', '-I/usr/apps/python3.5.1/include/python3.5m', '-c', 'scipy/cluster/_hierarchy.c', '-o', 'build/temp.linux-x86_64-3.5/scipy/cluster/_hierarchy.o'],)\nRetaining cwd: /g/g0/lee218/src/python/scipy-0.17.0\n_preserve_environment([])\n_update_environment(...)\n_exec_command_posix(...)\nRunning os.system('( /collab/usr/gapps/python/build/spack-python-3.5.1/lib/spack/env/gcc/gcc -pthread -Wsign-compare -Wunreachable-code -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include -I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include -I/usr/apps/python3.5.1/include/python3.5m -c scipy/cluster/_hierarchy.c -o build/temp.linux-x86_64-3.5/scipy/cluster/_hierarchy.o ; echo $? > /var/tmp/lee218/tmp87yy_gfd/jclr35pl ) 2>&1 | tee /var/tmp/lee218/tmp87yy_gfd/xsk06kuy ')\nSpack compiler must be run from spack!  Input SPACK_PREFIX was missing!\n_update_environment(...)\nSpack compiler must be run from spack!  Input SPACK_PREFIX was missing!\nerror: Command \"/collab/usr/gapps/python/build/spack-python-3.5.1/lib/spack/env/gcc/gcc -pthread -Wsign-compare -Wunreachable-code -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include -I/usr/apps/python3.5.1/lib/python3.5/site-packages/numpy/core/include -I/usr/apps/python3.5.1/include/python3.5m -c scipy/cluster/_hierarchy.c -o build/temp.linux-x86_64-3.5/scipy/cluster/_hierarchy.o\" failed with exit status 1\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/431",
+    "updated_at": "2016-03-04 19:53:49",
+    "created_at": "2016-02-09 23:32:41",
+    "closed_at": "2016-03-04 18:09:14",
+    "state": "closed",
+    "title": "spack numpy distutils compilers",
+    "number": 431,
+    "milestone": null,
+    "labels": [],
+    "id": 132568115,
+    "html_url": "https://github.com/spack/spack/issues/431",
+    "assignees": [],
+    "comments": 7
+}

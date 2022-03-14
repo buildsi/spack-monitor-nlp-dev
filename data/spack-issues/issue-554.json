@@ -1,0 +1,17 @@
+{
+    "body": "Fix #505: This adds two properties to `Package`: `sanity_check_files` and `sanity_check_dirs`.  They might look like this for libelf:\n\n``` python\nclass Libelf(Package):\n    ...\n    sanity_check_files = ['include/libelf.h']                                                                                                          \n    sanity_check_dirs  = ['lib']\n```\n\nSpack will check for the existence and type of these files/directories, and if they're not present, or if they're not files (directories), then Spack will fail the build.\n\nThe intent is that you add a few files here that _must_ be present for the install to have succeeded.  This should allow you to write sane builds for ill-behaved packages that write to their install directories before the build is complete.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/554",
+    "updated_at": "2016-03-16 16:05:51",
+    "created_at": "2016-03-16 00:20:45",
+    "closed_at": "2016-03-16 15:38:48",
+    "state": "closed",
+    "title": "Add sanity check paths to packages; fix #505",
+    "number": 554,
+    "milestone": null,
+    "labels": [],
+    "id": 141134727,
+    "html_url": "https://github.com/spack/spack/pull/554",
+    "assignees": [],
+    "comments": 6
+}

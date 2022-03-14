@@ -1,0 +1,21 @@
+{
+    "body": "On Fedora 32 (default gcc is 10.0.1), gdbm fails with duplicate symbols.\r\n\r\n### Steps to reproduce the issue\r\n\r\nWith gcc 10.0.1 as the compiler:\r\n```console\r\n$ spack install gdbm\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.2-895-9698907e7\r\n* **Python:** 3.8.2\r\n* **Platform:** linux-fedora32-skylake\r\n\r\n### Additional information\r\n\r\n(Note: This could be a change to the linker behavior with 10.0.1. The same code builds find with gcc 9.x)\r\n\r\nIt appears to me that this is an actual bug in the code. The gdbm build system is attempting to link the gdbmtool executable with libgdbmapp.a. In gdbmtool.c two literals are defined:\r\n```c\r\nchar *parseopt_program_doc = N_(\"examine and/or modify a GDBM database\");\r\nchar *parseopt_program_args = N_(\"DBFILE\");\r\n```\r\nThese variables are already defined in libgdbmapp.a, which leads to the following error:\r\n\r\n==> 966613: Installing gdbm\r\n==> Using cached archive: /home/bergen/devel/tuxfan/spack/var/spack/cache/_source-cache/archive/86/86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f745b91dc.tar.gz\r\n==> Staging archive: /tmp/bergen/spack-stage/spack-stage-gdbm-1.18.1-k2ber44lxykjet7qpiscc4jqfhoiml3m/gdbm-1.18.1.tar.gz\r\n==> Created stage in /tmp/bergen/spack-stage/spack-stage-gdbm-1.18.1-k2ber44lxykjet7qpiscc4jqfhoiml3m\r\n==> No patches needed for gdbm\r\n==> 966613: gdbm: Building gdbm [AutotoolsPackage]\r\n==> 966613: gdbm: Executing phase: 'autoreconf'\r\n==> 966613: gdbm: Executing phase: 'configure'\r\n==> 966613: gdbm: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j12'\r\n\r\n2 errors found in build log:\r\n     227      CCLD     gdbm_load\r\n     228      CCLD     gdbm_dump\r\n     **229    /usr/bin/ld: /usr/bin/ld: ./libgdbmapp.a(parseopt.o):(.bss+0x8): mu\r\n            ltiple definition of `parseopt_program_args'; ./libgdbmapp.a(parseo\r\n            pt.o):(.bss+0x8): multiple definition of `**parseopt_program_args**'; g\r\n            dbm_dump.o:(.data+0x70): first defined here\r\n     230    /usr/bin/ld: ./libgdbmapp.a(parseopt.o):(.bss+0x10): multiple defin\r\n            ition of `**parseopt_program_doc**'; gdbm_dump.o:(.data+0x78): first de\r\n            fined here\r\n     231    gdbm_load.o:(.data+0x140): first defined here\r\n     232    /usr/bin/ld: ./libgdbmapp.a(parseopt.o):(.bss+0x10): multiple defin\r\n            ition of `parseopt_program_doc'; gdbm_load.o:(.data+0x148): first d\r\n            efined here**\r\n  >> 233    collect2: error: ld returned 1 exit status\r\n  >> 234    collect2: error: ld returned 1 exit status\r\n     235    make[3]: *** [Makefile:648: gdbm_dump] Error 1\r\n     236    make[3]: *** Waiting for unfinished jobs....\r\n     237    make[3]: *** [Makefile:652: gdbm_load] Error 1\r\n     238    make[3]: Leaving directory '/tmp/bergen/spack-stage/spack-stage-gdb\r\n            m-1.18.1-k2ber44lxykjet7qpiscc4jqfhoiml3m/spack-src/src'\r\n     239    make[2]: *** [Makefile:499: all] Error 2\r\n     240    make[2]: Leaving directory '/tmp/bergen/spack-stage/spack-stage-gdb\r\n            m-1.18.1-k2ber44lxykjet7qpiscc4jqfhoiml3m/spack-src/src'\r\n",
+    "user": "tuxfan",
+    "url": "https://api.github.com/repos/spack/spack/issues/16394",
+    "updated_at": "2020-04-30 17:16:03",
+    "created_at": "2020-04-30 16:01:41",
+    "closed_at": "2020-04-30 17:16:03",
+    "state": "closed",
+    "title": "Installation issue: gdbm",
+    "number": 16394,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 610187465,
+    "html_url": "https://github.com/spack/spack/issues/16394",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

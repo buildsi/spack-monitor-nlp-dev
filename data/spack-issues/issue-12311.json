@@ -1,0 +1,24 @@
+{
+    "body": "Closes #2184\r\n\r\n* the default edit scope is \"user\" (`~/.spack/`) unless there is an existing configuration file in the `user/$platform` scope (e.g. `~/.spack/darwin/compilers.yaml`)\r\n* (EDIT 8/23 - forgot to mention) for the `compilers` section, the default edit scope is always `user/$platform`, even if no configuration file exists at the `user/$platform` scope\r\n* add a `config.yaml` variable called `default_edit_scope` which lets users set where this occurs\r\n* add a `$platform` config variable which expands to the platform from which Spack is being run: this allows users to explicitly set `default_edit_scope: user/$platform`\r\n* Note that if a user sets any scope without including `$platform`, Spack will always try to use the corresponding platform scope if a file exists for it\r\n* (EDIT: added) Remove the `spack.util.path` module and move all functions in it into `spack.config`\r\n* (EDIT: added) updated tests to check these rules and the `$platform` variable expansion\r\n\r\nTODOs:\r\n\r\n- [x] Handle item (3) of #2184\r\n- [ ] (?) should it be possible for users to indicate that they want to edit the non-platform version of a section?",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/12311",
+    "updated_at": "2022-01-25 18:22:26",
+    "created_at": "2019-08-07 19:22:43",
+    "closed_at": "2022-01-25 18:22:25",
+    "state": "closed",
+    "title": "Default config edit scope",
+    "number": 12311,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "WIP"
+    ],
+    "id": 478098258,
+    "html_url": "https://github.com/spack/spack/pull/12311",
+    "assignees": [
+        "tgamblin",
+        "alalazo",
+        "tldahlgren"
+    ],
+    "comments": 8
+}

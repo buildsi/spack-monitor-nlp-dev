@@ -1,0 +1,24 @@
+{
+    "body": "This PR includes the following changes:\r\n\r\n- [x] Add new version of xgboost\r\n- [x] Deprecate old versions of xgboost\r\n- [x] Add new `+nccl` and `+openmp` variants to xgboost\r\n- [x] Fix Apple Clang build of xgboost (requires libomp dependency)\r\n- [x] Set `GPU_COMPUTE_VER` based on `cuda_arch`\r\n- [x] Add myself as a maintainer for our xgboost packages\r\n- [x] Build `py-xgboost` using `xgboost` as a dependency\r\n- [ ] Build `r-xgboost` using `xgboost` as a dependency (apparently not possible)\r\n\r\nSuccessfully builds and passes all tests on macOS 10.15.7 with Python 3.8.7 and Apple Clang 12.0.0.\r\n\r\nThe last change in particular may be a bit controversial. The way I see it, there are 3 possibilities:\r\n\r\n1. A single `xgboost` packages with `+python` and `+r` variants. This is how `gdal` works, for example.\r\n2. Separate `py-xgboost` and `r-xgboost` packages that depend on `xgboost`. This is what I'm trying to do in this PR.\r\n3. Separate `py-xgboost` and `r-xgboost` packages that build their own copy of `xgboost`. This is the current behavior.\r\n\r\nI don't love 3 because if, for whatever reason, I need to build all 3 packages, the build takes 3 times longer. It also means we'll need to include all variants, config options, and patches 3 times instead of once. Code duplication is bad, and longer build times are also bad.\r\n\r\nI don't love 1 because it conflicts with the idea that if a Python or R package depends on `foo`, the package name will be `py-foo` or `r-foo`. This is true for 99% of Python/R deps and I would like to maintain this. Also, we can't take advantage of build system base classes.\r\n\r\nThe only problem with 2 is that it currently requires a lot of hacks. See https://github.com/dmlc/xgboost/issues/6706, which may change in the future depending on what the developers think. I'm willing to maintain these packages pretty closely, so I'm not super worried about things breaking.\r\n\r\nPinging @codeandkey, @Sinan81, and @scheibelp who have written/modified the `xgboost` package\r\nPinging @kean-smullen-nnl who recently added the `py-xgboost` package\r\nPinging @JavierCVilla and @glennpj who wrote and maintain the `r-xgboost` package",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/21661",
+    "updated_at": "2021-02-25 03:52:35",
+    "created_at": "2021-02-13 18:23:06",
+    "closed_at": "2021-02-25 03:42:17",
+    "state": "closed",
+    "title": "Overhaul xgboost packages",
+    "number": 21661,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "cuda",
+        "update-package",
+        "maintainers",
+        "new-variant"
+    ],
+    "id": 807801423,
+    "html_url": "https://github.com/spack/spack/pull/21661",
+    "assignees": [],
+    "comments": 8
+}

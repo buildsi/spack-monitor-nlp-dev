@@ -1,0 +1,17 @@
+{
+    "body": "Fixes #4960 \r\nFixes #4961\r\n\r\nI tried installing different versions of qt on RHEL6 and RHEL7, and I found a number of issues that are fixed in this PR.\r\n\r\n`spack install qt@3.3.8b` hung on my system, and it turned out that it was waiting for acceptance of a licence agreement (although the message only appeared in spack-build.out). The variant `+krellpatch` provides a patch that accepts the licence agreement automatically, and I moved this part of the patch into a separate patch that is applied with or without `+krellpatch` (e5de90d).\r\n\r\n`spack install qt@3.3.8b` also failed later in the build due to a missing definition of type `ptrdiff_t`. The definition is provided by `stddef.h`, which I have included in the relevant files via a patch (8983b2b). The original code may have worked on older systems, but apparently not any more.\r\n\r\nThe default qt version (5.10.0) failed to install unless mesa libraries were available. Even though spack already sets configure option `-no-opengl` for variant `~opengl`, there is a qt component (webglplugin) that tries to link with opengl. To solve the problem, I disabled webglplugin for variant `~opengl` (72cdc2c).\r\n\r\nFinally, `qt@3.3.8b` and `qt@4.8.6` both attempt to link libXext. (My test system has a minimal set of development packages, which helps to reveal hidden dependencies). To fix the problem, I added a new dependency to the qt package (5598e5c). I originally wanted to limit the dependency to `qt@3:4.99`, but I couldn't express this in combination with `when=sys.platform != 'darwin'`. For example, spack gives a syntax error for the expression `when='qt@3:4.99 platform!=darwin'`.",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/6895",
+    "updated_at": "2018-01-14 21:41:18",
+    "created_at": "2018-01-11 09:50:48",
+    "closed_at": "2018-01-14 21:41:18",
+    "state": "closed",
+    "title": "Qt fixes for RHEL6/7",
+    "number": 6895,
+    "milestone": null,
+    "labels": [],
+    "id": 287723633,
+    "html_url": "https://github.com/spack/spack/pull/6895",
+    "assignees": [],
+    "comments": 4
+}

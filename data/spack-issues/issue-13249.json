@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #12731 \r\n\r\nThis PR ensures that environment activation sets all environment variables set by the equivalent `module load` operations, except that the spec prefixes are \"rebased\" to the view associated with the environment.\r\n\r\nCurrently, Spack blindly adds paths relative to the environment view root to the user environment on activation. Issue #12731 points out ways in which this behavior is insufficient.\r\n\r\nThis PR changes that behavior to use the `setup_run_environment` logic for each package to augment the prefix inspections (as in Spack's modulefile generation logic) to ensure that all necessary variables are set to make use of the packages in the environment.\r\n\r\nSee #12731 for details on the previous problems in behavior.\r\n\r\nThis PR also updates the `ViewDescriptor` object in `spack.environment` to have a `__contains__` method. This allows for checks like `if spec in self.default_view`. The `__contains__` operator for `ViewDescriptor` objects checks whether the spec satisfies the filters of the View descriptor, not whether the spec is already linked into the underlying `FilesystemView` object.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/13249",
+    "updated_at": "2019-10-31 23:51:57",
+    "created_at": "2019-10-17 17:59:49",
+    "closed_at": "2019-10-23 06:27:41",
+    "state": "closed",
+    "title": "env activation: use package defined env setup methods",
+    "number": 13249,
+    "milestone": null,
+    "labels": [
+        "environments"
+    ],
+    "id": 508633491,
+    "html_url": "https://github.com/spack/spack/pull/13249",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

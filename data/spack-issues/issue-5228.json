@@ -1,0 +1,19 @@
+{
+    "body": "I'm not yet 100% certain, but I think I just ran into a spurious cache issue. \r\n\r\nThe problem were dependencies on ```java@8:``` which lead to a ```Multiple providers found``` error, caused by the introduction of ```icedtea``` in #4804. Adding the entry ```java: [jdk]``` into the providers section of ```etc/spack/packages.yaml``` didn't help and commenting out the ```provides('java')``` line in ```icedtea``` lead to ```Package not found: java```.\r\n\r\nI believe this is due to: \r\n1) Me not realizing that there are now multiple ```java```-providers and ```spack``` not automatically choosing a default\r\n2) ```spack``` not automatically updating its caches if setting-files have changed\r\n3) dependency resolving seems to depend on whether there are multiple providers of a given ?name?\r\n\r\nFirst of all: Does my explanation make sense? Or am I missing something?\r\n\r\nTo 1) is this intentional? Or should there be always a default provider (if a new package gets added the old one takes precedence?)\r\nTo 2) is there a way to get ```spack```'s currently used settings? I.e. a complete current dictionary the is the union of all used ```*.yaml``` files, ideally with markings where which entry originates.\r\n2b) how hard would it be for spack to validate its caches? \r\n\r\nAs always thanks for any feedback/pointers",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/5228",
+    "updated_at": "2017-09-11 17:30:29",
+    "created_at": "2017-08-29 09:40:44",
+    "closed_at": "2017-09-11 17:30:29",
+    "state": "closed",
+    "title": "Spurious errors due to invalid caches",
+    "number": 5228,
+    "milestone": null,
+    "labels": [],
+    "id": 253590996,
+    "html_url": "https://github.com/spack/spack/issues/5228",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

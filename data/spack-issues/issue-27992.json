@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\nI am having trouble building LLVM. The build exits with error:\r\n```\r\n/tmp/ec2-user/spack-stage/spack-stage-llvm-12.0.1-5bglsict2wvmumim44wjhkwk3mextud5/spack-src/lldb/source/Plugins/Process/Linux/NativeRegisterContextLinux_arm64.h:121:26: error: field 'm_sve_header' has incomplete type 'lldb_private::process_linux::user_sve_header'\r\n        struct user_sve_header m_sve_header;\r\n```\r\n\r\nDigging through LLVM code revealed that `user_sve_header` is expected to be defined in `<asm/ptrace.h>`. This has only been added to kernel 4.15+ (https://github.com/torvalds/linux/commit/43d4da2c45b2f5d62f8a79ff7c6f95089bb24656). However, Amazon Linux2 runs kernel 4.14. \r\n\r\nThe obvious solution would be to update the kernel, but then the question arises why we need the kernel to support SVE on a non-SVE CPU only to install LLVM. I have not been able to find an option to disable SVE on LLVM while still enabling aarch64.  I was hoping one of the authors would know what's thebest way of dealing with this.\r\n\r\nSteps to reproduce is `spack install llvm` on a Graviton2 based AWS instance running Amazon Linux2.\r\n\r\nTagging Maintainers @trws @haampie.\n\n### Information on your system\n\n```\r\n* **Spack:** 0.17.0\r\n* **Python:** 3.7.10\r\n* **Platform:** linux-amzn2-graviton2\r\n* **Concretizer:** clingo\r\n```\r\n\r\n`uname -a`\r\n```\r\nLinux ip-172-31-5-19 4.14.256-197.484.amzn2.aarch64 #1 SMP Tue Nov 30 00:18:02 UTC 2021 aarch64 aarch64 aarch64 GNU/Linux\r\n```\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "stephenmsachs",
+    "url": "https://api.github.com/repos/spack/spack/issues/27992",
+    "updated_at": "2021-12-18 00:21:16",
+    "created_at": "2021-12-14 13:50:07",
+    "closed_at": "2021-12-18 00:21:16",
+    "state": "closed",
+    "title": "Installation issue: llvm",
+    "number": 27992,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1079783267,
+    "html_url": "https://github.com/spack/spack/issues/27992",
+    "assignees": [],
+    "comments": 2
+}

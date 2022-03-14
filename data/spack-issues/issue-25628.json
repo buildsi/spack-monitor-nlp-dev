@@ -1,0 +1,20 @@
+{
+    "body": "fixes #21215 \r\n\r\nThis PR makes two unit tests that were failing on macOS, with Python 3.8 and `clingo` PASS. The fix for that was adding an explicit `__reduce__` method to the `SpecBuildInterface`, which is an object wrapper around a spec. Without it `pickle` _sometimes_ would try to search for the wrapped class in the module containing the base class of `SpecBuildInterface`. \r\n\r\nModifications:\r\n\r\n- [x] Add a `__reduce__` method to `SpecBuildInterface`\r\n- [x] Switch the macOS unit tests to `clingo` to check that #21215 is effectively solved\r\n\r\nThere are still questions I don't know how to answer:\r\n- Why only those two tests were failing, given the abundance of use of the subscript notation with specs?\r\n- Are there other classes that may need to be serialized explicitly?",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/25628",
+    "updated_at": "2021-08-27 09:19:19",
+    "created_at": "2021-08-26 15:57:41",
+    "closed_at": "2021-08-27 09:10:04",
+    "state": "closed",
+    "title": "Make `SpecBuildInterface` pickleable",
+    "number": 25628,
+    "milestone": null,
+    "labels": [
+        "workflow",
+        "bugfix"
+    ],
+    "id": 980406479,
+    "html_url": "https://github.com/spack/spack/pull/25628",
+    "assignees": [],
+    "comments": 1
+}

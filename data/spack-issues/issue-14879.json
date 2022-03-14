@@ -1,0 +1,22 @@
+{
+    "body": "refers #14802\r\n\r\nThis PR permits to install OS packages in the build stage. As such it enables the example shown in the issue above:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - gromacs@2019.4 build_type=Release\r\n  - openmpi@3.1.4 fabrics=verbs\r\n  - fftw precision=float\r\n  packages:\r\n    all:\r\n      target: [broadwell]\r\n\r\n  container:\r\n    format: singularity\r\n\r\n    base:\r\n      image: \"ubuntu:18.04\"\r\n      spack: develop\r\n\r\n    strip: true\r\n\r\n    os_packages:\r\n      build:\r\n      - libibverbs-dev\r\n      final:\r\n      - libibverbs1\r\n      - libgomp1\r\n```\r\nto be built.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/14879",
+    "updated_at": "2020-11-17 19:30:49",
+    "created_at": "2020-02-10 15:47:35",
+    "closed_at": "2020-11-17 19:25:14",
+    "state": "closed",
+    "title": "spack containerize: permit to install OS packages in the build stage",
+    "number": 14879,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "containers"
+    ],
+    "id": 562650385,
+    "html_url": "https://github.com/spack/spack/pull/14879",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

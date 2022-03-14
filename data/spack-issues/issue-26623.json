@@ -1,0 +1,19 @@
+{
+    "body": "*Sorry for any bad or confusing grammar, it's been a long day with many other fixes*\r\n\r\nBackground: This sequence can be used to install clang@12 for spack:\r\n```py\r\nspack install  llvm@12.0.1\r\nspack load     llvm@12.0.1\r\nspack compiler find\r\n```\r\nThis is just an example, it can be any clang compiler build.\r\n\r\nThen it can be used (among other builds) to build another version of LLVM, (but  llvm@13.0.0 triggers it for me):\r\n```py\r\nspack install llvm@13.0.0\r\n```\r\nWhen the build of `llvm@13.0.0` is run in a different shell-environment where the `PATH` (set by the `spack load llvm@...` before) is not set to include the bindir of `llvm@12.0.1`, the build may fail.\r\n\r\nThe reason for that is that because the `ld.lld` wrapper does not find the `ld.lld`, when it should find the ld.lld of `clang@12.0.1`.\r\n\r\nIn my case (with no `ld.lld` in the `PATH` otherwise), the build of llvm@13.0.0 aborted with:\r\n```py\r\nld.lld: File not found\r\n```\r\n\r\nFix this by checking if `$SPACK_CC` is `clang` and checking if `ld.lld` exists in `clang`'s directory.\r\n\r\nI thought this should have worked with the previous cc wrapper, but the PR adding supprt for wrapping ld.gold and ld.lld is new, and it does not set the PATH of ld.lld from SPACK_CC: #25626 - Thanks to @Jordan474 \r\n",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26623",
+    "updated_at": "2021-11-29 21:02:17",
+    "created_at": "2021-10-09 00:05:21",
+    "closed_at": "2021-11-29 21:02:16",
+    "state": "closed",
+    "title": "lib/spack/env/cc: Fix finding ld.lld (e.g. for installing llvm)",
+    "number": 26623,
+    "milestone": null,
+    "labels": [],
+    "id": 1021543828,
+    "html_url": "https://github.com/spack/spack/pull/26623",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 6
+}

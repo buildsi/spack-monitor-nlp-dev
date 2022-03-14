@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nI wanted to build qt+webkit but ran into multiple problems. I need version 5.12.10 as a dependency for a package I want to build.\r\n\r\nI tried to build \r\n```\r\n$ spack install qt+webkit@5.12.10 %gcc@10.3.0\r\n```\r\nthe first problem is that the python2 requirement is not set. This can easily be fixed by\r\n\r\n```diff\r\n-    depends_on(\"python@2.7.5:2.999\", when='@5.14: +webkit', type='build')\r\n+    depends_on(\"python@2.7.5:2.999\", when='+webkit', type='build')\r\n```\r\n\r\nThen qt builds but webengine does not due to a missing mesa dependency\r\n```\r\nkhronos development headers appear to be missing (mesa/libegl1-mesa-dev)\r\nQtWebEngine will not be built.\r\n```\r\n\r\nWhen building `qt+webkit+opengl@5.12.10 %gcc10.3.0` (since gl has a mesa dependency), now nss is missing\r\n```\r\nA suitable version of nss could not be found.\r\nQtWebEngine will not be built.\r\n```\r\nbut nss is not in spack\r\n\r\nAlso the following combinations build qt (with the fix above) but do not build webengine\r\n- `qt+webkit@5.14.2 %gcc@9.3.0` -> missing mesa\r\n- `qt+webkit@5.15.2 %gcc@9.3.0` -> missing nss\r\n\r\nI tried these combinations because I found them in #17270\r\n\r\nThen I tried the most current combination `qt+webkit@5.15.2 %gcc@11.1.0` but here qt does not build.\r\n\r\n@sethrj maybe you can help\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n* **Spack:** 0.13.4-8281-849943c63d\r\n* **Python:** 3.5.3\r\n* **Platform:** linux-debian9-piledriver\r\n* **Concretizer:** clingo\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/24254",
+    "updated_at": "2021-07-06 11:18:03",
+    "created_at": "2021-06-10 20:58:43",
+    "closed_at": "2021-07-06 11:18:03",
+    "state": "closed",
+    "title": "qt+webkit does not build",
+    "number": 24254,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "qt"
+    ],
+    "id": 917914038,
+    "html_url": "https://github.com/spack/spack/issues/24254",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Supersedes #13364 \r\n\r\nA merge created a semantic error for managing upstream DB locks: upstream DBs are not supposed to be locked at all but the `ForbiddenLock` object used to manage this was overwritten.\r\n\r\nAdditionally, an upstream db test was calling methods on upstream DBs that should only be called on the local DB (which knows how when to lock and when not to). This updates the test to avoid that, and also adds a regression test to make sure that writing to upstream DBs leads to an exception.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/13441",
+    "updated_at": "2019-10-25 23:02:39",
+    "created_at": "2019-10-25 20:30:31",
+    "closed_at": "2019-10-25 23:01:46",
+    "state": "closed",
+    "title": "Restore upstream lock safety, avoid calling methods directly on upstream DB in test",
+    "number": 13441,
+    "milestone": null,
+    "labels": [],
+    "id": 512707055,
+    "html_url": "https://github.com/spack/spack/pull/13441",
+    "assignees": [],
+    "comments": 1
+}

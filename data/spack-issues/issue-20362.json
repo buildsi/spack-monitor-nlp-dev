@@ -1,0 +1,20 @@
+{
+    "body": "I was keeping the old `clingo` driver code around in case we had to run using the command line tool instad of through the Python interface.\r\n\r\nSo far, the command line is faster than running through Python, but I'm working on fixing that.  I found that if I do this:\r\n\r\n```python\r\ncontrol = clingo.Control()\r\ncontrol.load(\"concretize.lp\")\r\ncontrol.load(\"hdf5.lp\")       # code from spack solve --show asp hdf5\r\ncontrol.load(\"display.lp\")\r\n\r\ncontrol.ground([(\"base\", [])])\r\ncontrol.solve(...)\r\n```\r\n\r\nIt's just as fast as the command line tool. So we can always generate the code and load it manually if we need to -- we don't need two drivers for clingo. Given that the python interface is also the only way to get unsat cores, I think we pretty much have to use it.\r\n\r\nSo, I'm removing the old command line driver and other unused code. We can dig it up again from the history if it is needed.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/20362",
+    "updated_at": "2020-12-14 08:35:55",
+    "created_at": "2020-12-14 00:00:48",
+    "closed_at": "2020-12-14 08:35:54",
+    "state": "closed",
+    "title": "concretizer: remove clingo command-line driver",
+    "number": 20362,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "refactoring"
+    ],
+    "id": 765710688,
+    "html_url": "https://github.com/spack/spack/pull/20362",
+    "assignees": [],
+    "comments": 0
+}

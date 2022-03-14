@@ -1,0 +1,19 @@
+{
+    "body": "Looks like for `CMakePackage` concretizer fist settles on `cmake` version and only then tries to choose version of the root package. This may lead to failures in concretization if the root package has extra constraints based on its version.\r\n\r\nExample is `dealii`. Current stable release is `8.5.1` which needs `cmake@3.9.x`, but if we try `spack spec dealii` it will fail with \r\n\r\n```\r\ndealii requires cmake version :3.9.99, but spec asked for 3.10.1\r\n```\r\n\r\nThe simplest workaround is to be explicit with versions, i.e. do `spack spec dealii@8.5.1`, but it would be better to have some fix in the order in which dependencies are concretized.\r\nI simply can't explain why Spack would choose `cmake` version prior to chosing the latest stable version of `dealii`.\r\n\r\n### Expected Result\r\n\r\nSpack should concretize default build of `dealii`.\r\n\r\n### Actual Result\r\n\r\n```\r\ndealii requires cmake version :3.9.99, but spec asked for 3.10.1\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec dealii\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\nLinux/macOS. ",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/7288",
+    "updated_at": "2020-11-01 21:45:32",
+    "created_at": "2018-02-19 22:55:52",
+    "closed_at": "2020-11-01 21:45:31",
+    "state": "closed",
+    "title": "cmake version is chosen prior to package's version",
+    "number": 7288,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 298422338,
+    "html_url": "https://github.com/spack/spack/issues/7288",
+    "assignees": [],
+    "comments": 7
+}

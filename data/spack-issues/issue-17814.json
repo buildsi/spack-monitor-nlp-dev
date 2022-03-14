@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: \". \r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack spec -Il cp2k+sirius\r\n\r\n```\r\n\r\n### Additional information\r\nThe requirement for +shared comes from this section of the cp2k recipe:\r\n```console    \r\n\r\n    depends_on('sirius+fortran+vdwxc+shared+openmp', when='+sirius+openmp')\r\n    depends_on('sirius+fortran+vdwxc+shared~openmp', when='+sirius~openmp')\r\n```\r\nThe line in the Sirius recipe, where the +shared support was removed:\r\n```console\r\nconflicts('+shared', when='@6.3.0:')  # option to build shared libraries has been removed\r\n```\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n### General information\r\n\r\n\r\n",
+    "user": "aantao",
+    "url": "https://api.github.com/repos/spack/spack/issues/17814",
+    "updated_at": "2020-08-04 17:03:05",
+    "created_at": "2020-07-31 17:29:07",
+    "closed_at": "2020-08-04 17:03:05",
+    "state": "closed",
+    "title": "Installation issue: cp2k+sirius requires that sirius have the +shared, but sirius>6.3.0 doesn't support +shared",
+    "number": 17814,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 670040517,
+    "html_url": "https://github.com/spack/spack/issues/17814",
+    "assignees": [],
+    "comments": 0
+}

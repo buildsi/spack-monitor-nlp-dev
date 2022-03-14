@@ -1,0 +1,19 @@
+{
+    "body": "I was trying to compile a software (Serpent 2 from VTT) out of the spack environment by loading modules for gcc-7.2.0, openmpi-3.0.0 and libgd.\r\n\r\nI get the following error message:\r\n\r\n> /afs/psi.ch/project/fast_lrs/workspace/RND/FB-RND-ACT-17-01/lclrs/spack/opt/spack/linux-scientific6-x86_64/gcc-7.2.0/libxml2-2.9.4-hrhtwdln3ljxgjzmm5p5cwirqhogwn6n/lib/libxml2.so.2: undefined reference to `gzopen64@ZLIB_1.2.3.3'\r\ncollect2: error: ld returned 1 exit status\r\nmake: *** [sss2] Error 1\r\n\r\nHowever, the program successfully compiles if I also load the module zlib, which is a dependency of libxml2, which is a dependency of openmpi.\r\n\r\nThis also affects the program execution. If I unload all the modules except zlib, it executes fine. If I unload zlib, I get:\r\n\r\n> ./sss2: /lib64/libz.so.1: version `ZLIB_1.2.3.3' not found (required by /afs/psi.ch/project/fast_lrs/workspace/RND/FB-RND-ACT-17-01/lclrs/spack/opt/spack/linux-scientific6-x86_64/gcc-7.2.0/libxml2-2.9.4-hrhtwdln3ljxgjzmm5p5cwirqhogwn6n/lib/libxml2.so.2)\r\n\r\nWould this indicate that libxml2 did not get configured with relative paths to zlib? Is this expected and a current limitation of libxml2 configurations or a package problem? Or neither and I just don't know what I'm doing?",
+    "user": "deOliveira-R",
+    "url": "https://api.github.com/repos/spack/spack/issues/5758",
+    "updated_at": "2018-01-18 19:49:43",
+    "created_at": "2017-10-13 17:56:08",
+    "closed_at": "2018-01-18 19:49:43",
+    "state": "closed",
+    "title": "lib/libxml2.so.2: undefined reference to `gzopen64@ZLIB_1.2.3.3'",
+    "number": 5758,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 265370201,
+    "html_url": "https://github.com/spack/spack/issues/5758",
+    "assignees": [],
+    "comments": 5
+}

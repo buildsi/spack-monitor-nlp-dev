@@ -1,0 +1,21 @@
+{
+    "body": "If I would like to know which of my installed packages depend on a particular package, then I would use the  spack dependents command. For instance, checking for cuda:\r\n\r\n```\r\n[spackapps@lo-login-02 spack]$ spack dependents cuda\r\n==> Dependents of cuda@8.0.61%gcc@4.8.5/mxdqob5\r\n-- linux-centos7-x86_64 / gcc@4.8.5 -----------------------------\r\ncudnn@6.0  libgpuarray@0.6.2\r\n[spackapps@lo-login-02 spack]$\r\n```\r\n\r\nIs there also a possibility to check within the entire package repository (not depending if the packages are installed or not on my system)?\r\n\r\nAt the moment I am using a workaround which is not very pretty:\r\n\r\n```\r\n[spackapps@lo-login-02 spack]$ grep depends_on ./var/spack/repos/builtin/packages/*/package.py | grep cuda | cut -d \"/\" -f 7 | sort | uniq\r\ncaffe\r\ncbtf-argonavis\r\ncntk\r\ncuda-memtest\r\ncudnn\r\nflann\r\ngromacs\r\nhoomd-blue\r\nhpx5\r\nhwloc\r\nisaac\r\nkaldi\r\nkokkos\r\nlbann\r\nlibgpuarray\r\nmallocmc\r\nnccl\r\nopencv\r\nopenmpi\r\nopenspeedshop\r\nosu-micro-benchmarks\r\npy-theano\r\nrelion\r\nsuite-sparse\r\n[spackapps@lo-login-02 spack]$\r\n```\r\n\r\nIs it possible to do this within spack ?",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/4414",
+    "updated_at": "2017-08-02 00:40:55",
+    "created_at": "2017-06-01 11:33:43",
+    "closed_at": "2017-08-02 00:40:55",
+    "state": "closed",
+    "title": "spack dependents command",
+    "number": 4414,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "dependencies",
+        "commands"
+    ],
+    "id": 232849848,
+    "html_url": "https://github.com/spack/spack/issues/4414",
+    "assignees": [],
+    "comments": 1
+}

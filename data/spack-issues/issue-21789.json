@@ -1,0 +1,17 @@
+{
+    "body": "I have detected the following error on x86_64 and aarch64 machines:\r\n==> Error: KeyError: 'No spec with name szip in hdf-eos5\r\n./spack/var/spack/repos/builtin/packages/hdf-eos2/package.py:96, in configure_args:\r\n         93        if self.spec['zlib']:\r\n         94            extra_args.append('--with-zlib={0}'.format(\r\n         95                self.spec['zlib'].prefix))\r\n         96        if self.spec['szip']:\r\n         97            extra_args.append('--with-szlib={0}'.format(\r\n         98                self.spec['szip'].prefix))\r\n\r\nThis issue was resolved by adding szip's depends_on, but then I got the following error:\r\n     120    checking for hdf5.h... yes\r\n     121    checking for H5Fcreate in -lhdf5... no\r\n     122    configure: error: can't link against HDF5 library\r\n\r\nThis issue was resolved by fixing the hdf5 depend, but I got the following error:\r\n1 error found in build log:\r\n     115    checking hdf5.h presence... yes\r\n     116    checking for hdf5.h... yes\r\n     117    checking for H5Fcreate in -lhdf5... yes\r\n     118    checking if HDF5 threadsafe mode is enabled... no\r\n     119    checking for hdf5 szip decoding filter... no\r\n     120    checking for hdf5 szip encoding filter... no\r\n     121    configure: error: HDF5 was linked without SZIP, but --with-szlib was given\r\n\r\nI don't think it is necessary to specify --with-szlib from this error.\r\n\r\nTo build this OSS, you need PR for #19837.",
+    "user": "t-nojiri",
+    "url": "https://api.github.com/repos/spack/spack/issues/21789",
+    "updated_at": "2021-02-19 08:16:13",
+    "created_at": "2021-02-19 06:52:44",
+    "closed_at": "2021-02-19 08:16:13",
+    "state": "closed",
+    "title": "hdf-eos5: Fix hdf5 depend, Del szip",
+    "number": 21789,
+    "milestone": null,
+    "labels": [],
+    "id": 811753324,
+    "html_url": "https://github.com/spack/spack/pull/21789",
+    "assignees": [],
+    "comments": 0
+}

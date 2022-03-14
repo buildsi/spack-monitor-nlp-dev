@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\n\n`py-pylint@2.3.1` build is failing using:\r\n* `spack@develop` (commit 890095e876a85d91ae7359f9120082c4e2f6a249 from `Wed Oct 27 16:26:22 2021 -0400`)\r\n* Ubuntu 18.04, GCC 7.5.0, x86_64\r\n* Python 3.8.12\r\n\r\nConcrete spec: [py-pylint-4nn3nb.spec.yaml.txt](https://github.com/spack/spack/files/7444063/py-pylint-4nn3nb.spec.yaml.txt)\r\n\r\n\r\nReproduced using Docker container image `ecpe4s/ubuntu18.04-runner-x86_64:2021-11-01`\r\n\r\n```\r\n$> spack mirror add E4S https://cache.e4s.io\r\n$> spack buildcache keys -it\r\n\r\n$> spack install --cache-only --include-build-deps --only dependencies -f ./py-pylint-4nn3nb.spec.yaml\r\n\r\n$> spack install --no-cache -f ./py-pylint-4nn3nb.spec.yaml\r\n...\r\n==> Installing py-pylint-2.3.1-hfmugscen746nlointhvkntjxu6h35hw\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/72/723e3db49555abaf9bf79dc474c6b9e2935ad82230b10c1138a71ea41ac0fff1.tar.gz\r\n==> No patches needed for py-pylint\r\n==> py-pylint: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.5.0/python-3.8.12-ppq3wrj5444lzrxhw2yctvoza2xmfuhx/bin/python3.8' '-s' 'setup.py' '--no-user-cfg' 'build'\r\n\r\n1 warning found in build log:\r\n  >> 3    WARNING: The wheel package is not available.\r\n     4    /spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.5.0/python-3.8.12-ppq3wrj5444lzrxhw2yctvoza2xmfuhx/bin/python3.8: No module named pip\r\n     5    Traceback (most recent call last):\r\n     6      File \"/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.5.0/py-setuptools-58.2.0-6ebyf3yop673cupktevl5jlxv4eoerrq/lib/python3.8/site-packages/setuptools/ins\r\n          taller.py\", line 75, in fetch_build_egg\r\n     7        subprocess.check_call(cmd)\r\n     8      File \"/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.5.0/python-3.8.12-ppq3wrj5444lzrxhw2yctvoza2xmfuhx/lib/python3.8/subprocess.py\", line 364, in check_\r\n          call\r\n     9        raise CalledProcessError(retcode, cmd)\r\n\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-py-pylint-2.3.1-hfmugscen746nlointhvkntjxu6h35hw/spack-build-out.txt\r\n```\r\n\r\n\r\n\r\n\r\n\n\n### Information on your system\n\n* **Spack:** 0.16.3-5058-890095e876\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-cascadelake\r\n* **Concretizer:** clingo\n\n### Additional information\n\n[pylint-build-out.txt](https://github.com/spack/spack/files/7444078/pylint-build-out.txt)\r\n[pylint-build-env.txt](https://github.com/spack/spack/files/7444087/pylint-build-env.txt)\r\n\r\n@adamjstewart \n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/27075",
+    "updated_at": "2021-11-01 21:50:37",
+    "created_at": "2021-10-29 18:07:24",
+    "closed_at": "2021-11-01 21:50:37",
+    "state": "closed",
+    "title": "py-pylint@2.3.1: ubuntu 18.04: no module named pip",
+    "number": 27075,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "e4s"
+    ],
+    "id": 1039811801,
+    "html_url": "https://github.com/spack/spack/issues/27075",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 6
+}

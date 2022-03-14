@@ -1,0 +1,19 @@
+{
+    "body": "This patch adds the spack option '-C/--config DIR' to add an extra\r\ndirectory (DIR) from the command line to the configuration scope\r\nsearch path.  If specified, DIR has the highest priority in the search\r\npath.\r\n\r\nrepo:  https://github.com/mwkrentel/spack\r\nbranch:  config-patch\r\n\r\nThis option adds extra flexibility in maintaining multiple different\r\nconfigurations.  For example, issue #6204 asks how to specify a\r\ndifferent install_tree.  But the best (only) option is to edit\r\n~/.spack/config.yaml for each choice.  This patch allows specifying\r\nthese options from the command line.\r\n\r\nAlso, I may want to run spack from a common directory for which I\r\ndon't have write access.  With a command-line option, I can specify a\r\nconfig.yaml file that moves all the writeable parts of the spack tree\r\nto an alternate location.\r\n\r\nTheoretically, it would be possible to add separate options for\r\neverything in config.yaml and packages.yaml (install_tree, cache dirs,\r\netc).  But instead of adding a bazillion new options, it's cleaner to\r\nadd one option for an extra config directory.\r\n\r\nEverything in the patch is simple and straightforward, except for one\r\nthing.  There are already 4 directories (8 with platform subdirs) in\r\nthe config search path, so adding a 5th fits naturally.\r\n\r\nHowever, there is one controversial but necessary part.  The -C option\r\nneeds to be known very early, before main.py creates the argument\r\nparser.\r\n\r\nSpack starts up in __init__.py by setting some global constants.\r\nThen, it imports config.py and immediately reads the .yaml files and\r\nsquirrels away values from config.yaml, things like cache dirs, etc.\r\nAll this happens before main.py creates the argument parser.\r\n\r\nUnfortunately, it's necessary to do an early scan of the command-line\r\noptions in __init__.py, at least until spack startup is reworked to\r\nread the command-line options before reading the .yaml files.\r\n\r\nBut the early parsing is very low impact.  It doesn't change anything,\r\nonly reads one value.  The worst that could possibly happen is that it\r\nfails to find the argument for -C (and I'm not worried about that).\r\nSo, for now ....\r\n\r\nThanks,\r\n\r\n--Mark Krentel\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/6903",
+    "updated_at": "2018-07-22 21:43:53",
+    "created_at": "2018-01-11 19:50:03",
+    "closed_at": "2018-07-22 21:43:53",
+    "state": "closed",
+    "title": "spack option -C/--config to add dir to config search path",
+    "number": 6903,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 287903352,
+    "html_url": "https://github.com/spack/spack/pull/6903",
+    "assignees": [],
+    "comments": 11
+}

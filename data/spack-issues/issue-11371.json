@@ -1,0 +1,20 @@
+{
+    "body": "This PR appears to fix #10395 -- I ran into the same patch error when building on a centos6 system.  With the changes in this PR, I was able to build the package. \r\n\r\nBetween intel-tbb releases `2019` and `2019_U1` (what Spack calls `2019.1`), there was an [upstream change to  `build/linux.gcc.inc`](https://github.com/intel/tbb/commit/4cebdd9a1c9f0c56c4ddcbbb400447ab2a11fad4#diff-76933eb251f8863acd03337b951b04fbL48) that broke our patch file `tbb_gcc_rtm_key.patch`.\r\n\r\nHowever I think this PR still needs some work.  Here are the two most obvious defects I see:\r\n\r\n1. According to the comment, the patch should only be applied \"on an OS with an elderly assembler\".  I don't know what is meant by \"elderly\" -- was this supposed to mean anything less than gcc 5?  At any rate, the way the `when` spec is written, I think it applies the patch to any gcc **greater than** 4.8.0.  Which will include modern assemblers,  right?!   Seems like the `:` character should be removed so that it reads `when='%gcc@4.8.0'` or even just `when='%gcc@4'`?\r\n\r\n2. What is the correct way to specify that the patch file `tbb_gcc_rtm_key.patch` (which is already in develop) should be applied only up to and including `@2019`?  (The patch file does not work starting with `tbb@2019.1`.)  The lack of consistent version tagging system seems to complicate matters.  For example `@2017:2019` (if that is allowed syntax) would seem to also include `2019.1`, etc, right?\r\n\r\n@hartzell \r\n\r\nedit: fix markdown hyperlink",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/11371",
+    "updated_at": "2019-05-19 02:06:12",
+    "created_at": "2019-05-05 05:41:05",
+    "closed_at": "2019-05-19 02:00:33",
+    "state": "closed",
+    "title": "intel-tbb: fix patch for old compilers",
+    "number": 11371,
+    "milestone": null,
+    "labels": [
+        "intel",
+        "patch"
+    ],
+    "id": 440403520,
+    "html_url": "https://github.com/spack/spack/pull/11371",
+    "assignees": [],
+    "comments": 12
+}

@@ -1,0 +1,20 @@
+{
+    "body": "This is a continuation of #18322 \r\n\r\nLately, I've been encountering a lot of issues where libuuid is listed as a transitive dependency and ends up breaking my builds on macOS. The cause is already listed in our `python` package:\r\n\r\n> On macOS systems, Spack's libuuid conflicts with the system-installed version and breaks anything linked against Cocoa/Carbon. Since the system-provided version is sufficient to build Python's UUID support, the easy solution is to only depend on Spack's libuuid when *not* on a Mac.\r\n\r\n#18322 introduced 3 possible virtual providers for `uuid`. I compared the header files from those 3 to the one on macOS, but it didn't match, so I added a new `apple-libuuid` package.\r\n\r\nTested by building `python+uuid` and confirming that `import uuid` works.\r\n\r\nCloses #20385 ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/20608",
+    "updated_at": "2020-12-30 17:07:58",
+    "created_at": "2020-12-29 18:44:43",
+    "closed_at": "2020-12-30 16:13:35",
+    "state": "closed",
+    "title": "Use system libuuid on macOS",
+    "number": 20608,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "virtual-dependencies"
+    ],
+    "id": 776036102,
+    "html_url": "https://github.com/spack/spack/pull/20608",
+    "assignees": [],
+    "comments": 0
+}

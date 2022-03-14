@@ -1,0 +1,23 @@
+{
+    "body": "UPDATE (alalazo): The issue can be reproduced outside of environments:\r\n```console\r\n$ spack spec hpctoolkit os=ubuntu18.04\r\nInput spec\r\n--------------------------------\r\nhpctoolkit arch=linux-ubuntu18.04-None\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: 'NoneType' object has no attribute 'microarchitecture'\r\n```\r\nand is related to concretization.\r\n\r\n---\r\n\r\nUsing Docker image `spack/ubuntu-bionic` for x86_64 and Spack develop @ fddb3f291cf4 . \r\n\r\nPlace the attached [Spack environment file](https://github.com/spack/spack/files/4282866/spack.yaml.txt) into a directory by itself. Rename it to `spack.yaml` and then run the following sequence of commands _in the directory where the spack.yaml is_ in order to reproduce the issue:\r\n\r\n**Step 1**\r\n```\r\n$> spack install patchelf\r\n... install succeeds\r\n```\r\n\r\n**Step 2**\r\n```\r\n$> spack install\r\n==> Error: 'NoneType' object has no attribute 'microarchitecture'\r\n```\r\n\r\nFull stack trace from Step 2:\r\n```\r\nTraceback (most recent call last):\r\n  File \"/root/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/root/spack/lib/spack/spack/main.py\", line 763, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/root/spack/lib/spack/spack/main.py\", line 488, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/root/spack/lib/spack/spack/cmd/install.py\", line 273, in install\r\n    concretized_specs = env.concretize()\r\n  File \"/root/spack/lib/spack/spack/environment.py\", line 948, in concretize\r\n    return self._concretize_separately()\r\n  File \"/root/spack/lib/spack/spack/environment.py\", line 1016, in _concretize_separately\r\n    concrete = _concretize_from_constraints(uspec_constraints)\r\n  File \"/root/spack/lib/spack/spack/environment.py\", line 1554, in _concretize_from_constraints\r\n    return s.concretized()\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 2298, in concretized\r\n    clone.concretize()\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 2148, in concretize\r\n    user_spec_deps=user_spec_deps),\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 2626, in normalize\r\n    visited, all_spec_deps, provider_index, tests)\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 2552, in _normalize_helper\r\n    dep = self._evaluate_dependency_conditions(dep_name)\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 2375, in _evaluate_dependency_conditions\r\n    if self.satisfies(when_spec, strict=True):\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 2879, in satisfies\r\n    if not self.architecture.satisfies(other.architecture, strict):\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 360, in satisfies\r\n    return self._satisfies_target(other.target, strict=strict)\r\n  File \"/root/spack/lib/spack/spack/spec.py\", line 383, in _satisfies_target\r\n    min_ok = self_target.microarchitecture >= t_min if t_min else True\r\nAttributeError: 'NoneType' object has no attribute 'microarchitecture'\r\n```\r\n\r\nCC @gartung ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/15306",
+    "updated_at": "2020-03-07 12:58:34",
+    "created_at": "2020-03-03 18:11:59",
+    "closed_at": "2020-03-07 12:58:34",
+    "state": "closed",
+    "title": "hpctoolkit os=ubuntu18.04 : 'NoneType' object has no attribute 'microarchitecture'",
+    "number": 15306,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "workaround",
+        "impact-low"
+    ],
+    "id": 574849287,
+    "html_url": "https://github.com/spack/spack/issues/15306",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

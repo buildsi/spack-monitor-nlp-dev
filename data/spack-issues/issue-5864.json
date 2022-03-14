@@ -1,0 +1,21 @@
+{
+    "body": "### Problem\r\n\r\n```console\r\n$ spack module refresh --module-type lmod --delete-tree -y\r\n==> Regenerating lmod module files\r\n==> Warning: Could not write module file [/opt/spack/share/spack/lmod/linux-fedora25-x86_64/clang/3.9.0/opencv/3.3.0.lua]\r\n==> Warning: \t--> global name 'dso_suffix' is not defined <--\r\n==> Warning: Could not write module file [/opt/spack/share/spack/lmod/linux-fedora25-x86_64/clang/5.0.0/opencv/3.3.0.lua]\r\n==> Warning: \t--> global name 'dso_suffix' is not defined <--\r\n==> Warning: Could not write module file [/opt/spack/share/spack/lmod/linux-fedora25-x86_64/gcc/6.4.1/opencv/3.3.0.lua]\r\n==> Warning: \t--> global name 'dso_suffix' is not defined <--\r\n```\r\n\r\n### Invalid but Functional Fix\r\n\r\n```diff\r\n--- a/var/spack/repos/builtin/packages/opencv/package.py\r\n+++ b/var/spack/repos/builtin/packages/opencv/package.py\r\n@@ -23,7 +23,7 @@\r\n # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\r\n ##############################################################################\r\n from spack import *\r\n-\r\n+from spack.build_environment import dso_suffix\r\n```\r\n\r\nIt seems related to #1845, maybe `__all__` for `from spack import *` should just be modified to import that as well?  I don't really understand why it only happens with OpenCV though...",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/5864",
+    "updated_at": "2019-02-06 11:59:06",
+    "created_at": "2017-10-22 05:13:57",
+    "closed_at": "2019-02-06 11:59:05",
+    "state": "closed",
+    "title": "[lmod] global name 'dso_suffix' is not defined",
+    "number": 5864,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 267436838,
+    "html_url": "https://github.com/spack/spack/issues/5864",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

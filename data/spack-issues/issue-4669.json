@@ -1,0 +1,19 @@
+{
+    "body": "Building OpenCL via `pocl` fails on creating a symlink as of e5560dfbdee0235f6f727071cec968fd4913fab4\r\n\r\n```bash\r\nspack install pocl\r\n\r\n==> Building pocl [CMakePackage]\r\n==> Executing phase : 'cmake'\r\n==> Executing phase : 'build'\r\n==> Executing phase : 'install'\r\n==> Error: OSError: [Errno 17] File exists\r\n/home/axel/src/spack/var/spack/repos/builtin/packages/pocl/package.py:95, in symlink_opencl:\r\n     92       @run_after('install')\r\n     93       def symlink_opencl(self):\r\n     94           with working_dir(self.build_directory):\r\n  >> 95               os.symlink(\"OpenCL\", join_path(self.prefix.include, \"CL\"))\r\n```\r\n\r\nThe stage looks like this:\r\n```bash\r\n$ ls include/CL/\r\ncl2.hpp  cl_egl.h  cl_ext.h  cl_gl_ext.h  cl_gl.h  cl.h  cl.hpp  cl.hpp.in  cl.hpp.patched  cl_platform.h  CMakeLists.txt  opencl.h\r\n$ ls include/OpenCL/\r\ncl_ext.h  cl_gl_ext.h  cl_gl.h  cl.h  cl.hpp  cl_platform.h  opencl.h\r\n```\r\n\r\nBut in the installed directory the `OpenCL` symlink is missing if I blindly comment out those lines.",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/4669",
+    "updated_at": "2017-11-24 12:13:45",
+    "created_at": "2017-07-03 12:14:17",
+    "closed_at": "2017-11-24 12:13:45",
+    "state": "closed",
+    "title": "pocl 0.14 install fails",
+    "number": 4669,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 240154762,
+    "html_url": "https://github.com/spack/spack/issues/4669",
+    "assignees": [],
+    "comments": 9
+}

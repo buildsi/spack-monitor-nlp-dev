@@ -1,0 +1,19 @@
+{
+    "body": "A Z3 Cmake build using a system Python specified via `packages.yaml` tries to write into the system Python's directory and fails due to privileges.  If a non-system Python3 is used, z3 is installed to its `site-packages`.\r\n\r\nPossibly related to #24337 ?\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install z3\r\n ...\r\n  >> 3267    CMake Error at src/api/python/cmake_install.cmake:49 (file):\r\n     3268      file cannot create directory: /usr/lib/python3/dist-packages/z3.  Maybe\r\n     3269      need administrative privileges.\r\n     3270    Call Stack (most recent call first):\r\n     3271      src/cmake_install.cmake:181 (include)\r\n     3272      cmake_install.cmake:73 (include)\r\n ...\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```\r\n* **Spack:** 0.16.2-3213-7b6ca59038\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-broadwell\r\n* **Concretizer:** original\r\n```\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\nIn `packages.yaml`:\r\n```\r\n  python:\r\n    externals:\r\n    - spec: python@3.8.5+bz2+ctypes+dbm+lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib\r\n      prefix: /usr\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt]()\r\n* [spack-build-env.txt]()\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "bcdarwin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24449",
+    "updated_at": "2021-06-22 18:20:10",
+    "created_at": "2021-06-21 16:33:48",
+    "closed_at": "2021-06-22 18:20:10",
+    "state": "closed",
+    "title": "Installation issue: z3",
+    "number": 24449,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 926399499,
+    "html_url": "https://github.com/spack/spack/issues/24449",
+    "assignees": [],
+    "comments": 1
+}

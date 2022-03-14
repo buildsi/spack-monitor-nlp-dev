@@ -1,0 +1,19 @@
+{
+    "body": "I am quickly trying spack on bg-q. I have xlc/gcc in $PATH but spack doesn't detect it:\n\n```\n$ which xlc\n/usr/bin/xlc\n$ which gcc\n/bgsys/local/gcc/4.8.1/bin/gcc\n$ spack compiler find\n==> Found no new compilers\n$ spack compiler add\n==> Found no new compilers\n$ spack compiler add /bgsys/local/gcc/4.8.1/bin/\n==> Found no new compilers\n```\n\nFor arch, I see following:\n\n```\n$ spack arch\nbbq-None-powerpc\n```\n\n \"None\" in arch indicate problem? I have no knowledge of the code but by looking at\n\n```\nlib/spack/spack/platforms/bgq.py\n```\n\nit seems like \"add_operating_system\" is missing and whenever there is query for os, this returns None. This might be causing this issue?\n\nIf I run any command to install package, it hang somewhere.\n\nCould someone have a look? Am I missing anything?\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/1784",
+    "updated_at": "2016-12-08 09:01:02",
+    "created_at": "2016-09-15 17:57:24",
+    "closed_at": "2016-12-08 09:01:02",
+    "state": "closed",
+    "title": "Spack issue on bluegene : doesn't detect compilers from $PATH",
+    "number": 1784,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 177244153,
+    "html_url": "https://github.com/spack/spack/issues/1784",
+    "assignees": [],
+    "comments": 9
+}

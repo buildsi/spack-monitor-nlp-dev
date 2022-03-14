@@ -1,0 +1,19 @@
+{
+    "body": "I have to profile some software packages like superlu-dist with tau using a  x86_64 GNU/Linux cluster . I installed spack using this command:\r\ngit clone https://github.com/spack/spack.git.  The command for tau installation is :\r\n\r\n> spack install tau@2.30.1%gcc@7.1.0+fortran+mpi+openmp+papi+pdt+pthreads\r\n\r\n\r\nThe compiler I should use is  gcc@7.1.0. The installation gives error with tau building stage:\r\n \r\n\r\n> ld: fatal error: cannot use --plugin: ld was compiled without plugin support\r\n>  312    collect2: error: ld returned 1 exit status\r\n>  313    make[1]: *** [tau_convert] Error 1\r\n> \r\n\r\nI tried to add -fno-use-linker-plugin to gcc@7.1.0 compiler flags but that does not help.  The specifications of the compiler from is like this\r\n\r\n> - compiler:\r\n    paths:\r\n      cc: /x/progs/gcc/GCC-7.1.0/bin/gcc\r\n      cxx: /x/progs/gcc/GCC-7.1.0/bin/g++\r\n      f77: /x/progs/gcc/GCC-7.1.0/bin/gfortran\r\n      fc: /x/progs/gcc/GCC-7.1.0/bin/gfortran\r\n    operating_system: centos7\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n      cflags: -fuse-linker-plugin\r\n      cxxflags: -fuse-linker-plugin\r\n      cppflags: -fuse-linker-plugin\r\n      ldflags: -fuse-linker-plugin\r\n    spec: gcc@7.1.0\r\n\r\nThe output result, the spack-build-env and the spack-build-out are attached.  Using a different compiler like gcc@8.3.0 and gcc@10.2.0 even gives the same error.\r\n\r\nAny idea is highly appreciated.\r\n[spack-build-out.txt](https://github.com/spack/spack/files/6371502/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/6371504/spack-build-env.txt)\r\n[spack-build-01-install-out.txt](https://github.com/spack/spack/files/6371505/spack-build-01-install-out.txt)\r\n\r\n[output.txt](https://github.com/spack/spack/files/6371507/output.txt)\r\n\r\n",
+    "user": "afrah",
+    "url": "https://api.github.com/repos/spack/spack/issues/23243",
+    "updated_at": "2021-04-27 08:18:20",
+    "created_at": "2021-04-25 08:12:23",
+    "closed_at": "2021-04-26 18:29:39",
+    "state": "closed",
+    "title": "Installation issue: tau@2.30.1%gcc@7.1.0",
+    "number": 23243,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 866946577,
+    "html_url": "https://github.com/spack/spack/issues/23243",
+    "assignees": [],
+    "comments": 6
+}

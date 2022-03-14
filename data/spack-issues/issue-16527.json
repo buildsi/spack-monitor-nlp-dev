@@ -1,0 +1,22 @@
+{
+    "body": "Most of the `PythonPackage`s use `PythonPackage.setup_py()`, which is different from `setup_py` that is set in `Python.setup_dependent_package()`. Only the latter is run with `LDSHARED` environment variable, which is set to the value that is supposed to enforce the linking of the compiled extensions with the Spack wrapper. This means that most of the extensions are currently linked with the real compiler, not the wrapper.\r\n\r\n1. I think that the logic in `PythonPackage.setup_py()` and in `Python.setup_dependent_package()` needs to be the same without duplication. This is out of the scope of this PR but if there is an agreement on how to refactor this, I could add it here as well.\r\n\r\n2. @adamjstewart I am curious how you managed to build `py-pyyaml+libyaml` after #16301. In my case, since the linking is done without the wrapper, the linker cannot find `-lyaml`.\r\nMaybe I missed something that would be relevant for this PR.\r\n\r\n3. To cover both of the aforementioned cases, `LDSHARED` needs to be set in `Python.setup_dependent_build_environment()` (if at all). This is part of this PR.\r\n\r\n4. The current logic with a JSON file is too complicated. This PR replaces it with a more simple solution. Hopefully, the comments in the code clarify the implementation details well enough.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16527",
+    "updated_at": "2021-01-27 18:20:37",
+    "created_at": "2020-05-08 12:44:03",
+    "closed_at": "2021-01-27 18:20:37",
+    "state": "closed",
+    "title": "python: fix and refactor RPATHs for compiled extensions",
+    "number": 16527,
+    "milestone": null,
+    "labels": [
+        "python",
+        "rpath"
+    ],
+    "id": 614720046,
+    "html_url": "https://github.com/spack/spack/pull/16527",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 17
+}

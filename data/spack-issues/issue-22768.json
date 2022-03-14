@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nhip@4.1.0 generates a lib name with a dash in the end because cmake can't infer the version number from a tarbal (it assumes git). This can lead to linker errors.\r\n\r\nThere's already a patch for it but it might have to be rebased.\r\n\r\n```\r\npath/to/hip/lib $ ls\r\ncmake  hip_prof_str.h  libamdhip64.so  libamdhip64.so.4  libamdhip64.so.4.1.21134-\r\n```\r\n\r\nCurrently the patch is only applied to 4.0.0 and below:\r\n\r\n```python\r\npatch('0003-Improve-compilation-without-git-repo.3.10.0.patch', when='@3.10.0:4.0.0')\r\n```\r\n\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22768",
+    "updated_at": "2021-04-07 21:05:49",
+    "created_at": "2021-04-03 21:24:05",
+    "closed_at": "2021-04-07 21:05:49",
+    "state": "closed",
+    "title": "Fix hip lib amdhip64",
+    "number": 22768,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 849742471,
+    "html_url": "https://github.com/spack/spack/issues/22768",
+    "assignees": [
+        "srekolam"
+    ],
+    "comments": 1
+}

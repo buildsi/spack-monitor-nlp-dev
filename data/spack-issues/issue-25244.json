@@ -1,0 +1,21 @@
+{
+    "body": "Multipart uploads are not assembled to a single file on openstack\r\nobject storage, instead they are stored as Static Large Object. This is rather\r\ninconvenient, because it means there is not a single URL for the file;\r\ninstead the user has to download all parts and assemble the file\r\nthemselves. This makes spack install using a binary cache over https://\r\ninstead of s3:// fail.\r\n\r\nTo work around this, this commit ensures that we use a high multipart\r\nthreshold of 1TB, which basically means we never use multipart uploads.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25244",
+    "updated_at": "2021-08-27 08:49:55",
+    "created_at": "2021-08-04 11:38:55",
+    "closed_at": "2021-08-27 08:49:55",
+    "state": "closed",
+    "title": "Make s3 multipart upload threshold configurable",
+    "number": 25244,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "defaults",
+        "utilities"
+    ],
+    "id": 960306661,
+    "html_url": "https://github.com/spack/spack/pull/25244",
+    "assignees": [],
+    "comments": 8
+}

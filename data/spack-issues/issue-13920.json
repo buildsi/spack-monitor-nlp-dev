@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #16733 \r\n\r\nIn this PR:\r\n\r\n`spack config add <value>`: adds nested value `value` to the configuration scope specified.\r\n\r\nFor example:\r\n\r\n1. in an environment `spack config add config:dirty:true` sets the `dirty` config value to True in the environment.\r\n2. outside all environments, `spack config add packages:all:variants:~shared` sets the configuration to build all packages with a `shared` variant as `~shared`.\r\n\r\n`spack config remove/rm`: Removes specified configuration from the relevant scope:\r\n\r\nFor example:\r\n\r\n1. `spack config remove config:dirty:true` will remove `dirty:true` from the config file\r\n2. `spack config remove config:dirty` will also remove `dirty:true` from the config file\r\n\r\nBoth the `spack config add` and `spack config remove` commands know to append to/remove from lists appropriately. However, if the heading under which the list appears does not yet exist in the config file, lists must be specified directly for the `spack config add` command.\r\n\r\nI.E. if the `packages:all:compiler` entry already exists in the configuration file, the following are equivalent. If it does not exist, only the latter is valid.\r\n\r\n`spack config add packages:all:compiler:gcc`\r\n`spack config add packages:all:compiler:[gcc]`\r\n\r\n`spack config add` also has an option to add a file. This accepts any file that satisfies the schema for Spack Environments. All options from that file will be added to the config.\r\n\r\nTODO:\r\n- [x] Allow config files for individual sections to be added\r\n- [x] Fix `spack config remove` from environment\r\n- [x] Fix '::' additions to environment scopes",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/13920",
+    "updated_at": "2020-07-14 18:37:03",
+    "created_at": "2019-11-27 20:39:40",
+    "closed_at": "2020-06-25 07:38:02",
+    "state": "closed",
+    "title": "new subcommand: config add/remove",
+    "number": 13920,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "commands"
+    ],
+    "id": 529563395,
+    "html_url": "https://github.com/spack/spack/pull/13920",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 6
+}

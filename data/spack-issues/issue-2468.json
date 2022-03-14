@@ -1,0 +1,22 @@
+{
+    "body": "Adding an invalid key to one of the yaml files causes it to be un-editable by spack.  For example:\r\n```\r\n>> spack config --scope defaults edit packages\r\n\r\npackages:\r\n  all:\r\n    compiler: [gcc, intel, pgi, clang, xl, nag]\r\n    providers:\r\n      mpi: [openmpi, mpich]\r\n      blas: [openblas]\r\n      lapack: [openblas]\r\n      pil: [py-pillow]\r\n\r\n  openssl:\r\n      paths:\r\n          openssl@system: /usr\r\n      version: [system]\r\n      buildable: False\r\n      **checksum: False**\r\n```\r\nAdd the last, invalid key, save an exit.\r\n\r\nNow try again\r\n```\r\n>> spack config --scope defaults edit packages\r\n```\r\nYou will receive an error:\r\n```\r\n Traceback (most recent call last):\r\n  File \"/home/tom/dev/spack/bin/spack\", line 99, in <module>\r\n    import spack\r\n  File \"/home/tom/dev/spack/lib/spack/spack/__init__.py\", line 103, in <module>\r\n    pkgsort = PreferredPackages()\r\n  File \"/home/tom/dev/spack/lib/spack/spack/preferred_packages.py\", line 32, in __init__\r\n    self.preferred = spack.config.get_config('packages')\r\n  File \"/home/tom/dev/spack/lib/spack/spack/config.py\", line 398, in get_config\r\n    data = scope.get_section(section)\r\n  File \"/home/tom/dev/spack/lib/spack/spack/config.py\", line 177, in get_section\r\n    data   = _read_config_file(path, schema)\r\n  File \"/home/tom/dev/spack/lib/spack/spack/config.py\", line 272, in _read_config_file\r\n    validate_section(data, schema)\r\n  File \"/home/tom/dev/spack/lib/spack/spack/config.py\", line 149, in validate_section\r\n    raise ConfigFormatError(e, data)\r\nspack.config.ConfigFormatError: /home/tom/dev/spack/etc/spack/defaults/packages.yaml:25: Additional properties are not allowed ('checksum' was unexpected)\r\n```\r\nI think editing should be successful even if the config is invalid.",
+    "user": "TomasPuverle",
+    "url": "https://api.github.com/repos/spack/spack/issues/2468",
+    "updated_at": "2021-10-28 22:37:45",
+    "created_at": "2016-12-03 03:44:17",
+    "closed_at": "2021-10-28 22:37:45",
+    "state": "closed",
+    "title": "A corrupted packages.yaml causes 'spack config edit' to error out",
+    "number": 2468,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "commands"
+    ],
+    "id": 193263146,
+    "html_url": "https://github.com/spack/spack/issues/2468",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

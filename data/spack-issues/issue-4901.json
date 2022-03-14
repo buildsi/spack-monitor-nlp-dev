@@ -1,0 +1,19 @@
+{
+    "body": "tmux should not set \"PKG_CONFIG_PATH=...\" in the call to configure() in package.py.\r\n\r\nThis overwrites the environment's PKG_CONFIG_PATH, which causes problems with the Cray compiler wrappers (cc, CC, and ftn).  The Cray compiler wrappers use pkg-config to find packages according to the modules loaded in the environment.  But it can't find these packages if the PKG_CONFIG_PATH is improperly set.\r\n\r\nFor example, after running `spack install -v tmux`, I was seeing errors like this:\r\n\r\n```\r\nconfigure:3021: checking for gcc\r\nconfigure:3048: result: /p/home/sbateman/spack/lib/spack/env/gcc/gcc\r\nconfigure:3277: checking for C compiler version\r\nconfigure:3286: /p/home/sbateman/spack/lib/spack/env/gcc/gcc --version >&5\r\npkg-config error:\r\nPackage AtpSigHandler was not found in the pkg-config search path.\r\nPerhaps you should add the directory containing `AtpSigHandler.pc'\r\nto the PKG_CONFIG_PATH environment variable\r\nNo package 'AtpSigHandler' found\r\nconfigure:3297: $? = 1\r\n```\r\n\r\nThis pull request fixes the problem by removing the \"PKG_CONFIG_PATH=...\" argument from the call to configure().  `spack install -v tmux` seems to correctly find the libevent and ncurses libraries anyway.",
+    "user": "YtterbiJum",
+    "url": "https://api.github.com/repos/spack/spack/issues/4901",
+    "updated_at": "2017-07-25 22:54:37",
+    "created_at": "2017-07-25 19:38:04",
+    "closed_at": "2017-07-25 22:08:35",
+    "state": "closed",
+    "title": "tmux should not set PKG_CONFIG_PATH",
+    "number": 4901,
+    "milestone": null,
+    "labels": [
+        "pkg-config"
+    ],
+    "id": 245512178,
+    "html_url": "https://github.com/spack/spack/pull/4901",
+    "assignees": [],
+    "comments": 10
+}

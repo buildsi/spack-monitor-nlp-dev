@@ -1,0 +1,19 @@
+{
+    "body": "Somehow the url fetching of GitHub releases seems to mismatch the correct download if additional packages are uploaded.\r\n\r\ne.g. the `protobuf` package should always fetch the `archive/vX.Y.Z.tar.gz` *github default packages* but a `spack checksum protobuf` also seems to randomly [catch other, additional uploads of a version](https://github.com/google/protobuf/releases):\r\n```\r\n==> Fetching https://github.com/google/protobuf/archive/v3.4.0rc3.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/archive/v3.4.0rc2.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/archive/v3.4.0rc1.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/releases/download/v3.4.0/protobuf-cpp-3.4.0.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/archive/v3.3.2.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/archive/v3.3.1.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/archive/v3.3.0rc1.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/releases/download/v3.3.0/protobuf-ruby-3.3.0.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/archive/v3.2.1.tar.gz\r\n######################################################################## 100,0%\r\n==> Fetching https://github.com/google/protobuf/releases/download/v3.2.0/protobuf-python-3.2.0.tar.gz\r\n######################################################################## 100,0%\r\n==> Checksummed 10 versions of protobuf\r\n\r\n    version('3.4.0rc3', '51d32d9dffef91fa32ff5d2873e4bb96')\r\n    version('3.4.0rc2', 'bb8d253a72f510603e050bdd87be1981')\r\n    version('3.4.0rc1', '9ad0f36137cdb7cda605ca04a825310a')\r\n    version('3.4.0',    '6d59dad503bea5ad420fd09ddad84481')\r\n    version('3.3.2',    'ef2a6a6bb3b92d8fa8d71e3cef741f2f')\r\n    version('3.3.1',    'a73549d2ac5f16a4027eecb17c28277f')\r\n    version('3.3.0rc1', '2323e732953835a524680b6ede733a69')\r\n    version('3.3.0',    '8b64807bc1fb52059873a31133ed71b2')\r\n    version('3.2.1',    '23f80424b39dd1fff52ab84074380f87')\r\n    version('3.2.0',    'ddc8f79ab4a1a6ade2c337fa55310ff4')\r\n```\r\n\r\nSee for example the `3.2.0`, `3.3.0` and the `3.4.0` version: they should just use the simple\r\n```\r\nurl      = \"https://github.com/google/protobuf/archive/v3.2.0.tar.gz\"\r\n```\r\ngiven in the `package.py`. Instead, it randomly takes one of the additional release artifacts.\r\n\r\nAm I doing something wrong here or became fetching an url really that non-deterministic?",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/5356",
+    "updated_at": "2017-09-17 16:06:00",
+    "created_at": "2017-09-13 13:02:15",
+    "closed_at": "2017-09-15 13:42:07",
+    "state": "closed",
+    "title": "URL fetching with GitHub Releases",
+    "number": 5356,
+    "milestone": null,
+    "labels": [
+        "url-parsing"
+    ],
+    "id": 257372157,
+    "html_url": "https://github.com/spack/spack/issues/5356",
+    "assignees": [],
+    "comments": 10
+}

@@ -1,0 +1,26 @@
+{
+    "body": "Fixes #15683 \r\n\r\nThe new distributed build assumes a single explicit spec while installs through `spack.yaml` files  process each spec separately in the same process.  When the installation of one of the packages in the `spack.yaml` fails, the whole process terminates.  \r\n\r\nCatching the failure to allow the installation of subsequent packages is not sufficient for \"best effort\" installs since failures can trigger infinite loops in the build process of a subsequent spec.  There is an additional inefficiency in that failure markings are cleared when a new `do_install` starts so there are multiple attempts to rebuild a failing package that is a key dependency in the `spack.yaml` file.\r\n\r\nPrefix Locking\r\n--------------\r\nPrefix locks cached in the database are not currently removed when the locks are released during the build process.  This can result in an infinite loop over the build queue where there is a dependency on an already installed package.\r\n\r\nWhen the database pulls the prefix lock from the cache instead of creating a lock for the new `do_install`, the lock's read/write counts become inaccurate. The counts are checked when the lock for an installed package is downgraded from write-to-read resulting in a `LockDowngradeError` failure.  The installed package is then added back to the build queue to be checked again later.  This sequence continues until it is interrupted.\r\n\r\nSolution\r\n--------\r\nThis PR, through separate commits, addresses both the prefix lock and failure cache issues described above.  Cached prefix locks are removed when the locks are released. A `--keep-failures` install flag is added and automatically used when installing from a `spack.yaml` file.\r\n\r\nTODO\r\n------\r\n- [x] Determine which of three options under consideration really addresses the locking issue\r\n- [x] Fix existing lock-related tests\r\n\r\nFollow-On Work\r\n----------------\r\n- If #15295 is merged before this PR, `environment.py` will need to be modified to support `--fast-fail`.\r\n- If #15314 is merged before this PR, `packaging_guide.rst`'s discussion of `--keep-failures` should be changed to reference the `spack clean -f` option",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/15415",
+    "updated_at": "2020-10-23 17:27:14",
+    "created_at": "2020-03-09 23:53:43",
+    "closed_at": "2020-10-23 17:27:14",
+    "state": "closed",
+    "title": "bugfix: Preliminary support for 'best effort' environment installs",
+    "number": 15415,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "impact-medium",
+        "build",
+        "bugfix"
+    ],
+    "id": 578254270,
+    "html_url": "https://github.com/spack/spack/pull/15415",
+    "assignees": [
+        "tgamblin",
+        "scheibelp",
+        "tldahlgren"
+    ],
+    "comments": 14
+}

@@ -1,0 +1,17 @@
+{
+    "body": "This update significantly reworks the llvm and clang packages.  The llvm\npackage now includes variants allowing it to build and install any and\nall of:\n- clang\n- lldb\n- llvm's libunwind (why, WHY did they name it this?!?)\n- polly (including building it directly into the clang tools, 3.7.0 only)\n- clang extra tools\n- compiler-rt (sanitizers)\n- clang lto (the gold linker plugin that allows same to work)\n- libcxx/libcxxabi\n- libopenmp, also setting the default openmp runtime to same, when\n  parameters happen this shoudl be an option of libomp or libgomp\n\nAs such, the clang package is also removed.\n\nIdeally, this should have rpath setup like the gcc package does, but\nclang's driver has no support for specs as such, and no clearly\nequivalent mechanism either.  If anyone has ideas on this, they would be\nwelcome.\n\nOne significant note related to gcc though, if you test this on LLNL\nsystems, or anywhere that has multiple gccs straddling the dwarf2\nboundary and sharing a libstdc++, build a gcc with spack (thanks \n@mplegendre, works great!) and use that to\nbuild clang.  If you use a gcc4.8+  to build this with an older\nlibstdc++ it will fail on missing unwind symbols because of the\ndiscrepancy.\n\nResource handling has been changed slightly to move the unpacked archive\ninto the target rather than use symlinks, because symlinks break certain\nkinds of relative paths, and orders resource staging such that nested\nresources are unpacked after outer ones.\n\n@alalazo, @tgamblin, thoughts?\n\nDepends on some packages in #290.\n",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/293",
+    "updated_at": "2016-01-14 09:13:39",
+    "created_at": "2015-12-31 01:03:56",
+    "closed_at": "2016-01-14 09:13:39",
+    "state": "closed",
+    "title": "Llvm rework",
+    "number": 293,
+    "milestone": null,
+    "labels": [],
+    "id": 124419526,
+    "html_url": "https://github.com/spack/spack/pull/293",
+    "assignees": [],
+    "comments": 5
+}

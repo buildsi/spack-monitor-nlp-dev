@@ -1,0 +1,17 @@
+{
+    "body": "Fixes https://github.com/LLNL/spack/issues/2634\r\n\r\n@tgamblin we originally talked about not automatically removing the prefix if --keep-prefix is set. While working on this I also noticed that it is possible that a partially complete installation may also have left stage files and in some cases re-initiating the install will fail because of that (gmp is an example as the 'configure' step cannot be performed twice without an intervening make clean). ~~My thought there was to also remove the stage files by default unless the user has specified --keep-stage. Perhaps adding a different option would be better.~~\r\n\r\n(EDIT 3/27) --keep-prefix now indicates that the install prefix and staging directory should be kept if present. If --keep-prefix is not set, then both of these are removed.\r\n\r\n- [x] Test removal of stage by default\r\n- [x] Add test to ensure that the prefix is not deleted on a new install attempt if --keep-prefix is set\r\n\r\nDepending on how spack is terminated in the middle of building a package it may leave a partially installed package in the install prefix. Originally Spack treated the package as being installed if the prefix was present, in which case the user would have to manually remove the installation prefix before restarting an install. This adds a more-thorough check to ensure that a package is actually installed. If the installation prefix is present but Spack determines that the install did not complete, it removes the installation prefix and starts a new install. ~~If the user has enabled --keep-prefix, then Spack reverts to its old behavior.~~\r\n\r\nEDIT 3/27: If the user has enabled --keep-prefix, then Spack will keep its stage directory if present (as it did before); in this case Spack will also keep the installation prefix and re-execute the installation commands unless there is an issue with the metadata (e.g. the spec.yaml file), in which case it will reset the installation prefix.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/3530",
+    "updated_at": "2017-04-20 04:59:19",
+    "created_at": "2017-03-23 19:07:25",
+    "closed_at": "2017-04-20 04:59:19",
+    "state": "closed",
+    "title": "Override partial installs by default",
+    "number": 3530,
+    "milestone": null,
+    "labels": [],
+    "id": 216539702,
+    "html_url": "https://github.com/spack/spack/pull/3530",
+    "assignees": [],
+    "comments": 7
+}

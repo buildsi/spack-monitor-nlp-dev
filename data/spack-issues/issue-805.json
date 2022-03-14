@@ -1,0 +1,19 @@
+{
+    "body": "The command : \n\n``` shell\n$ spack mirror create -d /home/mculpo/production/spack-mirror -D espresso+mpi+scalapack%gcc@5.3.0^openblas+shared^openmpi+psm\n==> Error: Multiple providers found for 'mpi': ['mvapich2@2.2b%gcc@5.3.0~debug~gforker~hydra~mrail~nemesis~nemesisib~nemesisibtcp~psm~remshell~slurm~sock=production', 'openmpi@1.10.2%gcc@5.3.0+psm~tm~verbs=production']\n\n```\n\nfails with an error on the current `develop`, while : \n\n``` shell\n$ spack mirror create -d /home/mculpo/production/spack-mirror -D espresso+mpi+scalapack%gcc@5.3.0^openblas+shared^netlib-scalapack^openmpi+psm\n==> Adding package fftw@3.3.4 to mirror\n==> fftw@3.3.4 : already added\n==> Adding package netlib-scalapack@2.0.2 to mirror\n==> netlib-scalapack@2.0.2 : already added\n==> Adding package openmpi@1.10.2 to mirror\n==> openmpi@1.10.2 : already added\n==> Adding package espresso@5.3.0 to mirror\n==> espresso@5.3.0 : already added\n==> Adding package libpciaccess@0.13.4 to mirror\n==> libpciaccess@0.13.4 : already added\n==> Adding package cmake@3.5.2 to mirror\n==> cmake@3.5.2 : already added\n==> Adding package openblas@0.2.17 to mirror\n==> openblas@0.2.17 : already added\n==> Adding package hwloc@1.11.2 to mirror\n==> hwloc@1.11.2 : already added\n==> Adding package openssl@1.0.2g to mirror\n==> openssl@1.0.2g : already added\n==> Adding package zlib@1.2.8 to mirror\n==> zlib@1.2.8 : already added\n==> Adding package libtool@2.4.6 to mirror\n==> libtool@2.4.6 : already added\n==> Adding package ncurses@6.0 to mirror\n==> ncurses@6.0 : already added\n==> Successfully updated mirror in /home/mculpo/production/spack-mirror\n```\n\ncompletes successfully. It seems a bug to me the fact that, if not mentioned explicitly in the command line, `netlib-scalapack` mpi is resolved to be something else than `openmpi`. Note that : \n\n``` shell\n$ spack install espresso+mpi+scalapack%gcc@5.3.0^openblas+shared^openmpi+psm\n```\n\n**does not** present the same problem.\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/805",
+    "updated_at": "2017-08-03 19:49:17",
+    "created_at": "2016-04-20 06:56:33",
+    "closed_at": "2017-08-03 19:49:17",
+    "state": "closed",
+    "title": "`spack mirror` : wrong dependency resolution",
+    "number": 805,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 149676902,
+    "html_url": "https://github.com/spack/spack/issues/805",
+    "assignees": [],
+    "comments": 4
+}

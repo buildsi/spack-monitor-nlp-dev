@@ -1,0 +1,21 @@
+{
+    "body": "Information on where I am working:\r\n```console\r\n$ uname -a \r\nLinux nuvolari 4.4.0-45-generic #66~14.04.1-Ubuntu SMP Wed Oct 19 15:05:38 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\nIf I run any test involving `MockDatabase` from the latest develop:\r\n```console\r\n$ git checkout develop\r\nAlready on 'develop'\r\nYour branch is up-to-date with 'origin/develop'.\r\n\r\n$ git branch -v\r\n* develop a260e7e Bugfix in concretize_compiler (#2196)\r\n\r\n$ spack test cmd.uninstall\r\n==> Installing mpileaks\r\n==> Installing mpich\r\n==> Building mpich [Package]\r\n...\r\n----------------------------------------------------------------------\r\nRan 1 test in 40.622s\r\n\r\nOK\r\n==> Tests Complete.\r\n      1 tests run\r\n      0 failures\r\n      0 errors\r\n==> OK\r\n```\r\nGoing back over the last commits, the first one at which I get the old performance is:\r\n```console\r\n$ git checkout 4e6d535\r\nNote: checking out '4e6d535'.\r\n\r\nYou are in 'detached HEAD' state. You can look around, make experimental\r\nchanges and commit them, and you can discard any commits you make in this\r\nstate without impacting any branches by performing another checkout.\r\n\r\nIf you want to create a new branch to retain commits you create, you may\r\ndo so (now or later) by using -b with the checkout command again. Example:\r\n\r\n  git checkout -b new_branch_name\r\n\r\nHEAD is now at 4e6d535... Set Clang as the default compiler on macOS (#2225)\r\n\r\n$ spack test cmd.uninstall\r\n==> Installing mpileaks\r\n==> Installing mpich\r\n==> Building mpich [Package]\r\n...\r\n----------------------------------------------------------------------\r\nRan 1 test in 7.855s\r\n\r\nOK\r\n==> Tests Complete.\r\n      1 tests run\r\n      0 failures\r\n      0 errors\r\n==> OK\r\n```\r\nThis seems to point to #1822 as the source of this slowdown. Can anybody else reproduce the issue ?",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/2251",
+    "updated_at": "2016-11-07 04:50:14",
+    "created_at": "2016-11-05 10:24:37",
+    "closed_at": "2016-11-07 04:50:14",
+    "state": "closed",
+    "title": "`spack test`: ~5x slowdown in tests involving `MockDatabase`?",
+    "number": 2251,
+    "milestone": null,
+    "labels": [
+        "question",
+        "tests",
+        "performance"
+    ],
+    "id": 187488922,
+    "html_url": "https://github.com/spack/spack/issues/2251",
+    "assignees": [],
+    "comments": 0
+}

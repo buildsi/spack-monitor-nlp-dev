@@ -1,0 +1,17 @@
+{
+    "body": "This is intended to resolve https://github.com/LLNL/spack/issues/1308\n\nIt is a WIP on account of the second point below\n\nThere are two changes:\n- Firstly mirror URL fetchers created in Stage.fetch use the 'expand' member of the default fetcher\n- Secondly I felt that the resource retrieved by the mirror should have the same name as if it were retrieved from the web URL (if I make the first change here that still causes a problem WRT https://github.com/LLNL/spack/pull/1233). As far as I could tell this was actually intended with the implementation of Stage.expected_archive_files: it returns the mirror path as well as a path based on the current fetcher. URLFetchStrategy.fetch uses the first expected_archive_files element to choose the output filename for curl (which originally was the path based on the current fetcher URL); the current fetcher is either the default or a mirror so I changed it to reference Stage.default_fetcher (since the non-default case was covered by using the mirror path).\n\nIf I was wrong about expected_archive_files I can also modify URLFetchStrategy to optionally save to a specified file and choose that explicitly. If having expectations on the name of the staged file is considered problematic I think this can be handled another way.\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/1310",
+    "updated_at": "2016-09-07 14:02:25",
+    "created_at": "2016-07-20 03:28:24",
+    "closed_at": "2016-09-07 14:02:25",
+    "state": "closed",
+    "title": "Fetching resources that should not be expanded from mirrors",
+    "number": 1310,
+    "milestone": null,
+    "labels": [],
+    "id": 166486828,
+    "html_url": "https://github.com/spack/spack/pull/1310",
+    "assignees": [],
+    "comments": 7
+}

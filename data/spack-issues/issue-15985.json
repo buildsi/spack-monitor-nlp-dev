@@ -1,0 +1,20 @@
+{
+    "body": "spack checksum does not use the `url_for` function to look for versions that may be located at different urls\r\n\r\n### Steps to reproduce the issue\r\nCreate test package\r\n```python\r\nfrom spack.spec import ConflictsInSpecError\r\n\r\n\r\nyaml_cpp_tests_libcxx_error_msg = 'yaml-cpp tests incompatible with libc++'\r\n\r\n\r\nclass TestPackage(CMakePackage):\r\n    \"\"\"A YAML parser and emitter in C++\"\"\"\r\n\r\n    homepage = \"https://github.com/jbeder/yaml-cpp\"\r\n    #url      = \"https://github.com/jbeder/yaml-cpp/archive/yaml-cpp-0.5.3.tar.gz\"\r\n    git      = \"https://github.com/jbeder/yaml-cpp.git\"\r\n\r\n    def url_for_version(self, version):\r\n        url = \"https://github.com/jbeder/yaml-cpp/archive/{0}-{1}.tar.gz\"\r\n        if version < Version('0.5.3'):\r\n            return url.format('release',version)\r\n        else:\r\n            return url.format('yaml-cpp',version)\r\n```\r\n```console\r\n$ spack checksum test-package\r\nError: Could not find any versions for test-package\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n$ spack --debug --stacktrace checksum test-package\r\nlib/spack/spack/cmd/__init__.py:102 ==> [2020-04-09-21:17:37.863469, 19046] Imported checksum from built-in commands\r\nlib/spack/spack/cmd/__init__.py:102 ==> [2020-04-09-21:17:37.864401, 19046] Imported checksum from built-in commands\r\nlib/spack/spack/config.py:727 ==> [2020-04-09-21:17:37.866602, 19046] Reading config file /lore/mersoj/spack/spack/etc/spack/defaults/repos.yaml\r\nlib/spack/spack/config.py:727 ==> [2020-04-09-21:17:37.868508, 19046] Reading config file /users/mersoj/.spack/linux/repos.yaml\r\nlib/spack/spack/cmd/checksum.py:56 ==> [2020-04-09-21:17:37.961179, 19046] Error: Could not find any versions for test-package\r\nlib/spack/spack/config.py:727 ==> [2020-04-09-21:17:37.961651, 19046] Reading config file /lore/mersoj/spack/spack/etc/spack/defaults/config.yaml\r\nlib/spack/spack/config.py:727 ==> [2020-04-09-21:17:37.978666, 19046] Reading config file /users/mersoj/.spack/config.yaml\r\nTraceback (most recent call last):\r\n  File \"/lore/mersoj/spack/spack/lib/spack/spack/main.py\", line 763, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/lore/mersoj/spack/spack/lib/spack/spack/main.py\", line 488, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/lore/mersoj/spack/spack/lib/spack/spack/cmd/checksum.py\", line 56, in checksum\r\n    tty.die(\"Could not find any versions for {0}\".format(pkg.name))\r\n  File \"/lore/mersoj/spack/spack/lib/spack/llnl/util/tty/__init__.py\", line 227, in die\r\n    sys.exit(1)\r\nSystemExit: 1\r\n```\r\n\r\n### Information on your system\r\n* **Spack:** 0.14.1-589-0c0c666\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-rhel7-skylake\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "jacobmerson",
+    "url": "https://api.github.com/repos/spack/spack/issues/15985",
+    "updated_at": "2022-02-23 00:56:00",
+    "created_at": "2020-04-10 01:20:44",
+    "closed_at": "2022-02-23 00:56:00",
+    "state": "closed",
+    "title": "checksum does not use url created in url_for",
+    "number": 15985,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "refactoring"
+    ],
+    "id": 597640943,
+    "html_url": "https://github.com/spack/spack/issues/15985",
+    "assignees": [],
+    "comments": 3
+}

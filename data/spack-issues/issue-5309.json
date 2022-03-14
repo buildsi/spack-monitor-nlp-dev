@@ -1,0 +1,19 @@
+{
+    "body": "I am trying to figure out how many packages in Spack use HDF5 directly (e.g. call HDF5) and how many use HDF5 indirectly (call some package that calls other packages that eventually call HDF5). \r\n\r\nSome basic sanity checkes don't seem to add up...\r\n\r\n```\r\n[scratlantis:~/spack/spack] miller86% find var/spack/repos/builtin/packages -name package.py -exec sh -c 'grep -H \"^[^#]*depends_on(\" {} | grep -m 1 -i hdf5' \\; | wc -l\r\n      64\r\n[scratlantis:~/spack/spack] miller86% spack dependents hdf5 | xargs -n 1 | wc -l\r\n      61\r\n```\r\n\r\nWhen I examine the difference in the two approaches, above, I see that these 3 packages were not included by the `spack depdendents` command...\r\n  - hdf5\r\n  - nalu\r\n  - xsdk\r\n\r\nFirst, should the package itself be listed by `spack dependents`?\r\n\r\nNext, `spack graph` does show `hdf5` for xsdk but not for nalu. But, nalu's `depends_on` declaration is quite complex\r\n\r\n```\r\n[scratlantis:~/spack/spack] miller86% spack graph xsdk\r\no  xsdk\r\n|\\\r\n| |\\\r\n| | |\\\r\n| | | |\\\r\n| | | | |\\\r\n| | | | | o  alquimia\r\n.\r\n.\r\n.\r\n| | | | | | o | | | | |  matio\r\n| | |/| |_|/ / / / /\r\n| | | |/| | | | | | \r\n| | | | | o | | | |  hdf5\r\n| |_|_|_|/| | | | | \r\n|/| | |_|/ / / / /\r\n| | |/| | | | | | \r\n| | o | | | | | |  openmpi\r\n| | o | | | | | |  hwloc\r\n| | |\\ \\ \\ \\ \\ \\ \\\r\n| | | o | | | | | |  libxml2\r\n| |_|/| | | | | | | \r\n|/| |/| | | | | | | \r\n| | | | | | o | | |  boost\r\n.\r\n.\r\n.\r\no |  m4\r\no |  libsigsegv\r\n /\r\no  bzip2\r\n```\r\n",
+    "user": "markcmiller86",
+    "url": "https://api.github.com/repos/spack/spack/issues/5309",
+    "updated_at": "2017-09-08 19:06:47",
+    "created_at": "2017-09-08 18:39:41",
+    "closed_at": "2017-09-08 19:04:44",
+    "state": "closed",
+    "title": "inconsistencies in dependent info",
+    "number": 5309,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 256338104,
+    "html_url": "https://github.com/spack/spack/issues/5309",
+    "assignees": [],
+    "comments": 3
+}

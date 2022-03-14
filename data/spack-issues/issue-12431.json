@@ -1,0 +1,21 @@
+{
+    "body": "Many python packages (rightfully) dropped Python 2 support and started to require Python 3 in their latest versions, for example `numpy`, `scipy`, `pandas`, `matplotlib` etc. and there are plans to change the default Python version to 3 (#10319).\r\n\r\nHowever, currently `spack` is unable to determine the last version to still support Python 2 during concretization and instead returns a concretization error. I think this is related to #11659.\r\n\r\nSince we are currently in the process of transitioning from py2 to py3, we provide the same set of packages depending on different versions of Python. This issues requires us to manually specify  versions of affected packages for both each major Python release.\r\n\r\nPlus, we will need to keep up support for internally used legacy software still relying on Python 2 so just dropping Python 2 and be done with it is no option in the near future.\r\n\r\n### Steps to reproduce the issue\r\n\r\nChoose one of the following commands:\r\n```console\r\n$ spack spec 'py-numpy ^python@2.7.16'\r\n$ spack spec 'py-scipy ^python@2.7.16'\r\n$ spack spec 'py-matplotlib ^python@2.7.16'\r\n$ spack spec 'py-pandas ^python@2.7.16'\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nInput spec\r\n--------------------------------\r\npy-scipy\r\n    ^python@2.7.16\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    python@2.7.16%gcc@8.3.0+bz2+ctypes+dbm+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4~uuid+zlib arch=linux-archrolling-x86_64\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    py-scipy@1.3.0%gcc@8.3.0 arch=linux-archrolling-x86_64\r\n\r\n\r\npy-scipy requires python version 3.5:, but spec asked for 2.7.16\r\n```\r\n\r\n@tgamblin I took from #11659 that you a working on a [new concretizer](https://github.com/spack/spack/issues/11659#issuecomment-508873223), is there an ETA on when the new concretizer will be able to extract the required version information from the package definitions?",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/12431",
+    "updated_at": "2020-11-17 18:04:16",
+    "created_at": "2019-08-15 16:38:39",
+    "closed_at": "2020-11-17 18:04:16",
+    "state": "closed",
+    "title": "Concretizer is unable to automatically determine last package version to support python 2",
+    "number": 12431,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "concretization"
+    ],
+    "id": 481235669,
+    "html_url": "https://github.com/spack/spack/issues/12431",
+    "assignees": [],
+    "comments": 2
+}

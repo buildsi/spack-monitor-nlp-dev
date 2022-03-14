@@ -1,0 +1,19 @@
+{
+    "body": "I ran into the following issues\r\nlibssh@0.8.5%gcc@8.4.0 build_type=RelWithDebInfo\r\nresulting in errors like:\r\n> /usr/lib64/libk5crypto.so: undefined reference to `EVP_KDF_derive@OPENSSL_1_1_1b'\r\n> /usr/lib64/libk5crypto.so: undefined reference to `EVP_KDF_ctrl@OPENSSL_1_1_1b'\r\n> /usr/lib64/libk5crypto.so: undefined reference to `EVP_KDF_CTX_new_id@OPENSSL_1_1_1b'\r\n> /usr/lib64/libk5crypto.so: undefined reference to `EVP_KDF_CTX_free@OPENSSL_1_1_1b\r\n(full build log attached further down)\r\n\r\nThis occurred on a zen2 system running RHEL8.2, having previously successfully built on ivybridge and plain x86_64 systems.  However, the aforementioned Intel builds were done prior to some OS patches, and an attempt to spack install --overwrite on the ivybridge system resulted in the same error.\r\n\r\nIt appears that libssh \r\n1. does not have a krb5 dependency listed in spack\r\n1. will detect and use a system krb5 library if present if WITH_GSSAPI is set (I am not sure if this is set by default or only set if a krb5 library is found)\r\n\r\nThis means that if system krb5 libraries are found, they will be linked against.\r\n\r\nI propose adding a boolean variant gssapi, and if unset force WITH_GSSAPI off so no external krb5 library will be linked against, and if set make spack's krb5 a dependency.\r\n\r\n### Steps to reproduce the issue\r\nspack install libssh\r\non a system with system kerberos libraries\r\nand the resulting libraries appear to be linked against system krb5 libraries.\r\n\r\n### Information on your system\r\nspack debug report\r\n* **Spack:** 0.14.2\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-ivybridge\r\n\r\n### Additional information\r\nFull environment and build output attached:\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5064262/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5064263/spack-build-out.txt)\r\n\r\nNo maintainers found for libssh\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/18033",
+    "updated_at": "2020-08-17 12:48:31",
+    "created_at": "2020-08-12 22:19:07",
+    "closed_at": "2020-08-17 12:48:04",
+    "state": "closed",
+    "title": "Installation issue: libssh (linking against system instead of spack krb5 libraries)",
+    "number": 18033,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 678013146,
+    "html_url": "https://github.com/spack/spack/issues/18033",
+    "assignees": [],
+    "comments": 1
+}

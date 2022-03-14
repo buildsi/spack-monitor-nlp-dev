@@ -1,0 +1,19 @@
+{
+    "body": "Summary:\r\n\r\nWe have a stable but older (qt3) GUI in openspeedshop that gets built by openspeedshop by default.\r\nWe have a new qt4/qt5 based GUI built by the cbtf-argonavis-gui package which depends on some of the libraries and components in openspeedshop.    When I try to build cbtf-argonavis-gui, I get this error:\r\n```\r\ncbtf-argonavis-gui requires qt version 5.10.0, but spec asked for 3.3.8b\r\n```\r\n\r\nI've tried a number of things to avoid the qt3 versus qt5 conflict, such as adding a gui variant:\r\n```\r\n    variant('gui', default='qt3', values=('none', 'qt3', 'qt4'),\r\n            description='Build or not build a GUI of choice'\r\n    )\r\n```\r\nand then building openspeedshop twice, once with the qt3 variant and once with the qt4 variant, but then I have two versions of openspeedshop which is confusing to users because one version is complete and one version doesn't have the qt3 GUI.\r\n\r\nI can build the complete openspeedshop package and then point the cbtf-argonavis-gui build to that version of openspeedshop outside of spack without issues, but spack is complaining about qt3 and qt4/qt5 requirements.   Seems like only one version can be active for some reason.\r\n\r\nIs there a solution in spack for this type of usage?\r\n\r\nThanks\r\nJim G\r\n",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/7946",
+    "updated_at": "2018-05-17 19:05:37",
+    "created_at": "2018-04-30 15:13:31",
+    "closed_at": "2018-05-17 19:05:37",
+    "state": "closed",
+    "title": "qt3 and qt4/q5 causing unsatisfiable version constraint",
+    "number": 7946,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 318926585,
+    "html_url": "https://github.com/spack/spack/issues/7946",
+    "assignees": [],
+    "comments": 12
+}

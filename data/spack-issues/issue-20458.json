@@ -1,0 +1,20 @@
+{
+    "body": "Openblas is taking too long to finish the installation, around 11 minutes, is that normal?\r\n\r\n### Minimal example\r\n```\r\n$ time spack install --fail-fast openblas@0.3.9\r\n==> Installing openblas-0.3.9-rv4ljs7usr6qcqmzy2ywbjdhkevqikgo\r\n==> No binary for openblas-0.3.9-rv4ljs7usr6qcqmzy2ywbjdhkevqikgo found: installing from source\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/17/17d4677264dfbc4433e97076220adc79b050e4f8a083ea3f853a53af253bc380.tar.gz\r\n################################################################################################################################################################################### 100.0%\r\n==> openblas: Executing phase: 'edit'\r\n==> openblas: Executing phase: 'build'\r\n==> openblas: Executing phase: 'install'\r\n[+] /home/tachidok/local/working/research/tmp/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-7.5.0/openblas-0.3.9-rv4ljs7usr6qcqmzy2ywbjdhkevqikgo\r\n\r\nreal\t11m3.647s\r\nuser\t42m48.538s\r\nsys\t6m12.603s\r\n```\r\n\r\nI want to add that I came to this minimal example after trying to create a Dockerfile with more packages and noticed that openblas was taking too long to install. I initially tought it was a docker related problem but then I individually installed the packages using the command\r\n\r\n```\r\n spack install --fail-fast <package_name>\r\n```\r\n\r\nwhich is the one produced by the `spack containerize > Dockerfile` command.\r\n\r\nPlease note that this is a fresh install, nothing else was installed with spack. This is the output after installing openblas@0.3.9\r\n\r\n```\r\n$ spack find\r\n==> 1 installed package\r\n-- linux-ubuntu18.04-skylake / gcc@7.5.0 ------------------------\r\nopenblas@0.3.9\r\n```\r\n\r\nSome other packages I tried to install and take too long are the following:\r\n\r\n```\r\n  ncurses\r\n  Fetch: 3.17s.  Build: 3m 13.20s.  Total: 3m 16.36s.\r\n  libxml2\r\n  Fetch: 1m 14.00s.  Build: 1m 4.88s.  Total: 2m 18.88s.\r\n  perl\r\n  Fetch: 29.17s.  Build: 4m 22.73s.  Total: 4m 51.91s.\r\n  openssl\r\n  Fetch: 4.42s.  Build: 6m 18.33s.  Total: 6m 22.75s.\r\n  cmake\r\n  Fetch: 15.58s.  Build: 13m 5.03s.  Total: 13m 20.60s.\r\n  openmpi\r\n  Fetch: 3.03s.  Build: 21m 54.80s.  Total: 21m 57.83s.\r\n```\r\n\r\n### Spack version\r\n```\r\n$ spack --version\r\n0.16.0-199-5b1739da7\r\n\r\n$ spack compilers\r\n==> Available compilers\r\n-- clang ubuntu18.04-x86_64 -------------------------------------\r\nclang@6.0.0\r\n\r\n-- gcc ubuntu18.04-x86_64 ---------------------------------------\r\ngcc@7.5.0\r\n```\r\n\r\n### System information\r\nOS: Ubuntu 18.04\r\nMemory: 15.5 GiB\r\nProcessor: Intel\u00ae Core\u2122 i7-8550U CPU @ 1.80GHz \u00d7 8 \r\nOS type: 64-bit\r\n\r\n### Spack debug report\r\n* **Spack:** 0.16.0-199-5b1739da7\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-ubuntu18.04-skylake\r\n* **Concretizer:** original\r\n\r\n\r\nNote sure what else to add as system information.\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output",
+    "user": "tachidok",
+    "url": "https://api.github.com/repos/spack/spack/issues/20458",
+    "updated_at": "2020-12-26 20:11:51",
+    "created_at": "2020-12-18 00:41:16",
+    "closed_at": "2020-12-26 20:11:51",
+    "state": "closed",
+    "title": "openblas installation is very slow: spack 0.16.0",
+    "number": 20458,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 770478139,
+    "html_url": "https://github.com/spack/spack/issues/20458",
+    "assignees": [],
+    "comments": 2
+}

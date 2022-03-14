@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #8199 \r\n\r\nSpack's build log error parser is a direct port of CTest's. The regexes it uses may work well for CMake, but they often trigger false positives for Autotools-based packages (see #8199). To reproduce this, uncomment any patches for the `fyba` package and try installing on macOS or with GCC 6.\r\n\r\nPreviously, any line containing `text:number: ` was matched. This regex has been removed. This resulted in the following error message no longer being caught:\r\n```\r\nINQTID.cpp:18:11: fatal error: 'sys/vfs.h' file not found\r\n```\r\nI removed the requirement for `: fatal error` to be preceded by a space to solve this. _Is the line after this now redundant?_\r\n\r\n### Pros\r\n\r\nFewer false positives for Autotools-based packages.\r\n\r\n### Cons\r\n\r\nMore false negatives?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8278",
+    "updated_at": "2018-06-03 16:59:08",
+    "created_at": "2018-05-25 16:37:30",
+    "closed_at": "2018-06-03 04:07:02",
+    "state": "closed",
+    "title": "Less sensitive error detection in build logs",
+    "number": 8278,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "error-messages"
+    ],
+    "id": 326592187,
+    "html_url": "https://github.com/spack/spack/pull/8278",
+    "assignees": [],
+    "comments": 0
+}

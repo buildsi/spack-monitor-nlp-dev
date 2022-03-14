@@ -1,0 +1,19 @@
+{
+    "body": "New cryptsetup package was merged into develop just yesterday (#12762).\r\n\r\nI was quite sure it was working when merged.  I tested a couple hours before, by rebasing my develop fork and merging.  And it worked!   But today, working from develop HEAD (currently at 3f06d5c12), it looks broken:\r\n\r\n```console\r\n$ spack install cryptsetup\r\n[snip]\r\n1 error found in build log:\r\n     138    checking for linux/keyctl.h... yes\r\n     139    checking whether __NR_add_key is declared... yes\r\n     140    checking whether __NR_keyctl is declared... yes\r\n     141    checking whether __NR_request_key is declared... yes\r\n     142    checking for key_serial_t... no\r\n     143    checking for uuid_clear in -luuid... no\r\n  >> 144    configure: error: You need the uuid library.\r\n```\r\n\r\nI thought I was going mad, but by trial and error, I found that if I do a `git revert b95b4bb9e`:\r\n\r\n```\r\n$ spack install cryptsetup\r\n[snip]\r\n==> Successfully installed cryptsetup\r\n```\r\n\r\nb95b4bb9e refers to #12794  -- \"add compilation option to sqlite\" and it merged just 10 minutes before #12762\r\n\r\nI don't currently understand how #12794 could be breaking cryptsetup.  It seems impossible, since it only added a variant that is off by default.\r\n\r\n@Sinan81  @hartzell ",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/12829",
+    "updated_at": "2019-09-17 18:22:11",
+    "created_at": "2019-09-13 17:27:21",
+    "closed_at": "2019-09-17 18:22:11",
+    "state": "closed",
+    "title": "cryptsetup: UUID library not found",
+    "number": 12829,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 493437502,
+    "html_url": "https://github.com/spack/spack/issues/12829",
+    "assignees": [],
+    "comments": 20
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Looks like building HDF with fortran support fails with GCC 10.2.0 due to some changes in gfortran.\r\n\r\n**OS:** CentOS 8 on AMD Rome\r\n**Spack version:** 0.16.1\r\n\r\nMy installation spec:\r\n```\r\nhdf@4.2.15%gcc@10.2.0+external-xdr+fortran~java~netcdf+pic~shared+szip arch=linux-centos8-zen2\r\n```\r\n\r\nError message:\r\n```\r\n     494      132 |       mgsnatt = mgisattr(riid, name, nt, count, data, len(name))\r\n     495          |                                                2\r\n     496    ......\r\n     497      155 |       mgsattr = mgisattr(riid, name, nt, count, data, len(name))\r\n     498          |                                                1\r\n  >> 499    Error: Type mismatch between actual argument at (1) and actual argument at (2) (CHARACTER(0)/INTEGER(4)).\r\n     500    make[3]: *** [Makefile:679: mfgrff.lo] Error 1\r\n     501    make[3]: *** Waiting for unfinished jobs....\r\n     502    dff.c: In function 'dfiopen_':\r\n     503    dff.c:69:11: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\r\n```\r\nLooks like the error message is identical to the one reported in netcdf-fortran git repo: https://github.com/Unidata/netcdf-fortran/issues/212\r\n\r\nThis can be fixed by passing the argument `-fallow-argument-mismatch` to gfortran as described in the issue. I'll initiate a PR shortly.",
+    "user": "amaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/22608",
+    "updated_at": "2021-03-29 14:43:18",
+    "created_at": "2021-03-29 14:40:25",
+    "closed_at": "2021-03-29 14:43:18",
+    "state": "closed",
+    "title": "Installation issue: hdf+fortran %gcc@10.2.0 build fails",
+    "number": 22608,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 843440347,
+    "html_url": "https://github.com/spack/spack/issues/22608",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,19 @@
+{
+    "body": "When trying to build zfp on my system, I encountered a bunch of odd python errors.  Upon deeper investigation, it appears that the CMake configuration tool zfp was using found/decided to use the system installed python instead of the spack installed python.  Looking at the zfp recipe, it had dependencies on py-numpy and py-cython, but no explicit dependency on python.\r\n\r\nI confess that might understanding of the different spack dependency types is still a bit vague, and I thought zfp's dependency on py-numpy should pick up py-numpy's dependency on python, and indeed I am seeing paths for the spack-installed python in the PATH, PYTHONHOME, and PYTHONPATH env variables in spack-build-env.txt, but for some reason CMake is using the system python, perhaps because spack-installed python is not in CMAKE_PREFIX_PATH???\r\n\r\n(I also see the system python in SPACK_PYTHON env var --- I assume this means the python under which spack itself is running?) \r\n\r\nAdding an explicit dependency on python in the zfp recipe resolves the issue for me (it seems that this adds the spack-installed python to CMAKE_PREFIX_PATH).  I can provide a patch for such, but I am unsure if that is the best solution or not.\r\n\r\n### Steps to reproduce the issue\r\n\r\n\r\n```console\r\n$ spack install zfp\r\n...\r\n-- Found PythonLibs: /usr/lib64/libpython3.6m.so (found version \"3.6.8\")\r\n-- Found PythonInterp: /usr/bin/python3.6\r\nFatal Python error: Py_Initialize: Unable to get the locale encoding\r\nModuleNotFoundError: No module named 'encodings'\r\n\r\nCurrent thread 0x00007f8e898a2b80 (most recent call first):\r\nCMake Error at python/scikit-build-cmake/FindPythonExtensions.cmake:299 (list):\r\n  list GET given empty list\r\nCall Stack (most recent call first):\r\n  python/CMakeLists.txt:4 (include)\r\n...\r\n```\r\n\r\nThe spack-installed python is version 3.7.7, and has a much longer path.\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2432-16111354aa\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-x86_64\r\n* **Concretizer:** original\r\n```\r\n\r\n\r\n\r\n### Additional information\r\n\r\n\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6424165/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6424166/spack-build-out.txt)\r\n\r\nMaintainers of the zfp package: @GarrettDMorrison  @lindstro\r\n\r\n\r\n### General information\r\n\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x ] I have uploaded the build log and environment files\r\n- [x ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/23436",
+    "updated_at": "2021-05-10 23:35:07",
+    "created_at": "2021-05-04 22:06:27",
+    "closed_at": "2021-05-10 23:35:07",
+    "state": "closed",
+    "title": "Installation issue: zfp install fails due to use of system python",
+    "number": 23436,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 875876984,
+    "html_url": "https://github.com/spack/spack/issues/23436",
+    "assignees": [],
+    "comments": 6
+}

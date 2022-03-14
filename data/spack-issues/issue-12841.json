@@ -1,0 +1,19 @@
+{
+    "body": "Binary package managers generally offer some form of verification for installed packages. This allows sysadmins to confirm that the files on their system or image are the files they wanted, and provides a smoke test (although not any sort of comprehensive protection) against certain sorts of malicious behavior.\r\n\r\nThis feature adds such tracking to Spack. It adds a post-install hook that generates a manifest of every file in the prefix. This manifest can then be used to ensure that no files have changed since installation time. The hook is skipped when installing from a binary cache that has an install manifest in the tarball, so for signed tarballs we can confirm that the files on disk are the files installed at build time.\r\n\r\nThe ``spack verify`` command has three modes.\r\n\r\nWith the `-a,--all` option it will check every installed package.\r\nWith the `-f,--files` option, it will check some specific files, determine which package they belong to, and confirm that they have not been changed.\r\nWith the `-s,--specs` option or by default, it will check some specific packages that no files havae changed.\r\n\r\nIt also accepts option to check local packages only and to output json data.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/12841",
+    "updated_at": "2019-10-16 01:51:20",
+    "created_at": "2019-09-16 21:50:00",
+    "closed_at": "2019-10-15 21:24:53",
+    "state": "closed",
+    "title": "Feature: installed file verification from manifest",
+    "number": 12841,
+    "milestone": null,
+    "labels": [],
+    "id": 494294208,
+    "html_url": "https://github.com/spack/spack/pull/12841",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Fixes a bug I introduced in #27798. Before #27798, we ran:\r\n```console\r\n$ python setup.py build --include-dirs ...\r\n$ python setup.py install\r\n```\r\nAfter #27798 we now run `pip install .` which runs:\r\n```console\r\n$ python setup.py install --include-dirs ...\r\n```\r\nHowever, these flags are only valid for the build phase, not for the install phase. Removing these args allows me to successfully build the package, and the package still correctly RPATHs to the right mumps installation, so I don't think they are actually needed. However, my mumps installation seems to be missing a lot of symbols:\r\n```console\r\n$ ldd -r /u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so\r\n...\r\nundefined symbol: firstPostorder\t(/u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so)\r\nundefined symbol: nextPostorder\t(/u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so)\r\nundefined symbol: GOMP_parallel\t(/u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so)\r\nundefined symbol: SPACE_ordering\t(/u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so)\r\nundefined symbol: omp_get_thread_num\t(/u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so)\r\nundefined symbol: omp_get_num_threads\t(/u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so)\r\nundefined symbol: freeElimTree\t(/u/stewart1/spack/opt/spack/linux-rhel8-zen/gcc-8.5.0/mumps-5.4.0-l2jllxnhy25r6kc5dcgvh4afxshbbnw3/lib/libmumps_common.so)\r\n```\r\nThis is causing all imports of `pymumps` to fail. Maybe @payerle can take a look at this?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28452",
+    "updated_at": "2022-02-09 00:19:11",
+    "created_at": "2022-01-17 17:04:06",
+    "closed_at": "2022-02-07 22:27:18",
+    "state": "closed",
+    "title": "py-pymumps: remove install_options",
+    "number": 28452,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package"
+    ],
+    "id": 1106087006,
+    "html_url": "https://github.com/spack/spack/pull/28452",
+    "assignees": [],
+    "comments": 9
+}

@@ -1,0 +1,20 @@
+{
+    "body": "I have come across a new error when installing fenics with spack. This seems like a similar issue to https://github.com/spack/spack/issues/13397.\r\n\r\nI am installing spack with the following command:\r\n`spack install fenics~hdf5 ^openmpi+pmi schedulers=slurm`\r\n\r\nI run into cmake issues at the final step. Specifically it cannot locate py-ply and site.py\r\n```\r\n1 error found in build log:\r\n     147      Ignoring EXACT since no version is requested.\r\n     148    This warning is for project developers.  Use -Wno-dev to suppress it.\r\n     149\r\n     150    -- Found PythonLibs: /cm/shared/apps/spack-pkgs/linux-centos7-zen/gcc-8.2.0/python-3.8.6-u7px4ssttiqjhc6q2arrww4wqceck7nk/lib/libpython3.8.so (found versio\r\n            n \"3.8.6\")\r\n     151    ImportError: No module named site\r\n     152    -- Could NOT find PY_ply (missing: PY_PLY_path)\r\n  >> 153    CMake Error at CMakeLists.txt:438 (message):\r\n     154      Required Python module 'ply' (http://www.dabeaz.com/ply/) could not be\r\n     155      found.  Install ply or set DOLFIN_ENABLE_PYTHON to false.\r\n     156\r\n     157\r\n     158    -- Configuring incomplete, errors occurred!\r\n     159    See also \"/home/apal/.spack_root/stage/spack-stage-fenics-2016.1.0-mgupwbojaxav4wuo63yfu6gv7oiy5jdn/spack-build-mgupwbo/CMakeFiles/CMakeOutput.log\".\r\n\r\nSee build log for details:\r\n  /home/apal/.spack_root/stage/spack-stage-fenics-2016.1.0-mgupwbojaxav4wuo63yfu6gv7oiy5jdn/spack-build-out.txt\r\n```\r\nI have verified that py-ply is in PYTHONPATH. I have explicitly spack-loaded python3 and py-ply.\r\n```\r\n[root@L01 tarballs]# spack find --loaded\r\n==> 18 installed packages\r\n-- linux-centos7-zen / gcc@8.2.0 --------------------------------\r\nbzip2@1.0.8   gdbm@1.18.1   libbsd@0.10.0  libiconv@1.16  libxml2@2.9.10  openssl@1.1.1h  python@3.8.6  sqlite@3.33.0  xz@5.2.5\r\nexpat@2.2.10  gettext@0.21  libffi@3.3     libuuid@1.0.3  ncurses@6.2     py-ply@3.11     readline@8.0  tar@1.32       zlib@1.2.11\r\n[root@L01 tarballs]#\r\n[root@L01 tarballs]# python -c \"import re, ply, site; print(re.compile('/__init__.py.*').sub('',ply.__file__))\"\r\n/cm/shared/apps/spack-pkgs/linux-centos7-zen/gcc-8.2.0/py-ply-3.11-fpyplf44xgseqlpml5vxvs4r7bxv4c53/lib/python3.8/site-packages/ply\r\n[root@L01 tarballs]# python -c \"import re, ply, site; print(re.compile('/__init__.py.*').sub('',site.__file__))\"\r\n/cm/shared/apps/spack-pkgs/linux-centos7-zen/gcc-8.2.0/python-3.8.6-u7px4ssttiqjhc6q2arrww4wqceck7nk/lib/python3.8/site.py\r\n[root@L01 tarballs]# sed 's/:/\\n/g' <<< \"$PYTHONPATH\"\r\n/cm/shared/apps/spack-pkgs/linux-centos7-zen/gcc-8.2.0/py-ply-3.11-fpyplf44xgseqlpml5vxvs4r7bxv4c53/lib64/python3.8/site-packages\r\n/cm/shared/apps/spack-pkgs/linux-centos7-zen/gcc-8.2.0/py-ply-3.11-fpyplf44xgseqlpml5vxvs4r7bxv4c53/lib/python3.8/site-packages\r\n/cm/shared/apps/spack-pkgs/linux-centos7-zen/gcc-8.2.0/python-3.8.6-u7px4ssttiqjhc6q2arrww4wqceck7nk/lib/python3.8\r\n```\r\nAny ideas how to circumvent this issue? Thank you for your attention. Regards.",
+    "user": "mechapple",
+    "url": "https://api.github.com/repos/spack/spack/issues/25877",
+    "updated_at": "2022-01-12 19:47:22",
+    "created_at": "2021-09-09 18:25:12",
+    "closed_at": "2022-01-12 19:47:22",
+    "state": "closed",
+    "title": "fenics install fails due to cmake python ply issue",
+    "number": 25877,
+    "milestone": null,
+    "labels": [],
+    "id": 992509784,
+    "html_url": "https://github.com/spack/spack/issues/25877",
+    "assignees": [
+        "scheibelp",
+        "adamjstewart"
+    ],
+    "comments": 13
+}

@@ -1,0 +1,19 @@
+{
+    "body": "The `SPACK_PYTHON` environment variable can be set to a python interpreter to be used by the `spack` command.  This allows the `spack` command itself to use a consistent and separate interpreter from whatever python installation might be used for package building.\r\n\r\nOne example of the use case for this would be in RHEL 8 / CentOS 8 to use the system python for the spack command:\r\n```\r\n$ export SPACK_PYTHON=/usr/libexec/platform-python\r\n$ . share/spack/setup-env.sh\r\n$ spack load python@3.8.6\r\n$ python --version\r\nPython 3.8.6\r\n$ spack python --version\r\nPython 3.6.8\r\n$ spack unload python@3.8.6\r\n$ spack load python@3.7.6\r\n$ python --version\r\nPython 3.7.6\r\n$ spack python --version\r\nPython 3.6.8\r\n$\r\n```\r\n\r\nHere we have the `spack` command always use the stable system provided python 3.6.8 in `/usr/libexec/platform-python`, the same use used by the system's `dnf` command, while continuing to be able to load and unload different versions of python from the current environment for use with packages.",
+    "user": "chuckatkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/21222",
+    "updated_at": "2021-02-12 22:01:47",
+    "created_at": "2021-01-22 17:03:15",
+    "closed_at": "2021-02-12 18:52:44",
+    "state": "closed",
+    "title": "Introduce a SPACK_PYTHON environment variable",
+    "number": 21222,
+    "milestone": null,
+    "labels": [
+        "python"
+    ],
+    "id": 792164780,
+    "html_url": "https://github.com/spack/spack/pull/21222",
+    "assignees": [],
+    "comments": 15
+}

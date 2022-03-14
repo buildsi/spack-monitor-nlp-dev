@@ -1,0 +1,21 @@
+{
+    "body": "Pythia6 uses fortran common blocks which are now [by default disallowed in gcc-10](https://gcc.gnu.org/gcc-10/porting_to.html). In this particular case, the common blocks are in e.g. pydata.f:\r\n```fortran\r\nCOMMON/PYDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200)\r\n```\r\nand collected in pythia6_common_address.c:\r\n```c\r\nint pydat1[200+2*200+200+2*200];\r\n```\r\nThis fix adds `CFLAGS=-fcommon` and `FFLAGS=-fcommon` (both are needed) to the build environment for gcc-10 or later.\r\n\r\nAn alternative fix (adding `extern` in all relevant lines in `pythia6_common_address.c`) would have required a patch and some more testing, but I'm happy to implement that instead if requested. Since pythia6 is unmaintained, there won't be any future releases to invalidate the patch.\r\n\r\nNo maintainer to tag.",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/19947",
+    "updated_at": "2020-11-16 23:30:55",
+    "created_at": "2020-11-16 21:31:14",
+    "closed_at": "2020-11-16 22:12:21",
+    "state": "closed",
+    "title": "[pythia6] needs CFLAGS/FFLAGS=-fcommon when %gcc@10:",
+    "number": 19947,
+    "milestone": null,
+    "labels": [
+        "gcc",
+        "patch",
+        "update-package"
+    ],
+    "id": 744204649,
+    "html_url": "https://github.com/spack/spack/pull/19947",
+    "assignees": [],
+    "comments": 0
+}

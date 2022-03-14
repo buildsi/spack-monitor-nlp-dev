@@ -1,0 +1,19 @@
+{
+    "body": "It should not be necessary to run `dos2unix` on newly created packages.\r\n\r\n### Expected Result\r\n\r\n`spack flake8` should not complain about newly created packages.\r\n\r\n### Actual Result\r\n\r\n`spack create` creates packages with DOS line endings. This confuses flake8 and reports errors like ` [E114] indentation is not a multiple of four (comment)`. See [here](https://travis-ci.org/spack/spack/jobs/303091232) for example. This [commit](https://github.com/spack/spack/pull/6337/commits/850e86806a38e955e489333691749208ad41be90) \u2013 I was just using `dos2unix` on the offending packages \u2013 fixed it.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack create -n foo -r somerepo\r\n$ spack flake8\r\n```\r\n\r\n### Information on your system\r\n\r\nNothing special, a regular Ubuntu 16.04 box.",
+    "user": "matze",
+    "url": "https://api.github.com/repos/spack/spack/issues/6338",
+    "updated_at": "2017-11-20 08:49:47",
+    "created_at": "2017-11-16 16:23:26",
+    "closed_at": "2017-11-20 08:49:47",
+    "state": "closed",
+    "title": "spack does not create flake8 conformant packages",
+    "number": 6338,
+    "milestone": null,
+    "labels": [
+        "unreproducible"
+    ],
+    "id": 274577088,
+    "html_url": "https://github.com/spack/spack/issues/6338",
+    "assignees": [],
+    "comments": 5
+}

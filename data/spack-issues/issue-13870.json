@@ -1,0 +1,25 @@
+{
+    "body": "I'm working on updating the `bazel` package in #13813. `bazel` contains:\r\n```python\r\ndepends_on('java@8', type=('build', 'link', 'run'))\r\n```\r\n`jdk` contains:\r\n```python\r\nprovides('java')\r\nprovides('java@8',  when='@1.8.0:1.8.999')\r\n```\r\nMy `packages.yaml` contains:\r\n```yaml\r\npackages:\r\n    jdk:\r\n        paths:\r\n            jdk@12.0.1_12: /Library/Java/JavaVirtualMachines/jdk-12.0.1.jdk/Contents/Home\r\n            jdk@10.0.1_10: /Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home\r\n            jdk@1.8.0_231-b11: /Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home\r\n            jdk@1.7.0_45-b18: /Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home\r\n        buildable: False\r\n```\r\nHowever, `spack spec bazel` and `spack install bazel` happily use JDK 12.0.1_12, even though it doesn't provide `java@8`.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/13870",
+    "updated_at": "2020-11-03 02:18:45",
+    "created_at": "2019-11-24 18:41:50",
+    "closed_at": "2020-11-03 02:18:45",
+    "state": "closed",
+    "title": "Version concretization failing for virtual dependencies",
+    "number": 13870,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "virtual-dependencies",
+        "java",
+        "triage"
+    ],
+    "id": 527738609,
+    "html_url": "https://github.com/spack/spack/issues/13870",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 5
+}

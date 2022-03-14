@@ -1,0 +1,19 @@
+{
+    "body": "Spack does not seem to respect compiler specification. The install specification is for **intel@17.0.4**, but spack installs against **intel@17.0.1**. \r\n\r\n```\r\nspack install --d parmetis^metis+int64 % intel@17.0.4 ^ openmpi@2.1.1\r\n==> Installing util-macros\r\n==> Fetching https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2\r\n######################################################################## 100.0%\r\n==> Staging archive: /yellow/usr/projects/draco/vendors/spack.sn.experimental/spack.sn.c8df92760743e9b31bc49620ba4cc6bb8aedd867/var/spack/stage/util-macros-1.19.1-lzdm7dlkrwroyp2t43xgg5eutmtsupv2/util-macros-1.19.1.tar.bz2\r\n==> Created stage in /yellow/usr/projects/draco/vendors/spack.sn.experimental/spack.sn.c8df92760743e9b31bc49620ba4cc6bb8aedd867/var/spack/stage/util-macros-1.19.1-lzdm7dlkrwroyp2t43xgg5eutmtsupv2\r\n==> No patches needed for util-macros\r\n==> Building util-macros [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Successfully installed util-macros\r\n  Fetch: 0.68s.  Build: 1.35s.  Total: 2.04s.\r\n[+] /yellow/usr/projects/draco/vendors/spack.sn.experimental/spack.sn.c8df92760743e9b31bc49620ba4cc6bb8aedd867/opt/spack/linux-rhel7-x86_64/intel-17.0.1/util-macros-1.19.1-lzdm7dlkrwroyp2t43xgg5eutmtsupv2\r\n```\r\nCan somebody please look at this?\r\n\r\n[compilers.yaml.txt](https://github.com/LLNL/spack/files/1354250/compilers.yaml.txt)\r\n[packages.yaml.txt](https://github.com/LLNL/spack/files/1354258/packages.yaml.txt)\r\n\r\n<hr>\r\n<h2>Further debugging: metis@4.0.3 functions as expected</h2>\r\n\r\nAfter editing `compilers.yaml` to remove `intel@17.0.1`, the compiler set is\r\n```\r\n==> Available compilers\r\n-- gcc rhel7-x86_64 ---------------------------------------------\r\ngcc@5.3.0  gcc@4.8.5\r\n\r\n-- intel rhel7-x86_64 -------------------------------------------\r\nintel@17.0.4\r\n```\r\nThe most recent versions of `metis` are tested.\r\n```\r\nspack install --fake metis @ 5.1.0 % intel@17.0.4\r\n==> Error: No compilers with spec intel@17.0.1 found\r\n```\r\n```\r\nspack install --fake metis @ 5.0.2 % intel@17.0.4\r\n==> Error: No compilers with spec intel@17.0.1 found\r\n```\r\n```\r\nspack install --fake metis @ 4.0.3 % intel@17.0.4\r\n==> Installing metis\r\n==> Building metis [Package]\r\n==> Successfully installed metis\r\n  Fetch: .  Build: 0.11s.  Total: 0.11s.\r\n[+] /yellow/usr/projects/draco/vendors/spack.sn.experimental/spack.sn.554937780bf9bad2e1e2b238aa95c6fd862b711e/opt/spack/linux-rhel7-x86_64/intel-17.0.4/metis-4.0.3-3gsh64ekk4jotbmsd3iefszb62jzp7rd\r\n```\r\n\r\n\r\n",
+    "user": "floquet",
+    "url": "https://api.github.com/repos/spack/spack/issues/5594",
+    "updated_at": "2017-10-04 23:58:01",
+    "created_at": "2017-10-03 23:49:56",
+    "closed_at": "2017-10-04 22:37:48",
+    "state": "closed",
+    "title": "spack doesn't seem to respect compiler specification",
+    "number": 5594,
+    "milestone": null,
+    "labels": [],
+    "id": 262626091,
+    "html_url": "https://github.com/spack/spack/issues/5594",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,17 @@
+{
+    "body": "After cmake v3.12 FindPythonInterp used by llvm subsystem is deprecated. \r\nWhen building with python3 the cmake error below happens. \r\n\r\nFindPythonInterp sets PYTHON_EXECUTABLE=/usr/bin/python2.7 and calls\r\n\r\n    execute_process(COMMAND \"${PYTHON_EXECUTABLE}\" -c\r\n                            \"import sys; sys.stdout.write(';'.join([str(x) for x in sys.version_info[:3]]))\"\r\n                    OUTPUT_VARIABLE _VERSION\r\n                    RESULT_VARIABLE _PYTHON_VERSION_RESULT\r\n                    ERROR_QUIET)\r\n\r\nSince PYTHONPATH is set to the python3 install this results in an error importing site and the _VERSION variable is not set.\r\n\r\nSetting -DPYTHON_EXECUTABLE=path_to_python fixes this error:\r\n\r\n\r\n1 error found in build log:\r\n     118    -- Doxygen disabled.\r\n     119    -- Go bindings disabled.\r\n     120    -- LLVM host triple: x86_64-unknown-linux-gnu\r\n     121    -- LLVM default target triple: x86_64-unknown-linux-gnu\r\n     122    -- Building with -fPIC\r\n     123    -- Found PythonInterp: /usr/bin/python2.7\r\n  >> 124    CMake Error at interpreter/llvm/src/CMakeLists.txt:613 (if):\r\n     125      if given arguments:\r\n     126    \r\n     127        \"VERSION_LESS\" \"2.7\"\r\n     128    \r\n     129      Unknown arguments specified\r\n     130    \r\n",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/11579",
+    "updated_at": "2019-05-29 19:14:39",
+    "created_at": "2019-05-29 15:10:23",
+    "closed_at": "2019-05-29 17:02:21",
+    "state": "closed",
+    "title": "ROOT: Set PYTHON_EXECUTABLE with +python variant",
+    "number": 11579,
+    "milestone": null,
+    "labels": [],
+    "id": 449866185,
+    "html_url": "https://github.com/spack/spack/pull/11579",
+    "assignees": [],
+    "comments": 0
+}

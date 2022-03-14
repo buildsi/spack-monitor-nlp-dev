@@ -1,0 +1,20 @@
+{
+    "body": "When running:\r\n```console\r\n$ spack env update <env-dir>\r\n```\r\nif the `spack.yaml` file contains override with a double colon, the command will fail reporting that \"Additional properties are not allowed\".\r\n\r\n### Steps to reproduce the issue\r\nCreate a `spack.yaml` file with the following content in a directory:\r\n```yaml\r\nspack:\r\n  mirrors::\r\n    test: /foo/bar\r\n  packages:\r\n    cmake:\r\n      paths:\r\n        cmake@3.18.1: /usr\r\n  specs:\r\n  - hdf5\r\n```\r\nTry then to run:\r\n```console\r\n$ spack env update <directory>\r\n```\r\n\r\n### Error Message\r\nThe command above fails with an error similar to:\r\n```\r\n[ ... ]\r\n        try:\r\n            spack.schema.Validator(schema).validate(test_data)\r\n        except jsonschema.ValidationError as e:\r\n            if hasattr(e.instance, 'lc'):\r\n                line_number = e.instance.lc.line + 1\r\n            else:\r\n                line_number = None\r\n>           raise ConfigFormatError(e, data, filename, line_number)\r\nE           spack.config.ConfigFormatError: /tmp/pytest-of-culpo/pytest-0/test_can_update_attributes_wit0/spack.yaml: Additional properties are not allowed ('mirrors:' was unexpected)\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4-591-17d96b615\r\n* **Python:** 3.7.4\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/18147",
+    "updated_at": "2020-08-18 15:05:26",
+    "created_at": "2020-08-18 12:10:21",
+    "closed_at": "2020-08-18 15:05:26",
+    "state": "closed",
+    "title": "\"spack env update\" can't handle override",
+    "number": 18147,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 680990771,
+    "html_url": "https://github.com/spack/spack/issues/18147",
+    "assignees": [],
+    "comments": 0
+}

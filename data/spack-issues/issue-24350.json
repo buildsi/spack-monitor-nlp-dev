@@ -1,0 +1,20 @@
+{
+    "body": "Here we are adding an install_times.json into the spack install metadata folder. We record a total global time, along with the times for each phase. The type of phase or install start / end is included (e.g., build or fail). This is implemented by way of hooks, and since we are certain to always have a start/end for each phase and build, I think it's safe to be using global variables in the hook timing.py file to be able to easily record results into a single data structure over time.\r\n\r\nhere we see the install_times.json file in the build metadata folder:\r\n\r\n```bash\r\n$ ls opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/python-3.8.10-5nmbzkki6zhnsk2p3ycuinh3al5fmeto/.spack/\r\narchived-files           *install_times.json*                 spack-build-02-configure-out.txt  spack-build-env.txt       spec.yaml\r\ninstall_environment.json  repos                              spack-build-03-build-out.txt      spack-build-out.txt\r\ninstall_manifest.json     spack-build-01-autoreconf-out.txt  spack-build-04-install-out.txt    spack-configure-args.txt\r\n```\r\nAnd the content\r\n\r\n```bash\r\n$ cat install_times.json \r\n{\r\n  \"phases\": [\r\n    {\r\n      \"name\": \"autoreconf\",\r\n      \"seconds\": 0.013715267181396484\r\n    },\r\n    {\r\n      \"name\": \"configure\",\r\n      \"seconds\": 6.446059465408325\r\n    },\r\n    {\r\n      \"name\": \"build\",\r\n      \"seconds\": 2.842390775680542\r\n    },\r\n    {\r\n      \"name\": \"install\",\r\n      \"seconds\": 3.0660362243652344\r\n    }\r\n  ],\r\n  \"total\": {\r\n    \"seconds\": 12.69503927230835\r\n  }\r\n}\r\n```\r\nIf there is a time recorded from an error, the labels switch to say that. Times will obviously be different between success/error and we should record that. \r\n\r\nThe sum of the phases does not equal the total time (it's about three seconds shy) because there are steps in between the start of the install and running any particular phase (logging, combining phase logs, etc.). But I think we should record the total time of build from the start to stop hooks of the install and not disclude these times.\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/24350",
+    "updated_at": "2021-08-20 11:12:58",
+    "created_at": "2021-06-16 05:56:58",
+    "closed_at": "2021-06-22 09:01:15",
+    "state": "closed",
+    "title": "Adding save of build times on install",
+    "number": 24350,
+    "milestone": null,
+    "labels": [
+        "build",
+        "core"
+    ],
+    "id": 922130223,
+    "html_url": "https://github.com/spack/spack/pull/24350",
+    "assignees": [],
+    "comments": 20
+}

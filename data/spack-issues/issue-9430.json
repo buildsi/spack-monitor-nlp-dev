@@ -1,0 +1,17 @@
+{
+    "body": "Recent change has caused the build for Dire to fail. This package used to build\r\nhttps://github.com/gartung/cmssw-spack/blob/master/packages/dire/package.py\r\n\r\nExact spot where command dies is here\r\n\r\nhttps://github.com/spack/spack/blame/develop/lib/spack/env/cc#L312\r\n\r\nThis is probably because dire-config set -Wl,rpath in the expected format.\r\n\r\nError occurs in this Makefile rule\r\n```\r\nDIRE_CONFIG_BIN=$(PREFIX_BIN)/dire-config\r\nDIRE_CONFIG=`$(DIRE_CONFIG_BIN) --all-libs`\r\n\r\n dire : $$@.cc\r\n   @echo \"Default compilation with ''$(CXX) $^ -o $@ $(DIRE_CONFIG)''\"\r\n   $(CXX) $^ -o $@ $(DIRE_CONFIG)\r\n```\r\n\r\nActual command leading up to error\r\n\r\n[gartung@gartung DIRE-2.002]$ make install\r\n...\r\nmake[1]: Entering directory `/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/dire-2.002-jivaipbvdi25br24jquf6nf72njv7ce4/share/Dire/main'\r\nDefault compilation with ''/data/spack/lib/spack/env/gcc/g++ dire.cc -o dire -I/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/pythia8-230-cnciwzu5xghtuyuyn5eyvfgstlegmjd3/include -L/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/pythia8-230-cnciwzu5xghtuyuyn5eyvfgstlegmjd3/lib -Wl,-rpath /data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/pythia8-230-cnciwzu5xghtuyuyn5eyvfgstlegmjd3/lib -lpythia8 -I/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/hepmc-2.06.09-52wphusnx5xi3zsyuduy43yf72xwezol/include -L/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/hepmc-2.06.09-52wphusnx5xi3zsyuduy43yf72xwezol/lib -Wl,-rpath /data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/hepmc-2.06.09-52wphusnx5xi3zsyuduy43yf72xwezol/lib -lHepMC -DHEPMC2 -I/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/lhapdf-6.2.1-75ygknjvgavbuccoukvq5a277ueiypz5/include -L/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/lhapdf-6.2.1-75ygknjvgavbuccoukvq5a277ueiypz5/lib -Wl,-rpath /data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/lhapdf-6.2.1-75ygknjvgavbuccoukvq5a277ueiypz5/lib -lLHAPDF -DLHAPDF6 -I/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/dire-2.002-jivaipbvdi25br24jquf6nf72njv7ce4/include -L/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/dire-2.002-jivaipbvdi25br24jquf6nf72njv7ce4/lib -Wl,-rpath /data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/dire-2.002-jivaipbvdi25br24jquf6nf72njv7ce4/lib -ldire -ldl -O2 -std=c++98 -pedantic -W -Wall -Wshadow -fPIC''\r\n/data/spack/lib/spack/env/gcc/g++ dire.cc -o dire `/data/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/dire-2.002-jivaipbvdi25br24jquf6nf72njv7ce4/bin/dire-config --all-libs`\r\n-Wl,-rpath was not followed by -Wl,*",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/9430",
+    "updated_at": "2018-10-28 14:27:50",
+    "created_at": "2018-10-03 22:01:35",
+    "closed_at": "2018-10-03 22:12:53",
+    "state": "closed",
+    "title": "lib/spack/env/cc wrapper bug: fails with -Wl,-rpath was not followed by -Wl,* ",
+    "number": 9430,
+    "milestone": null,
+    "labels": [],
+    "id": 366547162,
+    "html_url": "https://github.com/spack/spack/issues/9430",
+    "assignees": [],
+    "comments": 4
+}

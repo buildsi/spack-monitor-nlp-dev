@@ -1,0 +1,20 @@
+{
+    "body": "@adamjstewart @tgamblin \r\n\r\nThis addresses issues brought up in conversation between @citibeth and @alalazo on module autoloading in #1662...\r\n\r\nIt introduces the concept of autoloading at the `Package` and `depends_on()` level.\r\n\r\n1. If you put autoload=True in package, and anything that depends on that package will autoload its module.  The canonical example here is `PythonPackage`.  Anything depending on a `PythonPackage` subclass will be autoloaded.  For example, `py-numpy` will be autoloaded by anything that depends on it.  However, if `py-numpy` depends on (say) `openblas`, then `openblas` will not be autoloaded.\r\n\r\n2. You can override the package-level autoloading in the `depends_on()` declarations.  `py-netcdf` depends on `netcdf`.  But by default, `netcdf` will NOT be autoloaded from `py-netcdf` because `netcdf` does not subclass `PythonProject` (and `autoload=True` was not set in `netcdf/package.py`).  However, Python extensions (such as the one generated in `py-netcdf`) do not have RPATHs, and therefore will not be able to properly link `netcdf` without something in `LD_LIBRARY_PATH`.  Therefore, we use the following in `py-netcdf/package.py`:\r\n```\r\ndepends_on('netcdf', autoload=True)\r\n```\r\n\r\nI believe that this feature will provide the tools to eventually make module autoloading \"just work,\" based on particulars of the packages.  I expect there will be some adjustment, as we find exceptions to the default autoloading rules (such as `PythonPackage.autoload=True`).\r\n\r\nThe way to specify autoloading described in this PR does not affect the way autoloading is currently specified in `modules.yaml`.  If there is demand, I could also add a switch to `modules.yaml` that would turn this feature off entirely.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3134",
+    "updated_at": "2019-11-11 16:47:03",
+    "created_at": "2017-02-12 02:52:49",
+    "closed_at": "2019-11-11 16:47:03",
+    "state": "closed",
+    "title": "Package-Level Module Autoloading",
+    "number": 3134,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "modules"
+    ],
+    "id": 207024830,
+    "html_url": "https://github.com/spack/spack/pull/3134",
+    "assignees": [],
+    "comments": 6
+}

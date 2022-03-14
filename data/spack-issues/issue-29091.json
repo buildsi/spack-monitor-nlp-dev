@@ -1,0 +1,20 @@
+{
+    "body": "Geant4 expects data to be data to be available at build time, and it writes the path to the data (whether external or internally downloaded) to the CMake configure file that it installs. Before #28581, `geant4-data` was a build/link/run dependency, but it should not have been `link`, which unnecessarily propagated rpath/link paths.  \r\n\r\nhttps://github.com/spack/spack/pull/28388#issuecomment-1018612751 makes the point that since the executable part of Geant4 doesn't depend on the data, it shouldn't require a rebuild of Geant4 to change its data dependencies. However, this is only true if the config file isn't used to interrogate the \"correct\" geant4 data path, and some projects such as [Celeritas](https://github.com/celeritas-project/celeritas) use CMake to set up unit tests.\r\n\r\nI tried to symlink the default geant4-installed data directory to the `geant4-data` directory in a `@run_after(\"install\")`, but that failed I think because `geant4-data` isn't a build dependency. So instead I've restored the `GEANT4_INSTALL_DATA` path so that it points to the originally configured geant4 data directory. It doesn't do any extra copying nor data downloading, the `geant4-data` is still a runtime dependency, but in the typical case it will now behave like it used to and have valid paths in  `${Geant4_DATASETS}`.\r\n\r\nI also rewrote some of the `depends_on` blocks as loops to make it easier to change the dependency types in the future if needed. In doing so I corrected the `geant4-data` dependencies to `('build', 'run')` from the default.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/29091",
+    "updated_at": "2022-02-21 12:29:36",
+    "created_at": "2022-02-19 17:37:30",
+    "closed_at": "2022-02-21 12:06:00",
+    "state": "closed",
+    "title": "geant4: fix CMake-derived data path",
+    "number": 29091,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1144802815,
+    "html_url": "https://github.com/spack/spack/pull/29091",
+    "assignees": [],
+    "comments": 1
+}

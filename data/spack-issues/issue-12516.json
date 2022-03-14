@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #12485, #12633.\r\n\r\nThis PR changes the *default* `config:build_stage` to `$tempdir/$user/spack-stage, ~/.spack/stage`.  It also ensures the permissions of directories created above `$user` on the first accessible such path are inherited from the parent directory and the permissions of those at `$user` and any associated subdirectories are private to the `$user`.\r\n\r\nThis PR also changes `spack clean` to only remove stage directories that end in a hash.\r\n\r\nTODO:\r\n- [x] Update docs (since issues can still arise with some directory layouts)\r\n- [x] Filter stage directories purged by `spack clean` so only remove those with hashes\r\n- [x] Eliminate redundant `$user/$user` (e.g., when `$tempdir` includes `$user`)\r\n- [x] Add tests\r\n- [x] Add user-specific default backup to `config:build_stage`\r\n- [x] Add old Spack instance stage directory as commented out default backup\r\n- [x] Remove (LLNL) site-specific `config:build_stage` directories from documentation\r\n- [x] Clarify ties between `config:build_stage` and `spack clean` in documentation\r\n- [x] Move `can_access` check in `_first_accessible_path` to bottom of `_create_stage_root`",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/12516",
+    "updated_at": "2019-10-15 20:55:58",
+    "created_at": "2019-08-22 02:08:45",
+    "closed_at": "2019-09-03 23:31:28",
+    "state": "closed",
+    "title": "Resolve `build_stage` path issues.",
+    "number": 12516,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 483731550,
+    "html_url": "https://github.com/spack/spack/pull/12516",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 11
+}

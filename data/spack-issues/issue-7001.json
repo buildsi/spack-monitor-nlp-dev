@@ -1,0 +1,19 @@
+{
+    "body": "Multiple py-backports packages include a site-packages/backports/__init__.py file, thus causing a failure when trying to activate multiple py-backports packages.\r\n\r\n\r\n$ ./bin/spack activate py-backports-functools-lru-cache\r\n==> Error: Extension blocked by file: /nfs/tmp2/lee218/delete/spack-basemap/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/python-2.7.14-7rci3jkmuht2uiwp433afigveuf4ocnu/lib/python2.7/site-packages/backports/__init__.py\r\n\r\n$ ls -l opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-backports*/lib/python2.7/site-packages/backports/__init__.py\r\n-rw------- 1 lee218 lee218  65 May 12  2017 opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-backports-functools-lru-cache-1.4-znbn6jwuu6xwpbdvk3mclmcntkcjwuhi/lib/python2.7/site-packages/backports/__init__.py\r\n-rw------- 1 lee218 lee218  75 Aug 19  2014 opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-backports-shutil-get-terminal-size-1.0.0-k2m5kjyz4j3cgpntij77xkiwsnqyc627/lib/python2.7/site-packages/backports/__init__.py\r\n-rw------- 1 lee218 lee218 155 Dec 19  2015 opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-backports-ssl-match-hostname-3.5.0.1-jsr5wgmh2cfiscwcdptfnov44zna7emk/lib/python2.7/site-packages/backports/__init__.py\r\n\r\n\r\nAny thoughts on how to best manage this? Currently all of the __init__.py files effectively do the same thing:\r\n\r\n$ cat opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-backports*/lib/python2.7/site-packages/backports/__init__.py__path__ = __import__('pkgutil').extend_path(__path__, __name__)\r\nfrom pkgutil import extend_path\r\n__path__ = extend_path(__path__, __name__)\r\n# This is a Python \"namespace package\" http://www.python.org/dev/peps/pep-0382/\r\nfrom pkgutil import extend_path\r\n__path__ = extend_path(__path__, __name__)\r\n\r\n\r\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/7001",
+    "updated_at": "2018-11-02 21:39:54",
+    "created_at": "2018-01-19 16:48:39",
+    "closed_at": "2018-11-02 19:35:55",
+    "state": "closed",
+    "title": "multiple site-packages/backports/__init__.py files cause activation failure",
+    "number": 7001,
+    "milestone": null,
+    "labels": [],
+    "id": 290038935,
+    "html_url": "https://github.com/spack/spack/issues/7001",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 9
+}

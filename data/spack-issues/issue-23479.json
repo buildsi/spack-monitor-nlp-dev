@@ -1,0 +1,19 @@
+{
+    "body": "When installing geos with python3 bindings, it fails in configuration stage complaining about being unable to find the python libraries.  This appears to be due to a few python2-isms in the geos CMake files.\r\n\r\nI created a patch file to make the CMake stuff in geos more python3 friendly (the one reported below plus a couple related spots), and when I went to open an issue on the geos upstream site discovered that the SWIG bindings were dropped in @3.9, so this is a bit moot.  But since the work was already done, I figured would push to spack just in case anyone else is interested.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install geos +python ^python@3\r\n...\r\nchecking for python version... 3.7\r\nchecking for python platform... linux\r\nchecking for python script directory... ${prefix}/lib/python3.7/site-packages\r\nchecking for python extension module directory... ${exec_prefix}/lib/python3.7/site-packages\r\nchecking for Python include path... /software/spack-software/2021.04.28/linux-rhel8-x86_64/gcc-8.4.0/python-3.7.7-mhx467yzopgzum7dt76cedvua6wkji3b/include/python3.7m\r\nchecking for Python library path...\r\nconfigure: error: cannot find Python library path\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2432-16111354aa\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-x86_64\r\n* **Concretizer:** original\r\n```\r\nSpack is using python@3.7.7\r\n\r\n\r\n### Additional information\r\n\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6437096/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6437097/spack-build-out.txt)\r\n\r\nGeos maintainer: @adamjstewart\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x ] I have uploaded the build log and environment files\r\n- [x ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/23479",
+    "updated_at": "2021-05-07 17:27:30",
+    "created_at": "2021-05-06 19:21:17",
+    "closed_at": "2021-05-07 17:27:30",
+    "state": "closed",
+    "title": "Installation issue: geos +python ^python@3 config issues finding python",
+    "number": 23479,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 877907771,
+    "html_url": "https://github.com/spack/spack/issues/23479",
+    "assignees": [],
+    "comments": 1
+}

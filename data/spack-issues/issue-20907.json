@@ -1,0 +1,19 @@
+{
+    "body": "I tried to install `freeglut` using `mesa18` as provider for `gl` and ran into the following problem:\r\n\r\n```\r\n==> freeglut: Executing phase: 'cmake'\r\n==> Error: IndexError: list index out of range\r\n\r\n/home/tmadlener/work/spack/var/spack/repos/builtin/packages/freeglut/package.py:34, in cmake_args:\r\n         31    def cmake_args(self):\r\n         32        return [\r\n         33            '-DFREEGLUT_BUILD_DEMOS=OFF',\r\n  >>     34            '-DOPENGL_gl_LIBRARY=' + self.spec['gl'].libs[0],\r\n         35            '-DOPENGL_glu_LIBRARY=' + self.spec['glu'].libs[0],\r\n         36            '-DX11_X11_LIB=' + self.spec['libx11'].libs[0],\r\n         37            '-DX11_Xrandr_LIB=' + self.spec['libxrandr'].libs[0],\r\n\r\n```\r\n\r\nAfter some debugging, I found that `mesa18` was not populating its libs correctly, because it used `+shared` to determine whether to look for shared libraries in `find_libraries`. However, since it doesn't have a `shared` variant, this will always be false. Checking the rest of the package definition it seems that simply setting `shared=True` seems to be the right choice.\r\n\r\nPinging @chuckatkins and @v-dobrev to make sure that this is indeed a valid fix.",
+    "user": "tmadlener",
+    "url": "https://api.github.com/repos/spack/spack/issues/20907",
+    "updated_at": "2021-01-21 11:17:34",
+    "created_at": "2021-01-14 18:14:02",
+    "closed_at": "2021-01-18 22:51:45",
+    "state": "closed",
+    "title": "Fix mesa18 libs finding",
+    "number": 20907,
+    "milestone": null,
+    "labels": [
+        "libraries"
+    ],
+    "id": 786209134,
+    "html_url": "https://github.com/spack/spack/pull/20907",
+    "assignees": [],
+    "comments": 0
+}

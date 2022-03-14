@@ -1,0 +1,25 @@
+{
+    "body": "I needed to apply a patch to libtirpc package to export `$prefix/include/tirpc` in CPATH. So, I copied it to a custom repository and edited it. Here is my `repos.yaml`\r\n```\r\nrepos:\r\n- /scratch/mack8/a/amaji/custom_packages\r\n- $spack/var/spack/repos/builtin\r\n```\r\nNow if I do `spack spec -l libtirpc` things work fine. I can also install libtirpc.\r\n```\r\n$ spack spec -l libtirpc %gcc@8.3.1\r\nInput spec\r\n--------------------------------\r\nlibtirpc%gcc@8.3.1\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: Skipping package at /scratch/mack8/a/amaji/spack-test-20210324/framework/spack/var/spack/repos/builtin/packages/libtirpc.bak. \"libtirpc.bak\" is not a valid Spack module name.\r\n==> Warning: gcc@8.3.1 cannot build optimized binaries for \"zen2\". Using best target possible: \"zen\"\r\ngxkfhga  libtirpc@1.2.6%gcc@8.3.1 arch=linux-centos8-zen\r\nyzhsri5      ^krb5@1.18.2%gcc@8.3.1 arch=linux-centos8-zen\r\ntprtgu6          ^bison@3.6.4%gcc@8.3.1 arch=linux-centos8-zen\r\nujpucgt              ^diffutils@3.7%gcc@8.3.1 arch=linux-centos8-zen\r\nqbonzhy                  ^libiconv@1.16%gcc@8.3.1 arch=linux-centos8-zen\r\nqceagpt              ^help2man@1.47.11%gcc@8.3.1 arch=linux-centos8-zen\r\n6m52oox                  ^gettext@0.21%gcc@8.3.1+bzip2+curses+git~libunistring+libxml2+tar+xz arch=linux-centos8-zen\r\nygtt2p3                      ^bzip2@1.0.8%gcc@8.3.1+shared arch=linux-centos8-zen\r\n6cnl654                      ^libxml2@2.9.10%gcc@8.3.1~python arch=linux-centos8-zen\r\nm5xrq75                          ^pkgconf@1.7.3%gcc@8.3.1 arch=linux-centos8-zen\r\nn7lawhk                          ^xz@5.2.5%gcc@8.3.1~pic arch=linux-centos8-zen\r\n3jwt5sg                          ^zlib@1.2.11%gcc@8.3.1+optimize+pic+shared arch=linux-centos8-zen\r\n2c2b4et                      ^ncurses@6.2%gcc@8.3.1~symlinks+termlib arch=linux-centos8-zen\r\ndcky6it                      ^tar@1.32%gcc@8.3.1 arch=linux-centos8-zen\r\n744u27d                  ^perl@5.32.0%gcc@8.3.1+cpanm+shared+threads arch=linux-centos8-zen\r\ngtaesiu                      ^berkeley-db@18.1.40%gcc@8.3.1 arch=linux-centos8-zen\r\n7mja3it                      ^gdbm@1.18.1%gcc@8.3.1 arch=linux-centos8-zen\r\n42k4c76                          ^readline@8.0%gcc@8.3.1 arch=linux-centos8-zen\r\nbvdpqvw              ^m4@1.4.18%gcc@8.3.1+sigsegv patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8 arch=linux-centos8-zen\r\nwwnsges                  ^libsigsegv@2.12%gcc@8.3.1 arch=linux-centos8-zen\r\nornw2fp          ^openssl@1.1.1d%gcc@8.3.1+systemcerts arch=linux-centos8-zen\r\n```\r\nBut if I try to install `hdf` which depends on `libtirpc`:\r\n```\r\n$ spack spec -l hdf %gcc@8.3.1\r\nInput spec\r\n--------------------------------\r\nhdf%gcc@8.3.1\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: Skipping package at /scratch/mack8/a/amaji/spack-test-20210324/framework/spack/var/spack/repos/builtin/packages/libtirpc.bak. \"libtirpc.bak\" is not a valid Spack module name.\r\n==> Warning: gcc@8.3.1 cannot build optimized binaries for \"zen2\". Using best target possible: \"zen\"\r\n==> Error: Package 'libtirpc' not found.\r\n```\r\n\r\nAm I missing something or is Spack losing track of custom repos when installing dependencies?\r\n\r\nExpected behavior: `hdf` package should be coming from `builtin` and `libtirpc` package should be coming from `custom_packages`.\r\n",
+    "user": "amaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/22589",
+    "updated_at": "2021-12-20 20:31:54",
+    "created_at": "2021-03-27 00:22:41",
+    "closed_at": "2021-12-20 08:10:55",
+    "state": "closed",
+    "title": "Spack not looking for virtual dependencies in custom repositories",
+    "number": 22589,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "workaround",
+        "impact-medium",
+        "fixed-by-new-concretizer"
+    ],
+    "id": 842371723,
+    "html_url": "https://github.com/spack/spack/issues/22589",
+    "assignees": [
+        "scheibelp",
+        "alalazo"
+    ],
+    "comments": 17
+}

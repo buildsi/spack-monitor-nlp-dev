@@ -1,0 +1,20 @@
+{
+    "body": "Previously, `spack test` automatically passed all of its arguments to `pytest -k` if no options were provided, and to `pytest` if they were. `spack test -l` also provided a list of test filenames, but they didn't really let you completely narrow down which tests you wanted to run.\r\n\r\nInstead of trying to do our own weird thing, this passes `spack test` args directly to `pytest`, and omits the implicit `-k`.  This means we can now run, e.g.:\r\n\r\n```console\r\n$ spack test spec_syntax.py::TestSpecSyntax::test_ambiguous\r\n```\r\n\r\nThis wasn't possible before, because we'd pass the fully qualified name to `pytest -k` and get an error.\r\n\r\nBecause `pytest` doesn't have the greatest ability to list tests, I've tweaked the `-l`/`--list`, `-L`/`--list-long`, and `-N`/`--list-names` options to `spack test` so that they help you understand the names better.  you can combine these options with `-k` or other arguments to do pretty powerful searches.\r\n\r\nThis one makes it easy to get a list of names so you can run tests in different orders (something I find useful for debugging `pytest` issues):\r\n\r\n```console\r\n$ spack test --list-names -k \"spec and concretize\"\r\ncmd/env.py::test_concretize_user_specs_together\r\nconcretize.py::TestConcretize::test_conflicts_in_spec\r\nconcretize.py::TestConcretize::test_find_spec_children\r\nconcretize.py::TestConcretize::test_find_spec_none\r\nconcretize.py::TestConcretize::test_find_spec_parents\r\nconcretize.py::TestConcretize::test_find_spec_self\r\nconcretize.py::TestConcretize::test_find_spec_sibling\r\nconcretize.py::TestConcretize::test_no_matching_compiler_specs\r\nconcretize.py::TestConcretize::test_simultaneous_concretization_of_specs\r\nspec_dag.py::TestSpecDag::test_concretize_deptypes\r\nspec_dag.py::TestSpecDag::test_copy_concretized\r\n```\r\n\r\nYou can combine any list option with keywords:\r\n\r\n```console\r\n$ spack test --list -k microarchitecture\r\nllnl/util/cpu.py  modules/lmod.py\r\n```\r\n\r\n```console\r\n$ spack test --list-long -k microarchitecture\r\nllnl/util/cpu.py::\r\n    test_generic_microarchitecture\r\n\r\nmodules/lmod.py::TestLmod::\r\n    test_only_generic_microarchitectures_in_root\r\n```\r\n\r\nOr just list specific files:\r\n\r\n```console\r\n$ spack test --list-long cmd/test.py\r\ncmd/test.py::\r\n    test_list                       test_list_names_with_pytest_arg\r\n    test_list_long                  test_list_with_keywords\r\n    test_list_long_with_pytest_arg  test_list_with_pytest_arg\r\n    test_list_names\r\n```\r\n\r\nHopefully this stuff will help with debugging test issues.\r\n\r\n- [x] make `spack test` send args directly to `pytest` instead of trying  to do fancy things.\r\n- [x] rework `--list`, `--list-long`, and add `--list-names` to make  searching for tests easier.\r\n- [x] make it possible to mix Spack's list args with `pytest` args  (they're just fancy parsing around `pytest --collect-only`)\r\n- [x] add docs\r\n- [x] add tests",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/14319",
+    "updated_at": "2020-01-02 07:30:55",
+    "created_at": "2019-12-30 18:05:44",
+    "closed_at": "2020-01-02 05:37:04",
+    "state": "closed",
+    "title": "tests: improved `spack test` command line options",
+    "number": 14319,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands"
+    ],
+    "id": 543963627,
+    "html_url": "https://github.com/spack/spack/pull/14319",
+    "assignees": [],
+    "comments": 1
+}

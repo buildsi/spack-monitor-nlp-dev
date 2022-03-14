@@ -1,0 +1,19 @@
+{
+    "body": "### Description\r\n\r\nThis PR introduces `flake8-import-order` to Spack's style checking CI tests. [`flake8-import-order`](https://github.com/PyCQA/flake8-import-order) is a tool made by PyCQA, the same people who maintain `flake8` and all of its dependencies. It enforces proper ordering of imports according to the guidelines set by PEP-8.\r\n\r\n### Rationale\r\n\r\nAccording to https://www.python.org/dev/peps/pep-0008/#imports:\r\n\r\n> Imports should be grouped in the following order:\r\n>\r\n> 1. Standard library imports.\r\n> 2. Related third party imports.\r\n> 3. Local application/library specific imports.\r\n>\r\n> You should put a blank line between each group of imports.\r\n\r\nHowever, `flake8` and `black` on their own do not enforce this at all. \r\n\r\nThe reason we originally added `flake8` was to end \"edit wars\" (mostly between @alalazo and me) where we would edit a file back and forth because we're both OCD about style and disagreed on some style things. This would lead to dozens of lines of code change for trivial changes, making reviewing difficult. With tools like `flake8` and `black`, we can set an agreed upon standard for code style by always going with whatever PEP-8 says to do.\r\n\r\nIn a lot of recent PRs that modify core, much of the PR is reordering of imports. But without any tool to enforce this, we're again at the mercy of personal opinion. With `flake8-import-order`, we can enforce this.\r\n\r\n### Discussion\r\n\r\nIf we choose to use `flake8-import-order`, the only decision we need to make is which style to enforce. The PEP-8 guidelines don't specify anything about imports within each group (for example, within standard library imports), but there are various styles you can choose from with the tool. See https://github.com/PyCQA/flake8-import-order#styles for a complete list of supported styles. Personally, I prefer `google` style, but I'll let others comment and/or vote.\r\n\r\nI edited a core Spack file with a lot of imports so we can see what the new `flake8` output will be. I'll modify these imports once we agree on a style to use so that the tests pass.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/23947",
+    "updated_at": "2021-06-28 19:00:43",
+    "created_at": "2021-05-27 02:18:17",
+    "closed_at": "2021-06-28 13:03:20",
+    "state": "closed",
+    "title": "Use flake8-import-order to enforce PEP-8 compliance",
+    "number": 23947,
+    "milestone": null,
+    "labels": [
+        "style"
+    ],
+    "id": 903127159,
+    "html_url": "https://github.com/spack/spack/pull/23947",
+    "assignees": [],
+    "comments": 14
+}

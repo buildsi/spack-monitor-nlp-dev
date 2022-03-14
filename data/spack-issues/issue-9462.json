@@ -1,0 +1,19 @@
+{
+    "body": "In the [namd package](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/namd/package.py) there are  multiple FFTW versions supported, see [here](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/namd/package.py#L40-L51). The default is is to depend on FFTW.\r\n\r\nWhen trying to use to a certain FFTW (no MPI support):\r\n\r\n```\r\n[centos@cvmfs-rhel7-build-machine spack]$ ./bin/spack install namd ^fftw~mpi ^charm backend=multicore ~smp\r\n==> Error: namd does not depend on fftw\r\n```\r\n\r\nYet the spec\r\n\r\n```\r\n[centos@cvmfs-rhel7-build-machine spack]$ ./bin/spack spec namd ^charm backend=multicore ~smp\r\nInput spec\r\n--------------------------------\r\nnamd\r\n    ^charm backend=multicore ~smp\r\n\r\nConcretized\r\n--------------------------------\r\nnamd@2.12%gcc@6.2.0 fftw=3 interface=none arch=linux-rhel7-x86_64\r\n    ^charm@6.7.1%gcc@6.2.0 backend=multicore ~papi patches=92d507d8b72ac01f114f7772510049cc7656f93daeadef46e1f2b00ad8533d2b,e636c3f88a6944c87d910d4c8fdf25146b60f57e09228497a6cc01c7dbae9569 +shared~smp~tcp arch=linux-rhel7-x86_64\r\n    ^fftw@3.3.7%gcc@6.2.0+double+float~fma+long_double+mpi~openmp~pfft_patches~quad simd=avx,avx2,sse2 arch=linux-rhel7-x86_64\r\n...\r\n```\r\n\r\nI do not have to define an explicitly FFTW version. \r\n\r\nI had to define FFTW dependency explicitly:\r\n\r\n```\r\n[centos@cvmfs-rhel7-build-machine spack]$ ./bin/spack install namd fftw=3 ^fftw~mpi ^charm backend=multicore ~smp\r\n==> charm is already installed in /cvmfs/connect.opensciencegrid.org/modules/el7/spack/opt/spack/linux-rhel7-x86_64/gcc-6.2.0/charm-6.7.1-thgr7t35uddrcv75zb7fs6hbib62k526\r\n==> Installing fftw\r\n```\r\n\r\neven though there is a default value, see [here](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/namd/package.py#L40-L41)\r\n\r\n",
+    "user": "briedel",
+    "url": "https://api.github.com/repos/spack/spack/issues/9462",
+    "updated_at": "2020-11-02 11:06:55",
+    "created_at": "2018-10-08 22:20:16",
+    "closed_at": "2020-11-02 11:06:55",
+    "state": "closed",
+    "title": "Concretization bug when multiple variants and versioning of dependencies",
+    "number": 9462,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 367972835,
+    "html_url": "https://github.com/spack/spack/issues/9462",
+    "assignees": [],
+    "comments": 2
+}

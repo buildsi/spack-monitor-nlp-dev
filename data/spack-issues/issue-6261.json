@@ -1,0 +1,22 @@
+{
+    "body": "For testing -- I am inheriting existing package and making some tweaks. By inheriting the existing package, I  pick up all the depends, variants, extends etc, which is what I am after.\r\n\r\nBut I have one puzzle to solve to make this work. \r\n\r\nIn the install of my subclass, I want to call a method in the base class that uses `site_packages_dir`\r\n(the base class package extends python) however I cannot access `site_packages_dir` in the method defined in the base class. \r\n\r\n```\r\n==> Error: NameError: global name 'site_packages_dir' is not defined\r\nNameError: NameError: global name 'site_packages_dir' is not defined\r\n\r\n spack/var/spack/repos/builtin/packages/conduit/package.py:262, in create_host_config:\r\n     92                # install module to standard style site packages dir\r\n     93                # so we can support spack activate\r\n     94                cfg.write(cmake_cache_entry(\"PYTHON_MODULE_INSTALL_PREFIX\",\r\n  >> 95                                            site_packages_dir))\r\n     96            else:\r\n     97                cfg.write(cmake_cache_entry(\"ENABLE_PYTHON\", \"OFF\"))\r\n     98    \r\n\r\n```\r\n\r\n\r\nI *can* access `site_packages_dir` is in my subclass,  and it works find when I directly install the base class, but not if I call the base class method from my subclass.\r\n\r\nGiven that `site_packages_dir` magically appears when you extend python, this probably some meta programming puzzle.\r\n\r\nI tried several black magic python tricks (injecting things into various namespaces) but I couldn't grain ground. \r\n \r\n\r\n\r\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/6261",
+    "updated_at": "2020-08-23 18:18:52",
+    "created_at": "2017-11-11 06:18:15",
+    "closed_at": "2020-08-23 18:18:37",
+    "state": "closed",
+    "title": "Problem using `site_packages_dir` in package subclass",
+    "number": 6261,
+    "milestone": null,
+    "labels": [
+        "python",
+        "build-systems"
+    ],
+    "id": 273123365,
+    "html_url": "https://github.com/spack/spack/issues/6261",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

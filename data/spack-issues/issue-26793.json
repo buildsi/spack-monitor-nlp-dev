@@ -1,0 +1,20 @@
+{
+    "body": "Closes https://github.com/spack/sbang/issues/8\r\n\r\nTreat shebangs as bytes, cap spack's limit, add luajit\r\n\r\nCurrently Spack reads full files containing shebangs to memory as\r\nstrings, meaning Spack would have to guess their encoding. Currently\r\nSpack has a fixed guess of UTF-8.\r\n\r\nThis is unnecessary, since e.g. the Linux kernel does not assume an\r\nencoding on paths at all, it's just bytes and some delimiters on the\r\nbyte level.\r\n\r\nThis commit does the following:\r\n\r\n1. Shebangs are treated as bytes, so that e.g. latin1 encoded files do\r\nnot throw UnicodeEncoding errors, and adds a test for this.\r\n2. No more bytes than necessary are read to memory, we only have to read\r\nuntil the first newline, and from there on we an copy the file byte by byte\r\ninstead of decoding and re-encoding text.\r\n3. We cap the number of bytes read to 4096, if no newline is found\r\nbefore that, we don't attempt to patch the file.\r\n4. Add support for luajit too.\r\n\r\nThis should make Spack both more efficient and usable for non-UTF8\r\nfiles.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26793",
+    "updated_at": "2021-10-27 10:05:30",
+    "created_at": "2021-10-18 11:00:52",
+    "closed_at": "2021-10-27 09:59:11",
+    "state": "closed",
+    "title": "Allow non-UTF-8 encoding in sbang hook",
+    "number": 26793,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "sbang"
+    ],
+    "id": 1028961505,
+    "html_url": "https://github.com/spack/spack/pull/26793",
+    "assignees": [],
+    "comments": 5
+}

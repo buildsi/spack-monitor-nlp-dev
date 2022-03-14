@@ -1,0 +1,21 @@
+{
+    "body": "There is a bug in the implementation of specs as constraints that adds the sigil multiple times if multiple references in a list require sigil replacement. This leads to spec parsing errors (parsing `%%` or similar).\r\n\r\n```\r\nspack:\r\n  definitions:\r\n  - gccs: [gcc@9.0.0]\r\n  - pgis: [pgi@19.2]\r\n  - compiler_constraints: [$%gccs, $%pgis]\r\n  specs:\r\n  - $gccs\r\n  - $pgis\r\n  - matrix:\r\n    - [zlib]\r\n    - [$compiler_constraints]\r\n```\r\n\r\nThis PR fixes the recursion problem by only applying the sigil to the part of the list currently being expanded.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/16897",
+    "updated_at": "2020-06-30 23:37:16",
+    "created_at": "2020-06-01 19:44:59",
+    "closed_at": "2020-06-09 15:52:47",
+    "state": "closed",
+    "title": "SpecList: fix recursion for references",
+    "number": 16897,
+    "milestone": null,
+    "labels": [
+        "specs"
+    ],
+    "id": 628680637,
+    "html_url": "https://github.com/spack/spack/pull/16897",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

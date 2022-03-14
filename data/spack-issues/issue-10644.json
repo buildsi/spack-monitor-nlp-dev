@@ -1,0 +1,19 @@
+{
+    "body": "By default, pkgconf and pkg-config strip out system paths. This can cause problems because Spack sets `CPATH`, which is taken into account when determining the system paths.\r\n\r\nThe difference of this change can be tested with: `spack build-env gettext -- pkg-config --cflags libxml-2.0`\r\n\r\nBefore this change, the output should be empty because the libxml2 package explicitly sets `CPATH`, which causes pkgconf and pkg-config to strip out its include directory. After this change, the output should contain the include directory.",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/10644",
+    "updated_at": "2020-08-20 08:31:00",
+    "created_at": "2019-02-19 11:02:22",
+    "closed_at": "2020-08-20 08:31:00",
+    "state": "closed",
+    "title": "pkgconfig: Disable pkgconf and pkg-config's path stripping",
+    "number": 10644,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 411866459,
+    "html_url": "https://github.com/spack/spack/pull/10644",
+    "assignees": [],
+    "comments": 6
+}

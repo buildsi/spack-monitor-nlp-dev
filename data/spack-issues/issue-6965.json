@@ -1,0 +1,19 @@
+{
+    "body": "On my redhat 7 that has dtrace installed, spack fail to build glib, this likely relates to PYTHONHOME being defined when depending on python, this makes system python scripts that sbang to system python exit with error  \r\nImportError: No module named site\r\n\r\n-----\r\n\r\nSummary\r\n\r\n### Expected Result\r\nspack install glib\r\n\r\n### Actual Result\r\n\r\n==> Applied patch no-Werror=format-security.patch\r\n==> Building glib [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j48'\r\n\r\n4 errors found in build log:\r\n     [ ... ]\r\n     562   Making all in glib\r\n     563   make[2]: Entering directory `/dev/shm/cibo19/spack-stage/spack-stage-giUdzE/glib-2.55.1/glib'\r\n     564     GEN      glibconfig-stamp\r\n     565     GEN      glib_probes.h\r\n     566     GEN      glib_probes.lo\r\n     567   ImportError: No module named site\r\n  >> 568   make[2]: *** [glib_probes.h] Error 1\r\n     569   make[2]: *** Waiting for unfinished jobs....\r\n     570   ImportError: No module named site\r\n  >> 571   make[2]: *** [glib_probes.lo] Error 1\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ which dtrace\r\n$ head $(which dtrace)\r\n$ dtrace\r\nUsage /usr/bin/dtrace [--help] [-h | -G] [-C [-I<Path>]] -s File.d [-o <File>]   ### OK\r\n$ spack install --keep-stage glib@2.55.1%gcc@4.8.5\r\n$ spack env glib@2.55.1%gcc@4.8.5 dtrace\r\nImportError: No module named site   ### python error\r\n$ spack env glib@2.55.1%gcc@4.8.5 /bin/bash\r\n$ dtrace\r\nImportError: No module named site ### python error\r\n$ unset PYTHONHOME\r\n$ dtrace\r\nUsage /usr/bin/dtrace [--help] [-h | -G] [-C [-I<Path>]] -s File.d [-o <File>]   ### OK\r\n\r\n\r\n",
+    "user": "luigi-calori",
+    "url": "https://api.github.com/repos/spack/spack/issues/6965",
+    "updated_at": "2018-03-19 05:38:43",
+    "created_at": "2018-01-17 12:00:41",
+    "closed_at": "2018-03-19 05:38:43",
+    "state": "closed",
+    "title": "glib not building on RedHat 7 with dtrace",
+    "number": 6965,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 289241487,
+    "html_url": "https://github.com/spack/spack/issues/6965",
+    "assignees": [],
+    "comments": 2
+}

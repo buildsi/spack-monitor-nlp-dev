@@ -1,0 +1,19 @@
+{
+    "body": "This PR is more of a discussion, but could probably be merged anyway if people like it.\n\nThe question is, how do we handle software that provides a different download depending on your operating system, version, architecture, etc? I chose `allinea-forge` as a particularly nasty example. See the downloads page [here](http://www.allinea.com/products/forge/download).\n\nSoftware like this provides two problems:\n1. A single version might have a different URL depending on the cluster\n2. A single version might have a different checksum depending on the cluster\n\nThe second problem _could_ be solved by including the os-version-arch in the version, but I tried to avoid this hack.\n\nMy solution was to create a function that determined the appropriate version to download. For example, if you are on RHEL or CentOS, it uses the \"Redhat\" version. It would be great if os-version-arch stuff like this could be included in the core Spack libraries, but since each package may name things differently, I don't think this is possible. For example, one package could have a \"Redhat\" version and another could have both a \"rhel\" and \"centos\" version.\n\nWith this function, I can define the `url_for_download()` method. And with a case-statement-like if-statement, I can define the checksums for each version, depending on the os-version-arch.\n\n@citibeth This is what I was talking about in #1997.\n\nNote: since I don't have every possible platform available to me, I could only test on CentOS. I couldn't find any good documentation on `platform` so I don't know the exact string for each possible system, linux distro, etc. I also don't know mappings between Fedora versions and RHEL versions, so I didn't provide support for Fedora. There are probably a lot of distros that could use one of these versions even if they aren't explicitly listed. Mint could probably use the Ubuntu download for example. These would have to be added manually. If you can think of a better solution, let me know.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2009",
+    "updated_at": "2019-03-13 19:28:45",
+    "created_at": "2016-10-12 20:21:59",
+    "closed_at": "2018-08-18 18:42:09",
+    "state": "closed",
+    "title": "[Discussion] How to handle os/version/arch-specific downloads",
+    "number": 2009,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 182624433,
+    "html_url": "https://github.com/spack/spack/pull/2009",
+    "assignees": [],
+    "comments": 12
+}

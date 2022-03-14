@@ -1,0 +1,17 @@
+{
+    "body": "The `py-flake8` package currently has an `enum34` dependency for all versions of Python. However, as the name implies, `enum34` backports the `enum` module from Python 3.4 to Python versions 2.4 through 2.7, and versions 3.1 through 3.3. The presence of the `enum` module in Python 3.4 and later implies that `py-flake8` should not depend on `enum34` for this range of Python versions, so this pull request deletes the `enum34` dependency for Python 3.4 and later.\r\n\r\nFurthermore, `spack install py-flake8 ^python@3.7.0` yields the following build error on my system:\r\n\r\n```console\r\n==> Executing phase: 'build'\r\n==> '/usr/local/Cellar/python/3.7.0/bin/python3.7' '-s' 'setup.py' '--no-user-cfg' 'build'\r\nError in sitecustomize; set PYTHONVERBOSE for traceback:\r\nAttributeError: module 'enum' has no attribute 'IntFlag'\r\nTraceback (most recent call last):\r\n  File \"setup.py\", line 8, in <module>\r\n    import setuptools\r\n  File \"/Users/oxberry1/spack/opt/spack/darwin-sierra-x86_64/clang-9.0.0-apple/py-setuptools-40.2.0-qfpxfl66jbsssrqzkj3x3nxvu4ee6quk/lib/python3.7/site-packages/setuptools/__init__.py\", line 6, in <module>\r\n    import distutils.core\r\n  File \"/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/distutils/core.py\", line 16, in <module>\r\n    from distutils.dist import Distribution\r\n  File \"/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/distutils/dist.py\", line 9, in <module>\r\n    import re\r\n  File \"/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/re.py\", line 143, in <module>\r\n    class RegexFlag(enum.IntFlag):\r\nAttributeError: module 'enum' has no attribute 'IntFlag'\r\n```\r\n\r\nThis pull request resolves the build error shown above.",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/9415",
+    "updated_at": "2019-08-28 09:20:41",
+    "created_at": "2018-10-03 08:12:01",
+    "closed_at": "2018-10-04 02:33:22",
+    "state": "closed",
+    "title": "py-flake8 ^python@3.4: :delete enum34 dependency",
+    "number": 9415,
+    "milestone": null,
+    "labels": [],
+    "id": 366221604,
+    "html_url": "https://github.com/spack/spack/pull/9415",
+    "assignees": [],
+    "comments": 1
+}

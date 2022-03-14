@@ -1,0 +1,17 @@
+{
+    "body": "`py-h5py` depends on `py-cython` as described in it's `package.py` file.\r\n\r\nIf you take a clean spack installation and just install `py-h5py` with `spack install py-h5py`, `py-cython` is installed but `py-h5py` is installed without any dependence on `py-cython` somehow.\r\n\r\nYou can see this here after I install `py-h5py` in an empty spack installation:\r\n\r\n```\r\nspack find -d py-h5py                \r\n==> 1 installed packages.\r\n-- linux-arch-x86_64 / gcc@6.2.1 --------------------------------\r\n    [+]  xe5msgwjlcwb5ogz6qbiakgpwub5gbgn  py-h5py@2.6.0\r\n    [+]  nxdxelzwt4yasq5fr5smvl5rp2fm2qfj      ^hdf5@1.8.16\r\n    [+]  il64wykvgxfwr4ekwx5uw5elznkt7ru2          ^mpich@3.2\r\n    [+]  5yu5k2tmrdaqp3au25mxtatpolxzoifc          ^szip@2.1\r\n    [+]  muw275cludcbyfss3qhrwfdgqzyawobo          ^zlib@1.2.8\r\n    [+]  a3pmovb6xdl7iaicmkjavsq22l7nlhaa      ^py-mpi4py@2.0.0\r\n    [+]  af6yvqzowdwsgobjttgaprjxoiqn77xb          ^python@2.7.12\r\n    [+]  mqtezjgupjgsgmbgekm7uyo4trg6ixng              ^bzip2@1.0.6\r\n    [+]  3zob25ylu6v2lfipkjm7lutux2gybije              ^ncurses@6.0\r\n    [+]  edfjjophrb5mctxwwabuwogkyhbeustr              ^openssl@1.0.2j\r\n    [+]  hwzccevopyg7wep3hgypvoa25rqhasas              ^readline@6.3\r\n    [+]  k7pl5saz7okbaxxkwru7o2utyqehxw4a              ^sqlite@3.8.5\r\n    [+]  jgzx5mzs2oakd5npr4dnkgt3frvpbeoq      ^py-numpy@1.11.2\r\n    [+]  443ize6rvixorrj5ftlz4brlmju2lrfq          ^openblas@0.2.19\r\n    [+]  3vhn2rov67fp2kobqkqvvuwyszmpbu3m      ^py-six@1.10.0\r\n```\r\n\r\nBut `py-cython` definitely was built and installed:\r\n\r\n```\r\nspack find -d py-cython\r\n==> 1 installed packages.\r\n-- linux-arch-x86_64 / gcc@6.2.1 --------------------------------\r\n    [+]  5g2bnwt4birzhzznoxsoqykaahxab7lm  py-cython@0.23.5\r\n    [+]  af6yvqzowdwsgobjttgaprjxoiqn77xb      ^python@2.7.12\r\n    [+]  mqtezjgupjgsgmbgekm7uyo4trg6ixng          ^bzip2@1.0.6\r\n    [+]  3zob25ylu6v2lfipkjm7lutux2gybije          ^ncurses@6.0\r\n    [+]  edfjjophrb5mctxwwabuwogkyhbeustr          ^openssl@1.0.2j\r\n    [+]  muw275cludcbyfss3qhrwfdgqzyawobo              ^zlib@1.2.8\r\n    [+]  hwzccevopyg7wep3hgypvoa25rqhasas          ^readline@6.3\r\n    [+]  k7pl5saz7okbaxxkwru7o2utyqehxw4a          ^sqlite@3.8.5\r\n```\r\n\r\nStrangely, `py-cython` is missing as a dependency, and even stranger, if you install a package that depends both on `py-cython` as well as `py-h5py` like `py-astropy`, it will install _another_ `py-h5py` which _does_ have a dependence on `py-cython`. \r\n\r\nNo idea why this happens.",
+    "user": "krafczyk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2448",
+    "updated_at": "2017-11-22 12:34:43",
+    "created_at": "2016-11-30 23:36:57",
+    "closed_at": "2017-11-22 12:34:43",
+    "state": "closed",
+    "title": "py-h5py is sometimes installed without a listed dependency on py-cython.",
+    "number": 2448,
+    "milestone": null,
+    "labels": [],
+    "id": 192712444,
+    "html_url": "https://github.com/spack/spack/issues/2448",
+    "assignees": [],
+    "comments": 3
+}

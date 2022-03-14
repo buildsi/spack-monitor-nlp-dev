@@ -1,0 +1,19 @@
+{
+    "body": "@tgamblin \n\nI'm looking at the `candidates` variable inside `concretize.py`:`DefaultConcretizer`:`_valid_virtuals_and_externals()`.  I'm printing this out, and noticed that the list of candidates it shows is quite truncated, compared to the list of versions a package provides.  For example, I'm getting the following list:\n\n```\ncandidates [openmpi@1.10.0, openmpi@2.0.0, mpich@1:, mpich@3:, intel-parallel-studio@cluster:+mpi, mvapich2@2.0:, mvapich2@1.9]\n```\n\nThat is in spite of the following declarations in `openmpi/package.py`:\n\n```\n    version('2.0.0', 'cdacc800cb4ce690c1f1273cb6366674')\n    version('1.10.3', 'e2fe4513200e2aaa1500b762342c674b')\n    version('1.10.2', 'b2f43d9635d2d52826e5ef9feb97fd4c')\n    version('1.10.1', 'f0fcd77ed345b7eafb431968124ba16e')\n    version('1.10.0', '280cf952de68369cebaca886c5ce0304')\n    version('1.8.8', '0dab8e602372da1425e9242ae37faf8c')\n    version('1.6.5', '03aed2a4aa4d0b27196962a2a65fc475')\n\n    provides('mpi@3.1', when='@2.0.0')\n    provides('mpi@3.0', when='@1.10.3')\n    provides('mpi@3.0', when='@1.10.2')\n    provides('mpi@3.0', when='@1.10.1')\n    provides('mpi@3.0', when='@1.10.0')\n#    provides('mpi@3.0', when='@1.8.8')\n#    provides('mpi@2.2', when='@1.6.5')\n```\n\nThe workaround for now is to comment out versions in `packages.py` that I don't want.  But does anyone have a more serious fix?\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1623",
+    "updated_at": "2017-01-03 02:40:30",
+    "created_at": "2016-08-24 23:38:14",
+    "closed_at": "2017-01-03 02:37:52",
+    "state": "closed",
+    "title": "[Bug] Not all versions get listed as options for virtual dependencies",
+    "number": 1623,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 173082973,
+    "html_url": "https://github.com/spack/spack/issues/1623",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install pkgconf\r\n==> Installing pkgconf\r\n==> Searching for binary cache of pkgconf\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for pkgconf found: installing from source\r\n==> Fetching http://distfiles.dereferenced.org/pkgconf/pkgconf-1.6.0.tar.xz\r\n\r\ncurl: (6) Could not resolve host: distfiles.dereferenced.org\r\n==> Fetching from http://distfiles.dereferenced.org/pkgconf/pkgconf-1.6.0.tar.xz failed.\r\n==> Error: FetchError: All fetchers failed for pkgconf-1.6.0-v4yrfswprkxnyfhnagk37yyjkskahyj5\r\n\r\n<spack_root_directory>/lib/spack/spack/package.py:965, in do_fetch:\r\n        962                raise FetchError(\"Will not fetch %s\" %\r\n        963                                 self.spec.format('$_$@'), ck_msg)\r\n        964\r\n  >>    965        self.stage.create()\r\n        966        self.stage.fetch(mirror_only)\r\n        967        self._fetch_time = time.time() - start_time\r\n        968\r\n```\r\n\r\nI also tried to get download the `tar`-file using `wget`, which also couldn't resolve the host.\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux theseus 4.15.0-47-generic #50~16.04.1-Ubuntu SMP Fri Mar 15 16:06:21 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tUbuntu 16.04.6 LTS\r\n``` \r\nand, if relevant, post or attach:\r\n\r\n- `packages.yaml`: default settings\r\n- `compilers.yaml`:\r\n   `spack compilers` lists\r\n    ```\r\n    ==> Available compilers\r\n    -- gcc ubuntu16.04-x86_64 ---------------------------------------\r\n    gcc@5.4.0\r\n    ```\r\n\r\n### Additional information\r\n\r\nSometimes the issue benefits from additional details. In these cases there are\r\na few things we can suggest doing. First of all, you can post the full output of:\r\n```console\r\n$ spack spec --install-status <spec>\r\nInput spec\r\n--------------------------------\r\n -   pkgconf\r\n\r\nConcretized\r\n--------------------------------\r\n -   pkgconf@1.6.0%gcc@5.4.0 arch=linux-ubuntu16.04-x86_64 \r\n```\r\nto show people whether Spack installed a faulty software or if it was not able to\r\nbuild it at all. \r\n\r\n\r\n### Related issues\r\nThere are two other issues (#6932, #8037)on the installation of `pkgconf`. I checked them. Based on their description, they are not related to this one.\r\n",
+    "user": "mayrmt",
+    "url": "https://api.github.com/repos/spack/spack/issues/11771",
+    "updated_at": "2020-03-25 19:16:07",
+    "created_at": "2019-06-18 06:10:43",
+    "closed_at": "2019-06-19 01:26:00",
+    "state": "closed",
+    "title": "Installation issue: pkgconf",
+    "number": 11771,
+    "milestone": null,
+    "labels": [
+        "download-error"
+    ],
+    "id": 457279785,
+    "html_url": "https://github.com/spack/spack/issues/11771",
+    "assignees": [],
+    "comments": 8
+}

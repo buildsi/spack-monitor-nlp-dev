@@ -1,0 +1,20 @@
+{
+    "body": "On my linux Mint, I have installed with spack environment modules, configured with autoloading and use them to load python extensions.\r\nIt happens that \r\nspack install py-flake8\r\nmodule load py-flake8\r\nflake8\r\n\r\nresult in error:\r\n------\r\n------\r\n  File \"/kubuntu/home/lcalori/spack/RCM_test/deploy/rcm08/install/linux-linuxmint18-x86_64/gcc-5.4.0/py-configparser-3.5.0-gyfsxqxnkenrlpaam7zqlk4zox7uq4yi/lib/python2.7/site-packages/configparser.py\", line 12, in <module>\r\n    from backports.configparser import (\r\nImportError: No module named backports.configparser\r\n\r\nGoogling around, I found:\r\nhttps://pypi.python.org/pypi/backports/\r\n\r\nIt seems that, the proper__init__.py file is lacking from\r\n\r\nlib/python2.7/site-packages/backports\r\n\r\nIt probably relates to setuptools deciding to not install as it is a namespace package,\r\nas shown by the line in spack-build.out:\r\n\r\nSkipping installation of /kubuntu/home/lcalori/spack/RCM_test/deploy/rcm08/install/linux-linuxmint18-x86_64/gcc-5.4.0/py-configparser-3.5.0-gyfsxqxnkenrlpaam7zqlk4zox7uq4yi/lib/python2.7/site-packages/backports/__init__.py (namespace package)\r\n\r\nit seems a simple patch to setup.py can fix\r\n\r\n",
+    "user": "luigi-calori",
+    "url": "https://api.github.com/repos/spack/spack/issues/4154",
+    "updated_at": "2019-12-02 20:16:42",
+    "created_at": "2017-05-06 18:36:37",
+    "closed_at": "2019-12-02 20:16:42",
+    "state": "closed",
+    "title": "Spack install of py-flake8, shows backports.configparser error",
+    "number": 4154,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python"
+    ],
+    "id": 226793826,
+    "html_url": "https://github.com/spack/spack/issues/4154",
+    "assignees": [],
+    "comments": 6
+}

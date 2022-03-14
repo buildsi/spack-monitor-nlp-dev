@@ -1,0 +1,19 @@
+{
+    "body": "Hello,\r\n\r\nFixed the location of charmrun during namd compilation.\r\n\r\nNamd used to fail because it was looking for charmrun in $(CHARMBASE)/$(CHARMARCH) while with current charmpp setup it is in spec['charmpp'].prefix:\r\n\r\n```\r\nmake: *** No rule to make target \r\n'/home/nikolays/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-10.2.0/\r\ncharmpp-6.10.2-mf5vqdyi3q7mzqiofevjf42fehcuwvwv/netlrts-linux-x86_64/bin/charmrun', \r\nneeded by 'charmrun'.  Stop. \r\n```\r\n\r\nI am not sure is charm++ architecture is now per one installed package or it still can combine multiple within single installed package. So  I added conditional patching if there is no spec['charmpp'].charmarch in spec['charmpp'].prefix then set CHARM to $(CHARMBASE) in Make.config.\r\n\r\nBest,\r\nNikolay",
+    "user": "nsimakov",
+    "url": "https://api.github.com/repos/spack/spack/issues/18355",
+    "updated_at": "2020-08-28 19:29:54",
+    "created_at": "2020-08-28 13:38:12",
+    "closed_at": "2020-08-28 19:29:54",
+    "state": "closed",
+    "title": "namd: added patching charmrun location, as it stored in prefix.bin",
+    "number": 18355,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 688081979,
+    "html_url": "https://github.com/spack/spack/pull/18355",
+    "assignees": [],
+    "comments": 0
+}

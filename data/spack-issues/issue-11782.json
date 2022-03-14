@@ -1,0 +1,22 @@
+{
+    "body": "If fed a relative path, `spack compiler add` will write the relative path to compilers.yaml rather than dereference it to the absolute path. This behavior began with commit 6d56d4545472ddff1cdc0e8fd49d8260428a141e according to `git bisect`.\r\n\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack compiler add --scope=site ../apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/\r\n==> Added 1 new compiler to /opt/packages/gpjohnsn/opt/ssoft/spack/etc/spack/compilers.yaml\r\n    intel@19.0.3.199\r\n==> Compilers are defined in the following files:\r\n    /opt/packages/gpjohnsn/opt/ssoft/spack/etc/spack/compilers.yaml\r\n$ cat etc/spack/compilers\r\n...\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: centos7\r\n    paths:\r\n      cc: ../apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/icc\r\n      cxx: ../apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/icpc\r\n      f77: ../apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/ifort\r\n      fc: ../apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/ifort\r\n    spec: intel@19.0.3.199\r\n    target: x86_64\r\n...\r\n```\r\n```console\r\nPrevious, and expected, output:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: centos7\r\n    paths:\r\n      cc: /opt/packages/gpjohnsn/opt/ssoft/apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/icc\r\n      cxx: /opt/packages/gpjohnsn/opt/ssoft/apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/icpc\r\n      f77: /opt/packages/gpjohnsn/opt/ssoft/apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/ifort\r\n      fc: /opt/packages/gpjohnsn/opt/ssoft/apps/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.3-4vf3wugrvromolotwrco5vuzydnts3bv/bin/ifort\r\n    spec: intel@19.0.3.199\r\n    target: x86_64\r\n...\r\n\r\n```\r\nLoading the respective module first will do the right thing but using a relative path in the `spack compiler` command used to work. Also, it seems that a relative path should never be written to compilers.yaml.",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/11782",
+    "updated_at": "2019-07-12 23:06:28",
+    "created_at": "2019-06-18 21:02:37",
+    "closed_at": "2019-07-12 23:06:27",
+    "state": "closed",
+    "title": "spack compiler add uses relative path",
+    "number": 11782,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers"
+    ],
+    "id": 457694789,
+    "html_url": "https://github.com/spack/spack/issues/11782",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

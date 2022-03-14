@@ -1,0 +1,21 @@
+{
+    "body": "This is a fairly tricky problem to track down and I'm not particularly certain in what the actual problem is, so take this description with a grain of salt.\r\n\r\nOur CI regularly shows errors of this kind:\r\n```\r\n+ spack install --source --only dependencies --show-log-on-error -j4 <spec>\r\n==> Error: \r\n```\r\n\r\nThis is because either [this](https://github.com/spack/spack/blob/5e8a9ddaed478680dcd0607cfdafafa769ece6b3/lib/spack/llnl/util/lock.py#L266) or [this](https://github.com/spack/spack/blob/5e8a9ddaed478680dcd0607cfdafafa769ece6b3/lib/spack/llnl/util/lock.py#L289) assertion in `lib/spack/llnl/util/lock.py` being triggered (`spack -d` prints the stack trace to these lines). We suspect that we time out [here](https://github.com/spack/spack/blob/5e8a9ddaed478680dcd0607cfdafafa769ece6b3/lib/spack/llnl/util/lock.py#L221) due to the slow HDD.\r\n\r\nWe think the origin of this problem is the `finally` statement [here](https://github.com/spack/spack/blob/63004e3de1473254c3b2a75f1e06afaabdacd7dd/lib/spack/spack/database.py#L244) (for brevity here the copy of the function)\r\n```\r\n    @contextlib.contextmanager\r\n    def prefix_read_lock(self, spec):\r\n        prefix_lock = self.prefix_lock(spec)\r\n        try:\r\n            prefix_lock.acquire_read(60)\r\n            yield self\r\n        finally:\r\n            prefix_lock.release_read()\r\n```\r\nIf `prefix_lock.acquire_read` times out, this will not do `prefix_lock._reads += 1` and the `prefix_lock.release_read()` will run into `assert prefix_lock._reads > 0`. As I currently understand it, the code above seems wrong and I think the simplest solution would be to move the `prefix_lock.acquire_read(60)` out of the `try:` block. But I have no idea what kind of repercussions this would have (or even if our reasoning is solid). \r\n\r\nAny kind of feedback would be greatly appreciated, I'm certainly out of my depth here @tgamblin @scheibelp ",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/9166",
+    "updated_at": "2018-09-26 02:00:09",
+    "created_at": "2018-09-03 10:38:50",
+    "closed_at": "2018-09-26 02:00:09",
+    "state": "closed",
+    "title": "Locking problems",
+    "number": 9166,
+    "milestone": null,
+    "labels": [
+        "locking"
+    ],
+    "id": 356451148,
+    "html_url": "https://github.com/spack/spack/issues/9166",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 19
+}

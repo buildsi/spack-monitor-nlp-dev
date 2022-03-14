@@ -1,0 +1,17 @@
+{
+    "body": "I have package A which set some variable to be used by dependent package B:\n\n``` bash\n#Package A\ndef setup_environment         #same stuff in setup_dependent_environment\n      self.spec.archdir = xxx\n\n#Package B\ndef setup_environment\n       arch = self.spec['A'].archdir\n```\n\nthis works fine for installation. But when I do `spack module refresh` then I see:\n\n``` bash\n    main()\n  File \"/somepath/spack/bin/spack\", line 169, in main\n    return_val = command(parser, args)\n  File \"/somepath/spack/lib/spack/spack/cmd/module.py\", line 251, in module\n    callbacks[args.subparser_name](module_type, args.specs, args)\n  File \"/somepath/spack/lib/spack/spack/cmd/module.py\", line 235, in refresh\n    x.write(overwrite=True)\n  File \"/somepath/spack/lib/spack/spack/modules.py\", line 401, in write\n    self.spec.package.setup_environment(spack_env, env)\n  File \"/somepath/spack/var/spack/repos/xxx/packages/B/package.py\", line 76, in setup_environment\n    arch = self.spec[\u2018A\u2019].archdir\n  File \"/somepath/spack/lib/spack/spack/spec.py\", line 604, in __getattr__\n    raise AttributeError()\nAttributeError\n```\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2148",
+    "updated_at": "2016-10-27 18:37:53",
+    "created_at": "2016-10-27 12:28:29",
+    "closed_at": "2016-10-27 18:37:53",
+    "state": "closed",
+    "title": "Issue with module refresh and setup_dependent_environment()",
+    "number": 2148,
+    "milestone": null,
+    "labels": [],
+    "id": 185654345,
+    "html_url": "https://github.com/spack/spack/issues/2148",
+    "assignees": [],
+    "comments": 2
+}

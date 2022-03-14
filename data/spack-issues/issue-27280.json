@@ -1,0 +1,26 @@
+{
+    "body": "Current status:\r\n- [x] julia 1.7.0-rc3 and 1.6.4\r\n- [x] remove 1.7.0 upstreamed patches\r\n- [x] remove 1.6.5 `upstreamed-patches-*.patch` (depending on https://github.com/JuliaLang/julia/pull/43210)\r\n- [x] https://github.com/spack/spack/pull/27628 has the dsfmt changes\r\n- [x] llvm targets should go in a variant\r\n- [ ] openblas is a fixed provider for blas, this can be relaxed if required\r\n- [ ] ilp64 is fixed too, which can be relaxed. E.g. `depends_on('openblas symbol_suffix=64_', when='^openblas +ilp64')` and make `USE_BLAS64` be `spec['openblas'].variants['ilp64'].value` if openblas is the blas provider. But then `spack install julia` would not enable `ilp64` by default... which is surprising to julia users.\r\n\r\nHow to try out this PR:\r\n\r\n```console\r\n$ cat spack.yaml\r\n```\r\n```yaml\r\nspack:\r\n  specs:\r\n  - julia@1.6.0:1.6 ^openblas threads=pthreads\r\n  - julia@1.7.0:1.7 ^openblas threads=pthreads\r\n  view: false\r\n```\r\n```console\r\n$ spack -e . install -v\r\n```\r\n\r\n(Or on the cluster I'm testing on which has amd epyc cpus and slurm: `srun -c128 -n8 --oversubscribe --pty spack -e . install -v` which gives some more parallellism during the build)",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27280",
+    "updated_at": "2022-01-20 16:47:54",
+    "created_at": "2021-11-08 11:58:17",
+    "closed_at": "2022-01-20 16:07:04",
+    "state": "closed",
+    "title": "Julia without vendored dependencies",
+    "number": 27280,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "new-package",
+        "dependencies",
+        "patch",
+        "update-package",
+        "libraries",
+        "maintainers",
+        "new-variant"
+    ],
+    "id": 1047361063,
+    "html_url": "https://github.com/spack/spack/pull/27280",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,22 @@
+{
+    "body": "The `zsh` unit tests are failing on develop. If you look at https://travis-ci.org/spack/spack/jobs/639262160, you'll see:\r\n```\r\nTesting setup-env.sh with zsh5\r\n---------------------------------\r\n'which spack' succeeds ... SUCCESS\r\n\r\n...\r\n\r\nTesting activate and deactivate together\r\n---------------------------------\r\nTesting 'spack env activate spack_test_env'\r\n'SPACK_ENV' is set ... SUCCESS\r\nTesting 'spack env deactivate'\r\n'SPACK_ENV' is not set ... FAIL\r\nSPACK_ENV was set:\r\n    SPACK_ENV\r\nTesting 'spack env activate spack_test_env'\r\n'SPACK_ENV' is set ... SUCCESS\r\nTesting 'despacktivate'\r\n'SPACK_ENV' is not set ... FAIL\r\nSPACK_ENV was set:\r\n    SPACK_ENV\r\nTesting 'spack env activate --prompt spack_test_env'\r\n'SPACK_ENV' is set ... SUCCESS\r\n'SPACK_OLD_PS1' is set ... SUCCESS\r\nTesting 'despacktivate'\r\n'SPACK_ENV' is not set ... FAIL\r\nSPACK_ENV was set:\r\n    SPACK_ENV\r\n'SPACK_OLD_PS1' is not set ... FAIL\r\nSPACK_OLD_PS1 was set:\r\n    SPACK_OLD_PS1\r\nRemoving test environment before exiting.\r\n==> Error: No environment is currently active.\r\n==> Successfully removed environment 'spack_test_env'\r\nCleanup\r\n---------------------------------\r\nRemoving test packages before exiting.\r\n==> Successfully uninstalled b@1.0%gcc@4.8 arch=linux-ubuntu14.04-haswell/wvu3a4j\r\n==> Successfully uninstalled a@2.0%gcc@4.8+bvv foo=bar foobar=bar arch=linux-ubuntu14.04-haswell/nv64iat\r\n44 tests succeeded.\r\n4 tests failed.\r\nFAIL\r\n```\r\nI think part of the problem is that we are detecting the shell as `zsh5`, not `zsh`. Also, the unit tests are failing, but Travis passes, and I'm not sure why.  We have `bash -e` in the shebang, so it _should_ exit immediately with the proper exit code if one of the commands fails.\r\n\r\n@tgamblin ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/14560",
+    "updated_at": "2020-06-23 13:32:34",
+    "created_at": "2020-01-20 01:32:26",
+    "closed_at": "2020-06-23 13:32:33",
+    "state": "closed",
+    "title": "zsh unit tests failing on develop",
+    "number": 14560,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "shell-support",
+        "travis"
+    ],
+    "id": 552022412,
+    "html_url": "https://github.com/spack/spack/issues/14560",
+    "assignees": [],
+    "comments": 6
+}

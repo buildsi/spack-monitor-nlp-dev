@@ -1,0 +1,17 @@
+{
+    "body": "This is proposed as a fix for #10284 which I recently reported.\r\n\r\nPR #10152  replaced `shutil.move` with llnl's `copy` and `copy_tree`\r\nhttps://github.com/spack/spack/pull/10152/files#diff-b96a1a55f58dffde150cbe13f13ae2acL548\r\n\r\nI think this is causing the build error with lua that I'm seeing today.  See below for details.  I don't know if this is an acceptable way to fix the issue, but I offer this PR as both a bug report and suggestion of possible fix.\r\n\r\n```\r\n$ spack install lua                                                                                                           \r\n\r\n[snip]\r\n                                  \r\n==> Building lua [Package]                                                                                                                                                      \r\n==> Executing phase: 'install'                                                                                                                                                  \r\n==> Error: ProcessError: ./configure: Permission denied                                                                                                                         \r\n    Command: './configure' '--prefix=/bifx/apps/spack/spack-20190108/opt/spack/linux-centos7-x86_64/gcc-8.2.0/lua-5.3.4-diuptpgekoebrs4bg6eprp6c4sizzaxu' '--with-lua=/bifx/apps\r\n/spack/spack-20190108/opt/spack/linux-centos7-x86_64/gcc-8.2.0/lua-5.3.4-diuptpgekoebrs4bg6eprp6c4sizzaxu'                                                                      \r\n```\r\n\r\nThe `configure` in `luarocks` is executable when the tarball is unpacked, but when the tree is copied into lua, it is no longer executable:\r\n\r\n```\r\n$ ls -l /bifx/apps/spack/spack-20190108/var/spack/stage/resource-luarocks-diuptpgekoebrs4bg6eprp6c4sizzaxu/luarocks-2.3.0/configure\r\n-rwxr-xr-x 1 osolberg domain users 13021 Dec 29  2015 configure\r\n\r\n$ ls -l /bifx/apps/spack/spack-20190108/var/spack/stage/lua-5.3.4-diuptpgekoebrs4bg6eprp6c4sizzaxu/lua-5.3.4/luarocks/luarocks/configure\r\n-rw-r--r-- 1 osolberg domain users 13021 Jan  8 13:50 configure\r\n```\r\n\r\n@hartzell FYI",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/10285",
+    "updated_at": "2019-01-09 07:51:09",
+    "created_at": "2019-01-09 00:07:45",
+    "closed_at": "2019-01-09 01:56:16",
+    "state": "closed",
+    "title": "bug fix: copy permissions when staging",
+    "number": 10285,
+    "milestone": null,
+    "labels": [],
+    "id": 397148619,
+    "html_url": "https://github.com/spack/spack/pull/10285",
+    "assignees": [],
+    "comments": 3
+}

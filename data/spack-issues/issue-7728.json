@@ -1,0 +1,19 @@
+{
+    "body": "We introduce a new package `postgresql-client` which allows for the installation of only client executables and libraries. It provides virtual packages `postgresql-c`, `postgresql-python`, `postgresql-perl`, `postgresql-tcl` and adds other variants (`lineedit`, `gssapi`) which weren't available in the original postgresql package. The postgresql package itself is updated to inherit from the client package and is therefore upgraded to understand the same variants, *etc.*, as the client. As a side effect this fixes the problems in the original package spec caused by a misspelled override (`configure_arg()` vs `configure_args()`).\r\nWe also introduce a new package `py-psycopg` which `depends_on(postgresql-python)`. It also depends on `postgresql-c` but here appears to be a problem with the current version of spack if a recipe `depends_on()` two virtual packages provided by the same concrete package. Advice is sought on whether this should be reported as an issue or understood as a limitation of the system.",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/7728",
+    "updated_at": "2019-03-20 13:34:49",
+    "created_at": "2018-04-11 14:25:57",
+    "closed_at": "2019-03-13 19:55:42",
+    "state": "closed",
+    "title": "New packages postgresql-client & py-psycopg, enhance postgresql",
+    "number": 7728,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 313348099,
+    "html_url": "https://github.com/spack/spack/pull/7728",
+    "assignees": [],
+    "comments": 9
+}

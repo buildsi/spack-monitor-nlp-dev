@@ -1,0 +1,17 @@
+{
+    "body": "The `adios` variant `+hdf5` is broken. The error is\n\n```\nIn file included from /xfs1/eschnetter/src/spack/opt/spack/linux-Ubuntu14-x86_64/gcc-6.1.1/hdf5-1.10.0-patch1-ijwvzsvpcbne33bffg6nrefdwgguofji/include/H5public.h:145:0,\n                 from /xfs1/eschnetter/src/spack/opt/spack/linux-Ubuntu14-x86_64/gcc-6.1.1/hdf5-1.10.0-patch1-ijwvzsvpcbne33bffg6nrefdwgguofji/include/hdf5.h:24,\n                 from bp2h5.c:39:\nbp2h5.c:46:13: error: two or more data types in declaration specifiers\n typedef int bool;\n             ^\nbp2h5.c:46:1: warning: useless type name in empty declaration\n typedef int bool;\n ^~~~~~~\nbp2h5.c: In function \u2018main\u2019:\nbp2h5.c:173:17: warning: implicit declaration of function \u2018H5LTmake_dataset\u2019 [-Wimplicit-function-declaration]\n                 H5LTmake_dataset(HDF5_FILE,h5name,1,count,h5_type_id,v->value);\n                 ^~~~~~~~~~~~~~~~\nmake[3]: *** [bp2h5-bp2h5.o] Error 1\nmake[3]: Leaving directory `/tmp/eschnetter/spack-stage/spack-stage-0LLmsR/ADIOS-1.10.0/utils/bp2h5'\nmake[2]: *** [all-recursive] Error 1\nmake[2]: Leaving directory `/tmp/eschnetter/spack-stage/spack-stage-0LLmsR/ADIOS-1.10.0/utils'\nmake[1]: *** [all-recursive] Error 1\nmake[1]: Leaving directory `/tmp/eschnetter/spack-stage/spack-stage-0LLmsR/ADIOS-1.10.0'\n```\n\nIt seems that Adios expects `bool` to be undefined, but it is already defined. It might be that HDF5 1.10 includes `<stdbool.h>`.\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/1683",
+    "updated_at": "2016-09-21 07:55:54",
+    "created_at": "2016-08-31 19:23:30",
+    "closed_at": "2016-09-21 07:55:54",
+    "state": "closed",
+    "title": "Adios does not build with HDF5 1.10",
+    "number": 1683,
+    "milestone": null,
+    "labels": [],
+    "id": 174356700,
+    "html_url": "https://github.com/spack/spack/issues/1683",
+    "assignees": [],
+    "comments": 12
+}

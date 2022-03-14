@@ -1,0 +1,24 @@
+{
+    "body": "Fixes #13553.\r\n\r\nDespite trying very hard to keep dicts out of our hash algorithm, we seem to still accidentally add them in ways that the tests can't catch. This can cause errors when hashes are not computed deterministically.\r\n\r\nThis PR fixes an error we saw with Python 3.5, where dictionary iteration order is random.  In this instance, we saw a bug when reading Spack environment lockfiles -- The load would fail like this:\r\n\r\n```console\r\n...\r\nFile \"/sw/spack/lib/spack/spack/environment.py\", line 1249, in concretized_specs\r\n  yield (s, self.specs_by_hash[h])\r\nKeyError: 'qcttqplkwgxzjlycbs4rfxxladnt423p'\r\n```\r\n\r\nThis was because the hashes differed depending on whether we wrote `path` or `module` first when recomputing the build hash as part of reading a Spack lockfile.  We can fix it by ensuring a determistic iteration order.\r\n\r\n- [x] Fix two places (one that caused an issue, and one that did not... yet) where our to_node_dict-like methods were using regular python dicts.\r\n\r\n- [x] Also add a check that statically analyzes our to_node_dict functions and flags any that use Python dicts.\r\n\r\nThe test found the two errors fixed here, specifically:\r\n\r\n```console\r\nE       AssertionError: assert [] == ['Use syaml_dict instead of ...pack/spack/spec.py:1495:28']\r\nE         Right contains more items, first extra item: 'Use syaml_dict instead of dict at /Users/gamblin2/src/spack/lib/spack/spack/spec.py:1495:28'\r\nE         Full diff:\r\nE         - []\r\nE         + ['Use syaml_dict instead of dict at '\r\nE         +  '/Users/gamblin2/src/spack/lib/spack/spack/spec.py:1495:28']\r\n```\r\n\r\nand\r\n\r\n```console\r\nE       AssertionError: assert [] == ['Use syaml_dict instead of ...ack/architecture.py:359:15']\r\nE         Right contains more items, first extra item: 'Use syaml_dict instead of dict at /Users/gamblin2/src/spack/lib/spack/spack/architecture.py:359:15'\r\nE         Full diff:\r\nE         - []\r\nE         + ['Use syaml_dict instead of dict at '\r\nE         +  '/Users/gamblin2/src/spack/lib/spack/spack/architecture.py:359:15']\r\n```\r\n\r\nAs mentioned above, the second error wasn't hurting anything because it's not used in hashes, but I've fixed it to be on the safe side.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/14390",
+    "updated_at": "2020-01-22 23:29:35",
+    "created_at": "2020-01-05 22:45:38",
+    "closed_at": "2020-01-22 07:36:11",
+    "state": "closed",
+    "title": "bugfix: hashes should use ordered dictionaries everywhere",
+    "number": 14390,
+    "milestone": null,
+    "labels": [
+        "hashes",
+        "specs",
+        "environments",
+        "bugfix"
+    ],
+    "id": 545477653,
+    "html_url": "https://github.com/spack/spack/pull/14390",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

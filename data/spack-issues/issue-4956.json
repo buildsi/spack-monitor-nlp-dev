@@ -1,0 +1,19 @@
+{
+    "body": "Say our file packages.yaml looks like this:\r\n```yaml\r\npackages:\r\n  all:\r\n    compiler: [gcc, intel, pgi, clang, xl, nag]\r\n    providers:\r\n      mpi: [openmpi, mpich]\r\n  openmpi:\r\n    paths:\r\n      openmpi@1.8.4%gcc@4.8: /some/path/openmpi-1.8.4-gcc48\r\n      openmpi@1.8.4%gcc@4.9:  /some/path/openmpi-1.8.4-gcc49\r\n      openmpi@1.8.4%gcc@5.1:  /some/path/openmpi-1.8.4-gcc51\r\n      openmpi@1.8.4%gcc@6.2:  /some/path/openmpi-1.8.4-gcc62\r\n      openmpi@1.8.4%gcc@7.1:  /some/path/openmpi-1.8.4-gcc71\r\n      openmpi@1.8.4%intel@14:  /some/path/openmpi-1.8.4-intel14\r\n      openmpi@1.8.4%nag@6.0:  /some/path/openmpi-1.8.4-static-nag60\r\n      openmpi@1.10.1%intel@16:  /some/path/openmpi-1.10.1_mlx-intel16\r\n      openmpi@1.10.2%intel@14:  /some/path/openmpi-1.10.2_mlx-intel14\r\n      openmpi@1.10.2%intel@16:  /some/path/openmpi-1.10.2_mlx-intel16\r\n      openmpi@1.10.2%nag@6.0:  /some/path/openmpi-1.10.2_mlx-static-nag60\r\n    buildable: False\r\n```\r\nNow, if we want to install a package 'A' (which depends on mpi, of course) relying on the compiler concretization preferencies:\r\n```\r\nspack install A\r\n```\r\nwe get the following error:\r\n```\r\n==> Error: No compilers with spec intel@14 found\r\n```\r\n\r\nThis happens because Intel compiler is the most ABI compatible to nothing. =)\r\n\r\nMy solution to the problem is the following: if the input spec does not have any information about the compiler yet, we should just wait untill the situation becomes more clear. I hope that I understood the logic of this part of the code correctly.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4956",
+    "updated_at": "2019-11-18 09:26:49",
+    "created_at": "2017-08-02 18:15:49",
+    "closed_at": "2019-11-18 09:26:49",
+    "state": "closed",
+    "title": "[WIP] Prevent ignoring compiler concretization preferences",
+    "number": 4956,
+    "milestone": null,
+    "labels": [
+        "WIP"
+    ],
+    "id": 247477240,
+    "html_url": "https://github.com/spack/spack/pull/4956",
+    "assignees": [],
+    "comments": 2
+}

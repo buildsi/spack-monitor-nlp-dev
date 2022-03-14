@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```\r\n$ spack install openmpi@4.1.1~atomics~cuda~cxx~cxx_exceptions+gpfs~internal-hwloc~java~legacylaunchers~lustre~memchecker~pmi~pmix+singularity~sqlite3+static+thread_multiple+vt+wrapper-rpath fabrics=ucx schedulers=none\r\n```\r\n\r\nAnd for `hwloc` I am using `hwloc@2.6.0~cairo~cuda~gl~libudev+libxml2~netloc~nvml~opencl+pci~rocm+shared` spec. **Note** that I did not ask for `rocm` support with this `hwloc` spec. But if there are ROCm libraries in `/opt/rocm`, `hwloc` is picking them up automatically and building itself with `rocm_smi` support. Here are relevant lines from `config.log` of `hwloc`:\r\n\r\n```\r\n**** RSMI configuration\r\nconfigure: using standard ROCm install path /opt/rocm ...\r\nchecking for rocm_smi/rocm_smi.h... yes\r\nchecking for rsmi_init in -lrocm_smi64... yes\r\n**** end of RSMI configuration\r\n```\r\n\r\nAnd configuration arguments emitted by Spack for `hwloc` are `--disable-opencl --disable-cairo --disable-nvml --disable-gl --disable-cuda --enable-libxml2 --disable-libudev --enable-pci --enable-shared`\r\n\r\nEventually when OpenMPI is using this Spack built `hwloc`, configuration tests os external `hwloc` fail due to lack of linker paths to `librocm_smi`. \r\n\r\nThis is not what we want. We should explicitly `--disable-rsmi` when variant is `~rocm` in `hwloc`.\r\n\r\nMaintainers:\r\nOpenMPI: @hppritcha \r\nHwloc: @bgoglin \r\n\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.0\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-debian10-skylake_avx512\r\n* **Concretizer:** clingo\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7569864/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7569865/spack-build-out.txt)\r\n[OpenMPI config.log](https://github.com/spack/spack/files/7569866/config.log)\r\n[Hwloc config.log](https://github.com/spack/spack/files/7569873/spack-build-02-configure-out.2.txt)\r\n\r\n\r\n\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mahendrapaipuri",
+    "url": "https://api.github.com/repos/spack/spack/issues/27546",
+    "updated_at": "2021-11-22 09:47:57",
+    "created_at": "2021-11-19 11:31:40",
+    "closed_at": "2021-11-22 09:47:57",
+    "state": "closed",
+    "title": "Installation issue: OpenMPI with hwloc",
+    "number": 27546,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1058430831,
+    "html_url": "https://github.com/spack/spack/issues/27546",
+    "assignees": [],
+    "comments": 0
+}

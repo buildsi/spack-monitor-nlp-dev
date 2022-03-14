@@ -1,0 +1,21 @@
+{
+    "body": "I am trying to install mesa 12.0.3 using the command:\r\n\r\n`spack install mesa@12.0.3 ^bison@3.0.4 ^dri2proto@2.8 ^dri3proto@1.0 ^glproto@1.4.17 ^libpthread-stubs@0.3 ^libxcb@1.12 ^libxext@1.3.3 ^libxshmfence@1.2 ^pkg-config@0.29.2 ^py-mako@1.0.4 ^flex@2.6.3 ^libdrm@2.4.70 ^libx11@1.6.3 ^libxdamage@1.1.4 ^libxfixes@5.0.2 ^openssl@1.0.1e ^presentproto@1.0 ^python@2.7.13+tk %gcc@4.8.5 arch=linux-centos7-x86_64`\r\n\r\nIt fails with the following error:\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/cluster/apps/spack/var/spack/stage/mesa-12.0.3-ml7hu2oihsajd36kowkabf4d4zeo5ydm/mesa-12.0.3/configure' '--prefix=/cluster/spack/apps/linux-centos7-x86_64/gcc-4.8.5/mesa-12.0.3-ml7hu2oihsajd36kowkabf4d4zeo5ydm'\r\n/cluster/apps/spack/lib/spack/spack/build_systems/autotools.py:266, in configure:\r\n     258      def configure(self, spec, prefix):\r\n     259          \"\"\"Runs configure with the arguments specified in\r\n     260          :py:meth:`~.AutotoolsPackage.configure_args`\r\n     261          and an appropriately set prefix.\r\n     262          \"\"\"\r\n     263          options = ['--prefix={0}'.format(prefix)] + self.configure_args()\r\n     264  \r\n     265          with working_dir(self.build_directory, create=True):\r\n  >> 266              inspect.getmodule(self).configure(*options)\r\n```\r\n\r\nBuild logs show:\r\n\r\n```\r\nchecking for GLPROTO... yes\r\nchecking for DRI2PROTO... yes\r\nchecking for DRI3PROTO... yes\r\nchecking for PRESENTPROTO... yes\r\nconfigure: error: DRI3 requires xcb >= 1.9.3\r\n```\r\n\r\nbut when checking the version of the xcb module with pkg-config, it finds the version that is new enough:\r\n\r\n```\r\n[spackapps@lo-login-02 ~]$ pkg-config --modversion xcb \r\n1.12\r\n```\r\n\r\nAnybody else experiencing the same problem ?\r\n\r\n",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/4444",
+    "updated_at": "2019-12-04 18:22:14",
+    "created_at": "2017-06-07 12:03:36",
+    "closed_at": "2019-12-04 18:22:14",
+    "state": "closed",
+    "title": "mesa does not recognize libxcb version correctly",
+    "number": 4444,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "dependencies",
+        "X11"
+    ],
+    "id": 234186004,
+    "html_url": "https://github.com/spack/spack/issues/4444",
+    "assignees": [],
+    "comments": 6
+}

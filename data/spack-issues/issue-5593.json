@@ -1,0 +1,19 @@
+{
+    "body": "Fixes https://github.com/LLNL/spack/issues/5587\r\n\r\n@alalazo, @tgamblin \r\n\r\nWhile debugging #5587 I noticed the following:\r\n\r\n```\r\n(Pdb) x = spec.copy(deps=('link', 'run'))\r\n(Pdb) x\r\n    mpfr@3.1.5%gcc@4.6.1 patches=88dfefa6d39c9fd5a26a40d9bbc73df8da93f946c65c06038026261d78d919f5,dfd62a42a239c427bb44087b4a520edbcd65bae6ad1fbe07303c96ee8696afbd arch=linux-rhel6-x86_64 ^gmp@6.1.2%gcc@4.6.1 arch=linux-rhel6-x86_64\r\n(Pdb) installed_spec\r\n    mpfr@3.1.5%gcc@4.6.1 patches=dfd62a42a239c427bb44087b4a520edbcd65bae6ad1fbe07303c96ee8696afbd,88dfefa6d39c9fd5a26a40d9bbc73df8da93f946c65c06038026261d78d919f5 arch=linux-rhel6-x86_64 ^gmp@6.1.2%gcc@4.6.1 arch=linux-rhel6-x86_64\r\n```\r\n\r\nAnd noticed the patches are differently-ordered in the two specs, which led me to look at `_cmp_key` for variants. It looks like multi-valued variants arbitrarily order their values which was resulting in a failed comparison.\r\n\r\nThis is hackish and WIP but demonstrates the issue.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/5593",
+    "updated_at": "2017-10-04 18:39:26",
+    "created_at": "2017-10-03 23:16:56",
+    "closed_at": "2017-10-04 18:39:26",
+    "state": "closed",
+    "title": "multi-valued variants comparison fix",
+    "number": 5593,
+    "milestone": null,
+    "labels": [
+        "WIP"
+    ],
+    "id": 262620428,
+    "html_url": "https://github.com/spack/spack/pull/5593",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,17 @@
+{
+    "body": "See: https://github.com/spack/spack/issues/7855\r\n\r\nRecent versions of pkgconfig (and pkgconf) check `CPATH` as part of system include paths. Generally Spack unsets `CPATH` but allows package-specific updates to `CPATH` after clearing it. https://github.com/spack/spack/pull/7818 updates `CPATH` for `freetype` specifically (presumably to help some other package that isn't `py-matplotlib` build).\r\n\r\nThis provides a means to ensure that when Spack-built `pkg-config` is invoked that it unsets `CPATH` unless `spack env/install` was invoked with `--dirty`. This requires modifying the `pkgconf`/`pkg-config` providers since they can be invoked indirectly as part of a build.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/8070",
+    "updated_at": "2019-02-13 23:38:15",
+    "created_at": "2018-05-09 02:38:22",
+    "closed_at": "2019-02-13 23:38:15",
+    "state": "closed",
+    "title": "Unset CPATH for pkg-config invocations",
+    "number": 8070,
+    "milestone": null,
+    "labels": [],
+    "id": 321410267,
+    "html_url": "https://github.com/spack/spack/pull/8070",
+    "assignees": [],
+    "comments": 4
+}

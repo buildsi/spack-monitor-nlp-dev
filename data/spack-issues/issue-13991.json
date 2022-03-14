@@ -1,0 +1,23 @@
+{
+    "body": "Avoid matching recurringly nested include paths that most certainly refer to internally shipped libraries in packages.\r\nExample in CUDA Toolkit #13819 #13983, shipping a libc++ fork internally with libcu++ since 10.2.89: `<prefix>/include/cuda/std/detail/libcxx/include`.\r\n\r\nQuick fix #13969 \r\n\r\nA more thorough solution is not to recursively search for headers anymore since this is against the idea of C/C++ facade headers: https://github.com/spack/spack/issues/13969#issuecomment-561929481 Unfortunately, it's not that easy for us to find which headers are facade and which ones are detail, but I am not sure we have to know anything besides the include dir locations.\r\n\r\nGenerally, just searching for *any* `include/` in the overall path (instead of just taking the `<prefix>/include`) is dangerous as well. For example, spack could be installed in `/my/large/software/include/here/is/axels/home/src/spack/` ;-)\r\n\r\nGeneral policy suggestion: just add `<prefix>/include` to the build environment by default. Packages that break this unix-wide default should provide the\r\n```py\r\n@property\r\ndef headers(self):\r\n```\r\n\r\n@adamjstewart mentioned on Slack that some Python packages might need special treatment, let's see if we can find examples again to double check.",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/13991",
+    "updated_at": "2019-12-07 07:47:08",
+    "created_at": "2019-12-05 02:26:40",
+    "closed_at": "2019-12-07 07:47:04",
+    "state": "closed",
+    "title": "Spec Header Dirs: Only first include/",
+    "number": 13991,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs",
+        "build-environment",
+        "defaults",
+        "headers"
+    ],
+    "id": 533083849,
+    "html_url": "https://github.com/spack/spack/pull/13991",
+    "assignees": [],
+    "comments": 8
+}

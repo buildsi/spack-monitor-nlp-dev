@@ -1,0 +1,19 @@
+{
+    "body": "I tried to lookup a spec for py-pip using an already installed package of python@3.6.5. Spack terminates with an error \"error 'tk'\" which seems to originate from changes made to the python package.py file very recently.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec -I py-pip@19.0.3 ^/<hash of python@3.6.5 package installed some weeks ago>.\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n[swadm@build01 spack]$ spack spec -I py-pip@19.0.3 ^/v7dcicw\r\nInput spec\r\n--------------------------------\r\n -   py-pip@19.0.3\r\n[+]      ^python@3.6.5%gcc@7.3.0+dbm~optimizations patches=123082ab3483ded78e86d7c809e98a804b3465b4683c96bd79a2fd799f572244 +pic+pythoncmd+shared~tk~ucs4 arch=linux-centos7-x86_64 \r\n[+]          ^bzip2@1.0.6%gcc@7.3.0+shared arch=linux-centos7-x86_64 \r\n[+]          ^gdbm@1.14.1%gcc@7.3.0 arch=linux-centos7-x86_64 \r\n[+]              ^readline@7.0%gcc@7.3.0 arch=linux-centos7-x86_64 \r\n[+]                  ^ncurses@6.1%gcc@7.3.0~symlinks~termlib arch=linux-centos7-x86_64 \r\n[+]          ^openssl@1.0.2o%gcc@7.3.0+systemcerts arch=linux-centos7-x86_64 \r\n[+]              ^zlib@1.2.11%gcc@7.3.0+optimize+pic+shared arch=linux-centos7-x86_64 \r\n[+]          ^sqlite@3.23.1%gcc@7.3.0~functions arch=linux-centos7-x86_64 \r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: 'tk'\r\n```\r\n\r\n### Information on your system\r\n\r\nCentOS 7.5 on x86_64\r\nSpack repo updated to latest version (git pull on March 6th)\r\n\r\nWhen I compare the older package.py file for Python with the current one, I see that a spec switch for a variant 'tk' has been renamed from 'tk' to 'tkinter'. Now I cannot install any Python-dependent package using the installed Python because the updated Python package.py is \"incompatible\" with the installed spec.\r\n\r\n-----\r\n\r\n",
+    "user": "phxyz12",
+    "url": "https://api.github.com/repos/spack/spack/issues/10793",
+    "updated_at": "2019-03-07 22:51:19",
+    "created_at": "2019-03-05 10:35:39",
+    "closed_at": "2019-03-07 22:51:19",
+    "state": "closed",
+    "title": "Python package.py changes regarding variant 'tk' conflict with existing Python package installation",
+    "number": 10793,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 417228784,
+    "html_url": "https://github.com/spack/spack/issues/10793",
+    "assignees": [],
+    "comments": 4
+}

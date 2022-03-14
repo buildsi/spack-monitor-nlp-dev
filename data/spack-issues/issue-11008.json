@@ -1,0 +1,20 @@
+{
+    "body": "Though I can leveraging the custom configuration scope (`--configure-scope`) normally if I activate a Spack environment it is no longer recognized.\r\n\r\n### Steps to reproduce the issue\r\n\r\nIn this example I used a simple `config.yaml` and have observed the same behavior with other files declared using this method.\r\n\r\n```console\r\n$ cat tst-cfg/config.yaml \r\nconfig:\r\n  debug: true\r\n  checksum: false\r\n$ spack env activate test\r\n$ spack -C test-config/ config blame config | grep debug\r\n_builtin                                                      debug: False\r\n$ despacktivate\r\n$ spack -C test-config/ config blame config | grep debug\r\ntest-config/config.yaml:2                                     debug: True\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\nThere is not a definitive error message for this; however, if I run the same commands with the debug flag:\r\n\r\n```console\r\n$ spack -d -C tst-cfg/ config blame config\r\n==> [2019-03-25-15:25:56.080029] Reading config file /spack/etc/spack/defaults/modules.yaml\r\n==> [2019-03-25-15:25:56.093739] Reading config file /spack/etc/spack/defaults/linux/modules.yaml\r\n==> [2019-03-25-15:25:56.102192] Reading config file /spack/etc/spack/defaults/config.yaml\r\n==> [2019-03-25-15:25:56.118690] Reading config file tst-cfg/config.yaml\r\n---                                        config:\r\ncommand_line                                 debug: True\r\ntst-cfg/config.yaml:3                        checksum: False\r\n...\r\n$ spack env activate test \r\n$ spack env status\r\n==> In environment test\r\n$ spack -d -C tst-cfg/ config blame config\r\n==> [2019-03-25-16:17:24.852407] Reading config file /spack/etc/spack/defaults/modules.yaml\r\n==> [2019-03-25-16:17:24.861573] Reading config file /spack/etc/spack/defaults/linux/modules.yaml\r\n==> [2019-03-25-16:17:24.867582] Reading config file /spack/var/spack/environments/test/spack.yaml\r\n==> [2019-03-25-16:17:24.872795] Reading config file /spack/etc/spack/defaults/config.yaml\r\n---                                        config:\r\ncommand_line                                 debug: True\r\n/spack/etc/spack/defaults/config.yaml:77     checksum: True\r\n...\r\n```\r\n\r\nThe command line configuration scope (in this case `-d`) is in fact recognized.\r\n\r\n### Information on your system\r\n\r\nI have been able to reproduce this regardless of the operating system / architecture used.\r\n\r\n### Notes\r\n\r\nI also attempted to do some debugging regarding this issue; however, it is not definitive as I'm by no means knowledgable enough on Spack's source.\r\n\r\nWhen looking at `main.py` the environment is checked before configuration scopes. This order means that `def prepare_config_scope(env):` will be executed from the `envrionment.py` file seemingly using the environments defined scope before the configuration  singleton (`def _config()`) in `config.py` is run. One potential fix seems to re-order those as such:\r\n\r\n```python\r\ndef main(argv=None)\r\n    ...\r\n    if args.config_scopes:\r\n        spack.config.command_line_scopes = args.config_scopes\r\n    ...\r\n    if not args.no_env:\r\n        env = ev.find_environment(args)\r\n```\r\n\r\nNot sure if this would be the best solution or would present other issues.\r\n",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/11008",
+    "updated_at": "2019-04-15 22:15:41",
+    "created_at": "2019-03-25 16:47:57",
+    "closed_at": "2019-04-15 22:15:41",
+    "state": "closed",
+    "title": "Customer scope configuration does not function in Spack Envrionments",
+    "number": 11008,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments"
+    ],
+    "id": 425007382,
+    "html_url": "https://github.com/spack/spack/issues/11008",
+    "assignees": [],
+    "comments": 8
+}

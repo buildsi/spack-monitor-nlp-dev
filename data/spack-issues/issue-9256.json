@@ -1,0 +1,19 @@
+{
+    "body": "`vtk` currently has a dependency on `mesa+llvm` when the option `+osmesa` is activated.\r\nSince `vtk` can actually be built simply with `mesa`, I suggest removing the dependency on `+llvm` and leave it to the user to chose whether to install with `llvm` support or not. I suggest this in particular because calling `spack install vtk+osmesa ^mesa+llvm` works when the `vtk` package depends on just `mesa`, while calling `spack install vtk+osmesa ^mesa~llvm` does not work when `vtk` depends on `mesa+llvm`.\r\n\r\nAdditionally right now, `mesa+llvm` doesn't seem to compile on a standard Debian machine.\r\n(Error reported by spack is the following:\r\n```\r\ngallivm/lp_bld_misc.cpp: In function \u2018LLVMOpaqueBuilder* lp_create_builder(LLVMContextRef, lp_float_mode)\u2019:\r\ngallivm/lp_bld_misc.cpp:833:13: error: \u2018class llvm::FastMathFlags\u2019 has no member named \u2018setUnsafeAlgebra\u2019\r\n```\r\n)",
+    "user": "dorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/9256",
+    "updated_at": "2018-09-26 18:20:10",
+    "created_at": "2018-09-15 10:06:46",
+    "closed_at": "2018-09-26 18:20:02",
+    "state": "closed",
+    "title": "VTK dependency on \"mesa\" instead of \"mesa+llvm\"",
+    "number": 9256,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 360526913,
+    "html_url": "https://github.com/spack/spack/pull/9256",
+    "assignees": [],
+    "comments": 3
+}

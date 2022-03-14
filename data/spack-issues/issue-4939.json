@@ -1,0 +1,20 @@
+{
+    "body": "This fixes an issue reported by @mamelara on the slack channel.\r\n\r\nPreviously, packages specified by hash would inherit additional compiler flags in the spec from their parents, and would therefore rebuild. \r\n\r\nExample of previous behavior, assuming there is an installation of libelf with hash beginning `lgv` built with `cflags=\"-g -O0\"`:\r\n```\r\n$ spack spec libdwarf ldflags=-g ^\\lgv\r\nInput spec\r\n--------------------------------\r\nlibdwarf ldflags=\"-g\" \r\n    ^libelf@0.8.13%gcc@4.4.7 cflags=\"-g -O0\"  arch=linux-rhel6-x86_64 \r\n\r\nNormalized\r\n--------------------------------\r\nlibdwarf ldflags=\"-g\" \r\n    ^libelf@0.8.13%gcc@4.4.7 cflags=\"-g -O0\"  arch=linux-rhel6-x86_64 \r\n\r\nConcretized\r\n--------------------------------\r\nlibdwarf@20160507%gcc@4.4.7 ldflags=\"-g\"  arch=linux-rhel6-x86_64 \r\n    ^libelf@0.8.13%gcc@4.4.7 cflags=\"-g -O0\"  ldflags=\"-g\"  arch=linux-rhel6-x86_64\r\n``` \r\nFixed behavior:\r\n```\r\n$ spack spec libdwarf ldflags=-g ^/lgv\r\nInput spec\r\n--------------------------------\r\nlibdwarf ldflags=\"-g\" \r\n    ^libelf@0.8.13%gcc@4.4.7 cflags=\"-g -O0\"  arch=linux-rhel6-x86_64 \r\n\r\nNormalized\r\n--------------------------------\r\nlibdwarf ldflags=\"-g\" \r\n    ^libelf@0.8.13%gcc@4.4.7 cflags=\"-g -O0\"  arch=linux-rhel6-x86_64 \r\n\r\nConcretized\r\n--------------------------------\r\nlibdwarf@20160507%gcc@4.4.7 ldflags=\"-g\"  arch=linux-rhel6-x86_64 \r\n    ^libelf@0.8.13%gcc@4.4.7 cflags=\"-g -O0\"  arch=linux-rhel6-x86_64\r\n```",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/4939",
+    "updated_at": "2019-09-03 05:31:20",
+    "created_at": "2017-08-01 01:14:40",
+    "closed_at": "2019-04-23 09:29:31",
+    "state": "closed",
+    "title": "Flags and hashes",
+    "number": 4939,
+    "milestone": null,
+    "labels": [
+        "hashes",
+        "specs"
+    ],
+    "id": 246928091,
+    "html_url": "https://github.com/spack/spack/pull/4939",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Spack uses a wrapper script to easily switch between different compilers and to add specific flags for runtime library linking. Some applications, like Octave and Python, will record the compiler path and will use it to install sub-modules. If these compiler wrappers are used outside of Spack they will fail because they do not know how to link back to the original compiler. \r\n\r\nWhen Spack installs Python it runs a post install script on the config and Makefiles to replace any mention of the wrapper with the original compiler. However, with Octave the reference to the compiler is stored within the `mkoctfile` binary and the `liboctinterp.so` library. For example:\r\n\r\n```\r\n$ mkoctfile -p CXX\r\n/home/paul/Projects/spack/lib/spack/env/gcc/g++\r\n$ strings mkoctfile | grep g++\r\n/home/paul/Projects/spack/lib/spack/env/gcc/g++\r\n```\r\n\r\nTo workaround this I edited the binary file to replace the path to the wrapper with the real compiler path. I don't this should be recommend as an Octave post install step.",
+    "user": "paulhopkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/4874",
+    "updated_at": "2020-02-03 21:08:45",
+    "created_at": "2017-07-24 14:38:21",
+    "closed_at": "2020-02-03 21:08:45",
+    "state": "closed",
+    "title": "Octave installation links to Spack compiler wrapper which is unusable outside of Spack.",
+    "number": 4874,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 245101868,
+    "html_url": "https://github.com/spack/spack/issues/4874",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

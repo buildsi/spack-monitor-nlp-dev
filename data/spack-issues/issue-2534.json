@@ -1,0 +1,22 @@
+{
+    "body": "I just wiped my installation of Spack to re-install and check things and got the error `Symbol not found: __PyCodecInfo_GetIncrementalDecoder`:\r\n```\r\n==> './configure' '--prefix=/Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/slepc-3.7.3-rhcxmg2ntqe3v6epgljeseffnpa4gla2' '--with-arpack-dir=/Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/arpack-ng-3.4.0-g76ncwdpqcyx5lm5e65ydwaetbx5sulo/lib' '--with-arpack-flags=-lparpack,-larpack'\r\nTraceback (most recent call last):\r\n  File \"./configure\", line 10, in <module>\r\n    execfile(os.path.join(os.path.dirname(__file__), 'config', 'configure.py'))\r\n  File \"./config/configure.py\", line 140, in <module>\r\n    import slepc, petsc, arpack, blzpack, trlan, feast, primme, blopex, sowing, lapack\r\n  File \"/private/var/folders/5k/sqpp24tx3ylds4fgm13pfht00000gn/T/davydden/spack-stage/spack-stage-ZOF1pH/slepc-3.7.3/config/packages/petsc.py\", line 22, in <module>\r\n    import package, os, sys, commands\r\n  File \"/private/var/folders/5k/sqpp24tx3ylds4fgm13pfht00000gn/T/davydden/spack-stage/spack-stage-ZOF1pH/slepc-3.7.3/config/package.py\", line 22, in <module>\r\n    import os, sys, commands, tempfile, shutil, urllib, urlparse, tarfile\r\n  File \"/Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/python-2.7.12-6dtr7kw2sj5zu7z7v3ox3agrmpw5cndt/lib/python2.7/tempfile.py\", line 32, in <module>\r\n    import io as _io\r\n  File \"/Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/python-2.7.12-6dtr7kw2sj5zu7z7v3ox3agrmpw5cndt/lib/python2.7/io.py\", line 51, in <module>\r\n    import _io\r\nImportError: dlopen(/Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/python-2.7.12-6dtr7kw2sj5zu7z7v3ox3agrmpw5cndt/lib/python2.7/lib-dynload/_io.so, 2): Symbol not found: __PyCodecInfo_GetIncrementalDecoder\r\n  Referenced from: /Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/python-2.7.12-6dtr7kw2sj5zu7z7v3ox3agrmpw5cndt/lib/python2.7/lib-dynload/_io.so\r\n  Expected in: flat namespace\r\n in /Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/python-2.7.12-6dtr7kw2sj5zu7z7v3ox3agrmpw5cndt/lib/python2.7/lib-dynload/_io.so\r\n```\r\nLooking at the history of `python` package, i don't see what could have led to this.\r\n\r\nFor now will be using \r\n```\r\n  python:\r\n    version: [2.7.10]\r\n    paths:\r\n      python@2.7.10: /usr\r\n    buildable: False\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2534",
+    "updated_at": "2016-12-13 09:32:42",
+    "created_at": "2016-12-09 14:22:00",
+    "closed_at": "2016-12-13 09:32:42",
+    "state": "closed",
+    "title": "SLEPc fails to configure with Spack's python",
+    "number": 2534,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build-error",
+        "new-package",
+        "python"
+    ],
+    "id": 194607823,
+    "html_url": "https://github.com/spack/spack/issues/2534",
+    "assignees": [],
+    "comments": 4
+}

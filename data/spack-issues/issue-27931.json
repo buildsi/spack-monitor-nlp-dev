@@ -1,0 +1,23 @@
+{
+    "body": "This adds support for new major geant4 version 11.0.0, [release notes](https://geant4-data.web.cern.ch/ReleaseNotes/ReleaseNotes.11.0.html).\r\n\r\nKeeping preferred version at 10.7.3 (until 11.1.0?) since breakage is expected in downstream versions due to several interface changes. \r\n\r\nDependency and requirement changes:\r\n- `clhep@2.4.5.1:` (new version added)\r\n- `vecgeom@1.1.18:` (new version added)\r\n- `cmake@3.16:`\r\n- `cxxstd=17:` (added conflicts with 11 and 14)\r\n- updated `geant4-data` sets G4EMLOW-8.0, G4PARTICLEXS-4.0 (new versions added)\r\n\r\nTest: successful build of `geant4@11.0.0+ipo~motif+opengl+python+qt+threads+vecgeom~x11 build_type=RelWithDebInfo cxxstd=17` on `%gcc@11.2.0 arch=linux-ubuntu21.10-skylake`\r\n\r\nMaintainer tag: @drbenmorgan (EIC will require the geant4@11 features in the very near future)\r\n\r\nTODO:\r\n- [x] change now-deprecated GEANT4_BUILD_CXXSTD into standard CMAKE_CXX_STANDARD with allowed values 17, 20, 23,\r\n- [x] support new GEANT4_USE_TBB,\r\n- [x] support new GEANT4_USE_VTK visualization for `vtk@8.2:`\r\n- [x] (decided not to do this) support new GEANT4_BUILD_SANITIZER (do we care?),\r\n- [x] (decided not to do this) support new GEANT4_USE_Pythia8 (seems only used in one example)\r\n- [x] add the optional G4TENDL `geant4-data` set for ParticleHP physics list proton-nucleus scattering as part of this PR (with variant in `geant4-data` that defaults to False since at 870 MB =~ sum of all other data sets),\r\n- [x] (decided not to do this)if optional G4TENDL is set by variant, then apply the same to G4RealSurface which is also optional,\r\n",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/27931",
+    "updated_at": "2021-12-19 15:44:00",
+    "created_at": "2021-12-12 18:43:29",
+    "closed_at": "2021-12-19 15:44:00",
+    "state": "closed",
+    "title": "geant4: new version 11.0.0 (preferred remains 10.7.3)",
+    "number": 27931,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "update-package",
+        "conflicts",
+        "new-variant"
+    ],
+    "id": 1077878273,
+    "html_url": "https://github.com/spack/spack/pull/27931",
+    "assignees": [],
+    "comments": 6
+}

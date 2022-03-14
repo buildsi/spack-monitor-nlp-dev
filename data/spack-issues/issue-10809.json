@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nIn an instance without the pkgconfig package installed:\r\n\r\n```console\r\n$ spack install flux-sched\r\n...\r\n==> Installing flux-core\r\n...\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/pbryant/spack/var/spack/stage/flux-core-0.11.0-uzzgmt25bbhsskgt4ncxxgqn46dzzdyx/flux-core-0.11.0/configure' '--prefix=/home/pbryant/spack/opt/spack/linux-debian9-x86_64/gcc-6.3.0/flux-core-0.11.0-uzzgmt25bbhsskgt4ncxxgqn46dzzdyx' '--enable-pylint=no' '--disable-docs'\r\n\r\n2 errors found in build log:\r\n     214    checking for Lua header version... 5.2\r\n     215    checking if Lua header version matches 5.2... yes\r\n     216    checking if LUA_VERSION is defined... yes\r\n     217    checking for library containing exp... none required\r\n     218    checking for library containing dlopen... -ldl\r\n     219    checking for library containing lua_load... -llua5.2\r\n  >> 220    checking for ZMQ... configure: error: in `/tmp/pbryant/spack-stage/spack-stage-3YWrU2/\r\n            flux-core-0.11.0/spack-build':\r\n  >> 221    configure: error: The pkg-config script could not be found or is too old.  Make sure i\r\n            t\r\n     222    is in your PATH or set the PKG_CONFIG environment variable to the full\r\n     223    path to pkg-config.\r\n     224    \r\n     225    Alternatively, you may set the environment variables ZMQ_CFLAGS\r\n     226    and ZMQ_LIBS to avoid the need to call pkg-config.\r\n     227    See the pkg-config man page for more details.\r\n```\r\n\r\n### Platform and user environment\r\nI attempted the installation on:\r\n\r\n```commandline\r\n$ uname -a \r\nLinux debian-dev 4.9.0-8-amd64 #1 SMP Debian 4.9.144-3 (2019-02-02) x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tDebian GNU/Linux 9.8 (stretch)\r\n``` \r\n\r\nThis is done with that latest version of Spack:\r\n\r\n```commandline\r\n$ spack --version\r\n0.12.1\r\n```\r\n\r\nI've had similar behavior occurs on different systems with similarly minimal environments.\r\nFor instance with 'py-setuptools' the `unzip` but I realize in that case it's a core component and something I should have previously installed the package or install / use via Spack.\r\n\r\n### Additional information\r\n\r\nThe issue will only occur if the environment Flux is being installed on lacks the `pkgconfig` package. I found that it is corrected by adding the `depends_on(\"pkgconfig\")` to both 'flux-core/package.py` and `flux-sched/package.py`. I'm not sure if this is an acceptable solution or if their is a more preferred way.",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/10809",
+    "updated_at": "2019-04-01 15:40:02",
+    "created_at": "2019-03-05 19:42:05",
+    "closed_at": "2019-04-01 15:07:11",
+    "state": "closed",
+    "title": "Pkg-config could not be found for flux-core & flux-sched",
+    "number": 10809,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 417469965,
+    "html_url": "https://github.com/spack/spack/issues/10809",
+    "assignees": [],
+    "comments": 3
+}

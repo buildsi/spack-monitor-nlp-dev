@@ -1,0 +1,25 @@
+{
+    "body": "Spack has a system of modular hooks, which are mostly used to do things before and after install.  There is also a `pre_run` hook, which has only been used so far to check the format of `compilers.yaml` (which we changed ~3.5 years ago around the time of a2f90453f).\r\n\r\nThis PR removes the `compilers.yaml` check, as it likely does nothing 99% of the time now, and is no longer needed.\r\n\r\nAs this is the last pre-run check in Spack, I'm also removing the ability to have `pre_run` hooks, as they require listing the contents of the `hooks` directory and dynamically loading modules, which consumes time at startup.  If we need to do something pre-run in the future, we should do it some way that avoids using hooks or adding startup overhead.\r\n\r\nThis PR also removes all calls to `spack.config.get()` at module scope -- so that getting things like environment module configuration is lazy.  This should also save us a few config file reads at startup.\r\n\r\n- [x] remove pre-run hook\r\n- [x] also remove all module-scoped calls to `spack.config.get()`, to avoid parsing unnecessary YAML on startup.\r\n- [x] consolidate configuration `yaml` files in the `test/data/` directory to `test/data/config`\r\n- [x] mock configuration now includes `modules.yaml` configuration (module tests were only working because we determined if they were enabled at module scope)",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/12788",
+    "updated_at": "2019-12-31 21:52:08",
+    "created_at": "2019-09-11 00:40:59",
+    "closed_at": "2019-12-31 21:48:03",
+    "state": "closed",
+    "title": "Remove `pre_run` hook",
+    "number": 12788,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers",
+        "modules",
+        "performance",
+        "hooks"
+    ],
+    "id": 491959972,
+    "html_url": "https://github.com/spack/spack/pull/12788",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

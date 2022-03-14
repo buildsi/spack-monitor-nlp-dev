@@ -1,0 +1,19 @@
+{
+    "body": "Hey spack!\r\n\r\nI have a recipe for updated Singularity almost working, and I don't understand what the (package provided) go is doing / setup enough to know how to interact with it. I'm trying to install dependencies first for singularity, but it always fails when I run make because it can't find a module on the GOPATH. I thought the GOPATH would be kept internal to the spack go install, but I don't see any src/github.com/<repo> folders there, so I'm sort of confused. Here is what I have so far:\r\n\r\n```python\r\n    def configure(self, spec, prefix):\r\n\r\n        # Update the GOPATH, packages will be installed (and found) here\r\n        env = os.environ\r\n        env['GOPATH'] = self.stage.source_path + ':' + env['GOPATH']\r\n\r\n        # Version 3.0 and up, build configure with mconfig\r\n        version = str(self.version)\r\n        if version.startswith('3') or version == 'develop':\r\n            go('get', 'github.com/golang/dep/cmd/dep', env=env)\r\n            configure = Executable('./mconfig -V %s --prefix=%s' % (version, prefix))\r\n        configure()\r\n\r\n    @when('@develop')\r\n    def build(self, spec, prefix):\r\n\r\n        env = os.environ\r\n        env['GOPATH'] = self.stage.source_path + ':' + env['GOPATH']\r\n\r\n        #install_tree('bin', prefix.bin)\r\n        with working_dir('builddir'):\r\n            make()\r\n\r\n        #builddir = os.path.join(self.build_directory, 'builddir')\r\n        os.chdir(builddir)\r\n        #make('-C %s' % builddir, parallel=False) \r\n        make()\r\n\r\n    def install(self, spec, prefix):\r\n        builddir = os.path.join(self.build_directory, 'builddir')\r\n        make('install', parallel=False)    \r\n```\r\n\r\nAnd the first error (of many) always looks like this:\r\n\r\n```bash\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j4'\r\n\r\n15 errors found in build log:\r\n     92        $ cd /tmp/vanessa/spack-stage/spack-stage-pyga95f8/singularity/builddir\r\n     93        $ make\r\n     94     ==> Executing phase: 'build'\r\n     95     ==> [2019-04-02-14:05:55.300861] 'make' '-j4'\r\n     96      GO clean -cache\r\n     97      CNI PLUGIN bandwidth\r\n  >> 98     can't load package: package github.com/sylabs/singularity/vendor/github.com/containernetworking/plugins/plugins/meta/bandwidth: cannot find package \"github.com/syl\r\n            abs/singularity/vendor/github.com/containernetworking/plugins/plugins/meta/bandwidth\" in any of:\r\n     99     \t/home/vanessa/Documents/Dropbox/Code/Python/spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/go-1.11.5-73pcics3bti7rafvlgjzmcgtaeogebxg/src/github.com/sylabs/si\r\n            ngularity/vendor/github.com/containernetworking/plugins/plugins/meta/bandwidth (from $GOROOT)\r\n     100    \t/home/vanessa/Documents/Dropbox/Code/Python/spack/var/spack/stage/singularity-develop-a6ao2vpujcqc2xzb2euvmci3mfta75uj/singularity/src/github.com/sylabs/singulari\r\n            ty/vendor/github.com/containernetworking/plugins/plugins/meta/bandwidth (from $GOPATH)\r\n     101    \t/home/vanessa/Documents/Dropbox/Code/Python/spack/var/spack/stage/singularity-develop-a6ao2vpujcqc2xzb2euvmci3mfta75uj/singularity/src/github.com/sylabs/singulari\r\n            ty/vendor/github.com/containernetworking/plugins/plugins/meta/bandwidth\r\n     102     CNI PLUGIN bridge\r\n```\r\nThanks!",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/11085",
+    "updated_at": "2019-04-02 21:39:57",
+    "created_at": "2019-04-02 18:09:48",
+    "closed_at": "2019-04-02 20:40:27",
+    "state": "closed",
+    "title": "Help with GOPATH",
+    "number": 11085,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 428369288,
+    "html_url": "https://github.com/spack/spack/issues/11085",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "`spack install elfutils` fails as follows\r\n\r\n```\r\n$ spack install elfutils\r\n==> Installing elfutils\r\n==> autoconf is already installed in /home/ncs/git/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/autoconf-2.69-6mqr3qfmfzcbc6pivnzglbnkw2zyz7wd\r\n==> libtool is already installed in /home/ncs/git/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/libtool-2.4.6-bcbiddkmbu4gy7wx6ftntmxqe3c5br3z\r\n==> automake is already installed in /home/ncs/git/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/automake-1.15-j3eg5pnh22eahao7nhcpbempb6jlyydo\r\n==> Trying to clone git repository:\r\n  git://git.fedorahosted.org/git/elfutils.git\r\n  at tag elfutils-0.163\r\nCloning into 'elfutils'...\r\nfatal: unable to connect to git.fedorahosted.org:\r\ngit.fedorahosted.org[0: 140.211.169.199]: errno=Connection refused\r\n\r\nCloning into 'elfutils'...\r\nfatal: unable to connect to git.fedorahosted.org:\r\ngit.fedorahosted.org[0: 140.211.169.199]: errno=Connection refused\r\n\r\n==> Fetching from [git] git://git.fedorahosted.org/git/elfutils.git failed.\r\n...\r\n...\r\n```\r\n\r\nelfutils was migrated as of this commit Sat, 24 Dec 2016 21:31:41 +0000 (22:31 +0100):\r\n\r\nhttps://sourceware.org/git/?p=elfutils.git;a=commit;h=1700fd25e6caf26663af2bd994d1d99fab9df59f\r\n\r\nfedorahosted.org was retired on March 1st, 2017\r\n\r\nhttps://fedoraproject.org/wiki/Infrastructure/Fedorahosted-retirement\r\n\r\nDocs need to be updated @ https://spack.readthedocs.io/en/latest/package_list.html#elfutils\r\n\r\nHere is the patch for relevant script\r\n\r\n`spack/var/spack/repos/builtin/packages/elfutils/package.py\r\n`\r\n```\r\n36c36\r\n<     homepage = \"https://fedorahosted.org/elfutils/\"\r\n---\r\n>     homepage = \"https://sourceware.org/git/elfutils/\"\r\n43c43\r\n<             git='git://git.fedorahosted.org/git/elfutils.git',\r\n---\r\n>             git='git://sourceware.org/git/elfutils.git',\r\n\r\n```\r\n",
+    "user": "nicksan2c",
+    "url": "https://api.github.com/repos/spack/spack/issues/3443",
+    "updated_at": "2017-03-27 17:16:39",
+    "created_at": "2017-03-15 03:24:32",
+    "closed_at": "2017-03-27 17:16:31",
+    "state": "closed",
+    "title": "spack install elfutils fails",
+    "number": 3443,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "fetching"
+    ],
+    "id": 214271699,
+    "html_url": "https://github.com/spack/spack/issues/3443",
+    "assignees": [],
+    "comments": 3
+}

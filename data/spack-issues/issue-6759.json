@@ -1,0 +1,19 @@
+{
+    "body": "Some source tarballs are created in a way that tries to preserve user and group perms. \r\nYes, it's a bad to create a source tarball for release with these properties -- but I suspect it's easy to go undetected until you run in a security constrained linux.\r\n\r\nCython is one example example I hit when trying to build in a Docker container using ubuntu:latest\r\n\r\n```\r\n/bin/tar: Cython-0.25.2/.gitrev: Cannot change ownership to uid 96258, gid 5000: Invalid argument\r\n.... (many many more errors)\r\n/bin/tar: Cython-0.25.2/USAGE.txt: Cannot change ownership to uid 96258, gid 5000: Invalid argument\r\n/bin/tar: Cython-0.25.2: Cannot change ownership to uid 96258, gid 5000: Invalid argument\r\n/bin/tar: Exiting with failure status due to previous errors\r\n```\r\nThe tar errors cause spack to stop.  I am not sure if there is anyway to defensively avoid this, but if its possible it would be a good enhancement to spack. \r\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/6759",
+    "updated_at": "2020-07-13 22:19:05",
+    "created_at": "2017-12-22 17:36:09",
+    "closed_at": "2020-07-13 22:19:05",
+    "state": "closed",
+    "title": "Errors untaring source tarballs Docker",
+    "number": 6759,
+    "milestone": null,
+    "labels": [
+        "docker"
+    ],
+    "id": 284216004,
+    "html_url": "https://github.com/spack/spack/issues/6759",
+    "assignees": [],
+    "comments": 6
+}

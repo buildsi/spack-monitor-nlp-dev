@@ -1,0 +1,19 @@
+{
+    "body": "(I initially put this in the comment of #1904)\n\nOn OSX I follow these steps:\n- Clone new repo \n- No packages are installed \n- Try to find packages as:\n\n``` bash\n$ git clone https://github.com/llnl/spack.git spack-llnl\nCloning into 'spack-llnl'...\nremote: Counting objects: 44080, done.\n................\n\n $ cd spack-llnl/\n\n$ ./bin/spack find\nTraceback (most recent call last):\n  File \"./bin/spack\", line 192, in <module>\n    main()\n  File \"./bin/spack\", line 169, in main\n    return_val = command(parser, args)\n  File \"/Users/kumbhar//spack-llnl/lib/spack/spack/cmd/find.py\", line 148, in find\n    specs = set(spack.installed_db.query(**q_args))\n  File \"/Users/kumbhar//spack-llnl/lib/spack/spack/database.py\", line 630, in query\n    with self.read_transaction():\n  File \"/Users/kumbhar//spack-llnl/lib/spack/llnl/util/lock.py\", line 219, in __enter__\n    self._as = self._acquire_fn()\n  File \"/Users/kumbhar//spack-llnl/lib/spack/spack/database.py\", line 447, in _read\n    self.reindex(spack.install_layout)\n  File \"/Users/kumbhar//spack-llnl/lib/spack/spack/database.py\", line 351, in reindex\n    with transaction:\n  File \"/Users/kumbhar//spack-llnl/lib/spack/llnl/util/lock.py\", line 218, in __enter__\n    if self._enter() and self._acquire_fn:\n  File \"/Users/kumbhar//spack-llnl/lib/spack/llnl/util/lock.py\", line 249, in _enter\n    return self._lock.acquire_write(self._timeout)\n  File \"/Users/kumbhar//spack-llnl/lib/spack/llnl/util/lock.py\", line 142, in acquire_write\n    self._lock(fcntl.LOCK_EX, timeout)   # can raise LockError.\n  File \"/Users/kumbhar//spack-llnl/lib/spack/llnl/util/lock.py\", line 84, in _lock\n    fcntl.lockf(self._fd, op | fcntl.LOCK_NB)\nIOError: [Errno 9] Bad file descriptor\n```\n- Once you install first package, this doesn't appear.\n- Doesn't happen on linux/other platforms \n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/1966",
+    "updated_at": "2016-10-11 09:37:43",
+    "created_at": "2016-10-07 19:42:26",
+    "closed_at": "2016-10-11 09:37:43",
+    "state": "closed",
+    "title": "OS X: \"spack find\" with new spack clone gives \"Bad file descriptor\"",
+    "number": 1966,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 181752168,
+    "html_url": "https://github.com/spack/spack/issues/1966",
+    "assignees": [],
+    "comments": 1
+}

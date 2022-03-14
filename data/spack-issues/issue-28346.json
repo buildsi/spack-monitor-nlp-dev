@@ -1,0 +1,23 @@
+{
+    "body": "This PR includes the following changes. I'll do my best to provide the background and motivation behind these changes. Some of these changes were extracted from #27798, which will be rebased after this is merged.\r\n\r\n- [x] Query `sysconfig` instead of `distutils.sysconfig`\r\n\r\nIn Python 3.10, the `distutils` module has been deprecated. In Python 3.12, it will be removed entirely. To future-proof our Python build system, we should use `sysconfig` instead (added in Python 2.7 and 3.2). Also, the Debian/Ubuntu system Python contains a bug where `distutils.sysconfig` and `sysconfig` return different purelib/platlib paths. Since build backends like setuptools use `sysconfig`, we also need to use `sysconfig` for compatibility.\r\n\r\n- [x] Add both purelib and platlib to the `PYTHONPATH`\r\n\r\nOn the majority of systems, purelib and platlib are identical, providing the location where third-party Python libraries are installed. Historically, we've been calling this `site_packages_dir`. However, when using the system Python on RHEL/CentOS/Fedora, purelib uses `lib` while platlib uses `lib64`. Different packages will end up in different directories depending on whether they contain C/C++ code or are written in pure Python. Since Spack has no way of knowing this, we should always add both purelib and platlib to the `PYTHONPATH`.\r\n\r\n- [x] Fix bug in which dependencies are added to `PYTHONPATH`\r\n\r\nPreviously we were recursively adding all build/run/test dependencies. However, this caused build deps of build deps to be added. The correct solution is to add all direct build/run/test deps, and all recursive run deps of those.\r\n\r\n### External references\r\n\r\n* https://discuss.python.org/t/understanding-site-packages-directories/12959\r\n* https://ffy00.github.io/blog/02-python-debian-and-the-install-locations/\r\n* https://docs.python.org/3/library/sysconfig.html#installation-paths\r\n* https://github.com/pypa/setuptools/discussions/2813\r\n\r\nFixes #15304\r\nFixes #20043\r\nFixes #22299\r\nFixes #24076\r\nFixes #26546\r\nFixes #27497",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28346",
+    "updated_at": "2022-01-14 02:11:18",
+    "created_at": "2022-01-10 21:23:01",
+    "closed_at": "2022-01-14 02:11:17",
+    "state": "closed",
+    "title": "Python: improve site_packages_dir handling",
+    "number": 28346,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package",
+        "build-systems"
+    ],
+    "id": 1098403451,
+    "html_url": "https://github.com/spack/spack/pull/28346",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 6
+}

@@ -1,0 +1,21 @@
+{
+    "body": "The previous workaround of using CMAKE_INSTALL_RPATH=ON was to\r\navoid CMake trying to write an RPATH into the linker script libcxx.so,\r\nwhich is nonsensical. See commit f86ed1e.\r\n\r\nHowever, CMAKE_INSTALL_RPATH=ON seems to disable the build RPATH, which\r\nbreaks LLVM during the build when it has to locate its build-time shared\r\nlibraries (e.g. libLLVM.so). That required yet another workaround, where\r\nsome shared libraries were installed \"by hand\", so that they were picked\r\nup from the install libdir. See commit 8a81229.\r\n\r\nThis was a dirty workaround, and also makes it impossible to use ninja,\r\nsince we explicitly invoked make.\r\n\r\nThis commit removes the two old workaround, and sets\r\nLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON, so that libc++abi.a is linked into\r\nlibc++.so, which makes it enough to link with -lc++ or invoke clang++\r\nwith -stdlib=libc++, so that our install succeeds and linking LLVM's c++\r\nstandard lib is still easy.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27448",
+    "updated_at": "2021-11-17 19:50:55",
+    "created_at": "2021-11-14 16:44:50",
+    "closed_at": "2021-11-17 16:14:05",
+    "state": "closed",
+    "title": "llvm: use LIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON",
+    "number": 27448,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1052984838,
+    "html_url": "https://github.com/spack/spack/pull/27448",
+    "assignees": [
+        "trws"
+    ],
+    "comments": 9
+}

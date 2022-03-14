@@ -1,0 +1,19 @@
+{
+    "body": "<!--*Please add a concise summary of your suggestion here.*-->\r\n\r\nThis may already be in the works or suggested already but here goes...\r\n\r\n### Rationale\r\n\r\nIt is kind of annoying to generate packages.yaml files like this:\r\n\r\n```yaml\r\npackages:\r\n  cmake:\r\n    paths:\r\n      cmake@3.14.1: /usr\r\n```\r\n\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\n\r\n### Description\r\n\r\nThere would be a spack command like `spack system find cmake` that would create the `packages.yaml` entry.\r\nThis `spack system find` command could have options like `--buildable <bool>`.\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\n\r\nI want to propose a `def find_system(self)` function that packages can add to support finding pre-installed versions. This would be an optional member function that packages could provide if they want to support it and throw an error if the package doesn't support it.\r\n\r\nThis isn't necessary the solution I _want_, I would just like to see this feature available.\r\n\r\nFor CMake it might look something like:\r\n\r\n```python\r\nfrom spack import *\r\n\r\nimport re\r\nimport os\r\nimport subprocess\r\nclass Cmake(Package):\r\n  # ...\r\n\r\n  def find_system(self):\r\n      # this is a dictionary where the key is the spec string and the mapped value is the path\r\n      system_versions = {}\r\n      # loop over the paths\r\n      for p in os.environ.get(\"PATH\", \"\").split(':'):\r\n          exe = os.path.join(p, 'cmake')\r\n          if os.path.exists(exe):\r\n              version = subprocess.check_output([exe, \"--version\"]).decode('ascii').split()[2]\r\n              # generate the spec as the key and the root path\r\n              system_versions[\"@{}\".format(version)] = os.path.dirname(p)\r\n \r\n    # this would be something like:\r\n    # { \"3.14.1\" : \"/usr\" } when /usr/bin/cmake was 3.14.1\r\n    return system_versions\r\n```\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\n\r\n\r\n### General information\r\n\r\n- [ ] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "jrmadsen",
+    "url": "https://api.github.com/repos/spack/spack/issues/17319",
+    "updated_at": "2020-07-01 13:06:54",
+    "created_at": "2020-06-30 22:40:22",
+    "closed_at": "2020-06-30 23:20:55",
+    "state": "closed",
+    "title": "Auto-find system libraries",
+    "number": 17319,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 648540851,
+    "html_url": "https://github.com/spack/spack/issues/17319",
+    "assignees": [],
+    "comments": 5
+}

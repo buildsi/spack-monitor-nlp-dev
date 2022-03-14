@@ -1,0 +1,19 @@
+{
+    "body": "@danlipsa It seems the cmake argument for ParaView build_editions expects the strings to be all uppercase, at least for `canonical`\r\n\r\nWithout capitalization, cmake was ignoring arguments that have worked in the past:\r\n\r\n```console\r\n  Manually-specified variables were not used by the project:\r\n\r\n    MPI_Fortran_COMPILER\r\n    OpenGL_GL_PREFERENCE\r\n    PARAVIEW_ENABLE_EXAMPLES\r\n    PYTHON_EXECUTABLE\r\n    VTK_MODULE_USE_EXTERNAL_ParaView_cgns\r\n    VTK_MODULE_USE_EXTERNAL_VTK_gl2ps\r\n    VTK_MODULE_USE_EXTERNAL_VTK_glew\r\n    VTK_MODULE_USE_EXTERNAL_VTK_libharu\r\n    VTK_OPENGL_HAS_OSMESA\r\n```\r\n\r\nWith capitalization, at least for `canonical`, many of these are set as expected:\r\n\r\n```console\r\n  Manually-specified variables were not used by the project:\r\n\r\n    MPI_Fortran_COMPILER\r\n    PARAVIEW_ENABLE_EXAMPLES\r\n    PYTHON_EXECUTABLE\r\n\r\n\r\n-- Build files have been written to: /tmp/stam/spack-stage/spack-stage-paraview-5.9.1-ydbfmizfhppij5vjhrfnjsuo3eni3olg/spack-build-ydbfmiz\r\n```\r\n\r\nThis PR adds `.upper()` to the string passed in the cmake argument.",
+    "user": "EthanS94",
+    "url": "https://api.github.com/repos/spack/spack/issues/27534",
+    "updated_at": "2021-11-29 15:38:26",
+    "created_at": "2021-11-18 19:20:47",
+    "closed_at": "2021-11-29 15:38:25",
+    "state": "closed",
+    "title": "ParaView: Make build edition strings uppercase",
+    "number": 27534,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1057714616,
+    "html_url": "https://github.com/spack/spack/pull/27534",
+    "assignees": [],
+    "comments": 5
+}

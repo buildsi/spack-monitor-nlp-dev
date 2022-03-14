@@ -1,0 +1,19 @@
+{
+    "body": "I'm trying to install `gdk-pixbuf`, but a bug in our `libxslt` installation causes `xsltproc` to crash. libxslt itself successfully installs and passes all unit tests, but you can see the same error in the build log.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install libxslt\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nDarwin Vesuvius 18.2.0 Darwin Kernel Version 18.2.0: Mon Nov 12 20:24:46 PST 2018; root:xnu-4903.231.4~2/RELEASE_X86_64 x86_64\r\n``` \r\n\r\nAlso reproduced on Cray CNL5 (Blue Waters).\r\n\r\n### Additional information\r\n\r\nI see the following error message in the `libxslt` build log, and in the `gdk-pixbuf` build log when it crashes:\r\n```\r\nI/O error : Attempt to load network entity http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\r\n/Users/Adam/spack/var/spack/stage/libxslt-1.1.32-3h3g4g23xwxg5t43vp3rsz44tajrgu6u/libxslt-1.1.32/doc/xsltproc.xml:8: warning: failed to load external entity \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\"\r\n]>\r\n  ^\r\nI/O error : Attempt to load network entity http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl\r\nwarning: failed to load external entity \"http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl\"\r\nerror\r\nxsltParseStylesheetFile : cannot parse http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl\r\ncompilation error: file /Users/Adam/spack/var/spack/stage/libxslt-1.1.32-3h3g4g23xwxg5t43vp3rsz44tajrgu6u/libxslt-1.1.32/doc/xsltproc.xml line 10 element refentry\r\nxsltParseStylesheetProcess : document is not a stylesheet\r\nmake[1]: [xsltproc.1] Error 5 (ignored)\r\n```\r\nI sent a message to the libxslt developers, but never heard back. Has anyone ever seen this before or know of a fix? I have a feeling that `libxml2` and/or `libxslt` should depend on `docbook-xml` and/or `docbook-xsl`, but I'm not confident these packages are being installed correctly. The Homebrew recipes are much more complicated.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/10222",
+    "updated_at": "2019-01-13 20:40:20",
+    "created_at": "2018-12-30 17:40:41",
+    "closed_at": "2019-01-13 20:40:20",
+    "state": "closed",
+    "title": "xsltproc bug causes gdk-pixbuf build to fail",
+    "number": 10222,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 394889016,
+    "html_url": "https://github.com/spack/spack/issues/10222",
+    "assignees": [],
+    "comments": 4
+}

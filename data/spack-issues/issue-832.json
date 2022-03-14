@@ -1,0 +1,17 @@
+{
+    "body": "I\u2019m working on the various Intel software packages in Spack #796. They all use the same installer and thus all share a lot of setup in their package.py. It would be nice if the shared setup could be encapsulated in an Intel base package class that the various packages can derive from. I\u2019m wondering if there are any thoughts on the best way to implement this would be. \n\nI was thinking that we could have an intel sub directory in the repo/builtin/packages and then have sub directories for each package, but then Spack won\u2019t recognize the packages and they won\u2019t be directly visible to users in the repos/builtin/packages directory. Perhaps the latter fact isn't a big issue since users should be doing a spack list instead of an ls on the packages directory.\n\nAlternatively, I could keep each package in it\u2019s on repos/builtin/packages directory and then put the Intel base class somewhere that it could be imported. The question here, however, is where should that Intel base class module live?\n\nIs there another mechanism that exists that I'm not thinking of? I'm not sure if this is a general enough issue that it warrants putting new infrastructure in place for Spack itself. If not, I can easily just have each individual Intel package do some tricks to modify their sys.path to find my base Intel class, but it wouldn't be very elegant. Any thoughts @tgamblin @mplegendre @becker33?\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/832",
+    "updated_at": "2016-05-02 21:17:21",
+    "created_at": "2016-04-25 21:11:19",
+    "closed_at": "2016-05-02 21:17:21",
+    "state": "closed",
+    "title": "Packages with shared setup infrastructure",
+    "number": 832,
+    "milestone": null,
+    "labels": [],
+    "id": 150981502,
+    "html_url": "https://github.com/spack/spack/issues/832",
+    "assignees": [],
+    "comments": 6
+}

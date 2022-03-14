@@ -1,0 +1,19 @@
+{
+    "body": "\r\nPMIx up through version 2.1.0 has a bug in its test code that causes problems on strict alignment architectures like aarch64.  (The issue is explained in this commit: pmix/pmix@3a8bc4503a04158e3be072c92eb0253c6c77e534)  The fix is included in the 2.1.1 release.  The issue is exacerbated by building with optimizations turned on (which Spack does by default); it doesn't seem to happen when compiling with ```-O0```.\r\n\r\nSince the issue is in test code, the work-around is to just not build that code.\r\n### Expected Result\r\n\r\nThe install should work.\r\n\r\n### Actual Result\r\n\r\nThe install fails attempting to link pmix_test.\r\n\r\n### Steps to reproduce the issue\r\n\r\nOn an aarch64 machine:\r\n```console\r\n$ spack install -j 56 pmix %gcc@7.3.0\r\n```\r\n\r\n### Information on your system\r\n\r\n1. HPE (pre-production) Apache servers (w/ Cavium ThunderX2 CPU's)\r\n1. RHEL 7.4\r\n1. GCC 7.3.0 (built by Spack) and GCC 4.8.5 (RHEL 7 default version)\r\n",
+    "user": "rgmiller",
+    "url": "https://api.github.com/repos/spack/spack/issues/7851",
+    "updated_at": "2018-04-23 19:09:53",
+    "created_at": "2018-04-20 19:53:45",
+    "closed_at": "2018-04-23 19:09:53",
+    "state": "closed",
+    "title": "PMIx build fails on aarch64",
+    "number": 7851,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 316392106,
+    "html_url": "https://github.com/spack/spack/issues/7851",
+    "assignees": [],
+    "comments": 0
+}

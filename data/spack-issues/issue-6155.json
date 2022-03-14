@@ -1,0 +1,21 @@
+{
+    "body": "Hi\r\n\r\nI am trying to add a new package which has a broken MakeFile.  ```LDFLAGS``` in the file must be modified before it can be compiled.  The developers have [yet to merge the fix](https://github.com/vcflib/vcflib/pull/205) yet into their project so I want to do it here in Spack.\r\n\r\nI have tried this which does not work:\r\n\r\n```\r\ndef setup_environment(self, spack_env, run_env):\r\n    spack_env.append_flags('LDFLAGS', '-llzma')\r\n    spack_env.append_flags('LDFLAGS', '-lbz2')\r\n```\r\n\r\nFrom [Packaging Guide](https://github.com/spack/spack/blob/04a4ac68d5320f02f30c4d24ff62a8322ea84dc0/lib/spack/docs/packaging_guide.rst) this does not work either:\r\n\r\n```\r\ndef ldflags_flag_handler(self, env, flag_val):\r\n    env.append_flags('-llzma')\r\n    env.append_flags('-lbz2')\r\n\r\n```\r\n\r\nThanks for the guidance! ",
+    "user": "ifelsefi",
+    "url": "https://api.github.com/repos/spack/spack/issues/6155",
+    "updated_at": "2017-11-07 14:46:20",
+    "created_at": "2017-11-05 18:58:45",
+    "closed_at": "2017-11-07 14:46:19",
+    "state": "closed",
+    "title": "Appending LDFLAGS to MakefilePackage",
+    "number": 6155,
+    "milestone": null,
+    "labels": [
+        "question",
+        "build-environment",
+        "makefile"
+    ],
+    "id": 271304496,
+    "html_url": "https://github.com/spack/spack/issues/6155",
+    "assignees": [],
+    "comments": 1
+}

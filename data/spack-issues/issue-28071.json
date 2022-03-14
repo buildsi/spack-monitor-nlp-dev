@@ -1,0 +1,21 @@
+{
+    "body": "CC maintainers: @adamjstewart  @bvanessen\r\n\r\nI'm not exactly thrilled about the url change implementation.  It's kind of clean, but if you look at v8.3.0 or the others, it's not clear why this [`local_installers` directory](https://developer.download.nvidia.com/compute/redist/cudnn/v8.3.1/local_installers) exists from the [release notes](https://docs.nvidia.com/deeplearning/cudnn/release-notes/rel_8.html).  I kind of anticipate that this `local_installers` directory may not be incorporated in their next release.\r\n\r\nWhen I run `spack info cudnn` the urls for the older archives appear valid (can `wget` them and resolve / start downloading), but I am not sure about the new urls -- I only get the url reported for `x86_64`.  Note the change to `sys_key` local variable, the [v8.3.1 // cuda 11.5 installer directory](https://developer.download.nvidia.com/compute/redist/cudnn/v8.3.1/local_installers/11.5/) contains:\r\n\r\n-  cudnn-linux-ppc64le-8.3.1.22_cuda11.5-archive.tar.xz 822MB 2021-11-23 01:09\r\n- cudnn-linux-sbsa-8.3.1.22_cuda11.5-archive.tar.xz 819MB 2021-11-23 01:09\r\n- cudnn-linux-x86_64-8.3.1.22_cuda11.5-archive.tar.xz 818MB 2021-11-23 01:10\r\n\r\nThe one that concerns me is `sbsa`, the version dictionary is using `Linux-aarch64`, but I haven't the slightest clue how to test this code or even what these architectures are :upside_down_face: ",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/28071",
+    "updated_at": "2022-01-15 23:09:01",
+    "created_at": "2021-12-18 09:17:45",
+    "closed_at": "2022-01-04 08:25:13",
+    "state": "closed",
+    "title": "add cudnn v8.3.1",
+    "number": 28071,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1083789633,
+    "html_url": "https://github.com/spack/spack/pull/28071",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 2
+}

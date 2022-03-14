@@ -1,0 +1,17 @@
+{
+    "body": "As discussed on the mailing list here:\n\nhttps://groups.google.com/forum/#!topic/spack/VR6TNzk_N9E\n\nSpack does not pick up Homebrew gcc compilers, and a further personal test also showed it doesn't find multiple installs of gcc compilers on a Linux box (i.e. `/usr/bin/gcc`, `/usr/bin/gcc-4.7`, `/usr/bin/gcc-4.9`).\n\nI think I've traced this to the suffixes used in the `gcc.py` module which only used a regex for MacPorts installs. The PR adds two additional regexes for installs of gcc that use `-MAJOR.MINOR` and `-MAJOR` suffixes. The latter is needed for Homebrew gcc5. \n\nI've only tested on a Mac with Homebrew in the `PATH` and on my Linux box with multi-gcc in `/usr/bin`, so may well need some tweaking.\n",
+    "user": "drbenmorgan",
+    "url": "https://api.github.com/repos/spack/spack/issues/569",
+    "updated_at": "2019-06-13 15:28:23",
+    "created_at": "2016-03-18 11:37:34",
+    "closed_at": "2016-03-18 17:15:20",
+    "state": "closed",
+    "title": "Add additional suffixes for GCC compiler",
+    "number": 569,
+    "milestone": null,
+    "labels": [],
+    "id": 141842886,
+    "html_url": "https://github.com/spack/spack/pull/569",
+    "assignees": [],
+    "comments": 2
+}

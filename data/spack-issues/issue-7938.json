@@ -1,0 +1,19 @@
+{
+    "body": "\r\n-----\r\nThe spec of the ompss package seems to be broken.\r\n\r\n### Expected Result\r\n\r\nompss and dependencies properly installed\r\n\r\n### Actual Result\r\n\r\nmultiple conflicts in dependencies\r\n```console\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    hwloc@2.0.1%gcc@7.3.0~cairo~cuda+libxml2+pci+shared arch=linux-ubuntu18.04-x86_64 \r\n        ^libpciaccess\r\n            ^libtool\r\n                ^m4@1.4.18%gcc@7.3.0+sigsegv arch=linux-ubuntu18.04-x86_64 \r\n                    ^libsigsegv\r\n            ^pkgconf@1.4.0%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64 \r\n            ^util-macros\r\n        ^libxml2@2.9.4%gcc@7.3.0~python arch=linux-ubuntu18.04-x86_64 \r\n            ^xz@5.2.3%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64 \r\n            ^zlib@1.2.11%gcc@7.3.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64 \r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    openmpi@3.0.1%gcc@7.3.0~cuda fabrics= ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple+vt arch=linux-ubuntu18.04-x86_64 \r\n\r\n\r\nopenmpi requires hwloc version :1.999, but spec asked for 2.0.1\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install -v ompss\r\n```\r\n\r\n### Information on your system\r\n\r\n\r\nI have tried with gcc 7.3.0, gcc 6.4.0 and clang 6.0.0 on ubuntu 18.04, 17.10 and 16.04.\r\n\r\n-----\r\n",
+    "user": "viniciusvgp",
+    "url": "https://api.github.com/repos/spack/spack/issues/7938",
+    "updated_at": "2020-08-13 13:50:10",
+    "created_at": "2018-04-28 17:31:04",
+    "closed_at": "2018-04-29 04:43:36",
+    "state": "closed",
+    "title": "ompss broken spec",
+    "number": 7938,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 318654657,
+    "html_url": "https://github.com/spack/spack/issues/7938",
+    "assignees": [],
+    "comments": 6
+}

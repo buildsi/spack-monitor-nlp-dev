@@ -1,0 +1,17 @@
+{
+    "body": "@fpruvost, @trws: This should fix the VCS mirror fetching issues.  Please let me know if it works for you and I'll merge.\n\n@alalazo: I tried to keep this PR minimal so as not to interfere with your `CompositeFetchStrategy` stuff, but it may conflict with some of your changes.  The way fetching/stages/mirroring should really be reworked, and I think your refactor will help that.  I think eventually I'd like to combine the local tarball caching with mirroring, so that if you fetch a package, you fetch into a common directory or into a local mirror in ~/.spack. Staging would still be per-build, but tarballs wouldn't be redundantly fetched for each build.  I can take a look at that after your resource stuff is done -- we'll need to think about how that relates to mirroring too.\n- Stage and fetcher were not being set up properly when fetching using\n  a different fetch strategy than the default one for the package.\n- This is fixed but fetch/stage/mirror logic is still too complicated\n  and long-term needs a rethink.\n- Spack will now print a warning when fetching a checksum-less tarball\n  from a mirror -- users should be careful to use https or local\n  filesystem mirrors for this.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/277",
+    "updated_at": "2016-01-27 02:33:47",
+    "created_at": "2015-12-24 00:33:24",
+    "closed_at": "2015-12-26 17:28:38",
+    "state": "closed",
+    "title": "Fix #85 and #228: errors fetching VCS packages from a mirror.",
+    "number": 277,
+    "milestone": null,
+    "labels": [],
+    "id": 123740226,
+    "html_url": "https://github.com/spack/spack/pull/277",
+    "assignees": [],
+    "comments": 3
+}

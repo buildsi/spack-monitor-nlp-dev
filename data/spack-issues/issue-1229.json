@@ -1,0 +1,17 @@
+{
+    "body": "Configuring preferred providers via `etc/spack/packages.yaml` does not work. I have configured it as follows:\n\n```\npackages:\n  all:\n    providers:\n      mpi: [mpich]\n```\n\nRunning `spack spec mpi` results in:\n\n```\nConcretized\n------------------------------\n  openmpi@1.10.3%gcc@6.1.1~mxm~pmi~psm~psm2~slurm~sqlite3~thread_multiple~tm~verbs+vt arch=linux-fedora24-x86_64\n      ^hwloc@1.11.3%gcc@6.1.1 arch=linux-fedora24-x86_64\n          ^libpciaccess@0.13.4%gcc@6.1.1 arch=linux-fedora24-x86_64\n              ^libtool@2.4.6%gcc@6.1.1 arch=linux-fedora24-x86_64\n                  ^m4@1.4.17%gcc@6.1.1+sigsegv arch=linux-fedora24-x86_64\n                      ^libsigsegv@2.10%gcc@6.1.1 arch=linux-fedora24-x86_64\n```\n\nAfter applying my patch, it results in:\n\n```\nConcretized\n------------------------------\n  mpich@3.2%gcc@6.1.1+hydra+pmi~verbs arch=linux-fedora24-x86_64\n```\n\nA few words about the patch:\n- `isinstance` has to be used because the dictionary is actually a `syaml_dict`.\n- When `_spec_compare` is called for `component = 'providers'`, neither `a` nor `b` have a `concrete` value, resulting in `-1` to be returned. I decided to only skip this check if `second_key` is set, which is the case for providers.\n",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/1229",
+    "updated_at": "2016-07-18 23:47:08",
+    "created_at": "2016-07-12 18:42:55",
+    "closed_at": "2016-07-18 23:47:08",
+    "state": "closed",
+    "title": "Fix preferred providers.",
+    "number": 1229,
+    "milestone": null,
+    "labels": [],
+    "id": 165150677,
+    "html_url": "https://github.com/spack/spack/pull/1229",
+    "assignees": [],
+    "comments": 4
+}

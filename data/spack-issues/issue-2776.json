@@ -1,0 +1,19 @@
+{
+    "body": "Right now, I think that the most vulnerable point is when a new package is added.  If the package being added is compromised, then it is easy to slip in a hash for that compromised download.  HOWEVER... the exploit would only take effect when a Spack user builds the package.  Most of the heavily-used packages are already in Spack, making this an increasingly remote possibility.  But I do think it makes sense to have some sort of review of new packages.  Maybe:\r\n\r\n1. Check that the site the package is coming from is reputable.\r\n2. Preferably, the site uses SSL, and the owner can be verified to be reputable.\r\n3. Cursory check that the hashes match.\r\n\r\nI think the risk is a lot lower when a new version (and new hash) is added to an existing package --- AS LONG AS the new version comes from the same source as the old version.  Especially if SSL is involved.\r\n\r\nI can think of a few reasons that existing hashes would change.  If a change in hash is proposed, I think the policy needs to be that someone trustworthy investigates --- starting with a diff of the old tarball and the new tarball.  Maybe it's something as simple as changing compression format or adding/removing a `configure` file.  But we need to know.\r\n\r\n@tgamblin wrote:\r\n> I think it would be possible to implement this stuff either in a separate travis build (by adding another build to the matrix) or with our own Spack microservice, which would mark github requests.  I think it\u2019s probably easiest to do through travis, since we need to check the repo \u2013 I think we can make an API call from a travis request to mark each PR with the status of any hashes (good, bad, iffy/non-SSL, etc.)",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2776",
+    "updated_at": "2019-12-09 12:50:13",
+    "created_at": "2017-01-08 04:02:29",
+    "closed_at": "2019-12-09 12:50:13",
+    "state": "closed",
+    "title": "Policy on Hash Changes + Travis Checks",
+    "number": 2776,
+    "milestone": null,
+    "labels": [
+        "revisit"
+    ],
+    "id": 199401431,
+    "html_url": "https://github.com/spack/spack/issues/2776",
+    "assignees": [],
+    "comments": 1
+}

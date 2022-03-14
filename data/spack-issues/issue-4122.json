@@ -1,0 +1,19 @@
+{
+    "body": "Hi\r\n\r\nI pulled latest code from develop yesterday and now I am getting the following error when doing \"spack find.\"\r\n\r\n```\r\nuser@server[~]$ spack find\r\n==> Error: Can't take exclusive lock on read-only file: /pbtech_mounts/softlib001/apps/EL6/spack/opt/spack/.spack-db/lock\r\n\r\nuser@server[~]$ ls -ltr /pbtech_mounts/softlib001/apps/EL6/spack/opt/spack/.spack-db/lock\r\n-rwxr-xr-x 1 root root 27 May  4 08:11 /pbtech_mounts/softlib001/apps/EL6/spack/opt/spack/.spack-db/lock\r\n\r\n```\r\n\r\nAs you can see the lock file is owned by root as is our entire NFS-exported spack installation.  I can run \"spack find\" as root on a node though the above error happens when ran as another non-root user.\r\n\r\nRoot owned everything before pulling the latest changes from git so I wanted to make sure that the problem isn't the permissions I have in place.\r\n\r\n```\r\n[root@node103 spack]# spack find | head\r\n-- linux-rhel6-x86_64 / gcc@4.4.6 -------------------------------\r\nautoconf@2.69\r\nautomake@1.15\r\nbamtools@2.4.1\r\nbcftools@1.4\r\nbedtools2@2.26.0\r\nbinutils@2.28\r\nbinutils@2.28\r\nbison@3.0.4\r\nboost@1.63.0\r\n\r\n[root@node103 spack]# ls -ltr /pbtech_mounts/softlib001/apps/EL6/spack/opt/spack/.spack-db\r\ntotal 160\r\n-rwxr-xr-x 1 root root     27 Apr 28 15:33 prefix_lock\r\n-rw-r--r-- 1 root root 153869 Apr 28 15:44 index.json\r\n-rwxr-xr-x 1 root root     27 May  4 08:20 lock\r\n```",
+    "user": "ifelsefi",
+    "url": "https://api.github.com/repos/spack/spack/issues/4122",
+    "updated_at": "2017-06-09 16:55:28",
+    "created_at": "2017-05-04 12:22:07",
+    "closed_at": "2017-06-09 16:55:28",
+    "state": "closed",
+    "title": "Spack Database Locks - Permission Issue?",
+    "number": 4122,
+    "milestone": null,
+    "labels": [
+        "locking"
+    ],
+    "id": 226263071,
+    "html_url": "https://github.com/spack/spack/issues/4122",
+    "assignees": [],
+    "comments": 10
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Fix below two issues:\r\n\r\nm4 dependency missing:\r\n\r\n```\r\n/gpfs/bbp.cscs.ch/home/kumbhar-adm/SPACK_HOME/spack/lib/spack/spack/build_systems/autotools.py:210, in autoreconf:\r\n     7             missing = [x for x in autotools if x not in spec]\r\n     8             if missing:\r\n     9                 msg = 'Cannot generate configure: missing dependencies {0}'\r\n  >> 10                raise RuntimeError(msg.format(missing))\r\n     11            tty.msg('Configure script not found: trying to generate it')\r\n     12            tty.warn('*********************************************************')\r\n```\r\n\r\nADIOS [doc](http://users.nccs.gov/~pnorbert/ADIOS-UsersManual-1.9.0.pdf) suggest to set `MPICC`, `MPICXX`. Without this I got : \r\n\r\n```\r\nenv/intel/icc... gcc3\r\nchecking whether we are using the GNU C++ compiler... yes\r\nchecking whether /gpfs/bbp.cscs.ch/home/kumbhar-adm/SPACK_HOME/spack/lib/spack/env/intel/icpc accepts -g... yes\r\nchecking dependency style of /gpfs/bbp.cscs.ch/home/kumbhar-adm/SPACK_HOME/spack/lib/spack/env/intel/icpc... gcc3\r\nchecking for mpicc... no\r\nchecking for hcc... no\r\nchecking for mpxlc_r... no\r\nchecking for mpxlc... no\r\nchecking for mpcc... no\r\nchecking for cmpicc... no\r\nchecking for MPI_Init... no\r\nchecking for MPI_Init in -lmpi... no\r\nchecking for MPI_Init in -lmpich... no\r\nconfigure: error: could not find mpi library for C\r\n```",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5319",
+    "updated_at": "2017-09-10 23:54:43",
+    "created_at": "2017-09-09 11:48:08",
+    "closed_at": "2017-09-10 23:18:56",
+    "state": "closed",
+    "title": "Fix Autotools build error due to missing m4 and MPICC/MPICXX",
+    "number": 5319,
+    "milestone": null,
+    "labels": [],
+    "id": 256434085,
+    "html_url": "https://github.com/spack/spack/pull/5319",
+    "assignees": [],
+    "comments": 0
+}

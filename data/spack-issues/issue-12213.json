@@ -1,0 +1,20 @@
+{
+    "body": "While rebasing #11372 I noticed that the `Environment.concretize` method changed signature in 0715b512a19d5d966f596559274ca7b8a3406701:\r\n\r\nhttps://github.com/spack/spack/blob/0715b512a19d5d966f596559274ca7b8a3406701/lib/spack/spack/environment.py#L823\r\n\r\nas a new argument `_display` got added. This argument seems to be used only in unit tests to switch off part of the code. To avoid: \r\n1. Using an argument to a function that starts with a leading underscore\r\n2. Having code that is needed only for tests mixed with business logic\r\n\r\nthis PR extracts the logic to display specs into its own function. Client code is then responsible to make an additional call if it needs to display the result of concretization - and unit tests can simply skip that call.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/12213",
+    "updated_at": "2019-08-03 10:23:35",
+    "created_at": "2019-07-31 13:24:03",
+    "closed_at": "2019-08-03 00:27:52",
+    "state": "closed",
+    "title": "Removed an argument to concretize that was there only for unit tests",
+    "number": 12213,
+    "milestone": null,
+    "labels": [
+        "refactoring",
+        "tests"
+    ],
+    "id": 475142982,
+    "html_url": "https://github.com/spack/spack/pull/12213",
+    "assignees": [],
+    "comments": 2
+}

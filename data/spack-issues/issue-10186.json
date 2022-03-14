@@ -1,0 +1,19 @@
+{
+    "body": "Supersedes #10050.\r\n\r\nThis fixes bugs in `spack blame` like this:\r\n\r\n```console\r\n(spackbook):spack$ spack blame catalyst\r\n==> Error: 'ascii' codec can't decode byte 0xc3 in position 9: ordinal not in range(128)\r\n```\r\n\r\nIn this case it was the \"\u00e0\" in \"Simone Bn\u00e0\" that was causing Python to fail.  The #10050 tried to solve this in `colify.py`, but I think the issue is that we weren't properly decoding text at the edges in the first place. I tracked this down to the pipe read in `spack.util.executable`, and just made *that* treat everything as proper unicode.\r\n\r\nThis also adds a test to verify that we're able to round-trip unicode through an `Executable` object.\r\n\r\n- [x] When returning string output, use text_type and decode utf-8 in Python 2 instead of using `str`\r\n- [x] This properly handles unicode, whereas before we would pass bad strings to colify in `spack blame` when reading git output\r\n- [x] add a test that round-trips some unicode through an Executable object",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/10186",
+    "updated_at": "2018-12-24 08:28:01",
+    "created_at": "2018-12-24 06:05:11",
+    "closed_at": "2018-12-24 07:59:59",
+    "state": "closed",
+    "title": "bugfix: handle unicode properly in spack.util.executable",
+    "number": 10186,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 393816444,
+    "html_url": "https://github.com/spack/spack/pull/10186",
+    "assignees": [],
+    "comments": 0
+}

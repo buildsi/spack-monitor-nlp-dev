@@ -1,0 +1,17 @@
+{
+    "body": "I'm looking for advice on how to debug this issue.  Spack fails to build curl@7.50.1 with intel@16.0.3 for me:\n\n```\n$ spack install --dirty curl\n...\n==> Building curl\n==> Error: Command exited with status 2:\nSee build log for details:\n  /tmp/$USER/spack-stage/spack-stage-FuILeT/curl-7.50.1/spack-build.out\n\n$SPACK_ROOT/var/spack/repos/builtin/packages/curl/package.py:52, in install:\n     47       def install(self, spec, prefix):\n     48           configure('--prefix=%s' % prefix,\n     49                     '--with-zlib=%s' % spec['zlib'].prefix,\n     50                     '--with-ssl=%s' % spec['openssl'].prefix)\n     51   \n  >> 52           make()\n     53           make(\"install\")\n$ cat /tmp/$USER/spack-stage/spack-stage-FuILeT/curl-7.50.1/spack-build.out\n...\n  CCLD     curl\nicc: error #10236: File not found:  '../lib/.libs/libcurl.so'\n$ ls -l lib/.libs/libcurl.so*\nlib/.libs/libcurl.so -> libcurl.so.4.4.0\n# libcurl.so.4.4.0 is missing\n```\n\nHowever, I can configure and build curl w/o issue if I do so outside of spack:\n\n```\n$ head -n 1 /tmp/$USER/spack-stage/spack-stage-FuILeT/curl-7.50.1/spack-build.out # find the configure command and use it below\n$ cd /scratch; tar -xvf $SPACK_MIRROR/curl/curl-7.50.1.tar.bz2\n$ cd curl-7.50.1\n$ ./configure '--prefix=$SPACK_ROOT/opt/spack/linux-redhat6-x86_64/intel-16.0.3/curl-7.50.1-rouubmwgpgtod6zsmlcnhdfwsflmdlek' '--with-zlib=$SPACK_ROOT/opt/spack/linux-redhat6-x86_64/intel-16.0.3/zlib-1.2.8-j27etskpawg5lrge6wovazubcsgk4jba' '--with-ssl=$SPACK_ROOT/opt/spack/linux-redhat6-x86_64/intel-16.0.3/openssl-1.0.2h-a5obyxw6ju5vq5qpb3vunuz6sgm2anob'\n$ make -j 12\n$  ls -l lib/.libs/libcurl.so*\nlib/.libs/libcurl.so -> libcurl.so.4.4.0*\nlib/.libs/libcurl.so.4 -> libcurl.so.4.4.0*\nlib/.libs/libcurl.so.4.4.0*\n```\n\nHow do I debug this spack failure?\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/1669",
+    "updated_at": "2016-09-23 20:17:35",
+    "created_at": "2016-08-30 13:51:35",
+    "closed_at": "2016-09-23 20:17:35",
+    "state": "closed",
+    "title": "Unable to install curl@7.50.1%intel@16.0.3 via spack",
+    "number": 1669,
+    "milestone": null,
+    "labels": [],
+    "id": 174024614,
+    "html_url": "https://github.com/spack/spack/issues/1669",
+    "assignees": [],
+    "comments": 12
+}

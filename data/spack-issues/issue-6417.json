@@ -1,0 +1,20 @@
+{
+    "body": "Showing \"Normalized\" in the output doesn't give users additional information, as this step is essentially an implementation detail of concretization. This PR skips it and shows just the input spec and the concretized one. Printing partial hashes for input spec has been disabled.\r\n\r\n##### Current behavior\r\n```console\r\n$ spack spec -Il hdf5@1.10.1+mpi ^mpich\r\nInput spec\r\n--------------------------------\r\n     hcaag73  hdf5@1.10.1+mpi\r\n     ty5c2nn      ^mpich\r\n\r\nNormalized\r\n--------------------------------\r\n     4kdzf64  hdf5@1.10.1+mpi\r\n     ty5c2nn      ^mpich\r\n     j52z7qb      ^zlib@1.1.2:\r\n\r\nConcretized\r\n--------------------------------\r\n     7x2qtxi  hdf5@1.10.1%gcc@4.8~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe arch=linux-ubuntu14.04-x86_64 \r\n     i5jrs3r      ^mpich@3.2%gcc@4.8 device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=linux-ubuntu14.04-x86_64 \r\n[+]  eksallf      ^zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64 \r\n\r\n```\r\n\r\n##### After this PR\r\n```console\r\n$ spack spec -Il hdf5@1.10.1+mpi ^mpich\r\nInput spec\r\n--------------------------------\r\n     hdf5@1.10.1+mpi\r\n         ^mpich\r\n\r\nConcretized\r\n--------------------------------\r\n     7x2qtxi  hdf5@1.10.1%gcc@4.8~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe arch=linux-ubuntu14.04-x86_64 \r\n     i5jrs3r      ^mpich@3.2%gcc@4.8 device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=linux-ubuntu14.04-x86_64 \r\n[+]  eksallf      ^zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64 \r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6417",
+    "updated_at": "2017-11-28 17:03:56",
+    "created_at": "2017-11-22 22:27:36",
+    "closed_at": "2017-11-28 17:03:33",
+    "state": "closed",
+    "title": "spack spec: simplified output",
+    "number": 6417,
+    "milestone": null,
+    "labels": [
+        "ready",
+        "commands"
+    ],
+    "id": 276221285,
+    "html_url": "https://github.com/spack/spack/pull/6417",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,17 @@
+{
+    "body": "When a failed patch was detected, the resource stage was asked to re-expand by calling `fetcher.reset()`.\r\nThis however caused the root package to be extracted again, removing the nested copies/symbolic links of the resources.  As ResourceStage did not handle `restage` explicitly, it would only unpack the resources to their respective stage folder and not also put them in the root stage.\r\n\r\nFor example when attempting to apply patches to `llvm/tools/clang` (which is in the cfe resource):\r\n```\r\n==> Already staged llvm-5.0.0-4wbencqbmejbxkcpmeztwvkf6koy7jlm in .../stage/llvm-5.0.0-4wbencqbmejbxkcpmeztwvkf6koy7jlm\r\n...\r\n==> Already staged resource-cfe-4wbencqbmejbxkcpmeztwvkf6koy7jlm in .../stage/resource-cfe-4wbencqbmejbxkcpmeztwvkf6koy7jlm\r\n==> Moving resource stage\r\n        source : .../stage/resource-cfe-4wbencqbmejbxkcpmeztwvkf6koy7jlm/cfe-5.0.0.src/\r\n        destination : .../stage/llvm-5.0.0-4wbencqbmejbxkcpmeztwvkf6koy7jlm/llvm-5.0.0.src/tools/clang\r\n==> Already staged resource-lldb-4wbencqbmejbxkcpmeztwvkf6koy7jlm in .../stage/resource-lldb-4wbencqbmejbxkcpmeztwvkf6koy7jlm\r\n==> Moving resource stage\r\n        source : .../stage/resource-lldb-4wbencqbmejbxkcpmeztwvkf6koy7jlm/lldb-5.0.0.src/\r\n        destination : .../stage/llvm-5.0.0-4wbencqbmejbxkcpmeztwvkf6koy7jlm/llvm-5.0.0.src/tools/lldb\r\n...\r\n==> Patching failed last time. Restaging.\r\n==> Staging archive: .../stage/llvm-5.0.0-4wbencqbmejbxkcpmeztwvkf6koy7jlm/llvm-5.0.0.src.tar.xz\r\n...\r\n==> Staging archive: .../stage/resource-cfe-4wbencqbmejbxkcpmeztwvkf6koy7jlm/cfe-5.0.0.src.tar.xz\r\n==> Staging archive: .../stage/resource-lldb-4wbencqbmejbxkcpmeztwvkf6koy7jlm/lldb-5.0.0.src.tar.xz\r\n...\r\n```\r\n\r\nNote the missing \"moving resource stage\" message above.",
+    "user": "kljohann",
+    "url": "https://api.github.com/repos/spack/spack/issues/5681",
+    "updated_at": "2017-11-03 18:29:50",
+    "created_at": "2017-10-10 11:54:51",
+    "closed_at": "2017-11-03 18:29:44",
+    "state": "closed",
+    "title": "Fix staging of resources for failed patches",
+    "number": 5681,
+    "milestone": null,
+    "labels": [],
+    "id": 264199759,
+    "html_url": "https://github.com/spack/spack/pull/5681",
+    "assignees": [],
+    "comments": 2
+}

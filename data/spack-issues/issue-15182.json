@@ -1,0 +1,22 @@
+{
+    "body": "After a build failed spack will print out \"Skipping build of ... since ... failed\" but will continue building other packages\r\n\r\nThis occurs with KeyboardInterrupt as well\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install package\r\n(Send interrupt e.g. Ctrl-C)\r\n...\r\n```\r\n\r\n\r\n### Error Message\r\n\r\n```\r\n $ spack install git\r\n==> 29647: Installing libsigsegv\r\n==> Fetching https://ftpmirror.gnu.org/libsigsegv/libsigsegv-2.12.tar.gz\r\n################################################################################# 100.0%\r\n==> Staging archive: /tmp/wortiz/spack-stage/spack-stage-libsigsegv-2.12-yo4g77w4jxsh46lj4pdo3oo6szee7bjk/libsigsegv-2.12.tar.gz\r\n==> Created stage in /tmp/wortiz/spack-stage/spack-stage-libsigsegv-2.12-yo4g77w4jxsh46lj4pdo3oo6szee7bjk\r\n==> No patches needed for libsigsegv\r\n==> 29647: libsigsegv: Building libsigsegv [AutotoolsPackage]\r\n==> 29647: libsigsegv: Executing phase: 'autoreconf'\r\n==> 29647: libsigsegv: Executing phase: 'configure'\r\n==> Error: Exception occurred in writer daemon!\r\n==> Error: Failed to install libsigsegv due to KeyboardInterrupt: \r\nTraceback (most recent call last):\r\n  File \"/home/wortiz/spack/lib/spack/llnl/util/tty/log.py\", line 434, in _writer_daemon\r\n    rlist, _, _ = select.select(istreams, [], [])\r\nKeyboardInterrupt\r\n==> Warning: Skipping build of m4 since libsigsegv failed\r\n==> Warning: Skipping build of git since m4 failed\r\n==> Warning: Skipping build of autoconf since m4 failed\r\n==> Warning: Skipping build of automake since autoconf failed\r\n==> Warning: Skipping build of libtool since m4 failed\r\n==> 29647: Installing pkgconf\r\n==> Fetching http://distfiles.dereferenced.org/pkgconf/pkgconf-1.6.3.tar.xz\r\n################################################################################# 100.0%\r\n==> Staging archive: /tmp/wortiz/spack-stage/spack-stage-pkgconf-1.6.3-wyezssuqshd4wismk2i4s6ppx3lilnqc/pkgconf-1.6.3.tar.xz\r\n==> Created stage in /tmp/wortiz/spack-stage/spack-stage-pkgconf-1.6.3-wyezssuqshd4wismk2i4s6ppx3lilnqc\r\n==> No patches needed for pkgconf\r\n```\r\n\r\n### Information on your system\r\n\r\nUbuntu 18.04\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\n\r\npackages.yaml\r\n```\r\npackages:\r\n  parmetis:\r\n    variants: build_type=Release\r\n  trilinos:\r\n    variants: +teko+superlu-dist+chaco build_type=Release\r\n  superlu-dist:\r\n    variants: build_type=Release\r\n  all:\r\n    compiler: [gcc]\r\n    providers:\r\n      mpi: [mpich, openmpi]\r\n      blas: [openblas, intel-mkl]\r\n      lapack: [openblas, intel-mkl]\r\n```\r\n",
+    "user": "wortiz",
+    "url": "https://api.github.com/repos/spack/spack/issues/15182",
+    "updated_at": "2020-06-23 17:22:42",
+    "created_at": "2020-02-24 15:02:36",
+    "closed_at": "2020-06-23 17:22:42",
+    "state": "closed",
+    "title": "Spack continues installing packages after failure",
+    "number": 15182,
+    "milestone": null,
+    "labels": [
+        "impact-high",
+        "build"
+    ],
+    "id": 569914336,
+    "html_url": "https://github.com/spack/spack/issues/15182",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 6
+}

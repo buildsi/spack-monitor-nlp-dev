@@ -1,0 +1,21 @@
+{
+    "body": "The second test in #11158: \r\n\r\nhttps://github.com/spack/spack/blob/45dfbea3ec015ccc47f6272040898a8810cadf81/lib/spack/spack/test/concretize.py#L537-L542\r\n\r\ndidn't pass without the hack in:\r\n\r\nhttps://github.com/spack/spack/blob/45dfbea3ec015ccc47f6272040898a8810cadf81/lib/spack/spack/concretize.py#L497-L502\r\n\r\nused to split a recursive spec into its components.\r\n\r\n### Steps to reproduce the issue\r\nCheckout #11158, use `split_specs = abstract_specs` in the snippet above and run:\r\n```console\r\n$ spack test -k test_simultaneous_concretization_of_specs\r\n```\r\n\r\n### Additional information\r\nIt seems that recursive constraints, e.g the version of `dyninst` in:\r\n```python\r\ndepends_on('callpath@0.9 ^dyninst@8.1.1')\r\n```\r\nwon't be enforced unless the dependencies are splitted as:\r\n```python\r\ndepends_on('callpath@0.9')\r\ndepends_on('dyninst@8.1.1')\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11160",
+    "updated_at": "2022-03-10 13:10:30",
+    "created_at": "2019-04-10 12:08:45",
+    "closed_at": "2022-03-10 13:10:30",
+    "state": "closed",
+    "title": "Issues with recursive spec syntax in depends_on",
+    "number": 11160,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium",
+        "fixed-by-new-concretizer"
+    ],
+    "id": 431466983,
+    "html_url": "https://github.com/spack/spack/issues/11160",
+    "assignees": [],
+    "comments": 0
+}

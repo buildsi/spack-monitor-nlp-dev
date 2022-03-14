@@ -1,0 +1,21 @@
+{
+    "body": "I'm seeing a strange problem with spack/python reading `packages.yaml`.\r\n\r\nIn packages.yaml, if I use a version with two numeric fields where the\r\nsecond field ends with `0`, then spack fails to parse the version\r\ncorrectly.  For example, `1.20` or `2.100` or `0.180`.\r\n\r\nWith a fresh spack clone fbb127c46a78 from Dec 4, I use this as\r\npackages.yaml.\r\n\r\n```\r\npackages:\r\n  elfutils:\r\n    version: [ 0.180 ]\r\n```\r\n\r\nThen `spack spec` gets the wrong version.\r\n\r\n```\r\n$ spack spec elfutils\r\n\r\nConcretized\r\n--------------------------------\r\nelfutils@0.182%gcc@8.3.1~bzip2~debuginfod+nls~xz arch=linux-rhel8-x86_64\r\n    ...\r\n```\r\n\r\nThis works for 0.177 or 0.173, but not 0.170 or 0.180.\r\nA similar problem happens with amrex version 20.10.\r\n\r\nThe problem only happens in packages.yaml.  If I use elfutils @0.180\r\non the command line, then it works.\r\n\r\nI would call this a \"concretization\" problem, but I think the real\r\nproblem is parsing the file.  I suspect `0.180` is not being parsed as\r\na valid version, and certainly not a 2-element list of 0 and 180.\r\nWithout a valid version, the concretizer picks the default (latest)\r\nversion.\r\n\r\nUnfortunately, `spack -d spec` doesn't show any insight.\r\n\r\nIs it possible that spack or python is reading 0.180 as a floating\r\npoint number, where 0.180 an 0.18 are the same value??\r\n\r\nThis happens on RH 7.x and 8.x.  On RH 8.2, /usr/bin/python is 2.7.17\r\nand python3 is 3.6.8.\r\n\r\n* **Spack:** 0.16.0-167-fbb127c46\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** original\r\n\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/20257",
+    "updated_at": "2020-12-07 19:09:55",
+    "created_at": "2020-12-05 17:34:10",
+    "closed_at": "2020-12-07 18:22:02",
+    "state": "closed",
+    "title": "version in packages.yaml is broken for numbers ending in 0",
+    "number": 20257,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "triage"
+    ],
+    "id": 757744080,
+    "html_url": "https://github.com/spack/spack/issues/20257",
+    "assignees": [],
+    "comments": 2
+}

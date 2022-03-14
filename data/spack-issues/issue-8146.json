@@ -1,0 +1,20 @@
+{
+    "body": "@scheibelp @tgamblin \r\n\r\nI found something that builds with plain Spack, but not Spack Environments.  BUT... only on certain computers (eg SLES 11).  It works just fine on my CentOS 7.  Note that SLES 11 has Python 2.6.9, and the Doxygen build's Python scripts have `/usr/bin/python` hardcoded in their shebang.  Same results whether or not I use `--dirty`.\r\n\r\nNote that the hashes are the same in both cases.  Clearly there are many wrong things going on here:\r\n 1. Python 2.6\r\n 2. Hardcoded shebang paths\r\n\r\nAny ideas?  I don't think we should delay merging Environments over this.  But it is puzzling, and seems to indicate a subtle difference in the environment vars with vs. without Spack env.\r\n\r\nBTW... why does Spack NOT dump the env vars into spack_build.out????\r\n\r\nSpack Env\r\n-----------\r\n\r\n```\r\n~> spack env twoway-dev install\r\n...\r\n     149    ImportError: No module named __future__\r\n     150    'import site' failed; use -v for traceback\r\n     151    Traceback (most recent call last):\r\n     152      File \"/gpfsm/dnb53/rpfische/spack6/var/spack/stage/doxygen-1.8.14\r\n            -vyz4lnjkybc2mivo4pbcnpdkxfovve4c/doxygen-1.8.14/src/configgen.py\",\r\n             line 15, in <module>\r\n     153        import xml.dom.minidom\r\n     154    ImportError: No module named xml.dom.minidom\r\n  >> 155    make[2]: *** [generated_src/resources.cpp] Error 1\r\n```\r\n\r\nSpack Install\r\n-------------\r\n\r\n```\r\n~> spack install doxygen\r\n...\r\n==> Successfully installed doxygen\r\n  Fetch: 0.02s.  Build: 1m 38.44s.  Total: 1m 38.45s.\r\n[+] /gpfsm/dnb53/rpfische/spack6/opt/spack/linux-suse_linux11-x86_64/gcc-5.3.0/doxygen-1.8.14-vyz4lnjkybc2mivo4pbcnpdkxfovve4c\r\nrpfische@discover16:~> \r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/8146",
+    "updated_at": "2018-05-16 02:01:16",
+    "created_at": "2018-05-15 21:21:06",
+    "closed_at": "2018-05-16 02:01:16",
+    "state": "closed",
+    "title": "Weird Build Bug with Spack Environments",
+    "number": 8146,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments"
+    ],
+    "id": 323387831,
+    "html_url": "https://github.com/spack/spack/issues/8146",
+    "assignees": [],
+    "comments": 3
+}

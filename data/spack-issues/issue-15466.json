@@ -1,0 +1,17 @@
+{
+    "body": "* Add version 18-08-9-1\r\n* Add variant to allow setting the sysconfdir\r\n\r\nAbout sysconfdir:\r\n\r\nslurm has a server and a client.\r\nTo use the correct communication channel, the client needs to be able to read the correct config.  This config is in PREFIX/etc.\r\n\r\nLet's assume one has the server part installed as a system package. This generally is a good idea, so that the server gets started during boot. This means, that the config is in `/etc/slurm`.\r\n\r\nIf one now wants to use the client part (library!) via spack, one has a problem: spack's slurm looks in `SPACK-PACKAGE-PREFIX/etc` for the config.\r\n\r\nThere needs to be a way to let the spack installed package use the system's config.\r\n\r\nSo add a variant to override the path during build:\r\n`sysconfdir=/etc/slurm`.\r\n\r\nThis is much like what happened in #15307 for munge.",
+    "user": "ChristianTackeGSI",
+    "url": "https://api.github.com/repos/spack/spack/issues/15466",
+    "updated_at": "2020-04-01 13:07:43",
+    "created_at": "2020-03-12 16:53:16",
+    "closed_at": "2020-04-01 13:07:43",
+    "state": "closed",
+    "title": "slurm: new version, system configuration path",
+    "number": 15466,
+    "milestone": null,
+    "labels": [],
+    "id": 580075456,
+    "html_url": "https://github.com/spack/spack/pull/15466",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,17 @@
+{
+    "body": "I was trying to build a version of cmake that includes cmake-gui. This requires qt, seems older version\nat first attempt, the command \nspack spec cmake +qt %gcc@4.8.2  ^qt@4.8.6 ... return an error:\n## Input spec\n\n  cmake%gcc@4.8.2+qt\n      ^qt@4.8.6\n## Normalized\n\n  cmake%gcc@4.8.2+qt\n      ^qt@4.8.6\n          ^dbus\n              ^expat\n                  ^cmake\n          ^glib\n              ^libffi\n              ^zlib\n          ^jpeg\n          ^libmng\n              ^lcms\n                  ^libtiff\n                      ^xz\n          ^libpng\n          ^libxcb\n              ^python\n                  ^bzip2\n                  ^ncurses\n                  ^openssl\n                  ^readline\n                  ^sqlite\n              ^xcb-proto\n          ^libxml2\n## Concretized\n\n==> Error: +qt does not satisfy ~qt\n\nI think this is because one indirect dependency of qt is expat that in turn is cmake ...\nso my workaround was: \nfirst build cmake without qt, \nthen build expat, then add\n\n  expat:\n    paths:\n      expat@2.1.0%gcc@4.8.2: linux-x86_64/gcc-4.8.2/expat-2.1.0-6gsgcgu3fpo2wmiropvb7kmy7h7d2jnv\n    buildable: false\n\nthen the spec can be concretized as expat is dependencies are not searched\n\nnow the build builds qt but then cmake does not build as qt has his own xz but \ncmake has the default of building his own as well, then when linking, problems arise.\nthis is the reason for adding \"-system-liblzma\" to force cmake to use the same library qt depends on\n\nThe mod should affect cmake just when requiring it's gui\n",
+    "user": "luigi-calori",
+    "url": "https://api.github.com/repos/spack/spack/issues/792",
+    "updated_at": "2016-04-19 02:10:18",
+    "created_at": "2016-04-18 19:23:46",
+    "closed_at": "2016-04-19 02:10:18",
+    "state": "closed",
+    "title": "compile cmake with gui support (+qt)",
+    "number": 792,
+    "milestone": null,
+    "labels": [],
+    "id": 149247374,
+    "html_url": "https://github.com/spack/spack/pull/792",
+    "assignees": [],
+    "comments": 4
+}

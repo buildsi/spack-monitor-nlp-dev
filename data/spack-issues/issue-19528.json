@@ -1,0 +1,23 @@
+{
+    "body": "The current mesa is frozen at `v18.x` because of a change in build system from autotools to meson.  To allow using current mesa and avoid the package file become an unmaintanable \u00fcber dragon, I've renamed the existing `mesa` to `mesa18` and created a new package `class Mesa(MesonPackage)` using the meson build system with the same variants.  We can do this with mesa more easily than with other packages because it's libraries are provided via virtual packages so the result is really just adding another provider for those virtuals.  The exception was `osmesa` which has also been converted into a virtual package here for this reason.\r\n\r\nIdeally it'd be nice to have the infrastructure in spack to allow different implementations for different ranges of versions so we could just keep a single `mesa` package and the concretizer would know to use one implementation for `@:18` and another for `@19:` but AFAICT we don't currently have such a builtin spack capability.  The alternative is to implement both in the same package which I feel is entirely unmaintanable, so I believe this is the next best thing.",
+    "user": "chuckatkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/19528",
+    "updated_at": "2020-10-30 15:16:29",
+    "created_at": "2020-10-26 20:15:50",
+    "closed_at": "2020-10-30 15:16:18",
+    "state": "closed",
+    "title": "mesa: update to current with new build system",
+    "number": 19528,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package",
+        "build-systems"
+    ],
+    "id": 729873582,
+    "html_url": "https://github.com/spack/spack/pull/19528",
+    "assignees": [
+        "chuckatkins"
+    ],
+    "comments": 2
+}

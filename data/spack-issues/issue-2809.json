@@ -1,0 +1,21 @@
+{
+    "body": "As of NetCDF 4.2, the C and Fortran libraries have been split into two different tarballs. Since the versions don't line up, we decided to split them into 2 packages, `netcdf` and `netcdf-fortran`. However, some build systems still expect them to be installed in the same directory. I'm currently packaging ESMF (the Earth System Modeling Framework), and their [user guide](http://www.earthsystemmodeling.org/esmf_releases/last_built/ESMF_usrdoc/node9.html) has this to say:\r\n\r\n> To compile ESMF with NetCDF 4.2 and newer releases, it is required to have the NetCDF C library, and the NetCDF Fortran API library installed in the same directory.\r\n\r\nThis is easy to solve in the NetCDF-Fortran package. We would simply change:\r\n```python\r\nconfigure('--prefix={0}'.format(prefix))\r\n```\r\nto\r\n```python\r\nconfigure('--prefix={0}'.format(spec['netcdf'].prefix))\r\n```\r\nHow do others feel about this? @citibeth?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2809",
+    "updated_at": "2019-12-09 13:00:16",
+    "created_at": "2017-01-11 17:38:33",
+    "closed_at": "2019-12-09 13:00:15",
+    "state": "closed",
+    "title": "ESMF wants NetCDF and NetCDF-Fortran in the Same Directory",
+    "number": 2809,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 200158874,
+    "html_url": "https://github.com/spack/spack/issues/2809",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 18
+}

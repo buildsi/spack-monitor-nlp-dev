@@ -1,0 +1,21 @@
+{
+    "body": "This is based on and depends on #7774.  Merge it after.\r\n\r\nThis removes all imports from `__init__.py`, allowing the Spack core to be more modular.\r\n\r\nSpack packages were originally expected to call `from spack import *` themselves, but it has become difficult to manage imports in the core.\r\n\r\n- The top-level namespace polluted by package symbols, and it's not possible to avoid circular dependencies and unnecessary module loads in the core, given all the stuff the packages need.\r\n\r\n- This makes the top-level `spack` package essentially empty, save for a version tuple and a version string, and `from spack import *` is now essentially a no-op.  That means when you import `spack.repo`, you _aren't_ importing a bunch of other things from `spack` that you don't need.\r\n\r\n- The imports formerly in `spack` are now in `spack.pkgkit`, and the import system (in `spack.repo`) forces packages to automatically include this so that old packages that call `from spack import *` will continue to work without modification.\r\n\r\nThis basically means that packages *do not* need to write `from spack import *` at the top anymore.  It's a no-op.  We could consider removing ``from spack import *`` from packages in the future and shifting to ``from spack.pkgkit import *``, but we can wait a while to do this.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/8090",
+    "updated_at": "2018-05-22 15:49:44",
+    "created_at": "2018-05-10 21:29:40",
+    "closed_at": "2018-05-18 23:06:23",
+    "state": "closed",
+    "title": "Remove all imports from __init__.py",
+    "number": 8090,
+    "milestone": null,
+    "labels": [
+        "refactoring",
+        "performance",
+        "initialization"
+    ],
+    "id": 322091938,
+    "html_url": "https://github.com/spack/spack/pull/8090",
+    "assignees": [],
+    "comments": 28
+}

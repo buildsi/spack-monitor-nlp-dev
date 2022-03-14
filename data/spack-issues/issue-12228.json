@@ -1,0 +1,24 @@
+{
+    "body": "If an environment is loaded, `--config-scope` is silently ignored.\r\n\r\nIf config scopes are intended to be incompatible with environments, an error should be raised when attempting to pass `--config-scope` to spack if an environment is activated.\r\n\r\n### Details\r\n\r\nIn `lib/spack/spack/main.py`, `spack.config.command_line_scopes` is set equal to any config scopes passed by the `--config-scope` option.  However, this is done **after** activated environments are looked for.  In the process of looking for an activated environment, the `spack.config.config` singleton is instantiated, so later setting of `spack.config.command_line_scopes` has no effect and are, thus, ignored.\r\n\r\n### Motivation\r\n\r\nI have several environments that all depend on the same dozen or so external packages.  I don't want to duplicate the `packages` specification in every environment.  The external packages are shared by a group of developers, so it is more convenient for each to set the config scope to the shared directory containing `packages.yaml` than each duplicated the file in their `~/.spack`.\r\n\r\nThis is another use case where having `~/.spack` relocatable (#11919) would be convenient.  Sure, `--config-scope` could work (though it is broken as of now), but setting an environment variable to point to the user's config directory would be more convenient.\r\n\r\n### Quick fix\r\n\r\nMove the setting of command line scopes **before** looking for activated environments:\r\n\r\n```\r\ndiff --git a/lib/spack/spack/main.py b/lib/spack/spack/main.py\r\nindex 05c1706..b4ca7df 100644\r\n--- a/lib/spack/spack/main.py\r\n+++ b/lib/spack/spack/main.py\r\n@@ -628,16 +628,16 @@ def main(argv=None):\r\n     parser.add_argument('command', nargs=argparse.REMAINDER)\r\n     args, unknown = parser.parse_known_args(argv)\r\n\r\n+    # make spack.config aware of any command line configuration scopes\r\n+    if args.config_scopes:\r\n+        spack.config.command_line_scopes = args.config_scopes\r\n+\r\n     # activate an environment if one was specified on the command line\r\n     if not args.no_env:\r\n         env = ev.find_environment(args)\r\n         if env:\r\n             ev.activate(env, args.use_env_repo)\r\n\r\n-    # make spack.config aware of any command line configuration scopes\r\n-    if args.config_scopes:\r\n-        spack.config.command_line_scopes = args.config_scopes\r\n-\r\n     if args.print_shell_vars:\r\n         print_setup_info(*args.print_shell_vars.split(','))\r\n         return 0\r\n```\r\n",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/12228",
+    "updated_at": "2020-07-20 20:58:07",
+    "created_at": "2019-08-01 18:40:14",
+    "closed_at": "2020-07-20 20:58:07",
+    "state": "closed",
+    "title": "--config-scope incompatible with environments",
+    "number": 12228,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "impact-medium",
+        "environments"
+    ],
+    "id": 475831299,
+    "html_url": "https://github.com/spack/spack/issues/12228",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

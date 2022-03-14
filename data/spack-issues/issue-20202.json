@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install wrf@4.2%gcc@9.3.0+pnetcdf build_type=dmpar compile_type=em_real nesting=basic arch=linux-ubuntu20.04-skylake\r\n...\r\n==> Error: TypeError: int() can't convert non-string with explicit base\r\n\r\n/home/joe/apps/spack/var/spack/repos/builtin/packages/wrf/package.py:292, in run_compile_script:\r\n        289        csh = Executable(csh_bin)\r\n        290\r\n        291        # num of compile jobs capped at 20 in wrf\r\n  >>    292        num_jobs = str(min(int(make_jobs, 10)))\r\n        293\r\n        294        # Now run the compile script and track the output to check for\r\n        295        # failure/success We need to do this because upstream use `make -i -k`\r\n```\r\nAfter correcting this python syntax issue (diff shown in Additional Information), the wrf package still fails to install\r\n```console\r\n$ spack install wrf@4.2%gcc@9.3.0+pnetcdf build_type=dmpar compile_type=em_real nesting=basic arch=linux-ubuntu20.04-skylake\r\n==> Error: TypeError: argument of type 'NoneType' is not iterable\r\n\r\n/home/joe/apps/spack/var/spack/repos/builtin/packages/wrf/package.py:305, in run_compile_script:\r\n        302            self.spec.variants[\"compile_type\"].value,\r\n        303        )\r\n        304\r\n  >>    305        if \"Executables successfully built\" in result_buf:\r\n        306            return True\r\n        307\r\n        308        return False\r\n\r\nSee build log for details:\r\n  /tmp/joe/spack-stage/spack-stage-wrf-4.2-edueaikvls3ifjmws62swxjiquv7edv2/spack-build-out.txt\r\n```\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.0-121-32e23f532\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-skylake\r\n* **Concretizer:** original\r\n```\r\n\r\n\r\n### Additional information\r\nThe error is a python syntax error in the WRF package file. Locally patching this syntax error (diff below) gets passed this issue.\r\n```\r\n$ git diff\r\ndiff --git a/var/spack/repos/builtin/packages/wrf/package.py b/var/spack/repos/builtin/packages/wrf/package.py\r\nindex b0a9fd450..4b8794bb0 100644\r\n--- a/var/spack/repos/builtin/packages/wrf/package.py\r\n+++ b/var/spack/repos/builtin/packages/wrf/package.py\r\n@@ -289,7 +289,7 @@ def run_compile_script(self):\r\n         csh = Executable(csh_bin)\r\n \r\n         # num of compile jobs capped at 20 in wrf\r\n-        num_jobs = str(min(int(make_jobs, 10)))\r\n+        num_jobs = str(min(int(make_jobs), 10))\r\n \r\n         # Now run the compile script and track the output to check for\r\n         # failure/success We need to do this because upstream use `make -i -k`\r\n```\r\n\r\n@MichaelLaufer  @ptooley\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "fluidnumerics-joe",
+    "url": "https://api.github.com/repos/spack/spack/issues/20202",
+    "updated_at": "2020-12-02 14:57:17",
+    "created_at": "2020-12-01 19:46:44",
+    "closed_at": "2020-12-02 02:17:22",
+    "state": "closed",
+    "title": "Installation issue: wrf",
+    "number": 20202,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 754674168,
+    "html_url": "https://github.com/spack/spack/issues/20202",
+    "assignees": [],
+    "comments": 5
+}

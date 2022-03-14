@@ -1,0 +1,22 @@
+{
+    "body": "This is a weird one. I have a `packages.yaml` containing:\r\n```yaml\r\npackages:\r\n  all:\r\n    # Set Intel as default compiler\r\n    compiler: [intel, gcc, pgi, nag]\r\n  cmake:\r\n    paths:\r\n      cmake@2.8.12.2: /usr\r\n```\r\nWhen I run:\r\n```\r\n$ spack spec cmake %gcc\r\nInput spec\r\n--------------------------------\r\ncmake%gcc\r\n\r\nNormalized\r\n--------------------------------\r\ncmake%gcc\r\n\r\nConcretized\r\n--------------------------------\r\ncmake@2.8.12.2%intel@17.0.4 cflags=\"-axCOMMON-AVX512,MIC-AVX512,CORE-AVX512,CORE-AVX2,AVX\" cxxflags=\"-axCOMMON-AVX512,MIC-AVX512,CORE-AVX512,CORE-AVX2,AVX\" fflags=\"-axCOMMON-AVX512,MIC-AVX512,CORE-AVX512,CORE-AVX2,AVX\" ~doc+ncurses+openssl+ownlibs~qt arch=linux-centos7-x86_64\r\n```\r\nIt chooses a different compiler and version than I requested. If I comment out the external package, it works as I would expect:\r\n```\r\n$ spack spec cmake %gcc\r\nInput spec\r\n--------------------------------\r\ncmake%gcc\r\n\r\nNormalized\r\n--------------------------------\r\ncmake%gcc\r\n\r\nConcretized\r\n--------------------------------\r\ncmake@3.8.1%gcc@7.1.0~doc+ncurses+openssl+ownlibs~qt arch=linux-centos7-x86_64 \r\n    ^ncurses@6.0%gcc@7.1.0~symlinks arch=linux-centos7-x86_64 \r\n        ^pkg-config@0.27.1%gcc@7.1.0+internal_glib arch=linux-centos7-x86_64 \r\n    ^openssl@1.0.1e%gcc@7.1.0 arch=linux-centos7-x86_64 \r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4635",
+    "updated_at": "2020-11-17 18:04:15",
+    "created_at": "2017-06-28 21:28:56",
+    "closed_at": "2020-11-17 18:04:15",
+    "state": "closed",
+    "title": "External packages affect concretization",
+    "number": 4635,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "external-packages"
+    ],
+    "id": 239303302,
+    "html_url": "https://github.com/spack/spack/issues/4635",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

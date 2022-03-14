@@ -1,0 +1,19 @@
+{
+    "body": "TL;DR: there are matching groups trying to match 1 or more occurrences of\r\nsomething. We don't use the matching group. Therefore it's sufficient to test\r\nfor 1 occurrence. This reduce quadratic complexity to linear time.\r\n\r\n---\r\n\r\nWhen parsing logs of an mpich build, I'm getting a 4 minute (!!) wait\r\nwith 16 threads for regexes to run:\r\n\r\n```\r\nIn [1]: %time p.parse(\"mpich.log\")\r\nWall time: 4min 14s\r\n```\r\n\r\nThat's really unacceptably slow... \r\n\r\nAfter some digging, it seems a few regexes tend to have `O(n^2)` scaling\r\nwhere `n` is the string / log line length. I don't think they *necessarily*\r\nshould scale like that, but it seems that way. The common pattern is this\r\n\r\n```\r\n([^:]+): error\r\n```\r\n\r\nwhich matches `: error` literally, and then one or more non-colons before that. So\r\nfor a log line like this:\r\n\r\n```\r\nabcdefghijklmnopqrstuvwxyz: error etc etc\r\n```\r\n\r\nAny of these are potential group matches when using `search` in Python:\r\n\r\n```\r\nabcdefghijklmnopqrstuvwxyz\r\n bcdefghijklmnopqrstuvwxyz\r\n  cdefghijklmnopqrstuvwxyz\r\n                         \u22ee\r\n                        yz\r\n                         z\r\n```\r\n\r\nbut clearly the capture group should return the longest match.\r\n\r\nMy hypothesis is that Python has a very bad implementation of `search`\r\nthat somehow considers all of these, even though it can be implemented\r\nin linear time by scanning for `: error` first, and then greedily expanding\r\nthe longest possible `[^:]+` match to the left. If Python indeed considers\r\nall possible matches, then with `n` matches of length `1 .. n` you\r\nsee the `O(n^2)` slowness (i verified this by replacing + with {1,k}\r\nand doubling `k`, it doubles the execution time indeed).\r\n\r\nThis PR fixes this by removing the `+`, so effectively changing the \r\nO(n^2) into a O(n) worst case.\r\n\r\nThe reason we are fine with dropping `+` is that we don't use the\r\ncapture group anywhere, so, we just ensure `:: error` is not a match\r\nbut `x: error` is.\r\n\r\nAfter going from O(n^2) to O(n), the 15MB mpich build log is parsed\r\nin `1.288s`, so about 200x faster.\r\n\r\nJust to be sure I've also updated `^CMake Error.*:` to `^CMake Error`,\r\nso that it does not match with all the possible `:`'s in the line.\r\nAnother option is to use `.*?` there to make it quit scanning as soon as\r\npossible, but what line that starts with `CMake Error` that does not have\r\na colon is really a false positive...\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26568",
+    "updated_at": "2021-10-12 07:38:13",
+    "created_at": "2021-10-07 00:37:06",
+    "closed_at": "2021-10-12 07:05:12",
+    "state": "closed",
+    "title": "Avoid quadratic complexity in log parser",
+    "number": 26568,
+    "milestone": null,
+    "labels": [
+        "vendored-dependencies"
+    ],
+    "id": 1019490363,
+    "html_url": "https://github.com/spack/spack/pull/26568",
+    "assignees": [],
+    "comments": 9
+}

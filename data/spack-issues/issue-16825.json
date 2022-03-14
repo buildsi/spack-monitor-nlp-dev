@@ -1,0 +1,19 @@
+{
+    "body": "#14608 # Steps to reproduce the issue\r\n\r\nI got the issue while trying to install hpctoolkit\r\n```console\r\n$ spack install hpctoolkit all-static=True mpi=True ^intel-mpi@2019.5.281 ^intel-tbb@2019.5`\r\n```\r\nA minimal example:\r\n```console\r\n$ spack install intel-tbb@2019.5`\r\n```\r\nError:\r\n```\r\n==> Error: ChecksumError: sha256 checksum failed for /tmp/ubuntu/spack-stage/spack-stage-intel-tbb-2019.5-jf44x6rzrwqk2asrjgpm53dbe44bokjs/2019_U5.tar.gz\r\n    Expected 2ea82d74dec50e18075b4982b8d360f8bd2bf2950f38e2db483aef82e0047444 but got abf9236e6ec9a3675fa59ab56c2192c7ab4f7096a82af118e8efa514b2541578\r\n\r\n/shared/spack/lib/spack/spack/package.py:1114, in do_fetch:\r\n       1111        self.stage.fetch(mirror_only)\r\n       1112        self._fetch_time = time.time() - start_time\r\n       1113\r\n  >>   1114        if checksum and self.version in self.versions:\r\n       1115            self.stage.check()\r\n       1116\r\n       1117        self.stage.cache_local()\r\n```\r\nI have found this related thread, https://github.com/oneapi-src/oneTBB/issues/30, but I was not sure it s appropriate to reopen it. I also saw a patch in the develop branch for intel-tbb@2020/. Thanks in advance.\r\n",
+    "user": "tamaradanceva",
+    "url": "https://api.github.com/repos/spack/spack/issues/16825",
+    "updated_at": "2020-05-28 10:18:45",
+    "created_at": "2020-05-27 14:54:35",
+    "closed_at": "2020-05-28 10:18:44",
+    "state": "closed",
+    "title": "Installation issue: intel-tbb",
+    "number": 16825,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 625768792,
+    "html_url": "https://github.com/spack/spack/issues/16825",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,17 @@
+{
+    "body": "`spack install biobloom%fj` failed with errors such as\r\n```console\r\n> 101    /fefs/home/n0026/work/spack/lib/spack/env/fj/case-insensitive/FCC -\r\n            Wall -Wextra -Werror  -fopenmp -w -fopenmp  -o biobloommimaker biob\r\n            loommimaker-BioBloomMIMaker.o biobloommimaker-Options.o ../Common/l\r\n            ibcommon.a -lz -lsdsl -ldl\r\n     102    /opt/arm/gcc-8.2.0_Generic-AArch64_RHEL-7_aarch64-linux/lib/gcc/aar\r\n            ch64-linux-gnu/8.2.0/../../../../aarch64-linux-gnu/bin/ld: biobloom\r\n            mimaker-BioBloomMIMaker.o: in function `bool sdsl::store_to_file<sd\r\n            sl::bit_vector_il<512u> >(sdsl::bit_vector_il<512u> const&, std::__\r\n            cxx11::basic_string<char, std::char_traits<char>, std::allocator<ch\r\n            ar> > const&)` \r\n     103    /fefs/home/n0026/work/spack/opt/spack/linux-rhel8-thunderx2/fj-4.1.\r\n            0/sdsl-lite-2.1.1-wbul254d5iaeyd6xykzzi3jb5akqrsbd/include/sdsl/io.\r\n            hpp:660: undefined reference to `sdsl::osfstream::osfstream(std::__\r\n            cxx11::basic_string<char, std::char_traits<char>, std::allocator<ch\r\n            ar> > const&, std::_Ios_Openmode)`\r\n```\r\nMismatch of stdlib is the reason of these errors. So I patched `-stdlib=libc++` to `-stdlib=stdlibc++` in CMakeLists.txt of sdsl-lite.\r\n```console\r\n> if( CMAKE_COMPILER_IS_GNUCXX )\r\n    append_cxx_compiler_flags(\"-std=c++11 -Wall -Wextra -DNDEBUG\" \"GCC\" CMAKE_CXX_FLAGS)\r\n    append_cxx_compiler_flags(\"-O3 -ffast-math -funroll-loops\" \"GCC\" CMAKE_CXX_OPT_FLAGS)\r\n    if ( CODE_COVERAGE )\r\n        append_cxx_compiler_flags(\"-g -fprofile-arcs -ftest-coverage -lgcov\" \"GCC\" CMAKE_CXX_FLAGS)\r\n    endif()\r\nelse()\r\n    if( CMAKE_COMPILER_IS_CLANGXX )\r\n\t\tappend_cxx_compiler_flags(\"-std=c++11 -DNDEBUG\" \"CLANG\" CMAKE_CXX_FLAGS)\r\n\t\tappend_cxx_compiler_flags(\"-stdlib=libc++\" \"CLANG\" CMAKE_CXX_FLAGS)\r\n\t\tappend_cxx_compiler_flags(\"-O3 -ffast-math -funroll-loops -D__extern_always_inline=\\\"extern __always_inline\\\" \" \"CLANG\" CMAKE_CXX_OPT_FLAGS)\r\n\telse()\r\n```",
+    "user": "ketsubouchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/17327",
+    "updated_at": "2020-07-02 06:11:57",
+    "created_at": "2020-07-01 08:57:20",
+    "closed_at": "2020-07-02 06:11:57",
+    "state": "closed",
+    "title": "Use libstdc++ to fix build error of biobloom",
+    "number": 17327,
+    "milestone": null,
+    "labels": [],
+    "id": 648801258,
+    "html_url": "https://github.com/spack/spack/pull/17327",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,22 @@
+{
+    "body": " Cori hangs whenver setup-env.sh is sourced inside of my bashrc. \r\nThe command `. $SPACK_ROOT/share/spack/setup-env.sh` happens to work fine whenever I manually input them. \r\n\r\nHere's the output when I source bashrc.ext with set -x placed in the setup-env.sh file.\r\n\r\n```\r\n_sp_share_dir=$(cd \"$(dirname $_sp_source_file)\" && pwd)\r\ncd \"$(dirname $_sp_source_file)\" && pwd)\r\ncd \"$(dirname $_sp_source_file)\" && pwd\r\ndirname $_sp_source_file)\"\r\ndirname $_sp_source_file)\r\ndirname $_sp_source_file\r\n_sp_prefix=$(cd \"$(dirname $(dirname $_sp_share_dir))\" && pwd)\r\ncd \"$(dirname $(dirname $_sp_share_dir))\" && pwd)\r\ncd \"$(dirname $(dirname $_sp_share_dir))\" && pwd\r\ndirname $(dirname $_sp_share_dir))\"\r\ndirname $(dirname $_sp_share_dir))\r\ndirname $(dirname $_sp_share_dir)\r\ndirname $_sp_share_dir)\r\ndirname $_sp_share_dir\r\n_spack_pathadd PATH       \"${_sp_prefix%/}/bin\"\r\n_pa_oldvalue=${PATH:-}\r\n_sp_sys_type=$(spack-python -c 'print(spack.architecture.sys_type())')\r\nspack-python -c 'print(spack.architecture.sys_type())')\r\nspack-python -c 'print(spack.architecture.sys_type())'\r\n```\r\nAfter that it hangs.\r\n\r\nWhenever I try to run any spack command, it hangs and I Ctrl-C out of it. Here's the stack trace:\r\n```\r\nTraceback (most recent call last):\r\n  File \"/global/homes/m/mamelara/myspack/bin/spack\", line 99, in <module>\r\n    import spack\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/__init__.py\", line 74, in <module>\r\n    import spack.repository\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/repository.py\", line 45, in <module>\r\n    import spack.spec\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/spec.py\", line 114, in <module>\r\n    import spack.store\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/store.py\", line 47, in <module>\r\n    import spack.config\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/config.py\", line 208, in <module>\r\n    _platform = spack.architecture.platform().name\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/llnl/util/lang.py\", line 187, in __call__\r\n    self.cache[args] = self.func(*args)\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/architecture.py\", line 530, in platform\r\n    return platform_cls()\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/platforms/cray.py\", line 54, in __init__\r\n    _target = self._default_target_from_env()\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/platforms/cray.py\", line 109, in _default_target_from_env\r\n    output=str, error=str)\r\n  File \"/global/u2/m/mamelara/myspack/lib/spack/spack/util/executable.py\", line 171, in __call__\r\n    out, err = proc.communicate()\r\n  File \"/global/common/cori/software/python/2.7-anaconda/lib/python2.7/subprocess.py\", line 800, in communicate\r\n    return self._communicate(input)\r\n  File \"/global/common/cori/software/python/2.7-anaconda/lib/python2.7/subprocess.py\", line 1417, in _communicate\r\n    stdout, stderr = self._communicate_with_poll(input)\r\n  File \"/global/common/cori/software/python/2.7-anaconda/lib/python2.7/subprocess.py\", line 1471, in _communicate_with_poll\r\n    ready = poller.poll()\r\nKeyboardInterrupt\r\n```\r\nOut of ideas on what it could be. It looks like _default_target_from_env is not responding but it works when I don't have spack's shell support activated! Thanks for the help!\r\n",
+    "user": "mamelara",
+    "url": "https://api.github.com/repos/spack/spack/issues/2388",
+    "updated_at": "2020-08-25 10:04:11",
+    "created_at": "2016-11-22 22:08:17",
+    "closed_at": "2020-08-25 10:04:11",
+    "state": "closed",
+    "title": "Cori /Theta hangs with setup-env.sh sourced in bashrc",
+    "number": 2388,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "platform-support",
+        "shell-support"
+    ],
+    "id": 191137692,
+    "html_url": "https://github.com/spack/spack/issues/2388",
+    "assignees": [],
+    "comments": 3
+}

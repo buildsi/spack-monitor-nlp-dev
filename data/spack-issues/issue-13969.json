@@ -1,0 +1,28 @@
+{
+    "body": "While trying to build *standard C++ sources (no device code)* with Spack's own `g++` wrapper from within a package's `build-env` that depends on `cuda`, C++ standard headers (e.g.: `vector`) vendored by the `cuda` SDK are found by `g++` before its own `libstdc++`, breaking any trivial compilation that involves C++ standard headers. \r\n\r\n### Steps to reproduce the issue\r\n\r\nAny package depending on `cuda` fits the purpose, I've been able to reproduce the issue with a bogus `package.py` like this:\r\n\r\n```python\r\nfrom spack import *\r\n\r\nclass Nvtest(Package):\r\n    version('0')\r\n    depends_on('cuda')\r\n```\r\n\r\nThe `test.cpp` source I'm trying to compile uses just one standard header and is as simple as possible:\r\n\r\n```cpp\r\n#include <vector>\r\n\r\nint main() {\r\n    std::vector<int> v;\r\n}\r\n```\r\n\r\nActual steps:\r\n\r\n```console\r\n$ spack install gcc@8.3.0\r\n$ spack compiler add $(spack location -i gcc@8.3.0)\r\n$ spack install cuda%gcc@8.3.0\r\n$ spack build-env nvtest%gcc@8.3.0 -- g++ test.cpp\r\nIn file included from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/stdlib.h:93,\r\n                 from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/cstdlib:86,\r\n                 from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/exception:81,\r\n                 from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/typeinfo:60,\r\n                 from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/memory:653,\r\n                 from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/algorithm:643,\r\n                 from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/__bit_reference:15,\r\n                 from /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4e\r\no6j6y/include/cuda/std/detail/libcxx/include/vector:274,\r\n                 from main.cpp:1:\r\n/spack/opt/spack/linux-centos7-power8le/gcc-4.8.5/gcc-8.3.0-kvs4zwy3ojuvmc43h4yf364ie2zy5gtk/include/c++/8.3.0/s\r\ntdlib.h:38:12: error: 'std::abort' has not been declared\r\n using std::abort;\r\n# lots of similar errors omitted\r\n```\r\n\r\nThe same behaviour is observed for both `gcc@9.2.0` (**not supported** by `cuda@10.2.89`) and system-shipped `gcc@4.8.5` (**supported** by `cuda@10.2.89`).\r\n\r\nI think that the issue stems from this:\r\n\r\n```console\r\n$ spack build-env nvtest%gcc@8.3.0 | grep SPACK_INCLUDE_DIRS\r\nSPACK_INCLUDE_DIRS=/spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4eo6j6y/include:/spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4eo6j6y/include/cuda/std/detail/libcxx/include\r\n```\r\n\r\nThe frontend confirms the inclusion search order:\r\n\r\n```console\r\n$ spack build-env nvtest%gcc@8.3.0 -- g++ -E -v -\r\nReading specs from /spack/opt/spack/linux-centos7-power8le/gcc-4.8.5/gcc-8.3.0-kvs4zwy3ojuvmc43h4yf364ie2zy5gtk/lib/gcc/powerpc64le-unknown-linux-gnu/8.3.0/specs\r\n#include \"...\" search starts here:\r\n#include <...> search starts here:\r\n /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4eo6j6y/include\r\n /spack/opt/spack/linux-centos7-power8le/gcc-8.3.0/cuda-10.2.89-zamew7asat3psayj22opj5xnm4eo6j6y/include/cuda/std/detail/libcxx/include\r\n /spack/opt/spack/linux-centos7-power8le/gcc-4.8.5/gcc-8.3.0-kvs4zwy3ojuvmc43h4yf364ie2zy5gtk/lib/gcc/powerpc64le-unknown-linux-gnu/8.3.0/include\r\n /usr/local/include\r\n /spack/opt/spack/linux-centos7-power8le/gcc-4.8.5/gcc-8.3.0-kvs4zwy3ojuvmc43h4yf364ie2zy5gtk/include\r\n /spack/opt/spack/linux-centos7-power8le/gcc-4.8.5/gcc-8.3.0-kvs4zwy3ojuvmc43h4yf364ie2zy5gtk/lib/gcc/powerpc64le-unknown-linux-gnu/8.3.0/include-fixed\r\n /usr/include\r\nEnd of search list.\r\n```\r\n\r\nWhile `<cuda>/include` provides SDK's own headers, `<cuda>/include/cuda/std/detail/libcxx/include` pulls in standard headers provided by a vendored implementation of the C++ standard library. The fact that a path component is called `/detail/` makes me think that it should be treated as an implementation detail (as is usually done in C++ code bases) and not explicitly injected in the inclusion search space.",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/13969",
+    "updated_at": "2019-12-07 07:47:04",
+    "created_at": "2019-12-03 18:59:38",
+    "closed_at": "2019-12-07 07:47:04",
+    "state": "closed",
+    "title": "cuda: g++ finds C++ std headers shipped by cuda sdk instead of its own libstdc++",
+    "number": 13969,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs",
+        "build-environment",
+        "defaults",
+        "cuda",
+        "headers"
+    ],
+    "id": 532195989,
+    "html_url": "https://github.com/spack/spack/issues/13969",
+    "assignees": [
+        "ax3l",
+        "scheibelp",
+        "adamjstewart"
+    ],
+    "comments": 7
+}

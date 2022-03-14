@@ -1,0 +1,22 @@
+{
+    "body": "This pr handles install prefix collisions slightly better, and makes it such that the database can be used better as the 'source of truth' for what packages are installed.\r\n\r\nWith this PR if you install 2 packages `zlib~shared` and `zlib+shared` with projections that map these packages to the same directory, you get this:\r\n\r\n```\r\n$ spack -c \"config:install_tree:root:$PWD\" -c 'config:install_tree:projections:all:${PACKAGE}' install zlib~shared\r\n...\r\n==> zlib: Successfully installed zlib-1.2.11-k5l7ccyobzhdyxt3wpzzxgyy5va636sq\r\n  Fetch: 0.16s.  Build: 0.58s.  Total: 0.74s.\r\n[+] /tmp/tmp.EvXHRNxOxj/zlib\r\n\r\n$ spack -c \"config:install_tree:root:$PWD\" -c 'config:install_tree:projections:all:${PACKAGE}' install zlib+shared\r\n==> Error: <not overwriting install prefix from different spec>\r\n```\r\n\r\nPreviously spack would delete the prefix directory of `zlib~shared` without warning, and you would end up with a missing install and a corrupted database where two zlib's would share the same install prefix.\r\n\r\nThis PR still handles partial installs (running spack install --keep-prefix xyz multiple times for a failing build where the build touches the install dir and you want to keep all that), since in that case the spec is not marked installed in the db, nor is the prefix path listed as available.\r\n\r\nFinally it supersedes https://github.com/spack/spack/pull/24005, since with the install prefix collision check, we can discriminate between \"the directory looks like a spack install of some package\" and \"the directory belongs to an installed spec\".\r\n\r\nEdit: would be nice to get some feedback to see if this is going in the right direction before adding better error handling and tests.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/24049",
+    "updated_at": "2021-06-30 08:16:25",
+    "created_at": "2021-05-31 23:07:10",
+    "closed_at": "2021-06-29 21:44:56",
+    "state": "closed",
+    "title": "Ensure uniqueness of install prefixes in the database",
+    "number": 24049,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "update-package"
+    ],
+    "id": 907750048,
+    "html_url": "https://github.com/spack/spack/pull/24049",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

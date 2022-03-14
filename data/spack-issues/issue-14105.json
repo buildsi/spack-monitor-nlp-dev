@@ -1,0 +1,21 @@
+{
+    "body": "---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\n spack install py-tensorflow cuda_arch=61  ^/ppi2muw  ^cuda@10.1.243 ^python@3.7.4 %gcc@7.4.0 &> error_log\r\n```\r\n\r\nThe custom hash is for a build of `bazel` using `jdk` instead of `openjdk` due to https://github.com/spack/spack/issues/14058\r\n\r\n### Error logs : \r\n[error_log](https://pastebin.com/n6qfsrVr)\r\n\r\nBazel finds some issue with the `gettext` installation. \r\n```\r\n[sajid@xrmlite ~]$ cat error_log | grep -a3b3 ERROR\r\n80532-INFO: Deleting stale sandbox base /tmp/spack/tf/ba2957b26f360b54b039cbd58767fa4e/sandbox\r\n80621-[6 / 38] [Prepa] BazelWorkspaceStatusAction stable-status.txt\r\n80683-[48 / 1,263] [Prepa] Executing genrule @local_config_nccl//:nccl-files [for host] ... (6 actions, 5 running)\r\n80792:ERROR: /tmp/spack/tf/ba2957b26f360b54b039cbd58767fa4e/external/double_conversion/BUILD.bazel:12:1: undeclared inclusion(s) in rule '@double_conversion//:double-conversion':\r\n80965-this rule is missing dependency declarations for the following files included by 'external/double_conversion/double-conversion/double-conversion.cc':\r\n81115-  '/home/sajid/packages/spack/opt/spack/linux-centos8-broadwell/gcc-7.4.0/gettext-0.20.1-yjkttko6qwne6igwp2cabop2d4p2g3ff/include/libintl.h'\r\n81256-[75 / 1,297] Executing genrule @local_config_cuda//cuda:cuda-lib [for host]; 2s local ... (14 actions, 2 running)\r\n[sajid@xrmlite ~]$\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```\r\n$ uname -a \r\nLinux xrmlite 4.18.0-80.el8.x86_64 #1 SMP Tue Jun 4 09:19:46 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 8.0.1905 (Core)\r\n``` \r\n\r\n \r\n",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/14105",
+    "updated_at": "2020-01-31 18:05:25",
+    "created_at": "2019-12-11 04:34:58",
+    "closed_at": "2020-01-31 18:05:24",
+    "state": "closed",
+    "title": "Installation issue: py-tensorflow",
+    "number": 14105,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 536137334,
+    "html_url": "https://github.com/spack/spack/issues/14105",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 3
+}

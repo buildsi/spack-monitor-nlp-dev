@@ -1,0 +1,21 @@
+{
+    "body": "Possibly naive attempt to fix #12519. \r\n\r\nBehaviour prior to 568e5fa is as in #12519; behaviour following 568e5fa is that `ldd` correctly resolves paths following a `spack setup` build workflow:\r\n\r\n```(console)\r\n\tlibc++.so.1 => /spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/llvm-8.0.0-vcde4opt4xfhe5qcrktcagi6r7uhskgf/lib/libc++.so.1 (0x00007fa2c7053000)\r\n\tlibc++abi.so.1 => /spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/llvm-8.0.0-vcde4opt4xfhe5qcrktcagi6r7uhskgf/lib/libc++abi.so.1 (0x00007fa2c6687000)\r\n```\r\n\r\nwhere the resolved libraries point to paths specified as `extra_rpaths` in `compilers.yaml`:\r\n\r\n```(yaml)\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths:\r\n    - /spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/llvm-8.0.0-vcde4opt4xfhe5qcrktcagi6r7uhskgf/lib\r\n    flags: {}\r\n    modules:\r\n    - llvm-8.0.0-gcc-5.4.0-vcde4op\r\n    operating_system: ubuntu16.04\r\n    paths:\r\n      cc: /spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/llvm-8.0.0-vcde4opt4xfhe5qcrktcagi6r7uhskgf/bin/clang\r\n      cxx: /spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/llvm-8.0.0-vcde4opt4xfhe5qcrktcagi6r7uhskgf/bin/clang++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    spec: clang@8.0.0\r\n    target: x86_64\r\n```",
+    "user": "cdfh",
+    "url": "https://api.github.com/repos/spack/spack/issues/13542",
+    "updated_at": "2020-07-28 01:48:55",
+    "created_at": "2019-11-01 19:37:49",
+    "closed_at": "2020-07-28 01:48:55",
+    "state": "closed",
+    "title": "bugfix: include compiler.extra_rpaths when computing a package's rpaths (#12519)",
+    "number": 13542,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "specs",
+        "rpath"
+    ],
+    "id": 516308896,
+    "html_url": "https://github.com/spack/spack/pull/13542",
+    "assignees": [],
+    "comments": 1
+}

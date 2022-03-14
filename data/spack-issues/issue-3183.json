@@ -1,0 +1,23 @@
+{
+    "body": "### TLDR\r\n\r\nThis PR is a big refactoring effort on module files (with only little changes on the UI side) that introduces the use of template engines in `spack`. Iit relies on `jinja2` that will be shipped as an external, at least until we solve #1385. I also plan to add a lot more tests on hierarchical module files generation.\r\n\r\n\r\n### Motivation\r\nI started the PR because I needed to extend lmod module file generation to take into account packages that provide more than one service (hello `intel-parallel-studio`!) and figured out that this part of the code has grown enough in size and complexity to benefit from using a template engine for generation.\r\n\r\nI also think that this capability may be reused in many places like:\r\n\r\n  - @adamjstewart `spack create` command\r\n  - @citibeth `spack loads` and `spack setup` commands\r\n  - generation of JUnit or CDash conformant files from tests (@tgamblin and @kielfriedt may be interested here)\r\n\r\ni.e. basically everywhere we need to generate a file with a clear structure starting from the information in a DAG or in the DB.\r\n\r\n### Modifications planned (or already done)\r\n\r\n**Template engine in spack**\r\n- [x] added an entry `template_dirs` in `config.yaml` to list the directories we should search for templates.\r\n- [x] hooked [jinja2](http://jinja.pocoo.org/docs/2.9/) to spack\r\n- [x] copied [jinja2](http://jinja.pocoo.org/docs/2.9/)  sources into `external`\r\n\r\n**Modulefiles**\r\n- [x] added a lot more in-code documentation.\r\n- [x] refactored modulefile generation to use the template engine package (package `spack/modules`).\r\n- [x] added more tests for lmod hierarchies.\r\n- [x] generalized the code (modulo bugs) to multiple providers, i.e. to packages that provide more than one service in the lmod hierarchy.\r\n- [x] implemented the semantic discussed in #3173 (`spack module refresh` permits to generate every module file known, not just the enabled ones).\r\n- [x] implemented an overriding mechanism for the template used to generate module files.\r\n- [x] `spack module refresh` without any specific `--module-type` refreshes all enabled module types.\r\n- [x] added configure line in module files for  `AutotoolsPackage` and `CMakePackage` objects.\r\n- [x] module file short description defaults to the first line of the package docstring (see #1114)\r\n- [ ] restrict the set of tokens of `spec.format` that can be used in the naming scheme (see #2884)\r\n- [x] updated module files tutorial\r\n- [ ] updated reference documentation\r\n\r\n**Changes in UI**\r\n- [x] changed keyword `autoload_verbose` to just `verbose` and made it default to `False`. Its location is at the same level as `whitelists` and `blacklists`.\r\n\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/3183",
+    "updated_at": "2017-11-12 00:49:11",
+    "created_at": "2017-02-19 15:19:41",
+    "closed_at": "2017-09-19 19:34:21",
+    "state": "closed",
+    "title": "Modulefiles generated with a template engine",
+    "number": 3183,
+    "milestone": "v0.11.0",
+    "labels": [
+        "ready",
+        "modules",
+        "refactoring",
+        "tests",
+        "RFC"
+    ],
+    "id": 208723714,
+    "html_url": "https://github.com/spack/spack/pull/3183",
+    "assignees": [],
+    "comments": 34
+}

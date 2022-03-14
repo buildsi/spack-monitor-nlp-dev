@@ -1,0 +1,21 @@
+{
+    "body": "Summary\r\n\r\n### Expected Result\r\n\r\n`spack install python@3.6.4` results in an usable python3 installation.\r\n\r\n### Actual Result\r\n\r\n```\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j4'\r\n\r\n1 error found in build log:\r\n     895    \t\trm -f ./pybuilddir.txt ; \\\r\n     896    \t\texit 1 ; \\\r\n     897    \tfi\r\n     898    running build\r\n     899    running build_ext\r\n     900    error: [Errno 2] No such file or directory: '/Users/healther/Documents/git.nosync/spack/opt/spack/darwin-highsierra-x86_64/clang-\r\n            9.0.0-apple/python-3.6.4-j34o5jqkcypp3s7c2u5jqajutiopnjk3/include/python3.6m/pyconfig.h'\r\n  >> 901    make: *** [sharedmods] Error 1\r\n```\r\n\r\n### Information on your system\r\n\r\ncurrent develop (-5 or so commits plus #4585 and #7204)\r\n ```\r\n$ spack arch\r\ndarwin-highsierra-x86_64\r\n```\r\nnothing special installed (or at least visible to spack) so only the system `clang@9-apple`\r\n\r\nI couldn't find any information only to it (@adamjstewart seems to have hit a similar problem when trying to build `boost+python@3:` but that's about it. If I read this correctly `spack` tries to access the to-be-populated prefix before actually installing stuff...\r\n\r\nWhen I do\r\n```\r\nspack cd python@3.6.4 && spack build-env python@3.6.4 -- bash \r\nmake\r\n```\r\nI see the same error, without the `build-env`, make runs through without a problem. I'm out of my depth here...\r\n\r\n[spack-build.env.txt](https://github.com/spack/spack/files/1844527/spack-build.env.txt)\r\n[spack-build.out.txt](https://github.com/spack/spack/files/1844528/spack-build.out.txt)",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/7589",
+    "updated_at": "2019-12-20 09:58:55",
+    "created_at": "2018-03-24 15:42:46",
+    "closed_at": "2019-12-20 09:58:54",
+    "state": "closed",
+    "title": "Unable to build python3.6.x on MacOSx ",
+    "number": 7589,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "python"
+    ],
+    "id": 308272855,
+    "html_url": "https://github.com/spack/spack/issues/7589",
+    "assignees": [],
+    "comments": 7
+}

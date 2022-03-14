@@ -1,0 +1,21 @@
+{
+    "body": "This pull request makes the following changes to the `ffmpeg` package:\r\n\r\n- Adds older versions (i.e. the latest versions of `@1` and `@2`, `@1.0.10` and `@2.8.15`) to enable building older dependents (see `openscenegraph@3.4.0` for details).\r\n- Adds the `+avresample` variant, which allows for conditional building of the `libavresample` component (see `openscenegraph+ffmpeg` for details).\r\n- Overhauls variant handling in order to more accurately constrain variants to their supported versions (e.g. if `+variant` is only available in `@X.Y.Z:`, then a `@conflicts('@:X.Y-1.999', '+variant')` statement is added, etc.).\r\n- Changes package-based variant defaults to `False` for variants that aren't supported by all `ffmpeg` versions (e.g. `+sdl2`, `+lzma`).\r\n\r\nI've verified that the following variants of this package build with `gcc@4.9.3` on architecture `linux-rhel7-broadwell`:\r\n\r\n- `ffmpeg@1.0.10{+|~}avresample`\r\n- `ffmpeg@2.8.15{+|~}avresample`\r\n- `ffmpeg@4.2.2{+|~}avresample`\r\n\r\nLooking at the logs for these builds, I'm fairly confident the per-package variants that were changed will work in enabled states as well as their default disabled states (e.g. `+sdl2`, `+lzma`), but I've not tested these variants as there are quite a few. If there are any important ones I should double check, please let me know and I'll run builds on that subset.\r\n\r\nAlso, tagging @glennpj as he seems to be the most recent contributor to this package; please let me know if anything looks amiss relative to your changes!",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/16359",
+    "updated_at": "2020-04-29 07:33:23",
+    "created_at": "2020-04-28 17:49:57",
+    "closed_at": "2020-04-29 07:33:23",
+    "state": "closed",
+    "title": "ffmpeg: add @1.0.10, @2.8.15; add '+avresample'; improve variant handling",
+    "number": 16359,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 608501528,
+    "html_url": "https://github.com/spack/spack/pull/16359",
+    "assignees": [],
+    "comments": 0
+}

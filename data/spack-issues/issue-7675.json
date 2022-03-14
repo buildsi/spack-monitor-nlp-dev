@@ -1,0 +1,21 @@
+{
+    "body": "Compiler caching was using the `id()` function to refer to configuration dictionary objects. If these objects are garbage-collected, this can produce incorrect results (false positive cache hits). This replaces `id()` with an object that keeps a reference to the config dictionary so that it is not garbage-collected.\r\n\r\nThere are a couple considerations to account for:\r\n\r\n* The cache was originally introduced in https://github.com/spack/spack/commit/55f85f23079b7229204e89e29d568ac969931449 to minimize parsing of the yaml dictionaries, so while removing the cache altogether is safest, it would reintroduce performance issues that was meant to address\r\n* Using an alternate id to represent the object, like `(spec, os, target)` is appealing but makes it difficult to discover when a user's configuration file (or the combination of their files over multiple scopes) contains duplicate entries (there should only be one configuration entry across all scopes with a given `(spec, os, target)`).\r\n\r\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/7675",
+    "updated_at": "2019-08-19 18:24:06",
+    "created_at": "2018-04-05 19:28:47",
+    "closed_at": "2019-08-19 18:24:06",
+    "state": "closed",
+    "title": "Update compiler caching",
+    "number": 7675,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 311739620,
+    "html_url": "https://github.com/spack/spack/pull/7675",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 0
+}

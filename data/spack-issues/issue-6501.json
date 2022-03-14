@@ -1,0 +1,19 @@
+{
+    "body": "This is a partial followup to #4942, but seems to be more general deficiency.\r\n\r\nI now have my `setup_environment()` using `EnvironmentModifications.from_sourcing_file` with a guard to ensure that this part is only sourced post-install. So far, so good (no crashes). However by doing this, there are a number of user-related settings that have essentially leaked into the modules.\r\n\r\nIn an ideal implementation, I would have this type of content:\r\n\r\n    setenv      FOAM_USER_APPBIN \"$env(HOME)/OpenFOAM/$env(USER)-$env(WM_PROJECT_VERSION)/platforms/$env(WM_OPTIONS)/bin\" \r\n\r\n    append-path PATH \"$env(FOAM_USER_APPBIN)\" \r\n\r\nCurrently, since it works directly with the environment values, these are expanded prior to building the modifications. This means that the module content includes the user-local bin directory of the person who created the module.\r\n\r\nNow that I start to understand what is going on in the spack.environment package, I could start replicating some of its behaviour, but it doesn't look like there is a way to defer expansions. That is to say, to place information like this in the module file:\r\n\r\n    setenv      FOAM_USER_APPBIN \"$env(HOME)/OpenFOAM/$env(USER)-$env(WM_PROJECT_VERSION)/platforms/$env(WM_OPTIONS)/bin\" \r\n\r\n",
+    "user": "olesenm",
+    "url": "https://api.github.com/repos/spack/spack/issues/6501",
+    "updated_at": "2017-12-14 20:24:34",
+    "created_at": "2017-11-28 19:56:33",
+    "closed_at": "2017-12-14 20:24:34",
+    "state": "closed",
+    "title": "setup_environment (modules) needs more complexity",
+    "number": 6501,
+    "milestone": null,
+    "labels": [],
+    "id": 277517749,
+    "html_url": "https://github.com/spack/spack/issues/6501",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

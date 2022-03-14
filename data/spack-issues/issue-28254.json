@@ -1,0 +1,23 @@
+{
+    "body": "#27543 changed the deptype of py-pyzmql -> libzmq from build,link (default) to build,run. This is incorrect, as libzmq is linked as a shared library, and breaks dependent builds, like py-jupyterlab-server, which fails with:\r\n```\r\nImportError: .../lib/python3.8/site-packages/zmq/backend/cython/message.cpython-38-x86_64-linux-gnu.so: undefined symbol: zmq_msg_gets\r\n```\r\n(because it's picking up the wrong libzmq from the system). Changing this back (explicitly) fixes things.",
+    "user": "dylex",
+    "url": "https://api.github.com/repos/spack/spack/issues/28254",
+    "updated_at": "2022-01-05 17:59:34",
+    "created_at": "2022-01-05 15:05:27",
+    "closed_at": "2022-01-05 17:59:33",
+    "state": "closed",
+    "title": "py-pyzmq: fix deptype of libzmq",
+    "number": 28254,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1094447248,
+    "html_url": "https://github.com/spack/spack/pull/28254",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 0
+}

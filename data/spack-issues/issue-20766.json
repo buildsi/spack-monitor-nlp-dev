@@ -1,0 +1,27 @@
+{
+    "body": "`sbang` relocation is broken under some conditions using `spack@develop` (1e3f6489c49f68f3efb3966c81a5f2ae8e0a08c1, `Fri Jan 8 15:48:23 2021 -0500`)\r\n\r\nThe conditions under which the problem manifests are described below.\r\n\r\n1. Build binaries from source, into a long install_tree using <i>both</i>\r\n  * `config: install_tree: root: <root>`\r\n  * `config: install_tree: padded_length: <N>`\r\n  * For instance, here is `config.yaml` for the build-from-source-environment:\r\n```\r\nconfig: \r\n  install_tree:\r\n    root: /spack-software\r\n    padded_length: 64\r\n```\r\n2. Cache those binaries\r\n3. Install the binaries into a different `install_tree: root`\r\n  * For instance, here is `config.yaml` for the subsequent install-from-cache-environment:\r\n```\r\nconfig:\r\n  install_tree:\r\n    root: /spack\r\n```\r\n4. If you then inspect the sbang lines in the installed files, they will still point to the original, unrelocated sbang location. For the example config.yamls above, that would be `/spack-software/bin/sbang`\r\n\r\nHere is a concrete reproducer that illustrates the problem with sbang relocation in autoconf.\r\n\r\n```\r\n$> git clone https://github.com/spack/spack /opt/spack\r\n$> (cd /opt/spack && git checkout 1e3f6489c)\r\n$> . /opt/spack/share/spack/setup-env.sh\r\n\r\n$> spack config edit config <--- use the config.yaml from #1 above (build-from-source-environment)\r\n$> spack install --no-cache autoconf\r\n... OK\r\n$> spack mirror add local /\r\n$> spack gpg create test test\r\n$> spack buildcache create -af --key test -m local autoconf\r\nOK\r\n\r\n$> spack uninstall --all\r\n$> spack clean -a\r\n$> rm -rf /spack-software\r\n\r\n$> spack config edit config <-- use the config.yaml from #3 above (install-from-cache-environment)\r\n$> spack install --cache-only autoconf\r\nOK\r\n\r\n$> head -1 `spack location -i autoconf`/bin/autoreconf\r\n#!/bin/sh /spack-software/bin/sbang\r\n\r\n$> spack install --no-cache automake\r\n...\r\n==> Installing automake-1.16.3-yfcevnm4jeomgs3k3hatiuqvqxilcfo4\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/ce/ce010788b51f64511a1e9bb2a1ec626037c6d0e7ede32c1c103611b9d3cba65f.tar.gz\r\n############################################################################################################################################################################# 100.0%\r\n==> automake: Executing phase: 'autoreconf'\r\n==> automake: Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/tmp/root/spack-stage/spack-stage-automake-1.16.3-yfcevnm4jeomgs3k3hatiuqvqxilcfo4/spack-src/configure' '--prefix=/spack/linux-ubuntu18.04-skylake_avx512/gcc-7.5.0/automake-1.16.3-yfcevnm4jeomgs3k3hatiuqvqxilcfo4'\r\n\r\n1 error found in build log:\r\n     17    checking for byacc... no\r\n     18    checking for bison... no\r\n     19    checking for lex... no\r\n     20    checking for flex... no\r\n     21    checking whether autoconf is installed... yes\r\n     22    checking whether autoconf works... no\r\n  >> 23    configure: error: The installed version of autoconf does not work.\r\n     24        Please check config.log for error messages before this one.\r\n```\r\n\r\nI am going to try and fix this. I just wanted to put this issue up to track it, and to alert others who might be at risk of encountering this in the interim period.\r\n\r\n@scottwittenburg @gartung \r\n\r\n\r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/20766",
+    "updated_at": "2021-01-20 20:43:08",
+    "created_at": "2021-01-09 19:34:26",
+    "closed_at": "2021-01-20 20:43:08",
+    "state": "closed",
+    "title": "sbang relocation broken (again)",
+    "number": 20766,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "binary-packages",
+        "ecp",
+        "triage",
+        "e4s",
+        "pipelines",
+        "sbang"
+    ],
+    "id": 782671436,
+    "html_url": "https://github.com/spack/spack/issues/20766",
+    "assignees": [
+        "eugeneswalker"
+    ],
+    "comments": 10
+}

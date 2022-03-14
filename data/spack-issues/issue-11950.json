@@ -1,0 +1,23 @@
+{
+    "body": "There is an issue with confliction parallel-studio versions. Reproducible by these steps:\r\n1) fresh installation of Spack (git clone, no modifications)\r\n2) follow the instructions here to install intel-parallel-studio@cluster.2019.4: https://spack.readthedocs.io/en/latest/build_systems/intelpackage.html#installing-intel-tools-within-spack for installation of intel-parallel-studio@cluster\r\n3) follow the instructions here: https://spack.readthedocs.io/en/latest/build_systems/intelpackage.html#selecting-libraries-to-satisfy-virtual-packages (the ones for a cluster version)\r\n4) spack spec abinit %intel@19 (or any other package possibly using blas and lapack)\r\n\r\nresult:\r\n ```\r\n#spack spec abinit %intel@19\r\nInput spec\r\n--------------------------------\r\nabinit%intel@19\r\nConcretized\r\n--------------------------------\r\n==> Error: Conflicts in concretized spec \"abinit@8.10.3%intel@19~hdf5+mpi+openmp+scalapack \r\narch=linux-debian9-x86_64/ptd55xr\"\r\nList of matching conflicts for spec:\r\n  intel-parallel-studio@professional.2019.3%intel@19 cflags=\"-msse4.2 -axAVX,CORE-AVX2\" cxxflags=\"-msse4.2 -axAVX,CORE-AVX2\" fflags=\"-msse4.2 -axAVX,CORE-AVX2\" \r\n  ~advisor~clck+daal~gdb~ilp64~inspector+ipp~itac+mkl+mpi~newdtags+rpath+shared+tbb threads=openmp ~vtune arch=linux-debian9-x86_64\r\n1. \"+mpi\" conflicts with \"intel-parallel-studio@professional.0:professional.9999\"\r\n```\r\n\r\nThere is no such a mention of  intel-parallel-studio@professional version in config files, we are trying to use a cluster version. A quick workaround is to delete all lines with another versions than a cluster from package.py of intel-parallel-studio from a builtin repo (using some local repo with simplified versions list have no effect). This is perhaps either due fault of the conflicts code in that package.py or its interpetation from Spack.",
+    "user": "phanousk",
+    "url": "https://api.github.com/repos/spack/spack/issues/11950",
+    "updated_at": "2020-03-02 10:45:01",
+    "created_at": "2019-07-08 13:36:15",
+    "closed_at": "2020-03-02 10:45:00",
+    "state": "closed",
+    "title": "conflicting intel-parallel-studio versions",
+    "number": 11950,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "wontfix",
+        "intel"
+    ],
+    "id": 465262110,
+    "html_url": "https://github.com/spack/spack/issues/11950",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

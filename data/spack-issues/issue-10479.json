@@ -1,0 +1,23 @@
+{
+    "body": "Hi all,\r\n\r\nThis may be a dumb question/suggestion, but I did not find anywhere a way to get the actual package name that will be effectively created. In my case, I use environment-modules and I would like to have the module name BEFORE it gets actually installed.\r\n\r\n### Rationale\r\n\r\nI understand it needs the package to be concretized beforehand and that's not a problem. I can also understand that concretization may fail if the actual recipe is updated with new versions and/or defaults. But, given a recipe, with known version, how hard would it be to get the module name early enough?\r\n\r\n### Description\r\n\r\nI'm currently building software to run tasks remotely on a supercomputer, especially for the parallel testing purpose. For example, I want to test a runtime with the OSU benchmark. I have to create my batch before actually running it. Two tasks will then be generated : \r\n- a command like `spack install osu-micro-benchmarks ^mpi@...`\r\n- a command like `spack load osu-micro-benchmarks...` depending on the above task.\r\nI agree this package is not the best illustration of my situation as it does not expose any binary in PATH but consider a Corals app. It that case, I'm currently relying on `spack location --install-dir` instead.\r\n\r\nUsing `spack load`(as for some others commands) is not optimal because it requires Shell integration and each task being run into its own shell. It means `setup-env.sh` would have to be loaded before each task starts, leading to an important overhead. At this point, I would like to use the actual module name, but at the `task generating` step, the concretization has not been done yet and I did not find how to get it without effectively installing the package.\r\n\r\nIf such a thing was possible, building Spack commands could be separated from their actual execution, without paying the price of loading the whole Spack environment just to run an MPI application.\r\n\r\n### Notes\r\nClearly, this is specific, maybe a public API to help program-to-program communication (through JSON, for instance) could clearly achieve that and would standardize a lot of things (the fact that Spack is not always returning a non-zero value when an error occurs can also be frustrating).\r\n\r\nI'm sure such an interface already came to your minds and I might have missed something from the documentation. \r\n\r\nLet me know if something is unclear, I would be happy to provide additional information. \r\nThanks for your help and sorry for any English typo.",
+    "user": "gweodoo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10479",
+    "updated_at": "2019-02-04 16:16:59",
+    "created_at": "2019-01-30 09:16:25",
+    "closed_at": "2019-02-04 16:16:59",
+    "state": "closed",
+    "title": "How to find the name of module to build before it gets installed",
+    "number": 10479,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "question",
+        "modules"
+    ],
+    "id": 404672369,
+    "html_url": "https://github.com/spack/spack/issues/10479",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

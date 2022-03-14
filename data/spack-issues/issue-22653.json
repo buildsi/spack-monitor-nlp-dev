@@ -1,0 +1,21 @@
+{
+    "body": "Closes https://github.com/spack/spack/pull/22628\r\nFixes #22627\r\n\r\n@bvanessen would you be able to check if this addresses your issue?\r\n\r\nWe remove system paths from search variables like PATH and from `-L` options because they may contain many packages and could interfere with Spack-built packages. External packages may be installed to prefixes that are not actually system paths but are still \"merged\" in the sense that many other packages are installed there. To avoid conflicts, this PR places all external packages at the end of search paths.\r\n\r\nNote: if there are multiple external packages, and each is installed to a separate merged prefix, this PR does not address conflicts which may arise (in general it may not be possible to resolve the resulting conflicts so I think it might make sense to recommend against this).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/22653",
+    "updated_at": "2021-04-12 09:19:30",
+    "created_at": "2021-03-30 22:49:59",
+    "closed_at": "2021-04-12 09:19:29",
+    "state": "closed",
+    "title": "Externals with merged prefixes",
+    "number": 22653,
+    "milestone": null,
+    "labels": [
+        "build-environment"
+    ],
+    "id": 845409261,
+    "html_url": "https://github.com/spack/spack/pull/22653",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

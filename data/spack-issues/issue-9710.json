@@ -1,0 +1,21 @@
+{
+    "body": "When pointing Spack to a modulefile that includes multiple instances of `PATH`, the behavior of Spack appears to be to stop at the first instance of `PATH`. This can lead to errors when using Spack to install packages that depend on this modulefile.\r\n\r\nExample modulefile contents:\r\n\r\n```\r\n/usr/common/software/modulefiles/python/2.7-anaconda-5.2:\r\n\r\nconflict\t python \r\nmodule-whatis\t Python programming language.\r\nunsetenv\t PYTHONSTARTUP \r\nsetenv\t\t PYTHONUSERBASE /global/homes/r/rowlandk/.local/cori/2.7-anaconda-5.2 \r\nprepend-path\t PATH /global/common/cori/software/python/2.7-anaconda-5.2/lib/python2.7/site-packages/mpi4py/bin\r\nprepend-path\t PATH /global/common/cori/software/python/2.7-anaconda-5.2/bin \r\n```\r\nWith this, performing a Spack installation with the Python module as a dependency gives:\r\n\r\n```\r\n==> Error: RuntimeError: Unable to locate python command in /global/common/cori/software/python/2.7-anaconda-5.2/lib/python2.7/site-packages/mpi4py/bin\r\n```\r\n\r\nThe second instance of `PATH` in the modulefile is what ends up at the beginning of the user's `PATH` upon loading the module, but the way that Spack reads in the modulefile and takes the first instance of `PATH` leads to this erroneous behavior.\r\n\r\n---\r\n\r\nWe have worked around this issue by changing relevant modulefiles, but I would think that Spack's behavior should read all of the `PATH` in the order resultant from loading the module.",
+    "user": "kellyrowland",
+    "url": "https://api.github.com/repos/spack/spack/issues/9710",
+    "updated_at": "2019-09-11 17:51:46",
+    "created_at": "2018-11-01 23:19:07",
+    "closed_at": "2019-09-11 17:51:46",
+    "state": "closed",
+    "title": "Spack not looking in correct PATH when multiple PATHs used in modulefile",
+    "number": 9710,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "build-environment"
+    ],
+    "id": 376607343,
+    "html_url": "https://github.com/spack/spack/issues/9710",
+    "assignees": [],
+    "comments": 7
+}

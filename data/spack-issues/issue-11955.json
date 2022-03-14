@@ -1,0 +1,22 @@
+{
+    "body": "On ORNL Summit, I am attempting to build some packages that use CMake (e.g., `netlib-lapack`). I have a `packages.yaml` file that specifies that Spack should use the CMake provided by system module. When I attempt to do this I get the following error. It appears that the package was built correctly, but errored out when Spack attempted to look into the paths where the original CMake module was installed (by system admins using Spack). The expected behavior is that Spack shouldn't expect any `.spack` files in a system provided module, and shouldn't fail if those files are missing. \r\n\r\n```\r\n==> Installing netlib-lapack\r\n==> Searching for binary cache of netlib-lapack\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for netlib-lapack found: installing from source\r\n==> Using cached archive: /ccs/home/sayerhs/.spack/downloads/netlib-lapack/netlib-lapack-3.8.0.tar.gz\r\n==> Staging archive: /autofs/nccs-svm1_proj/cfd116/shreyas/summit/exawind-blue/spack/var/spack/stage/netlib-lapack-3.8.0-4oglinka2peibr4p66nu4vo3s3oebyjt/lapack-3.8.0.tar.gz\r\n==> Created stage in /autofs/nccs-svm1_proj/cfd116/shreyas/summit/exawind-blue/spack/var/spack/stage/netlib-lapack-3.8.0-4oglinka2peibr4p66nu4vo3s3oebyjt\r\n==> Applied patch /autofs/nccs-svm1_proj/cfd116/shreyas/summit/exawind-blue/spack/var/spack/repos/builtin/packages/netlib-lapack/undefined_declarations.patch\r\n==> Applied patch /autofs/nccs-svm1_proj/cfd116/shreyas/summit/exawind-blue/spack/var/spack/repos/builtin/packages/netlib-lapack/testing.patch\r\n==> Ran patch() for netlib-lapack\r\n==> Building netlib-lapack [CMakePackage]\r\n==> Executing phase: 'cmake'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Error: IOError: [Errno 2] No such file or directory: '/autofs/nccs-svm1_sw/summit/.swci/0-core/opt/spack/20180914/linux-rhel7-ppc64le/gcc-4.8.5/cmake-3.14.2-3zkrrk4chuq6wfhvxpmen2gzdpaoiorw/.spack/repos/builtin/packages/cmake/'\r\n\r\n/autofs/nccs-svm1_proj/cfd116/shreyas/summit/exawind-blue/spack/lib/spack/spack/package.py:1790, in log:\r\n       1787                    err.write(errors.getvalue())\r\n       1788                tty.warn('Errors occurred when archiving files.\\n\\t'\r\n       1789                         'See: {0}'.format(error_file))\r\n  >>   1790\r\n       1791        dump_packages(self.spec, packages_dir)\r\n```\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```yaml\r\n# custom packages.yaml\r\npackages:\r\n  all:\r\n    compiler:\r\n      - gcc@7.4.0\r\n      - xl@16.1\r\n    modules: {}\r\n    paths: {}\r\n    providers:\r\n      blas:\r\n        - netlib-lapack\r\n      lapack:\r\n        - netlib-lapack\r\n      mpi:\r\n        - spectrum-mpi\r\n    version: []\r\n    variants: +mpi build_type=Release\r\n  spectrum-mpi:\r\n    version: [10.3.0]\r\n    buildable: false\r\n    modules:\r\n      spectrum-mpi@10.3.0: spectrum-mpi/10.3.0.0-20190419\r\n    paths: {}\r\n    providers: {}\r\n    compiler: []\r\n  cuda:\r\n    version: [10.1.105]\r\n    buildable: false\r\n    modules:\r\n      cuda@10.1.105: cuda/10.1.105\r\n  cmake:\r\n    version: [3.14.2]\r\n    buildable: false\r\n    modules:\r\n      cmake@3.14.2: cmake/3.14.2\r\n```\r\n\r\n``` console\r\n$ spack install netlib-lapack\r\n```\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. ORNL Summit system\r\n 2. GCC 7.4.0 compiler\r\n\r\n",
+    "user": "sayerhs",
+    "url": "https://api.github.com/repos/spack/spack/issues/11955",
+    "updated_at": "2020-01-27 17:18:31",
+    "created_at": "2019-07-08 19:04:07",
+    "closed_at": "2020-01-27 03:32:15",
+    "state": "closed",
+    "title": "IOError generated when using system modules that were built by another spack install",
+    "number": 11955,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 465412902,
+    "html_url": "https://github.com/spack/spack/issues/11955",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 7
+}

@@ -1,0 +1,19 @@
+{
+    "body": "The terminal coloration seems to be stuck on and doesn't turn off when stdout is directed into a pipe:\r\nConsider:\r\nspack find | sort | uniq -c | less\r\nWhich shows you something unreadable like:\r\n      2 abyssESC[0;36m@2.0.2ESC[0m\r\n      2 ackESC[0;36m@2.16ESC[0m\r\n      2 adept-utilsESC[0;36m@1.0.1ESC[0m\r\n      2 adiosESC[0;36m@1.11.1ESC[0m\r\n      2 adlbxESC[0;36m@0.8.0ESC[0m\r\n      2 adol-cESC[0;36m@2.6.2ESC[0m\r\nwhen what you want to see is:\r\n      2 abyss@2.0.2\r\n      2 ack@2.16\r\n      2 adept-utils@1.0.1\r\n      2 adios@1.11.1\r\n      2 adlbx@0.8.0\r\n      2 adol-c@2.6.2\r\n      2 albert@4.0a_opt4\r\nThe escape characters make it hard to make use the output in scripts. \r\n\r\nSpack already seems to detect the fact that it is not outputting to a terminal because when you do:\r\n\r\n$ spack find | less\r\n\r\nIt doesn't print things in columns the way that it does when you simply do \"spack find\"\r\n",
+    "user": "woodard",
+    "url": "https://api.github.com/repos/spack/spack/issues/4761",
+    "updated_at": "2017-07-31 20:00:54",
+    "created_at": "2017-07-13 22:31:00",
+    "closed_at": "2017-07-31 19:57:48",
+    "state": "closed",
+    "title": "Spack assumes terminal output when sending stdout to a pipe",
+    "number": 4761,
+    "milestone": null,
+    "labels": [
+        "color"
+    ],
+    "id": 242848798,
+    "html_url": "https://github.com/spack/spack/issues/4761",
+    "assignees": [],
+    "comments": 3
+}

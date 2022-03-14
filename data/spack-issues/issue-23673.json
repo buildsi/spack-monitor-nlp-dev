@@ -1,0 +1,22 @@
+{
+    "body": "Currently post-installation tests are usually run inside the install prefix and must be cleaned before reusing. I suggest a mechanism for running inside a temporary directory.\r\n\r\n### Rationale\r\n\r\nInstallation tests, especially for libraries, can be messy (e.g. create a `build` dir with many files), and the result of one build might affect another build resulting in a false positive or negative.\r\n\r\nFurthermore, it's possible that users of a shared spack installation other than the original installer would want to test, or spack is installed onto a read-only device. Currently the test system assumes the user testing has full write privileges on the installation prefix.\r\n\r\nFinally, packages might `make clean` the test builds to avoid polluting the next run or leaving detritus in the installation directories, but that behavior interferes with the ability to debug a smoke test if it fails. The better solution is a temporary directory with a `--keep-stage` option.\r\n\r\n### Description\r\n\r\nI think a `self.test_build_dir` or something could easily replace the handrolled smoke test \"build\" dirs in place.\r\n\r\n### General information\r\n\r\n- [x] Spack version 0.16.1-2652-39a4f3ba88\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/23673",
+    "updated_at": "2021-05-25 14:24:33",
+    "created_at": "2021-05-17 10:59:49",
+    "closed_at": "2021-05-25 14:24:33",
+    "state": "closed",
+    "title": "Perform smoke tests in temporary directory",
+    "number": 23673,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "stand-alone-tests"
+    ],
+    "id": 893210543,
+    "html_url": "https://github.com/spack/spack/issues/23673",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I'm getting the same problem as in #3791 about RPATH, which has been solved by #3904.\r\n\r\nThe problem seems to be that the `cray` platform is not recognized as `linux`, hence the `-DCMAKE_BUILD_WITH_INSTALL_RPATH=1` is not set.\r\n\r\nhttps://github.com/spack/spack/blob/bb0667ceaf3311630e8e1fae024660e22b2749f7/var/spack/repos/builtin/packages/llvm/package.py#L733-L734\r\n\r\nI was able to build it by changing the if expression to this\r\n```cpp\r\nif spec.satisfies('@4.0.0:') and \\\r\n    spec.satisfies('platform=linux') or spec.satisfies('platform=cray'):\r\n```\r\n\r\nHowever, I don't know if you want to address this thing just in the `llvm` package (in case I can easily open a PR with the fix) or this could have impact on other things, since `cray` platforms may not be recognized as `linux`.\r\n\r\n### System\r\n\r\nCray CLE 7.0.UP01 (based on SUSE Linux Enterprise Server 15)\r\n\r\n```console\r\nspack arch\r\ncray-cnl7-broadwell\r\n```",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/13783",
+    "updated_at": "2022-03-10 16:13:27",
+    "created_at": "2019-11-19 12:27:50",
+    "closed_at": "2022-03-10 16:13:27",
+    "state": "closed",
+    "title": "LLVM does not build on Cray",
+    "number": 13783,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 524978628,
+    "html_url": "https://github.com/spack/spack/issues/13783",
+    "assignees": [],
+    "comments": 2
+}

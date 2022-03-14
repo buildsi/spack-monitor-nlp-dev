@@ -1,0 +1,20 @@
+{
+    "body": "1. does Fortran append underscores to symbols?\r\nIn `configure` script, these files is build to check underscores.\r\n\r\ntest-c.c\r\n> int uscore_ = 95;\r\nint uscore = 59;\r\n\r\ntest.f\r\n> \tprogram test\r\n\tinteger i\r\n\tcommon /uscore/ i\r\n\tcall exit(i)\r\n\tend\r\n\r\nThese source seems GCC specific.\r\nSo I patched these real check as below.\r\n\r\n> CONF_BITS=\"\"\r\nCONF_NOUNDERSCORE=0\r\n\r\n(2020/08/24)\r\nI didn't submit upstream. Because this problem seems compiler specific.\r\nI tried to link C and fortran. Warning occurred and  `$?` was 0.\r\n>  [n0026@apollo13 spack-src]$ fcc -c testc.c\r\n[n0026@apollo13 spack-src]$ frt -o teste test.f testc.o\r\n/usr/bin/ld: Warning: alignment 4 of symbol `uscore_' in testc.o is smaller than 16 in /tmp/frtd78w7e.o\r\n\r\nResult of `looptools%fj` was same as `looptools%gcc(x86_64)` . So linking in real looptools seems OK.\r\n \r\n2. Long line\r\nAfter 1, Fortran error occured due to long line.\r\nSo I added `-Fwide` option for Fujitsu compiler directly to `configure` script.",
+    "user": "ketsubouchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/18135",
+    "updated_at": "2020-08-28 15:03:39",
+    "created_at": "2020-08-18 05:43:02",
+    "closed_at": "2020-08-28 15:03:39",
+    "state": "closed",
+    "title": "looptools: skip UNDERSCORE check and add -Fwide",
+    "number": 18135,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "fujitsu"
+    ],
+    "id": 680710913,
+    "html_url": "https://github.com/spack/spack/pull/18135",
+    "assignees": [],
+    "comments": 2
+}

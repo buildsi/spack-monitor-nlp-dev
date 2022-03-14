@@ -1,0 +1,22 @@
+{
+    "body": "See discussions in #7475 and #8443.  This patch attempts to make setup-env's shell detection work correctly when it is sourced within a shell script environment.  The target use cases are continuous integration environments or job scheduler scripts.\r\n\r\nTest case:\r\n```\r\n#!/bin/bash\r\n  \r\necho step: sourcing setup-env.sh\r\n. /home/pcarns/working/src/spack/share/spack/setup-env.sh\r\necho step: loading mpich\r\nspack load -r mpich\r\necho step: listing modules\r\nmodule list\r\n```\r\nWithout this PR, it produces the following output:\r\n```\r\npcarns@carns-x1:~$ ./foo.sh \r\nstep: sourcing setup-env.sh\r\nstep: loading mpich\r\ninit.c(379):ERROR:109: Unknown shell type 'foo.sh'\r\nstep: listing modules\r\ninit.c(379):ERROR:109: Unknown shell type 'foo.sh'\r\n```\r\nWith this PR applied, it produces the following output:\r\n```\r\npcarns@carns-x1:~$ ./foo.sh \r\nstep: sourcing setup-env.sh\r\nstep: loading mpich\r\nstep: listing modules\r\nCurrently Loaded Modulefiles:\r\n  1) mpich-3.2.1-gcc-8.2.0-36v3ogy\r\n```",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/9712",
+    "updated_at": "2019-02-27 14:46:00",
+    "created_at": "2018-11-02 15:47:19",
+    "closed_at": "2019-02-14 01:52:19",
+    "state": "closed",
+    "title": "make SPACK_SHELL detection more robust",
+    "number": 9712,
+    "milestone": null,
+    "labels": [
+        "shell-support",
+        "don't-merge-yet"
+    ],
+    "id": 376865130,
+    "html_url": "https://github.com/spack/spack/pull/9712",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

@@ -1,0 +1,17 @@
+{
+    "body": "##### TLDR\n\nUpdates to one particular architecture in `compilers.yaml` seem to discard the information on all the other architectures.\n##### Description\n\nThe bug can be reproduced in the following way. In the first shell, assuming `SYS_TYPE=<first>`\n\n``` bash\n$ spack compilers\n==> Available compilers\n-- gcc ----------------------------------------------------------\ngcc@4.8\n\n$ spack config get compilers\ncompilers:\n  <first>:\n    gcc@4.8:\n      cc: /usr/bin/gcc\n      cxx: /usr/bin/g++\n      f77: /usr/bin/gfortran\n      fc: /usr/bin/gfortran\n```\n\nOn a second shell, within the same spack installation, assuming `SYS_TYPE=<second>`:\n\n``` bash\n$ spack compilers\n==> Available compilers\n-- gcc ----------------------------------------------------------\ngcc@4.8\n\n$ spack config get compilers\ncompilers:\n  <first>:\n    gcc@4.8:\n      cc: /usr/bin/gcc\n      cxx: /usr/bin/g++\n      f77: /usr/bin/gfortran\n      fc: /usr/bin/gfortran\n  <second>:\n    gcc@4.8:\n      cc: /usr/bin/gcc-4.8\n      cxx: /usr/bin/g++-4.8\n      f77: /usr/bin/gfortran-4.8\n      fc: /usr/bin/gfortran-4.8\n```\n\nComing back to the first shell : \n\n``` bash\n$ spack install gcc@5.3.0\n...\n$ spack load gcc@5.3.0\n$ spack compiler add\n==> Added 1 new compiler to /home/mculpo/.spack/compilers.yaml\n    gcc@5.3.0\n$ spack config get compilers\ncompilers:\n  <first>:\n    gcc@4.8:\n      cc: /usr/bin/gcc\n      cxx: /usr/bin/g++\n      f77: /usr/bin/gfortran\n      fc: /usr/bin/gfortran\n    gcc@5.3.0:\n      cc: /home/mculpo/PycharmProjects/spack/opt/spack/<first>/gcc-4.8/gcc-5.3.0-n2e5zswyv6xf5evzzj4t3aulvlkwjyno/bin/gcc\n      cxx: /home/mculpo/PycharmProjects/spack/opt/spack/<first>/gcc-4.8/gcc-5.3.0-n2e5zswyv6xf5evzzj4t3aulvlkwjyno/bin/g++\n      f77: /home/mculpo/PycharmProjects/spack/opt/spack/<first>/gcc-4.8/gcc-5.3.0-n2e5zswyv6xf5evzzj4t3aulvlkwjyno/bin/gfortran\n      fc: /home/mculpo/PycharmProjects/spack/opt/spack/<first>/gcc-4.8/gcc-5.3.0-n2e5zswyv6xf5evzzj4t3aulvlkwjyno/bin/gfortran\n\n```\n\nAt this point the architecture `<second>` has been removed from the configuration file.\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/774",
+    "updated_at": "2016-05-10 08:36:00",
+    "created_at": "2016-04-12 14:25:35",
+    "closed_at": "2016-05-10 08:36:00",
+    "state": "closed",
+    "title": "[BUG] : `spack compiler` command doesn't work correctly for multiple architecture",
+    "number": 774,
+    "milestone": null,
+    "labels": [],
+    "id": 147768566,
+    "html_url": "https://github.com/spack/spack/issues/774",
+    "assignees": [],
+    "comments": 1
+}

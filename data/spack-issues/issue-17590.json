@@ -1,0 +1,20 @@
+{
+    "body": "This fixes two issues with the way we currently select compilers.\r\n\r\nIf multiple compilers have the same \"id\" (os/arch/compiler/version), we currently prefer them by picking this one with the most supported languages.  This can have some surprising effects:\r\n\r\n* If you have no `gfortran` but you have `gfortran-8`, you can detect `clang` that has no configured C compiler -- just `f77` and `f90`. This happens frequently on macOS with homebrew. The bug is due to some kludginess about the way we detect mixed `clang`/`gfortran`.\r\n\r\n* We can prefer suffixed versions of compilers to non-suffixed versions, which means we may select `clang-gpu` over `clang` at LLNL. But, `clang-gpu` is not actually clang, and it can break builds. We should prefer `clang` if it's available.\r\n\r\n- [x] prefer compilers that have C compilers and prefer no name variation to variation.\r\n- [x] tests\r\n\r\nThis is related to #17542.  It's really a stop-gap, since when we make compilers into proper dependencies we won't need these heuristics -- we'll just satisfy virtual dependencies.\r\n\r\n@xjrc @alalazo @becker33 @gyllenhaal1",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/17590",
+    "updated_at": "2020-07-22 01:48:48",
+    "created_at": "2020-07-19 07:45:15",
+    "closed_at": "2020-07-22 01:48:38",
+    "state": "closed",
+    "title": "bugfix: make compiler preferences slightly saner",
+    "number": 17590,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "bugfix"
+    ],
+    "id": 660671178,
+    "html_url": "https://github.com/spack/spack/pull/17590",
+    "assignees": [],
+    "comments": 2
+}

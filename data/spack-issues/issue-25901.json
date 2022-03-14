@@ -1,0 +1,21 @@
+{
+    "body": "Returned have the days of being concerned about minutes :wink:  Snagged from [this answer](https://github.community/t/do-not-run-cron-workflows-in-forks/17636/2) just rearranged since we can't split it across lines. Anything with a `schedule` is getting run on all forks, only noticed because [a lot of mine are failing since I synced up my fork](https://github.com/svenevs/spack/actions).  Seems pretty wasteful, but perhaps there's a reason to keep it?\r\n\r\nI did a [quick dump](https://github.com/svenevs/spack/runs/3574308063?check_suite_focus=true#step:2:242) to double check, `github.repository` there was `svenevs/spack` so it seems good to go.  Maybe wait a couple days and verify that my fork stops building on the nightly schedule (I pushed to `develop` for this PR).\r\n\r\nAFAICT this will work, but this is one of those things that you can't really test until it's merged.  The conditional syntax only lets you skip [`jobs.<job_id>.if`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idif) or individual steps, so this just got applied to any `<job_id>` in a file that has a `schedule`.\r\n\r\nIt may, alternatively, be better for some of these to just have `if: github.repository == 'spack/spack'` but I'm not up to speed on what these are.",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/25901",
+    "updated_at": "2021-12-18 06:10:23",
+    "created_at": "2021-09-11 09:34:47",
+    "closed_at": "2021-12-18 06:10:23",
+    "state": "closed",
+    "title": "skip cron builds on forks",
+    "number": 25901,
+    "milestone": null,
+    "labels": [
+        "workflow"
+    ],
+    "id": 993797808,
+    "html_url": "https://github.com/spack/spack/pull/25901",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

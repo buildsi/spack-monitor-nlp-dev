@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install syscalc\r\n```\r\n\r\nyields\r\n\r\n```\r\n==> Installing syscalc\r\n==> No binary for syscalc found: installing from source\r\n==> Fetching http://madgraph.phys.ucl.ac.be/Downloads/SysCalc_V1.1.7.tar.gz\r\n######################################################################## 100.0%\r\n==> Error: ChecksumError: sha256 checksum failed for /tmp/root/spack-stage/spack-stage-syscalc-1.1.7-zlus4tseqby2qpwa2wnan23c5kvgwnif/SysCalc_V1.1.7.tar.gz\r\n    Expected d33219a525a54733bdfd02d8314288bdecd977fb1e97ddeaf13bf470bbbdd386 but got 5b06f4955508f7c59660fa632ede9265d8f2ca7d9cd87f145a083da74e54602f\r\n\r\n/spack/lib/spack/spack/package.py:1266, in do_fetch:\r\n       1263        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1264        self._fetch_time = time.time() - start_time\r\n       1265\r\n  >>   1266        if checksum and self.version in self.versions:\r\n       1267            self.stage.check()\r\n       1268\r\n       1269        self.stage.cache_local()\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.15.4-1462-383b5b7\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-skylake\r\n```\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n\r\nIt seems that that the file that is found at the location specified by the package:\r\nhttps://github.com/spack/spack/blob/e4c1cb380beb088393e47ba9caa27a2e5953b4db/var/spack/repos/builtin/packages/syscalc/package.py#L13-L15\r\n\r\nhas changed, as directly downloading it and running\r\n```\r\n$ sha256sum SysCalc_V1.1.7.tar.gz \r\n5b06f4955508f7c59660fa632ede9265d8f2ca7d9cd87f145a083da74e54602f  SysCalc_V1.1.7.tar.gz\r\n```\r\n\r\ndoes not yield the expected checksum.\r\n\r\n`spack maintainers syscalc` doesn't yield anything, so I am paging @iarspider here, which is the only one that turned up for syscalc using `git blame`.\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "tmadlener",
+    "url": "https://api.github.com/repos/spack/spack/issues/19321",
+    "updated_at": "2020-10-22 21:55:53",
+    "created_at": "2020-10-15 11:05:26",
+    "closed_at": "2020-10-22 21:55:53",
+    "state": "closed",
+    "title": "Installation issue: syscalc fails with ChecksumError",
+    "number": 19321,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "checksum"
+    ],
+    "id": 722232331,
+    "html_url": "https://github.com/spack/spack/issues/19321",
+    "assignees": [],
+    "comments": 0
+}

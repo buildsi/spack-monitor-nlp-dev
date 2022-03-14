@@ -1,0 +1,19 @@
+{
+    "body": "As part of upcoming LLNL work, we would like to start using Spack to deploy and manage the larger sets of packages that make up our development environment.  Where spack shines right now is in the deployment of single packages, this effort would be make it easier to deploy/manage large sets of packages at once.\r\n\r\nOne proposal is break a large installation into toolchains and package-sets.  A toolchain would be a collections of compilers, providers, and perhaps specific versions of packages that are common dependencies.  A package-set would be a set of packages and versions.  Users could install/manage large sets of packages by referring to them as a cross-product of toolchain times package-set.  For example, one may have several toolchains (tc_\\*) and package-sets (ps_\\*) defined as:\r\n\r\n```\r\ntc_supported: %gcc\\@6.3.0 ^mvapich\\@2.3, %intel\\@17.0.3 ^mvapich\\@2.3\r\ntc_earlytesting: %gcc\\@8.1.0 ^mvapich2\\@2.2, %intel\\@18.0.0 ^openmpi\\@3.1.0\r\n\r\nps_fullstack: hpctoolkit, openss, dyninst, spindle, cmake\r\nps_minstack: hdf5\\@1.10\r\n```\r\n\r\nWhere you could then choose to install ```tc_supported X ps_fullstack```, and ```tc_supported X ps_minstack```.  But for the earlytesting only install ```tc_earlytesting X ps_minstack```. (Note I'm just trying to describe the idea, I'm not proposing syntax in this issue yet.  We'll sort that out.)\r\n\r\nWe think this would be an intuitive way to manage larger sets of packages.  This relates to #8444, which is also specifying sets of packages for testing, but I think the different use cases make this a different issue.  We'll probably want to steal interfaces and implementation from #8444.  ",
+    "user": "mplegendre",
+    "url": "https://api.github.com/repos/spack/spack/issues/8835",
+    "updated_at": "2019-07-19 02:28:51",
+    "created_at": "2018-07-30 18:44:19",
+    "closed_at": "2019-07-19 02:28:51",
+    "state": "closed",
+    "title": "Allow installations of package sets across toolchains",
+    "number": 8835,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 345885757,
+    "html_url": "https://github.com/spack/spack/issues/8835",
+    "assignees": [],
+    "comments": 0
+}

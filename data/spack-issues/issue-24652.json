@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #17543\r\nFixes #23259\r\n\r\nWhen adding a config parameter via `spack config add 'foo:bar:baz'` an attempt is made to determine the appropriate type for the config entry by cycling through the default values for various types and attempting to validate against the schema.  This fails for enums since the default value is most likely not one of the valid enum values.  This change uses the user-provided value itself to construct the test value to validate with rather than the default value for a given type.\r\n\r\nBefore this change the following would fail and now succeeds:\r\n\r\n```bash\r\n$ spack config add 'config:concretizer:clingo'\r\n==> Error: Cannot determine valid type for path 'config:concretizer'.\r\n```",
+    "user": "chuckatkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/24652",
+    "updated_at": "2021-10-29 16:44:50",
+    "created_at": "2021-07-01 15:12:20",
+    "closed_at": "2021-10-29 16:44:50",
+    "state": "closed",
+    "title": "config add: use the provided value to validate the type",
+    "number": 24652,
+    "milestone": null,
+    "labels": [
+        "core"
+    ],
+    "id": 934951483,
+    "html_url": "https://github.com/spack/spack/pull/24652",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 8
+}

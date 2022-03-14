@@ -1,0 +1,19 @@
+{
+    "body": "PR #14920 changed the behavior to sorting the suffixes. That change is causing some issues with our modules.\r\n\r\n`foo/X.Y.Z-cuda-mpi` becomes `foo/X.Y.Z-cuda-mpi` for example, which we aren't really happy about because it is causing duplicated modules if we don't pay attention and we cannot have consistent module naming without breaking existing submission scripts.\r\n\r\nThe documentation (https://spack.readthedocs.io/en/latest/module_file_support.html#selection-by-anonymous-specs) currently states:\r\n> Order does matter\r\n> The modifications associated with the all keyword are always evaluated first, no matter where they appear in the configuration file. All the other spec constraints are instead evaluated top to bottom.\r\n\r\nI think that it makes sense that \"modifications\" also apply to `suffixes`. As far as I can tell, the suffixes' ordering is indeed guaranteed to follow the ordering of configuration files (except for `all` which is considered first, as already noted in the documentation).\r\n",
+    "user": "RemiLacroix-IDRIS",
+    "url": "https://api.github.com/repos/spack/spack/issues/18351",
+    "updated_at": "2020-09-08 15:38:32",
+    "created_at": "2020-08-28 09:56:23",
+    "closed_at": "2020-09-08 14:43:04",
+    "state": "closed",
+    "title": "Modules: Deduplicate suffixes but don't sort them.",
+    "number": 18351,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 687957823,
+    "html_url": "https://github.com/spack/spack/pull/18351",
+    "assignees": [],
+    "comments": 14
+}

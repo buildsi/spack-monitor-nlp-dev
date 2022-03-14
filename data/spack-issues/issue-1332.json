@@ -1,0 +1,17 @@
+{
+    "body": "I often work on systems that can't see the outside world.  On such systems, everytime spack queries the OpenSSL package, a 2 minute delay is added to my command.  For example:\n\n```\n% time spack spec openssl%intel@16.0.3\n<output trimmed>\n==> Warning: This installation depends on an old version of OpenSSL, which may have known security issues. \n==> Warning: Consider updating to the latest version of this package.\n==> Warning: More details at http://www.openssl.org\n<output trimmed>\n\nreal    2m9.064s\nuser    0m0.632s\nsys 0m0.216s\n```\n\nAlso:\n\n```\n% spack -p spec openssl%intel@16.0.3\n  ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1  127.316  127.316  127.316  127.316 {method 'connect' of '_socket.socket' objects}\n        3    0.689    0.230    0.689    0.230 {built-in method poll}\n<output trimmed>\n\n```\n\nIs there any way to disable this check? or make it time-out after 15-20 seconds?  For now, I just comment out this section of openssl/package.py.\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/1332",
+    "updated_at": "2016-07-21 23:47:00",
+    "created_at": "2016-07-21 17:10:31",
+    "closed_at": "2016-07-21 23:47:00",
+    "state": "closed",
+    "title": "OpenSSL checks are too slow",
+    "number": 1332,
+    "milestone": null,
+    "labels": [],
+    "id": 166870950,
+    "html_url": "https://github.com/spack/spack/issues/1332",
+    "assignees": [],
+    "comments": 15
+}

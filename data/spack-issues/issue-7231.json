@@ -1,0 +1,17 @@
+{
+    "body": "It looks like there is no way to export PYTHONPATH to a directory\r\ninside the stage directory.  I think there's a timing issue between\r\nsetup_environment and the stage dir.\r\n\r\nI'm writing a spack recipe for XED (Intel's x86 Encoder-Decoder).\r\nXED uses its own python-based build system (mbuild) that lives in a\r\nseparate repository.\r\n\r\nI can use a spack resource to clone the mbuild repo, but that kinda\r\nputs the mbuild directory in the wrong place.  XED expects mbuild, by\r\ndefault, to be in a side-by-side (sibling) directory.\r\n\r\nQ1 -- Is it possible to put a spack resource somewhere other than as a\r\nsubdir of the main directory, in this case side-by-side?  I tried\r\nresource with destination='../mbuild', but spack barfs at that.\r\nOr, could I symlink it?\r\n\r\nAnyway, XED will work with mbuild in any location, as long as you set\r\nPYTHONPATH to the right directory.  I tried setup_environment() to set\r\nPYTHONPATH.  But here, PYTHONPATH needs to be a subdir of the stage\r\ndir and the stage dir is not known during setup_environment.  Inside\r\nsetup_environment, self.stage.source_path is None.\r\n\r\nQ2 -- Is there a way to identify the stage dir in setup_environment?\r\nI don't need the directory to exist, I just need to know the right\r\npath name.\r\n\r\nQ3 -- Or, is there somewhere later, after the stage dir is created\r\nwhen I can set PYTHONPATH and it would be used in install?\r\n\r\nI tried os.putenv('PYTHONPATH', ...) inside install, but that didn't\r\ntake effect.  I guess python had already read its environ variables\r\nand didn't notice the change.  Is there a way to tell python to reread\r\nits environment variables?\r\n\r\nIf absolutely necessary, I could make mbuild a separate, prereq\r\npackage.  The I could set PYTHONPATH to the mbuild prefix and it would\r\nbe known during setup_environment.\r\n\r\nBut that's overkill and what I really want is to set PYTHONPATH to\r\nsomething in the stage directory.  It just looks like the spack timing\r\ndoesn't give me a way to do that.\r\n\r\nThanks,\r\n\r\n--Mark\r\n\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/7231",
+    "updated_at": "2018-02-15 18:22:40",
+    "created_at": "2018-02-13 21:57:47",
+    "closed_at": "2018-02-15 18:22:40",
+    "state": "closed",
+    "title": "setting PYTHONPATH to the stage directory",
+    "number": 7231,
+    "milestone": null,
+    "labels": [],
+    "id": 296900100,
+    "html_url": "https://github.com/spack/spack/issues/7231",
+    "assignees": [],
+    "comments": 5
+}

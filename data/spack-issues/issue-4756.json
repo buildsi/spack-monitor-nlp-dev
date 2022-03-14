@@ -1,0 +1,23 @@
+{
+    "body": "I am having an issue that sounds very similar to #4622 while trying to do a module refresh\r\n\r\nWe had installed jdk 8u92 prior to PR #4317 when minor_versions was introduced.  Doing a module refresh would throw:\r\n\r\n    ==> Error: Class constructor failed for package 'builtin.jdk'.\r\n    \r\n    Caused by:\r\n    ValueError: substring not found\r\n      File \"/home/baber/spack/lib/spack/spack/repository.py\", line 579, in get\r\n        self._instances[key] = package_class(copy)\r\n      File \"/home/baber/spack/lib/spack/spack/package.py\", line 560, in __init__\r\n        f = fs.for_package_version(self, self.version)\r\n      File \"/home/baber/spack/lib/spack/spack/fetch_strategy.py\", line 937, in for_package_version\r\n        url = pkg.url_for_version(version)\r\n      File \"/home/baber/spack/var/spack/repos/builtin/packages/jdk/package.py\", line 64, in url_for_version\r\n        minor_version = version[:version.index('-')]\r\n\r\n\r\nTo remedy the issue, I had to checkout dc911661ca1ea15d0e4f39ed530900dd615f2178 (the commit prior to PR #4317) then uninstall jdk8u92 and dependent packages. Then I went back to develop and reinstalled them, which used the minor_version of JDK.  After this, I was able to refresh my module files.\r\n\r\nIt seems like a package change should not be backward incompatible and require uninstall/reinstall due to versioning differences. ",
+    "user": "baberlevi",
+    "url": "https://api.github.com/repos/spack/spack/issues/4756",
+    "updated_at": "2017-11-23 13:44:40",
+    "created_at": "2017-07-13 17:53:13",
+    "closed_at": "2017-11-23 13:44:40",
+    "state": "closed",
+    "title": "Class constructor failed for package 'builtin.jdk'",
+    "number": 4756,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "unreproducible",
+        "modules"
+    ],
+    "id": 242781002,
+    "html_url": "https://github.com/spack/spack/issues/4756",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

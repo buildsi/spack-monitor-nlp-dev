@@ -1,0 +1,21 @@
+{
+    "body": "Identified issues with semi-recent (post spack v0.14.2) changes to how spack detects compilers and environment variables on Cray XC40 machines running CN16 . Specifically tested on LANL's Trinitite and Trinity with NERSC's Cori (CN17) used as a control. Regardless of spec and compilers.yaml, Spack maps Cray's compiler wrappers to the system compiler of ```gcc@4.8.5``` \r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack compiler find\r\n$  spack install comd~mpi%gcc@9.2.0\r\n```\r\n\r\n### Error Message\r\n\r\nOn XC40 with haswell+knl compute nodes running CN16  (Trinitite)\r\n```console\r\n$ spack compiler find\r\n$  spack install comd~mpi%gcc@9.2.0\r\n==> 19586: Installing comd\r\n(...)\r\n  >> 114    cmdLineParser.c:1:0: error: bad value (haswell) for -mtune= switch\r\n  >> 115    mycommand.c:1:0: error: bad value (haswell) for -march= switch\r\n```\r\n\r\nAnd On XC40 with haswell+knl compute nodes running CN17 (Cori) installation succeeds\r\n\r\n### Information on your system\r\n\r\nError manifests with \r\n\r\n```\r\n spack debug report\r\n* **Spack:** 0.14.2-1312-3347ef2de\r\n* **Python:** 3.4.10\r\n* **Platform:** cray-sles12-haswell\r\n```\r\n\r\nAble to have successful building (barring usual issues with cray platforms) using release ```v0.14.2``` under which debug does not have a report command. Have not further bisected commits in interim yet.\r\n\r\n### Additional information\r\n\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "rspavel",
+    "url": "https://api.github.com/repos/spack/spack/issues/17123",
+    "updated_at": "2020-06-23 06:57:30",
+    "created_at": "2020-06-16 21:31:35",
+    "closed_at": "2020-06-22 21:02:14",
+    "state": "closed",
+    "title": "Broken Compatibility with Cray CN16 Systems",
+    "number": 17123,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "compilers"
+    ],
+    "id": 639985382,
+    "html_url": "https://github.com/spack/spack/issues/17123",
+    "assignees": [],
+    "comments": 3
+}

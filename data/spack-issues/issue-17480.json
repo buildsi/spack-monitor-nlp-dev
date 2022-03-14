@@ -1,0 +1,19 @@
+{
+    "body": "Currently the way the flang `package.py` build process works, it uses the `clang++` from llvm-flang which was built in the previous step by whichever compiler the user is using (presumably GCC although possibly LLVM or other).  In the instance where this has a newer version of libstdc++ than the system one, `cmake` fails to tell the llvm-flang version of `clang++` the right path to `libstdc++` which results in it failing at the `cmake` stage complaining that your C++ comiler can't produce binaries.\r\n\r\n*Interestingly, outside of this process, the compiler works fine which makes me suspect that there's some cmake funkiness going on.*\r\n\r\nThis patch pulls the path the lib64 directory from `self.compiler.implicit_rpaths()[1]` (which is somewhat ugly and I'm open to better suggestions) explicitly to `CMAKE_CXX_FLAGS` which allows the llvm-flang `clang++` to find it and the build to proceed.",
+    "user": "owainkenwayucl",
+    "url": "https://api.github.com/repos/spack/spack/issues/17480",
+    "updated_at": "2020-07-30 13:14:43",
+    "created_at": "2020-07-13 10:31:02",
+    "closed_at": "2020-07-30 12:55:17",
+    "state": "closed",
+    "title": "Flang libstdc++ fix",
+    "number": 17480,
+    "milestone": null,
+    "labels": [
+        "clang"
+    ],
+    "id": 655740193,
+    "html_url": "https://github.com/spack/spack/pull/17480",
+    "assignees": [],
+    "comments": 6
+}

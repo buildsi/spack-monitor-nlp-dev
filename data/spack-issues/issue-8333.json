@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\n\r\n### Expected Result\r\n\r\nRunning ```spack mirror create gtkplus``` should create a mirror for some version of ```gtkplus```\r\n\r\n### Actual Result\r\n\r\n```\r\n==> Adding package gtkplus@2.24.32 to mirror\r\n==> Fetching http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.32.tar.xz\r\n\r\ncurl: (22) The requested URL returned error: 403 AuthorizedOnly\r\n==> Warning: Error while fetching gtkplus@2.24.32\r\n  Failed to fetch file from URL: http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.32.tar.xz\r\n==> Successfully updated mirror in spack-mirror-2018-05-31\r\n  Archive stats:\r\n    0    already present\r\n    0    added\r\n    1    failed to fetch.\r\n==> Error: Failed downloads:\r\ngtkplus@2.24.32\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack mirror create gtkplus\r\n```\r\n\r\nI understand this issue is not with the gtkplus library or recipe, but it is the only one with which I have had this issue, and so it is more just an example than anything. I am working behind a corporate proxy; I have configured curl with my ```.curlrc``` file to specify the proxy URL and port, and have set ```CURL_CA_BUNDLE``` to point to our cert file. This setup worked for the other 20 or so packages I attempted to mirror.\r\n\r\nFor whatever reason when trying to fetch from ```http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.32.tar.xz```, a ```403 AuthorizedOnly``` is kicked back. From https://github.com/spack/spack/blob/develop/lib/spack/spack/fetch_strategy.py#L239, we can see that ```-f``` is supplied to curl to fail on such an error. Oddly enough, removing this flag allowed me to featch the file without any issues.\r\n\r\n### Information on your system\r\n\r\ncurl v7.43.0",
+    "user": "Lnk2past",
+    "url": "https://api.github.com/repos/spack/spack/issues/8333",
+    "updated_at": "2018-05-31 15:45:24",
+    "created_at": "2018-05-31 15:11:25",
+    "closed_at": "2018-05-31 15:44:54",
+    "state": "closed",
+    "title": "curl fail on >400 issue",
+    "number": 8333,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 328179899,
+    "html_url": "https://github.com/spack/spack/issues/8333",
+    "assignees": [],
+    "comments": 1
+}

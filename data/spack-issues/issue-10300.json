@@ -1,0 +1,19 @@
+{
+    "body": "In v0.12.0, there is no option to disable MPI for NetCDF-Fortran or NetCDF-C++\r\n\r\n```\r\n$ spack spec netcdf-fortran~mpi\r\nInput spec\r\n--------------------------------\r\nnetcdf-fortran~mpi\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Package netcdf-fortran has no variant set(['mpi'])!\r\n```\r\n\r\nHowever, the NetCDF-C library can be built without MPI by\r\n\r\n```\r\n$ spack spec netcdf~mpi ^hdf5~mpi\r\nInput spec\r\n--------------------------------\r\nnetcdf~mpi\r\n    ^hdf5~mpi\r\n\r\nConcretized\r\n--------------------------------\r\nnetcdf@4.6.2%gcc@8.2.0~dap~hdf4 maxdims=1024 maxvars=8192 ~mpi~parallel-netcdf+pic+shared arch=linux-ubuntu16.04-x86_64\r\n    ^hdf5@1.10.4%gcc@8.2.0~cxx~debug~fortran+hl~mpi+pic+shared~szip~threadsafe arch=linux-ubuntu16.04-x86_64\r\n        ^zlib@1.2.11%gcc@8.2.0+optimize+pic+shared arch=linux-ubuntu16.04-x86_64\r\n    ^m4@1.4.18%gcc@8.2.0 patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e,fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8 +sigsegv arch=linux-ubuntu16.04-x86_64\r\n        ^libsigsegv@2.11%gcc@8.2.0 arch=linux-ubuntu16.04-x86_64\r\n```\r\n\r\nThis makes the dependency much lighter when MPI is not needed.\r\n\r\nConsider adding the same variant like this?\r\nhttps://github.com/spack/spack/blob/d1bb9caba4209138f163fcbfff6c76662ff109ac/var/spack/repos/builtin/packages/netcdf/package.py#L44-L45",
+    "user": "JiaweiZhuang",
+    "url": "https://api.github.com/repos/spack/spack/issues/10300",
+    "updated_at": "2019-01-10 03:30:43",
+    "created_at": "2019-01-09 23:16:08",
+    "closed_at": "2019-01-10 00:02:48",
+    "state": "closed",
+    "title": "Add variant to disable MPI for NetCDF-Fortran and NetCDF-C++",
+    "number": 10300,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 397602748,
+    "html_url": "https://github.com/spack/spack/issues/10300",
+    "assignees": [],
+    "comments": 2
+}

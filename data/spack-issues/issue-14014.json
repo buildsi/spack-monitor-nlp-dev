@@ -1,0 +1,20 @@
+{
+    "body": "Argparse allows you to include parameters of `add_argument` in your help messages. See https://docs.python.org/3/library/argparse.html#help:\r\n\r\n> The help strings can include various format specifiers to avoid repetition of things like the program name or the argument default. The available specifiers include the program name, %(prog)s and most keyword arguments to add_argument(), e.g. %(default)s, %(type)s, etc.:\r\n\r\nThis worked fine for `spack create -h`, but didn't work with our custom rST argparse formatter. This PR fixes that. @tldahlgren \r\n\r\n### Before\r\n```console\r\n$ spack commands --format=rst | grep -A 36 'spack create'\r\nspack create\r\n------------\r\n\r\ncreate a new package file\r\n\r\n.. code-block:: console\r\n\r\n    spack create [-hf] [--keep-stage] [-n NAME] [-t TEMPLATE] [-r REPO]\r\n             [-N NAMESPACE] [--skip-editor]\r\n             [url]\r\n\r\n\r\n**Positional arguments**\r\n\r\nurl\r\n  url of package archive\r\n\r\n\r\n**Optional arguments**\r\n\r\n``-h, --help``\r\n  show this help message and exit\r\n\r\n``--keep-stage``\r\n  don't clean up staging area when command completes\r\n\r\n``-n NAME, --name NAME``\r\n  name of the package to create\r\n\r\n``-t TEMPLATE, --template TEMPLATE``\r\n  build system template to use. options: %(choices)s\r\n\r\n``-r REPO, --repo REPO``\r\n  path to a repository where the package should be created\r\n\r\n``-N NAMESPACE, --namespace NAMESPACE``\r\n  specify a namespace for the package. must be the namespace of a repository registered with Spack\r\n\r\n``-f, --force``\r\n  overwrite any existing package file with the same name\r\n\r\n``--skip-editor``\r\n  skip the edit session for the package (e.g., automation)\r\n```\r\n\r\n### After\r\n```console\r\n$ spack commands --format=rst | grep -A 36 'spack create'\r\nspack create\r\n------------\r\n\r\ncreate a new package file\r\n\r\n.. code-block:: console\r\n\r\n    spack create [-hf] [--keep-stage] [-n NAME] [-t TEMPLATE] [-r REPO]\r\n             [-N NAMESPACE] [--skip-editor]\r\n             [url]\r\n\r\n\r\n**Positional arguments**\r\n\r\nurl\r\n  url of package archive\r\n\r\n\r\n**Optional arguments**\r\n\r\n``-h, --help``\r\n  show this help message and exit\r\n\r\n``--keep-stage``\r\n  don't clean up staging area when command completes\r\n\r\n``-n NAME, --name NAME``\r\n  name of the package to create\r\n\r\n``-t TEMPLATE, --template TEMPLATE``\r\n  build system template to use. options: autotools, autoreconf, cmake, bundle, qmake, scons, waf, bazel, python, r, perlmake, perlbuild, octave, makefile, intel, meson, sip, generic\r\n\r\n``-r REPO, --repo REPO``\r\n  path to a repository where the package should be created\r\n\r\n``-N NAMESPACE, --namespace NAMESPACE``\r\n  specify a namespace for the package. must be the namespace of a repository registered with Spack\r\n\r\n``-f, --force``\r\n  overwrite any existing package file with the same name\r\n\r\n``--skip-editor``\r\n  skip the edit session for the package (e.g., automation)\r\n```\r\n\r\nCloses #13993 ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/14014",
+    "updated_at": "2019-12-17 18:28:03",
+    "created_at": "2019-12-06 18:33:02",
+    "closed_at": "2019-12-17 18:23:22",
+    "state": "closed",
+    "title": "Fix argparse rST parsing of help messages",
+    "number": 14014,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "commands"
+    ],
+    "id": 534195541,
+    "html_url": "https://github.com/spack/spack/pull/14014",
+    "assignees": [],
+    "comments": 2
+}

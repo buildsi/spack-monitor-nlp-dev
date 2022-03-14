@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nA custom store in an environment doesn't seem to be taken into account during concretization:\r\n```console\r\nroot@f3da03c21c0d:/# mkdir -p spack && cd spack\r\nroot@f3da03c21c0d:/spack# git clone https://github.com/spack/spack.git\r\n[ ... ]\r\nroot@f3da03c21c0d:/spack# . spack/share/spack/setup-env.sh \r\nroot@f3da03c21c0d:/spack# mkdir -p /spack-env && cd /spack-env\r\nroot@f3da03c21c0d:/spack-env# cat spack.yaml \r\nspack:\r\n  specs:\r\n  - zlib@1.2:1.2.99\r\n  config:\r\n    install_tree:\r\n      root: ./store\r\n  view: false\r\n\r\nroot@f3da03c21c0d:/spack-env# spack -e . concretize -f\r\n==> Bootstrapping clingo from pre-built binaries\r\n==> Concretized zlib@1.2:1.2.99\r\n -   ech7q6s  zlib@1.2.11%gcc@9.3.0+optimize+pic+shared arch=linux-ubuntu20.04-icelake\r\n\r\nroot@f3da03c21c0d:/spack-env# spack -e . install      \r\n==> Installing environment /spack-env\r\n==> Installing zlib-1.2.11-ech7q6sqptumrsjdsvureubhkov2dm23\r\n==> No binary for zlib-1.2.11-ech7q6sqptumrsjdsvureubhkov2dm23 found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/c3/c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1.tar.gz\r\n==> No patches needed for zlib\r\n==> zlib: Executing phase: 'install'\r\n==> zlib: Successfully installed zlib-1.2.11-ech7q6sqptumrsjdsvureubhkov2dm23\r\n  Fetch: 0.22s.  Build: 1.81s.  Total: 2.03s.\r\n[+] /spack-env/store/linux-ubuntu20.04-icelake/gcc-9.3.0/zlib-1.2.11-ech7q6sqptumrsjdsvureubhkov2dm23\r\nroot@f3da03c21c0d:/spack-env# spack -e . concretize -f\r\n==> Concretized zlib@1.2:1.2.99\r\n -   ech7q6s  zlib@1.2.11%gcc@9.3.0+optimize+pic+shared arch=linux-ubuntu20.04-icelake\r\n```\r\nThe output above shows a `-` symbol even after installation. Trying instead:\r\n```console\r\nroot@f3da03c21c0d:/spack-env# cd /spack/spack && git checkout 713bbdbe7c1c2078abdc09bf515b3f934e87d741 && cd -\r\nroot@f3da03c21c0d:/spack-env# spack -e . concretize -f\r\n==> Concretized zlib@1.2:1.2.99\r\n[+]  ech7q6s  zlib@1.2.11%gcc@9.3.0+optimize+pic+shared arch=linux-ubuntu20.04-icelake\r\n```\r\nshows that zlib is already installed in the environment. \r\n\r\nOriginally I experienced this issue with an already existing environment that was installing specs in the default store (instead of the custom one) after a git pull. I can't reproduce anymore the installation issue after having removed all the caches and `~/.spack` completely.\r\n\r\n### Error message\r\n\r\nThere's no error message, but Spack ~installs software in the wrong prefix.~ doesn't show concretized software as installed when it instead is. Bisecting the issue points at #25608 (the first bad commit is d998ea1bd41b4cf7f47caa734b7c7df86178ef0c)\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.3-4720-199bd9f8f8\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-icelake\r\n* **Concretizer:** clingo\r\n\r\n[Dockerfile](https://github.com/spack/spack/files/7292873/Dockerfile.txt)\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/26548",
+    "updated_at": "2021-10-06 18:32:27",
+    "created_at": "2021-10-06 09:03:38",
+    "closed_at": "2021-10-06 18:32:27",
+    "state": "closed",
+    "title": "Environment don't account for custom install tree in spack.yaml",
+    "number": 26548,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 1017844040,
+    "html_url": "https://github.com/spack/spack/issues/26548",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

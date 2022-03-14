@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\n\n\r\nRunning `spack spec zlib` on a system where the home directory is on a NAS (nfs v4) volume results in a permission error\r\n```\r\n==> [2021-09-15-20:10:32.222539] [BOOTSTRAP MODULE clingo] Try installing \"clingo-bootstrap\" from binary cache at \"https://mirror.spack.io/bootstrap/github-actions/v0.1\"\r\n==> [2021-09-15-20:10:39.201450] PermissionError: [Errno 1] Operation not permitted: '/nashome/g/gartung/.spack/bootstrap/store/linux-scientific7-piledriver'\r\n```\r\n\r\nRunning ` export HOME=/path/on/local/disk; source spack/share/spack/setup_env.sh;spack spec zlib` results in a checksum error. Note: `spack clean -a` might have also been run.\r\n```\r\n==> [2021-09-15-20:00:41.427673] [BOOTSTRAP MODULE clingo] Try installing \"clingo-bootstrap\" from binary cache at \"https://mirror.spack.io/bootstrap/github-actions/v0.1\"\r\n==> [2021-09-15-20:00:41.902640] NoChecksumException: cannot verify checksum for \"/tmp/gartung/spack-stage/build_cache/linux-rhel5-x86_64-gcc-9.3.0-clingo-bootstrap-spack-vcipwnf57slgoo7busvvkzjkk7vydeb5.spack\" [expected=db5222760045f20ad1e5c194179d31273b8e4bfa6ade38e15cd3182d685cc05b]\r\n\r\n==> [2021-09-15-20:01:25.613745] [BOOTSTRAP MODULE clingo] Unexpected error \"Conflicts in concretized spec \"clingo-bootstrap@spack%gcc@4.8.5~docs~ipo+python build_type=Release arch=linux-scientific7-x86_64/3sc2o6n\"\r\n\r\n    List of matching conflicts for spec:\r\n\r\n    clingo-bootstrap@spack%gcc@4.8.5~docs~ipo+python build_type=Release arch=linux-scientific7-x86_64\r\n \r\n1. \"%gcc@:5.99.99\" conflicts with \"clingo-bootstrap\" [C++14 support is required to bootstrap clingo]\r\n\"\r\n```\n\n### Error message\n\n_No response_\n\n### Information on your system\n\nRunning on Scientific Linux 7 a RHEL 7 recompile with system compiler gcc@4.8.5\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/25988",
+    "updated_at": "2021-10-13 15:38:29",
+    "created_at": "2021-09-16 13:47:47",
+    "closed_at": "2021-10-13 15:38:29",
+    "state": "closed",
+    "title": "Running boostrap on an NFSv4 volume produces a PermissionError",
+    "number": 25988,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low",
+        "buildcache"
+    ],
+    "id": 998236655,
+    "html_url": "https://github.com/spack/spack/issues/25988",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 25
+}

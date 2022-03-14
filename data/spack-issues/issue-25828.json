@@ -1,0 +1,22 @@
+{
+    "body": "This PR adds omega_h version 9.34.1 . \r\n\r\nThe following script successfully installed 9.34.1 on an Arch linux system with GCC 11.1.0:\r\n\r\n```\r\n#!/bin/bash\r\ndate=`date +%F-%H-%M`\r\nspackDir=$PWD/testSpack_${date}\r\nmkdir -p $spackDir\r\ncd $spackDir\r\ncp -r ~/develop/spack .\r\ngit clone -b cws/omegah9341 https://github.com/SCOREC/spack.git\r\ncd spack\r\nexport SPACK_ROOT=$PWD\r\nsource $SPACK_ROOT/share/spack/setup-env.sh\r\nwhich spack # sanity check\r\n\r\n#load modules for compiler here\r\n#yaml files\r\nspack compiler find --scope site \r\n\r\n# setup scratch space for spack\r\nspackScratch=$spackDir/spack_scratch\r\nmkdir -p $spackScratch\r\n(\r\ncat <<APPEND_HEREDOC\r\nconfig:\r\n  build_stage:\r\n   - $spackScratch\r\nAPPEND_HEREDOC\r\n) >> $SPACK_ROOT/etc/spack/config.yaml\r\n\r\nmkdir omegaEnv\r\ncd $_\r\nspack env create -d .\r\nspack env activate $PWD\r\nspack mirror add E4S https://cache.e4s.io\r\nspack buildcache keys -it\r\nspack install omega-h@9.34.1\r\n```",
+    "user": "cwsmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/25828",
+    "updated_at": "2021-09-19 01:58:44",
+    "created_at": "2021-09-07 19:58:57",
+    "closed_at": "2021-09-19 01:58:44",
+    "state": "closed",
+    "title": "omegah: add version 9.34.1",
+    "number": 25828,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package"
+    ],
+    "id": 990299942,
+    "html_url": "https://github.com/spack/spack/pull/25828",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 8
+}

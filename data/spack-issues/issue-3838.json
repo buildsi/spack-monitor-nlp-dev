@@ -1,0 +1,19 @@
+{
+    "body": "Vim's configure was searching for ncurses instead of ncursesw.  Closes #3829.\r\n\r\nBefore:\r\n\r\n```\r\n$ which vim\r\n/blah/spack/v0.0.5/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin/vim\r\n$ ldd $(!!)\r\nldd $(which vim)\r\n\tlinux-vdso.so.1 =>  (0x00002aaaaaaab000)\r\n\tlibm.so.6 => /lib64/libm.so.6 (0x00002aaaaaac1000)\r\n\tlibtinfo.so.5 => /lib64/libtinfo.so.5 (0x00002aaaaadc3000)\r\n\tlibselinux.so.1 => /lib64/libselinux.so.1 (0x00002aaaaafee000)\r\n\tlibdl.so.2 => /lib64/libdl.so.2 (0x00002aaaab213000)\r\n\tlibc.so.6 => /lib64/libc.so.6 (0x00002aaaab417000)\r\n\tlibpcre.so.1 => /blah/spack/v0.0.5/opt/spack/linux-centos7-x86_64/gcc-5.4.0/pcre-8.40-rnjaow53pneyrqyvxsifkdkpsvt25b3f/lib/libpcre.so.1 (0x00002aaaab7da000)\r\n\tliblzma.so.5 => /blah/spack/v0.0.5/opt/spack/linux-centos7-x86_64/gcc-5.4.0/xz-5.2.3-ehlxwhosxgdfbduwx3nk5zzxmo4qhmaq/lib/liblzma.so.5 (0x00002aaaaba1e000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x0000555555554000)\r\n\tlibpthread.so.0 => /lib64/libpthread.so.0 (0x00002aaaabc45000)\r\n```\r\n\r\nAfter:\r\n\r\n```\r\n$ ldd /blah/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/vim-8.0.0503-55us7ijakx452ll3suegl6ocx7nzcmfi/bin/vim\r\n\tlinux-vdso.so.1 =>  (0x00002aaaaaaab000)\r\n\tlibm.so.6 => /lib64/libm.so.6 (0x00002aaaaaabe000)\r\n\tlibselinux.so.1 => /lib64/libselinux.so.1 (0x00002aaaaadc1000)\r\n\tlibncursesw.so.6 => /blah/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/ncurses-6.0-75hnzrecoib5eqdvfchl6n2jgcxc6dgo/lib/libncursesw.so.6 (0x00002aaaaafe6000)\r\n\tlibdl.so.2 => /lib64/libdl.so.2 (0x00002aaaab25b000)\r\n\tlibc.so.6 => /lib64/libc.so.6 (0x00002aaaab460000)\r\n\tlibpcre.so.1 => /lib64/libpcre.so.1 (0x00002aaaab822000)\r\n\tliblzma.so.5 => /lib64/liblzma.so.5 (0x00002aaaaba83000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x0000555555554000)\r\n\tlibpthread.so.0 => /lib64/libpthread.so.0 (0x00002aaaabca9000)\r\n$\r\n```",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3838",
+    "updated_at": "2017-04-14 18:13:40",
+    "created_at": "2017-04-14 15:20:16",
+    "closed_at": "2017-04-14 18:13:37",
+    "state": "closed",
+    "title": "vim wasn't linking against ncurses",
+    "number": 3838,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 221829551,
+    "html_url": "https://github.com/spack/spack/pull/3838",
+    "assignees": [],
+    "comments": 0
+}

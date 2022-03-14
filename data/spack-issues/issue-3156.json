@@ -1,0 +1,20 @@
+{
+    "body": "@eschnett @tgamblin @adamjstewart  There has been interested in this topic, so I'm writing it up a bit now.\r\nhttps://groups.google.com/forum/#!topic/spack/2ot8y5_y9_E\r\n\r\nThis stems from the observation that Spack can be split into two parts: the build and everything else.  The build is stateless.  By that, I mean that if you do the same build repeatedly, you will get the same result (i.e. same build in the same directory with the same hash).  If two people ask for the same build, the work only needs to be done once.  When a package is built, we learn nothing --- other than the build doesn't have any bugs.  Nothing from the actual process of building a package affects anything else Spack does.\r\n\r\nInterestingly, the stateless part of Spack (the build) takes the longest to run; and the most conceptually interesting part (that we argue the most about) runs pretty quickly.  The build could even be thought of as a cache, and we are interested in its artifact.\r\n\r\nWith this observation in mind, we could gain great power by separating Spack into a \"server\" and \"client\" --- which for simplicity could run together by default, the way they do today.  The server would accept build requests, and build them.  A build request would consist of:\r\n\r\n1.  A fully concretized spec\r\n2. The `package.py` files for that fully concretized spec\r\n3. The hash of the resulting build\r\n4. The ID of the Spack client making the request.\r\n\r\nWhen it receives a request, the server would build.  When it is done, it would return an asynchronous indication to the client that it has finished.  The client can then inspect some combination of the return / persistent output of the build to find:\r\n 1. STDOUT\r\n 2. An indication of which parts of the spec succeeded or failed.\r\n\r\nThe build server would keep a database, like the current Spack does.  This DB would include:\r\n 1. A list of client IDs that requested each package.  (This is like an expanded version of the current `explict` flag).\r\n 2. Ability to simultaneously read by Spack clients.\r\n\r\nCommunication between the Spack Build Server and clients could happen in one of many ways.  It does not have to involve sockets.  For example, requesting a build could involve placing a file in a directory that is polled every few seconds.\r\n\r\nWith a Spack build server at its core, an installation could efficiently host many co-existing Spacks on a single file system.  The Spack clients do not have to be of the same version of Spack, or even use the same package files.  The hashes enforce a strong property that changes to a package will result in a different build.\r\n\r\nAs @eschnett mentioned, the build server could be run as a special user, special permissions, etc. as dictated by site requirements.  It could be shared by people installing \"official\" software for the group, as well as people installing stuff that just they need.  Builds could be done on SLURM or similar, to build multiple packages in the DAG in parallel.\r\n\r\nBy getting the build process out of the way, this also helps us focus more on creating Spack Environments with useful semantics; although the two are technically orthogonal.",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3156",
+    "updated_at": "2019-12-09 13:23:18",
+    "created_at": "2017-02-16 05:27:14",
+    "closed_at": "2019-12-09 13:23:17",
+    "state": "closed",
+    "title": "Multi-User Spack: Spack Build Server",
+    "number": 3156,
+    "milestone": null,
+    "labels": [
+        "proposal",
+        "environments"
+    ],
+    "id": 208021117,
+    "html_url": "https://github.com/spack/spack/issues/3156",
+    "assignees": [],
+    "comments": 10
+}

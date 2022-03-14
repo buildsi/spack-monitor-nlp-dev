@@ -1,0 +1,17 @@
+{
+    "body": "Prior to this commit, spack installs a library called `libmpiseq` into\n`spec['mumps'].prefix.lib` when it builds MUMPS without MPI. However, it\ndoes not also install the headers corresponding to this library, so it\nis impossible to link to this library.\n\nThis commit fixes this problem by adding a `libexec` directory to the\nMUMPS installation that contains separate `include` and `lib`\nsubdirectories. The include directory in this subtree contains fake MPI\nheaders needed when linking libmpiseq in sequential MUMPS to some\nsoftware packages (e.g., IPOPT); the headers in\n`spec['mumps'].prefix.include` do not contain these headers. Separating\nthese two directories is important, because the fake MPI headers shadow\nMPI headers in functioning MPI implementations. So, if linking\nsequential MUMPS to a code that uses MPI outside of MUMPS, one would put\nthe include directory in `spec['mumps'].prefix.include` in a compiler\nheader search path. If linking sequential MUMPS to a library like IPOPT\nthat expects the fake MPI implementation, one would instead put the\ninclude directory in `join_path(spec['mumps'].prefix.libexec,\n'include')` in a compiler header search path.\n",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/711",
+    "updated_at": "2016-04-04 20:41:55",
+    "created_at": "2016-04-01 01:01:37",
+    "closed_at": "2016-04-04 20:41:55",
+    "state": "closed",
+    "title": "Add mpiseq headers to MUMPS installation (was: Add libexec dir to MUMPS installation)",
+    "number": 711,
+    "milestone": null,
+    "labels": [],
+    "id": 145057665,
+    "html_url": "https://github.com/spack/spack/pull/711",
+    "assignees": [],
+    "comments": 6
+}

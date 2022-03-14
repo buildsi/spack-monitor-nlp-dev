@@ -1,0 +1,23 @@
+{
+    "body": "closes #10127\r\n\r\nFollowing the request in https://github.com/spack/spack/pull/10127#pullrequestreview-186647721 I started refactoring the logic underneath:\r\n```console\r\n$ spack compiler add\r\n```\r\nThe version in this PR shows much better performance than the version in `develop`. The main modifications are:\r\n\r\n1. `spack.compilers.find_compilers` employs a `multiprocess.pool.ThreadPool` to execute system commands for the detection of compiler versions.\r\n2. A few memoized functions have been introduced to avoid poking the filesystem multiple times for the same results.\r\n\r\nTiming tests will be posted in the discussion below.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10190",
+    "updated_at": "2019-06-12 00:37:19",
+    "created_at": "2018-12-24 21:17:11",
+    "closed_at": "2019-06-07 16:57:27",
+    "state": "closed",
+    "title": "Compiler search uses a pool of workers",
+    "number": 10190,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "refactoring",
+        "tests",
+        "performance",
+        "travis"
+    ],
+    "id": 393931006,
+    "html_url": "https://github.com/spack/spack/pull/10190",
+    "assignees": [],
+    "comments": 8
+}

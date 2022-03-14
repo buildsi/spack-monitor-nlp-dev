@@ -1,0 +1,19 @@
+{
+    "body": "I think Spack should produce a warning (or forbid?) setting external packages to `/usr` and alike as this can easily break other packages.\n\nI was building `petsc+mpi%gcc` on macOS. Since `python` currently fails to build with `gcc` on macOS I tried to use system's python via\n\n```\n  python:\n    version: [2.7.10]\n    paths:\n      python@2.7.10: /usr\n    buildable: False\n```\n\nThis however lead to some cryptic errors during `configure` stage of `petsc` with `C++ error! MPI_Finalize() could not be located!`. I am not sure what was a problem (petsc's `configure.log` is not easy to read), I can only speculate that bringing `/usr/bin` in path (from external package) confused `petsc` with system's `cc` and somehow made Spack's `openmpi` nonfunctional. In this particular instance a workaround was to install `petsc%gcc` with `^python%clang`.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/1224",
+    "updated_at": "2016-10-25 18:25:14",
+    "created_at": "2016-07-12 10:55:02",
+    "closed_at": "2016-10-25 18:25:14",
+    "state": "closed",
+    "title": "discourage setting external packages to /usr",
+    "number": 1224,
+    "milestone": null,
+    "labels": [
+        "build-environment"
+    ],
+    "id": 165050051,
+    "html_url": "https://github.com/spack/spack/issues/1224",
+    "assignees": [],
+    "comments": 4
+}

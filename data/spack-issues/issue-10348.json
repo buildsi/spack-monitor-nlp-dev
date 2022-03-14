@@ -1,0 +1,19 @@
+{
+    "body": "Hi all, having an issue installing with R with X support and specifically cairo pdf support. Running the following:\r\n\r\n```\r\n[root@gosset:~]# uname -r\r\n3.10.0-693.21.1.el7.x86_64\r\n[root@gosset:~]# cat /etc/redhat-release\r\nCentOS Linux release 7.4.1708 (Core)\r\n[root@gosset:~]# spack --version\r\n0.12.0\r\n```\r\n\r\nCompile is generating the following error:\r\n\r\n```\r\nmake[7]: Entering directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src/library/grDevices/src/cairo'\r\nmaking cairoBM.d from cairoBM.c\r\nIn file included from cairoBM.h:51:0,\r\n                 from cairoBM.c:60:\r\n/usr/include/cairo/cairo-pdf.h:91:3: error: #error Cairo was not compiled with support for the pdf backend\r\n # error Cairo was not compiled with support for the pdf backend\r\n   ^~~~~\r\nmake[7]: *** [cairoBM.d] Error 1\r\nmake[7]: Leaving directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src/library/grDevices/src/cairo'\r\nmake[6]: *** [cairodevice] Error 2\r\nmake[6]: Leaving directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src/library/grDevices/src'\r\nmake[5]: *** [all] Error 2\r\nmake[5]: Leaving directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src/library/grDevices/src'\r\nmake[4]: *** [mksrc] Error 1\r\nmake[4]: Leaving directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src/library/grDevices'\r\nmake[3]: *** [all] Error 2\r\nmake[3]: Leaving directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src/library/grDevices'\r\nmake[2]: *** [R] Error 1\r\nmake[2]: Leaving directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src/library'\r\nmake[1]: *** [R] Error 1\r\nmake[1]: Leaving directory `/mnt/beegfs/spackroot/var/spack/stage/r-3.5.0-r6gj4fvdxmjbevpx3wagkh5nwtgucyxf/R-3.5.0/src'\r\nmake: *** [R] Error 1\r\n\r\n```\r\n\r\nIt looks to be referencing the systems host cairo installation: /usr/include/cairo\r\nThis doesn't appear to be the desired behavior, as cairo is installed under the $SPACK_ROOT/opt. This is still the case after explicitly loading the cairo package:\r\n\r\n```\r\n[root@gosset:~]# module list\r\n\r\nCurrently Loaded Modules:\r\n  1) gcc/7.4.0   2) cairo/1.16.0\r\n\r\n```\r\n\r\nI dont think it's pkg-config oriented, because the module load prepends the cflags appropriately:\r\n\r\n```\r\n[root@gosset:~]# module purge\r\n[root@gosset:~]# pkg-config --cflags cairo-pdf\r\n-I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng15 -I/usr/include/libdrm\r\n[root@gosset:~]# module load gcc cairo\r\n[root@gosset:~]# pkg-config --cflags cairo-pdf\r\n-I/mnt/beegfs/spackroot/opt/spack/linux-centos7-x86_64/gcc-7.4.0/cairo-1.16.0-jeocqqxc7fn7m5oo5ugepyu4tcyowmmo/include/cairo -I/usr/include/cairo -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng15\r\n\r\n```\r\n\r\n",
+    "user": "mforde84",
+    "url": "https://api.github.com/repos/spack/spack/issues/10348",
+    "updated_at": "2019-01-15 15:58:54",
+    "created_at": "2019-01-15 00:05:37",
+    "closed_at": "2019-01-15 15:58:54",
+    "state": "closed",
+    "title": "r@3.5.0 +X +external-lapack ^intel-mkl",
+    "number": 10348,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 399129944,
+    "html_url": "https://github.com/spack/spack/issues/10348",
+    "assignees": [],
+    "comments": 9
+}

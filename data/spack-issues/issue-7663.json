@@ -1,0 +1,19 @@
+{
+    "body": "I was recently trying to set up a full spack mirror. On the current development branch (17ace14), this fails with a concretization error in `petsc`.\r\n\r\nSide remark: Why does spack need to concretize a tree for mirroring if no custom package set is supplied? As far as I understood that feature, it will enable the user to `spack install` _arbitrary_ configurations from the created mirror, so every defined source should be cloned.\r\n\r\n### Expected Result\r\n\r\nLots of packages are downloaded.\r\n\r\n### Actual Result\r\n\r\n```console\r\n$ ./spack mirror create\r\n==> No safe (checksummed) versions for package spectrum-mpi\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    hdf5@1.10.1%gcc@4.9.2~cxx~debug+fortran~hl+mpi+pic+shared~szip~threadsafe arch=linux-debian8-x86_64 \r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    petsc@develop%gcc@4.9.2+boost clanguage=C ~complex~debug+double+hdf5+hypre~int64+metis+mpi~mumps+shared~suite-sparse+superlu-dist~trilinos arch=linux-debian8-x86_64 \r\n        ^hypre@develop~int64~internal-superlu\r\n            ^openblas@0.2.20%gcc@4.9.2 cpu_target= ~ilp64+pic+shared threads=none ~virtual_machine arch=linux-debian8-x86_64 \r\n        ^sowing@1.1.23-p1%gcc@4.9.2 arch=linux-debian8-x86_64 \r\n        ^superlu-dist@develop~int64\r\n            ^metis@5:\r\n                ^cmake@3.11.0%gcc@4.9.2~doc+ncurses+openssl+ownlibs~qt arch=linux-debian8-x86_64 \r\n                    ^ncurses@6.0%gcc@4.9.2~symlinks~termlib arch=linux-debian8-x86_64 \r\n                        ^pkgconf@1.4.0%gcc@4.9.2 arch=linux-debian8-x86_64 \r\n                    ^openssl@1.0.2n%gcc@4.9.2+systemcerts arch=linux-debian8-x86_64 \r\n                        ^zlib@1.2.11%gcc@4.9.2+optimize+pic+shared arch=linux-debian8-x86_64 \r\n            ^openmpi@3.0.1%gcc@4.9.2~cuda fabrics= ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple~ucx+vt arch=linux-debian8-x86_64 \r\n                ^hwloc@:1.999\r\n            ^parmetis\r\n\r\n\r\npetsc requires hdf5 variant +hl, but spec asked for ~hl\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ git clone https://github.com/spack/spack.git  \r\n$ cd spack/bin\r\n$ git rev-parse --short HEAD\r\n17ace14\r\n$ ./spack mirror create\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ uname -a\r\nLinux XXX 3.16.0-5-amd64 #1 SMP Debian 3.16.51-3+deb8u1 (2018-01-08) x86_64 GNU/Linux\r\n```\r\n",
+    "user": "jadoro",
+    "url": "https://api.github.com/repos/spack/spack/issues/7663",
+    "updated_at": "2020-10-24 22:52:28",
+    "created_at": "2018-04-03 14:30:30",
+    "closed_at": "2020-10-24 22:52:28",
+    "state": "closed",
+    "title": "Plain `spack mirror` fails with concretization error",
+    "number": 7663,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 310861533,
+    "html_url": "https://github.com/spack/spack/issues/7663",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Part of latest sources couldn't execute to optimize `-O3` with Fujitsu compiler.\r\nI'll lower optimize level to `-O2` only for Fujitsu compiler.\r\n\r\nReferences for similar bugs:\r\nhttps://github.com/HexHive/CFIXX/issues/6\r\n\r\nReal error log:\r\n```\r\nlibtool: compile:  /\uff5e/spack/lib/spack/env/fj/fcc -DHAVE_CONFIG_H -I. -I.. -I./ -I./compress -I./common -I./deprecated -I./dictBuilder -I./legacy -O3 -std=c99 -Wall -MT ./legacy/libzstd_la-zstd_v02.lo -MD -MP -MF ./legacy/.deps/libzstd_la-zstd_v02.Tpo -c ./legacy/zstd_v02.c  -fPIC -DPIC -o ./legacy/.libs/libzstd_la-zstd_v02.o\r\n\r\n/\uff5e/lib64/libLLVMSupport.so.6(_ZN4ll\r\nvm3sys15PrintStackTraceERNS_11raw_ostreamE+0x28)[0xffff9fd20888]\r\nStack dump:\r\n0.      Program arguments: \uff5e\r\n1.      <eof> parser at end of file\r\n2.      Per-module optimization passes\r\n3.      Running pass 'CallGraph Pass Manager' on module './compress/zstd_opt.c'.\r\n4.      Running pass 'Loop Pass Manager' on function '@ZSTD_compressBlock_opt_generic'\r\n5.      Running pass 'Tree Height Reduction' on basic block '%7049'\r\nlibtool: compile:  /\uff5e/spack/lib/spack/env/fj/fcc -DHAVE_CONFIG_H -I. -I.. -I./ -I./compress -I./common -I./deprecated -I./dictBuilder -I./legacy -O3 -std=c99 -Wall -MT ./compress/libzstd_la-zstd_compress.lo -MD -MP -MF ./compress/.deps/libzstd_la-zstd_compress.Tpo -c ./compress/\r\nzstd_compress.c -o ./compress/libzstd_la-zstd_compress.o >/dev/null 2>&1\r\n...\r\n```",
+    "user": "t-karatsu",
+    "url": "https://api.github.com/repos/spack/spack/issues/14007",
+    "updated_at": "2019-12-12 04:39:40",
+    "created_at": "2019-12-06 00:20:17",
+    "closed_at": "2019-12-06 18:05:18",
+    "state": "closed",
+    "title": "sz: Change optimization flags for Fujitsu compiler",
+    "number": 14007,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "fujitsu"
+    ],
+    "id": 533673100,
+    "html_url": "https://github.com/spack/spack/pull/14007",
+    "assignees": [],
+    "comments": 0
+}

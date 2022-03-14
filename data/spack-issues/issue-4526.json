@@ -1,0 +1,17 @@
+{
+    "body": "Hi,\r\n\r\nwith the latest updates in `develop` (tested: 790b06e0c363ce1598deb3bde217c4685701b61d) spack seems to require to know my `default editor` when installing software, even in non-interactive mode.\r\n\r\nOn the first call to `spack install` it now fails if *no editor is installed* on a system (which is quite often the case in docker images #4480):\r\n```\r\nTraceback (most recent call last):\r\n  File \"/home/src/spack/bin/spack\", line 80, in <module>\r\n    import spack.main  # noqa\r\n  File \"/home/src/spack/lib/spack/spack/__init__.py\", line 227, in <module>\r\n    default = default_editors[0]\r\nNameError: name 'default_editors' is not defined\r\n```\r\n\r\nThis was not required earlier this week, so it might have been introduced quite recently. IMHO, spack should not need to know my editor for such a task :) (only for `spack create`-like commands)",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/4526",
+    "updated_at": "2017-06-26 03:42:39",
+    "created_at": "2017-06-16 12:26:39",
+    "closed_at": "2017-06-26 03:42:39",
+    "state": "closed",
+    "title": "Default Editor in Non-Interactive Mode",
+    "number": 4526,
+    "milestone": null,
+    "labels": [],
+    "id": 236468534,
+    "html_url": "https://github.com/spack/spack/issues/4526",
+    "assignees": [],
+    "comments": 0
+}

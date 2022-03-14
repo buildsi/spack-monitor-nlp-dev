@@ -1,0 +1,22 @@
+{
+    "body": "On the current develop, no Spack command works on Blue Waters.\r\n\r\n### Steps to reproduce the issue\r\n\r\nAny Spack command:\r\n```console\r\n$ spack help\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"/u/sciteam/stewart1/spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/main.py\", line 704, in main\r\n    if spack.config.get('config:debug'):\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/config.py\", line 627, in get\r\n    return config.get(path, default, scope)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/llnl/util/lang.py\", line 558, in __getattr__\r\n    return getattr(self.instance, name)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/llnl/util/lang.py\", line 554, in instance\r\n    self._instance = self.factory()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/config.py\", line 609, in _config\r\n    _add_platform_scope(cfg, ConfigScope, name, path)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/config.py\", line 562, in _add_platform_scope\r\n    platform = spack.architecture.platform().name\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/llnl/util/lang.py\", line 184, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/architecture.py\", line 388, in platform\r\n    return platform_cls()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/platforms/cray.py\", line 76, in __init__\r\n    back_distro = Cnl()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/operating_systems/cnl.py\", line 57, in __init__\r\n    version = self._detect_crayos_version()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/operating_systems/cnl.py\", line 66, in _detect_crayos_version\r\n    release_attrs = read_cle_release_file()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/operating_systems/cnl.py\", line 37, in read_cle_release_file\r\n    with open(_cle_release_file) as release_file:\r\nIOError: [Errno 2] No such file or directory: '/etc/opt/cray/release/cle-release'\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ cat /etc/*-release\r\nCluster Manager v6.1\r\nslave\r\nLSB_VERSION=\"core-2.0-noarch:core-3.2-noarch:core-4.0-noarch:core-2.0-x86_64:core-3.2-x86_64:core-4.0-x86_64\"\r\nSUSE Linux Enterprise Server 11 (x86_64)\r\nVERSION = 11\r\nPATCHLEVEL = 3\r\n$ uname -a\r\nLinux h2ologin2 3.0.101-0.47.106.59-default #1 SMP Wed Jan 23 09:00:24 UTC 2019 (624897e) x86_64 x86_64 x86_64 GNU/Linux\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12187",
+    "updated_at": "2019-08-03 19:00:31",
+    "created_at": "2019-07-30 01:35:51",
+    "closed_at": "2019-08-03 19:00:31",
+    "state": "closed",
+    "title": "Spack broken on Blue Waters",
+    "number": 12187,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "platform-support",
+        "impact-high"
+    ],
+    "id": 474327944,
+    "html_url": "https://github.com/spack/spack/issues/12187",
+    "assignees": [],
+    "comments": 3
+}

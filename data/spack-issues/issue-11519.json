@@ -1,0 +1,20 @@
+{
+    "body": "Spack is not meant to run as root; but it also does not check either.  Running as root will break some common builds, causing hard-to-discern errors.  I don't think this is something we want to support; so we should prohibit it instead.  See #11396\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ sudo spack install tar\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n490 checking whether mknod can create fifo without root privileges...\r\nconfigure: error: in /tmp/root/spack-stage/spack-stage-QZVi3T/tar-1 .30': 491 configure: error: you should not run configure as root (set FORCE_U NSAFE_CONFIGURE=1 in environment to bypass this check) 492 See config.log' for more details\r\n```\r\n\r\n### Suggested Solution\r\n\r\nWhen Spack launches, check if it is being run as root.  If so, quit immediately, telling users to run under regular user accounts.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/11519",
+    "updated_at": "2019-06-26 17:11:44",
+    "created_at": "2019-05-20 17:55:31",
+    "closed_at": "2019-06-22 12:19:50",
+    "state": "closed",
+    "title": "Running Spack as Root",
+    "number": 11519,
+    "milestone": null,
+    "labels": [
+        "question",
+        "containers"
+    ],
+    "id": 446239316,
+    "html_url": "https://github.com/spack/spack/issues/11519",
+    "assignees": [],
+    "comments": 12
+}

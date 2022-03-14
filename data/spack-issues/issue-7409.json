@@ -1,0 +1,22 @@
+{
+    "body": "We've received some requests for an upgrade-in-place capability in Spack.\r\n\r\nMy current thoughts on the policy side:\r\n\r\n- We want to maintain the unique mapping from specs to prefixes\r\n- We want to be able to deprecate software with security flaws without breaking packages that depend on it.\r\n\r\nOn the technical side, to accomplish the above:\r\n\r\n- We cannot install a new spec over the existing install\r\n- We can remove the old installation and create a symbolic link from the old installation to a new one.\r\n-  We can note in the install database that the old installation was deprecated and symlink'ed into the new installation.\r\n- Once the new compiler is implemented, we can prevent the concretizer from concretizing against the old spec.\r\n\r\nProposal:\r\n\r\nI will create a `spack upgrade` or `spack deprecate` command that takes two specs, the spec to deprecate and the spec to replace it with. It will implement the removal of the old binaries and the creation of the symlink from the old prefix to the new. This will also make the database changes necessary, but will not implement the changes to the concretizer as the current concretizer implementation cannot handle that logic.\r\n\r\nComments on either policy or technical specs are welcome. I will leave this up at least a few days before beginning implementation to give people an opportunity to comment.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/7409",
+    "updated_at": "2019-10-23 20:11:36",
+    "created_at": "2018-03-06 22:29:00",
+    "closed_at": "2019-10-23 20:11:36",
+    "state": "closed",
+    "title": "Proposal: Add upgrade-in-place functionality",
+    "number": 7409,
+    "milestone": null,
+    "labels": [
+        "proposal",
+        "security"
+    ],
+    "id": 302892615,
+    "html_url": "https://github.com/spack/spack/issues/7409",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 2
+}

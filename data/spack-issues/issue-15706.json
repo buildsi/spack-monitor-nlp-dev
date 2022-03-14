@@ -1,0 +1,19 @@
+{
+    "body": "### Spack version\r\nPulled e1238bae9053d3c283c1721f85af78f3539f473d (2020-03-27) without any additional configuration. \r\n```console\r\n$ spack --version\r\nfatal: No names found, cannot describe anything.\r\n0.14.1\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install cryptsetup\r\n...\r\n     219    ==> 32048: cryptsetup: Executing phase: 'build'\r\n     220    ==> [2020-03-27-11:07:25.493154, 7479] 'make' '-j2'\r\n     221     cd . && /bin/bash /tmp/ubuntu/spack-stage/spack-stage-cryptsetup-2.2.1-rsdkky2pjkptxrmbuckroajv\r\n            tcz4qkl5/spack-src/missing automake-1.16 --gnu Makefile\r\n  >> 222    configure.ac:19: error: version mismatch.  This is Automake 1.16.2,\r\n     223    configure.ac:19: but the definition used by this AM_INIT_AUTOMAKE\r\n     224    configure.ac:19: comes from Automake 1.16.1.  You should recreate\r\n     225    configure.ac:19: aclocal.m4 with aclocal and run automake again.\r\n...\r\n```\r\n\r\n### Platform and user environment\r\n```commandline\r\n$ uname -a \r\nLinux roman-spack-debug 4.15.0-91-generic #92-Ubuntu SMP Fri Feb 28 11:09:48 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Ubuntu 18.04.4 LTS\r\n``` \r\n\r\nI do not have any experience with automake/autoconf. However, the [documentation](https://spack.readthedocs.io/en/latest/build_systems/autotoolspackage.html) states that the `autoreconf` phase includes running `aclocal`. The debug file shows that `autoreconf` did run but `aclocal.m4` is not updated (its timestamp is 2019-09-06). I cannot tell whether it is a bug in `autoreconf` phase or `aclocal` only runs when `aclocal.m4` is not present. If I add `force_autoreconf = True` to the recipe, `aclocal.m4` is updated and installation is successful.\r\n\r\nIf the `force_autoreconf` setting is indeed required, I can create a pull request to fix the issue.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "brisk022",
+    "url": "https://api.github.com/repos/spack/spack/issues/15706",
+    "updated_at": "2020-04-07 16:56:55",
+    "created_at": "2020-03-27 11:41:00",
+    "closed_at": "2020-04-07 16:56:55",
+    "state": "closed",
+    "title": "Automake version mismatch in cryptsetup",
+    "number": 15706,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 589074712,
+    "html_url": "https://github.com/spack/spack/issues/15706",
+    "assignees": [],
+    "comments": 2
+}

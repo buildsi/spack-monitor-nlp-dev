@@ -1,0 +1,22 @@
+{
+    "body": "Spack occasionally aborts a fetch too early when a url source is too slow.  I ran into this issue with util-macros on a busy night. \r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install util-macros\r\n```\r\n\r\n### Steps that resolved the issue (workaround)\r\n\r\nI edited spack/lib/spack/spack/fetch_strategy.py to increase the timeout to 1 minute from 10 seconds.  Ideally this should be configurable.\r\n\r\n### Error Message\r\n\r\n\r\n```console\r\n==> Installing util-macros\r\n==> Searching for binary cache of util-macros\r\n==> No binary for util-macros found: installing from source\r\n==> Fetching https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2\r\n\r\ncurl: (28) Operation timed out after 10001 milliseconds with 0 out of 0 bytes received\r\n==> Failed to fetch file from URL: https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2\r\n    Curl failed with error 28\r\n==> Fetching from https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2 failed.\r\n==> Error: FetchError: All fetchers failed for spack-stage-util-macros-1.19.1-3khni2zc7qm6ruqeot3pbstb2lb36uhd\r\n\r\n/blues/gpfs/home/underwoo/git/spack/lib/spack/spack/package.py:1110, in do_fetch:\r\n       1107                raise FetchError(\"Will not fetch %s\" %\r\n       1108                                 self.spec.format('{name}{@version}'), ck_msg)\r\n       1109\r\n  >>   1110        self.stage.create()\r\n       1111        self.stage.fetch(mirror_only)\r\n       1112        self._fetch_time = time.time() - start_time\r\n       1113\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\nI ran this on ANL's bebop, but also replicated it on Clemson's palmetto using spack's default configuration.\r\n",
+    "user": "robertu94",
+    "url": "https://api.github.com/repos/spack/spack/issues/14700",
+    "updated_at": "2020-02-27 18:52:54",
+    "created_at": "2020-01-31 02:19:20",
+    "closed_at": "2020-02-27 18:52:54",
+    "state": "closed",
+    "title": "Spack's default timeout is too short",
+    "number": 14700,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "fetching"
+    ],
+    "id": 557871479,
+    "html_url": "https://github.com/spack/spack/issues/14700",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

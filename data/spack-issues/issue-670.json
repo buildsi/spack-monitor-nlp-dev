@@ -1,0 +1,17 @@
+{
+    "body": "##### Modifications :\n- [x] added `--dependents` option to uninstall\n- [x] always prompt user for confirmation\n- [x] add tests for regression on the command\n- [x] updated documentation\n##### Notes :\n\nThis is meant to address #651 . Any comment or bug report on the PR is welcome.\n##### Example :\n\n```\n$ spack find\n==> 8 installed packages.\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\nbzip2@1.0.6  ncurses@6.0  openssl@1.0.2g  python@2.7.11  python@3.5.1  readline@6.3  sqlite@3.8.5  zlib@1.2.8\n\n$ spack uninstall python\n==> Error: python matches multiple packages:\n\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\nnk2wnn4 python@2.7.11  7hxo5t5 python@3.5.1\n\n==> Error: You can either:\n    a) Use a more specific spec, or\n    b) use spack uninstall -a to uninstall ALL matching specs.\n\n$ spack uninstall -a python zlib\n==> Error: Will not uninstall zlib@1.2.8%gcc@4.8-pdtswcf\n\nThe following packages depend on it:\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\n3trgywi openssl@1.0.2g\n\n==> Error: You can use spack uninstall -f to force this action\n\n$ spack uninstall -a -d python zlib\n==> The following packages will be uninstalled : \n\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\n3trgywi openssl@1.0.2g  nk2wnn4 python@2.7.11  7hxo5t5 python@3.5.1  pdtswcf zlib@1.2.8\n\n==> Do you want to proceed ? [y/n]\ny\n==> Successfully uninstalled python@2.7.11%gcc@4.8=linux-x86_64-nk2wnn4\n==> Successfully uninstalled python@3.5.1%gcc@4.8=linux-x86_64-7hxo5t5\n==> Successfully uninstalled openssl@1.0.2g%gcc@4.8=linux-x86_64-3trgywi\n==> Successfully uninstalled zlib@1.2.8%gcc@4.8=linux-x86_64-pdtswcf\n```\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/670",
+    "updated_at": "2016-04-04 17:04:21",
+    "created_at": "2016-03-27 22:13:00",
+    "closed_at": "2016-04-04 17:04:14",
+    "state": "closed",
+    "title": "enhancement : recursive uninstallation of dependent packages",
+    "number": 670,
+    "milestone": null,
+    "labels": [],
+    "id": 143854876,
+    "html_url": "https://github.com/spack/spack/pull/670",
+    "assignees": [],
+    "comments": 21
+}

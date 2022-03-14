@@ -1,0 +1,23 @@
+{
+    "body": "My team is enthusiastic to give Spack a chance to build packages for a pair of large Cray Shasta systems coming later this year.  On our test system, I am experiencing issues with what I think are the Spack initialization and craype recognition routines (possibly the cle-release file .... I was looking at issue [12178](https://github.com/spack/spack/issues/12187)) to come to this conclusion.\r\n\r\nSpack fails to start normally if the module for craype is loaded.  The cle-release file on Shasta in UAN (front-end node), UAI (login container, and CLE (Compute node) are all identical:\r\n```\r\ncat /etc/opt/cray/release/cle-release\r\nPRODUCT=\"Cray's Linux Environment\"\r\nOS=SLES15SP1\r\nARCH=x86_64\r\nVERSION=1.2.0\r\nDATE=20200421195827\r\n```\r\nspack debug fails or I'd provide it.\r\n\r\n### Error Message\r\n\r\n```console\r\n# . $SPACK_ROOT/share/spack/setup-env.sh\r\nTraceback (most recent call last):\r\n  File \"/apps/dev/spack/current/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/spack/main.py\", line 711, in main\r\n    print_setup_info(*args.print_shell_vars.split(','))\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/spack/main.py\", line 628, in print_setup_info\r\n    shell_set('_sp_sys_type', spack.architecture.sys_type())\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/llnl/util/lang.py\", line 178, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/spack/architecture.py\", line 532, in sys_type\r\n    arch = Arch(platform(), 'default_os', 'default_target')\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/llnl/util/lang.py\", line 178, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/spack/architecture.py\", line 516, in platform\r\n    return platform_cls()\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/spack/platforms/cray.py\", line 76, in __init__\r\n    back_distro = Cnl()\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/spack/operating_systems/cnl.py\", line 81, in __init__\r\n    version = self._detect_crayos_version()\r\n  File \"/apps/dev/spack/spack-0.14.2/lib/spack/spack/operating_systems/cnl.py\", line 92, in _detect_crayos_version\r\n    v = spack.version.Version(release_attrs['RELEASE'])\r\n```\r\n\r\n### Information on your system\r\n\r\n\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\nSpack\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "riscy768",
+    "url": "https://api.github.com/repos/spack/spack/issues/17299",
+    "updated_at": "2020-07-23 20:20:04",
+    "created_at": "2020-06-29 15:33:44",
+    "closed_at": "2020-07-23 20:20:04",
+    "state": "closed",
+    "title": "Cray shasta systems: Spack cannot detect architecture",
+    "number": 17299,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "impact-medium"
+    ],
+    "id": 647473992,
+    "html_url": "https://github.com/spack/spack/issues/17299",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 10
+}

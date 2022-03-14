@@ -1,0 +1,21 @@
+{
+    "body": "See: https://github.com/spack/spack/pull/26868\r\n\r\nThis compiler behaves exactly like `oneapi` but uses `dpcpp` instead of `icpx`. \r\n\r\nArguably this could be folded into the `oneapi` compiler definition, although that would minimally require:\r\n\r\n* Programmatic access of `link_paths` (e.g. right now it's a dictionary and we would have to replace that with an object that has more functionality to customize what is returned)\r\n* A switch to the compiler object itself to activate/deactivate dpcpp (and users like `ginkgo` would have to flip this switch\r\n\r\nIt would be appealing to have a compiler automatically detect DPC++ and use dpcpp for it (in which case this wouldn't be needed assuming the logic mentioned in MKL's .cmake file were updated accordingly), although I don't know if that is feasible for the compiler to do.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/27168",
+    "updated_at": "2021-12-02 23:49:20",
+    "created_at": "2021-11-02 19:23:56",
+    "closed_at": "2021-12-02 23:49:20",
+    "state": "closed",
+    "title": "Support packages which need to explicitly refer to dpcpp by name",
+    "number": 27168,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 1042728700,
+    "html_url": "https://github.com/spack/spack/pull/27168",
+    "assignees": [
+        "tcojean"
+    ],
+    "comments": 5
+}

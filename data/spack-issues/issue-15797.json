@@ -1,0 +1,22 @@
+{
+    "body": "When I install a cuda package, spack install it into `/usr/local' as well.\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.1-449-a4b3edd68\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ ls /usr/local\r\nbin etc games include lib man sbin share src\r\n$ spack install cuda@9.0.176\r\n... # tested with cuda@9.0.176 and cuda@10.2.89\r\n... # maybe other cuda version has the same problem\r\n$ ls /usr/local\r\nbin cuda etc games include lib man sbin share src\r\n$ /usr/local/cuda/bin/nvcc --version\r\nnvcc: NVIDIA (R) Cuda compiler driver\r\nCopyright (c) 2005-2017 NVIDIA Corporation\r\nBuilt on Fri_Sep__1_21:08:03_CDT_2017\r\nCuda compilation tools, release 9.0, V9.0.176\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux fwk394 4.15.0-66-generic #75~16.04.1-Ubuntu SMP Tue Oct 1 14:01:08 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tUbuntu 18.04.4 LTS\r\n``` \r\n\r\n### Additional information\r\n\r\n<!--Sometimes the issue benefits from additional details. In these cases there are\r\na few things we can suggest doing. First of all, you can post the full output of:\r\n```console\r\n$ spack spec --install-status <spec>\r\n...\r\n```\r\nto show people whether Spack installed a faulty software or if it was not able to\r\nbuild it at all. \r\n\r\nIf your build didn't make it past the configure stage, Spack as also commands to parse \r\nlogs and report error and warning messages:\r\n```console\r\n$ spack log-parse --show=errors,warnings <file-to-parse>\r\n```\r\nYou might want to run this command on the `config.log` or any other similar file\r\nfound in the stage directory: \r\n```console\r\n$ spack location -s <spec>\r\n```\r\nIn case in `config.log` there are other settings that you think might be the cause \r\nof the build failure, you can consider attaching the file to this issue.\r\n\r\nRebuilding the package with the following options:\r\n```console\r\n$ spack -d install -j 1 <spec>\r\n...\r\n```\r\nwill provide additional debug information. After the failure you will find two files in the current directory:\r\n\r\n1. `spack-cc-<spec>.in`, which contains details on the command given in input \r\n    to Spack's compiler wrapper  \r\n1. `spack-cc-<spec>.out`, which contains the command used to compile / link the \r\n    failed object after Spack's compiler wrapper did its processing \r\n\r\nYou can post or attach those files to provide maintainers with more information on what\r\nis causing the failure.-->\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "SimeonEhrig",
+    "url": "https://api.github.com/repos/spack/spack/issues/15797",
+    "updated_at": "2020-04-14 06:20:36",
+    "created_at": "2020-04-01 08:06:21",
+    "closed_at": "2020-04-14 06:20:36",
+    "state": "closed",
+    "title": "Installation issue: CUDA package create a folder in /usr/local",
+    "number": 15797,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "cuda"
+    ],
+    "id": 591710821,
+    "html_url": "https://github.com/spack/spack/issues/15797",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 9
+}

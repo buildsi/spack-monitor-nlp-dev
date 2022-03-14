@@ -1,0 +1,21 @@
+{
+    "body": "### Issue\r\n\r\nI'm trying to use a Spack-installed Python package (`py-earthengine-api`) but I found that Spack's Python package doesn't install any certificates:\r\n```\r\nTraceback (most recent call last):\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/urllib/request.py\", line 1317, in do_open\r\n    encode_chunked=req.has_header('Transfer-encoding'))\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/http/client.py\", line 1244, in request\r\n    self._send_request(method, url, body, headers, encode_chunked)\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/http/client.py\", line 1290, in _send_request\r\n    self.endheaders(body, encode_chunked=encode_chunked)\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/http/client.py\", line 1239, in endheaders\r\n    self._send_output(message_body, encode_chunked=encode_chunked)\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/http/client.py\", line 1026, in _send_output\r\n    self.send(msg)\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/http/client.py\", line 966, in send\r\n    self.connect()\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/http/client.py\", line 1414, in connect\r\n    server_hostname=server_hostname)\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/ssl.py\", line 423, in wrap_socket\r\n    session=session\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/ssl.py\", line 870, in _create\r\n    self.do_handshake()\r\n  File \"/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view/lib/python3.7/ssl.py\", line 1139, in do_handshake\r\n    self._sslobj.do_handshake()\r\nssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1076)\r\n```\r\n\r\n### Solution\r\n\r\nIs there a way we can get Spack's `python` package to automatically install certificates so that `ssl` actually works? I once had to do something similar for the `mercurial` package, where I added `py-certifi` as a dependency and manually configured `hgrc` to point to the certificate installation directory. Maybe we could add `py-certifi` as a resource to the `python` package?\r\n\r\n### Workarounds\r\n\r\nCurrently, you can do `spack install py-certifi` to solve this problem. The issue with this workaround is that Python packages that require the `ssl` library never explicitly state a dependency on `certifi`. It is just expected to be part of the Python installation.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12340",
+    "updated_at": "2019-08-08 23:11:29",
+    "created_at": "2019-08-08 20:30:54",
+    "closed_at": "2019-08-08 23:11:28",
+    "state": "closed",
+    "title": "How to handle Python certificates",
+    "number": 12340,
+    "milestone": null,
+    "labels": [
+        "python",
+        "discussion",
+        "security"
+    ],
+    "id": 478673448,
+    "html_url": "https://github.com/spack/spack/issues/12340",
+    "assignees": [],
+    "comments": 2
+}

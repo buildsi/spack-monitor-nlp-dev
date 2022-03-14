@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\nAny of the following are equivalent, it looks like the bug can be reproduced by attempting to concretize a package that:\r\n* defines a variant whose values are disjoint sets, and\r\n* whose variant provides a default value, and\r\n* the user wishes to select a variant value other than the default\r\n\r\n\r\n```console\r\n$ spack spec -I \"mvapich2 process_managers=slurm\" # default is 'auto'\r\nSpecError: 'slurm' or 'auto' cannot be activated along with other process managers [mvapich2, variant 'process_managers']\r\n# in _disjoint_set_validator, `values` is ('auto', 'slurm')\r\n\r\n$ spack spec -I \"gunrock applications=bc\" # default is 'all'\r\nSpecError: select either all or individual applications [gunrock, variant 'applications']\r\n# in _disjoint_set_validator, `values` is ('all', 'bc')\r\n\r\n$ spack spec -I \"openloops processes=all.coll\" # default is 'lhc.coll'\r\nSpecError: this variant accepts combinations of values from exactly one of the following sets '('all.coll', 'lhc.coll')' [openloops, variant 'processes'] [openloops, variant 'processes']\r\n# in _disjoint_set_validator, `values` is ('all.coll', 'lhc.coll')\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\nDescribed above, a SpecError from `_disjoint_set_validator` in `variant.py`\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.1\r\n* **Python:** 3.8.2\r\n* **Platform:** linux-rhel7-broadwell\r\n* **Concretizer:** clingo\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\nI'll take a look at the corresponding source code but it might be that the default is added unconditionally (even if a variant value is provided by the user), or perhaps it's added before the user-specified value filters through.\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "joshessman-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/21911",
+    "updated_at": "2021-03-26 14:22:39",
+    "created_at": "2021-02-24 15:07:50",
+    "closed_at": "2021-03-26 14:22:39",
+    "state": "closed",
+    "title": "Disjoint set variant defaults prevent selection of non-default option",
+    "number": 21911,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 815566015,
+    "html_url": "https://github.com/spack/spack/issues/21911",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

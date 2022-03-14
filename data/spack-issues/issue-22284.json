@@ -1,0 +1,17 @@
+{
+    "body": "When I execute this command using the newest spack as below\r\n\r\n```\r\nspack install lm-sensors@3-6-0\r\n```\r\n\r\nI encounter the error below:\r\n\r\n```\r\n==> Installing lm-sensors-3-6-0-pr63xaffxdnnwrbwzpqrta3bteg7yrib\r\n==> No binary for lm-sensors-3-6-0-pr63xaffxdnnwrbwzpqrta3bteg7yrib found: installing from source\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/05/0591f9fa0339f0d15e75326d0365871c2d4e2ed8aa1ff759b3a55d3734b7d197.tar.gz\r\n######################################################################## 100.0%\r\n==> lm-sensors: Executing phase: 'edit'\r\n==> lm-sensors: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16'\r\n\r\n5 errors found in build log:\r\n     112    rm -f lib/libsensors.so.5\r\n     113    rm -f lib/libsensors.so\r\n     114    ln -sf libsensors.so.5.0.0 lib/libsensors.so.5\r\n     115    ln -sf libsensors.so.5.0.0 lib/libsensors.so\r\n     116    gcc -Wl,-rpath,/usr/local/lib -o prog/sensors/sensors prog/sensors/main.ro prog/sensors/chips.ro  -Llib -lsensors\r\n     117    prog/sensors/main.ro: In function `main':\r\n  >> 118    main.c:(.text.startup+0x23c): undefined reference to `libiconv_open'\r\n  >> 119    main.c:(.text.startup+0x265): undefined reference to `libiconv'\r\n  >> 120    main.c:(.text.startup+0x270): undefined reference to `libiconv_close'\r\n  >> 121    collect2: error: ld returned 1 exit status\r\n  >> 122    make: *** [prog/sensors/sensors] Error 1\r\n\r\nSee build log for details:\r\n  /tmp/wyf/spack-stage/spack-stage-lm-sensors-3-6-0-pr63xaffxdnnwrbwzpqrta3bteg7yrib/spack-build-out.txt\r\n```\r\n\r\nThis PR is my solution.",
+    "user": "wwyf",
+    "url": "https://api.github.com/repos/spack/spack/issues/22284",
+    "updated_at": "2021-03-14 12:02:46",
+    "created_at": "2021-03-14 11:25:42",
+    "closed_at": "2021-03-14 12:02:46",
+    "state": "closed",
+    "title": "lm-sensors: Fix the build error with linking libiconv",
+    "number": 22284,
+    "milestone": null,
+    "labels": [],
+    "id": 831132372,
+    "html_url": "https://github.com/spack/spack/pull/22284",
+    "assignees": [],
+    "comments": 1
+}

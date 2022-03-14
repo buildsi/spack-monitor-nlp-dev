@@ -1,0 +1,19 @@
+{
+    "body": "This is a fairly major refactor and simplification of Geant4 and its associated data packages, and *will* changes hashes of previous installs. I think this is worthwhile for long term maintenance of the package, so this PR is \"Draft\" for now to get early eyes on it and discuss with interested parties.\r\n\r\nThe primary change is the removal of the `data` variant so the physics model data packages are always installed by the `g4XXX` packages, then used by Geant4 itself through the `geant4-data` package. `geant4-data` is now a `BundlePackage` whose version maps to that of `geant4` and depends on the `g4XXX` packages at the exact versions the `geant4` version supports. It creates a \"view\" (more on that later) of the data so Geant4's install mechanisms sees a single directory. Each `g4XXX` package also now sets the appropriate runtime environment.\r\n\r\nI believe removal of the `data` variant is worthwhile as the external data is platform/arch independent, so really benefits reuse and reducing install sizes.\r\n\r\nThe second breaking change is to move the versioning to \"standard\" semantic versioning, so `10.6.0` rather than `10.06.p00`. This is just to make the packaging cleaner and simple, plus the use of the Geant4 GitLab repo.\r\n\r\nThe remainder of the updates are pure simplification and cleanup. \r\n\r\nOne potential issue to look at is the \"view\" creation in `geant4-data`. All this does is create a directory `<prefix>/share/geant4-data-<version>/` and create symlinks in that to the `g4xxx` data  directories. That works, and Geant4's seems fine with it. However, if a spack environment/view is created and `geant4-data` installed in this, the symlinks under `<viewprefix>/share/geant4-data-<version>/` are created as normal but empty directories.\r\n\r\nI'm not sure this is critical as the environment variables needed by Geant4 are set correctly, but feels like I've missed something.",
+    "user": "drbenmorgan",
+    "url": "https://api.github.com/repos/spack/spack/issues/15447",
+    "updated_at": "2020-03-31 08:54:32",
+    "created_at": "2020-03-11 17:19:39",
+    "closed_at": "2020-03-31 08:54:32",
+    "state": "closed",
+    "title": "geant4: new version 10.6 plus simplifications",
+    "number": 15447,
+    "milestone": null,
+    "labels": [
+        "hep"
+    ],
+    "id": 579424420,
+    "html_url": "https://github.com/spack/spack/pull/15447",
+    "assignees": [],
+    "comments": 6
+}

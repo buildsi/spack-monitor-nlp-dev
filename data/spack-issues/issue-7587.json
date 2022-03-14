@@ -1,0 +1,20 @@
+{
+    "body": "This further reduces startup time from #7585.  Spack was making many calls to `stat()` at startup, causing the command to run very slowly.\r\n\r\n- FastPackageChecker was being called at startup every time Spack runs,\r\n  which takes a long time on networked filesystems.  Startup was taking\r\n  5-7 seconds due to this call.\r\n\r\n- The checker was intended to avaoid importing all packages (which is\r\n  really expensive) when all it needs is to stat them.  So it's only\r\n  \"fast\" for parts of the code that *need* it.\r\n\r\n- This commit makes repositories instantiate the checker lazily, so it's\r\n  only constructed when needed.\r\n\r\n`strace` of `spack python -c 'exit()'`:\r\n\r\nbefore (up to 5-8s if files fell out of NFS cache):\r\n```\r\n% time     seconds  usecs/call     calls    errors syscall\r\n------ ----------- ----------- --------- --------- ----------------\r\n 42.81    0.440777          36     12151     10992 open\r\n 40.37    0.415704          60      6874      3275 stat\r\n  4.12    0.042386           7      6193         2 lstat\r\n  3.41    0.035127           8      4309           read\r\n  3.21    0.033026           7      4470           fstat\r\n  1.12    0.011498           4      3004        74 lseek\r\n  0.95    0.009780           8      1202           close\r\n  0.89    0.009206          11       838           mmap\r\n```\r\n\r\nafter (pretty consistently around 1-1.5s on our NFS):\r\n```\r\n% time     seconds  usecs/call     calls    errors syscall\r\n------ ----------- ----------- --------- --------- ----------------\r\n 62.48    0.079934          16      5117      4491 open\r\n 13.25    0.016952          11      1574      1368 stat\r\n  6.60    0.008449          10       860           read\r\n  6.14    0.007858           8       927           fstat\r\n  2.83    0.003614           8       452           mmap\r\n  2.60    0.003323           5       641           close\r\n  2.15    0.002748           9       305           munmap\r\n```\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/7587",
+    "updated_at": "2018-03-28 19:00:25",
+    "created_at": "2018-03-24 09:10:08",
+    "closed_at": "2018-03-24 14:39:11",
+    "state": "closed",
+    "title": "Avoid stat-ing all packages at startup.",
+    "number": 7587,
+    "milestone": null,
+    "labels": [
+        "performance",
+        "repos"
+    ],
+    "id": 308242003,
+    "html_url": "https://github.com/spack/spack/pull/7587",
+    "assignees": [],
+    "comments": 16
+}

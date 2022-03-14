@@ -1,0 +1,20 @@
+{
+    "body": "This is my proposed solution for #8670 . It solved my problem where I use a GCC not installed in `/usr` for example, with `extra_rpaths` set to point to that GCC's libraries. Then when I build OpenMPI > 1.10.x using `fabrics=verbs`, which uses `--with-verbs` during OpenMPI configure, it finds the infiniband drivers in `/usr/lib64` so then it adds `-Wl,-rpath -Wl,/usr/lib64` to the OpenMPI wrappers. So then when I use the OpenMPI module to build other random software outside of Spack, the wrappers rpath `/usr/lib64` into the executable which then has GLIBC, GLIBCXX runtime errors due to it picking up libraries in `/usr/lib64` which is the system GCC, rather than my GCC I'm _actually_ using which is installed elsewhere.\r\n\r\nTherefore this pull request adds in the directories from `compilers.yaml` `extra_rpaths` into the OpenMPI wrappers using rpath as well. After testing it, it solves the problem I was having with OpenMPI 3.1.0 for example when creating executables with its wrappers.",
+    "user": "jrood-nrel",
+    "url": "https://api.github.com/repos/spack/spack/issues/8687",
+    "updated_at": "2018-07-30 19:02:10",
+    "created_at": "2018-07-11 17:36:40",
+    "closed_at": "2018-07-30 19:02:10",
+    "state": "closed",
+    "title": "Add extra_rpath paths into rpath commands for openmpi wrappers.",
+    "number": 8687,
+    "milestone": null,
+    "labels": [
+        "rpath",
+        "mpi"
+    ],
+    "id": 340339299,
+    "html_url": "https://github.com/spack/spack/pull/8687",
+    "assignees": [],
+    "comments": 1
+}

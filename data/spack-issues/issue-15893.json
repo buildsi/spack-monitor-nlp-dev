@@ -1,0 +1,20 @@
+{
+    "body": "Hi,\r\nI would like to build charmpp with some custom CFLAGS, but seems that spack simply ignore them.\r\nIf I run:\r\n```\r\n$ spack install charmpp@6.8.2 cflags=\"-O3\" %intel\r\n```\r\nI can not see any flags in the `spack-build-out.txt`:\r\n```\r\n==> 118682: charmpp: Executing phase: 'install'\r\n==> [2020-04-06-14:43:52.956148, 118706] './build' 'LIBS' 'netlrts-linux-x86_64' 'icc' 'ifort' '-j4' '--destination=/apps/spack/opt/spack/linux-centos7-sky\r\nlake/intel-19.0.5.281/charmpp-6.8.2-yr4fwwh6vlsd23vwnlwldzcmejn4eldj' 'smp' '--build-shared' '--with-production'\r\nSelected Compiler: icc\r\nSelected Options:  ifort smp\r\nCreating dir: /apps/spack/opt/spack/linux-centos7-skylake/intel-19.0.5.281/charmpp-6.8.2-yr4fwwh6vlsd23vwnlwldzcmejn4eldj/tmp\r\nCopying src/scripts/Makefile to /apps/spack/opt/spack/linux-centos7-skylake/intel-19.0.5.281/charmpp-6.8.2-yr4fwwh6vlsd23vwnlwldzcmejn4eldj/tmp\r\nSoft-linking over bin\r\nSoft-linking over lib\r\nSoft-linking over lib_so\r\nSoft-linking over include\r\nSoft-linking over tmp\r\n```\r\n\r\nSame behaviour even if I specify the flags in the `compilers.yaml`\r\n\r\n### Spack version\r\n```console\r\n$ spack --version\r\n0.14.1-517-268c2a1\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install charmpp@6.8.2 cflags=\"-O3\" %intel\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux ip-AC127404 3.10.0-1062.12.1.el7.x86_64 #1 SMP Tue Feb 4 23:02:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nCentOS Linux release 7.7.1908 (Core)\r\n``` \r\nand, if relevant, post or attach:\r\n```\r\n$ cat compilers.yaml\r\ncompilers:\r\n- compiler:\r\n    spec: gcc@9.2.0\r\n    target: x86_64\r\n    operating_system: centos7\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: [gcc-9.2.0]\r\n    paths:\r\n      cc:  /opt/gcc-9.2.0/bin/gcc\r\n      cxx: /opt/gcc-9.2.0/bin/g++\r\n      f77: /opt/gcc-9.2.0/bin/gfortran\r\n      fc:  /opt/gcc-9.2.0/bin/gfortran\r\n- compiler:\r\n    spec: intel@19.0.5.281\r\n    target: x86_64\r\n    operating_system: centos7\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n      cflags: \"-ip -xCORE-AVX512 -O3 -g -fp-model fast=2 -no-prec-div -qoverride-limits -DNAMD_DISABLE_SSE -qopenmp-simd -qopt-zmm-usage=high -DCMK_OPTIMIZE -DMPICH_IGNORE_CXX_SEEK\"\r\n    modules: []\r\n    paths:\r\n      cc:  /apps/spack/opt/spack/linux-centos7-x86_64/intel-19.0.5.281/intel-19.0.5-tsgparku7c5mgjs2hut5viz5ugslc3l6/bin/icc\r\n      cxx: /apps/spack/opt/spack/linux-centos7-x86_64/intel-19.0.5.281/intel-19.0.5-tsgparku7c5mgjs2hut5viz5ugslc3l6/bin/icpc\r\n      f77: /apps/spack/opt/spack/linux-centos7-x86_64/intel-19.0.5.281/intel-19.0.5-tsgparku7c5mgjs2hut5viz5ugslc3l6/bin/ifort\r\n      fc:  /apps/spack/opt/spack/linux-centos7-x86_64/intel-19.0.5.281/intel-19.0.5-tsgparku7c5mgjs2hut5viz5ugslc3l6/bin/ifort\r\n```\r\n\r\nThanks",
+    "user": "yellowhat",
+    "url": "https://api.github.com/repos/spack/spack/issues/15893",
+    "updated_at": "2020-04-07 08:14:02",
+    "created_at": "2020-04-06 14:50:55",
+    "closed_at": "2020-04-07 08:13:37",
+    "state": "closed",
+    "title": "Installation issue: charmpp",
+    "number": 15893,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible"
+    ],
+    "id": 595182084,
+    "html_url": "https://github.com/spack/spack/issues/15893",
+    "assignees": [],
+    "comments": 1
+}

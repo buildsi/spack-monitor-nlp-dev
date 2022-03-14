@@ -1,0 +1,23 @@
+{
+    "body": "At FNAL we are creating buildcaches on Jenkins servers. Keeping the private signing key on a shared Jenkins account is a security risk. Instead the buildcache are created unsigned. The following script is then used to sign the spec file after retrieval from Jenkins. This will be added as the `spack buildcache sign` subcommand.\r\n```\r\n#!/bin/sh\r\n--\r\n\u00a0\r\ngpghome=$SPACK_ROOT/opt/spack/gpg\r\n\u00a0\r\nfor bci in $*\r\ndo\r\nspecfile=`tar tvf $bci \\| grep '.spec.yaml$' \\| sed -e 's/.* //'`\r\ntar xf $bci $specfile\r\ngpg --homedir $gpghome --local-user $USER@fnal.gov --detach-sign --armor $specfile\r\ntar rf $bci $specfile.asc\r\ndone\r\n```",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/13732",
+    "updated_at": "2020-10-15 12:26:48",
+    "created_at": "2019-11-14 15:30:46",
+    "closed_at": "2020-10-15 12:26:48",
+    "state": "closed",
+    "title": "Sign buildcache spec files after they have been created  ",
+    "number": 13732,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 522933146,
+    "html_url": "https://github.com/spack/spack/issues/13732",
+    "assignees": [
+        "gartung"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "For those unfamiliar with this longstanding issue, here's a quick summary:\r\n\r\n- The design of Unices strongly favors putting all headers/libraries/binaries in one place, whereas the design of Spack strongly favors putting each package in its own prefix. As a result, if no further action is taken, file lookup sadness ensues.\r\n- Spack's standard answer to this problem is the moral equivalent of crafting a CPATH which contains the include prefix of all dependencies during a build (using headers as an example, but it's the same idea for libraries & friends). That's `SPACK_INCLUDE_DIRS`.\r\n- Sadly, this technique breaks when a package defines a header whose name clashes with that of a header of a dependency. Which is arguably a failure of C/++'s non-namespaced header file model, but well, we can't fix legacy programming languages...\r\n- As it happens, ROOT builds encounter this edge case because both `asimage` (internally built by ROOT) and `python` (used by ROOT) define an `import.h` header. That's issue https://github.com/spack/spack/issues/10850 .\r\n- In an attempt to fix that bug, PR https://github.com/spack/spack/pull/11129 disabled the `SPACK_INCLUDE_DIRS` mechanism for ROOT builds under the assumption that CMake would manage to find all the dependencies and to set include paths more precisely than Spack can.\r\n- This was forgetting, however, that not everyone uses CMake, and as a result that PR broke all X11 and OpenGL-related functionality in ROOT. That was issue https://github.com/spack/spack/issues/12481 .\r\n- So now, what I'm proposing to do is to bring back just enough of `SPACK_INCLUDE_DIRS` to get `root+x` and `root+x+opengl` builds to work again.\r\n\r\nFixes https://github.com/spack/spack/issues/12481 .",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/14224",
+    "updated_at": "2020-01-24 13:09:13",
+    "created_at": "2019-12-19 15:56:11",
+    "closed_at": "2020-01-23 17:42:26",
+    "state": "closed",
+    "title": "root: Fix root+x breakage from #11129",
+    "number": 14224,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 540402210,
+    "html_url": "https://github.com/spack/spack/pull/14224",
+    "assignees": [],
+    "comments": 9
+}

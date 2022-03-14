@@ -1,0 +1,17 @@
+{
+    "body": "##### Modifications\n- [x] removed explicit `os.fork()` in favor of `multiprocessing.Process`\n- [x] `log_output` logic has been modified and does not require calls to `sys.settrace` anymore\n- [x] we can throw from `Package.do_install.build_process` and the exceptions are propagated to parent process\n##### Changes in `log_ouput`\n\nIn `develop` : \n- on `__enter__` the parent process forks , set his frame explicitly to avoid executing twice the same code (quite fragile to re-positioning of the `with` statement) ,  reads from a pipe and writes to file\n- on `__enter__` the child does the necessary to write to a pipe and then returns for execution\n\nIn the PR:\n- a \"daemonic\" child is spawned in the `acquire` method and is set to read from the pipe\n- the context manager just changes where the parent writes when needed\n- everything is cleaned in the `release` method\n##### Notes\n\nIn #1186 I wanted to be able to forward exceptions to parent to have a neater workflow in `do_install`. As I saw a couple of `TODOs` referring to the same issue, I extracted this PR. This has also the great advantage of not tweaking with `sys.settrace` and frames (which is a major pain for the debugger sometimes).\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/1228",
+    "updated_at": "2016-08-11 09:34:24",
+    "created_at": "2016-07-12 17:30:27",
+    "closed_at": "2016-08-11 07:20:15",
+    "state": "closed",
+    "title": "refactoring : removed explicits `os.fork()`, exceptions are propagated from child process to parent",
+    "number": 1228,
+    "milestone": null,
+    "labels": [],
+    "id": 165134731,
+    "html_url": "https://github.com/spack/spack/pull/1228",
+    "assignees": [],
+    "comments": 13
+}

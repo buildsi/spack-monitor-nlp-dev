@@ -1,0 +1,17 @@
+{
+    "body": "The [documentation for chaining spack instances](https://spack.readthedocs.io/en/latest/chain.html) outlines some steps for loading modules from a local spack instance that has been chained to another upstream, which includes regenerating some module files/index files.\r\n\r\nHowever, since https://github.com/spack/spack/pull/14062 removed the dependence of `spack load` on module systems altogether, I don't see any pertinent documentation on how one traverses chains and still uses `spack load` as usual? \r\n\r\nI don't know if this was ever possible, but it would be quite useful for my situation.\r\n\r\nIn my hands, everything looks fine with the exception that the \"local\" instance is not writing to the desired `sys.stdout` (I didn't check exactly how you chain the instances together yet). The shell commands themselves look just fine when I print them, and manually sourcing them after printing produces the desired result, so perhaps there's a neat way to fix this so it works through a chain:\r\n\r\n```diff\r\n--- a/lib/spack/spack/cmd/load.py\r\n+++ b/lib/spack/spack/cmd/load.py\r\n@@ -11,6 +11,7 @@\r\n import spack.store\r\n import spack.user_environment as uenv\r\n import spack.util.environment\r\n+import llnl.util.tty as tty\r\n \r\n description = \"add package to the user environment\"\r\n section = \"user environment\"\r\n@@ -80,4 +81,8 @@ def load(parser, args):\r\n             env_mod.prepend_path(uenv.spack_loaded_hashes_var, spec.dag_hash())\r\n         cmds = env_mod.shell_modifications(args.shell)\r\n \r\n+        # print out the commands because the stdout\r\n+        # write doesn't seem to work through instance\r\n+        # chaining? (apply them manually while testing)\r\n+        tty.warn(\"cmds:\", cmds)\r\n         sys.stdout.write(cmds)\r\n```",
+    "user": "tylerjereddy",
+    "url": "https://api.github.com/repos/spack/spack/issues/25705",
+    "updated_at": "2021-08-30 23:13:13",
+    "created_at": "2021-08-30 22:14:35",
+    "closed_at": "2021-08-30 23:13:12",
+    "state": "closed",
+    "title": "DOC, ENH: `spack load` through chained instances?",
+    "number": 25705,
+    "milestone": null,
+    "labels": [],
+    "id": 983252094,
+    "html_url": "https://github.com/spack/spack/issues/25705",
+    "assignees": [],
+    "comments": 1
+}

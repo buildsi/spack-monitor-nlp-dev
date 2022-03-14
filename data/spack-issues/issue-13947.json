@@ -1,0 +1,19 @@
+{
+    "body": "Add a line to .gitattributes so that `git grep -p` shows function names properly for `*.py` files.  Without this, the class name is shown instead of the function for python files.\r\n\r\nThis also causes diff output to use proper functions as hunk headers in `diff` output.\r\n\r\nHere's an example with `git grep -p`.\r\n\r\n```console\r\n$ git grep -p spack_cc var/spack/repos/builtin/packages/athena\r\nvar/spack/repos/builtin/packages/athena/package.py=class Athena(AutotoolsPackage):\r\nvar/spack/repos/builtin/packages/athena/package.py:            env.set('CC', spack_cc)\r\nvar/spack/repos/builtin/packages/athena/package.py:            env.set('LDR', spack_cc)\r\n```\r\nvs.\r\n```console\r\n$ git grep -p spack_cc var/spack/repos/builtin/packages/athena\r\nvar/spack/repos/builtin/packages/athena/package.py=    def setup_build_environment(self, env):\r\nvar/spack/repos/builtin/packages/athena/package.py:            env.set('CC', spack_cc)\r\nvar/spack/repos/builtin/packages/athena/package.py:            env.set('LDR', spack_cc)\r\n```\r\n\r\nHere's an example with `diff` output.\r\n\r\n```console\r\n$ git show c5da94eb585d503248234ce18f24ffff4bd1f47c\r\n[...]\r\n@@ -28,6 +29,7 @@ print(u'\\\\xc3')\r\n\r\n         # make it executable\r\n         fs.set_executable(script_name)\r\n+        filter_shebangs_in_directory('.', [script_name])\r\n\r\n         # read the unicode back in and see whether things work\r\n         script = ex.Executable('./%s' % script_name)\r\n```\r\nvs.\r\n```console\r\n$ git show c5da94eb585d503248234ce18f24ffff4bd1f47c\r\n[...]\r\n@@ -28,6 +29,7 @@ def test_read_unicode(tmpdir):\r\n\r\n       # make it executable\r\n       fs.set_executable(script_name)\r\n+      filter_shebangs_in_directory('.', [script_name])\r\n\r\n       # read the unicode back in and see whether things work\r\n       script = ex.Executable('./%s' % script_name)\r\n```",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/13947",
+    "updated_at": "2019-12-02 15:54:04",
+    "created_at": "2019-12-02 06:58:30",
+    "closed_at": "2019-12-02 09:35:39",
+    "state": "closed",
+    "title": "git: add .gitattributes file",
+    "number": 13947,
+    "milestone": null,
+    "labels": [
+        "git"
+    ],
+    "id": 530930336,
+    "html_url": "https://github.com/spack/spack/pull/13947",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,17 @@
+{
+    "body": "With PR #120 in place, I can now configure Spack to use the system's OpenSSL instead of trying to compile its own.  I did:\n\npackages.yaml:\n\n``````\n    openssl:\n        paths:\n            openssl@system: /usr\n        buildable: False```\n``````\n\nSo far so good.  Now when I install something that uses OpenSSL, I get a spurious warning.  The good news is, everything seems to basically work. But the warning does look ominous (and I'm 99% sure it's totally spurious).\n\n```\n[spack]$ spack install py-scipy ^python@3.5.1 ^netlib-lapack+shared ^netlib-blas+fpic\n==> Warning: This installation depends on an old version of OpenSSL, which may have known security issues. \n==> Warning: Consider updating to the latest version of this package.\n==> Warning: More details at http://www.openssl.org\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/647",
+    "updated_at": "2016-04-28 17:25:35",
+    "created_at": "2016-03-25 19:50:35",
+    "closed_at": "2016-04-28 17:25:35",
+    "state": "closed",
+    "title": "[BUG] Spurious Warning for System OpenSSL",
+    "number": 647,
+    "milestone": null,
+    "labels": [],
+    "id": 143581459,
+    "html_url": "https://github.com/spack/spack/issues/647",
+    "assignees": [],
+    "comments": 3
+}

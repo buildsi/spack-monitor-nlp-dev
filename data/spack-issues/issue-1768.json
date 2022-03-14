@@ -1,0 +1,20 @@
+{
+    "body": "I have the following situation:\n1. `py-scipy` seems to require `binutils@2.26` to build.\n\n```\n        depends_on('binutils@2.26:', type='build')\n```\n1. `py-pillow` has problems with @2.26, it seems to required `binutils@:2.25` to build.\n\n```\n    depends_on('binutils@:2.25', type='build')   # Doesn't work with 2.26\n```\n\nThis should cause no problem because these are build-only dependencies.  However, Spack barfs on it:\n\n```\n$ spack spec py-giss\nInput spec\n------------------------------\n  py-giss\n\nNormalized\n------------------------------\n==> Error: Invalid spec: 'binutils@2.26:^bison^flex^m4'. Package binutils requires version :2.25, but spec asked for 2.26:\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1768",
+    "updated_at": "2020-03-11 13:16:06",
+    "created_at": "2016-09-13 19:45:30",
+    "closed_at": "2020-03-11 13:16:06",
+    "state": "closed",
+    "title": "[Bug] type='build' specs conflict when they shouldn't",
+    "number": 1768,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization"
+    ],
+    "id": 176732025,
+    "html_url": "https://github.com/spack/spack/issues/1768",
+    "assignees": [],
+    "comments": 3
+}

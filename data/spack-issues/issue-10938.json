@@ -1,0 +1,17 @@
+{
+    "body": "When installing with `+hdf5` the error below happens.\r\nThis commit fixes the case.\r\n\r\n```\r\n==> Installing abinit\r\n==> Fetching https://www.abinit.org/sites/default/files/packages/abinit-8.6.3.tar.gz\r\n######################################################################## 100,0%\r\n==> Staging archive: /opt/spack/var/spack/stage/abinit-8.6.3-tboqvkkotgm4povtnxbp2ljdkicql7pe/abinit-8.6.3.tar.gz\r\n==> Created stage in /opt/spack/var/spack/stage/abinit-8.6.3-tboqvkkotgm4povtnxbp2ljdkicql7pe\r\n==> No patches needed for abinit\r\n==> Building abinit [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Error: RuntimeError: Unable to locate netcdf-fortran headers in /opt/spack/opt/spack/linux-centos7-x86_64/gcc-7.3.0/netcdf-fortran-4.4.4-4wuiozygj7prfmh734zx52affutetwdx/include\r\nRuntimeError: RuntimeError: Unable to locate netcdf-fortran headers in /opt/spack/opt/spack/linux-centos7-x86_64/gcc-7.3.0/netcdf-fortran-4.4.4-4wuiozygj7prfmh734zx52affutetwdx/include\r\n\r\n/opt/spack/var/spack/repos/builtin/packages/abinit/package.py:165, in configure_args:\r\n     55                hdf5 = spec['hdf5:hl']\r\n     56                netcdff = spec['netcdf-fortran:shared']  \r\n     57                options.extend([\r\n  >> 58                    '--with-netcdf-incs={0'.format(netcdff.headers.cpp_flags),}\r\n     59                    '--with-netcdf-libs={0}'.format(\r\n     60                        netcdff.libs.ld_flags + ' ' + hdf5.libs.ld_flags\r\n     61                    ),\r\n```",
+    "user": "fcannini",
+    "url": "https://api.github.com/repos/spack/spack/issues/10938",
+    "updated_at": "2019-05-30 23:25:26",
+    "created_at": "2019-03-19 21:19:45",
+    "closed_at": "2019-03-26 22:07:56",
+    "state": "closed",
+    "title": "abinit: Fix building with hdf5/netcdf.",
+    "number": 10938,
+    "milestone": null,
+    "labels": [],
+    "id": 422959116,
+    "html_url": "https://github.com/spack/spack/pull/10938",
+    "assignees": [],
+    "comments": 5
+}

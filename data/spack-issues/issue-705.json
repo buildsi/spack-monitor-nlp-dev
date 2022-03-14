@@ -1,0 +1,19 @@
+{
+    "body": "The changes in this pull request aim to improve support for mirrors to make it more straightforward to support installation strategies for proprietary/licensed packages (see #553 and [this discussion](https://groups.google.com/forum/#!topic/spack/4tNA76L1LH0)) and to make it easier to test/develop infrastructure related to mirror/local package fetching.\n\nFor package developers, the following changes in this PR are the most relevant:\n- Addition of a `mirror_only` flag to the package `version` function, which indicates that the given version of the given package can only be retrieved through local mirrors.\n- Support for creating `mirror_only` default packages, which is useful when creating Spack installation scripts for primarily proprietary packages (e.g. the PGI compiler; see #558).\n- Support for providing installation instructions to users for `mirror_only` versions of packages if these packages cannot be found in Spack mirrors.\n\nWhile this pull request is still being actively developed, the following section will enumerate all of the work that still needs to be done:\n- [x] Add support for the `mirror_only` flag to the `version` package function.\n- [ ] Implement the provision of installation instructions for `mirror_only` packages that cannot be found in local mirrors.\n- [ ] Implement `mirror_only` by default packages.\n- [ ] Separate the mirror fetching functionality into its own `FetchStrategy` subclass.\n- [ ] Implement automatic path detection for package tarballs contained in mirrors.\n- [ ] Remove the `mirror_only` flags from the `Package.[do_patch|do_stage|do_fetch]` functions and change the test cases that use these flags to use `mirror_only` package versions instead.\n",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/705",
+    "updated_at": "2019-11-11 16:24:57",
+    "created_at": "2016-03-31 18:42:12",
+    "closed_at": "2019-11-11 16:24:57",
+    "state": "closed",
+    "title": "[WIP] Enhancement Proposal: Mirror Improvements ",
+    "number": 705,
+    "milestone": null,
+    "labels": [
+        "WIP"
+    ],
+    "id": 144984167,
+    "html_url": "https://github.com/spack/spack/pull/705",
+    "assignees": [],
+    "comments": 8
+}

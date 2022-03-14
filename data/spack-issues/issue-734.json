@@ -1,0 +1,17 @@
+{
+    "body": "I'm not sure if this is the right thing, but it solves my problems (for now) on Ubuntu 12.04 (which has a system-installed binutils 2.22).   The problem is that the Ubuntu-supplied ld crashes when linking the packages here.  A newer binutils fixes the problem.  See more detailed description below:\n\nTrying to build some packages (py-numpy, py-cython) causes /usr/bin/ld to crash with an error message asking you to report the bug to GNU.  This is binutils 2.22.  Everyone says, use a newer binutils.\n\nI tried doing this by saying `spack load binutils` before `spack install py-numpy`.  That had no effect.\n\nI got things working by adding `depends('binutils')` to the py-numpy and py-cython packages.  BUT.. I don't think this is really a good solution, because:\n1. Is this only a GCC problem?  Would I need to use the different binutils if I installed Intel compilers on my Ubuntu?\n2. binutils would seem to be part of the compiler, not something we should have to add as a depends_on() to every package.\n3. Once we've added depends_on('binutils') everywhere, most users will want to set binutils to no-build in packages.py\n4. It should really be a build-time dependency anyway (this will soon be available with upcoming PR merge).\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/734",
+    "updated_at": "2016-04-04 20:42:31",
+    "created_at": "2016-04-04 01:58:04",
+    "closed_at": "2016-04-04 20:42:31",
+    "state": "closed",
+    "title": "[WIP] python packages: Added depends_on(binutils) for ",
+    "number": 734,
+    "milestone": null,
+    "labels": [],
+    "id": 145564867,
+    "html_url": "https://github.com/spack/spack/pull/734",
+    "assignees": [],
+    "comments": 1
+}

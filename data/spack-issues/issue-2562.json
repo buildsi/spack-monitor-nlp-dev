@@ -1,0 +1,17 @@
+{
+    "body": "Prepare for #2475.\r\n\r\nThis adds a check that runs Spack startup on macOS to compensate for `git` not properly changing names of files with mixed case.  At first I thought this was an issue with my using the `mv` from `coreutils` instead of `/bin/mv`, but I tested both ways and it seems `git` just doesn't handle case-only changes properly on macs.\r\n\r\nThis will do a `git ls-tree` on `var/spack/repos/builtin/packages/`, and it will do a case-restoring double rename (e.g., `mv foo tmp; mv tmp FOO`) on any packages that don't match what `git` thinks they should be called.  Note that we don't do anything for external packages, as we're only really enforcing lowercase for `builtin` packages.\r\n\r\nThis will make #2475 and other such changes non-disruptive.  Without it, users will have to do double moves on every package each time they switch to/from a branch with #2475 merged.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2562",
+    "updated_at": "2016-12-13 09:23:40",
+    "created_at": "2016-12-12 10:54:11",
+    "closed_at": "2016-12-13 09:23:40",
+    "state": "closed",
+    "title": "Ensure `builtin` package names have the right case.",
+    "number": 2562,
+    "milestone": null,
+    "labels": [],
+    "id": 194944147,
+    "html_url": "https://github.com/spack/spack/pull/2562",
+    "assignees": [],
+    "comments": 11
+}

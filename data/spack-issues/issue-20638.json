@@ -1,0 +1,20 @@
+{
+    "body": "This converts the virtual handling in the new concretizer from already-ground rules to facts. This is the last thing that needs to be refactored, and it converts the entire concretizer to just use facts.\r\n\r\nThe previous way of handling virtuals hinged on rules involving `single_provider_for` facts that were tied to the virtual and a version range. The new method uses the condition pattern we've been using for dependencies, externals, and conflicts.\r\n\r\nTo handle virtuals as conditions, we impose constraints on \"fake\" virtual specs in the logic program. i.e., `version_satisfies(\"mpi\", \"2.0:\", \"2.0\")` is legal whereas before we wouldn't have seen something like\r\nthis. Currently, constriants are only handled on versions -- we don't handle variants or anything else yet, but they key change here is that we *could*. For a long time, virtual handling in Spack has only dealt with versions, and we'd like to be able to handle variants as well. We could easily add an integrity constraint to handle variants like the one we use for versions.\r\n\r\nThis is what the new logic looks like:\r\n\r\n```prolog\r\ndependency_conditions_hold(ID, Package, Virtual) :-\r\n  attr(Name, Arg1)             : required_provider_condition(ID, Name, Arg1);\r\n  attr(Name, Arg1, Arg2)       : required_provider_condition(ID, Name, Arg1, Arg2);\r\n  attr(Name, Arg1, Arg2, Arg3) : required_provider_condition(ID, Name, Arg1, Arg2, Arg3);\r\n  virtual_node(Virtual);\r\n  provider_condition(ID, Package, Virtual).\r\n```\r\n\r\nWhat this does is a bit confusing -- the conditions are evaluated on the provider, and they're *imposed* like dependency conditions.  Provider conditions declare `imposed_dependency_condition` like conditional dependencies, and they rely on the same rules to enforce the imposed constraints:\r\n\r\n```prolog\r\nattr(Name, Arg1, Arg2) :-\r\n  dependency_conditions_hold(ID, Package, Dependency),\r\n  imposed_dependency_condition(ID, Name, Arg1, Arg2).\r\n\r\nattr(Name, Arg1, Arg2, Arg3) :-\r\n  dependency_conditions_hold(ID, Package, Dependency),\r\n  imposed_dependency_condition(ID, Name, Arg1, Arg2, Arg3).\r\n```",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/20638",
+    "updated_at": "2021-01-04 22:51:12",
+    "created_at": "2021-01-01 00:06:57",
+    "closed_at": "2021-01-04 22:51:11",
+    "state": "closed",
+    "title": "concretizer: convert virtuals to facts and move all rules to `concretize.lp`",
+    "number": 20638,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "refactoring"
+    ],
+    "id": 777162646,
+    "html_url": "https://github.com/spack/spack/pull/20638",
+    "assignees": [],
+    "comments": 1
+}

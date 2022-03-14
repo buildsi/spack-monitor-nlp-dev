@@ -1,0 +1,21 @@
+{
+    "body": "I am running [Spack on Travis-CI](https://spack.readthedocs.io/en/latest/workflows.html#using-spack-on-travis-ci). This works splendid so far.\r\n\r\nFor some reason with a [minimal PR](https://github.com/openPMD/openPMD-api/pull/190) to add an additional dependency, spack starts to [select an OSX compiler on Ubuntu](https://travis-ci.org/openPMD/openPMD-api/jobs/381153380) and causes similar confusing runtime mismatches:\r\n  https://travis-ci.org/openPMD/openPMD-api/builds/381153375\r\n\r\n\r\n```\r\nStill running (1 of 20): spack install adios ~mpi %clang@5.0.0\r\nThe command spack install adios ~mpi %clang@5.0.0 exited with 1.\r\nLog:\r\n==> Error: No compilers with spec clang@8.1.0 found for operating system ubuntu14.04 and target x86_64.\r\nRun 'spack compiler find' to add compilers.\r\n```\r\n\r\nMy config files are multi-platform:\r\n  https://github.com/openPMD/openPMD-api/tree/dev/.travis/spack\r\n\r\n### Expected Result\r\n\r\nStill select the right OS and compilers.\r\n\r\n### Actual Result\r\n\r\nOn Ubuntu 14.04 and with Clang 5.0 it suddenly tries to select clang 8.0 from OSX (which fails). Other images/configs show similar confusing output.\r\n\r\n### Steps to reproduce the issue\r\n\r\nConfig files: (did I set something quite off here?)\r\n  https://github.com/openPMD/openPMD-api/tree/dev/.travis/spack\r\n\r\nSpack setup and install lines:\r\n  https://github.com/openPMD/openPMD-api/blob/7240ebe2fc2a22f60f0f40ff7bb4329fa6224ffd/.travis.yml#L210-L297\r\n\r\nPR that breaks compiler selection and OS detection:\r\n  https://github.com/openPMD/openPMD-api/pull/190\r\n\r\n### Information on your system\r\n\r\nTravis-CI Ubuntu 14.04 and OSX images: https://docs.travis-ci.com/user/reference/overview/#Virtualisation-Environment-vs-Operating-System",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/8237",
+    "updated_at": "2018-06-16 10:34:13",
+    "created_at": "2018-05-22 07:51:53",
+    "closed_at": "2018-06-16 10:31:24",
+    "state": "closed",
+    "title": "Spack Mismatches OS and/or Compiler",
+    "number": 8237,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate",
+        "external-packages"
+    ],
+    "id": 325178172,
+    "html_url": "https://github.com/spack/spack/issues/8237",
+    "assignees": [],
+    "comments": 3
+}

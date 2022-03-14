@@ -1,0 +1,19 @@
+{
+    "body": "<pre>\r\n[~/projects/spack (develop *$%=)]$ spack spec mesa\r\nInput spec\r\n--------------------------------\r\nmesa\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    ncurses@6.1%gcc@7.4.0~symlinks~termlib arch=linux-ubuntu18.04-broadwell\r\n        ^pkgconf@1.6.3%gcc@7.4.0 arch=linux-ubuntu18.04-broadwell\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    llvm@6:\r\n        ^cmake@3.4.3:\r\n        ^perl-data-dumper\r\n            ^perl@5.30.1%gcc@7.4.0+cpanm+shared+threads arch=linux-ubuntu18.04-broadwell\r\n                ^gdbm@1.18.1%gcc@7.4.0 arch=linux-ubuntu18.04-broadwell\r\n                    ^readline@8.0%gcc@7.4.0 arch=linux-ubuntu18.04-broadwell\r\n                        ^ncurses@6.1%gcc@7.4.0~symlinks~termlib arch=linux-ubuntu18.04-broadwell\r\n                            ^pkgconf@1.6.3%gcc@7.4.0 arch=linux-ubuntu18.04-broadwell\r\n\r\n\r\nllvm requires ncurses variant +termlib, but spec asked for ~termlib\r\n</pre>\r\n\r\nThis was caused by\r\nhttps://github.com/spack/spack/pull/14561\r\nThe fix would be to change llvm/pakage.py and and depend on ncurses not ncurses+termlib.\r\nIf termlib is really needed, the ncourses/package.py should be changed to make termlib variant True.\r\n",
+    "user": "danlipsa",
+    "url": "https://api.github.com/repos/spack/spack/issues/14793",
+    "updated_at": "2020-02-26 19:42:47",
+    "created_at": "2020-02-06 18:54:44",
+    "closed_at": "2020-02-26 19:42:47",
+    "state": "closed",
+    "title": "mesa > python > ncurses~termlib but mesa > llvm > ncurses+termlib",
+    "number": 14793,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 561204455,
+    "html_url": "https://github.com/spack/spack/issues/14793",
+    "assignees": [],
+    "comments": 9
+}

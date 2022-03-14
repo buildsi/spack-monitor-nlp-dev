@@ -1,0 +1,19 @@
+{
+    "body": "(I have not submitted previous pull request to spack, so apologies in advance for mistakes):\r\n\r\nThese changes arise from attempts to compile mumps on fedora 25 and ubuntu 16.04.\r\nThe approximate mumps installation command in question is:\r\nwith gcc:\r\n```\r\nspack install   mumps+metis+parmetis+scotch+ptscotch ^intel-mpi@5.0.3 ^intel-mkl@11.2.4+shared~openmp\r\n```\r\nwith intel:\r\n```\r\nspack install   mumps+metis+parmetis+scotch+ptscotch%intel@17.0.4 ^intel-mpi@5.0.3 ^intel-mkl@11.2.4+shared~openmp ^cmake%gcc@6.3.1 ^bison%gcc@6.3.1 ^flex%gcc@6.3.1\r\n```\r\nintel mpi and intel mkl are required. Both are specified in packages.yaml as external packages\r\n\r\nThe changes below arise mostly from attempted fixes to errors \r\n\r\n - mumps compilation was failing due to scotch metis.h errors. The spack scotch package removes metis.h when installed with '~metis' hence the change\r\n\r\n- mumps was installing but tests were failing due to missing mkl symbols, so added 'intel64' to  SPACK_COMPILER_EXTRA_RPATHS  for intel mkl\r\n\r\n- on ubuntu 16.04 mumps compilation was failing due  to missing libz symbols used by scotch library; changed scotch package to address this\r\n\r\n- intel mpi changed to use mpiicc, mpiifort etc with intel compiler\r\n\r\n\r\nComments from original commit:\r\n* add mpii* wrappers for use with intel compilers\r\n * in mumps package, scotch is compiled without metis option when\r\n   ptscotch variant is selected. This removes confusion over which\r\n   metis.h to use\r\n\r\n * for intel mkl, add SPACK_COMPILER_EXTRA_RPATHS ending in 'intel64'\r\n\r\n * scotch lib requires libz when compression is turned on.  This\r\n   caused a link issue on some Ubuntu distributions (not\r\n   redhat). Change Scotch package to add -lz when needed",
+    "user": "darachg",
+    "url": "https://api.github.com/repos/spack/spack/issues/4614",
+    "updated_at": "2017-08-08 13:28:00",
+    "created_at": "2017-06-27 14:11:46",
+    "closed_at": "2017-06-28 18:22:19",
+    "state": "closed",
+    "title": "Requested changes related to mumps compilation",
+    "number": 4614,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 238864990,
+    "html_url": "https://github.com/spack/spack/pull/4614",
+    "assignees": [],
+    "comments": 0
+}

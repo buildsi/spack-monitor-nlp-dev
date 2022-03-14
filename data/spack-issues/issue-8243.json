@@ -1,0 +1,20 @@
+{
+    "body": "I'm wondering if spack has a bug related to \"develop\" version processing or if I am attempting something that is not supported.  I'm trying to build a development version of one of our components, cbtf-krell.  Inside the cbtf-krell package.py file, I have a \r\n```depends_on(dyninst@9.3.2:\", when='@develop')```\r\nstatement.    In my build area, I have a version of dyninst/package.py that has a develop version per #8181.\r\n\r\nShould line 103 force the build of the dyninst development version?\r\n\r\n```\r\n   100\t    depends_on(\"boost@1.66.0\", when='@1.9.1.0:')\r\n   101\t\r\n   102\t    # For Dyninst\r\n   103\t    depends_on(\"dyninst@9.3.2:\", when='@develop')\r\n   104\t    depends_on(\"dyninst@9.3.2\", when='@1.9.1.0:')\r\n   105\t\r\n   106\t    # For MRNet\r\n   107\t    depends_on(\"mrnet@5.0.1-3:+cti\", when='@develop+cti')\r\n   108\t    depends_on(\"mrnet@5.0.1-3:+lwthreads\", when='@develop')\r\n```\r\nWhen I try to build cbtf-krell@develop, spack wants to build dyninst-9.3.2.  See below:\r\nAm I misunderstanding how the special spack develop processing works.   \r\n\r\n```\r\nspack install cbtf-krell@develop\r\n==> libsigsegv is already installed in /home/jeg/newiest_spack/spack/opt/spack/linux-fedora27-x86_64/gcc-7.2.1/libsigsegv-2.11-7umxuxln3xov2fac2fhoh7ru552h4whz\r\n....\r\n....\r\n==> libdwarf is already installed in /home/jeg/newiest_spack/spack/opt/spack/linux-fedora27-x86_64/gcc-7.2.1/libdwarf-20160507-eg2yfdpazp63rep4h6n5tlgwxogp3bqc\r\n==> Installing dyninst\r\n==> Using cached archive: /home/jeg/newiest_spack/spack/var/spack/cache/dyninst/dyninst-9.3.2.tar.gz\r\n==> Warning: Fetching from mirror without a checksum!\r\n  This package is normally checked out from a version control system, but it has been archived on a spack mirror.  This means we cannot know a checksum for the tarball in advance. Be sure that your connection to this mirror is secure!\r\n==> Staging archive: /home/jeg/newiest_spack/spack/var/spack/stage/dyninst-9.3.2-3ab6oekd5wc6r6zr5efkrthb66yxiopa/dyninst-9.3.2.tar.gz\r\n==> Created stage in /home/jeg/newiest_spack/spack/var/spack/stage/dyninst-9.3.2-3ab6oekd5wc6r6zr5efkrthb66yxiopa\r\n==> No patches needed for dyninst\r\n```\r\nIf I add another statement to explicitly force the build of the development version of dyninst:\r\n```depends_on(\"dyninst@develop\", when='@develop')```\r\nand try to build I get this:\r\n```\r\n[jeg@localhost packages]$ spack install cbtf-krell@develop\r\n==> Error: Conflicting conditional dependencies on package cbtf-krell for spec cbtf-krell@develop ^bzip2 ^cmake@3.11.1 ^llvm-openmp-ompt@tr6_forwards+standalone ^ncurses ^ninja@1.5: ^openssl ^pkgconfig ^python ^readline ^sqlite ^zlib\r\n```",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/8243",
+    "updated_at": "2018-05-23 02:01:06",
+    "created_at": "2018-05-22 18:07:47",
+    "closed_at": "2018-05-22 18:23:05",
+    "state": "closed",
+    "title": "Question about @develop processing in spack",
+    "number": 8243,
+    "milestone": null,
+    "labels": [
+        "question",
+        "versions"
+    ],
+    "id": 325405630,
+    "html_url": "https://github.com/spack/spack/issues/8243",
+    "assignees": [],
+    "comments": 11
+}

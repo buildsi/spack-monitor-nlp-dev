@@ -1,0 +1,17 @@
+{
+    "body": "Added packages for EasyBuild and all dependencies, i.e.:\r\n\r\n* `vsc-install`\r\n* `vsc-base`\r\n* all three EasyBuild components, i.e.:\r\n  * `easybuild-framework`\r\n  * `easybuild-easyblocks`\r\n  * `easybuild-easyconfigs`\r\n\r\nA couple of open questions I have:\r\n\r\n* there are more strict dependency requirements than what is specified now, but I'm not sure how to specify them:\r\n   * `vsc-base` needs a particular version of `vsc-install`, but the exact requirement depends on the `vsc-base` version, how do I express that? (similar for `easybuild-framework` and `vsc-base`)\r\n   * `easybuild-easyblocks` version `x.y.z` typically requires `easybuild-framework` version `x.y.z`, how do I express that? (similar for `easybuild-easyconfigs`)\r\n\r\nI was a bit surprised that a simply `spack load easybuild` is not sufficient to make the EasyBuild installation done with Spack active in my environment. In particular, `python` and `python2` were still the default system Python.\r\nThis is important for EasyBuild since the main `eb` command is a bash wrapper scripts that calls out to `python` or `python2`, so there's no shebang that Spack can hijack to make sure the `python` command provided by Spack is being used.\r\n`spack activate easybuild` didn't work either, but maybe I wasn't using it correctly...\r\n\r\nThe only way I could use the installation is using `source <(spack module loads --dependencies easybuild)`, is that what I'm supposed to do?",
+    "user": "boegel",
+    "url": "https://api.github.com/repos/spack/spack/issues/3658",
+    "updated_at": "2017-04-01 17:49:08",
+    "created_at": "2017-04-01 15:23:29",
+    "closed_at": "2017-04-01 17:27:58",
+    "state": "closed",
+    "title": "EasyBuild and dependencies",
+    "number": 3658,
+    "milestone": null,
+    "labels": [],
+    "id": 218702612,
+    "html_url": "https://github.com/spack/spack/pull/3658",
+    "assignees": [],
+    "comments": 15
+}

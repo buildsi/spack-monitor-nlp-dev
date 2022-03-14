@@ -1,0 +1,21 @@
+{
+    "body": "The implementation of the `spack pkg` command assumes one is working in an environment with a git >= 1.8.5, as the `-C` option is used for all invocations of the `git` command. Associated tests also fail, see `spack test cmd/pkg`:\r\n\r\n```console\r\n$ spack test cmd/pkg\r\n...\r\nE                                  ProcessError: Command exited with status 129:\r\nE                                      '/usr/bin/git' '-C' '/tmp/pytest-of-greenc/pytest-52/mock_pkg_git_repo0/builtin.mock/packages' 'ls-tree' '--name-only' 'HEAD^^'\r\n\r\n../util/executable.py:189: ProcessError\r\n-------------------------------------------------------------------------- Captured stderr call ---------------------------------------------------------------------------\r\nUnknown option: -C\r\nusage: git [--version] [--help] [-c name=value]\r\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\r\n           [-p|--paginate|--no-pager] [--no-replace-objects] [--bare]\r\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\r\n           <command> [<args>]\r\n```\r\n\r\nOn a standard `Scientific7` (or `RHEL7`) system, the version of git available is `1.8.3.1`. On `RHEL6` (still in extensive use in HEP), it is `1.7.1`.\r\n\r\nA reasonable solution might be to test for the version and fall back on a function wrapper to the git `Executable` that invokes it with the current directory corresponding to the desired `path`.",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/12448",
+    "updated_at": "2019-08-21 16:31:28",
+    "created_at": "2019-08-16 21:25:18",
+    "closed_at": "2019-08-21 16:31:28",
+    "state": "closed",
+    "title": "`spack pkg` command and tests fail for git < 1.8.5",
+    "number": 12448,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "robustness"
+    ],
+    "id": 481791789,
+    "html_url": "https://github.com/spack/spack/issues/12448",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,26 @@
+{
+    "body": "I was looking at test results on Travis, and noticed that since 20 days ago we are failing OSX tests. \r\n\r\n### Steps to reproduce the issue\r\n\r\nThe first Travis build where the issue is present is [here](https://travis-ci.org/spack/spack/jobs/410515764), the last successful OSX build instead is [this one](https://travis-ci.org/spack/spack/jobs/410042731). To reproduce the issue, just restart any errored build.\r\n\r\n### Error Message\r\n\r\nThe error occurs during the `before_install` phase:\r\n```console\r\nThe command \"if [[ \"$TRAVIS_OS_NAME\" == \"osx\" ]]; then virtualenv venv; fi\" failed and exited with 127 during .\r\n```\r\n\r\n### Information on the system\r\n\r\nThe last succesfull OSX build reports this worker information:\r\n```console\r\nhostname: 4b9d10ea-cf71-4fd2-9cbc-0bac2c48e341@7237.wjb-1\r\nversion: v3.10.1 https://github.com/travis-ci/worker/tree/2f4923494b1f57289a2d4b68a0861e882a7215ad\r\ninstance: df5002ed-6968-40a3-a1e4-f73297ef00ef travis-ci-macos10.12-xcode8.3-1507738863 (via amqp)\r\n```\r\nwhile the failing ones:\r\n```console\r\nhostname: f0ac0d11-1179-4b38-bb57-580f6bf8cdbb@8180.wjb-1\r\nversion: v3.10.1 https://github.com/travis-ci/worker/tree/2f4923494b1f57289a2d4b68a0861e882a7215ad\r\ninstance: 8f88de36-2011-4083-becc-955c662c743e travis-ci-macos-10.13-xcode9.4.1-1529955246 (via amqp)\r\n```\r\nIt seems both `xcode` and the OS version have been updated. Googling around I could find a number of issues similar to [this one](https://superuser.com/questions/1003619/virtualenv-command-not-found-in-el-capitan). Maybe we just need to re-install `virtualenv`?",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9031",
+    "updated_at": "2018-09-03 14:27:23",
+    "created_at": "2018-08-21 09:25:45",
+    "closed_at": "2018-09-03 14:27:23",
+    "state": "closed",
+    "title": "OSX tests erroring on Travis",
+    "number": 9031,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "tests",
+        "travis"
+    ],
+    "id": 352456617,
+    "html_url": "https://github.com/spack/spack/issues/9031",
+    "assignees": [
+        "tgamblin",
+        "scheibelp",
+        "adamjstewart"
+    ],
+    "comments": 1
+}

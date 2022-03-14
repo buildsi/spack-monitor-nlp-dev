@@ -1,0 +1,19 @@
+{
+    "body": "Use patch file to update `build/spack-src/config.guess, config.sub`\r\n\r\nThe xproto configuration files `config.guess`, `config.sub` were too old to recognize Cray ARM\r\n\r\n```\r\n              previous:                      updated:\r\nconfig.guess: timestamp='2006-02-23'   ==>   timestamp='2019-06-10'\r\nconfig.sub:   timestamp='2006-02-23'   ==>   timestamp='2019-06-30'\r\n\r\n```\r\n**LANL HPC Capulin**\r\n```\r\n$ echo $HOSTNAME\r\ncp-loginy\r\n$ uname -a\r\nLinux nid00007 4.12.14-25.22_5.0.70-cray_ari_c #1 SMP Tue Mar 5 00:08:48 UTC 2019 (bc16c54) aarch64 aarch64 aarch64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tSUSE Linux Enterprise Server 15\r\n\r\n```\r\n**Before patch: configuration fails**\r\n```\r\ndantopa@nid00006:xproto $ spack install xproto % cce@9.0.1\r\n==> Installing xproto\r\n...\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/users/dantopa/.spack/stage/xproto-7.0.31-ncrn2glmlyxtt5zxdrgz73kkidpbykl5/spack-src/configure' '--prefix=/pfs/scratch4/yellow/.mdt2/dantopa/repos/spack/pr/pr-config.spack/opt/spack/cray-cnl7-arm_thunderx2/cce-9.0.1/xproto-7.0.31-ncrn2glmlyxtt5zxdrgz73kkidpbykl5'\r\n\r\n1 error found in build log:\r\n     74    /usr/convex/getsysinfo =\r\n     75\r\n     76    UNAME_MACHINE = aarch64\r\n     77    UNAME_RELEASE = 4.12.14-25.22_5.0.70-cray_ari_c\r\n     78    UNAME_SYSTEM  = Linux\r\n     79    UNAME_VERSION = #1 SMP Tue Mar 5 00:08:48 UTC 2019 (bc16c54)\r\n  >> 80    configure: error: cannot guess build type; you must specify one\r\n```\r\n\r\n**After patch: configuration succeeds**\r\n```\r\ndantopa@nid00006:xproto $ spack install xproto % cce @ 9.0.1\r\n...\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Successfully installed xproto\r\n  Fetch: 0.01s.  Build: 17.90s.  Total: 17.91s.\r\n[+] /pfs/scratch4/yellow/.mdt2/dantopa/repos/spack/pr/pr-config.spack/opt/spack/cray-cnl7-arm_thunderx2/cce-9.0.1/xproto-7.0.31-fo3xw5zla7nrpzooayboquxiuc445z2y\r\n```\r\n**Confirmation**\r\n```\r\ndantopa@nid00006:xproto $ spack find -ldf xproto@7.0.31\r\n==> 1 installed package\r\n-- cray-cnl7-arm_thunderx2 / cce@9.0.1 --------------------------\r\nfo3xw5z xproto@7.0.31%cce\r\n\r\n```\r\nSigned-off-by: Daniel Topa <dantopa@lanl.gov>\r\nTue Sep 17 16:27:54 MDT 2019",
+    "user": "floquet",
+    "url": "https://api.github.com/repos/spack/spack/issues/12853",
+    "updated_at": "2020-08-22 19:36:45",
+    "created_at": "2019-09-17 22:33:04",
+    "closed_at": "2020-08-22 19:36:45",
+    "state": "closed",
+    "title": "xproto 7.0.31 now recognizes Cray ARM",
+    "number": 12853,
+    "milestone": null,
+    "labels": [
+        "cray"
+    ],
+    "id": 494887456,
+    "html_url": "https://github.com/spack/spack/pull/12853",
+    "assignees": [],
+    "comments": 2
+}

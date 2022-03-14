@@ -1,0 +1,19 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/16478\r\n\r\n@adamjstewart does this work for you (you need to uninstall with `-f` for your uninstall to proceed)?\r\n\r\nThis allows an uninstall to proceed even when encountering pre-uninstall hook failures if the user chooses the `--force` option for the uninstall.\r\n\r\nThis also prevents post-uninstall hook failures from raising an exception, which would terminate a sequence of uninstalls. This isn't likely essential for #16478, but I think overall it will improve the user experience: if the post-uninstall hook fails, there isn't much point in terminating a sequence of spec uninstalls because at the point where the post-uninstall hook is run, the spec has already been removed from the database (so it will never have another chance to run).\r\n\r\nNotes:\r\n\r\n* When doing `spack uninstall -a`, certain pre/post-uninstall hooks aren't important to run, but this isn't easy to track with the current model\r\n* This doesn't handle the uninstallation of specs that are not in the DB, so it may leave \"dangling\" specs in the installation prefix",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/16513",
+    "updated_at": "2020-07-07 18:37:37",
+    "created_at": "2020-05-07 19:18:20",
+    "closed_at": "2020-07-07 18:37:37",
+    "state": "closed",
+    "title": "Uninstall: tolerate failures when force=true",
+    "number": 16513,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 614285404,
+    "html_url": "https://github.com/spack/spack/pull/16513",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "**snl-atdm-issue**\r\n\r\n@tgamblin was mentioning me to me how slow it was to build CMake because the checks in 'bootstrap' are so slow.  When we build CMake, we don't use 'bootstrap', we use 'configure' with the --parallel option.  For example, to configure and build Cmake correctly, you have to do:\r\n\r\n```\r\n$ mkdir build/\r\n$ cd build/\r\n$ env  CXXFLAGS=-O3 CFLAGS=-O3 \\\r\n   ../<cmake_src_dir>/configure --parallel=32 --prefix=<install_dir>\r\n$ make -j32\r\n$ make install\r\n```\r\n\r\nThat builds pretty fast.\r\n\r\nIt is **critical** to set `CXXFLAGS=-O3 CFLAGS=-O3` when you configure or you will get a `-O0` build of CMake!\r\n",
+    "user": "bartlettroscoe",
+    "url": "https://api.github.com/repos/spack/spack/issues/10385",
+    "updated_at": "2021-04-20 19:55:26",
+    "created_at": "2019-01-18 04:29:14",
+    "closed_at": "2021-04-20 18:45:54",
+    "state": "closed",
+    "title": "Switch cmake/package.py to use fast configure --parallel=<N> instead of slow bootstrap",
+    "number": 10385,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "snl-atdm"
+    ],
+    "id": 400567951,
+    "html_url": "https://github.com/spack/spack/issues/10385",
+    "assignees": [],
+    "comments": 1
+}

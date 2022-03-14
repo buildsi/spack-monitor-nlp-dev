@@ -1,0 +1,19 @@
+{
+    "body": "Trying to make `spack -p` more useful for analyzing performance. I often want to try several sort orders, so this allows that without breaking different Python versions.\r\n\r\nInstead of supplying a default profile argument for `runctx`, which has not worked in the past because `runctx` takes different arguments across Python versions, use the `cProfile` and `pstats.Stats` API directly.  Allow the Spack user to specify what to sort by, since the *fields* you can sort by differ across Python versions, too.  By default, sort by `time`, which is available across versions and is more sensible than the default sort order.\r\n\r\n- [x] Add -P <STAT> argument so that caller can specify a sort column for cProfile. Can specify multiple columns with commas. e.g.:\r\n    ```\r\n    spack -P cumtime,module\r\n    ```\r\n- [x] Sort by time by default (because it works in all Python versions)\r\n- [x] Show sort column options in command help.  Looks like:\r\n    ```\r\n     -P STAT, --sorted-profile STAT\r\n                            profile and sort by one or more of:\r\n                            [cumulative, module, ncalls, pcalls, file, line, name,\r\n                             calls, stdname, nfl, filename, cumtime, time, tottime]\r\n    ```\r\n- [x] Do a short profile run in the unit tests.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4056",
+    "updated_at": "2017-05-01 21:32:52",
+    "created_at": "2017-04-30 22:57:23",
+    "closed_at": "2017-05-01 21:32:34",
+    "state": "closed",
+    "title": "Allow user to specify profile sort column on the command line.",
+    "number": 4056,
+    "milestone": null,
+    "labels": [
+        "performance"
+    ],
+    "id": 225360728,
+    "html_url": "https://github.com/spack/spack/pull/4056",
+    "assignees": [],
+    "comments": 2
+}

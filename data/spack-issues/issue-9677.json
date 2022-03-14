@@ -1,0 +1,21 @@
+{
+    "body": "It looks like the  `depends_on('python@2.6:2.8,3.3:')` line in the scikit-learn package is inadequate.  \r\n\r\nscikit-learn 19.1 won't build against python 3.7.0 due to an apparent API change.  It reports lots of errors along the lines of:\r\n>sklearn/cluster/_dbscan_inner.cpp:6034:13: error: \u2018PyThreadState\u2019 {aka \u2018struct _ts\u2019} has no member named \u2018exc_traceback\u2019; did you mean \u2018curexc_traceback\u2019?\r\n\r\nAdditionally, Python 2.6 and 3.3 aren't supported by the newer versions of scikit-learn.\r\n\r\nI think we're going to need several `depends_on(..., when='...')` lines to sort things out correctly.  While we're at it, we should probably add a `depends_on('py-setuptools')` line, since scikit-learn does use setup.py.\r\n\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-scikit-learn@0.19.1 ^python@3.7.0 # This is just one example of mismatched dependencies\r\n```\r\n\r\n31 build errors.  These are just the last 3:\r\n```console\r\n  >> 709    sklearn/cluster/_dbscan_inner.cpp:6032:13: error: 'PyThreadState' {aka 'struc\r\n            t _ts'} has no member named 'exc_type'; did you mean 'curexc_type'?\r\n     710         tstate->exc_type = local_type;\r\n     711                 ^~~~~~~~\r\n     712                 curexc_type\r\n  >> 713    sklearn/cluster/_dbscan_inner.cpp:6033:13: error: 'PyThreadState' {aka 'struc\r\n            t _ts'} has no member named 'exc_value'; did you mean 'curexc_value'?\r\n     714         tstate->exc_value = local_value;\r\n     715                 ^~~~~~~~~\r\n     716                 curexc_value\r\n  >> 717    sklearn/cluster/_dbscan_inner.cpp:6034:13: error: 'PyThreadState' {aka 'struc\r\n            t _ts'} has no member named 'exc_traceback'; did you mean 'curexc_traceback'?\r\n     718         tstate->exc_traceback = local_tb;\r\n     719                 ^~~~~~~~~~~~~\r\n     720                 curexc_tracebackPartial import of sklearn during the build proce\r\n            ss.\r\n     721    \r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\nxmr@boo4:~/git/spack_fork/var/spack/repos/builtin/packages$ uname -a\r\nLinux boo4 4.15.0-36-generic #39-Ubuntu SMP Mon Sep 24 16:19:09 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\nxmr@boo4:~/git/spack_fork/var/spack/repos/builtin/packages$ lsb_release -d\r\nDescription:    Ubuntu 18.04.1 LTS\r\n``` \r\n",
+    "user": "rgmiller",
+    "url": "https://api.github.com/repos/spack/spack/issues/9677",
+    "updated_at": "2019-10-22 02:53:04",
+    "created_at": "2018-10-30 21:03:09",
+    "closed_at": "2019-10-22 02:53:04",
+    "state": "closed",
+    "title": "Installation issue: py-scikit-learn",
+    "number": 9677,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "python",
+        "python3"
+    ],
+    "id": 375692151,
+    "html_url": "https://github.com/spack/spack/issues/9677",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,21 @@
+{
+    "body": "When running `spack install --log-format junit|cdash ...`, install errors were ignored. This made spack continue building dependents of failed install, ignoring `--fail-fast`, and exit 0 at the end.\r\n\r\nI found it was the `InfoCollector` class not forwarding exceptions after gathering them for report.\r\n\r\n**Slight behavior change:** (but for the best) because dependents of a failed install are now correctly skipped (like without `--log-format`), they might not be reported the same as before in the report file (skipped build is not an error).\r\n\r\nFixes #5378\r\n",
+    "user": "Jordan474",
+    "url": "https://api.github.com/repos/spack/spack/issues/25961",
+    "updated_at": "2021-11-09 15:47:34",
+    "created_at": "2021-09-15 08:47:34",
+    "closed_at": "2021-11-09 15:47:33",
+    "state": "closed",
+    "title": "Fix log-format reporter ignoring install errors",
+    "number": 25961,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 996819244,
+    "html_url": "https://github.com/spack/spack/pull/25961",
+    "assignees": [
+        "bernhardkaindl"
+    ],
+    "comments": 6
+}

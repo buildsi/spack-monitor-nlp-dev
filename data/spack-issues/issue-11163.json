@@ -1,0 +1,22 @@
+{
+    "body": "\r\nI\u2019m trying to override a setting (build-stage) for a regular user outside of a system spack installation (installed as a service user \u2018spack\u2019) with the intent of the user having builds staged to ~/.spack/var/spack/stage. \r\n\r\nMy ~/.spack/config.yaml seting looks like this:  \r\n```\r\nbuild_stage:\r\n     - ~/.spack/var/spack/stage\r\n```\r\n\r\nAnd the system install: $spack/etc/spack/defaults/config.yaml looks like this:\r\n ```\r\nbuild_stage:\r\n   - $tempdir\r\n   - $spack/var/spack/stage\r\n```\r\n\r\nThe intent is to allow per-user overriding of the build stage via ~/.spack/config.yaml settings, thus enabling individual users to leverage the system spack to build and deploy packages in their own storage space.\r\n\r\nHowever, instead of simply staging as requested, spack attempts to generate a symbolic link from the user's staging area into the system-wide staging area at ```$spack/var/spack/stage.```\r\n\r\nIndividual users do not and should not have access to write to  ```$spack/var/spack/stage``` and thus, when a user attempts to build, spack attempts to generate a sym link here and fails.\r\n\r\n### Information on your system\r\n\r\nCray XC-40 / ALCF theta\r\n\r\n",
+    "user": "frankwillmore",
+    "url": "https://api.github.com/repos/spack/spack/issues/11163",
+    "updated_at": "2019-08-19 17:31:25",
+    "created_at": "2019-04-10 19:55:17",
+    "closed_at": "2019-08-19 17:31:25",
+    "state": "closed",
+    "title": "per-user settings require security hole when staging builds ",
+    "number": 11163,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high"
+    ],
+    "id": 431684246,
+    "html_url": "https://github.com/spack/spack/issues/11163",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 9
+}

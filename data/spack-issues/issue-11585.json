@@ -1,0 +1,19 @@
+{
+    "body": "When trying to install paraview using system opengl I am getting the following error:\r\n\r\n```console\r\nspack install -j40 paraview+python\r\n\r\n==> Error: AttributeError: Query of package 'opengl' for 'libs' failed\r\nprefix : /usr/lib/x86_64-linux-gnu\r\nspec : opengl@4.5.0%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64\r\nqueried as : opengl\r\nextra parameters : []\r\n\r\n/home/danlipsa/projects/spack/lib/spack/spack/build_environment.py:782, in child_process:\r\n        779            tb_string = traceback.format_exc()\r\n        780\r\n        781            # build up some context from the offending package so we can\r\n  >>    782            # show that, too.\r\n        783            package_context = get_package_context(tb)\r\n        784\r\n        785            build_log = None\r\n```\r\n\r\nThis is what I have in my packages.yaml\r\n\r\n```console\r\npackages:\r\n   opengl:\r\n     paths:\r\n       opengl@4.5.0: /usr/lib/x86_64-linux-gnu\r\n     buildable: False\r\n   python:\r\n      version: [3, 2]\r\n```\r\n\r\nThe issue is that spack add the postfix 'lib' to the directory specified inside packages.yaml\r\nNote that the message printed is also confusing as it talks about 'libs', but spack expects a lib directory.\r\n\r\nAn workaround is to create a directory with a subdirectory 'lib' that points to where libGL.so is:\r\n```console\r\n[~/spack-opengl]$ pwd\r\n/home/danlipsa/spack-opengl\r\n[~/spack-opengl]$ ls -l lib\r\nlrwxrwxrwx 1 danlipsa danlipsa 25 May 29 12:52 lib -> /usr/lib/x86_64-linux-gnu\r\n[~/spack-opengl]$ \r\n```\r\nand then replace the directory specified in packages.yaml with ```/home/danlipsa/spack-opengl```",
+    "user": "danlipsa",
+    "url": "https://api.github.com/repos/spack/spack/issues/11585",
+    "updated_at": "2019-05-30 13:08:44",
+    "created_at": "2019-05-29 21:46:19",
+    "closed_at": "2019-05-30 13:08:44",
+    "state": "closed",
+    "title": "libGL.so is not installed in lib on Ubuntu 18.04",
+    "number": 11585,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 450035029,
+    "html_url": "https://github.com/spack/spack/issues/11585",
+    "assignees": [],
+    "comments": 3
+}

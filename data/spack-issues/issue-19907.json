@@ -1,0 +1,17 @@
+{
+    "body": "Let me start by saying that I don't like adding dependencies to gcc any more than you do :-)\r\n\r\nSee discussion in issue #15510 where it appears that the absence of `cmp` (in diffutils) is causing the build to fail (numerous entries of `cmp: command not found`). Installing diffutils on the system (centos8 in my case) causes the build to succeed. One case where `cmp` is used is in [move-if-change](https://github.com/gcc-mirror/gcc/blob/master/move-if-change), which has include `cmp` in tags since 2.95.0 according to the git history. There are other places where `cmp` is used, though there are others too (e.g. [Makefile.in](https://github.com/gcc-mirror/gcc/blob/master/Makefile.in)).\r\n\r\nIs it reasonable to expect `cmp` and `diff` to be available on the system? Maybe (they are pulled in by `apt-get install build-essentials` and `yum groupinstall \"Development tools\"`), but diffutils is not included in the [Spack prerequisites](https://spack.readthedocs.io/en/latest/getting_started.html#prerequisites). `patch` is in a separate package.\r\n\r\nThe [prerequisites for gcc](https://gcc.gnu.org/install/prerequisites.html) for gcc indicate that diffutils is only \"useful when submitting patches\" but it appears that diffutils should in fact be included as a prerequisite when building gcc.",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/19907",
+    "updated_at": "2020-11-14 19:17:49",
+    "created_at": "2020-11-13 23:02:00",
+    "closed_at": "2020-11-14 06:07:52",
+    "state": "closed",
+    "title": "[gcc] depends_on diffutils (for all versions)",
+    "number": 19907,
+    "milestone": null,
+    "labels": [],
+    "id": 742839703,
+    "html_url": "https://github.com/spack/spack/pull/19907",
+    "assignees": [],
+    "comments": 0
+}

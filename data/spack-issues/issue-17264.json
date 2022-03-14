@@ -1,0 +1,19 @@
+{
+    "body": "This adds `+opengl` to the current `depends_on qt@5:`.\r\n\r\nThe Geant4 cmake check requires Qt5OpenGL_FOUND, so we must require\r\nthe Qt5 +opengl variant. If not, the cmake phase fall through to Qt4\r\nand fails due to a missing Qt4::QtGui target.\r\n\r\nIn Geant4InterfaceOptions.cmake:\r\n```\r\n  if(Qt5Core_FOUND\r\n      AND Qt5Gui_FOUND\r\n      AND Qt5Widgets_FOUND\r\n      AND Qt5OpenGL_FOUND\r\n      AND Qt5PrintSupport_FOUND)\r\n```\r\n\r\nRef: https://github.com/Geant4/geant4/blob/master/cmake/Modules/Geant4InterfaceOptions.cmake#L90\r\n(5baee230e93612916bcea11ebf822756cfa7282c, \"Import Geant4 10.6.0 source tree\")",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/17264",
+    "updated_at": "2020-07-01 20:55:12",
+    "created_at": "2020-06-25 23:38:28",
+    "closed_at": "2020-06-29 06:09:30",
+    "state": "closed",
+    "title": "[geant4] depends_on qt@5: +opengl when +qt",
+    "number": 17264,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 645913026,
+    "html_url": "https://github.com/spack/spack/pull/17264",
+    "assignees": [],
+    "comments": 6
+}

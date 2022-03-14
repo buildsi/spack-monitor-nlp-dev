@@ -1,0 +1,19 @@
+{
+    "body": "Stack the local spack repository on top of a remote repository that contains pre-built packages, thereby avoiding building packages twice.\r\n\r\nEssentially, this adds installed packages in remote read-only spack installations (on the same system) to the current spack repository.\r\n\r\n*Motivation:*\r\nIn our group we have a set of pre-built packages that reside in their own spack repository and are available system-wide in a read-only fashion. Up until now there seemed to be no \"proper\" way to use these packages as dependencies for locally built specs in a seperate spack repository.\r\n\r\nEspecially, this is useful when debugging new `package.py`s against the installed set of packages. Previously the whole spack database had to be built a second time.\r\n\r\n*Implementation:*\r\nWe symlink all installed specs from the remote repository into the local `opt/spack`-path and reindex.\r\nBecause everything is linked via `RPATH`s, the remote package will have to reside where they are (hence no option to use hardlinks right now). When compiling packages in the local spack repository, the `RPATH`s might point to symlinks, however, I do not expect this to be an issue.\r\n\r\nComments?",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/7081",
+    "updated_at": "2018-05-10 23:15:49",
+    "created_at": "2018-01-26 18:09:42",
+    "closed_at": "2018-05-10 23:15:49",
+    "state": "closed",
+    "title": "Implemented 'stack' command",
+    "number": 7081,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 291985574,
+    "html_url": "https://github.com/spack/spack/pull/7081",
+    "assignees": [],
+    "comments": 7
+}

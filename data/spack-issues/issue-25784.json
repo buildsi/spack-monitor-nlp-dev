@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\nIn autotools packages we have some logic to replace outdated `config.{guess,sub}` files with recent ones, so that `./configure` works on architectures unknown at the point where the configure script was generated.\r\n\r\nThis logic requires the package to depend on `automake`, so it pulls these files from there.\r\n\r\n\r\n### Rationale\r\n\r\n\r\nUnfortunately automake pulls in a lot of dependencies:\r\n\r\n![Screenshot from 2021-09-03 17-09-02](https://user-images.githubusercontent.com/194764/132028539-504777ea-1489-44b6-8b7e-3684a87ca91f.png)\r\n\r\nand the whole point of autotools is not to have automake as a dependency.\r\n\r\n### Description\r\n\r\nWe can do 2 things:\r\n\r\n- Put a recent `config.guess` and `config.sub` in `spack/share/spack` and pull the files from there.\r\n- Create a Spack package for https://git.savannah.gnu.org/cgit/config.git/tree/, and make packages depend on this as a build dependency, and have our autotools build system use that instead. Unfortunately, it seems like they don't provide proper versioned tarballs for this (but I might be looking wrong?)\r\n\r\nThis reduces build times for autotools with ./configure scripts on new platforms.\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25784",
+    "updated_at": "2021-09-27 22:38:15",
+    "created_at": "2021-09-03 15:22:13",
+    "closed_at": "2021-09-27 22:38:15",
+    "state": "closed",
+    "title": "Ship latest `config.{guess,sub}` with Spack",
+    "number": 25784,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 987883597,
+    "html_url": "https://github.com/spack/spack/issues/25784",
+    "assignees": [],
+    "comments": 3
+}

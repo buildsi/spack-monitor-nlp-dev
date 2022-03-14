@@ -1,0 +1,17 @@
+{
+    "body": "[edited w/ more info about working version]\r\n\r\nBuilding fontconfig fails for me on CentOS 7.\r\n\r\n```\r\n[...]\r\n  CC       fcname.lo                                                                                                                               CC       fcobjs.lo                                                                                                                             In file included from fcobjs.c:33:0:                                                                                                             fcobjshash.gperf:28:1: error: conflicting types for \u2018FcObjectTypeHash\u2019\r\n \"aspect\",FC_ASPECT_OBJECT\r\n ^                                                                                                                                               fcobjs.c:28:1: note: previous declaration of \u2018FcObjectTypeHash\u2019 was here                                                                          FcObjectTypeHash (register const char *str, register FC_GPERF_SIZE_T len);                                                                       ^                                                                                                                                               In file included from fcobjs.c:33:0:                                                                                                             fcobjshash.gperf:172:1: error: conflicting types for \u2018FcObjectTypeLookup\u2019                                                                        fcobjs.c:31:1: note: previous declaration of \u2018FcObjectTypeLookup\u2019 was here\r\n FcObjectTypeLookup (register const char *str, register FC_GPERF_SIZE_T len);\r\n ^\r\nmake[3]: *** [fcobjs.lo] Error 1                                                                                                                 make[3]: Leaving directory `/tmp/hartzelg/spack-stage/spack-stage-AKUZrk/fontconfig-2.12.3/src'                                                  make[2]: *** [all] Error 2                                                                                                                       make[2]: Leaving directory `/tmp/hartzelg/spack-stage/spack-stage-AKUZrk/fontconfig-2.12.3/src'\r\nmake[1]: *** [all-recursive] Error 1                                                                                                             make[1]: Leaving directory `/tmp/hartzelg/spack-stage/spack-stage-AKUZrk/fontconfig-2.12.3'                                                      make: *** [all] Error 2\r\n```\r\n\r\nfontconfig@2.12.1 works.\r\n\r\nGoogle has a variety of hits for this problem, including a [patch here](https://chromium.googlesource.com/external/fontconfig/+/9878b306f6c673d3d6cd9db487f67eb426cc03df).\r\n\r\nI'll dig more and see if I can come up with a solution.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4546",
+    "updated_at": "2017-06-20 17:47:04",
+    "created_at": "2017-06-19 22:04:25",
+    "closed_at": "2017-06-20 17:47:04",
+    "state": "closed",
+    "title": "fontconfig@2.12.3 fails to build, known issue with gperf3.1",
+    "number": 4546,
+    "milestone": null,
+    "labels": [],
+    "id": 237037496,
+    "html_url": "https://github.com/spack/spack/issues/4546",
+    "assignees": [],
+    "comments": 2
+}

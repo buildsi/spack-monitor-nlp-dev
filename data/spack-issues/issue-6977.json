@@ -1,0 +1,20 @@
+{
+    "body": "The generation of a JUnit report was previously part of the install command. This commit factors the logic into its own module, and uses a template for the generation of the report.\r\n\r\nIt also improves report generation, that now can deal with multiple specs installed at once. Finally,  extending the list of supported formats is much easier than before, as it entails just writing a new template.\r\n\r\nrefers #2917\r\n\r\n#### Example\r\nRunning this command:\r\n```console\r\nspack install --log-format=junit --log-file=hdf5.xml szip  hdf5+szip~mpi tar\r\n```\r\nproduces the following file:\r\n```xml\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!--\r\n    This file has been modeled after the basic\r\n    specifications at this url:\r\n\r\n    http://help.catchsoftware.com/display/ET/JUnit+Format\r\n-->\r\n<testsuites>\r\n    <testsuite name=\"libszip_qabk3nm\"\r\n               errors=\"0\"\r\n               tests=\"1\"\r\n               failures=\"0\"\r\n               time=\"5.741205215454102\"\r\n               timestamp=\"Thu, 18 Jan 2018 07:41:18\" >\r\n        <properties>\r\n            <property name=\"architecture\" value=\"linux-ubuntu14.04-x86_64\" />\r\n            <property name=\"compiler\" value=\"gcc@4.8\" />\r\n        </properties>\r\n        <testcase classname=\"libszip\"\r\n                  name=\"qabk3nme2645mmbpaqv7zbraddgv2w57\"\r\n                  time=\"5.741205215454102\">\r\n        </testcase>\r\n    </testsuite>\r\n    <testsuite name=\"hdf5_hrhfiap\"\r\n               errors=\"0\"\r\n               tests=\"3\"\r\n               failures=\"0\"\r\n               time=\"350.3296411037445\"\r\n               timestamp=\"Thu, 18 Jan 2018 07:41:18\" >\r\n        <properties>\r\n            <property name=\"architecture\" value=\"linux-ubuntu14.04-x86_64\" />\r\n            <property name=\"compiler\" value=\"gcc@4.8\" />\r\n        </properties>\r\n        <testcase classname=\"libszip\"\r\n                  name=\"qabk3nme2645mmbpaqv7zbraddgv2w57\"\r\n                  time=\"5.741205215454102\">\r\n        </testcase>\r\n        <testcase classname=\"zlib\"\r\n                  name=\"eksallf6cymqkp6pkz6ymzjakqt6bqkx\"\r\n                  time=\"4.028627872467041\">\r\n        </testcase>\r\n        <testcase classname=\"hdf5\"\r\n                  name=\"hrhfiapki6pmmhuxclzifoppum5od3x3\"\r\n                  time=\"340.55980801582336\">\r\n        </testcase>\r\n    </testsuite>\r\n    <testsuite name=\"tar_iajxpjo\"\r\n               errors=\"0\"\r\n               tests=\"1\"\r\n               failures=\"0\"\r\n               time=\"54.028172969818115\"\r\n               timestamp=\"Thu, 18 Jan 2018 07:41:18\" >\r\n        <properties>\r\n            <property name=\"architecture\" value=\"linux-ubuntu14.04-x86_64\" />\r\n            <property name=\"compiler\" value=\"gcc@4.8\" />\r\n        </properties>\r\n        <testcase classname=\"tar\"\r\n                  name=\"iajxpjomleps4atnydsr5r2dqgvlj5gs\"\r\n                  time=\"54.028172969818115\">\r\n        </testcase>\r\n    </testsuite>\r\n</testsuites>\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6977",
+    "updated_at": "2018-01-28 20:15:09",
+    "created_at": "2018-01-17 22:36:01",
+    "closed_at": "2018-01-28 20:08:00",
+    "state": "closed",
+    "title": "Cleaned up JUnit report generation on install",
+    "number": 6977,
+    "milestone": null,
+    "labels": [
+        "ready",
+        "refactoring"
+    ],
+    "id": 289438779,
+    "html_url": "https://github.com/spack/spack/pull/6977",
+    "assignees": [],
+    "comments": 3
+}

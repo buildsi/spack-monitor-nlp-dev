@@ -1,0 +1,19 @@
+{
+    "body": "Hey lovely folks! This is my first PR in spack. I think I found a race condition when packages get uninstalled which should be fixed with this PR:\r\n\r\nWhen uninstalling packages, spack also tries to remove empty parent directories of the install prefix up until the spack installation root.  Spack acquires a write lock for the package's installation prefix during uninstallation. However, multiple installation prefixes can share parent directories. So there's a race condition when trying to remove empty parent directories.\r\n\r\nThis sporadically occurs in our jenkins setup where we uninstall a package in 4 configurations roughly at the same time.",
+    "user": "BenWeber42",
+    "url": "https://api.github.com/repos/spack/spack/issues/21424",
+    "updated_at": "2021-02-09 18:05:07",
+    "created_at": "2021-02-01 16:17:59",
+    "closed_at": "2021-02-09 18:05:06",
+    "state": "closed",
+    "title": "Fixed uninstall rm parent folder race condition",
+    "number": 21424,
+    "milestone": null,
+    "labels": [
+        "bugfix"
+    ],
+    "id": 798501235,
+    "html_url": "https://github.com/spack/spack/pull/21424",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,24 @@
+{
+    "body": "# Primary fix:\r\n\r\nDue to a typo in a version range, overlapping PR merges resulted in a build failure of the latest version: Don't attempt to remove a non-existing file for version 1.9.6.\r\n\r\n# Secondary fixes:\r\n\r\nupdate_tpetra_gotypes.patch was mentioned twice, and the version range has to exclude @1.4.2, to which it cannot be applied.\r\n\r\nAdd depend_on() py-pytest, py-numpy and pkgconfig with type='test'\r\n\r\n@:1.9.0 fail with 'Rank mismatch with gfortran@10:, add a conflicts().\r\n\r\nraise InstallError('~mpi not possible with kernel_lib=builtin!') when applicable.\r\n\r\n# Fixes for spack install --test=root phist:\r\n\r\nmpiexec -n12 puts a lot of stress on a pod and gets stuck in a loop very often: Reduce the mpiexec procs and the number of threads.\r\n\r\nRemove `@run_after('build') @on_package_attributes(run_tests=True):` from `'def check()'`: fixes it from getting called twice\r\n\r\nThe build script of `'make test_install'` for the installcheck expects\r\nthe examples to be copied to self.stage.path: Provide them.",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26727",
+    "updated_at": "2021-10-15 22:42:10",
+    "created_at": "2021-10-14 00:54:34",
+    "closed_at": "2021-10-14 12:14:25",
+    "state": "closed",
+    "title": "phist: Fix build of 1.9.6, fix build- and install-tests",
+    "number": 26727,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "patch",
+        "update-package",
+        "conflicts"
+    ],
+    "id": 1025821845,
+    "html_url": "https://github.com/spack/spack/pull/26727",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 3
+}

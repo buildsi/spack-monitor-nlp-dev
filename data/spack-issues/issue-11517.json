@@ -1,0 +1,22 @@
+{
+    "body": "unfortunately https://github.com/spack/spack/pull/11499 is not working as expected (at least for me).\r\n\r\n```\r\n$ spack spec -I dealii@develop+symengine\r\nInput spec\r\n--------------------------------\r\n -   dealii@develop+symengine\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n...\r\ndealii requires symengine variant build_type=Debug,Release, but spec asked for build_type=Release\r\n```\r\n\r\nThis looks like a bug in Spack (at least code in deal.II package does not require both variants).\r\n\r\nIn this PR I am trying to re-phrase the same constraints but make sure that `depends_on()` are self excluding. The first commit works both for `spack spec -I dealii@develop+symengine` and `spack spec -I dealii@develop+symengine^trilinos+debug`, but the second fails:\r\n\r\n```\r\n$ spack spec -I dealii@develop+symengine\r\nInput spec\r\n--------------------------------\r\n -   dealii@develop+symengine\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: multiple values are not allowed for variant \"build_type\"\r\n```\r\n\r\nAgain, pointing that something seems to be wrong with multi-valued variants and/or concretization with `^` constraints. @alalazo @tgamblin @scheibelp @adamjstewart any thoughts?\r\n\r\nEDIT: concretization works as expected if I help concretizer with `trilinos` debug variant:\r\n```\r\n$ spack spec -I dealii@develop+symengine^trilinos+debug\r\n```\r\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/11517",
+    "updated_at": "2019-05-21 06:41:49",
+    "created_at": "2019-05-20 07:29:23",
+    "closed_at": "2019-05-21 05:38:59",
+    "state": "closed",
+    "title": "dealii: fix symengine constraints",
+    "number": 11517,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "variants",
+        "update-package"
+    ],
+    "id": 445962535,
+    "html_url": "https://github.com/spack/spack/pull/11517",
+    "assignees": [],
+    "comments": 3
+}

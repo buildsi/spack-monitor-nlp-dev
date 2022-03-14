@@ -1,0 +1,21 @@
+{
+    "body": "By default, clingo doesn't show any optimization criteria (maximized or minimized sums) if the set they aggregate is empty. Per the clingo mailing list, we can get around that by adding, e.g.:\r\n\r\n```\r\n#minimize{ 0@2 : #true }.\r\n```\r\n\r\nfor the 2nd criterion. This forces clingo to print out the criterion but does not affect the optimization.\r\n\r\nThis PR adds directives as above for all of our optimization criteria, as well as facts with descriptions of each criterion,like this:\r\n\r\n```\r\nopt_criterion(2, \"number of non-default variants\")\r\n```\r\n\r\nWe use facts in `concretize.lp` rather than hard-coding these in `asp.py` so that the names can be maintained in the same place as the other optimization criteria.\r\n\r\nThe now-displayed weights and the names are used to display optimization output like this:\r\n\r\n```console\r\n(spackle):solver> spack solve --show opt zlib\r\n==> Best of 0 answers.\r\n==> Optimization Criteria:\r\n  Priority  Criterion                                            Value\r\n  1         version weight                                           0\r\n  2         number of non-default variants (roots)                   0\r\n  3         multi-valued variants + preferred providers for roots    0\r\n  4         number of non-default variants (non-roots)               0\r\n  5         number of non-default providers (non-roots)              0\r\n  6         count of non-root multi-valued variants                  0\r\n  7         compiler matches + number of nodes                       1\r\n  8         version badness                                          0\r\n  9         non-preferred compilers                                  0\r\n  10        target matches                                           0\r\n  11        non-preferred targets                                    0\r\n\r\nzlib@1.2.11%apple-clang@12.0.0+optimize+pic+shared arch=darwin-catalina-skylake\r\n```\r\n\r\nNote that this is all hidden behind a `--show opt` option to `spack solve`. Optimization weights are no longer shown by default, but you can at least inspect them and more easily understand what is going on.\r\n\r\n- [x] always show optimization criteria in `clingo` output\r\n- [x] add `opt_criterion()` facts for all optimizationc criteria\r\n- [x] make display of opt criteria optional in `spack solve`\r\n- [x] rework how optimization criteria are displayed, and add a `--show opt`ddoptiong to `spack solve`",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/22433",
+    "updated_at": "2021-04-02 08:54:51",
+    "created_at": "2021-03-21 05:25:14",
+    "closed_at": "2021-04-02 08:54:50",
+    "state": "closed",
+    "title": "concretizer: improve display of optimization criteria",
+    "number": 22433,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "commands",
+        "user-experience"
+    ],
+    "id": 836989539,
+    "html_url": "https://github.com/spack/spack/pull/22433",
+    "assignees": [],
+    "comments": 2
+}

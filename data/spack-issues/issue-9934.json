@@ -1,0 +1,17 @@
+{
+    "body": "I've found a couple of small fixes to do in the package RegCM.\r\n\r\n\r\nI don't know whether the fix for the intel fortran compiler is correct:\r\nhttps://github.com/exactlab/spack/blob/06522062e09dc99e35ac5488882aa419acd22e12/var/spack/repos/builtin/packages/regcm/package.py#L76-L77\r\nShould I check only for the ifort compiler, like I did for the gfortran compiler issue just above?\r\n```python\r\n    if self.compiler.fc.endswith('ifort'):\r\n        args.append('MPIFC' + ...)\r\n```\r\nBecause the fix I propose wouldn't work on a mixed toolchain, like clang + ifort (but I think this is less common than a mixed toolchain clang + gfortran).\r\nIs there a proper way to perform these kind of checks?\r\n\r\n\r\nMoreover, the actual RegCM version doesn't work with Intel (it crashes with a runtime error).\r\nThe new version is expected to be released in a couple of months, but meanwhile you can try adding:\r\n```python\r\n    version('4.7.1-SVN6884',\r\n            sha256='fd4eb0fbe911c6c4dacbaaf2a952a45ac8c1fa54a5d905972ffe592e47818c00',\r\n            url='http://clima-dods.ictp.it/Users/ggiulian/RegCM-SVN6884.tar.gz')\r\n```",
+    "user": "bebosudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9934",
+    "updated_at": "2019-03-05 13:40:11",
+    "created_at": "2018-11-23 11:54:17",
+    "closed_at": "2019-03-05 13:40:10",
+    "state": "closed",
+    "title": "Regcm fixes",
+    "number": 9934,
+    "milestone": null,
+    "labels": [],
+    "id": 383797829,
+    "html_url": "https://github.com/spack/spack/pull/9934",
+    "assignees": [],
+    "comments": 5
+}

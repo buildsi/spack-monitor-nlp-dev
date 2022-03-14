@@ -1,0 +1,19 @@
+{
+    "body": "See @tgamblin at https://github.com/LLNL/spack/issues/556\n\n> @citibeth: is there a reason you can't get basically what you want, right now, by using variants? Suppose you do this:\n> \n> ```\n> A:\n>     variant('python', default=True, 'enable python bindings')\n>     depends_on('python@2.7', when='+python')\n>     def patch(self):\n>         # do whatever is necessary to enable/disable python bindings according to variant\n> B:\n>     variant('python', default=True, 'enable python bindings')\n>     depends_on('python@3.2:', when='+python')\n>     def patch(self):\n>         # do whatever is necessary to enable/disable python bindings according to variant\n> C:\n>     depends_on('A~python')\n>     depends_on('B~python')\n> ```\n> \n> That will result in potentially more copies of A and B than you want but it will work.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/645",
+    "updated_at": "2017-04-12 21:13:23",
+    "created_at": "2016-03-25 17:10:51",
+    "closed_at": "2017-04-12 21:13:22",
+    "state": "closed",
+    "title": "[Docs] Document Best 2vs3 Practices for Packages providing Python Extensions",
+    "number": 645,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 143544067,
+    "html_url": "https://github.com/spack/spack/issues/645",
+    "assignees": [],
+    "comments": 3
+}

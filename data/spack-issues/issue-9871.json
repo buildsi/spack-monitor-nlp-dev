@@ -1,0 +1,17 @@
+{
+    "body": "Drop versions 8.1.x.  These were > 5 years old, no other spack package\r\nuses them, and they used autotools.  Packages 'stat' and 'mitos' still\r\nuse 8.2.1, so we keep that.\r\n\r\nSwitch class Dyninst to CMakePackage.\r\n\r\nClean up how the versions depend on various packages.  For example,\r\nDyninst used libelf up to 9.2, and then elfutils starting with 9.3.\r\nThis makes things easier going forward.\r\n\r\nAdd variant 'openmp' (default True) to enable openmp support for\r\nParseAPI.  This was added in 10.0.0.\r\n\r\nAdd variant 'static' (default False) to also build static libraries.\r\nThis goes back to 9.1.0.\r\n\r\nDisable cotire for the 9.3.x versions.  Cotire has no real use in a\r\none-time build and can break parallel builds with both static and\r\nshared libs.\r\n\r\n@mplegendre  @bwelton  @jgalarowicz  @mxz297  comments?\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/9871",
+    "updated_at": "2018-11-21 18:47:25",
+    "created_at": "2018-11-16 19:53:14",
+    "closed_at": "2018-11-21 18:47:19",
+    "state": "closed",
+    "title": "dyninst: overhaul package.py to CMakePackage",
+    "number": 9871,
+    "milestone": null,
+    "labels": [],
+    "id": 381737967,
+    "html_url": "https://github.com/spack/spack/pull/9871",
+    "assignees": [],
+    "comments": 8
+}

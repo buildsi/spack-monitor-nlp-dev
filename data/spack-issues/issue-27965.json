@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\nspack install trilinos@13.0.0 +x11\r\n...\r\n==> trilinos: Executing phase: 'cmake'\r\n==> Error: KeyError: 'No spec with name x11 in trilinos@13.0.0%gcc@8.4.0 cxxflags=\"-DMUMPS_5_0\"+adios2+amesos~amesos2+anasazi+aztec~basker+belos+boost+chaco+complex ...\r\n/software/spack/git.2021.11.29/var/spack/repos/builtin/packages/trilinos/package.py:588, in cmake_args:\r\n        585            tpl_variant_map.append(('STRUMPACK', 'strumpack'))\r\n        586\r\n        587        for tpl_name, var_name in tpl_variant_map:\r\n  >>    588            define_tpl(tpl_name, var_name, spec.variants[var_name].value)\r\n        589\r\n        590        # Enable these TPLs based on whether they're in our spec; prefer to\r\n        591        # require this way so that packages/features disable availability\r\n\r\nSee build log for details:\r\n  /tmp/spackswinst/spack-stage/spack-stage-trilinos-13.0.0-bavyhwtujoekjrdihetcq2zbvace2vnf/spack-build-out.txt\r\n```\r\n\r\nThe above error seems to be due to a mismatch in the variant name (x11) and the name of the dependent spack package (libx11).\r\n\r\nWhen I make some changes to package.py to get past this, I also encounter the issues described in  #27758\n\n### Information on your system\n\n```console\r\n$ spack debug report\r\n* **Spack:** 0.17.0-319-5dce4d79bd\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n```\n\n### Additional information\n\n1. [spack-build-out.txt](https://github.com/spack/spack/files/7706342/spack-build-out.txt)\r\n1. [spack-build-env.txt](https://github.com/spack/spack/files/7706343/spack-build-env.txt)\r\n1. [spack-console-out.txt](https://github.com/spack/spack/files/7706348/spack-console-out.txt) \r\n\r\nThe last file is the full console output of the spack install command, as spack-build-out.txt is rather empty.\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/27965",
+    "updated_at": "2021-12-29 15:28:20",
+    "created_at": "2021-12-13 19:19:21",
+    "closed_at": "2021-12-29 15:28:20",
+    "state": "closed",
+    "title": "Installation issue: trilinos +x11 fails in package.py",
+    "number": 27965,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1078891486,
+    "html_url": "https://github.com/spack/spack/issues/27965",
+    "assignees": [],
+    "comments": 1
+}

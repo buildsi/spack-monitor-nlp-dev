@@ -1,0 +1,21 @@
+{
+    "body": "Spack always concretize to `-classic` version of `cce` compilers when detected. This commit is a workaround to be able to use Clang based `cce` compilers until a fix is coded for v0.15.1.\r\n\r\nTo reproduce the bug:\r\n```console\r\n>>> s = spack.spec.Spec('zlib%cce@9.0.2')\r\n>>> s.concretize()\r\n>>> s.package.compiler.c99_flag\r\n'-h std=c99,noconform,gnu'\r\n>>> s.package.compiler.is_clang_based\r\nFalse\r\n>>> str(s.package.compiler.version)\r\n'9.0.2-classic'\r\n>>> str(s)\r\n'zlib@1.2.11%cce@9.0.2+optimize+pic+shared patches=e93f7400712c2814905815204dadbdebcb91dc77dd586f60cbc82efa102fb539 arch=cray-cnl7-haswell'\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17314",
+    "updated_at": "2020-06-30 23:36:53",
+    "created_at": "2020-06-30 15:35:29",
+    "closed_at": "2020-06-30 20:45:30",
+    "state": "closed",
+    "title": "Don't detect \"classic\" on Cray to avoid a compiler bug",
+    "number": 17314,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "compilers",
+        "hotfix"
+    ],
+    "id": 648277534,
+    "html_url": "https://github.com/spack/spack/pull/17314",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,24 @@
+{
+    "body": "Fixes #22643.\r\n\r\nAutoconf before 2.70 will erroneously pass `ifx`'s -loopopt argument to the linker, requiring all packages to use autoconf 2.70 or newer to use `ifx`.\r\n\r\nThis is a hotfix enabling `ifx` to be used in Spack. Instead of bothering to upgrade autoconf for every package, we'll just strip out the problematic flag if we're in `ld` mode.\r\n\r\n- [x] Add a conditional to the `cc` wrapper to skip `-loopopt` in `ld` mode. This can probably be generalized in the future to strip more things (e.g., via an environment variable we can constrol from Spack) but it's good enough for now.\r\n\r\n- [x] Add a test ensuring that `-loopopt` arguments are stripped in link mode, but not in compile mode.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/22683",
+    "updated_at": "2021-05-06 22:35:07",
+    "created_at": "2021-03-31 16:47:30",
+    "closed_at": "2021-03-31 21:47:39",
+    "state": "closed",
+    "title": "hotfix: make `ifx` work with `autoconf` <= 2.69 in spack",
+    "number": 22683,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "autotools",
+        "ecp",
+        "e4s",
+        "oneapi",
+        "fortran"
+    ],
+    "id": 846955174,
+    "html_url": "https://github.com/spack/spack/pull/22683",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,22 @@
+{
+    "body": "@adamjstewart \n\nThe `libxcb` package breaks Python3-based builds.  It SHOULD be possible to do this build because `libxcb` has a build dependency on Python2, but the rest of the stuff has a \"full\" dependency on Python3.  However, the Spack concretizer is not smart enough to deal with that situation.\n\nA quick grep through Spack shows there are very few other packages with the same problem (i.e. a build dependency on Python2, where it would make sense trying to build that package as part of a Python3 stack):\n\n```\nllvm/package.py:    depends_on('python@2.7:2.8')  # Seems not to support python 3.X.Y\nparaview/package.py:    depends_on('python@2:2.7', when='+python')\nlibxcb/package.py:    depends_on('python@2:2.8', type='build')\n```\n\nTo repeat the test, use https://github.com/LLNL/spack/pull/2097.  Then:\n\n```\n$ cd share/spack/qa/integration/efischer/gibbs-centos7\n$ ./run-test     # spack install env-modele\nInput spec\n------------------------------\n  env-modele\n\nNormalized\n------------------------------\n==> Error: Invalid spec: 'python@3.2:^bzip2^ncurses^openssl^readline^sqlite^zlib@1.2.5:'. Package python requires version 2:2.8, but spec asked for 3.2:\n```\n\n@tgamblin \nThis bug should be fixed, IMHO, for the release.  Either fix the underlying problem in concretization, or temporarily remove `libxcb`.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2098",
+    "updated_at": "2017-01-05 20:50:44",
+    "created_at": "2016-10-23 16:49:19",
+    "closed_at": "2017-01-05 20:50:44",
+    "state": "closed",
+    "title": "`libxcb` breaks Python3 environments (improper handling of build deps)",
+    "number": 2098,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "new-package",
+        "concretization",
+        "X11"
+    ],
+    "id": 184700675,
+    "html_url": "https://github.com/spack/spack/issues/2098",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,20 @@
+{
+    "body": "I need to provide [picard](https://github.com/broadinstitute/picard).  It's a java application that depends on at least one other library ([htdjdk](https://github.com/samtools/htsjdk)).  Building from source seems opaque while just plopping the jar file into `prefix` seems easy.  I wouldn't suggest using spack to copy a platform-specific binary into place, but since jar files are platform agnostic, perhaps this isn't so offensive.  Or, perhaps it is.\r\n\r\nWhat's the Spack stand on copying jar files from upstream providers?\r\n\r\n---\r\n\r\nAdditional details....\r\n\r\nI haven't totally sussed out the build from source bit, but it seems like it's going to need the htsjdk jar and is likely to reach out and grab it.  There are instructions for using one's own htsjdk.jar, but they include this bit describing what to do with that jar\r\n\r\n> to install that version to your local maven repository\r\n\r\nAll of this seems like a lot of overhead....\r\n\r\nMy users would be content if I grabbed the distributed jar file, dropped it into `prefix` and set the `$PICARD` environment variable to point there.  \r\n\r\n[Picard's instructions](https://broadinstitute.github.io/picard/) recommend running it as follows:\r\n\r\n```bash\r\njava -jar /path/to/picard.jar -h\r\n```\r\n\r\nand their warm fuzzy recommendation is to abstract that path into an environment variable:\r\n\r\n```bash\r\njava -jar $PICARD -h \r\n```\r\n\r\nwith the general usage pattern being:\r\n\r\n```\r\njava jvm-args -jar $PICARD PicardToolName OPTION1=value1 OPTION2=value2...\r\n```\r\n\r\nApparently no one has revolted and written a `picard` bash script to wrap it up.....\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4386",
+    "updated_at": "2017-07-17 17:39:54",
+    "created_at": "2017-05-29 17:39:20",
+    "closed_at": "2017-07-17 17:39:54",
+    "state": "closed",
+    "title": "Feedback on simplistic install of a Java based app (aka, download the jar file...).",
+    "number": 4386,
+    "milestone": null,
+    "labels": [
+        "question",
+        "java"
+    ],
+    "id": 232071376,
+    "html_url": "https://github.com/spack/spack/issues/4386",
+    "assignees": [],
+    "comments": 8
+}

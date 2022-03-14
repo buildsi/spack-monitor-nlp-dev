@@ -1,0 +1,19 @@
+{
+    "body": "*This was copied from #20218, because github won't let me reopen it.*\r\n\r\n**This needs to be refactored to:**\r\n- [ ] Inject a Python.h file if one is not found.\r\n- [ ] Remove the need for the double bootstrapping in #20159.\r\n\r\n### Problem\r\n\r\nWe would like to ensure that clingo is able to bootstrap from a python 2.6-only, C++11-only environment in #20159.\r\n\r\n### Solution\r\n\r\n- Add multiple patches which will allow python 2.6 to be built even with `~ssl` and `~dbm`.\r\n- Modify the `libtirpc` transitive dependency so that its headers are visible to python (this is necessary to make the build pass).\r\n- Pass `--no-user-cfg` only if the python version is >2.6.\r\n\r\n### Result\r\n\r\n- These modifications to the `python` package allow it to be built within spack (tested on CentOS 6 with the x86 architecture).\r\n- This makes it easier to test python 2.6 compatibility in arbitrary environments.\r\n\r\n### TODO\r\n- [ ] **This should be added to spack CI.** I'm not 100% sure how to do that yet, but I think that basing this on top of #20207 might be a way to get started on it.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20633",
+    "updated_at": "2021-11-20 04:41:56",
+    "created_at": "2020-12-31 04:24:49",
+    "closed_at": "2021-11-20 04:41:56",
+    "state": "closed",
+    "title": "bootstrap a python 2.6 installation",
+    "number": 20633,
+    "milestone": null,
+    "labels": [
+        "bootstrap"
+    ],
+    "id": 776766690,
+    "html_url": "https://github.com/spack/spack/pull/20633",
+    "assignees": [],
+    "comments": 1
+}

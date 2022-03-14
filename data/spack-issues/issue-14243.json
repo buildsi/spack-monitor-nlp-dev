@@ -1,0 +1,22 @@
+{
+    "body": "*I have created a mirror as a buildcache, and then try create a buildcache package,\r\nbut the result shows that the binary package is created in a /tmp dir, not in the mirror.\r\nI found the Spack Documentation is quite simple when it introduce the buildcache feature in Chapter 13.\r\nI'm not sure is there any thing wrong for my operation or it's a bug for spack.\r\n*\r\n\r\n### Steps to reproduce the issue\r\n**check build cache mirror**\r\n```console\r\n[root@localhost spack]# spack mirror list\r\nspack_bin    file:///home/xiaojun/spack/spack_bin\r\n[root@localhost spack]# spack buildcache list\r\n==> Finding buildcaches in /home/xiaojun/spack/spack_bin/build_cache\r\n```\r\n\r\n**create zlib buildcache**\r\n```console\r\n[root@localhost spack]# spack buildcache create zlib@1.2.11%gcc@4.8.5\r\n==> creating binary cache file for package zlib@1.2.11%gcc@4.8.5+optimize+pic+shared arch=linux-centos7-aarch64\r\n==> Warning: No default key available for signing.\r\nUse spack gpg init and spack gpg create to create a default key.\r\n[root@localhost spack]#\r\n[root@localhost spack]#\r\n[root@localhost spack]#\r\n[root@localhost spack]# spack buildcache list\r\n==> Finding buildcaches in /home/xiaojun/spack/spack_bin/build_cache\r\n[root@localhost spack]# ls /home/xiaojun/spack/spack_bin/build_cache\r\n[root@localhost spack]# find / -name \"build_cache\"\r\n/home/xiaojun/spack/spack_bin/build_cache\r\n/tmp/tmphSRcaq/build_cache\r\n/tmp/tmpZaOJoo/build_cache\r\n/tmp/tmpOrBLY9/build_cache\r\n/tmp/tmpppAsVF/build_cache\r\n/tmp/tmp2yLM7X/build_cache\r\n/tmp/tmpLZ7Mat/build_cache\r\n/tmp/tmpNilOIz/build_cache\r\n/tmp/tmpw3QddI/build_cache\r\n[root@localhost spack]# ls /tmp/tmpw3QddI/build_cache\r\nlinux-centos7-aarch64  linux-centos7-aarch64-gcc-4.8.5-zlib-1.2.11-6yywoqcw7vz3u4o6hs2v4avlhb24ynli.spec.yaml\r\n[root@localhost spack]# tree /tmp/tmpw3QddI/build_cache\r\n/tmp/tmpw3QddI/build_cache\r\n\u251c\u2500\u2500 linux-centos7-aarch64\r\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 gcc-4.8.5\r\n\u2502\u00a0\u00a0     \u2514\u2500\u2500 zlib-1.2.11\r\n\u2502\u00a0\u00a0         \u2514\u2500\u2500 linux-centos7-aarch64-gcc-4.8.5-zlib-1.2.11-6yywoqcw7vz3u4o6hs2v4avlhb24ynli.tar.gz\r\n\u2514\u2500\u2500 linux-centos7-aarch64-gcc-4.8.5-zlib-1.2.11-6yywoqcw7vz3u4o6hs2v4avlhb24ynli.spec.yaml\r\n\r\n3 directories, 2 files\r\n[root@localhost spack]#\r\n```\r\n\r\n",
+    "user": "darmac",
+    "url": "https://api.github.com/repos/spack/spack/issues/14243",
+    "updated_at": "2019-12-23 11:55:25",
+    "created_at": "2019-12-20 09:24:45",
+    "closed_at": "2019-12-23 11:55:24",
+    "state": "closed",
+    "title": "spack buildcache create <spec> will create build cache in /tmp/<hash> dir, not in buildcache mirror.",
+    "number": 14243,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "documentation",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 540885208,
+    "html_url": "https://github.com/spack/spack/issues/14243",
+    "assignees": [],
+    "comments": 5
+}

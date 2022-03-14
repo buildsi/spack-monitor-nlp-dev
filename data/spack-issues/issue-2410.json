@@ -1,0 +1,17 @@
+{
+    "body": "New version of r-lattice.\r\n\r\nI've realized some problems with r packages but I've been working for a while with an outdated Spack version so I'm not sure if it will be reproducible. \r\n\r\nThe point is that when a r-package stays behind the current version hosted in the CRAN repository, like in this case, the fetch process fails. The Cran policy is to move the current version of a r-package to `https://cran.r-project.org/src/contrib` and the old ones remains in `https://cran.r-project.org/src/contrib/Archive/package_name/`. It seems that the list_url does not work properly in this case and it does not search the specified version in this last url, but I'm not pretty sure about that. \r\n\r\nCould anyone check it?\r\n\r\nThe error message I had was this:\r\n\r\n```\r\n==> Error: FetchError: All fetchers failed for r-lattice-0.20-33-y42n4xs7kb7wzvu47qmikcrwgrtiowte\r\n     921      def do_fetch(self, mirror_only=False):\r\n     922          \"\"\"\r\n     923          Creates a stage directory and downloads the tarball for this package.\r\n     924          Working directory will be set to the stage directory.\r\n     925          \"\"\"\r\n     926          if not self.spec.concrete:\r\n     927              raise ValueError(\"Can only fetch concrete packages.\")\r\n     928  \r\n     929          start_time = time.time()\r\n     930          if spack.do_checksum and self.version not in self.versions:\r\n     931              tty.warn(\"There is no checksum on file to fetch %s safely.\" %\r\n     932                       self.spec.format('$_$@'))\r\n     933  \r\n     934              # Ask the user whether to skip the checksum if we're\r\n     935              # interactive, but just fail if non-interactive.\r\n     936              ck_msg = \"Add a checksum or use --no-checksum to skip this check.\"\r\n     937              ignore_checksum = False\r\n     938              if sys.stdout.isatty():\r\n     939                  ignore_checksum = tty.get_yes_or_no(\"  Fetch anyway?\",\r\n     940                                                      default=False)\r\n     941                  if ignore_checksum:\r\n     942                      tty.msg(\"Fetching with no checksum.\", ck_msg)\r\n     943  \r\n     944              if not ignore_checksum:\r\n     945                  raise FetchError(\"Will not fetch %s\" %\r\n     946                                   self.spec.format('$_$@'), ck_msg)\r\n     947  \r\n  >> 948          self.stage.fetch(mirror_only)\r\n     949  \r\n     950          self._fetch_time = time.time() - start_time\r\n     951  \r\n     952          if spack.do_checksum and self.version in self.versions:\r\n     953              self.stage.check()\r\n     954  \r\n     955          self.stage.cache_local()\r\n```",
+    "user": "JavierCVilla",
+    "url": "https://api.github.com/repos/spack/spack/issues/2410",
+    "updated_at": "2016-11-24 20:19:42",
+    "created_at": "2016-11-24 16:48:13",
+    "closed_at": "2016-11-24 20:19:42",
+    "state": "closed",
+    "title": "Updated version - r-lattice",
+    "number": 2410,
+    "milestone": null,
+    "labels": [],
+    "id": 191562662,
+    "html_url": "https://github.com/spack/spack/pull/2410",
+    "assignees": [],
+    "comments": 0
+}

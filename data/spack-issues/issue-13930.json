@@ -1,0 +1,19 @@
+{
+    "body": "While trying to reinstall an environment that used to work before my last pull (to 008fe37941d2f2071f038c4bc6465d8f80267b57), packages started to break down with errors suggesting that system stuff was leaking into `build_env`, for example:\r\n\r\n```console\r\n$ spack install gmp\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n>> 661    make[2]: *** [addmul_1.lo] Error 63\r\n     663    libtool: Version mismatch error.  This is libtool 2.4.2, but the\r\n     664    libtool: definition of this LT_INIT comes from libtool 2.4.6.\r\n     665    libtool: You should recreate aclocal.m4 with macros from libtool 2.4.2\r\n     666    libtool: and run autoconf again.\r\n```\r\n\r\n`git bisect` pointed me to 99dfff447509a68d672a82812e5abfbc463b6d26 (merged in #13578) that looks like the culprit: when a package being installed depends on `perl`, the patch in #13578 prepends the concretized `perl` path to everything else. The issue is that when `perl` is external, that machinery ends up **prepending a system directory (`/usr/bin` for instance) to `$PATH` in the `build_env`** thus making the build environment find system stuff over Spack stuff (e.g.: `libtool`).\r\n\r\n```console\r\n$ spack build-env gmp | grep libtool\r\n# ...stuff...\r\nPATH=/usr/bin:/davide/home/userinternal/fficarel/src/spack/lib/spack/env/gcc:/davide/home/userinternal/fficarel/src/spack/opt/spack/linux-centos7-power8le/gcc-4.8.5/libtool-2.4.6-eew4dtszgkcdg27jmfy6p57gk4kgq644/bin:/usr/bin\r\n# ...stuff...\r\n```\r\n\r\nNotice that `/usr/bin` shows up both as first and last `$PATH` component.\r\n\r\n### Steps to reproduce the issue\r\n\r\nOn a system with a provided `libtool < 2.4.6` (older than the default version provided by `spack` @  008fe37941d2f2071f038c4bc6465d8f80267b57), the following commands reliably reproduce the issue (any package that has an `autoreconf` phase and directly depends on `libtool` will trigger the issue in the same way tho):\r\n\r\n```console\r\n$ cat ~/.spack/packages.yaml\r\npackages:\r\n  perl:\r\n    paths:\r\n      perl@5.16.3-host +shared +threads: /usr\r\n    buildable: False\r\n$ spack install gmp\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n>> 661    make[2]: *** [addmul_1.lo] Error 63\r\n     663    libtool: Version mismatch error.  This is libtool 2.4.2, but the\r\n     664    libtool: definition of this LT_INIT comes from libtool 2.4.6.\r\n     665    libtool: You should recreate aclocal.m4 with macros from libtool 2.4.2\r\n     666    libtool: and run autoconf again.\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ lsb_release --all\r\nLSB Version:\t:core-4.1-noarch:core-4.1-ppc64le\r\nDistributor ID:\tCentOS\r\nDescription:\tCentOS Linux release 7.5.1804 (AltArch) \r\nRelease:\t7.5.1804\r\nCodename:\tAltArch\r\n```\r\n\r\n```console\r\n$ cat ~/.spack/packages.yaml\r\npackages:\r\n  perl:\r\n    paths:\r\n      perl@5.16.3-host +shared +threads: /usr\r\n    buildable: False\r\n```\r\n",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/13930",
+    "updated_at": "2019-11-29 11:30:41",
+    "created_at": "2019-11-28 14:32:22",
+    "closed_at": "2019-11-29 11:30:41",
+    "state": "closed",
+    "title": "External perl breaks $PATH in build_env",
+    "number": 13930,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 529946204,
+    "html_url": "https://github.com/spack/spack/issues/13930",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I ran spack twice in a row to create a mirror in the same location.  I expected it to update the mirror location with new packages.  It errored.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack/bin/spack mirror create -d /usr/WS2/white238/serac/mirror --dependencies serac_devtools\r\n$ spack/bin/spack mirror create -d /usr/WS2/white238/serac/mirror --dependencies serac_devtools\r\n```\r\n\r\n### Error Message\r\n\r\n==> Adding package serac_devtools@fakeversion to mirror\r\n==> Error: 'FileExistsError' object has no attribute 'message'\r\n\r\nRunning with -d got two stack traces in a single spack run:\r\n\r\nTraceback (most recent call last):\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/mirror.py\", line 506, in add_single_spec\r\n    pkg_stage.cache_mirror(mirror_stats)\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/util/pattern.py\", line 68, in getter\r\n    getattr(item, self.name)(*args, **kwargs)\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/stage.py\", line 508, in cache_mirror\r\n    self.mirror_paths.cosmetic_path)\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/caches.py\", line 72, in store\r\n    os.symlink(relative_dst, cosmetic_path)\r\nFileExistsError: [Errno 17] File exists: 'serac_devtools-fakeversion.tar.gz' -> '/usr/WS2/white238/serac/mirror/serac_devtools/serac_devtools-fakeversion.tar.gz'\r\n\r\n\r\n\r\n==> [2019-11-13-11:04:55.099182] Successfully updated mirror in file:///usr/WS2/white238/serac/mirror\r\n  Archive stats:\r\n    50   already present\r\n    0    added\r\n    1    failed to fetch.\r\n==> [2019-11-13-11:04:55.099393] Error: Failed downloads:\r\nserac_devtools@fakeversion\r\nTraceback (most recent call last):\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/main.py\", line 715, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/main.py\", line 457, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/cmd/mirror.py\", line 338, in mirror\r\n    action[args.mirror_command](args)\r\n  File \"/usr/WS2/white238/serac/repo/uberenv_libs/spack/lib/spack/spack/cmd/mirror.py\", line 324, in mirror_create\r\n    sys.exit(1)\r\nSystemExit: 1\r\n\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. llnl, toss3, rzgenie\r\n 2. Custom package.py:\r\n\r\nfrom spack import *\r\n\r\nclass SeracDevtools(BundlePackage):\r\n    \"\"\"This is a set of tools necessary for the developers of Serac\"\"\"\r\n\r\n    version('fakeversion')\r\n\r\n    depends_on('astyle')\r\n    depends_on('cmake')\r\n    depends_on('cppcheck')\r\n    depends_on('doxygen')\r\n    depends_on('python')\r\n    depends_on('py-sphinx')",
+    "user": "white238",
+    "url": "https://api.github.com/repos/spack/spack/issues/13722",
+    "updated_at": "2019-12-13 07:38:51",
+    "created_at": "2019-11-13 19:25:38",
+    "closed_at": "2019-12-13 07:38:51",
+    "state": "closed",
+    "title": "Error when creating mirror in already existing mirror location",
+    "number": 13722,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 522422811,
+    "html_url": "https://github.com/spack/spack/issues/13722",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

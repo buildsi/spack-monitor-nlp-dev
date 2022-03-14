@@ -1,0 +1,19 @@
+{
+    "body": "Currently, environment views blink out of existence during the view regeneration, and are slowly built back up to their new and improved state. This is not good if other processes attempt to access the view -- they can see it in an inconsistent state.\r\n\r\nThis PR fixes makes environment view updates atomic. This requires a level of indirection (via symlink, similar to nix or guix) from the view root to the underlying implementation on the filesystem. \r\n\r\nNow, an environment view at `/path/to/foo` is a symlink to `/path/to/._foo/<hash>`, where `<hash>` is a hash of the contents of the view.  We construct the view in its content-keyed hash directory, create a new symlink to this directory, and atomically replace the symlink with one to the new view.\r\n\r\nThis PR also future-proofs environment views so that we can implement rollback.\r\n\r\nFor background:\r\n* there is no atomic operation in posix that allows for a non-empty directory to be replaced.\r\n* There is an atomic `renameat2` in the linux kernel starting in version 3.15, but many filesystems don't support the system call, including NFS3 and NFS4, which makes it a poor implementation choice for an HPC tool, so we use the symlink approach that others tools like nix and guix have used successfully.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/23476",
+    "updated_at": "2021-06-04 19:45:38",
+    "created_at": "2021-05-06 17:35:47",
+    "closed_at": "2021-05-13 06:56:20",
+    "state": "closed",
+    "title": "env views: make view updates atomic",
+    "number": 23476,
+    "milestone": null,
+    "labels": [
+        "breaking-change"
+    ],
+    "id": 877779128,
+    "html_url": "https://github.com/spack/spack/pull/23476",
+    "assignees": [],
+    "comments": 7
+}

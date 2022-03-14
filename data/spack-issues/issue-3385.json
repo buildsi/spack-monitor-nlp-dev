@@ -1,0 +1,19 @@
+{
+    "body": "When installing perl I was getting failures:\r\n```\r\n==> Using cached archive: /home/xap/local/opt/spack/var/spack/cache/perl/perl-5.24.1.tar.gz\r\n==> Using cached archive: /home/xap/local/opt/spack/var/spack/cache/perl/cpanm-5.24.1.tar.gz\r\n==> Already staged perl-5.24.1-hgkjfrxge4zw5rp6gtupthacebdf4ccu in /home/xap/local/opt/spack/var/spack/stage/perl-5.24.1-hgkjfrxge4zw5rp6gtupthacebdf4ccu\r\n==> Already staged resource-cpanm-hgkjfrxge4zw5rp6gtupthacebdf4ccu in /home/xap/local/opt/spack/var/spack/stage/resource-cpanm-hgkjfrxge4zw5rp6gtupthacebdf4ccu\r\n==> No patches needed for perl\r\n==> Building perl [Package]\r\n==> Executing phase : 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j32'\r\n/home/xap/local/opt/spack/var/spack/repos/builtin/packages/perl/package.py:72, in install:\r\n     64       def install(self, spec, prefix):\r\n     65           configure = Executable('./Configure')\r\n     66           configure_args = [\"-des\", \"-Dprefix=\" + prefix]\r\n     67           # Discussion of -fPIC for Intel at:\r\n     68           # https://github.com/LLNL/spack/pull/3081\r\n     69           if spec.satisfies('%intel'):\r\n     70               configure_args.append(\"-Accflags=\" + self.compiler.pic_flag)\r\n     71           configure(*configure_args)\r\n  >> 72           make()\r\n     73           if self.run_tests:\r\n     74               make(\"test\")\r\n     75           make(\"install\")\r\n     76   \r\n     77           if '+cpanm' in spec:\r\n     78               with working_dir(join_path('cpanm', 'cpanm')):\r\n     79                   perl = Executable(join_path(prefix.bin, 'perl'))\r\n     80                   perl('Makefile.PL')\r\n     81                   make()\r\n     82                   make('install')\r\n```\r\nThe error started with\r\n```\r\ninvalid application of \u2018sizeof\u2019 to incomplete type \u2018struct pollfd\u2019\r\n```\r\nSearching online produced [this](http://serverfault.com/questions/145288/make-error-when-compiling-perl-5-12-1-rhel-5-5) (i don't think OS matters, though).\r\n\r\nI checked and indeed my CPATH ended with \":\". I removed that and it compiled successfully.",
+    "user": "aprokop",
+    "url": "https://api.github.com/repos/spack/spack/issues/3385",
+    "updated_at": "2017-03-09 17:47:21",
+    "created_at": "2017-03-09 01:14:28",
+    "closed_at": "2017-03-09 17:47:21",
+    "state": "closed",
+    "title": "Perl installation fails when CPATH ends in \":\"",
+    "number": 3385,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 212906824,
+    "html_url": "https://github.com/spack/spack/issues/3385",
+    "assignees": [],
+    "comments": 1
+}

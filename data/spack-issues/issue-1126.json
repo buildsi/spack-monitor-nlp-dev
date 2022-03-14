@@ -1,0 +1,20 @@
+{
+    "body": "I tried building glog and protobuf in static mode using spack with gcc. While doing this manually works pretty well (module load PrgEnv-gnu, module load gcc/5.3.0, ./configure --enable-static --disable-shared), doing this from within space fails. The reason is the following:\n\n/bin/sh ../libtool --tag=CXX   --mode=link /global/u2/t/tkurth/MODULES/spack/lib/spack/env/gcc/g++  -DHAVE_PTHREAD=1 -DHAVE_ZLIB=1 -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -O2 -g -DNDEBUG   -o protoc google/protobuf/compiler/main.o  libprotobuf.la libprotoc.la \nlibtool: link: /global/u2/t/tkurth/MODULES/spack/lib/spack/env/gcc/g++ -DHAVE_PTHREAD=1 -DHAVE_ZLIB=1 -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -O2 -g -DNDEBUG -o protoc google/protobuf/compiler/main.o  ./.libs/libprotobuf.a ./.libs/libprotoc.a /tmp/tkurth/spack-stage/spack-stage-cPOrCh/protobuf/src/.libs/libprotobuf.a /opt/gcc/5.3.0/snos/lib/../lib64/libgfortran.so /opt/gcc/5.3.0/snos/lib/../lib64/libquadmath.so /opt/gcc/5.3.0/snos/lib/../lib64/libstdc++.so -lm -Wl,-rpath -Wl,/opt/gcc/5.3.0/snos/lib/../lib64 -Wl,-rpath -Wl,/opt/gcc/5.3.0/snos/lib/../lib64\n/usr/bin/ld: attempted static link of dynamic object `/opt/gcc/5.3.0/snos/lib/../lib64/libgfortran.so'\ncollect2: error: ld returned 1 exit status\n\nSo it tries to link against a dynamic library, which should fail in a static build. Apparently, there is something in addition what cray does, which is not done by spack.\n",
+    "user": "azrael417",
+    "url": "https://api.github.com/repos/spack/spack/issues/1126",
+    "updated_at": "2018-04-13 08:35:56",
+    "created_at": "2016-06-27 21:17:09",
+    "closed_at": "2018-04-13 08:35:55",
+    "state": "closed",
+    "title": "static builds on cray system might link against libgfortran.so",
+    "number": 1126,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "build-error"
+    ],
+    "id": 162550340,
+    "html_url": "https://github.com/spack/spack/issues/1126",
+    "assignees": [],
+    "comments": 3
+}

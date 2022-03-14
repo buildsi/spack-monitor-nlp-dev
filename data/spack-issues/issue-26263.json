@@ -1,0 +1,21 @@
+{
+    "body": "Currently openssl defaults to using system provided certificates, which\r\nkinda make sense, until you happen to work on a Cray system which does\r\nnot allow symlinking to /etc/openssl/certs anymore, because of what\r\nlikely is a bug on their side.\r\n\r\nIMHO the better default for Spack is not to rely on the system, and we\r\ncan already do so, because we have `ca-certificates-mozilla` as a\r\npackage for quite a while now.\r\n\r\nThis PR:\r\n1. Replaces the `systemcerts` variant of openssl with \r\n   `certs=mozilla/system/none` so that users can pick whether they want\r\n   Spack or system certs, or if they don't want certs at all.\r\n2. Changes the default behavior of openssl to use certs=mozilla, meaning\r\n   that by default we do not rely on the system.\r\n3. Changes the curl configuration to not guess the ca path during\r\n   config, but rather fall back to whatever the tls provider is\r\n   configured with. If we don't do this, curl will still pick up system\r\n   certs if it finds them.\r\n\r\nAs a minor fix, it also adds the build dep `pkgconfig` to curl, since\r\nthat's being used during the configure phase to get openssl compilation\r\nflags.\r\n\r\nAs a follow-up we should look at `curl tls=mbedtls` and make `mbedtls`\r\nalso use ca-certificates by default. Since `mbedtls` support was only\r\nadded recently, I don't think it's important to fix that in this PR.\r\n\r\nI didn't find any mention of `systemcerts` in other Spack packages, so\r\nshould be safe to rename.\r\n\r\nThanks to @bernhardkaindl for figuring out some curl issues\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26263",
+    "updated_at": "2021-09-29 16:07:02",
+    "created_at": "2021-09-27 11:47:21",
+    "closed_at": "2021-09-29 16:05:58",
+    "state": "closed",
+    "title": "ca-certificates-mozilla for openssl & curl",
+    "number": 26263,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 1008049142,
+    "html_url": "https://github.com/spack/spack/pull/26263",
+    "assignees": [],
+    "comments": 8
+}

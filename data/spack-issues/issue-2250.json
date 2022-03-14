@@ -1,0 +1,19 @@
+{
+    "body": "I just tried installing a pre-release version of HDF 5, but `--run-tests` failed for me with the following message:\r\n```\r\nProduced output does not match expected output.\r\nExpected output:\r\n--------------------------------------------------------------------------------\r\nHDF5 version 1.8.18 1.8.18\r\n--------------------------------------------------------------------------------\r\nProduced output:\r\n--------------------------------------------------------------------------------\r\nHDF5 version 1.8.5 1.8.5\r\n```\r\nUpon further investigation, I found that the executable is not RPATHed, and is linking to my system installation:\r\n```\r\n$ ldd -r check\r\n\tlinux-vdso.so.1 =>  (0x00007ffe1b97a000)\r\n\tlibhdf5.so.6 => /usr/lib64/libhdf5.so.6 (0x00002ae35a9e9000)\r\n\tlibz.so.1 => /blues/gpfs/home/software/spack-0.9.1/opt/spack/linux-centos6-x86_64/nag-6.1/zlib-1.2.8-6fzvpidg3txst33copiumbget2zovbw2/lib/libz.so.1 (0x00002ae35afd1000)\r\n\tlibc.so.6 => /lib64/libc.so.6 (0x00002ae35b1ff000)\r\n\tlibm.so.6 => /lib64/libm.so.6 (0x00002ae35b594000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x00002ae35a7c7000)\r\n```\r\nThis is causing the incorrect version to be picked up.\r\n```\r\n$ grep Version /usr/lib64/libhdf5.settings \r\n\t\t   HDF5 Version: 1.8.5-patch1\r\n```\r\n@eschnett ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2250",
+    "updated_at": "2016-11-11 05:50:32",
+    "created_at": "2016-11-05 00:23:05",
+    "closed_at": "2016-11-11 05:50:32",
+    "state": "closed",
+    "title": "HDF 5 tests linking to the system HDF 5 installation",
+    "number": 2250,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 187464549,
+    "html_url": "https://github.com/spack/spack/issues/2250",
+    "assignees": [],
+    "comments": 2
+}

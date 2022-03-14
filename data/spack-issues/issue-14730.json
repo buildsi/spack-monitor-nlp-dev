@@ -1,0 +1,24 @@
+{
+    "body": "We would like to make it simple for users to specify which compilers certain packages should use. As such, we make good use of the `%gcc`, `%intel` spec parts. But we noticed a few unexpected installation directories when, e.g., `%intel@19` is used in an attempt to match the installed version of the intel compiler from 2019 (without being overly specific). This results in a new installation tree:\r\n```\r\n\u276f spack install nano%intel@19\r\n==> ncurses@6.1 : externally installed in /some/path/linux-rhel7-x86_64/gcc-8.3.0/ncurses-6.1-esk7yfugjx\r\n==> ncurses@6.1 : generating module file\r\n==> ncurses@6.1 : registering into DB\r\n==> Installing nano\r\n<snip>\r\n==> Successfully installed nano\r\n  Fetch: 0.71s.  Build: 1m 28.70s.  Total: 1m 29.41s.\r\n[+] /gpfs/bbp.cscs.ch/home/matwolf/.cache/spack/install/linux-rhel7-x86_64/intel-19/nano-4.4-qqaacp\r\n```\r\nNotice the `/intel-19/`, where we would have expected `/intel-19.0.4.243/`, in line with the version given in `compilers.yaml`:\r\n```\r\n\u276f spack compiler list\r\n==> Available compilers\r\n-- intel rhel7-x86_64 -------------------------------------------\r\nintel@19.0.4.243\r\n```\r\nIs this expected? Could the behavior changed to either produce an error if the version is not matched exactly, or to actually match the highest version found in the full spec? Our configuration for the install path scheme:\r\n```\r\n\u276f spack config get config|rg install_path\r\n  install_path_scheme: ${ARCHITECTURE}/${COMPILERNAME}-${COMPILERVER}/${PACKAGE}-${VERSION}-${HASH:6}\r\n```\r\n\r\n@pramodk, FYI.",
+    "user": "matz-e",
+    "url": "https://api.github.com/repos/spack/spack/issues/14730",
+    "updated_at": "2020-02-20 20:20:13",
+    "created_at": "2020-02-03 16:17:27",
+    "closed_at": "2020-02-20 20:20:13",
+    "state": "closed",
+    "title": "Compiler version in install path matches neither compilers.yaml nor package versions",
+    "number": 14730,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "versions",
+        "impact-medium"
+    ],
+    "id": 559186708,
+    "html_url": "https://github.com/spack/spack/issues/14730",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

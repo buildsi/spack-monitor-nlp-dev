@@ -1,0 +1,20 @@
+{
+    "body": "\r\nFor openspeedshop and its base components we build several of the open source components we use for the target compute nodes (Cray, BGQ) and for the login/host (frbnt-end) node.   We do this in two steps, and feed the compute node library paths into the front-end node build.   We have a xml data structure that controls the multicast tree that we fill in using the compute node libraries during the front-end build.   We install the compute node build libraries and executables in <prefix>/compute and the front-end libraries and executables in <prefix>.\r\n\r\nI was looking at the find_libaries call as a possible way to find the compute node libraries to use in the login node build, but how do I find the compute node versions of the libraries?  \r\n\r\nIf we have to build using two spack install commands, how will the second (login node) build know where to look.\r\n\r\nDoes anyone have a similar build structure and has solved this issue or have any suggestions?\r\n\r\nMORE DETAILS:\r\n\r\nHere is one of the six build lines we currently use on the Cray and other heterogeneous platforms.   There would have been a root build install line for compute and front-end build completed already.   Just showing the cbtf build lines, here, to illustrate the problem.   The second front-end build line uses the libraries built by the first (the compute node library cmake lines are donoted with -cn below).  So the --with-cn libraries are the ones from the first build that need to be found in the second (front-end) build.\r\n\r\nCompute node build line:\r\n./install-tool --build-cbtf-all \r\n                   --runtime-only \r\n                    --target-arch cray \r\n                    --cbtf-prefix ${BASE_DIR}/cbtf${TOOL_VERS}/compute \r\n                    --krell-root-prefix ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                    --with-mpich ${MPICH_DIR}\r\n\r\nFront-end build line:\r\n./install-tool --runtime-target-arch cray \r\n                   --build-cbtf-all \r\n                   --cbtf-prefix ${BASE_DIR}/cbtf${TOOL_VERS} \r\n                   --krell-root-prefix ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                   --with-mpich ${MPICH_DIR} \r\n                   --with-cn-boost ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                   --with-cn-mrnet ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                   --with-cn-xercesc ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                   --with-cn-libmonitor ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                   --with-cn-libunwind ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                    --with-cn-dyninst ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                    --with-cn-papi ${BASE_DIR}/krellroot${TOOL_VERS}/compute \r\n                    --with-cn-cbtf-krell ${BASE_DIR}/cbtf${TOOL_VERS}/compute \r\n                    --with-cn-cbtf ${BASE_DIR}/cbtf${TOOL_VERS}/compute \r\n                    --with-binutils ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                    --with-boost ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                    --with-mrnet ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                    --with-xercesc ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                   --with-libmonitor ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                   --with-libunwind ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                   --with-dyninst ${BASE_DIR}/krellroot${TOOL_VERS} \r\n                   --with-papi ${BASE_DIR}/krellroot${TOOL_VERS} \r\n\r\n",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/5074",
+    "updated_at": "2019-03-25 21:19:43",
+    "created_at": "2017-08-11 15:58:28",
+    "closed_at": "2019-03-25 21:19:43",
+    "state": "closed",
+    "title": "Question about heterogeneous compute and front-end builds - keeping libraries for compute and login nodes separate",
+    "number": 5074,
+    "milestone": null,
+    "labels": [
+        "question",
+        "platform-support"
+    ],
+    "id": 249678078,
+    "html_url": "https://github.com/spack/spack/issues/5074",
+    "assignees": [],
+    "comments": 19
+}

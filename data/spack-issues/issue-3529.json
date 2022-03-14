@@ -1,0 +1,19 @@
+{
+    "body": "libdwarf failure when building it with elfutils for elf. I tried to install 'libdwarf@20130207%gcc@4.2.1'\r\nand encountered an issue. I believe this is because of the recent changes @lee218llnl did with elf. Stack trace is below and gave multiple examples of how to cause the issue.\r\n\r\n\r\n```\r\n./bin/spack install libdwarf@20130207%gcc@4.2.1\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/Users/friedt2/wip/spack/var/spack/stage/elfutils-0.168-nbsfzimkr72rsdiavgwcbilsg7whg6gw/elfutils-0.168/configure' '--prefix=/Users/friedt2/wip/spack/opt/spack/darwin-elcapitan-x86_64/gcc-4.2.1/elfutils-0.168-nbsfzimkr72rsdiavgwcbilsg7whg6gw' '--enable-maintainer-mode'\r\n/Users/friedt2/wip/spack/lib/spack/spack/build_systems/autotools.py:264, in configure:\r\n     257      def configure(self, spec, prefix):\r\n     258          \"\"\"Runs configure with the arguments specified in :py:meth:`.configure_args`\r\n     259          and an appropriately set prefix.\r\n     260          \"\"\"\r\n     261          options = ['--prefix={0}'.format(prefix)] + self.configure_args()\r\n     262  \r\n     263          with working_dir(self.build_directory, create=True):\r\n  >> 264              inspect.getmodule(self).configure(*options)\r\n```\r\n```\r\n./bin/spack install libdwarf@20130207%gcc@4.2.1 ^libelf\r\n\r\nspack/lib/spack/spack/abi.py\", line 71, in _gcc_get_libstdcxx_version\r\n    libpath = os.readlink(output.strip())\r\nOSError: [Errno 2] No such file or directory: 'libstdc++.dylib'\r\n```\r\n```\r\n./bin/spack install libdwarf@20130207%gcc@4.2.1 ^libelf\r\n\r\nKeyError: 'No such spec in database! libelf@0.8.13%gcc@4.2.1 arch=darwin-elcapitan-x86_64'\r\n```\r\n@lee218llnl Should we set the default elf implementation *back*  to libelf",
+    "user": "kielfriedt",
+    "url": "https://api.github.com/repos/spack/spack/issues/3529",
+    "updated_at": "2017-04-21 22:45:13",
+    "created_at": "2017-03-23 18:26:49",
+    "closed_at": "2017-04-21 22:45:13",
+    "state": "closed",
+    "title": "Spack ABI check doesn't work properly with Apple gcc 4.2.1 (which is clang)",
+    "number": 3529,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 216528150,
+    "html_url": "https://github.com/spack/spack/issues/3529",
+    "assignees": [],
+    "comments": 1
+}

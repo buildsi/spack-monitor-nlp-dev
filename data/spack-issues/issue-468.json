@@ -1,0 +1,19 @@
+{
+    "body": "I am not successful in building spack software and loading spack built software at the same time.\n\nI get the following error.\n\n[b3b@service2 ~]$ spack load git\nTraceback (most recent call last):\n  File \"/apps/local/spack/bin/spack\", line 176, in <module>\n    main()\n  File \"/apps/local/spack/bin/spack\", line 154, in main\n    return_val = command(parser, args)\n  File \"/apps/local/spack/lib/spack/spack/cmd/module.py\", line 107, in module\n    module_find(args.module_type, args.spec)\n  File \"/apps/local/spack/lib/spack/spack/cmd/module.py\", line 68, in module_find\n    specs = spack.installed_db.query(spec)\n  File \"/apps/local/spack/lib/spack/spack/database.py\", line 551, in query\n    with self.read_transaction():\n  File \"/apps/local/spack/lib/spack/spack/database.py\", line 598, in **enter**\n    if self._enter() and self._acquire_fn:\n  File \"/apps/local/spack/lib/spack/spack/database.py\", line 608, in _enter\n    return self._db.lock.acquire_read(self._timeout)\n  File \"/apps/local/spack/lib/spack/llnl/util/lock.py\", line 103, in acquire_read\n    self._lock(fcntl.LOCK_SH, timeout)   # can raise LockError.\n  File \"/apps/local/spack/lib/spack/llnl/util/lock.py\", line 76, in _lock\n    raise LockError(\"Timed out waiting for lock.\")\nllnl.util.lock.LockError: Timed out waiting for lock.\n\nIn this case I was building gcc@4.9.3 and at the same time trying to load git (spack load git).\nThis seems like a severe limitation in a multi-user environment. Is this a limitation in spack or maybe my configuration is wrong or there is an easy work-around?\n\nThanks,\nCormac.\n",
+    "user": "garvct",
+    "url": "https://api.github.com/repos/spack/spack/issues/468",
+    "updated_at": "2016-03-02 08:44:19",
+    "created_at": "2016-03-01 15:58:38",
+    "closed_at": "2016-03-02 08:44:19",
+    "state": "closed",
+    "title": "spack module DB locking problem",
+    "number": 468,
+    "milestone": null,
+    "labels": [
+        "duplicate"
+    ],
+    "id": 137612699,
+    "html_url": "https://github.com/spack/spack/issues/468",
+    "assignees": [],
+    "comments": 2
+}

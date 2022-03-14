@@ -1,0 +1,24 @@
+{
+    "body": "@alalazo @adamjstewart \r\n\r\nWe can't do this for every crazy download site out there.  But PyPI is important and provides lots of stuff to Spack.  So let's get it right... here is the link describing their XMLRPC API:\r\n    https://wiki.python.org/moin/PyPIXmlRpc\r\n\r\n1. We can use this to create a `url_for_version()` method that will call the API's `release_urls(package_name, version)` to determine the download URL.  It should NOT download the checksum at install time, since the whole point is to CHECK it at install time.\r\n\r\n2. This new `url_for_version` would come standard in the `PyPIPackage` base class.  Or... we provide it as a method and ask Package authors to write `url_for_version = pypi_url_for_version` as needed.\r\n\r\n3. We can use the API to improve automagic generation of PyPI packages.  The auto-generator would query it for a bunch of URLs and checksums.  If we're clever enough with picking apart `package.py` files, we could even have a procedure that auto-updates a `package.py` file for new versions of the package.\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2281",
+    "updated_at": "2020-12-29 08:03:09",
+    "created_at": "2016-11-08 15:46:41",
+    "closed_at": "2020-12-29 08:03:09",
+    "state": "closed",
+    "title": "Fix PyPI Downloads --- The Right Way",
+    "number": 2281,
+    "milestone": null,
+    "labels": [
+        "python",
+        "ready",
+        "revisit",
+        "proposal"
+    ],
+    "id": 188026805,
+    "html_url": "https://github.com/spack/spack/issues/2281",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 12
+}

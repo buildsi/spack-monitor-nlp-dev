@@ -1,0 +1,23 @@
+{
+    "body": "A slightly more complex re-working of https://github.com/spack/spack/pull/24926.\r\nAvoids pulling in 3rd party git repo.\r\n\r\nDone via 3 patch files:\r\n* aarch64_time: Use cntvct_el0 for timing on Arm\r\n* inline: Correct syntax of `inline` to `static inline` - for correct behavior on Arm compiler\r\n* simde: Implement the SIMDe mapping from the AVX operators file to SIMDe\r\n\r\nWe have a fairly complex set of tests to build the options list, and some work could be done to improve this.\r\n\r\nTesting on AWS C6g\r\n\r\n| OMP Threads | OMPIF  | SIMDE  | OMPIF + OPT | SIMDE + OPT |\r\n|-------------|--------|--------|-------------|-------------|\r\n| 1           | 138.41 | 119.38 | 111.05      | 95.82       |\r\n| 2           | 74.62  | 63.25  | 64.41       | 54.83       |\r\n| 4           | 45.22  | 33.47  | 40.14       | 25.68       |\r\n| 8           | 38.65  | 24.8   | 27.34       | 16.18       |\r\n| 16          | 51.36  | 23.37  | 12.3        | 10.91       |\r\n| 32          | 83.95  | 32.69  | 10.73       | 12.03       |\r\n| 64          | 136.36 | 41.37  | 10.76       | 7.77        |\r\n\r\nI know miniGMG is technically deprecated in favor of HPGMG, but still a useful testing framework.",
+    "user": "OliverPerks",
+    "url": "https://api.github.com/repos/spack/spack/issues/26467",
+    "updated_at": "2021-10-11 14:00:59",
+    "created_at": "2021-10-04 13:12:09",
+    "closed_at": "2021-10-07 19:49:15",
+    "state": "closed",
+    "title": "Updatepackage/minigmg",
+    "number": 26467,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "patch",
+        "update-package",
+        "arm",
+        "new-variant"
+    ],
+    "id": 1015164718,
+    "html_url": "https://github.com/spack/spack/pull/26467",
+    "assignees": [],
+    "comments": 1
+}

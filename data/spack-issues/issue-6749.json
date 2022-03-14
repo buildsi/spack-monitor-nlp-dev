@@ -1,0 +1,17 @@
+{
+    "body": "My command line optimization flag are being ignored(?) by the NetCDF build.\r\nSpack command:\r\n```\r\nspack -d install -v netcdf@4.4.1.1%intel@16.0.3 cflags=\"-g -O0\" cppflags=\"-g -O0\" cxxflags=\"-g -O0\" fflags=\"-g -O0\" ~dap~hdf4 maxdims=1024 maxvars=8192 +mpi~parallel-netcdf+shared arch=linux-rhel7-x86_64\r\n```\r\n\r\nSpack debug output snippet:\r\n```\r\n[cc] /usr/tce/packages/intel/intel-16.0.3/bin/icc -I/usr/tce/packages/mvapich2/mvapich2-2.3-intel-16.0.3/include -I/g/g14/kudo4/spack/opt/spack/linux-rhel7-x86_64/intel-16.0.3/zlib-1.2.11-hhe7xrd6rlf7afevulaptctrum3673we/include -I/g/g1\\\r\n4/kudo4/spack/opt/spack/linux-rhel7-x86_64/intel-16.0.3/hdf5-1.10.1-soxcwgh2bnzzqmq5bvhvplysjxtizrfx/include -g -DHAVE_CONFIG_H -I. -I/g/g14/kudo4/spack/var/spack/stage/netcdf-4.4.1.1-6h45mookfhf7u5grqknfb5uc7dz2h5pz/netcdf-4.4.1.1/libd\\\r\nispatch -I.. -I/g/g14/kudo4/spack/var/spack/stage/netcdf-4.4.1.1-6h45mookfhf7u5grqknfb5uc7dz2h5pz/netcdf-4.4.1.1/include -I/g/g14/kudo4/spack/opt/spack/linux-rhel7-x86_64/intel-16.0.3/hdf5-1.10.1-soxcwgh2bnzzqmq5bvhvplysjxtizrfx/include\\\r\n -MT libdispatch_la-dcopy.lo -MD -MP -MF .deps/libdispatch_la-dcopy.Tpo -c dcopy.c -fPIC -DPIC -o .libs/libdispatch_la-dcopy.o -I/usr/tce/packages/mvapich2/mvapich2-2.3-intel-16.0.3/include\r\n```\r\nFor some reason, I don't see any optimization flags.\r\n\r\n### Information on your system\r\nPlatform : TOSS3/TOSS (Tri-Lab Operating System Stack)\r\n\r\nRelevant configuration details:\r\ncompilers.yaml\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/tce/packages/intel/intel-16.0.3/bin/icc\r\n      cxx: /usr/tce/packages/intel/intel-16.0.3/bin/icpc\r\n      f77: /usr/tce/packages/intel/intel-16.0.3/bin/ifort\r\n      fc: /usr/tce/packages/intel/intel-16.0.3/bin/ifort\r\n    flags: {}\r\n    spec: intel@16.0.3\r\n    target: x86_64\r\n```\r\n\r\npackages.yaml:\r\n```\r\npackages:\r\n  all:\r\n    compiler: [intel, gcc, pgi, clang, xl, nag]\r\n    providers:\r\n      mpi: [mvapich2]\r\n      blas: [netlib-lapack]\r\n      lapack: [netlib-lapack]\r\n  metis:\r\n    version: [4.0.3]\r\n  netlib-lapack:\r\n    paths:\r\n      netlib-lapack@3.4.2: /usr/lib64/\r\n    buildable: False\r\n  mvapich2:\r\n    paths:\r\n      mvapich2@2.3: /usr/tce/packages/mvapich2/mvapich2-2.3-intel-16.0.3/\r\n    buildable: False\r\n  mpich:\r\n    buildable: False\r\n  openmpi:\r\n    buildable: False\r\n  intel-mpi:\r\n    buildable: False\r\n  spectrum-mpi:\r\n    buildable: False\r\n  intel-parallel-studio:\r\n    buildable: False\r\n  cmake:\r\n    paths:\r\n      cmake@3.5.2 arch=linux-rhel7-x86_64: /usr/tce/packages/cmake/cmake-3.5.2/\r\n    buildable: False\r\n  pkg-config:\r\n    paths:\r\n      pkg-config@0.27.1 arch=linux-rhel7-x86_64: /usr/bin/\r\n    buildable: False\r\n  m4:\r\n    paths:\r\n      m4@1.4.16 arch=linux-rhe17-x86_64: /usr/bin/\r\n    buildable: False\r\n```",
+    "user": "junkudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6749",
+    "updated_at": "2017-12-28 17:30:16",
+    "created_at": "2017-12-21 17:54:00",
+    "closed_at": "2017-12-28 17:30:16",
+    "state": "closed",
+    "title": "NetCDF : Flags being ignored",
+    "number": 6749,
+    "milestone": null,
+    "labels": [],
+    "id": 283958485,
+    "html_url": "https://github.com/spack/spack/issues/6749",
+    "assignees": [],
+    "comments": 1
+}

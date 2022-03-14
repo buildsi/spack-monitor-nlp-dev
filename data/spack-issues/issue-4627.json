@@ -1,0 +1,19 @@
+{
+    "body": "All,\r\n\r\nI'm sure this is a \"Matt's a newbie\" issue, but I'm stumped.\r\n\r\nOne of my ultimate goals in life is to get GEOS (Goddard's model) in spack. Why? Good challenge if nothing else, but also to have a nice one command install line? Oooh. \r\n\r\nBut, that first means being able to install all the libraries it needs. In the end that is essentially ESMF but it seems to have an issue beyond me when I try installing that (Conflicts in concretized spec?). So I started installing libraries one by one. If nothing else, I learn more spack. I eventually installed netcdf with:\r\n```\r\nspack install netcdf-fortran %gcc@7.1.0 +hdf4+dap\r\n```\r\nI use those variants because I currently build netcdf with those in ESMA Baselibs (the library distribution I currently use for GEOS), so I'm trying to be consistent. That works just fine but then:\r\n```\r\n(212) $ spack install netcdf-fortran %gcc@7.1.0 \r\n==> m4 is already installed in /ford1/share/gmao_SIteam/spack/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/m4-1.4.18-uiess2b3dajx4okgtf2sxjswqwte76ve\r\n==> zlib is already installed in /ford1/share/gmao_SIteam/spack/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/zlib-1.2.11-zqrm3wqa4icvkftszlqhyte5ndwxc2r3\r\n==> hdf5 is already installed in /ford1/share/gmao_SIteam/spack/opt/spack/linux-rhel7-x86_64/gcc-7.1.0/hdf5-1.10.1-eynuttgv4gx46bv62sz5fm57xejvyduy\r\n==> Installing netcdf\r\n==> Using cached archive: /ford1/share/gmao_SIteam/spack/var/spack/cache/netcdf/netcdf-4.4.1.1.tar.gz\r\n==> Staging archive: /ford1/share/gmao_SIteam/spack/var/spack/stage/netcdf-4.4.1.1-pdbryx6sv47sfukz7qvikghucqqqwhpy/netcdf-4.4.1.1.tar.gz\r\n==> Created stage in /ford1/share/gmao_SIteam/spack/var/spack/stage/netcdf-4.4.1.1-pdbryx6sv47sfukz7qvikghucqqqwhpy\r\n==> Ran patch() for netcdf\r\n==> Building netcdf [AutotoolsPackage]\r\n==> Executing phase : 'autoreconf'\r\n==> Executing phase : 'configure'\r\nProcess logger_daemon:\r\nTraceback (most recent call last):\r\n  File \"/usr/lib64/python2.7/multiprocessing/process.py\", line 258, in _bootstrap\r\n    self.run()\r\n  File \"/usr/lib64/python2.7/multiprocessing/process.py\", line 114, in run\r\n    self._target(*self._args, **self._kwargs)\r\n  File \"/ford1/share/gmao_SIteam/spack/lib/spack/llnl/util/tty/log.py\", line 197, in _spawn_writing_daemon\r\n    line = read_file.readline()\r\nKeyboardInterrupt\r\n\r\n==> Error: Keyboard interrupt.\r\n```\r\nBut I have netcdf and it installed, so it shouldn't need to install again. At first I thought \"Oh, I forgot the variants, duh\" but:\r\n```\r\n(215) $ spack install netcdf-fortran %gcc@7.1.0 +hdf4+dap\r\n==> Error: Package netcdf-fortran has no variant set(['dap', 'hdf4'])!\r\n```\r\nSo...yeah. How does one get netcdf-fortran to see netcdf is installed?",
+    "user": "mathomp4",
+    "url": "https://api.github.com/repos/spack/spack/issues/4627",
+    "updated_at": "2017-06-28 18:45:53",
+    "created_at": "2017-06-28 14:40:59",
+    "closed_at": "2017-06-28 18:45:53",
+    "state": "closed",
+    "title": "netcdf-fortran wants to install netcdf even though it's installed",
+    "number": 4627,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 239187365,
+    "html_url": "https://github.com/spack/spack/issues/4627",
+    "assignees": [],
+    "comments": 4
+}

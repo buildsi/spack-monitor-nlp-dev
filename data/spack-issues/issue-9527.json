@@ -1,0 +1,19 @@
+{
+    "body": "This is based on the discussion on Spack slack channel:\r\n\r\n```\r\nQuestion:\r\n\r\nAbout python packages : if `py-xxxx` is `run` dependency of `package-x`, why module\r\nfile for `package-x` doesn\u2019t have `PTYHONPATH` of `py-xxxx` ? Activating python\r\npackage is not solution because:\r\n- if we are using external python, we often dont have permission\r\n- we cant activate multiple versions\r\n\r\nGenerating module for every python package and then using `autoload: direct` is not convenient.\r\n```\r\n\r\n@tgamblin  suggested to modify `setup_dependent_environment`/`setup_environment` to get all dependent spec's PYTONPATH into run_env.\r\n\r\nI am not sure if this PR is efficient solution but it solves the issue. For example:\r\n\r\nIf we have a package with python packages as run dependencies:\r\n\r\n```\r\nclass Mod2c(CMakePackage):\r\n     ......\r\n    version('develop', git=url, preferred=True)\r\n\r\n    depends_on('cmake@2.8.12:', type='build')\r\n    depends_on('py-six', type='run')\r\n    depends_on('py-urwid', type='run')\r\n```\r\n\r\nand \r\n\r\n```\r\n\u2192 spack spec mod2c\r\nInput spec\r\n--------------------------------\r\nmod2c\r\n\r\nConcretized\r\n--------------------------------\r\nmod2c@develop%clang@9.0.0-apple build_type=RelWithDebInfo arch=darwin-sierra-x86_64\r\n    ^cmake@3.18.2%clang@9.0.0-apple~doc+ncurses+openssl+ownlibs~qt arch=darwin-sierra-x86_64\r\n    ^py-six@1.11.0%clang@9.0.0-apple arch=darwin-sierra-x86_64\r\n        ^py-urwid@1.3.0%clang@9.0.0-apple arch=darwin-sierra-x86_64\r\n            ^py-enum34@1.1.6%clang@9.0.0-apple arch=darwin-sierra-x86_64\r\n                ^py-setuptools@40.2.0%clang@9.0.0-apple arch=darwin-sierra-x86_64\r\n                    ^python@2.7.10%clang@9.0.0-apple+dbm~optimizations patches=123082ab3483ded78e86d7c809e98a804b3465b4683c96bd79a2fd799f572244 +pic+pythoncmd+shared~tk~ucs4 arch=darwin-sierra-x86_64\r\n```\r\n\r\nIf we generate module for `mod2c`, we expect `PYTHONPATH` env variable set for `py-six`, `py-urwid` and `py-enum34`. Same way for module file for `py-urwid`.\r\n\r\nWith this PR, the module file generate has:\r\n\r\n```\r\n\u2192 module show mod2c\r\n-------------------------------------------------------------------\r\n/Users/kumbhar/workarena/software/sources/spack/share/spack/modules/darwin-sierra-x86_64/py-urwid/1.3.0-clang:\r\n\r\nmodule-whatis\tA full-featured console UI library\r\nconflict\tpy-urwid\r\n......\r\nsetenv\t\tPYTHONPATH\t\r\n/Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-sierra-x86_64/clang-9.0.0-apple/py-enum34-1.1.6-q2i6u5lhp6viflhcdqvjf5v4pfqnyehm/lib/python2.7/site-packages\r\n:/Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-sierra-x86_64/clang-9.0.0-apple/py-six-1.11.0-giabqufepo4gb7qq367qnie3ptmik4ry/lib/python2.7/site-packages\r\n:/Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-sierra-x86_64/clang-9.0.0-apple/py-urwid-1.3.0-63wq4ijhhedzba2tvlhzmnmosmwl4s5u/lib/python2.7/site-packages\r\n```",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/9527",
+    "updated_at": "2020-08-19 06:59:47",
+    "created_at": "2018-10-13 17:00:11",
+    "closed_at": "2020-08-19 06:59:46",
+    "state": "closed",
+    "title": "Expose PYTHONPATH for all python packages specified as run dependencies",
+    "number": 9527,
+    "milestone": null,
+    "labels": [],
+    "id": 369820607,
+    "html_url": "https://github.com/spack/spack/pull/9527",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

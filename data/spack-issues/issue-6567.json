@@ -1,0 +1,20 @@
+{
+    "body": "As part of my on going efforts to create an interface for spack to use to access natively installed packages and packages managed by other packaging systems, I'm trying to implement an 'external' variant which is always there. i.e.\r\n\r\n`python external=path:/path` would indicate a python installation located at `/path`.\r\n`python external=pacman:python2` would indicate a python installation installed as package `python2` in the pacman package manager.\r\n\r\nI tried to copy the strategy done for patches here: https://github.com/spack/spack/blob/develop/lib/spack/spack/spec.py#L1823\r\n\r\nby implementing the `external` property for a spec like this:\r\n\r\n```\r\ndef external(self):\r\n    evar = self.variants.setdefault('external', MultiValuedVariant('external', ()))  \r\n    if len(evar.value) == 0:\r\n        return \"\"\r\n    else:\r\n        return evar.value[0]\r\n```\r\n\r\nHowever, I've been getting errors like this:\r\n\r\n```\r\nError: multiple values are not allowed for variant \"external\"\r\n```\r\n\r\nThis error is thrown from here: https://github.com/spack/spack/blob/develop/lib/spack/spack/variant.py#L398\r\n\r\nWhich is really weird, because I didn't create the `external` variant as a `SingleValuedVariant` but as a plain `MultiValuedVariant`.\r\n\r\nAnybody know why this bit of code from `SingleValuedVariant` is being called?",
+    "user": "krafczyk",
+    "url": "https://api.github.com/repos/spack/spack/issues/6567",
+    "updated_at": "2020-08-23 18:14:30",
+    "created_at": "2017-12-04 21:44:26",
+    "closed_at": "2020-08-23 18:14:30",
+    "state": "closed",
+    "title": "Issues implementing an 'external' variant",
+    "number": 6567,
+    "milestone": null,
+    "labels": [
+        "external-packages",
+        "new-variant"
+    ],
+    "id": 279161150,
+    "html_url": "https://github.com/spack/spack/issues/6567",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "This PR moves the `spack test` command to `spack unit-test` and adds a `spack test` command to test existing installations of packages.\r\n\r\nPackages can define a method `test(self)` which raises an exception of any form if the installation does not pass tests.\r\n\r\n`PackageBase` adds a method `run_test(self, exe, args=[], expected=[], status=None)` as a helper method. `PackageBase.run_test` finds the program denoted by the string `exe`, and runs it with `args`. It captures the output and directs it stdout. It raises an `AssertionError` if any of the strings in the list `expected` are not present in the output, or if `status` is True-ish and the return code of the process is not `status`. It raises a ProcessError if `status` is True-ish and the return code of the process is not 0.\r\n\r\nPackage directories (e.g. `$spack/var/spack/repos/builtin/packages/python`) can contain a `test` subdirectory. Anything in that directory is copied into `./data` in the test stage for access by the test processes.\r\n\r\nThe test environment for a package is computed by the run environment of all of the package's `link|run|test` dependencies, as well as the run environment of the package itself. For packages that set `test_requires_compiler` to True-ish, the test environment also includes the compiler with which the package was built (if it is available in the current configuration). The `spack test-env` command allows user access to the test environment for a spec.\r\n\r\nThe `spack test` command has all of the logging options of the `spack install` command, for junit and cdash support.\r\n\r\nThis branch is WIP. Planned extensions include options for shared testing infrastructure for virtuals/compilers, functionality to rip test source files from the package at install time and store them in the spack metadata directory for the installation, and additional testing.  \r\n\r\nCloses #2060",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/15702",
+    "updated_at": "2020-11-18 10:39:05",
+    "created_at": "2020-03-26 23:13:03",
+    "closed_at": "2020-11-18 10:39:04",
+    "state": "closed",
+    "title": "spack test",
+    "number": 15702,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "new-command",
+        "stand-alone-tests"
+    ],
+    "id": 588783093,
+    "html_url": "https://github.com/spack/spack/pull/15702",
+    "assignees": [],
+    "comments": 9
+}

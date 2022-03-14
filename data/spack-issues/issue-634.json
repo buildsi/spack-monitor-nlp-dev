@@ -1,0 +1,17 @@
+{
+    "body": "While trying to make Trilinos work on OS-X (even very minimalistic build) i hit CMake error related to fortran/C mixture:\n\n```\n[100%] Linking CXX executable VerifyFortranC\n    /usr/local/Cellar/cmake/3.4.1/bin/cmake -E cmake_link_script CMakeFiles/VerifyFortranC.dir/link.txt --verbose=1\n    /Users/davydden/spack/opt/spack/darwin-x86_64/clang-7.0.2-apple/openmpi-1.10.2-37xieeupgsteaq6btru6wmhxfi44xqtn/bin/mpicxx   -O3 -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/VerifyFortranC.dir/main.c.o CMakeFiles/VerifyFortranC.dir/VerifyC.c.o CMakeFiles/VerifyFortranC.dir/VerifyCXX.cxx.o  -o VerifyFortranC libVerifyFortran.a \n    Undefined symbols for architecture x86_64:\n      \"__gfortran_st_write\", referenced from:\n          _verifyfortran_ in libVerifyFortran.a(VerifyFortran.f.o)\n      \"__gfortran_st_write_done\", referenced from:\n          _verifyfortran_ in libVerifyFortran.a(VerifyFortran.f.o)\n      \"__gfortran_transfer_character_write\", referenced from:\n          _verifyfortran_ in libVerifyFortran.a(VerifyFortran.f.o)\n    ld: symbol(s) not found for architecture x86_64\n    clang: error: linker command failed with exit code 1 (use -v to see invocation)\n    make[2]: *** [VerifyFortranC] Error 1\n    make[1]: *** [CMakeFiles/VerifyFortranC.dir/all] Error 2\n    make: *** [all] Error 2\n```\n\nThe reason why it fails is that somehow CMake did not pick up `-lgfortran` and did not add it to the linking flags. This could be related to Spack wrappers either for platform Darwin &GNU or language clang and here is why:\n\nIf I run the (hopefully) same verify outside of Spack i have no issues:\n\n```\ncmake_minimum_required(VERSION 2.8.6)\nproject(fortranc Fortran C CXX)\ninclude(FortranCInterface)\nFortranCInterface_HEADER(FC.h MACRO_NAMESPACE \u201cFC_\u201d)\n#This creates a \u201cFC.h\u201d header that defines mangling macros\n# FC_GLOBAL(), FC_GLOBAL_(), FC_MODULE(), and FC_MODULE_().\nFortranCInterface_VERIFY(CXX)\nFortranCInterface_VERIFY()\n```\n\nI also don't have any issues when I run Trilinos simplistic config outside of Spack:\n\n```\n/usr/local/bin/cmake .. -DTrilinos_ENABLE_Fortran=ON -DTrilinos_ENABLE_CXX11:BOOL=ON -DTrilinos_CXX11_FLAGS=-std=c++11\n```\n\n```\n-- Fortran name mangling: LOWER UNDER\n-- Detecting Fortran/C Interface\n-- Detecting Fortran/C Interface - Found GLOBAL and MODULE mangling\n-- Verifying Fortran/CXX Compiler Compatibility\n-- Verifying Fortran/CXX Compiler Compatibility - Success\n```\n\nIt's worth noting that I don't have these issues on Ubuntu 14.04 with GNU 4.8 compilers.\nAnother reason why i think it could be related to wrappers is that I do not have these issues with Homebrew's Trilinos.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/634",
+    "updated_at": "2016-03-30 15:17:02",
+    "created_at": "2016-03-25 12:42:59",
+    "closed_at": "2016-03-30 15:17:02",
+    "state": "closed",
+    "title": "compiler wrappers and FortranCInterface_VERIFY() failure",
+    "number": 634,
+    "milestone": null,
+    "labels": [],
+    "id": 143491750,
+    "html_url": "https://github.com/spack/spack/issues/634",
+    "assignees": [],
+    "comments": 2
+}

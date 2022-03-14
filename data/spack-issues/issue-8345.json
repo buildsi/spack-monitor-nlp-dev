@@ -1,0 +1,19 @@
+{
+    "body": "When a compiler configuration is set to load a module, that module might contain modifications to the environment that should not be taken into account when building a package from Spack (for instance to `CC`, `CXX`, `FC` and `F77`). This can lead to weird errors during the build.\r\n\r\nStumbled on this while using a module for Intel compilers that set variables like `ICCCFG` (needed during the build) and also variables like `CC` (breaking the build, and in the module because it was meant to be used outside of Spack).\r\n\r\n### Expected Result\r\n\r\n`CC` and similar variables always point to Spack compiler wrappers when building a package in Spack.\r\n\r\n### Actual Result\r\n\r\nEnvironment modifications done loading modules happen last, so `CC` could be modified by module files. Note that according to comments in `build_environment` they happen last for good reasons, so changing the order of applications of the various environment modifications might not be an option.\r\n\r\n### Steps to reproduce the issue\r\n\r\nTo reproduce the issue it should suffice to have an entry in `compilers.yaml` like:\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: ['intel/18.0.2']\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /ssoft/spack/external/intel/2018.2/compilers_and_libraries_2018.2.199/linux/bin/intel64/icc\r\n      cxx: /ssoft/spack/external/intel/2018.2/compilers_and_libraries_2018.2.199/linux/bin/intel64/icpc\r\n      f77: /ssoft/spack/external/intel/2018.2/compilers_and_libraries_2018.2.199/linux/bin/intel64/ifort\r\n      fc: /ssoft/spack/external/intel/2018.2/compilers_and_libraries_2018.2.199/linux/bin/intel64/ifort\r\n    spec: intel@18.0.2\r\n    target: x86_64\r\n```\r\nwhere the module loaded sets `CC`, `CXX`, etc.\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/8345",
+    "updated_at": "2018-06-05 18:26:31",
+    "created_at": "2018-06-01 08:13:09",
+    "closed_at": "2018-06-05 18:26:31",
+    "state": "closed",
+    "title": "CC, CXX etc. might be overridden by external modules loaded by compilers",
+    "number": 8345,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 328422271,
+    "html_url": "https://github.com/spack/spack/issues/8345",
+    "assignees": [],
+    "comments": 4
+}

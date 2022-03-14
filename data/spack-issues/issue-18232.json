@@ -1,0 +1,17 @@
+{
+    "body": "Reverts spack/spack#18040\r\n\r\n```\r\n$ spack spec openmpi\r\nInput spec\r\n--------------------------------\r\nopenmpi\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    hwloc@2.2.0%gcc@8.4.0~cairo~cuda~gl~libudev+libxml2~netloc~nvml+pci+shared arch=linux-ubuntu18.04-skylake\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    openmpi@3.1.6%gcc@8.4.0~atomics~cuda~cxx~cxx_exceptions+gpfs~java~legacylaunchers~lustre~memchecker~pmi~singularity~sqlite3+static~thread_multiple+vt+wrapper-rpath fabrics=none schedulers=none arch=linux-ubuntu18.04-skylake\r\n        ^numactl@2.0.12%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n            ^autoconf@2.69%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n                ^m4@1.4.18%gcc@8.4.0+sigsegv arch=linux-ubuntu18.04-skylake\r\n                    ^libsigsegv\r\n                ^perl@5.30.3%gcc@8.4.0+cpanm+shared+threads arch=linux-ubuntu18.04-skylake\r\n                    ^berkeley-db@18.1.40%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n                    ^gdbm@1.18.1%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n                        ^readline@8.0%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n                            ^ncurses@6.2%gcc@8.4.0~symlinks+termlib arch=linux-ubuntu18.04-skylake\r\n                                ^pkgconf@1.7.3%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n            ^automake@1.16.2%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n            ^libtool@2.4.6%gcc@8.4.0 arch=linux-ubuntu18.04-skylake\r\n\r\n\r\nopenmpi requires hwloc version :1.999, but spec asked for 2.2.0\r\n```\r\n\r\nping @eschnett \r\n\r\nbisected to this commit:\r\n\r\n```\r\n$ git bisect good \r\n488d8ae747b9e9151c38a959243755ddc768bb84 is the first bad commit\r\ncommit 488d8ae747b9e9151c38a959243755ddc768bb84\r\nAuthor: Erik Schnetter <schnetter@gmail.com>\r\nDate:   Sat Aug 22 14:10:11 2020 -0400\r\n\r\n    openmpi: Update hwloc version bounds (#18040)\r\n    \r\n    `openmpi @4:` can use `hwloc @2:`.\r\n\r\n:040000 040000 930f51f2f25507e6225ef1b500a8e44a3a119c35 115fc1dcf87716e58b2b69f451e9b1bd83037fc3 M\tvar\r\n```",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18232",
+    "updated_at": "2020-08-24 15:30:54",
+    "created_at": "2020-08-24 10:26:49",
+    "closed_at": "2020-08-24 15:30:11",
+    "state": "closed",
+    "title": "Revert \"openmpi: Update hwloc version bounds\"",
+    "number": 18232,
+    "milestone": null,
+    "labels": [],
+    "id": 684554380,
+    "html_url": "https://github.com/spack/spack/pull/18232",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Currently, ncurses's include files are installed into two separate subdirectories, `install/ncurses` and `install/ncursesw`. The second level of subdirectories (`ncurses` and `ncursesw`) are non-standard. I checked several systems to confirm this, and ncurses examples on the web also simply contain `#include <ncurses.h>` instead of `#include <ncurses/ncurses.h>`, which would be necessary to use the currently installed ncurses packages. For example, this also breaks llvm, which uses ncurses, but does not expect the second level of subdirectories.\n\nI am now using the option `--enable-overwrite`, which installs the header files directly in to `.../include`. I also enable `widec` support all the time. These options are e.g. similar to the ones used by MacPorts, and I confirm that they make the llvm package build (which didn't build before).\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/353",
+    "updated_at": "2016-01-18 23:09:04",
+    "created_at": "2016-01-14 22:40:35",
+    "closed_at": "2016-01-18 02:49:00",
+    "state": "closed",
+    "title": "Install ncurses properly",
+    "number": 353,
+    "milestone": null,
+    "labels": [],
+    "id": 126764921,
+    "html_url": "https://github.com/spack/spack/pull/353",
+    "assignees": [],
+    "comments": 0
+}

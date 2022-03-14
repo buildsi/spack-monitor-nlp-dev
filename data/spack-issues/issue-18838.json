@@ -1,0 +1,19 @@
+{
+    "body": "Reverts spack/spack#18574\r\n\r\nI've been using `spack dev-build` in CI to do multistage docker builds. #18574 breaks this setup without providing a convenient alternative.\r\n\r\nMy setup (simplified a bit) looks like this:\r\n\r\n```Dockerfile\r\nFROM some_base_image AS builder\r\n\r\nWORKDIR /sources\r\n\r\nRUN spack dev-build [spec]\r\n\r\nFROM ubuntu:18.04\r\n\r\nCOPY --from=builder /sources/spack-build /sources/spack-build # <-- this fails now.\r\n```\r\n\r\nwhere the image is deployed to some cluster, and some MPI tests are run using `ctest`.\r\n\r\nI can't easily rename the `spack-build=[hash]` folder to `spack-build`, since that breaks ctest (it uses absolute paths which won't resolve afterwards). Also I can't do globbing in `COPY --from=builder /sources/spack-build* <dest>`, since I have to specify the destination folder explicitly, and I don't know the hash here.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18838",
+    "updated_at": "2021-02-19 13:15:36",
+    "created_at": "2020-09-21 10:41:26",
+    "closed_at": "2021-02-19 13:15:36",
+    "state": "closed",
+    "title": "Revert \"do out of source builds in hashed directories\"",
+    "number": 18838,
+    "milestone": null,
+    "labels": [
+        "stage"
+    ],
+    "id": 705482146,
+    "html_url": "https://github.com/spack/spack/pull/18838",
+    "assignees": [],
+    "comments": 4
+}

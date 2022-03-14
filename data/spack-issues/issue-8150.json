@@ -1,0 +1,20 @@
+{
+    "body": "@tgamblin \r\nIn `packages.yaml`,  variants added to `all:` to not take effect for packages with their own variants listed.  For example, consider `spack spec py-matplotlib` with the following `packages.yaml`:\r\n\r\n```\r\n   python:\r\n        variants: [~pythoncmd]\r\n        version: [3.5.2]\r\n    py-matplotlib:\r\n        variants: [+gui,+ipython,+python3]\r\n \r\n    # --------- Compiler & Virtual Dependencies\r\n    all:\r\n        variants: [+python3]\r\n        compiler: [gcc@4.9.3]\r\n        providers:\r\n            mpi: [openmpi]\r\n            blas: [openblas]\r\n            lapack: [openblas]\r\n ```\r\n\r\n### Expected Result\r\n\r\n`py-matplotlib` should concretize with `+python3` variant.\r\n\r\n### Actual Result\r\n\r\nI get `py-matplotlib~python3`\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Use the above `packages.yaml` file.\r\n2. Try `spack spec py-matplotlib`\r\n\r\nTo show that the bug is related to the repeat, try:\r\n1. Remove the `py-matplotlib:` entry from `packages.yaml`\r\n2. Try `spack spec py-matplotlib` again.  Now, you should get the correct `py-matplotlib+python3`.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/8150",
+    "updated_at": "2022-03-10 09:57:03",
+    "created_at": "2018-05-16 01:32:58",
+    "closed_at": "2022-03-10 09:57:03",
+    "state": "closed",
+    "title": "Buggy Config Precedence for `packages.yaml` with `all:`",
+    "number": 8150,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration"
+    ],
+    "id": 323438619,
+    "html_url": "https://github.com/spack/spack/issues/8150",
+    "assignees": [],
+    "comments": 1
+}

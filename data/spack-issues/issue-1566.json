@@ -1,0 +1,20 @@
+{
+    "body": "I noticed the following code in`concretize.py`, with no obvious way to turn it off.  I consider this a security hazard: Spack should refuse by default to install unsafe code (i.e. anything it doesn't have a checksum for).\n\n```\n        else:\n            # We don't know of any SAFE versions that match the given\n            # spec.  Grab the spec's versions and grab the highest\n            # *non-open* part of the range of versions it specifies.\n            # Someone else can raise an error if this happens,\n            # e.g. when we go to fetch it and don't know how.  But it\n            # *might* work.\n            if not spec.versions or spec.versions == VersionList([':']):\n                raise NoValidVersionError(spec)\n            else:\n                last = spec.versions[-1]\n                if isinstance(last, VersionRange):\n                    if last.end:\n                        spec.versions = ver([last.end])\n                    else:\n                        spec.versions = ver([last.start])\n                else:\n                    spec.versions = ver([last])\n```\n\nI'm not going to submit a PR right now because I think the issue is bigger than just this code.  But I do think this code should be eliminated; and it's an issue we should be thinking about more comprehensively.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1566",
+    "updated_at": "2017-11-22 21:39:43",
+    "created_at": "2016-08-20 02:57:26",
+    "closed_at": "2017-11-22 08:09:15",
+    "state": "closed",
+    "title": "Non-Safe Installs",
+    "number": 1566,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "security"
+    ],
+    "id": 172249862,
+    "html_url": "https://github.com/spack/spack/issues/1566",
+    "assignees": [],
+    "comments": 3
+}

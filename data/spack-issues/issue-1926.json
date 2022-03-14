@@ -1,0 +1,20 @@
+{
+    "body": "@tgamblin @alalazo @adamjstewart \n\nI want to make a package that installs a bunch of other stuff, but doesn't install anything itself.  See below for my initial attempt.  Unfortunately, this causes an exception:\n\n```\n==> Error: Install failed for env-modele.  Nothing was installed!\n==> Error: Installation process had nonzero exit code : 256\n```\n\nAny pointers on how to go about building such packages?  My sample is below.\n\n```\nfrom spack import *\n\n\nclass EnvModele(Package):\n\n    homepage = \"\"\n\n    version('1.0', 'e2b724dfcc31d735897971db91be89ff')\n\n    variant('python', default=False,\n            description='Include basic scientific Python environment')\n\n    # --------- ModelE dependencies (taken from modele/package.py)\n    # Build dependencies\n    depends_on('m4')\n    depends_on('cmake')\n    # Link dependencies\n    depends_on('mpi')\n    depends_on('netcdf-fortran')\n    #depends_on('fexception')\n    depends_on('everytrace+fortran+mpi')\n    depends_on('parallel-netcdf+fortran~cxx')\n\n    # -------- Other things we need\n    depends_on('modele-utils')\n    depends_on('ncview')\n    depends_on('nco')\n    depends_on('modele-control')\n\n    # -------- Python post-processing environment\n    depends_on('python', when='+python')\n    depends_on('py-scipy', when='+python')\n    depends_on('py-netcdf', when='+python')\n    depends_on('py-basemap', when='+python')\n\n    def url_for_version(self, version):\n        return 'https://github.com/citibeth/dummy/tarball/v1.0'\n\n    def install(self, spec, prefix):\n        pass\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1926",
+    "updated_at": "2017-08-11 20:36:59",
+    "created_at": "2016-10-05 22:50:12",
+    "closed_at": "2017-08-11 20:36:59",
+    "state": "closed",
+    "title": "Bundle Packages",
+    "number": 1926,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "bundles"
+    ],
+    "id": 181285292,
+    "html_url": "https://github.com/spack/spack/issues/1926",
+    "assignees": [],
+    "comments": 10
+}

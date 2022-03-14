@@ -1,0 +1,19 @@
+{
+    "body": "I'm introducing one of my co-workers to Spack.  He uses `nohup` (I'm a tmux-er) and found that my build scripts fail (:scream:) under nohup.\r\n\r\nWe trimmed it down to a simple test case of creating a one line bash script that runs `spack install ...` and then running that script under `nohup`.\r\n\r\n```\r\n[hartzelg@lb097hmdev ~]$ cd tmp\r\n[hartzelg@lb097hmdev tmp]$ git clone git@github.com:llnl/spack   spack-nohup\r\nCloning into 'spack-nohup'...\r\nremote: Counting objects: 74384, done.\r\nremote: Compressing objects: 100% (83/83), done.\r\nremote: Total 74384 (delta 42), reused 42 (delta 10), pack-reused 74281\r\nReceiving objects: 100% (74384/74384), 26.18 MiB | 9.48 MiB/s, done.\r\nResolving deltas: 100% (35361/35361), done.\r\nChecking out files: 100% (2538/2538), done.\r\n[hartzelg@lb097hmdev tmp]$ cd spack-nohup/\r\n[hartzelg@lb097hmdev spack-nohup]$ export PATH=`pwd`/bin:$PATH\r\n[hartzelg@lb097hmdev spack-nohup]$ cat > nohup-test.sh\r\n#!/bin/bash\r\nspack install gcc@5.4.0\r\n[hartzelg@lb097hmdev spack-nohup]$ module purge\r\n[hartzelg@lb097hmdev spack-nohup]$ chmod +x ./nohup-test.sh\r\n[hartzelg@lb097hmdev spack-nohup]$ nohup ./nohup-test.sh\r\nnohup: ignoring input and appending output to \u2018nohup.out\u2019\r\n[hartzelg@lb097hmdev spack-nohup]$ cat nohup.out\r\n==> Error: local variable 'input_stream' referenced before assignment\r\n==> Installing libsigsegv\r\n[hartzelg@lb097hmdev spack-nohup]$\r\n```\r\n\r\nI doubt that this is what *should* be happening.\r\n\r\nIs it expected given what Spack's doing to redirect IO and etc?\r\n\r\nCan someone sketch a fix?\r\n\r\n**Thanks!**",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4919",
+    "updated_at": "2017-08-03 17:33:16",
+    "created_at": "2017-07-27 21:26:50",
+    "closed_at": "2017-08-03 17:33:16",
+    "state": "closed",
+    "title": "Running spack with nohup fails with \"...'input_stream' referenced before assignment\"",
+    "number": 4919,
+    "milestone": null,
+    "labels": [
+        "shell-support"
+    ],
+    "id": 246174287,
+    "html_url": "https://github.com/spack/spack/issues/4919",
+    "assignees": [],
+    "comments": 1
+}

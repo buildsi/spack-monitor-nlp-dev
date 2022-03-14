@@ -1,0 +1,19 @@
+{
+    "body": "<!--*Please add a concise summary of your suggestion here.*-->\r\n\r\n\r\nIt would be cool if spack can have a command like `spack check` to  run checks on a HPC system to verify [spack prerequisites](https://spack.readthedocs.io/en/latest/getting_started.html#prerequisites) are met. The `spack check` command is not sub-command so i think we can use this subcommand. \r\n\r\n```\r\nsiddiq90@cori04> spack check\r\n==> Error: check is not a recognized Spack command or extension command; check with `spack commands`.\r\n```\r\n\r\nBy default it will run the required checks at the facility to ensure pre-req are met in order to use spack properly. We want to make sure that commands like `wget`, `curl`, `tar`, `unzip`, `bzip2` are working. Some of these commands were not found on Spock system reported by @sameershende. \r\n\r\n\r\n\r\n### Rationale\r\n\r\nA user can just git clone spack and run `spack check` on their system to ensure all the checks are passing. The tests should cover basic functionality of spack which we assume is provided by the Operating System however it may not be the case for instance if user is running spack in a container that is a minimal OS without development libraries you can get into weird issues. \r\n\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\n\r\n### Description\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\n\r\nThe output of `spack check` could be implemented using pytest if it makes sense with one-line per test that shows `PASS` or `FAIL` with one test per method. Let's say we have a test name **check_bzip2** which could run  `which bzip2`. The `spack check` command should exit with a non-zero returncode if any of the test fails. This can be useful if one was to add `spack check` as part of their script before running some commands. \r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\n\r\n\r\n### General information\r\n\r\n- [ ] I have run `spack --version` and reported the version of Spack\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "shahzebsiddiqui",
+    "url": "https://api.github.com/repos/spack/spack/issues/25048",
+    "updated_at": "2022-01-26 02:08:34",
+    "created_at": "2021-07-22 21:37:51",
+    "closed_at": "2022-01-20 01:43:39",
+    "state": "closed",
+    "title": "spack prereq",
+    "number": 25048,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 951081651,
+    "html_url": "https://github.com/spack/spack/issues/25048",
+    "assignees": [],
+    "comments": 25
+}

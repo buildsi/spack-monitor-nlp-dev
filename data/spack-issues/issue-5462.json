@@ -1,0 +1,19 @@
+{
+    "body": "I have the following script...\r\n\r\n```\r\n#!/usr/bin/env spack-python\r\n\r\nimport spack\r\nimport spack.main\r\nimport spack.store\r\nfrom spack.main import SpackCommand\r\nfrom llnl.util.filesystem import working_dir\r\nfrom spack.util.executable import which\r\n\r\nimport os\r\nimport mmap\r\nimport re\r\nfrom shutil import rmtree as rmdashf\r\nimport sys\r\n\r\nidir = '/Users/miller86/spack/spack/opt/foobar'\r\nrmdashf(idir)\r\nspack.store.layout = spack.directory_layout.YamlDirectoryLayout(idir)\r\nspack.store.db = spack.database.Database(idir)\r\n\r\npkgSpec = 'amrex'\r\nspecs = spack.cmd.parse_specs(pkgSpec, concretize=True)\r\nassert(len(specs)==1)\r\npkg = spack.repo.get(specs[0])\r\n\r\nwith spack.stage.Stage(pkg.url) as stage:\r\n    stage.fetch()\r\n    print os.getcwd()\r\n    print os.listdir(os.getcwd())\r\n```\r\n\r\nIf I use `amrex` (a Git fetch strategy package), I get this output...\r\n\r\n```\r\n[scratlantis:~/spack/spack] miller86% ./fitck_download.py\r\nGit\r\n==> Fetching https://github.com/AMReX-Codes/amrex.git\r\n######################################################################## 100.0%\r\n==> Warning: The contents of \r\n  the archive\r\n   look like HTML.\r\n  The checksum will likely be bad.  If it is, you can use\r\n  'spack clean <package>' to remove the bad archive, then\r\n  fix your internet gateway issue and install again.\r\n/private/var/folders/nx/mtgf501d3573jd6cmgv9lnzr0003jr/T/miller86/spack-stage/spack-stage-CCVG_A\r\n['amrex.git']\r\n```\r\n\r\nIn particular, it does not actually stage the package but instead appears to attempt to fetch amrex vi its Get repo URL. The downloaded file is indeed an HTML file with...\r\n\r\n```\r\n<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n```\r\n\r\nHowever, if I do zlib, a URL fetch strategy, it works as expected.\r\n\r\nI think this is a bug.\r\n\r\n\r\n",
+    "user": "markcmiller86",
+    "url": "https://api.github.com/repos/spack/spack/issues/5462",
+    "updated_at": "2017-09-26 17:55:33",
+    "created_at": "2017-09-24 23:12:19",
+    "closed_at": "2017-09-26 17:55:33",
+    "state": "closed",
+    "title": "spack.stage.Stage() not working for Git strategy",
+    "number": 5462,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 260123469,
+    "html_url": "https://github.com/spack/spack/issues/5462",
+    "assignees": [],
+    "comments": 6
+}

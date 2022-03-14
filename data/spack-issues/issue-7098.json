@@ -1,0 +1,22 @@
+{
+    "body": "fixes #2215 \r\nfixes #2570 \r\nfixes #4400 \r\nfixes #6676\r\nfixes #7281\r\nfixes #8646 \r\n\r\ncloses #3827\r\n\r\n##### Summary\r\n\r\n```\r\n$ spack module <action> -m <module_type>\r\n```\r\n has been turned into multiple\r\n```\r\n$ spack module <module_type> <action>\r\n```\r\ncommands, each one tied to a specific module type. This permits the specialization of the new commands with features that are module type specific. \r\n\r\nA few known bugs have been fixed in the process.\r\n\r\n##### List of modifications\r\n- [x] Split `spack module` command\r\n- [x] Update references in docs\r\n- [x] Add unit tests for new, module specific, subcommands\r\n- [x] Add regression test for #4400 + a few lines in the docs on how to blacklist implicit packages\r\n- [x] Return a non-zero value if `spack load` fails for any reason\r\n- [x] Added the `--dependencies` option to `spack help load`\r\n- [x] Update auto-completion for commands\r\n- [x] Regenerate a Docker image for the modules tutorial, and point to that in the docs\r\n- [x] Issue a warning for the deprecated use of the `spack module` command\r\n\r\n##### Example: specify a default module to be loaded for lmod\r\n\r\nAs an example  the possibility to specify a default module to be loaded for `lmod` has been implemented:\r\n```console\r\n$ module av\r\n\r\n---------------------------------------------------------------- /home/mculpo/PycharmProjects/spack/share/spack/lmod/linux-ubuntu14.04-x86_64/Core ----------------------------------------------------------------\r\n   bzip2/1.0.6-wig75ws    libsigsegv/2.11-fotodb6    m4/1.4.18-r26rlmg    zlib/1.2.8-nfd5zfc    zlib/1.2.11-eksallf (D)\r\n\r\n------------------------------------------------------------------------------------------- /usr/share/modules/versions -------------------------------------------------------------------------------------------\r\n   3.2.10\r\n\r\n----------------------------------------------------------------------------------------- /usr/share/modules/modulefiles ------------------------------------------------------------------------------------------\r\n   dot    module-git    module-info    modules    null    use.own\r\n\r\n  Where:\r\n   D:  Default Module\r\n\r\nUse \"module spider\" to find all possible modules.\r\nUse \"module keyword key1 key2 ...\" to search for all possible modules matching any of the \"keys\".\r\n\r\n$ ls /home/mculpo/PycharmProjects/spack/share/spack/lmod/linux-ubuntu14.04-x86_64/Core/zlib/\r\n1.2.11-eksallf.lua  1.2.8-nfd5zfc.lua\r\n\r\n$ spack module lmod setdefault zlib@1.2.8\r\n$ module av\r\n\r\n---------------------------------------------------------------- /home/mculpo/PycharmProjects/spack/share/spack/lmod/linux-ubuntu14.04-x86_64/Core ----------------------------------------------------------------\r\n   bzip2/1.0.6-wig75ws    libsigsegv/2.11-fotodb6    m4/1.4.18-r26rlmg    zlib/1.2.8-nfd5zfc (D)    zlib/1.2.11-eksallf\r\n\r\n------------------------------------------------------------------------------------------- /usr/share/modules/versions -------------------------------------------------------------------------------------------\r\n   3.2.10\r\n\r\n----------------------------------------------------------------------------------------- /usr/share/modules/modulefiles ------------------------------------------------------------------------------------------\r\n   dot    module-git    module-info    modules    null    use.own\r\n\r\n  Where:\r\n   D:  Default Module\r\n\r\nUse \"module spider\" to find all possible modules.\r\nUse \"module keyword key1 key2 ...\" to search for all possible modules matching any of the \"keys\".\r\n\r\n$ ls -l /home/mculpo/PycharmProjects/spack/share/spack/lmod/linux-ubuntu14.04-x86_64/Core/zlib/\r\ntotal 8\r\n-rw-rw-r-- 1 mculpo mculpo 1431 gen 28 14:36 1.2.11-eksallf.lua\r\n-rw-rw-r-- 1 mculpo mculpo 1423 gen 28 14:36 1.2.8-nfd5zfc.lua\r\nlrwxrwxrwx 1 mculpo mculpo   17 gen 28 18:39 default -> 1.2.8-nfd5zfc.lua\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/7098",
+    "updated_at": "2018-07-25 08:24:49",
+    "created_at": "2018-01-28 17:41:00",
+    "closed_at": "2018-07-24 18:27:18",
+    "state": "closed",
+    "title": "Split 'module' into multiple commands",
+    "number": 7098,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "commands"
+    ],
+    "id": 292222953,
+    "html_url": "https://github.com/spack/spack/pull/7098",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 20
+}

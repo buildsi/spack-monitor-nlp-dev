@@ -1,0 +1,20 @@
+{
+    "body": "As discussed on slack, a major shortcoming of building `package@master` is that there is no way of knowing what commit has been used for the build, and it has to be uninstalled in order to get an updated build if the branch has been changed. It's possible to add `version(\"foo\", commit=\"12345bar\")` to the recipe, but that is not really practical. This PR proposes a very simple solution to this problem, expanding the extrapolation to git commits, which is mainly geared towards nightly builds:\r\n\r\nIt introduces special versions of the form `commit-xxxxx` which do not have to be added to the package recipe and will build the package from git commit `xxxxx`. `commit` is added as an infinity version, so it will build with build options like master (this is in line with the most common use case of nightly builds, and comparing commits is a can of worms I don't want to open).\r\n\r\nThe commit is just forwarded to `git checkout`, so it is  possible to use a tag or a shortened commit, of course that won't compare as the same version as a longer hash of the same commit. I use a short macro-type function to query the github api for full hashes of the latest commit and add those as dependencies of a bundle package in order to get efficient nightly builds: https://github.com/key4hep/key4hep-spack/blob/master/packages/Ilcsoftpackage/package.py#L110",
+    "user": "vvolkl",
+    "url": "https://api.github.com/repos/spack/spack/issues/20065",
+    "updated_at": "2022-02-11 14:04:18",
+    "created_at": "2020-11-24 11:34:50",
+    "closed_at": "2022-02-11 14:04:18",
+    "state": "closed",
+    "title": "Add special version \"commit-123foo\" and construct git fetch strategy for it",
+    "number": 20065,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "git"
+    ],
+    "id": 749628291,
+    "html_url": "https://github.com/spack/spack/pull/20065",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,19 @@
+{
+    "body": "\r\n``` bash\r\n$ spack install vim\r\n==> Installing vim\r\n==> ncurses is already installed in spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/ncurses-6.0-75hnzrecoib5eqdvfchl6n2jgcxc6dgo\r\n==> Using cached archive: spack/var/spack/cache/vim/vim-8.0.0503.tar.gz\r\n==> Staging archive: spack/var/spack/stage/vim-8.0.0503-55us7ijakx452ll3suegl6ocx7nzcmfi/v8.0.0503.tar.gz\r\n==> Created stage in spack/var/spack/stage/vim-8.0.0503-55us7ijakx452ll3suegl6ocx7nzcmfi\r\n==> Ran patch() for vim\r\n==> Building vim [AutotoolsPackage]\r\n==> Executing phase : 'autoreconf'\r\n==> Executing phase : 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    'spack/var/spack/stage/vim-8.0.0503-55us7ijakx452ll3suegl6ocx7nzcmfi/vim-8.0.0503/configure' '--prefix=spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/vim-8.0.0503-55us7ijakx452ll3suegl6ocx7nzcmfi' '--enable-fail-if-missing' '--with-features=normal' '--enable-pythoninterp=no' '--enable-rubyinterp=no' '--enable-luainterp=no' '--enable-perlinterp=no' '--enable-gui=no' '--without-x'\r\nspack/lib/spack/spack/build_systems/autotools.py:266, in configure:\r\n     258      def configure(self, spec, prefix):\r\n     259          \"\"\"Runs configure with the arguments specified in\r\n     260          :py:meth:`~.AutotoolsPackage.configure_args`\r\n     261          and an appropriately set prefix.\r\n     262          \"\"\"\r\n     263          options = ['--prefix={0}'.format(prefix)] + self.configure_args()\r\n     264\r\n     265          with working_dir(self.build_directory, create=True):\r\n  >> 266              inspect.getmodule(self).configure(*options)\r\n```\r\n\r\nspack-build.out\r\n``` bash\r\n...\r\nchecking --with-tlib argument... empty: automatic terminal library selection\r\nchecking for tgetent in -ltinfo... no\r\nchecking for tgetent in -lncurses... no\r\nchecking for tgetent in -ltermlib... no\r\nchecking for tgetent in -ltermcap... no\r\nchecking for tgetent in -lcurses... no\r\nno terminal library found\r\nchecking for tgetent()... configure: error: NOT FOUND!\r\n```\r\n\r\nVim does not build on Centos 7 unless ```ncurses-devel``` or equevalent package is installed because the vim's configure will search for libncurses, but not libncursesw. \r\n\r\nThe fix is to explicitly point vim's configure to ncuresew using ```--with-tlib=ncursesw```",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/3829",
+    "updated_at": "2017-04-14 18:13:37",
+    "created_at": "2017-04-13 18:44:41",
+    "closed_at": "2017-04-14 18:13:37",
+    "state": "closed",
+    "title": "Vim does not use spack's ncurses",
+    "number": 3829,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 221649023,
+    "html_url": "https://github.com/spack/spack/issues/3829",
+    "assignees": [],
+    "comments": 1
+}

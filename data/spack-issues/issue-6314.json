@@ -1,0 +1,27 @@
+{
+    "body": "I realized while loading `adios@1.10.0 %gcc@5.4.0` that variants of type \"multi\" with \"None\" default break the `str(spack.spec)` representation for commands such as `spack load`.\r\n\r\n```\r\n    variant(\r\n        'staging',\r\n        default=None,\r\n        values=('flexpath', 'dataspaces'),\r\n        multi=True,\r\n        description='Enable dataspaces and/or flexpath staging transports'\r\n    )\r\n```\r\n\r\n### Works fine\r\n\r\n```bash\r\nspack load adios@1.10.0 %gcc@5.4.0\r\n```\r\n\r\n### Breaks\r\n\r\nDoes nothing, returns *without* an error message:\r\n```bash\r\nspack load adios@1.10.0%gcc@5.4.0~bzip2~fortran~hdf5~infiniband+mpi~netcdf patches=5242cf9b3879e47672f32bb24e2f6d34153477f9cc8ed267602a1e79b4a58f3b,8ae17f655248e87cbab1d1ed794e15364a38d2f5f8d971b1086702f72d79bd42 +shared staging= +sz~szip+zfp+zlib arch=linux-ubuntu14.04-x86_64\r\n```\r\n\r\n(string taken from `spack spec` or in-code `str(spec)`)\r\n\r\nthe error is caused by the representation of the `staging= ` element.\r\n\r\nOne can also reduce it to:\r\n```bash\r\nspack load adios@1.10.0%gcc@5.4.0 staging= +sz~szip+zfp+zlib\r\n```\r\n\r\nccing @alalazo in case it's spack load specific",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/6314",
+    "updated_at": "2019-01-05 03:02:35",
+    "created_at": "2017-11-14 19:37:39",
+    "closed_at": "2019-01-05 03:02:35",
+    "state": "closed",
+    "title": "Spec String of a None Multi Variant",
+    "number": 6314,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "specs",
+        "modules",
+        "mpi",
+        "commands",
+        "variants"
+    ],
+    "id": 273916441,
+    "html_url": "https://github.com/spack/spack/issues/6314",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 15
+}

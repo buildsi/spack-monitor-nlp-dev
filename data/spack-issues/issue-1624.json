@@ -1,0 +1,17 @@
+{
+    "body": "@tgamblin \n\nSee below.  `SpackYAMLError` requires two constructor args, but the last two instantiations of it below have just one.  That causes another exception while trying to throw the first.\n\n```\n    @staticmethod\n    def from_yaml(stream):\n        try:\n            yfile = yaml.load(stream)\n        except MarkedYAMLError, e:\n            raise spack.spec.SpackYAMLError(\n                \"error parsing YAML ProviderIndex cache:\", str(e))\n\n        if not isinstance(yfile, dict):\n            raise spack.spec.SpackYAMLError(\n                \"YAML ProviderIndex was not a dict.\")\n\n        if 'provider_index' not in yfile:\n            raise spack.spec.SpackYAMLError(\n                \"YAML ProviderIndex does not start with 'provider_index'\")\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1624",
+    "updated_at": "2016-08-30 05:34:48",
+    "created_at": "2016-08-24 23:39:50",
+    "closed_at": "2016-08-30 05:34:48",
+    "state": "closed",
+    "title": "[Bug] Missing constructor arguments to class SpackYAMLError",
+    "number": 1624,
+    "milestone": null,
+    "labels": [],
+    "id": 173083160,
+    "html_url": "https://github.com/spack/spack/issues/1624",
+    "assignees": [],
+    "comments": 0
+}

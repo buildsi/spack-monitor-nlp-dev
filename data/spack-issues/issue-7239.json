@@ -1,0 +1,22 @@
+{
+    "body": "### Summary\r\n\r\nRebuilding lmod module tree fails for dependents of `gdbm` (but succeeds for `gdbm`, and most other packages).\r\n\r\n### Expected Result\r\n\r\n`spack module refresh -m lmod --delete-tree -y` regenerates all Lmod modules\r\n\r\n### Actual Result\r\n\r\nAny module that depends on `gdbm` (e.g., `autoconf`) will throw a warning:\r\n\r\n```console\r\n==> Warning: Could not write module file [/Users/oxberry1/spack/share/spack/lmod/darwin-sierra-x86_64/Core/autoconf/2.69.lua]\r\n==> Warning:    --> Cannot create a consistent method resolution\r\norder (MRO) for bases Spec, SpecBuildInterface <--\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install autoconf\r\n$ spack module refresh -m lmod --delete-tree -y\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. macOS / OS X 10.12.6\r\n 2. I don't have any customizations related to autoconf, but would be happy to provide config files on request if they might be useful.\r\n\r\n### History\r\n\r\nI think this issue is a continuation of #6089 and #5864. Moving use of `spack_cc` into `setup_environment` solved issues relating to the expansion of `spack_cc`, so now instead of `gdbm` and its dependents throwing errors, only dependents of `gdbm` throw errors. The problem seemed to be introduced by #5893, and #7225 improved the situation slightly -- efore #7225, module files for `gdbm` could not be regenerated either.\r\n\r\n### Narrowing down the problem\r\n\r\nI tried running `spack -D module refresh -m lmod --delete-tree -y` and got as far as tracking down the error to within a method call at `spack/tengine.py:85`. Set a breakpoint at `spack/cmd/module.py:317` conditional on `'automake' in x.spec.name`. Once this breakpoint triggers, set a breakpoint in `spack/tengine.py:85`. Around the 15th-ish execution of that line (after the breakpoint in `module.py`), the method resolution order error throws. I couldn't narrow down the problem further.\r\n\r\n### Workaround\r\n\r\nA workaround for now is to reinstall the packages that throw warnings, because the module file written upon installation is apparently fine.",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/7239",
+    "updated_at": "2018-03-12 08:07:08",
+    "created_at": "2018-02-14 10:01:50",
+    "closed_at": "2018-03-12 08:07:08",
+    "state": "closed",
+    "title": "Rebuilding modules fails for dependents of `gdbm`",
+    "number": 7239,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 297035921,
+    "html_url": "https://github.com/spack/spack/issues/7239",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,23 @@
+{
+    "body": "See #4522 and #4521 for backstory.\r\n\r\nSome Python packages depend on non-Python dependencies. For example, `py-pillow` depends on several imaging libraries. When building these Python packages, Python uses whatever compiler it was built with. Since we filter the compiler wrappers out of the Python installation, this means that we are not using Spack's compiler wrappers when installing Python packages, and hence we are not RPATHing dependencies.\r\n\r\nPreviously, we were building with:\r\n```\r\n$ python setup.py build\r\n$ python setup.py install --prefix=...\r\n```\r\nNow, we build with:\r\n```\r\n$ python setup.py build_py\r\n$ python setup.py build_ext --include-dirs=... --library-dirs=... --rpath=...\r\n$ python setup.py build_clib\r\n$ python setup.py build_scripts\r\n$ python setup.py install --prefix=...\r\n```\r\nThe `build_ext` phase allows us to explicitly declare what RPATH to use, solving the problem. Thanks to @mjwoods for the idea!\r\n\r\nAdditional changes included in this PR:\r\n\r\n* Added a missing `build_scripts_args` function\r\n* Default arguments like `--prefix` are added directly in the `<phase>` function\r\n  * Previously, these arguments were added through `<phase>_args`. Overriding this function to try to add additional arguments would remove these default arguments\r\n* Don't run `python setup.py test` anymore\r\n  * Even when a package implements it, the PyPI tarball rarely includes the test suite, and the tests usually fail\r\n  * Instead, we now have `test` and `install_test` methods that can be overridden\r\n* `extends` implies `type=('build', 'run')` now\r\n  * Previously, things like Python, R, and Perl were `build/link/run` dependencies, which doesn't really make much sense\r\n  * You can now override the default type with `extends('python', type=('build', 'link', 'run'))`\r\n\r\nThis will likely take a while to test before it is safe to merge. I want to try building and activating every Python package in Spack before we decide to merge this. Who knows, this may even solve #3204 and https://github.com/numpy/numpy/issues/8653.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4545",
+    "updated_at": "2021-01-08 19:24:44",
+    "created_at": "2017-06-19 21:57:17",
+    "closed_at": "2018-08-18 18:57:00",
+    "state": "closed",
+    "title": "[WIP] PythonPackage: RPATH link dependencies",
+    "number": 4545,
+    "milestone": null,
+    "labels": [
+        "python",
+        "WIP",
+        "rpath"
+    ],
+    "id": 237036023,
+    "html_url": "https://github.com/spack/spack/pull/4545",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Building Python with `+uuid` currently requires the Spack-built `libuuid` package. However, the vanilla `libuuid` is incompatible with Apple's frameworks. This results in build failures in Python 2.7 (since that version of Python uses Carbon, which also includes libuuid), as well as in code that's downstream of Python (such as py-matplotlib, which includes an `osx` backend).\r\n\r\nThe commit message documents the error messages for system/compiler versions:\r\n```\r\n    MacOS version 10.14.5\r\n    Xcode 10.2.1\r\n    Apple LLVM version 10.0.1 (clang-1001.0.46.4)\r\n```\r\n\r\nbut the final error message is always:\r\n```\r\n/usr/include/hfs/hfs_format.h:794:2: error: unknown type name 'uuid_string_t'; did you mean 'io_string_t'?\r\n```\r\nbecause `uuid_string_t` is defined *only* in Apple's `uuid.h` and not in Spack's.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12166",
+    "updated_at": "2019-07-29 02:16:29",
+    "created_at": "2019-07-28 16:56:50",
+    "closed_at": "2019-07-28 19:58:10",
+    "state": "closed",
+    "title": "Prevent conflicts between libuuid and Apple Cocoa Framework on Mac",
+    "number": 12166,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "conflicts"
+    ],
+    "id": 473764135,
+    "html_url": "https://github.com/spack/spack/pull/12166",
+    "assignees": [],
+    "comments": 8
+}

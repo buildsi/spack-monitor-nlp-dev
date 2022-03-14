@@ -1,0 +1,17 @@
+{
+    "body": "I was getting the error message with `spack install autoconf`:\r\n```\r\nautom4te: cannot create /gpfsm/dnb53/tdirs/login/discover32.13546.rpfische/am4t8860.25474: 2\r\n```\r\nInspection showed that `discover32.13546.rpfische` did not exist.  I am on a shared supercomputer where, in their infinite wisdom, the sysadmins decided to set my `$TMPDIR` in a particular way when I logged in.  I feel that should be respected, i.e. temporary files should be created there.  I use `spack install --dirty` because --- among other things --- the Intel compilers and MPI and git, etc. don't work unless you have just the right modules loaded.\r\n\r\n`TMPDIR` gets picked up and used by some packages (such as `autoconf`). But `TMPDIR` is not actually created on my system, it's just set as an env var.  Thus, the package's build cannot create what it needs to create inside of `TMPDIR`.\r\n\r\nThis problem could be approached by patching the package's build, or by updating the Spack recipe.  I chose the latter.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10658",
+    "updated_at": "2020-08-20 08:16:55",
+    "created_at": "2019-02-20 19:04:29",
+    "closed_at": "2020-08-20 08:16:54",
+    "state": "closed",
+    "title": "autoconf: Respect $TMPDIR, and make it work, if sysadmins set it",
+    "number": 10658,
+    "milestone": null,
+    "labels": [],
+    "id": 412580787,
+    "html_url": "https://github.com/spack/spack/pull/10658",
+    "assignees": [],
+    "comments": 1
+}

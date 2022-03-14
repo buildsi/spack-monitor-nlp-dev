@@ -1,0 +1,23 @@
+{
+    "body": "depends on #13534 \r\ncloses #7204\r\n\r\nThis PR adds a new command to Spack:\r\n```console\r\n$ spack containerize -h\r\nusage: spack containerize [-h] [--config CONFIG]\r\n\r\ncreates recipes to build images for different container runtimes\r\n\r\noptional arguments:\r\n  -h, --help       show this help message and exit\r\n  --config CONFIG  configuration for the container recipe that will be generated\r\n```\r\nwhich takes an environment with an additional `container` section:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - gromacs build_type=Release \r\n  - mpich\r\n  - fftw precision=float\r\n  packages:\r\n    all:\r\n      target: [broadwell]\r\n\r\n  container:\r\n    # Select the format of the recipe e.g. docker,\r\n    # singularity or anything else that is currently supported\r\n    format: docker\r\n    \r\n    # Select from a valid list of images\r\n    base:\r\n      image: \"ubuntu:18.04\"\r\n      spack: prerelease\r\n\r\n    # Additional system packages that are needed at runtime\r\n    os_packages:\r\n    - libgomp1\r\n```\r\nand turns it into a `Dockerfile` or a Singularity definition file, for instance:\r\n```Dockerfile\r\n# Build stage with Spack pre-installed and ready to be used\r\nFROM spack/ubuntu-bionic:prerelease as builder\r\n\r\n# What we want to install and how we want to install it\r\n# is specified in a manifest file (spack.yaml)\r\nRUN mkdir /opt/spack-environment \\\r\n&&  (echo \"spack:\" \\\r\n&&   echo \"  specs:\" \\\r\n&&   echo \"  - gromacs build_type=Release\" \\\r\n&&   echo \"  - mpich\" \\\r\n&&   echo \"  - fftw precision=float\" \\\r\n&&   echo \"  packages:\" \\\r\n&&   echo \"    all:\" \\\r\n&&   echo \"      target:\" \\\r\n&&   echo \"      - broadwell\" \\\r\n&&   echo \"  config:\" \\\r\n&&   echo \"    install_tree: /opt/software\" \\\r\n&&   echo \"  concretization: together\" \\\r\n&&   echo \"  view: /opt/view\") > /opt/spack-environment/spack.yaml\r\n\r\n# Install the software, remove unecessary deps and strip executables\r\nRUN cd /opt/spack-environment && spack install && spack autoremove -y\r\nRUN find -L /opt/view/* -type f -exec readlink -f '{}' \\; | \\\r\n    xargs file -i | \\\r\n    grep 'charset=binary' | \\\r\n    grep 'x-executable\\|x-archive\\|x-sharedlib' | \\\r\n    awk -F: '{print $1}' | xargs strip -s\r\n\r\n\r\n# Modifications to the environment that are necessary to run\r\nRUN cd /opt/spack-environment && \\\r\n    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh\r\n\r\n# Bare OS image to run the installed executables\r\nFROM ubuntu:18.04\r\n\r\nCOPY --from=builder /opt/spack-environment /opt/spack-environment\r\nCOPY --from=builder /opt/software /opt/software\r\nCOPY --from=builder /opt/view /opt/view\r\nCOPY --from=builder /etc/profile.d/z10_spack_environment.sh /etc/profile.d/z10_spack_environment.sh\r\n\r\nRUN apt-get -yqq update && apt-get -yqq upgrade                                   \\\r\n && apt-get -yqq install libgomp1 \\\r\n && rm -rf /var/lib/apt/lists/*\r\n\r\nENTRYPOINT [\"/bin/bash\", \"--rcfile\", \"/etc/profile\", \"-l\"]\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/14202",
+    "updated_at": "2020-02-17 10:45:01",
+    "created_at": "2019-12-17 23:07:34",
+    "closed_at": "2020-01-31 01:19:56",
+    "state": "closed",
+    "title": "Generate container recipes with environments",
+    "number": 14202,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "environments",
+        "containers"
+    ],
+    "id": 539359245,
+    "html_url": "https://github.com/spack/spack/pull/14202",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 10
+}

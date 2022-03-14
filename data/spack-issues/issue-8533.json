@@ -1,0 +1,19 @@
+{
+    "body": "I'm having my first Spack on Ubuntu adventure, using a very minimally configured Ubuntu instance on AWS.\r\n\r\nlua-luaposix wouldn't install:\r\n\r\n```\r\n1 error found in build log:\r\n  >> 5    Error: Directory luaposix-release-v33.4.0 not found inside archive release-v33.4.0.zip\r\n     6    Using luaposix-33.4.0-1.rockspec... switching to 'build' mode\r\n```\r\n\r\nI can fix it by using `apt-get` to install the *unzip* package.\r\n\r\nI thought that I could fix it for all luarocks based packages by adding \r\n\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/lua/package.py b/var/spack/repos/builtin/packages/lua/package.py\r\nindex eec46f9..cdc63f8 100644\r\n--- a/var/spack/repos/builtin/packages/lua/package.py\r\n+++ b/var/spack/repos/builtin/packages/lua/package.py\r\n@@ -49,6 +49,7 @@ class Lua(Package):\r\n\r\n     depends_on('ncurses')\r\n     depends_on('readline')\r\n+    depends_on('unzip', type='build')\r\n\r\n     resource(\r\n         name=\"luarocks\",\r\n```\r\n\r\nbut that didn't work.  The dependency is there:\r\n\r\n```\r\nhartzell@ubuntu-spack-test:~/spack$ spack spec lua-luaposix\r\nInput spec\r\n--------------------------------\r\nlua-luaposix\r\n\r\nConcretized\r\n--------------------------------\r\nlua-luaposix@33.4.0%gcc@5.5.0 arch=linux-ubuntu14.04-x86_64\r\n    ^lua@5.3.4%gcc@5.5.0 arch=linux-ubuntu14.04-x86_64\r\n        ^ncurses@6.1%gcc@5.5.0~symlinks~termlib arch=linux-ubuntu14.04-x86_64\r\n            ^pkgconf@1.4.2%gcc@5.5.0 arch=linux-ubuntu14.04-x86_64\r\n        ^readline@7.0%gcc@5.5.0 arch=linux-ubuntu14.04-x86_64\r\n        ^unzip@6.0%gcc@5.5.0 arch=linux-ubuntu14.04-x86_64\r\n```\r\n\r\nbut it seems like that PATH isn't being set up for the top level.\r\n\r\nAdding the depend to *lua-luaposix* does work:\r\n\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/lua-luaposix/package.py b/var/spack/repos/builtin/packages/lua-luaposix/package.py\r\nindex 4db3f84..f29ea54 100644\r\n--- a/var/spack/repos/builtin/packages/lua-luaposix/package.py\r\n+++ b/var/spack/repos/builtin/packages/lua-luaposix/package.py\r\n@@ -34,6 +34,7 @@ class LuaLuaposix(Package):\r\n     version('33.4.0', 'b36ff049095f28752caeb0b46144516c')\r\n\r\n     extends(\"lua\")\r\n+    depends_on('unzip', type='build')\r\n\r\n     def install(self, spec, prefix):\r\n         rockspec = glob.glob('luaposix-*.rockspec')\r\n```\r\n\r\nIs the right fix here to use the system unzip or to update *lua-luaposix* or?\r\n\r\ng.\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/8533",
+    "updated_at": "2018-08-05 18:26:23",
+    "created_at": "2018-06-20 21:09:49",
+    "closed_at": "2018-08-05 18:26:23",
+    "state": "closed",
+    "title": "lua-luaposix needs unzip, adding dependency to lua doesn't work, what to do?",
+    "number": 8533,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 334250519,
+    "html_url": "https://github.com/spack/spack/issues/8533",
+    "assignees": [],
+    "comments": 8
+}

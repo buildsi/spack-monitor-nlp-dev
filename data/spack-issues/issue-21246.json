@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install --test all petsc\r\n[...] # build and install OK\r\n==> Error: FileNotFoundError: [Errno 2] No such file or directory: 'src/ksp/ksp/examples/tutorials'\r\n\r\n/home/f377482/spack/var/spack/repos/builtin/packages/petsc/package.py:469, in install:\r\n        466\r\n        467        # solve Poisson equation in 2D to make sure nothing is broken:\r\n        468        if ('mpi' in spec) and self.run_tests:\r\n  >>    469            with working_dir('src/ksp/ksp/examples/tutorials'):\r\n        470                env['PETSC_DIR'] = self.prefix\r\n        471                cc = Executable(spec['mpi'].mpicc)\r\n        472                cc('ex50.c', '-I%s' % prefix.include, '-L%s' % prefix.lib,\r\n```\r\n\r\nSince version 3.13, the path is src/ksp/ksp/tutorials instead of src/ksp/ksp/examples/tutorials\r\n\r\nA separate issue is that when using intel-mpi, mpirun is not found in `join_path(spec['mpi'].prefix.bin` , and I cannot therefore quickly test a fix for this issue\r\n\r\n### Additional information\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n@balay @BarrySmith @jedbrown \r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n* **Spack:** 0.16.0-929-facfa893b9\r\n* **Python:** 3.8.3\r\n* **Platform:** linux-ubuntu20.10-sandybridge\r\n* **Concretizer:** original\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "lpoirel",
+    "url": "https://api.github.com/repos/spack/spack/issues/21246",
+    "updated_at": "2021-05-21 09:08:09",
+    "created_at": "2021-01-23 22:34:46",
+    "closed_at": "2021-05-21 09:08:09",
+    "state": "closed",
+    "title": "Installation issue: petsc tests error",
+    "number": 21246,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 792663773,
+    "html_url": "https://github.com/spack/spack/issues/21246",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,24 @@
+{
+    "body": "As a Spack developer I want a unique way to construct a list of modifications to the environment starting from information stored in a configuration file so that I'll avoid code duplication and be ensured we treat this problem coherently across different files.\r\n\r\n### Rationale\r\nCurrently there are at least two different places where we can prescribe modifications to the environment in a configuration file: \r\n1. `compilers.yaml` where we can specify custom modifications needed to use a given compiler\r\n2. `modules.yaml` where we can attach custom modifications to each module file being generated\r\n\r\nBoth the schema and the code that handle these parts are duplicated and the implementation has slight differences in the two cases. As soon as we integrate better with container runtimes we'll surely have at hand a third case in which setting custom environment variables from configuration files is needed. \r\n\r\nWhat is proposed here is thus a refactor of this part so that we can unify:\r\n1. The schema for that portion of the configuration file\r\n2. The construction of a list of environment modifications from a dictionary conforming to the schema\r\n\r\nThis should improve code quality and speed-up development for any other case in which we need to parse environment modifications from config files.\r\n\r\n### Description\r\n\r\nThe task should be to go through the `compilers.yaml` schema:\r\n\r\nhttps://github.com/spack/spack/blob/f2d91f7e3c826011e1e6a47a598cda4acca8c8a6/lib/spack/spack/schema/compilers.py#L71-L114\r\n\r\nand the `modules.yaml` schema:\r\n\r\nhttps://github.com/spack/spack/blob/f2d91f7e3c826011e1e6a47a598cda4acca8c8a6/lib/spack/spack/schema/modules.py#L69-L79\r\n\r\nand merge them into a unique schema that will be used in both places. Likewise we should unify the construction of the corresponding `EnvironmentModifications` object in memory that is currently replicated in `build_environment.py`:\r\n\r\nhttps://github.com/spack/spack/blob/f2d91f7e3c826011e1e6a47a598cda4acca8c8a6/lib/spack/spack/build_environment.py#L336-L350\r\n\r\nand in `modules/common.py`:\r\n\r\nhttps://github.com/spack/spack/blob/f2d91f7e3c826011e1e6a47a598cda4acca8c8a6/lib/spack/spack/modules/common.py#L383-L402\r\n\r\n\r\n### Additional information\r\nWhile doing so we can also take the chance to implement a way to store information in the configuration files that preserves total ordering of the modifications:\r\n```yaml\r\nenvironment:\r\n- action: prepend_path\r\n  variable: PATH\r\n  value: /opt/usr/bin\r\n...\r\n- action: set\r\n  variable: MYENV\r\n  value: foo\r\n ```\r\nThis should be an additional way to write the configuration file and the current one should be preserved for backward compatibility.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/13357",
+    "updated_at": "2020-01-27 16:40:48",
+    "created_at": "2019-10-21 16:21:48",
+    "closed_at": "2020-01-27 16:40:48",
+    "state": "closed",
+    "title": "Unify the construction of environment modifications from config",
+    "number": 13357,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "configuration",
+        "refactoring",
+        "proposal"
+    ],
+    "id": 510095006,
+    "html_url": "https://github.com/spack/spack/issues/13357",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

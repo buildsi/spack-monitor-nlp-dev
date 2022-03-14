@@ -1,0 +1,19 @@
+{
+    "body": "The issue appears when we have a variant with default being `None`, i.e.\r\n```\r\nvariant('cuda_arch', default=None,\r\n             description='CUDA architecture',\r\n             values=('20', '30', '32', '35', '50', '52', '53', '60', '61',\r\n                     '62', '70'),\r\n             multi=True)\r\n```\r\nNow say a user has some settings in `packages.yaml` for this variant, for example\r\n```\r\n  dealii:\r\n    version: [develop]\r\n    variants: cuda_arch=52 +cuda\r\n```\r\nBut he might want to override this variant to be `None` in CLI,  this appears to be not allowed:\r\n```\r\n$ spack spec dealii@develop~cuda cuda_arch=None\r\nInput spec\r\n--------------------------------\r\ndealii@develop~cuda cuda_arch=None\r\n\r\nNormalized\r\n--------------------------------\r\n==> Error: invalid values for variant \"cuda_arch\" in package \"dealii\": ['None']\r\n```\r\nor\r\n```\r\n$ spack spec dealii@develop~cuda cuda_arch=\r\n==> Error: Unexpected end of input\r\n```\r\n\r\n### Expected Result\r\n\r\nto get the following concretized spec by overriding `packages.yaml`\r\n```\r\ndealii@develop... ~cuda cuda_arch= +doc...\r\n```\r\n\r\n### Actual Result\r\n\r\nsee above.\r\n\r\n### Steps to reproduce the issue\r\n\r\nsee above.\r\n\r\n### Information on your system\r\n\r\ntested on macOS and Ubuntu.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/6426",
+    "updated_at": "2019-12-11 12:35:46",
+    "created_at": "2017-11-23 08:22:16",
+    "closed_at": "2019-12-11 12:35:46",
+    "state": "closed",
+    "title": "can not specify default=None variant from the command line",
+    "number": 6426,
+    "milestone": null,
+    "labels": [],
+    "id": 276293309,
+    "html_url": "https://github.com/spack/spack/issues/6426",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

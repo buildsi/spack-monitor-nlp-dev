@@ -1,0 +1,19 @@
+{
+    "body": "In https://github.com/LLNL/spack/pull/3982#discussion_r113266150, I discovered that when you directly call the `sphinx.apidoc.main` method, the first argument is ignored. I reported this to the Sphinx developers and my pull request was approved and merged (https://github.com/sphinx-doc/sphinx/pull/3668).\r\n\r\nSphinx seems to have frequent (weekly) releases. Once the next Sphinx release comes out, all of our documentation tests will break with the following error message:\r\n```\r\nsphinx_apidoc is not a directory.\r\n\r\nConfiguration error:\r\nThe configuration file (or one of the modules it imports) called sys.exit()\r\n```\r\nThe only problem with merging this is that the API docs will no longer update when new sections are added. Read the Docs seems to pin the version of Sphinx installed on the system. We have two choices here:\r\n\r\n1. Create a `.rtd-environment.yaml` to install the latest version of Sphinx\r\n2. Duplicate the `--force` argument so it always works with any version of Sphinx\r\n\r\nThoughts?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4243",
+    "updated_at": "2017-05-16 21:25:12",
+    "created_at": "2017-05-13 16:40:13",
+    "closed_at": "2017-05-16 21:24:36",
+    "state": "closed",
+    "title": "Sphinx no longer ignores first argument",
+    "number": 4243,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 228484666,
+    "html_url": "https://github.com/spack/spack/pull/4243",
+    "assignees": [],
+    "comments": 3
+}

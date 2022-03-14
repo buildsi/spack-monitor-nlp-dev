@@ -1,0 +1,17 @@
+{
+    "body": "boost@1.54.0 won't build with gcc@5.4.0 without the same bit of patchery that fixes 1.55.0.\r\n\r\ne.g. (from around line 40046 of my build.out)\r\n\r\n```\r\n[...]\r\nlibs/thread/src/pthread/thread.cpp: In function \u2018boost::detail::thread_data_base* boost::detail::get_current_thread_data()\u2019:\r\nlibs/thread/src/pthread/thread.cpp:140:88: error: no matching function for call to \u2018call_once(boost::once_flag&, void (&)())\u2019\r\n             boost::call_once(current_thread_tls_init_flag,create_current_thread_tls_key);\r\n[...]\r\n```\r\n\r\nThis PR just changes a 5 to a 4 (\"You're not paying me to change one character, you paying me to know what character to change.  Wait, you're not paying me at all...\").\r\n\r\nboost@1.54.0 and boost@1.55.0 both build with gcc@5.4.0 on a CentOS 7 DO droplet.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/6434",
+    "updated_at": "2017-11-23 19:17:17",
+    "created_at": "2017-11-23 16:58:55",
+    "closed_at": "2017-11-23 19:17:17",
+    "state": "closed",
+    "title": "boost@1.54 also needs the call_once patch",
+    "number": 6434,
+    "milestone": null,
+    "labels": [],
+    "id": 276436485,
+    "html_url": "https://github.com/spack/spack/pull/6434",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n\r\nWhen I compile an error for False, by changing the value of the client_only variant\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install openldap~client_only\r\n\r\n```\r\n> 1 error found in build log:\r\n     316    checking sasl/sasl.h usability... no\r\n     317    checking sasl/sasl.h presence... no\r\n     318    checking for sasl/sasl.h... no\r\n     319    checking sasl.h usability... no\r\n     320    checking sasl.h presence... no\r\n     321    checking for sasl.h... no\r\n     322    configure: error: Could not locate Cyrus SASL\r\n\r\nBut I found that this dependency was written in package.py. Py was just commented out. \r\nNow, except for Pth, spack already has these dependencies.\r\nCan you let go of these comments?\r\nIn addition, Pth is not available, but npth is available. Can you replace it?\r\n```\r\n# Recommended dependencies by Linux From Scratch\r\n# depends_on('cyrus-sasl', when='~client_only') # not avail. in spack yet\r\n# depends_on('openslp', when='~client_only') # not avail. in spack yet\r\n# depends_on('Pth', when='~client_only') # not avail. in spack yet\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n```\r\n* **Spack:** 0.16.0-1376-f65e6ae4e6\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-aarch64\r\n* **Concretizer:** original\r\n```\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "simon28li",
+    "url": "https://api.github.com/repos/spack/spack/issues/21840",
+    "updated_at": "2021-12-07 07:29:13",
+    "created_at": "2021-02-22 06:41:37",
+    "closed_at": "2021-12-07 07:29:13",
+    "state": "closed",
+    "title": "Whether the package can be modified to support an installation that is not just client",
+    "number": 21840,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 813182677,
+    "html_url": "https://github.com/spack/spack/issues/21840",
+    "assignees": [],
+    "comments": 2
+}

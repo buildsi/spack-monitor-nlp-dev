@@ -1,0 +1,19 @@
+{
+    "body": "### Description\r\n\r\nOn my macOS machines, I maintain a `packages.yaml` file I use to expose Homebrew- or system-installed software to Spack. As part of that file, I have an entry for `ninja`, but it appears that `ninja` has been made a virtual package as of merging PR #11347 (commit `251f3f5058beb60f65d420a03f1ee77998ddbc87`), and `ninja` provides, in some cases, `ninja-fortran` and vice versa. The name of a virtual package cannot be used as a package entry under the `packages:` field in a `package.yaml` file. Thus, a user who has installed Ninja on their system through some means other than Spack and wants to expose that installation to Spack cannot do so.\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Install `ninja` by some other means than through Spack.\r\n\r\n2. Add an entry for `ninja` in a `packages.yaml` file discoverable by Spack (e.g., `~/.spack/packages.yaml`). For instance:\r\n\r\n```yaml\r\npackages:\r\n  # other packages may go before this entry\r\n   ninja:\r\n     paths:\r\n       ninja@1.9.0 %clang@10.0.1-apple: /usr/local/opt/ninja\r\n  # other packages may go after this entry\r\n```\r\n3. Attempt to install or uninstall something.\r\n\r\n```console\r\n$ spack install cmake curl\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> Error: packages.yaml entries cannot be virtual packages:\r\n  in \"/Users/oxberry1/.spack/packages.yaml\", line 207, column 3: ninja\r\n```\r\n\r\n### Information on your system\r\n\r\nMy system is running macOS 10.14.5 and uses a custom `packages.yaml` file. An excerpted version is listed above to reproduce the error. This bug should be insensitive to OS, so it should be reproducible on Linux as well.",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/11628",
+    "updated_at": "2019-06-10 16:54:41",
+    "created_at": "2019-06-05 02:15:53",
+    "closed_at": "2019-06-10 16:54:41",
+    "state": "closed",
+    "title": "packages.yaml: ninja and ninja-fortran are now virtual packages",
+    "number": 11628,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 452284874,
+    "html_url": "https://github.com/spack/spack/issues/11628",
+    "assignees": [],
+    "comments": 4
+}

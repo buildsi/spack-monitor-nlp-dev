@@ -1,0 +1,22 @@
+{
+    "body": "This refactor is to support the `features/solver` branch with the new concretizer -- I'm moving it to mainline early since it's more general.\r\n\r\nPackages in Spack are classes, and we need to be able to execute class methods on mock packages.  The previous design used instances of a single MockPackage class; this version gives each package its own class that can spider depenencies.  This allows us to implement class methods like `possible_dependencies()` on mock packages.\r\n\r\nThis design change moves mock package creation into the `MockPackageMultiRepo`, and mock packages now *must* be created from a repo.  This is required for us to mock `possible_dependencies()`, which needs to be able to get dependency packages from the package repo.\r\n\r\n- [x] `MockPackage` is now `MockPacakgeBase`\r\n- [x] `MockPacakgeBase` instances must now be created with\r\n  `MockPackageMultiRepo.add_package()`\r\n- [x] add `possible_dependencies()` method to `MockPacakgeBase`\r\n- [x] refactor tests to use new code structure\r\n- [x] move package mocking infrastructure into `spack.util.mock_package`,\r\n  as it's becoming a more sophisticated class and it gets lots in `conftest.py`",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16157",
+    "updated_at": "2020-07-06 18:39:53",
+    "created_at": "2020-04-19 20:16:51",
+    "closed_at": "2020-04-24 01:21:50",
+    "state": "closed",
+    "title": "tests: each mock package has its own class",
+    "number": 16157,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "tests"
+    ],
+    "id": 602810042,
+    "html_url": "https://github.com/spack/spack/pull/16157",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

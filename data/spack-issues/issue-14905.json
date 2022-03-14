@@ -1,0 +1,20 @@
+{
+    "body": "Using `buildcache create` results in a tarball without any hard links. This is often not an issue, but for some packages (most notably git), this results in a cache many times the size it should be.\r\n\r\n```console\r\n$ du -sh ./opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/git-2.25.0-uiijfvku32ioewkuqk4ti3vya25ifwh5/\r\n 46M\t./opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/git-2.25.0-uiijfvku32ioewkuqk4ti3vya25ifwh5/\r\n$ du -sh ./build_cache/darwin-catalina-x86_64/clang-11.0.0-apple/git-2.25.0/darwin-catalina-x86_64-clang-11.0.0-apple-git-2.25.0-uiijfvku32ioewkuqk4ti3vya25ifwh5.spack\r\n219M\t./build_cache/darwin-catalina-x86_64/clang-11.0.0-apple/git-2.25.0/darwin-catalina-x86_64-clang-11.0.0-apple-git-2.25.0-uiijfvku32ioewkuqk4ti3vya25ifwh5.spack\r\n```\r\n\r\nNote that the 219MB is the compressed size. After extraction to disk it takes 556MB.\r\n\r\ni'm guessing this occurs because Spack doesn't track hard links during relocation.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install git\r\n$ spack buildcache create git\r\n$ du -sh ./build_cache\r\n```\r\n",
+    "user": "alecthomas",
+    "url": "https://api.github.com/repos/spack/spack/issues/14905",
+    "updated_at": "2020-02-16 20:21:28",
+    "created_at": "2020-02-12 10:21:56",
+    "closed_at": "2020-02-14 22:30:30",
+    "state": "closed",
+    "title": "Hard links are not handled correctlt in llnl.util.filesystem.copy_tree",
+    "number": 14905,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "utilities"
+    ],
+    "id": 563896529,
+    "html_url": "https://github.com/spack/spack/issues/14905",
+    "assignees": [],
+    "comments": 10
+}

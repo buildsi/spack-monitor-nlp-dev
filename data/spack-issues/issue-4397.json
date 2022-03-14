@@ -1,0 +1,19 @@
+{
+    "body": "Alright, there's a lot going on here, so I'll try to break it down:\r\n\r\n### Features\r\n\r\n* Old versions of `openmpi`, `mpich`, and `mvapich2` also provide MPI\r\n* Add several other versions of `converge`\r\n* Fix download URL for `converge`\r\n  * see #2737 for the bug description\r\n* Only install the executables for the MPI library we built with\r\n  * Previously, installed binaries for every MPI library\r\n  * Also adds symlinks to point to specific executable names\r\n* Be more specific about supported MPI libraries and versions\r\n\r\nThe last point is the most important. CONVERGE comes with pre-compiled binaries that link to a specific version of MPI. For example, CONVERGE 2.4 comes with:\r\n```\r\nconverge-2.4.10-intel     -> libmpi.so.12, libmpifort.so.12           \r\nconverge-2.4.10-mpich     -> libmpi.so.12                             \r\nconverge-2.4.10-ompi      -> libmpi.so.12                             \r\nconverge-2.4.10-pmpi      -> libmpi.so.1, libmpio.so.1                \r\nconverge-2.4.10-serial\r\n```\r\n`converge-2.4.10-ompi` will only work if you have OpenMPI 1.10 loaded in your environment. A newer or older version of OpenMPI doesn't work, 1.10 is the only version that builds a `libmpi.so.12` library. By adding specific `depends_on` statements, I was able to get `spack spec` to crash unless the correct OpenMPI version is provided. Unfortunately, `spack spec converge +mpi ^openmpi` crashes now. But that's better than building something that doesn't work.\r\n\r\nThis PR is related to #4358 and #4372. At some point, someone needs to build every version of the other MPI libraries to see what each version of CONVERGE depends on.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4397",
+    "updated_at": "2017-06-19 15:18:52",
+    "created_at": "2017-05-30 18:19:55",
+    "closed_at": "2017-06-19 15:18:49",
+    "state": "closed",
+    "title": "Overhaul CONVERGE installation and concretization",
+    "number": 4397,
+    "milestone": null,
+    "labels": [
+        "new-version"
+    ],
+    "id": 232338633,
+    "html_url": "https://github.com/spack/spack/pull/4397",
+    "assignees": [],
+    "comments": 0
+}

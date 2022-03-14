@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\n\nSometimes, when running CI on Github Actions, PRs report failures on the `test_checksum` unit test. The failures seem to be spurious, since re-running the same tests usually makes them pass.\n\n### Error message\n\n```\r\n==================================== ERRORS ====================================\r\n__ ERROR at teardown of test_checksum[arguments0-versions of preferred-test] ___\r\n\r\nrequest = <SubRequest 'check_for_leftover_stage_files' for <Function test_checksum[arguments0-versions of preferred-test]>>\r\nmock_stage = '/tmp/pytest-of-runner/pytest-0/mock-stage2'\r\nignore_stage_files = {'.lock', 'build_cache', 'spack-src', 'spack-stage-j44yj070'}\r\n\r\n    @pytest.fixture(scope='function', autouse=True)\r\n    def check_for_leftover_stage_files(request, mock_stage, ignore_stage_files):\r\n        \"\"\"\r\n        Ensure that each (mock_stage) test leaves a clean stage when done.\r\n    \r\n        Tests that are expected to dirty the stage can disable the check by\r\n        adding::\r\n    \r\n            @pytest.mark.disable_clean_stage_check\r\n    \r\n        and the associated stage files will be removed.\r\n        \"\"\"\r\n        stage_path = mock_stage\r\n    \r\n        yield\r\n    \r\n        files_in_stage = set()\r\n        try:\r\n            stage_files = os.listdir(stage_path)\r\n            files_in_stage = set(stage_files) - ignore_stage_files\r\n        except OSError as err:\r\n            if err.errno == errno.ENOENT:\r\n                pass\r\n            else:\r\n                raise\r\n    \r\n        if 'disable_clean_stage_check' in request.keywords:\r\n            # clean up after tests that are expected to be dirty\r\n            for f in files_in_stage:\r\n                path = os.path.join(stage_path, f)\r\n                remove_whatever_it_is(path)\r\n        else:\r\n            ignore_stage_files |= files_in_stage\r\n>           assert not files_in_stage\r\nE           AssertionError: assert not {'spack-stage-j44yj070'}\r\n\r\nlib/spack/spack/test/conftest.py:389: AssertionError\r\n```\n\n### Information on your system\n\nThe error message was taken from here:\r\n- https://github.com/spack/spack/runs/4532065202?check_suite_focus=true\r\n\r\nbut there are many other similar cases\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/28021",
+    "updated_at": "2021-12-16 05:55:29",
+    "created_at": "2021-12-15 10:48:51",
+    "closed_at": "2021-12-16 05:55:29",
+    "state": "closed",
+    "title": "The \"test_checksum\" unit test fails spuriously",
+    "number": 28021,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "impact-low",
+        "maintainers",
+        "ci"
+    ],
+    "id": 1080884290,
+    "html_url": "https://github.com/spack/spack/issues/28021",
+    "assignees": [],
+    "comments": 1
+}

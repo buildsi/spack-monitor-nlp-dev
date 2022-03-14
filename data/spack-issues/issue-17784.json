@@ -1,0 +1,21 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nIn version v0.14, `spack buildcache create ...` would only report a warning if the build cache of a dependency already existed.\r\n\r\nNow, on version v0.15, it returns an error and suggests I use the option `-f` to overwrite the existing files. I don't want to do that - it's slow and wastes time.\r\n\r\nHow can I get the old behaviour back?\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ git checkout releases/v0.15\r\n$ spack buildcache create -a -u -d src_mirror speck\r\n$ spack buildcache create -a -u -d src_mirror speck\r\n==> Buildcache files will be output to file:///home/vagrant/src_mirror/build_cache\r\n==> Error: \r\nfile:///home/vagrant/src_mirror/build_cache/linux-rhel6-x86_64/gcc-7.3.1/libuuid-1.0.3/linux-rhel6-x86_64-gcc-7.3.1-libuuid-1.0.3-bqv2qs3zxsth6jn7fnrqqrmf3czxxzke.spack\r\nexists\r\nUse -f option to overwrite.\r\n...\r\n```\r\n\r\nIn v0.14, it reports lots of warnings, but is otherwise fine:\r\n```console\r\n$ git checkout releases/v0.14\r\n$ spack buildcache create -a -u -d src_mirror speck\r\n$ spack buildcache create -a -u -d src_mirror speck\r\n...\r\n==> creating binary cache file for package freetype@2.10.1%gcc@7.3.1 arch=linux-rhel6-x86_64 \r\n==> Warning: \r\nfile:///home/vagrant/src_mirror/build_cache/linux-rhel6-x86_64/gcc-7.3.1/freetype-2.10.1/linux-rhel6-x86_64-gcc-7.3.1-freetype-2.10.1-uvy2rw6w6qtekqo4ibr5zuua3zuu5ffx.spack\r\nexists\r\nUse -f option to overwrite.\r\n==> creating binary cache file for package mesa-glu@9.0.1%gcc@7.3.1 arch=linux-rhel6-x86_64 \r\n==> Warning: \r\nfile:///home/vagrant/src_mirror/build_cache/linux-rhel6-x86_64/gcc-7.3.1/mesa-glu-9.0.1/linux-rhel6-x86_64-gcc-7.3.1-mesa-glu-9.0.1-oz4nxkut7kzrvusucccv6vh7tbsmgjwf.spack\r\nexists\r\nUse -f option to overwrite.\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.15.3\r\n* **Python:** 2.6.6\r\n* **Platform:** linux-rhel6-sandybridge\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "andymwood",
+    "url": "https://api.github.com/repos/spack/spack/issues/17784",
+    "updated_at": "2020-08-02 20:52:16",
+    "created_at": "2020-07-30 11:04:54",
+    "closed_at": "2020-08-02 20:52:16",
+    "state": "closed",
+    "title": "\"spack buildcache create ...\" fails if the a file already exists",
+    "number": 17784,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "buildcache",
+        "triage"
+    ],
+    "id": 668613365,
+    "html_url": "https://github.com/spack/spack/issues/17784",
+    "assignees": [],
+    "comments": 0
+}

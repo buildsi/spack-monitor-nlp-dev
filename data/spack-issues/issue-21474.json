@@ -1,0 +1,21 @@
+{
+    "body": "Provide the ability to specify a per-pipeline temporary storage location where build jobs can store and retrieve buildcache entries.  \r\n\r\nUntil now, we have used `enable-artifacts-buildcache` for this purpose, and when enabled, this feature would pick some location within the repo, and jobs would create extra buildcache copies here, mentioning the files they create in their `artifacts`.  Downstream jobs would then be sure to `need` all their dependency jobs (both direct and transitive) to be sure that gitlab would download all those files to the runner before the job ran, thus providing a \"custom\" binary mirror for the job containing precisely those binary dependencies the job would need to install before building its target spec from source.\r\n\r\nHowever, this approach requires that the runners can upload large binary artifacts back to gitlab, which poses some problems (e.g. when many jobs try to upload large files to gitlab simultaneously).\r\n\r\nAt the same time, when running \"untrusted\" pipelines (e.g. against PRs to spack), the pipeline cannot simply push binaries to the main remote mirror, as that location should only ever be populated with binaries built from a trusted ref such as `develop` or a release branch.\r\n\r\nThis PR adds another optional key (`temporary-storage-url-prefix`) to the `gitlab-ci` section of the spack environment file (`spack.yaml`).  The value of this key is a string which will be used by generated pipeline jobs as a url prefix, and treated as the root url under which per-pipeline mirrors can be created, so each pipeline will have a dedicated temporary storage location.  If this feature is enabled, an extra job will be scheduled at the end of each non-empty pipeline to clean up the temporary, dedicated mirror.  For this reason, this PR adds a `spack mirror destroy` command, to abstract away the differences between `s3://` and `file://` mirror url prefixes, either of which can be used with `temporary-storage-url-prefix`.\r\n\r\nUsers can now option choose one of two forms of per-pipeline temporary storage (via either `enable-artifacts-buildcache` or `temporary-storage-url-prefix`), but cannot choose both simultaneously, as this is prevented by the schema.\r\n\r\nThis change is based on #20435 due to the way it builds on the updated `gitlab-ci` schema in that PR.  For example, the mirror cleanup job mentioned above is assigned runner attributes from the `service-job-attributes` section introduced in that change.",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/21474",
+    "updated_at": "2021-02-17 01:21:22",
+    "created_at": "2021-02-04 02:48:23",
+    "closed_at": "2021-02-17 01:21:18",
+    "state": "closed",
+    "title": "Per pipeline temporary storage",
+    "number": 21474,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "ci",
+        "pipelines"
+    ],
+    "id": 800878532,
+    "html_url": "https://github.com/spack/spack/pull/21474",
+    "assignees": [],
+    "comments": 2
+}

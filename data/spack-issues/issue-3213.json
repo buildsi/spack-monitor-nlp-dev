@@ -1,0 +1,20 @@
+{
+    "body": "Error message:\r\n```sh\r\nlibtool: link: <path>/spack/lib/spack/env/clang/clang -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow -I./../zlib -fPIC -Wl,-no_pie -o .libs/objdump objdump.o dwarf.o prdbg.o rddbg.o debug.o stabs.o ieee.o rdcoff.o bucomm.o version.o filemode.o elfcomm.o od-macho.o od-xcoff.o  ../opcodes/.libs/libopcodes.dylib -L/private/var/folders/lc/b4bjrtcn69d279m6rf4f42y00000gn/T/<user>/spack-stage/spack-stage-kNzi_m/binutils-2.27/opcodes/../libiberty/pic ../bfd/.libs/libbfd.dylib -L/private/var/folders/lc/b4bjrtcn69d279m6rf4f42y00000gn/T/<user>/spack-stage/spack-stage-kNzi_m/binutils-2.27/bfd/../libiberty/pic -L/private/var/folders/lc/b4bjrtcn69d279m6rf4f42y00000gn/T/<user>/spack-stage/spack-stage-kNzi_m/binutils-2.27/zlib -liberty -ldl -lz ../libiberty/libiberty.a ./../intl/libintl.a -liconv\r\nUndefined symbols for architecture x86_64:\r\n  \"_libintl_setlocale\", referenced from:\r\n      _main in ar.o\r\nld: symbol(s) not found for architecture x86_64\r\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\r\nmake[4]: *** [ranlib] Error 1\r\n```\r\n\r\nThis may be related to [this comment](https://github.com/LLNL/spack/issues/2613#issuecomment-269574542). As per the suggestion, it was fixed by adding\r\n```\r\ndepends_on('gettext')\r\n```\r\nto list of dependencies. However, I don't know whether this is only a MacOS issue or not.",
+    "user": "jppelteret",
+    "url": "https://api.github.com/repos/spack/spack/issues/3213",
+    "updated_at": "2017-03-11 18:38:52",
+    "created_at": "2017-02-22 10:57:09",
+    "closed_at": "2017-03-11 18:38:52",
+    "state": "closed",
+    "title": "binutils fails on MacOS",
+    "number": 3213,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 209418843,
+    "html_url": "https://github.com/spack/spack/issues/3213",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,17 @@
+{
+    "body": "This is to address https://github.com/spack/spack/issues/7372\r\n\r\nBasically, fftw 2.1.5 ships with a config.h in source tree with all options commented out.  The #includes in other source files will pick up this incorrect config.h instead of the one in the build directory and therefore have bad defines.  In particular, F77_FUNC_ does not get defined, causing the bulk of fftwf77.c to be skipped due to an #ifdef so functions are missing in libdfftw.so\r\n\r\nTo fix, the configure method now renames fftw/config.h in source tree if it is found.\r\n\r\nAlso encountered some errors due to inconsistent handling of quad/long-double variant flags between configure and the build, check, and install methods.  Made consistent.",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/10026",
+    "updated_at": "2018-12-05 22:12:41",
+    "created_at": "2018-12-05 15:57:42",
+    "closed_at": "2018-12-05 22:12:16",
+    "state": "closed",
+    "title": "Fftw issue 7372",
+    "number": 10026,
+    "milestone": null,
+    "labels": [],
+    "id": 387824193,
+    "html_url": "https://github.com/spack/spack/pull/10026",
+    "assignees": [],
+    "comments": 1
+}

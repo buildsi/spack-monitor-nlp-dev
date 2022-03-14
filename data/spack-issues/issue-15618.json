@@ -1,0 +1,21 @@
+{
+    "body": "Currently only the `mutable_config` fixture clears out the cached compiler configuration file in `spack.compilers`, but really *any* new configuration should do this.\r\n\r\nThis becomes an issue when running tests within an environment, because compiler configuration ends up being queried earlier, and the user's real config \"leaks\" into the cache.  Outside an environment, the cache is never set until tests touch it, so we weren't seeing this issue.\r\n\r\n- [x] make `use_configuration` save and restore the compiler cache",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/15618",
+    "updated_at": "2020-03-24 00:15:03",
+    "created_at": "2020-03-21 06:15:16",
+    "closed_at": "2020-03-23 22:15:36",
+    "state": "closed",
+    "title": "bugfix: mock configs should also mock compiler cache",
+    "number": 15618,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "tests",
+        "environments"
+    ],
+    "id": 585439656,
+    "html_url": "https://github.com/spack/spack/pull/15618",
+    "assignees": [],
+    "comments": 2
+}

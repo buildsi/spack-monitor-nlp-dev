@@ -1,0 +1,20 @@
+{
+    "body": "Fixed #15884.\r\n\r\nSpack asks every package linked into an environment to tell us how environment variables should be modified when a spack environment is activated. As part of this, specs in an environment are symlinked into the environment's view (see #13249), and the package calculates environment modifications with *the default view as the prefix*.\r\n\r\nAll of this works nicely for pointing the user's environment at the view *if* every package is successfully linked. Unfortunately, right now we only track what specs \"should\" be in a view, not which specs actually are. So we end up calculating environment modifications on things that aren't linked into thee view, and the exception isn't caught, so lots of spack commands end up failing.\r\n\r\nThis fixes the issue by ignoring and warning about specs where calculating environment modifications fails. So we can still keep using Spack even if the current environment is incomplete.\r\n\r\nWe should probably also just avoid computing env modifications *entirely* for unlinked packages, but right now that is a slow operation (requires a lot of YAML parsing). We should revisit that when we have some better state management for views, but the fix adopted here will still be necessary, as we want spack commands to be resilient to other types of bugs in `setup_run_environment()` and friends. That code is in packages and we have to assume it could be buggy when we call it outside of builds (as it might fail more than just the build).\r\n\r\n- [x] add try/catch around calculation of each package's env modifications\r\n- [x] tests",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16473",
+    "updated_at": "2020-06-10 17:18:26",
+    "created_at": "2020-05-05 18:03:32",
+    "closed_at": "2020-05-07 09:30:10",
+    "state": "closed",
+    "title": "bugfix: spack shouldn't fail in an incomplete environment",
+    "number": 16473,
+    "milestone": null,
+    "labels": [
+        "environments",
+        "bugfix"
+    ],
+    "id": 612791793,
+    "html_url": "https://github.com/spack/spack/pull/16473",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nSo it used to be (maybe back in December, and for awhile) \r\n\r\nThat I could just run\r\n\r\n```bash\r\ngit clone -c feature.manyFiles=true https://github.com/spack/spack.git\r\ncd spack\r\nbin/spack install py-sphinx\r\n```\r\n\r\nAnd then run the built executable as\r\n```\r\nlinux-rhel7-ivybridge/gcc-8.3.1/py-sphinx-4.4.0-4rtzq7ruxwn7zhye32wq25pmhkknhj3p/bin/sphinx-build \r\n```\r\n\r\nHowever now, it seems that all python package executables do not just run after being installed. I'm using sphinx just as an example.\r\n\r\nI'm having spack building c python from source in this example.\r\n\r\nIs this a bug? or is my workflow not correct?\r\n\r\n### Error message\r\n\r\nI see these import errors on python package executables\r\n\r\n```python\r\nlinux-rhel7-ivybridge/gcc-8.3.1/py-sphinx-4.4.0-4rtzq7ruxwn7zhye32wq25pmhkknhj3p/bin/sphinx-build \r\nTraceback (most recent call last):\r\n  File \"REDACTED/linux-rhel7-ivybridge/gcc-8.3.1/py-sphinx-4.4.0-4rtzq7ruxwn7zhye32wq25pmhkknhj3p/bin/sphinx-build\", line 7, in <module>\r\n    from sphinx.cmd.build import main\r\nModuleNotFoundError: No module named 'sphinx'\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\nThis is running on quartz.llnl.gov.\r\n\r\n`spack debug report`\r\n```\r\n* **Spack:** 0.17.1-1104-457fe842f0\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-broadwell\r\n* **Concretizer:** clingo\r\n```\r\n\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output\r\n\r\n\r\n## Resolution\r\n\r\nApparently I needed to do a spack load py-sphinx for this to work.\r\n\r\nI believe the working code from my above example should have been\r\n```\r\ngit clone -c feature.manyFiles=true https://github.com/spack/spack.git\r\ncd spack\r\nbin/spack install py-sphinx\r\nsource scripts/spack/setup-envs.sh\r\nspack load py-sphinx\r\n```",
+    "user": "cjekel",
+    "url": "https://api.github.com/repos/spack/spack/issues/28819",
+    "updated_at": "2022-02-08 21:34:53",
+    "created_at": "2022-02-08 02:35:35",
+    "closed_at": "2022-02-08 21:34:53",
+    "state": "closed",
+    "title": "python package executables and import errors",
+    "number": 28819,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1126720941,
+    "html_url": "https://github.com/spack/spack/issues/28819",
+    "assignees": [],
+    "comments": 0
+}

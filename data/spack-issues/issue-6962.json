@@ -1,0 +1,19 @@
+{
+    "body": "I failed to build glib on CentOS 7 due to error in configure: \"GNU libiconv not in use but included iconv.h is from libiconv\". GCC 4.8.5 shipped with CentOS is used.\r\n\r\n### Expected Result\r\n\r\nSpack installs glib.\r\n\r\n### Actual Result\r\n\r\nSpack failed to install glib due to iconv error.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install glib@2.55.1 %gcc@4.8.5\r\n...\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j4'\r\n\r\n6 errors found in build log:\r\n     [ ... ]\r\n     597     CC       libglib_2_0_la-gcharset.lo\r\n     598     CC       libglib_2_0_la-gchecksum.lo\r\n     599     CC       libglib_2_0_la-gconvert.lo\r\n     600     CC       libglib_2_0_la-gdataset.lo\r\n     601     CC       libglib_2_0_la-gdate.lo\r\n     602     CC       libglib_2_0_la-gdatetime.lo\r\n  >> 603   gconvert.c:59:2: error: #error GNU libiconv not in use but included iconv.h is from libiconv\r\n     604    #error GNU libiconv not in use but included iconv.h is from libiconv\r\n     605     ^\r\n  >> 606   make[4]: *** [libglib_2_0_la-gconvert.lo] Error 1\r\n     607   make[4]: *** Waiting for unfinished jobs....\r\n     608   make[4]: Leaving directory `/lustre/home/acct-medhjy/public/spack/var/spack/stage/glib-2.55.1-wwkm635eqb5rmou57pu3n6ype2fcrj3e/glib-2.55.1/glib'\r\n  >> 609   make[3]: *** [all-recursive] Error 1\r\n     610   make[3]: Leaving directory `/lustre/home/acct-medhjy/public/spack/var/spack/stage/glib-2.55.1-wwkm635eqb5rmou57pu3n6ype2fcrj3e/glib-2.55.1/glib'\r\n  >> 611   make[2]: *** [all] Error 2\r\n     612   make[2]: Leaving directory `/lustre/home/acct-medhjy/public/spack/var/spack/stage/glib-2.55.1-wwkm635eqb5rmou57pu3n6ype2fcrj3e/glib-2.55.1/glib'\r\n  >> 613   make[1]: *** [all-recursive] Error 1\r\n     614   make[1]: Leaving directory `/lustre/home/acct-medhjy/public/spack/var/spack/stage/glib-2.55.1-wwkm635eqb5rmou57pu3n6ype2fcrj3e/glib-2.55.1'\r\n  >> 615   make: *** [all] Error 2\r\n```\r\n\r\n### Information on your system\r\n\r\nGCC 4.8.5 shipped with CentOS 7.3 is used. No relevant configuration on glib is made. Detailed logs are attached.\r\n\r\n[spack-build.env.txt](https://github.com/spack/spack/files/1637542/spack-build.env.txt)\r\n[spack-build.out.txt](https://github.com/spack/spack/files/1637543/spack-build.out.txt)\r\n\r\n\r\n",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/6962",
+    "updated_at": "2018-01-22 00:53:50",
+    "created_at": "2018-01-17 02:38:06",
+    "closed_at": "2018-01-22 00:53:50",
+    "state": "closed",
+    "title": "Failed to build glib due to iconv error",
+    "number": 6962,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 289123980,
+    "html_url": "https://github.com/spack/spack/issues/6962",
+    "assignees": [],
+    "comments": 6
+}

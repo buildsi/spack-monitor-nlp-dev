@@ -1,0 +1,19 @@
+{
+    "body": "This PR adds dependencies to `flex` and `bison` and compression from the package already on spack.\nThe flex and bison dependencies are only for compilation and the makefiles have a fallback to pre-generated files so these dependencies could perhaps been removed.\nThe `zlib` dependency is configurable with a variant `compression`\n\nIt also permits to build shared libraries\nWhat should be the default static or shared ? For now I put the default as shared since it works better with the rpath strategy in spack.\n\nThe dependency to mpi add the library `pt-scotch` so I made it a variant. In addition to `esmumps` that was not there.\n\nI did not change the install strategy used in the package. But it also installs also a metis.h file that goes with `libscotchmetis` and could interfere with the package metis, if both module are loaded at the same time.\n",
+    "user": "nrichart",
+    "url": "https://api.github.com/repos/spack/spack/issues/231",
+    "updated_at": "2016-01-20 17:40:13",
+    "created_at": "2015-12-14 21:15:49",
+    "closed_at": "2015-12-20 22:29:19",
+    "state": "closed",
+    "title": "scotch: adding dependencies + variants for mpi, shared, compression and esmumps",
+    "number": 231,
+    "milestone": null,
+    "labels": [],
+    "id": 122132962,
+    "html_url": "https://github.com/spack/spack/pull/231",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "explicitly set the zlib path for libpng configure.\r\n\r\nUnfortunately, the standard [`--with-zlib=/the/zlib/path`](https://sourceforge.net/p/libpng/bugs/210/#33f1) is not supported (yet?) or broken in `libpng`, so we set flags. \r\n\r\nReviewers: Please cross-check if this works well with additional flags set by users, so e.g. a user's `-O3` is still propagated.\r\n\r\nfixes:\r\n```\r\n     [ ... ]\r\n     92    checking for memset... yes\r\n     93    checking for pow... no\r\n     94    checking for pow in -lm... yes\r\n     95    checking for clock_gettime... yes\r\n     96    checking for zlibVersion in -lz... no\r\n     97    checking for z_zlibVersion in -lz... no\r\n  >> 98    configure: error: zlib not installed\r\n```\r\n\r\nSeen on a minimal ubuntu image (yes, zlib is not installed in *all* environments ^^)",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/5581",
+    "updated_at": "2017-10-09 09:32:27",
+    "created_at": "2017-10-03 13:16:39",
+    "closed_at": "2017-10-03 20:58:29",
+    "state": "closed",
+    "title": "libpng: zlib path",
+    "number": 5581,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 262423266,
+    "html_url": "https://github.com/spack/spack/pull/5581",
+    "assignees": [],
+    "comments": 5
+}

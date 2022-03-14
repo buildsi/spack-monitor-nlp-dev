@@ -1,0 +1,19 @@
+{
+    "body": "When using spack on a machine that does not have internet access the mapping of package names from those downloaded to the mirror is not always 1:1.\r\n\r\nFor example.\r\n\r\n```\r\n==> Installing lcms\r\n==> Fetching file:///home/Role.Apps/src/lcms/lcms-2.8.tar.gz\r\ncurl: (37) Couldn't open file /home/Role.Apps/src/lcms/lcms-2.8.tar.gz\r\n==> Fetching from file:///home/Role.Apps/src/lcms/lcms-2.8.tar.gz failed.\r\n==> Fetching http://downloads.sourceforge.net/project/lcms/lcms/2.8/lcms2-2.8.tar.gz\r\n```\r\n\r\nHere the package name that gets downloaded is `lcms2-2.8.tar.gz`. However it is looking in the off-line (local disk) mirror for `lcms-2.8.tar.gz`.\r\n\r\nOther examples are**libtiff**,\r\n\r\n```\r\n==> Fetching file:///home/Role.Apps/src/libtiff/libtiff-4.0.7.tar.gz\r\ncurl: (37) Couldn't open file /home/Role.Apps/src/libtiff/libtiff-4.0.7.tar.gz\r\n==> Fetching from file:///home/Role.Apps/src/libtiff/libtiff-4.0.7.tar.gz failed.\r\n==> Fetching http://download.osgeo.org/libtiff/tiff-4.0.7.tar.gz\r\n```\r\n\r\n**Grib-API**: `grib_api-1.21.0-Source.tar.gz` (download) vs `grib-api-1.21.0.tar.gz` (local mirror).\r\n\r\nThis is also true for **wgrib2**, which has an even crazier online/download name of `wgrib2.tgz.v2.0.6c`, then mirror is expecting `wgrib2-2.0.6c.tar.gz`. \r\n\r\nIn the case of Ruby gems, #3127, stalled as I couldn't get around the `.None` suffix.\r\n\r\nIs this non-easily download, xfer/sync meant to work and does `spack mirror ...` work instead? \r\n",
+    "user": "t-brown",
+    "url": "https://api.github.com/repos/spack/spack/issues/4342",
+    "updated_at": "2018-04-17 19:21:43",
+    "created_at": "2017-05-24 21:41:19",
+    "closed_at": "2018-04-17 19:21:43",
+    "state": "closed",
+    "title": "Package renaming in mirrors.",
+    "number": 4342,
+    "milestone": null,
+    "labels": [
+        "mirrors"
+    ],
+    "id": 231179748,
+    "html_url": "https://github.com/spack/spack/issues/4342",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,17 @@
+{
+    "body": "I was trying to install HPL with Intel MKL as below:\r\n\r\n```\r\nhpl@2.2%intel@18.0.1~openmp arch=linux-rhel7-x86_64\r\n    ^intel-mkl@2018.1.163%intel@18.0.1~ilp64~shared threads=none arch=linux-rhel7-x86_64\r\n    ^intel-mpi@2018.1.163%intel@18.0.1 arch=linux-rhel7-x86_64\r\n```\r\n\r\nThe installation fails with the error:\r\n\r\n```\r\n /gpfs-path/intel-mpi-2018.1.163/compilers_and_libraries/linux/mpi/intel64/bin/mpiicc -DAdd_ -DF77_INTEGER=int -DStringSunStyle -DHPL_DETAILED_TIMING -DHPL_PROGRESS_REPORT -I/tmp/kumbhar/spack-stage/spack-stage-9VZvqF/hpl-2.2/include -I/tmp/kumbhar/spack-stage/spack-stage-9VZvqF/hpl-2.2/include/Linux-x86_64 -I/gpfs-path/intel-mkl-2018.1.163/include -I/gpfs-path/intel-mpi-2018.1.163/include -O3  -o /tmp/kumbhar/spack-stage/spack-stage-9VZvqF/hpl-2.2/bin/Linux-x86_64/xhpl HPL_pddriver.o         HPL_pdinfo.o           HPL_pdtest.o /tmp/kumbhar/spack-stage/spack-stage-9VZvqF/hpl-2.2/lib/Linux-x86_64/libhpl.a /gpfs-path/intel-mkl-2018.1.163/compilers_and_libraries/linux/mkl/lib/intel64/libmkl_intel_lp64.a /gpfs-path/intel-mkl-2018.1.163/compilers_and_libraries/linux/mkl/lib/intel64/libmkl_core.a /gpfs-path/intel-mkl-2018.1.163/compilers_and_libraries/linux/mkl/lib/intel64/libmkl_sequential.a -L/gpfs-path/intel-mpi-2018.1.163/lib\r\n/gpfs-path/intel-mkl-2018.1.163/compilers_and_libraries/linux/mkl/lib/intel64/libmkl_sequential.a(d__trsm_seq.o): In function `mkl_blas_dtrsm':\r\n_trsm.c:(.text+0x4c): undefined reference to `mkl_blas_xdtrsm'\r\n/gpfs-path/intel-mkl-2018.1.163/compilers_and_libraries/linux/mkl/lib/intel64/libmkl_sequential.a(d__gemm_seq.o): In function `mkl_blas_dgemm':\r\n_gemm.c:(.text+0x13c): undefined reference to `mkl_serv_cpu_detect'\r\n_gemm.c:(.text+0x283): undefined reference to `mkl_blas_xdgemm'\r\n_gemm.c:(.text+0x3f4): undefined reference to `mkl_serv_allocate'\r\n_gemm.c:(.text+0x473): undefined reference to `mkl_serv_deallocate\r\n```\r\n\r\nIf we look at the order of libraries suggested by [intel-mkl-link-line-advisor](https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor), it looks like:\r\n\r\n```\r\n ${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_cdft_core.a ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_sequential.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_lp64.a\r\n```\r\n\r\nSo the `libmkl_core.a` should appear after `libmkl_sequential.a. ",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/7279",
+    "updated_at": "2018-03-12 17:16:00",
+    "created_at": "2018-02-18 15:20:18",
+    "closed_at": "2018-02-21 18:14:35",
+    "state": "closed",
+    "title": "Intel MKL static library linking order (HPL installation failure)",
+    "number": 7279,
+    "milestone": null,
+    "labels": [],
+    "id": 298092524,
+    "html_url": "https://github.com/spack/spack/issues/7279",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Python's build system provides a lot of room for granular levels of customization through the use and application of [user, system, and distribution configuration files](https://docs.python.org/2/install/index.html#distutils-configuration-files).  While these files are very useful for customizing Python builds, they tend to negatively impact Spack's installation processes for Python and Python extensions by adding unwanted configuration options (which can alter the destinations of Spack's installs).  In order to allow Spack installations of Python libraries to coexist with these files, a solution must be implemented that allows Spack's install scripts to ignore these configuration files and all external install scripts that use Spack's Python to acknowledge them.\n\nI've outlined a few potential solutions to this problem below:\n- **Add `--no-user-cfg` to Each Python Extension's Install Command**: This solution will require changing the most files, but will necessitate zero additional changes to Spack's infrastructure or the Python package.  This solution is potentially undesirable because it requires authors for Python extension packages to acknowledge and properly account for the the fact that user configuration needs to be ignored.\n- **Add `python_setup` Function to Python Extensions**: This solution involves adding new function to Python extension modules that sets up extension files while ignoring user configurations (i.e. something that invokes `python setup.py --no-user-cfg [setup-instruction] [arguments]`).  This solution avoids the majority of the acknowledgement problems of the previous solution (authors will still have to remember to call `python_setup` instead of `python('setup.py', 'install')`), but still requires that all the Python extension install scripts be updated.\n- **Pre-Install `setup.cfg` into Each Python Extension's Install Directory**: This solution involves taking advantage of [Python's hierarchy of configuration files](https://docs.python.org/2/install/index.html#location-and-names-of-config-files) to override user and system options.  No Python extension packages need to be modified in this solution, but the Python package will need to install a file into each extension package's install directory (probably similar to the `Package.setup_dependent_package` function but occurring after the staging process for the dependent begins).  Additionally, due to a bug in Python's configuration capture functionality, this method will require a nontrivial patch to be applied to the Python `distutils` source code (which is probably not portable to versions of Python outside of 2.7).\n\nIf anyone has any thoughts about the methods that I've outlined or has any alternative solutions (especially frequent users of the Python package like @alalazo, @citibeth, @glennpj, @tgamblin), please let me know!  Given that each solution will require some fairly significant changes to Spack's Python packages, I'd like some input before I start writing anything major.  Thanks!\n",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/950",
+    "updated_at": "2016-07-22 23:34:34",
+    "created_at": "2016-05-13 18:11:48",
+    "closed_at": "2016-07-22 20:56:19",
+    "state": "closed",
+    "title": "Enhancement Proposal: Make Python Spack Installs Ignore User Configuration",
+    "number": 950,
+    "milestone": null,
+    "labels": [],
+    "id": 154770338,
+    "html_url": "https://github.com/spack/spack/pull/950",
+    "assignees": [],
+    "comments": 23
+}

@@ -1,0 +1,21 @@
+{
+    "body": "This commit removes the `DYLD_LIBRARY_PATH` variable from the default\r\n`modules.yaml` for darwin. The rationale behind deleting this\r\nenvironment variable is that paths in this environment variable take\r\nprecedence over the default locations of libraries (usually the\r\ninstall path of the library), which can lead to linking errors in some\r\ncircumstances. For example, executables intended to link with Apple's\r\nsystem BLAS and LAPACK will instead link to a spack-installed\r\nimplementation (e.g., OpenBLAS), causing runtime errors.\r\n\r\nThese errors are resolved by instead relying on paths set in\r\n`DYLD_FALLBACK_LIBRARY_PATH`, which is lower in precedence than default\r\nlocations of libraries.",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/9221",
+    "updated_at": "2020-04-16 23:17:36",
+    "created_at": "2018-09-12 06:02:42",
+    "closed_at": "2020-04-16 23:17:36",
+    "state": "closed",
+    "title": "darwin: cut DYLD_LIBRARY_PATH from default modules",
+    "number": 9221,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "defaults",
+        "revisit"
+    ],
+    "id": 359327451,
+    "html_url": "https://github.com/spack/spack/pull/9221",
+    "assignees": [],
+    "comments": 14
+}

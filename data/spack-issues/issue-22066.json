@@ -1,0 +1,21 @@
+{
+    "body": "I have fixed the following issues:\r\n      349    ./spack-stage/spack-stage-unifyfs-0.9.1-5yrndwau6kzqyfo4ev62fpwzcodchfro/spack-src/client/src/unifyfs-sysio.c:248:13: error:\r\n            'strncpy' specified bound depends on the length of the source argument [-Werror=stringop-overflow=]\r\n     350                 strncpy(buf, unifyfs_cwd, len);\r\n     351                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     352    ./spack-stage/spack-stage-unifyfs-0.9.1-5yrndwau6kzqyfo4ev62fpwzcodchfro/spack-src/client/src/unifyfs-sysio.c:216:18: note: l\r\n            ength computed here\r\n     353         size_t len = strlen(unifyfs_cwd) + 1;\r\n\r\nThe location of the error is as follows.\r\nI think the error is occurring because the length of len specified in strncpy is longer than unifyfs_cwd.\r\n         buf = (char*) malloc(len);\r\n         if (buf != NULL) {\r\n            strncpy(buf, unifyfs_cwd, len);\r\n\r\nI thought I could fix it by changing len to strlen (unifyfs_cwd), but I couldn't avoid the error so I decided to use memcpy.\r\nI'm thinking of upstream this fix patch.",
+    "user": "t-nojiri",
+    "url": "https://api.github.com/repos/spack/spack/issues/22066",
+    "updated_at": "2021-03-04 15:46:19",
+    "created_at": "2021-03-04 01:49:56",
+    "closed_at": "2021-03-04 15:46:19",
+    "state": "closed",
+    "title": "unifyfs: Fix strncpy build error of version 0.9.1",
+    "number": 22066,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "ecp",
+        "e4s"
+    ],
+    "id": 821671777,
+    "html_url": "https://github.com/spack/spack/pull/22066",
+    "assignees": [],
+    "comments": 2
+}

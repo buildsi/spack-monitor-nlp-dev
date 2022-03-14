@@ -1,0 +1,17 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/10550\r\n\r\nThe following allows for environment configs like\r\n\r\n```yaml\r\nspack:\r\n  specs:\r\n    - python@3.6.1\r\n  packages::                 <--- note the double colon\r\n    python:\r\n      variants: +optimizations\r\n```\r\n\r\nSpack environments use the `ruaml.yaml` library to read/write `yaml` in a manner that preserves comments, but Spack's own yaml reader contains logic specifically for allowing a `::` for any dictionary key to override a section.\r\n\r\nThis validates environment configuration by reading it in as a `spack_yaml` object, but preserves it as a `ruaml.yaml` object when it is being manipulated.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/10651",
+    "updated_at": "2019-11-26 23:09:51",
+    "created_at": "2019-02-19 21:10:55",
+    "closed_at": "2019-10-23 13:29:50",
+    "state": "closed",
+    "title": "Allow section overrides in environment config",
+    "number": 10651,
+    "milestone": null,
+    "labels": [],
+    "id": 412125894,
+    "html_url": "https://github.com/spack/spack/pull/10651",
+    "assignees": [],
+    "comments": 0
+}

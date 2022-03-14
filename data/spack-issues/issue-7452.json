@@ -1,0 +1,22 @@
+{
+    "body": "Trying to generate Lmod modulefiles fails, see below.\r\n\r\n### Expected Result\r\n\r\nLmod module files for installed applications.\r\n\r\n### Actual Result\r\n\r\n```\r\n$ spack find\r\n==> 35 installed packages.\r\n-- linux-ubuntu14.04-x86_64 / gcc@4.8 ---------------------------\r\nautoconf@2.69    expat@2.2.2       libssh2@1.8.0            m4@1.4.18       readline@7.0\r\nautomake@1.15.1  gdbm@1.14.1       libtool@2.4.6            ncurses@6.0     sqlite@3.22.0\r\nbzip2@1.0.6      gettext@0.19.8.1  libxml2@2.9.4            openssl@1.0.2n  tar@1.29\r\ncask@0.8.1       git@2.15.1        lmod@7.7.13              pcre@8.41       tcl@8.6.6\r\ncmake@3.10.2     libbsd@0.8.6      lua@5.3.4                perl@5.24.1     tree@1.7.0\r\ncurl@7.56.0      libiconv@1.15     lua-luafilesystem@1_6_3  pkgconf@1.4.0   xz@5.2.3\r\nemacs@25.3       libsigsegv@2.11   lua-luaposix@33.4.0      python@2.7.14   zlib@1.2.11\r\n$ spack module refresh --module-type lmod --delete-tree -y\r\n==> Regenerating lmod module files\r\n==> Warning: Could not write module file [/home/hartzell/spack/share/spack/lmod/linux-ubuntu14.04-x86_64/gcc/4.8/autoconf/2.69.lua]\r\n==> Warning: \t--> Cannot create a consistent method resolution\r\norder (MRO) for bases SpecBuildInterface, Spec <--\r\n==> Warning: Could not write module file [/home/hartzell/spack/share/spack/lmod/linux-ubuntu14.04-x86_64/gcc/4.8/automake/1.15.1.lua]\r\n==> Warning: \t--> Cannot create a consistent method resolution\r\norder (MRO) for bases SpecBuildInterface, Spec <--\r\n==> Warning: Could not write module file [/home/hartzell/spack/share/spack/lmod/linux-ubuntu14.04-x86_64/gcc/4.8/git/2.15.1.lua]\r\n==> Warning: \t--> Cannot create a consistent method resolution\r\norder (MRO) for bases SpecBuildInterface, Spec <--\r\n$\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nSee above.\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. which platform you are using\r\n\r\n```\r\n$ cat /etc/lsb-release\r\nDISTRIB_ID=Ubuntu\r\nDISTRIB_RELEASE=14.04\r\nDISTRIB_CODENAME=trusty\r\nDISTRIB_DESCRIPTION=\"Ubuntu 14.04.1 LTS\"\r\n```\r\n\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\n\r\nI'm on the `develop` branch at commit: b91b00f6f954e6d4200ff38e845b2dc2cb256415.\r\n\r\nI'm using a config based on an older environment, there's some risk that I'm not up to date....\r\n\r\n`etc/spack/modules.yaml`:\r\n\r\n```yaml\r\nmodules:\r\n  enable::\r\n    - lmod\r\n  lmod:\r\n    core_compilers:\r\n      - 'gcc@4.8.2'\r\n    hash_length: 0\r\n    whitelist:\r\n      - gcc\r\n    blacklist:\r\n      - '%gcc@4.8.2'\r\n    verbose_autoload: false\r\n    all:\r\n      filter:\r\n        environment_blacklist: ['CPATH', 'LIBRARY_PATH', 'LD_LIBRARY_PATH']\r\n      environment:\r\n        set:\r\n          '${PACKAGE}_ROOT': '${PREFIX}'\r\n    ^python:\r\n      autoload:  'direct'\r\n      filter:\r\n        environment_whitelist: ['LD_LIBRARY_PATH']\r\n```\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/7452",
+    "updated_at": "2018-03-12 17:20:37",
+    "created_at": "2018-03-10 01:01:51",
+    "closed_at": "2018-03-12 08:07:08",
+    "state": "closed",
+    "title": "Modulefile (tcl, lmod) generation fails, '... Cannot create a consistent method resolution...'",
+    "number": 7452,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 304025785,
+    "html_url": "https://github.com/spack/spack/issues/7452",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

@@ -1,0 +1,22 @@
+{
+    "body": "On a current-ish develop, I'm seeing this:\r\n\r\n```\r\n[hartzelg@rpbuchop001 spack-20161212]$ spack module refresh --module-type lmod --delete-tree -y\r\n==> Error: Name clashes detected in module files:\r\n\r\nfile : /isilon/Analysis/scratch/hartzelg/spack/spack-20161212/share/spack/lmod/linux-centos7-x86_64/gcc/5.4.0/emacs/25.1.lua\r\nspec : emacs@25.1%gcc@5.4.0~X toolkit=gtk arch=linux-centos7-x86_64\r\nspec : emacs@25.1%gcc@5.4.0+X toolkit=gtk arch=linux-centos7-x86_64\r\n\r\n==> Error: Operation aborted\r\n```\r\n\r\ngiven this:\r\n\r\n```\r\n[hartzelg@rpbuchop001 spack-20161212]$ cat etc/spack/modules.yaml\r\nmodules:\r\n  enable::\r\n    - lmod\r\n  lmod:\r\n    blacklist:\r\n      -  '%gcc@4.8.3'\r\n    hash_length: 0\r\n    all:\r\n      suffixes:\r\n        '^X': X\r\n```\r\n\r\nBased on the discussion in [the tutorial](https://spack.readthedocs.io/en/latest/tutorial_sc16_modules.html#change-module-file-naming), I thought that the suffixes bit would fix the conflict.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2595",
+    "updated_at": "2016-12-15 16:19:27",
+    "created_at": "2016-12-15 00:17:06",
+    "closed_at": "2016-12-15 16:18:49",
+    "state": "closed",
+    "title": "lua modules, hash_length=0, suffixes and name collisions (oh my!).",
+    "number": 2595,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "unreproducible"
+    ],
+    "id": 195682977,
+    "html_url": "https://github.com/spack/spack/issues/2595",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

@@ -1,0 +1,21 @@
+{
+    "body": "PR #11524 introduced an error that breaks packages depending on bazel directly.\r\n\r\n### Steps to reproduce the issue\r\nPick a random package, e.g. `htop`, and have it depend on bazel:\r\n```console\r\ngit apply <<EOF\r\ndiff --git a/var/spack/repos/builtin/packages/htop/package.py b/var/spack/repos/builtin/packages/htop/package.py\r\nindex 63f33c466..d76748394 100644\r\n--- a/var/spack/repos/builtin/packages/htop/package.py\r\n+++ b/var/spack/repos/builtin/packages/htop/package.py\r\n@@ -18,6 +18,7 @@ class Htop(AutotoolsPackage):\r\n     version('2.0.2', '7d354d904bad591a931ad57e99fea84a')\r\n \r\n     depends_on('ncurses')\r\n+    depends_on('bazel')\r\n \r\n     def configure_args(self):\r\n         return ['--enable-shared']\r\nEOF\r\n$ spack install --fake htop\r\n```\r\n\r\n### Error Message\r\n```console\r\n==> Error: AttributeError: module 'spack.pkg.builtin.htop' has no attribute 'make_jobs'\r\n\r\nspack/var/spack/repos/builtin/packages/bazel/package.py:98, in setup_dependent_package:\r\n         95        dependent_module = inspect.getmodule(dependent_spec.package)\r\n         96        if not dependent_spec.package.parallel:\r\n         97            jobs = 1\r\n  >>     98        elif dependent_module.make_jobs:\r\n         99            jobs = dependent_module.make_jobs\r\n        100        module.bazel = BazelExecutable('bazel', 'build', jobs)\r\n```\r\n\r\n### Workaround\r\n\r\nA possible workaround is to just add `parallel = False` to the package.",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/11850",
+    "updated_at": "2019-11-25 17:59:13",
+    "created_at": "2019-06-26 13:23:11",
+    "closed_at": "2019-11-25 17:59:13",
+    "state": "closed",
+    "title": "PR #11524 breaks packages depending on bazel directly",
+    "number": 11850,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 460968343,
+    "html_url": "https://github.com/spack/spack/issues/11850",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

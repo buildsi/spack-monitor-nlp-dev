@@ -1,0 +1,25 @@
+{
+    "body": "This allows building Ginkgo with our oneAPI backend through spack and includes proper error management.\r\n\r\nCurrently, our package relies on the Intel DPC++ compiler for oneAPI support as that is the easiest current support option. This requires setting `dpcpp` as the CXX compiler. The oneAPI dependencies `mkl` and `dpl` are propagated through environment variable settings.\r\n\r\nFor anyone interested, I got DPC++ to work through spack in a quick and dirty way with the following procedure:\r\n+ Basically, use `spack external find` which finds the oneAPI compilers `icx` and `icpx` and turn `icpx` into `dpcpp`\r\n+ In `~/.spack/linux/compilers.yml`\r\n   1. replace `bin/icpx` by `bin/dpcpp`\r\n   2. Add as `extra_rpaths`:\r\n      ``` \r\n      - /opt/intel/oneapi/compiler/latest/linux/lib\r\n      - /opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64/\r\n      ```\r\n+ In `lib/spack/spack/compilers/oneapi.py`, replace `icpx` by `dpcpp` everywhere\r\n+ Copy or link `lib/spack/env/oneapi/ipcx` to `lib/spack/env/oneapi/dpcpp`, and add `dpcpp` to the list of C++ compilers.\r\n\r\n\r\nThanks @tldahlgren for helping come up with a strategy for our package.",
+    "user": "tcojean",
+    "url": "https://api.github.com/repos/spack/spack/issues/26868",
+    "updated_at": "2021-12-03 22:12:41",
+    "created_at": "2021-10-21 09:52:29",
+    "closed_at": "2021-12-03 01:13:26",
+    "state": "closed",
+    "title": "Add experimental oneAPI support to the Ginkgo package",
+    "number": 26868,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "patch",
+        "update-package",
+        "conflicts",
+        "new-variant"
+    ],
+    "id": 1032288981,
+    "html_url": "https://github.com/spack/spack/pull/26868",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

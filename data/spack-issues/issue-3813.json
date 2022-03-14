@@ -1,0 +1,19 @@
+{
+    "body": "I'm having trouble importing mpl_toolkits.basemap. I know this had previously worked, so I don't know where to point the finger. Here's what I see:\r\n\r\n```\r\n[lee218@rzwiz2:spack.basemap]$ /nfs/tmp2/lee218/delete/spack.basemap/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/python-2.7.13-gcx7wpxjtt7ujlpbahezikqfz4xn2ul6/bin/python -c 'import mpl_toolkits; print(mpl_toolkits.__path__); import mpl_toolkits.basemap'\r\n['/nfs/tmp2/lee218/delete/spack.basemap/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/python-2.7.13-gcx7wpxjtt7ujlpbahezikqfz4xn2ul6/lib/python2.7/site-packages/matplotlib-2.0.0-py2.7-linux-x86_64.egg/mpl_toolkits']\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\nImportError: No module named basemap\r\n\r\n[lee218@rzwiz2:spack.basemap]$ /nfs/tmp2/lee218/delete/spack.basemap/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/python-3.6.0-ndtiujzzf7p4m5t4k6xergu3f2u674sk/bin/python3 -c 'import mpl_toolkits; print(mpl_toolkits.__path__); import mpl_toolkits.basemap'\r\n['/nfs/tmp2/lee218/delete/spack.basemap/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/python-3.6.0-ndtiujzzf7p4m5t4k6xergu3f2u674sk/lib/python3.6/site-packages/matplotlib-2.0.0-py3.6-linux-x86_64.egg/mpl_toolkits']\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\nModuleNotFoundError: No module named 'mpl_toolkits.basemap'\r\n```\r\n\r\nWith a previous installation I see this:\r\n\r\n```\r\n[lee218@rzwiz2:spack.basemap]$ python -c 'import mpl_toolkits; print(mpl_toolkits.__path__); import mpl_toolkits.basemap' ['/collab/usr/gapps/python/build/spack-toss3.1/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/python-2.7.13-gv7myy57t2h6wp44f42b2llku7kiva7z/lib/python2.7/site-packages/matplotlib-1.5.3-py2.7-linux-x86_64.egg/mpl_toolkits', '/collab/usr/gapps/python/build/spack-toss3.1/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/python-2.7.13-gv7myy57t2h6wp44f42b2llku7kiva7z/lib/python2.7/site-packages/mpl_toolkits']\r\n```\r\n\r\nNotice that the __path__ in the latter case includes the mpl_toolkits directory where basemap exists. I'm not sure why the old Spack python build was able to find both the matplotlib and basemap mpl_toolkits directories, while the new Spack python build only finds the maplotlib one. Any thoughts @tgamblin @citibeth @adamjstewart @mathstuf?\r\n\r\nI found one hack that works around this, which is to add `__path__.append('/nfs/tmp2/lee218/delete/spack.basemap/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/py-basemap-1.0.7-cs5yvwpwtosqpl3t7rhadlccinbmsqvr/lib/python3.6/site-packages/mpl_toolkits')` to .../matplotlib.../mpl_toolkits/__init__.py.",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/3813",
+    "updated_at": "2017-04-26 18:53:28",
+    "created_at": "2017-04-12 19:57:05",
+    "closed_at": "2017-04-26 18:53:28",
+    "state": "closed",
+    "title": "mpl_toolkits.basemap fails to import",
+    "number": 3813,
+    "milestone": null,
+    "labels": [
+        "python"
+    ],
+    "id": 221373153,
+    "html_url": "https://github.com/spack/spack/issues/3813",
+    "assignees": [],
+    "comments": 14
+}

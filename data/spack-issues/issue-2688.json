@@ -1,0 +1,20 @@
+{
+    "body": "Not sure how to deal with the error whose message I appended below ...\r\n\r\nAdding the base class to \"spack.package import Package\" does the trick, but I have no idea what I am doing ...\r\n\r\n`1 file changed, 1 insertion(+), 1 deletion(-)\r\nlib/spack/spack/__init__.py | 2 +-\r\n\r\nmodified   lib/spack/spack/__init__.py\r\n@@ -160,7 +160,7 @@ dirty = _config.get('dirty', False)\r\n #-----------------------------------------------------------------------------\r\n __all__ = []\r\n \r\n-from spack.package import Package\r\n+from spack.package import Package, PackageBase\r\n from spack.build_systems.makefile import MakefilePackage\r\n from spack.build_systems.autotools import AutotoolsPackage\r\n from spack.build_systems.cmake import CMakePackage\r\n`\r\n-------------------- error ----------------------\r\n\r\n`==> Executing phase : 'install'\r\n==> WRITE LOCK: /u/proj2/proj/trm/spack-emacs/opt/spack/.spack-db/prefix_lock[2843439391484420822:1] [Released]\r\n==> WRITE LOCK: /u/proj2/proj/trm/spack-emacs/var/spack/stage/.lock[7968242201785533596:1] [Released]\r\nProcess Process-1:\r\nTraceback (most recent call last):\r\n  File \"/usr/lib64/python2.6/multiprocessing/process.py\", line 232, in _bootstrap\r\n    self.run()\r\n  File \"/usr/lib64/python2.6/multiprocessing/process.py\", line 88, in run\r\n    self._target(*self._args, **self._kwargs)\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/build_environment.py\", line 564, in child_execution\r\n    package_context = get_package_context(tb)\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/build_environment.py\", line 627, in get_package_context\r\n    if isinstance(obj, spack.PackageBase):\r\nAttributeError: 'module' object has no attribute 'PackageBase'\r\n^CSignal received : entering python shell.\r\nTraceback:\r\n  File \"/home/trm/spack/bin/spack\", line 212, in <module>\r\n    main(sys.argv)\r\n  File \"/home/trm/spack/bin/spack\", line 208, in main\r\n    _main(args, unknown)\r\n  File \"/home/trm/spack/bin/spack\", line 174, in _main\r\n    return_val = command(parser, args)\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/cmd/install.py\", line 346, in install\r\n    package.do_install(**kwargs)\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/package.py\", line 1185, in do_install\r\n    **kwargs\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/package.py\", line 1185, in do_install\r\n    **kwargs\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/package.py\", line 1185, in do_install\r\n    **kwargs\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/package.py\", line 1185, in do_install\r\n    **kwargs\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/package.py\", line 1283, in do_install\r\n    spack.build_environment.fork(self, build_process, dirty=dirty)\r\n  File \"/u/proj2/proj/trm/spack-emacs/lib/spack/spack/build_environment.py\", line 592, in fork\r\n    child_exc = parent_connection.recv()\r\n\r\n`",
+    "user": "trmwzm",
+    "url": "https://api.github.com/repos/spack/spack/issues/2688",
+    "updated_at": "2016-12-30 19:37:51",
+    "created_at": "2016-12-30 18:57:40",
+    "closed_at": "2016-12-30 19:37:51",
+    "state": "closed",
+    "title": "build_environment.py: 'module' object has no attribute 'PackageBase'",
+    "number": 2688,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build-environment"
+    ],
+    "id": 198182548,
+    "html_url": "https://github.com/spack/spack/issues/2688",
+    "assignees": [],
+    "comments": 1
+}

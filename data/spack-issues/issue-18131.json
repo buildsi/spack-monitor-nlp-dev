@@ -1,0 +1,23 @@
+{
+    "body": "Replaces #15415\r\nCloses #16724.\r\n\r\nAs of #13100, Spack installs the dependencies of a _single_ spec in parallel.  This PR extends that support to multiple specifications as found in environment builds.  \r\n\r\nThe specs and kwargs for each *uninstalled* package (when not force-replacing installations) of an environment are collected, passed to the PackageInstaller, and processed using a single build queue.\r\n\r\nNote: A locking issue was detected prior to commit (`58b1036`) starting an environment build from two separate processes at the same time.  Restoration of the process of skipping already installed packages seemed to alleviate this problem.\r\n\r\nTODO\r\n\r\n- [x] Finish updating the unit tests based on `PackageInstaller`'s use of `BuildRequest` and the associated changes\r\n- [x] Change `environment.py`'s `install_all` to use the `PackageInstaller` directly\r\n- [x] Change the `install` command to leverage the new installation process for multiple specs\r\n- [x] Resolve test failures\r\n- [x] Change install output messages for external packages (e.g., `[+] /usr` to `[+] /usr (external bzip2-1.0.8-<dag-hash>`)\r\n- [x] Fix incomplete environment install's view setup/update and not confirming all packages are installed (?)\r\n- [x] Ensure externally installed package dependencies are properly accounted for in remaining build tasks\r\n~- [ ] Address coordination issues between multiple environment `spack install`s.~\r\n- [x] Add tests for coverage (if insufficient and can identity the appropriate, uncovered non-comment lines)\r\n- [x] Add documentation\r\n- [x] Resolve multi-compiler environment install issues\r\n- [x] Fix issue with environment installation reporting (thanks `matz-e`)",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/18131",
+    "updated_at": "2021-12-16 00:20:12",
+    "created_at": "2020-08-18 02:06:42",
+    "closed_at": "2020-11-17 10:41:08",
+    "state": "closed",
+    "title": "Support parallel environment builds",
+    "number": 18131,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "build",
+        "radiuss"
+    ],
+    "id": 680633208,
+    "html_url": "https://github.com/spack/spack/pull/18131",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 25
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I just tried building a package, noticed something was wrong during configure, and killed it with <kbd>Ctrl</kbd>+<kbd>C</kbd>. When I ran `spack purge` and tried installing it again, I saw:\r\n```\r\n==> parallel-netcdf is already installed in /blues/gpfs/home/software/spack-0.10.0/opt/spack/linux-centos6-x86_64/intel-17.0.0/parallel-netcdf-1.6.1-fq2r43zk2wcbpl3hrc5h6sfz2dwajbk7\r\nTraceback (most recent call last):\r\n  File \"/soft/spack-0.10.0/bin/spack\", line 198, in <module>\r\n    main()\r\n  File \"/soft/spack-0.10.0/bin/spack\", line 175, in main\r\n    return_val = command(parser, args)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/cmd/install.py\", line 346, in install\r\n    package.do_install(**kwargs)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/package.py\", line 1161, in do_install\r\n    rec = spack.store.db.get_record(self.spec)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/database.py\", line 81, in converter\r\n    return function(self, spec_like, *args, **kwargs)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/database.py\", line 554, in get_record\r\n    key = self._get_matching_spec_key(spec, **kwargs)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/database.py\", line 549, in _get_matching_spec_key\r\n    raise KeyError(\"No such spec in database! %s\" % spec)\r\nKeyError: 'No such spec in database! parallel-netcdf@1.6.1%intel@17.0.0 cflags=\"-axCORE-AVX2,AVX\" cxxflags=\"-axCORE-AVX2,AVX\" fflags=\"-axCORE-AVX2,AVX\"+cxx+fortran+fpic arch=linux-centos6-x86_64^bison@3.0.4%intel@17.0.0 cflags=\"-axCORE-AVX2,AVX\" cxxflags=\"-axCORE-AVX2,AVX\" fflags=\"-axCORE-AVX2,AVX\" arch=linux-centos6-x86_64^libpciaccess@0.13.4%intel@17.0.0 cflags=\"-axCORE-AVX2,AVX\" cxxflags=\"-axCORE-AVX2,AVX\" fflags=\"-axCORE-AVX2,AVX\" arch=linux-centos6-x86_64^libsigsegv@2.10%gcc@6.1.0 arch=linux-centos6-x86_64^libtool@2.4.6%gcc@6.1.0 arch=linux-centos6-x86_64^m4@1.4.17%gcc@6.1.0+sigsegv arch=linux-centos6-x86_64^mvapich2@2.2%intel@17.0.0 cflags=\"-axCORE-AVX2,AVX\" cxxflags=\"-axCORE-AVX2,AVX\" fflags=\"-axCORE-AVX2,AVX\"~debug~gforker+hydra+mrail~nemesis~nemesisib~nemesisibtcp~psm~remshell~slurm~sock arch=linux-centos6-x86_64^pkg-config@0.29.1%gcc@6.1.0+internal_glib arch=linux-centos6-x86_64^util-macros@1.19.0%gcc@6.1.0 arch=linux-centos6-x86_64'\r\n```\r\nWhen I ran `spack reindex` and tried installing again, I saw:\r\n```\r\n==> parallel-netcdf is already installed in /blues/gpfs/home/software/spack-0.10.0/opt/spack/linux-centos6-x86_64/intel-17.0.0/parallel-netcdf-1.6.1-fq2r43zk2wcbpl3hrc5h6sfz2dwajbk7\r\n```\r\nOf course, that directory is empty except for `.spack/spec.yaml`.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2634",
+    "updated_at": "2017-06-13 16:15:52",
+    "created_at": "2016-12-19 18:24:18",
+    "closed_at": "2017-06-13 16:15:52",
+    "state": "closed",
+    "title": "Killed a build, now Spack thinks it is installed",
+    "number": 2634,
+    "milestone": null,
+    "labels": [],
+    "id": 196486322,
+    "html_url": "https://github.com/spack/spack/issues/2634",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 30
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Part of my goal here: #2320 is to make `py-jupyter_notebook` work for both python 2 and python 3. The problem is that `node-js` (a dependency of `py-jupyter_notebook`) requires python 2 and not python 3 for their build system to work. When I change the `node-js` speciifcation to reflect this, I get the error\r\n\r\n```\r\nspack install py-jupyter_notebook ^python@3.5.2~ucs4\r\n==> Error: Invalid spec: 'python@3.5.2~ucs4^bzip2^ncurses^openssl^readline^sqlite^zlib'. Package python requires version 2.7:2.7.999, but spec asked for 3.5.2\r\n```\r\n\r\nLikely because concretization has selected 3.5.2 as 'the' python package to use so it won't use a separate python for a build dependency of one of the packages.\r\n\r\nI believe that spack's DAG needs to be more flexible to allow situations like this.\r\n\r\nThis is related to the discussion here: #2448 about how build dependencies are 'promoted' to run dependencies if that package is listed as a run dependency for a superior package. This is another example why this is bad behavior.",
+    "user": "krafczyk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2510",
+    "updated_at": "2016-12-07 19:45:29",
+    "created_at": "2016-12-07 17:50:17",
+    "closed_at": "2016-12-07 19:45:29",
+    "state": "closed",
+    "title": "Allow multiple versions of the same package in the DAG in some situations.",
+    "number": 2510,
+    "milestone": null,
+    "labels": [
+        "duplicate"
+    ],
+    "id": 194119170,
+    "html_url": "https://github.com/spack/spack/issues/2510",
+    "assignees": [],
+    "comments": 5
+}

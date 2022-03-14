@@ -1,0 +1,19 @@
+{
+    "body": "I cannot seem to get any python to accept the `+tk` variant.\r\n```\r\nsven:~> spack spec python+tk\r\nInput spec\r\n--------------------------------\r\npython+tk\r\n\r\nNormalized\r\n--------------------------------\r\npython+tk\r\n    ^bzip2\r\n    ^ncurses\r\n    ^openssl\r\n        ^zlib\r\n    ^readline\r\n    ^sqlite\r\n    ^tcl\r\n    ^tk\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: +tk does not satisfy ~tk\r\nsven:~> spack spec python@3.5.2+tk\r\nInput spec\r\n--------------------------------\r\npython@3.5.2+tk\r\n\r\nNormalized\r\n--------------------------------\r\npython@3.5.2+tk\r\n    ^bzip2\r\n    ^ncurses\r\n    ^openssl\r\n        ^zlib\r\n    ^readline\r\n    ^sqlite\r\n    ^tcl\r\n    ^tk\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: 3.5.2 does not satisfy 2.7.12\r\nsven:~> spack spec python@2.7.12+tk\r\nInput spec\r\n--------------------------------\r\npython@2.7.12+tk\r\n\r\nNormalized\r\n--------------------------------\r\npython@2.7.12+tk\r\n    ^bzip2\r\n    ^ncurses\r\n    ^openssl\r\n        ^zlib\r\n    ^readline\r\n    ^sqlite\r\n    ^tcl\r\n    ^tk\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: +tk does not satisfy ~tk\r\n```\r\nlooking at the actual package, I think this was something that was only half edited out?\r\n\r\n1. The variant [still exists](https://github.com/LLNL/spack/blob/eb645a8e46a9e0144149991d486593ca825b0b6c/var/spack/repos/builtin/packages/python/package.py#L57) and [two dependencies](https://github.com/LLNL/spack/blob/eb645a8e46a9e0144149991d486593ca825b0b6c/var/spack/repos/builtin/packages/python/package.py#L74) are incorporated if this variant is true.\r\n2. A commented out [testing suite](https://github.com/LLNL/spack/blob/eb645a8e46a9e0144149991d486593ca825b0b6c/var/spack/repos/builtin/packages/python/package.py#L161) since an X window is needed for their tests.\r\n\r\nI couldn't figure out much beyond that though, in #2065 it was stated that others aren't having any trouble with `tk` and python.",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/2565",
+    "updated_at": "2016-12-12 21:49:51",
+    "created_at": "2016-12-12 18:39:59",
+    "closed_at": "2016-12-12 21:49:51",
+    "state": "closed",
+    "title": "impossible python tk variant",
+    "number": 2565,
+    "milestone": null,
+    "labels": [
+        "duplicate"
+    ],
+    "id": 195051712,
+    "html_url": "https://github.com/spack/spack/issues/2565",
+    "assignees": [],
+    "comments": 5
+}

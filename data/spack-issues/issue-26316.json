@@ -1,0 +1,22 @@
+{
+    "body": "GitLab instances have different rules for creating their build paths, which can create a lot of confusion when people encounter the `SbangPathError`.  It's easy for people to confuse or conflate the platform-specific `shebang_limit` with`config:install_tree:padded_length`.\r\n\r\nThis PR simply adds the length (and path) to the exception message to provide a quick way for people performing CI to debug their issue.  It includes a new unit test as well.\r\n\r\nThe fully qualified path for the `sbang` script is included since it can help people determine how paths are constructed for a given CI instance, for example.  Having this information has proven useful on at least one ECP CI instance.\r\n\r\nFor example, the error in the unit test is:\r\n\r\n```\r\nInstall tree root is too long. Spack cannot patch shebang lines when script path length (138) exceeds limit (127).\r\n   /tmp/dahlgren/pytest-of-dahlgren/pytest-0/test_install_sbang_too_long0/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/bin/sbang\r\n```\r\n\r\n@shahzebsiddiqui ",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/26316",
+    "updated_at": "2021-10-06 22:02:20",
+    "created_at": "2021-09-28 23:22:30",
+    "closed_at": "2021-10-06 19:03:34",
+    "state": "closed",
+    "title": "Provide more info in `SbangPathError` to aid CI debugging",
+    "number": 26316,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "sbang"
+    ],
+    "id": 1010303199,
+    "html_url": "https://github.com/spack/spack/pull/26316",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

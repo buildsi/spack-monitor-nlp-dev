@@ -1,0 +1,19 @@
+{
+    "body": "Bug report from slack:\r\n\r\n> Hi All,\r\n> I've set: `install_hash_length: 4` in my config.yaml, yet when I install software, Spack still uses the full length hash.  This is correctly picked up when I type: `spack config get config`\r\n>\r\n> I know that UI can use the alternate method: `install_path_scheme: '{name}/{version}/{hash:7}'` but just thought I'd ask to see if anyone else had noticed this?\r\n>\r\n> (I'm using 0.14.1)\r\n\r\nThis bug was caused by comparing a value that is case-insensitive against a lower-case string. This PR fixes it and adds testing.\r\n\r\nDeveloper note: This PR adds a new testing file `lib/spack/spack/test/config_values.py` for testing that configuration values are picked up properly. The existing `lib/spack/spack/test/config.py` is focused on the internal functions of the config system, so I thought separating them was appropriate.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/15919",
+    "updated_at": "2020-05-05 07:17:06",
+    "created_at": "2020-04-07 17:06:55",
+    "closed_at": "2020-05-05 06:10:26",
+    "state": "closed",
+    "title": "Bugfix: config:install_hash_length ignored",
+    "number": 15919,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 596021052,
+    "html_url": "https://github.com/spack/spack/pull/15919",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,26 @@
+{
+    "body": "I've installed an environment that includes a view.  When I try to use `pip` from that view it fails with \r\n\r\n```\r\nImportError: No module named pkg_resources\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nI have a large Spack installation that my CI system built last night.\r\n\r\nI made a new clone of the repository and added the CI repo as an upstream (probably not important, but...).\r\n\r\nI ran `spack compiler add` to add gcc@8.4.0 to my etc/spack/compilers.yaml file for this installation, then created an environment with `spack env create --without-view ape`.\r\n\r\nI edited the `spack.yaml` to something like this (trimmed from real file):\r\n\r\n```yaml\r\n This is a Spack Environment file.\r\n #\r\n # It describes a set of packages to be installed, along with\r\n # configuration settings.\r\n spack:\r\n   include:\r\n     - /local_scratch/hartzell/spack-env-experiments/my-packages.yaml\r\n   # add package specs to the `specs` list\r\n   specs:\r\n     # many things deleted\r\n     - tmux\r\n     - tree\r\n     - vim\r\n     - wget\r\n     - zsh\r\n     - matrix:\r\n         - ['^python@2.7.16', '^python@3.7.6']\r\n         - [py-flake8, py-pip, py-virtualenv, py-setuptools]\r\n   concretization: separately\r\n   view:\r\n     the_project:\r\n       root: /tmp/moose\r\n       select:\r\n         - tmux\r\n         - py-pip^python@2.7.16\r\n         - py-setuptools^python@2.7.16\r\n         - python@2.7.16\r\n```\r\n\r\n`my-packages.yaml` sets up the compiler and java provider and then just pins versions of things that I need:\r\n\r\n```yaml\r\npackages:\r\n  all:\r\n    compiler: [gcc@8.4.0, gcc@4.8.5]\r\n    providers:\r\n      java: [openjdk]\r\n  aspell:\r\n    version: [0.60.6.1]\r\n  # ...\r\n```\r\n\r\nWhen I try to use the `pip` command from the view (e.g. to install `pipenv`), it fails.  I've tried simply putting the view's bin onto `PATH` as well as mucking about with `PYTHONPATH`.\r\n\r\n```console\r\n$ PATH=/tmp/moose/bin:$PATH pip install --user pipenv\r\nTraceback (most recent call last):\r\n  File \"/tmp/moose/bin/pip\", line 7, in <module>\r\n    from pkg_resources import load_entry_point\r\nImportError: No module named pkg_resources\r\n$ PYTHONPATH=/tmp/moose/lib/python2.7 PATH=/tmp/moose/bin:$PATH pip install --user pipenv\r\nTraceback (most recent call last):\r\n  File \"/tmp/moose/bin/pip\", line 7, in <module>\r\n    from pkg_resources import load_entry_point\r\nImportError: No module named pkg_resources\r\n$ PYTHONPATH=/tmp/moose/lib PATH=/tmp/moose/bin:$PATH pip install --user pipenv\r\nTraceback (most recent call last):\r\n  File \"/tmp/moose/bin/pip\", line 7, in <module>\r\n    from pkg_resources import load_entry_point\r\nImportError: No module named pkg_resources\r\n$\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n$ spack --debug --stacktrace <command>\r\n```\r\n\r\n### Information on your system\r\n\r\n$ spack debug report\r\n* **Spack:** 0.14.1-701-b24134320\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-skylake_avx512\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ N/A] I have run the failing commands in debug mode and reported the output",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/16250",
+    "updated_at": "2020-04-23 17:34:38",
+    "created_at": "2020-04-23 01:02:59",
+    "closed_at": "2020-04-23 17:34:38",
+    "state": "closed",
+    "title": "pip fails with 'No module named pkg_resources' when run from env managed view",
+    "number": 16250,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "environments",
+        "views",
+        "triage"
+    ],
+    "id": 605166230,
+    "html_url": "https://github.com/spack/spack/issues/16250",
+    "assignees": [
+        "scheibelp",
+        "adamjstewart"
+    ],
+    "comments": 8
+}

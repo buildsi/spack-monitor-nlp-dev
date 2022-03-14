@@ -1,0 +1,17 @@
+{
+    "body": "\"gpdb\" installation failed.\r\nBecause \"apr\" package.py is missing \"libuuid\".\r\n\r\n```\r\n==> Installing gpdb\r\n==> No binary for gpdb found: installing from source\r\n==> Fetching https://postk-web.r-ccs.riken.jp/spack.mirror/_source-cache/archive/60/60c81d71665d623ea98a0e9bd8e6df7fecf6b30eb60a5881ccef781ff5214438.tar.gz\r\n==> gpdb: Executing phase: 'autoreconf'\r\n==> gpdb: Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/users/ea01/ea0108/spack-stage/spack-stage-gpdb-6.2.1-wtodpn5nifmgr2irb7qkbhtrjnn4juod/spack-src/configure' '--prefix=/home/users/ea01/ea0108/all-test/gcc/spack/opt/spack/linux-rhel8-a64fx/gcc-8.3.1/gpdb-6.2.1-wtodpn5nifmgr2irb7qkbhtrjnn4juod' '--with-python' '--disable-orca' '--enable-depend' '--with-libxml'\r\n\r\n1 error found in build log:\r\n     144    checking for library containing readline... -lreadline\r\n     145    checking for inflate in -lz... yes\r\n     146    checking for ZSTD_compressCCtx in -lzstd... yes\r\n     147    checking for apr-1-config... /home/users/ea01/ea0108/all-test/gcc/s\r\n            pack/opt/spack/linux-rhel8-a64fx/gcc-8.3.1/apr-1.7.0-46sesgs4ve2zm4\r\n            iuav23t6qo3jwc2fs2/bin/apr-1-config\r\n     148    configure: using apr-1-config 1.7.0\r\n     149    checking for library containing apr_getopt_long... no\r\n  >> 150    configure: error: libapr-1 is required by gpfdist and gpperfmon\r\n```\r\n\r\nAn error was recorded in config.log in the spack-sorce directory.\r\n\r\n```\r\nspack-stage/spack-stage-gpdb-6.2.1-wtodpn5nifmgr2irb7qkbhtrjnn4juod/spack-src/config.log\r\n\"libapr-1.so: undefined reference to `uuid_generate@UUID_1.0\"\r\n```\r\n\r\nAfter adding dpends_on to \"apr\", the installation of \"gpdb\" was successful.\r\n",
+    "user": "h-denpo",
+    "url": "https://api.github.com/repos/spack/spack/issues/20261",
+    "updated_at": "2021-03-09 07:42:43",
+    "created_at": "2020-12-07 01:19:02",
+    "closed_at": "2020-12-07 08:02:41",
+    "state": "closed",
+    "title": "apr: add depends_on ('libuuid', type='link')",
+    "number": 20261,
+    "milestone": null,
+    "labels": [],
+    "id": 758081981,
+    "html_url": "https://github.com/spack/spack/pull/20261",
+    "assignees": [],
+    "comments": 0
+}

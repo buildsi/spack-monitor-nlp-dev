@@ -1,0 +1,17 @@
+{
+    "body": "The ferret package has not been changed since 2016, and newer versions of the ferret software are now available. This PR provides the current version (7.2).\r\n\r\nFerret can use hdf5 and netcdf with or without mpi, so the variant `~mpi` is unnecessary (and causes extra package installations when `+mpi` packages already exist). However, the `+hl` variant of hdf5 is required to avoid a spec conflict, because the default for hdf5 is `~hl` but netcdf requires `hdf5+hl`.\r\n\r\nFerret searches for X11, and it tries to use system libraries if they exist. We prefer to use libx11 provided by spack, to avoid problems with the ancient X libraries in some HPC operating systems (e.g. RHEL6).\r\n\r\nThe previous package created symlinks to netcdf, hdf5 and zlib libraries, assuming that static libraries existed. This failed when my spack user configuration requested external versions of netcdf and hdf5 (i.e. from a vendor), because some of the external packages only provided shared libraries. To avoid this problem, I filter the platform configuration used in the ferret Makefile, so that the symlinks are no longer required.",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/11921",
+    "updated_at": "2019-07-09 13:33:08",
+    "created_at": "2019-07-03 03:47:51",
+    "closed_at": "2019-07-09 13:33:08",
+    "state": "closed",
+    "title": "Ferret: add version 7.2 and adjust dependencies",
+    "number": 11921,
+    "milestone": null,
+    "labels": [],
+    "id": 463529937,
+    "html_url": "https://github.com/spack/spack/pull/11921",
+    "assignees": [],
+    "comments": 1
+}

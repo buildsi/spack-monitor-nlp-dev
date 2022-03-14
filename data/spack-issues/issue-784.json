@@ -1,0 +1,21 @@
+{
+    "body": "Is anyone else have trouble building HDF5 with Intel and OpenMPI? It works fine outside of Spack but with Spack it crashes during make. It also works with Spack with any other compiler or any other MPI library, just not Intel and OpenMPI. Here is the configuration I'm using:\n\n```\nspack install hdf5 %intel +szip -cxx +mpi ^openmpi+tm+psm\n```\n\nThe Intel compiler is 16.0.1, OpenMPI 1.10.2, and HDF5 1.10.0 (although I think this problem still occurred with the previous HDF5 version).\n\nWhen built outside of Spack, everything looks good:\n\n```\nchecking for Fortran INTEGER KINDs... {1,2,4,8}\nchecking for Fortran REAL KINDs... {4,8,16}\nchecking for Fortran REALs maximum decimal precision... 34\nchecking sizeof of native KINDS...\nchecking for Fortran INTEGER KINDs... {1,2,4,8}\nchecking for Fortran REAL KINDs... {4,8,16}\nchecking for Fortran REALs maximum decimal precision... 34\nchecking sizeof of available INTEGER KINDs... {1,2,4,8}\nchecking sizeof of available REAL KINDs... {4,8,16}\nchecking if Fortran compiler supports intrinsic C_LONG_DOUBLE... yes\nchecking if Fortran C_LONG_DOUBLE is different from C_DOUBLE... yes\nchecking for Fortran interoperable KINDS with C... {4,8,16}\n```\n\nWhen built with Spack, I'm seeing the following warning message during configure:\n\n```\nError\nconfigure: WARNING: Failed to run program to determine available KINDs\nchecking sizeof of native KINDS... configure: WARNING: Fortran program fails to build or run!\n\nError\nconfigure: WARNING: Failed to run program to determine available KINDs\nchecking sizeof of available INTEGER KINDs... {}\nchecking sizeof of available REAL KINDs... {}\nchecking if Fortran compiler supports intrinsic C_LONG_DOUBLE... yes\nchecking if Fortran C_LONG_DOUBLE is different from C_DOUBLE... yes\nconfigure: WARNING:\n           Fortran REAL(KIND=) is  Bytes, but no corresponding C float type exists of that size\n                     !!! Fortran interfaces will not be generated for REAL(KIND=) !!!\n\nchecking for Fortran interoperable KINDS with C...\n```\n\nThis eventually leads to errors in make:\n\n```\nH5match_types.c(155): error: expected an expression\n    int IntKinds[] = H5_FORTRAN_INTEGER_KINDS;\n                                             ^\n```\n\nLogs outside of Spack:\n[config.log](https://github.com/LLNL/spack/files/219936/config.txt)\n[soft-build.out](https://github.com/LLNL/spack/files/219938/soft-build.txt)\n\nLogs when using Spack:\n[config.log](https://github.com/LLNL/spack/files/219939/config.txt)\n[spack-build.out](https://github.com/LLNL/spack/files/219940/spack-build.txt)\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/784",
+    "updated_at": "2017-08-21 17:03:20",
+    "created_at": "2016-04-14 21:00:51",
+    "closed_at": "2016-05-17 20:35:24",
+    "state": "closed",
+    "title": "Problems building HDF5 with Intel OpenMPI",
+    "number": 784,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error",
+        "intel"
+    ],
+    "id": 148481051,
+    "html_url": "https://github.com/spack/spack/issues/784",
+    "assignees": [],
+    "comments": 30
+}

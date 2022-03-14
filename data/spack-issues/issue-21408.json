@@ -1,0 +1,19 @@
+{
+    "body": "Boost's `bootstrap.sh` does not pass any toolchain when building B2 / BJam for its own use, which causes that part of the build to attempt to autodetect which toolchain to use.\r\nThis can cause builds to fail if the autodetected toolchain differs from the toolchain Spack wants to use.\r\nFor example, this can happen on systems with xl installed (see #20757).\r\n\r\nThis changes the install phase to first specifically build B2 / BJam using `tools/build/src/engine/build.sh`, passing an appropriate toolset parameter; the built `b2` / `bjam` executable is then passed as an additional parameter to the main `bootstrap.sh` script, and used for later parts of the install phase.",
+    "user": "stmobo",
+    "url": "https://api.github.com/repos/spack/spack/issues/21408",
+    "updated_at": "2021-02-27 01:10:26",
+    "created_at": "2021-01-30 15:28:46",
+    "closed_at": "2021-02-26 23:46:38",
+    "state": "closed",
+    "title": "boost: Fix B2/BJam bootstrap toolchain",
+    "number": 21408,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 797445953,
+    "html_url": "https://github.com/spack/spack/pull/21408",
+    "assignees": [],
+    "comments": 10
+}

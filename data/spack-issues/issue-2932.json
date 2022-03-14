@@ -1,0 +1,19 @@
+{
+    "body": "We're having a problem here I can't diagnose.  The `~/.spack/compilers.yaml` file is set up as follows:\r\n```\r\ncompilers:\r\n- compiler:\r\n    modules: [other/comp/gcc-5.3-sp3,linux-suse_linux11-x86_64/binutils-2.27-gcc-5.3.0-p7ewifc]\r\n    operating_system: suse_linux11\r\n    paths:\r\n      cc: /usr/local/other/SLES11.3/gcc/5.3.0/bin/gcc\r\n      cxx: /usr/local/other/SLES11.3/gcc/5.3.0/bin/g++\r\n      f77: /usr/local/other/SLES11.3/gcc/5.3.0/bin/gfortran\r\n      fc: /usr/local/other/SLES11.3/gcc/5.3.0/bin/gfortran\r\n    spec: gcc@5.3.0\r\n```\r\nWhen we try a Spack command, it doesn't work.  For example:\r\n```\r\n$ spack setup everytrace@develop\r\n==> Error: Multiple compilers satisfy spec gcc@5.3.0\r\n$ spack compilers\r\n==> Available compilers\r\n-- gcc ----------------------------------------------------------\r\ngcc@5.3.0  gcc@5.3.0  gcc@4.9.1  gcc@4.3.4  gcc@4.3\r\n```\r\nWhy is `gcc@5.3.0` there twice?  `which gcc` yields:\r\n```\r\n/usr/local/other/SLES11.3/gcc/5.3.0/bin/gcc\r\n```\r\nNow if we get rid of `compilers.yaml`, everything works fine.  And Spack does not create a new `compilers.yaml` file.\r\n\r\nAny idea what is going wrong?  This stuff worked for 10 other students running on the same supercomputer.  We did `module purge` and are running with `bash`.\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2932",
+    "updated_at": "2017-02-01 20:53:07",
+    "created_at": "2017-01-25 21:08:03",
+    "closed_at": "2017-01-25 22:47:24",
+    "state": "closed",
+    "title": "Phantom compiler???",
+    "number": 2932,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 203222629,
+    "html_url": "https://github.com/spack/spack/issues/2932",
+    "assignees": [],
+    "comments": 5
+}

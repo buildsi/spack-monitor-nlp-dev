@@ -1,0 +1,20 @@
+{
+    "body": "I noted that the missing definition of `numeric_limits` was the cause of the compile issues with `gcc-11`.\r\n(which extend to qt-5.14.2 - the current preferred version -  which I to in the `conflicts` for `gcc-11`),\r\n\r\nObligatory reference https://bugreports.qt.io/browse/QTBUG-93452  \r\n\r\nAs these are fixable by including `limits`, and documented in https://gcc.gnu.org/gcc-11/porting_to.html ,\r\nI tested adding `-include limits` fixing @5.9:5.14%gcc@11 - which fixed all releases from `5.9` to `5.14.2`! Huray!\r\n\r\nTherefore, we can replace the conflicts('%gcc@11:', when='@5.9:5.14'), with including `limits`, making gcc-11 behave gcc-11 for like `gcc@:10` for these builds.\r\n\r\nInside the when %gcc patch function, add:\r\n```py\r\n        # https://gcc.gnu.org/gcc-11/porting_to.html: add -include limits\r\n        if self.spec.satisfies('@5.9:5.14%gcc@11:'):\r\n            with open(conf('gcc-base'), 'a') as f:\r\n                f.write(\"QMAKE_CXXFLAGS += -include limits\\n\")\r\n```\r\n\r\nThe alternative would have been to patch every affected file like this:\r\n```py\r\nfilter_file('string.h>', 'string.h>\\n#include <limits>',                                                                                                       \r\n            'qtbase/src/corelib/global/qendian.h')                                 \r\nfilter_file('string.h>', 'string.h>\\n#include <limits>',                           \r\n            'qtbase/src/corelib/global/qfloat16.h')                                \r\nif self.spec.satisfies('@:5.13'):                                                  \r\n     filter_file('y.h>', 'y.h>\\n#include <limits>',                                \r\n                 'qtbase/src/corelib/tools/qbytearraymatcher.h')                   \r\n     filter_file('p.h>', 'p.h>\\n#include <limits>',                                \r\n                 'qtdeclarative/src/qml/jsruntime/qv4propertykey_p.h')             \r\n     filter_file('limits.h>', 'limits>',                                           \r\n                 'qtdeclarative/src/3rdparty/masm/yarr/Yarr.h')                    \r\n     ... qqmlprofilerevent_p.h:314:90 ...                                          \r\n     (I have no idea how many would have to be patched)\r\n```\r\nAs the former is far nicer and it is what these older qt versions get when built with `gcc@:10`, it is far better this way.",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/27241",
+    "updated_at": "2021-11-05 18:11:51",
+    "created_at": "2021-11-05 16:55:50",
+    "closed_at": "2021-11-05 18:06:32",
+    "state": "closed",
+    "title": "qt: replace conflicts('%gcc@11:', when='@5.9:5.14') with -include limits",
+    "number": 27241,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "conflicts"
+    ],
+    "id": 1046052368,
+    "html_url": "https://github.com/spack/spack/pull/27241",
+    "assignees": [],
+    "comments": 0
+}

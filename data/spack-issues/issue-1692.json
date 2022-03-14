@@ -1,0 +1,19 @@
+{
+    "body": "I'm trying to develop a packaging for BEM++.  \n\nI'm using development branch of a few hours ago at f5bc0cbb65c95249b3f1fd1b5c63da5a03acbded\n\nBuilding the dependencies in a fresh, empty Spack area gives the error `Specs <a> and <b> have the same SHA-1 prefix!`\n\n```\n==> Building py-nose\n==> Warning: Patched overlong shebang in /home/bvdb/larf-spack/spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/py-nose-1.3.7-fb4ywvfh47agdfnfokiouclpzmdv7vhk/bin/nosetests-2.7\n==> Warning: Patched overlong shebang in /home/bvdb/larf-spack/spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/py-nose-1.3.7-fb4ywvfh47agdfnfokiouclpzmdv7vhk/bin/nosetests\n==> Successfully installed py-nose\n  Fetch: 0.20s.  Build: 1.41s.  Total: 1.61s.\n[+] /home/bvdb/larf-spack/spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/py-nose-1.3.7-fb4ywvfh47agdfnfokiouclpzmdv7vhk\n==> Installing py-numpy\n==> python is already installed in /home/bvdb/larf-spack/spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/python-2.7.12-7balpamix4h4zcrl455g6a2eyaa43ahm\n==> Error: Specs py-nose@1.3.7%gcc@4.4.7 arch=linux-redhat6-x86_64^bzip2@1.0.6%gcc@4.4.7 arch=linux-redhat6-x86_64^ncurses@6.0%gcc@4.4.7 arch=linux-redhat6-x86_64^openssl@1.0.2h%gcc@4.4.7 arch=linux-redhat6-x86_64^py-setuptools@25.2.0%gcc@4.4.7 arch=linux-redhat6-x86_64^python@2.7.12%gcc@4.4.7~tk~ucs4 arch=linux-redhat6-x86_64^readline@6.3%gcc@4.4.7 arch=linux-redhat6-x86_64^sqlite@3.8.5%gcc@4.4.7 arch=linux-redhat6-x86_64^zlib@1.2.8%gcc@4.4.7 arch=linux-redhat6-x86_64 and py-nose@1.3.7%gcc@4.4.7 arch=linux-redhat6-x86_64^bzip2@1.0.6%gcc@4.4.7 arch=linux-redhat6-x86_64^ncurses@6.0%gcc@4.4.7 arch=linux-redhat6-x86_64^openssl@1.0.2h%gcc@4.4.7 arch=linux-redhat6-x86_64^python@2.7.12%gcc@4.4.7~tk~ucs4 arch=linux-redhat6-x86_64^readline@6.3%gcc@4.4.7 arch=linux-redhat6-x86_64^sqlite@3.8.5%gcc@4.4.7 arch=linux-redhat6-x86_64^zlib@1.2.8%gcc@4.4.7 arch=linux-redhat6-x86_64 have the same SHA-1 prefix!\n```\n\nThis looks maybe related to #1559 but as it's in a fresh spack area, maybe not.\n\nHere is the current BEM++ packaging:\n\n``` python\nfrom spack import *\n\nclass Bempp(Package):\n    \"\"\"BEM++ provides PDE Solving via the Boundary Element Method\"\"\"\n    homepage = \"http://www.bempp.org\"\n    url = \"https://github.com/bempp/bempp\"\n\n    version(\"development\", git = \"https://github.com/bempp/bempp.git\",\n            branch=\"development\")\n\n\n    depends_on(\"cmake@3.6.1:\", type=\"build\")\n    depends_on(\"tbb\")\n    depends_on(\"gmsh\")\n    depends_on(\"python@2.7.12:\")\n    depends_on(\"py-cython\")\n    depends_on(\"py-numpy\")\n    depends_on(\"py-scipy\")\n    depends_on(\"py-setuptools\")\n    depends_on(\"py-matplotlib\")\n    #depends_on(\"paraview+python\")                                                            \n\n\n    parallel = True\n\n    def install(self, spec, prefix):\n    with working_dir('spack-build', create=True):\n            cmake('..', *std_cmake_args)\n            make()\n            make('install')\n\n```\n",
+    "user": "brettviren",
+    "url": "https://api.github.com/repos/spack/spack/issues/1692",
+    "updated_at": "2016-09-02 15:17:49",
+    "created_at": "2016-09-01 21:10:05",
+    "closed_at": "2016-09-02 14:29:44",
+    "state": "closed",
+    "title": "Specs have the same SHA-1 prefix on fresh installation.",
+    "number": 1692,
+    "milestone": null,
+    "labels": [],
+    "id": 174626861,
+    "html_url": "https://github.com/spack/spack/issues/1692",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 7
+}

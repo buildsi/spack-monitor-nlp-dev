@@ -1,0 +1,19 @@
+{
+    "body": "@tgamblin This is the package I was talking about that depends on `r-rminer`. To the best of my knowledge, this is now the slowest concretizing package in Spack. On my laptop:\r\n```console\r\n$ time spack spec r-condop\r\n...\r\nreal\t1m19.250s\r\nuser\t1m8.797s\r\nsys\t0m4.655s\r\n```\r\nIn comparison:\r\n```console\r\n$ time spack spec r-rminer\r\n...\r\nreal\t1m9.245s\r\nuser\t0m59.829s\r\nsys\t0m4.205s\r\n```\r\nI imagine that the new concretizer will be much more efficient with these R packages. The main reason they take so long to concretize is that R itself has a whopping 58 dependencies! Since `r-condop` has another 107 R packages that it depends on, you end up with 6,000+ dependencies in the full DAG, mostly duplicates.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/14050",
+    "updated_at": "2019-12-08 15:29:54",
+    "created_at": "2019-12-08 05:21:11",
+    "closed_at": "2019-12-08 15:29:51",
+    "state": "closed",
+    "title": "Add new r-condop package",
+    "number": 14050,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 534494479,
+    "html_url": "https://github.com/spack/spack/pull/14050",
+    "assignees": [],
+    "comments": 0
+}

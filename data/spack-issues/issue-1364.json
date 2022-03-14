@@ -1,0 +1,17 @@
+{
+    "body": "I'm cleaning up my nextflow package (which I haven't touched in days).  Now I can't install the jdk.\n\nI've rebased onto the tip of develop, and I'm using the python that spack built instead of CentOS 7's.  Not sure what else changed.\n\nHere's what I see:\n\n```\n[throgg@spack-central spack]$ spack install nextflow\n==> Installing nextflow\n==> Installing jdk\n==> [Jdk] Adding required commandline options to curl before performing fetch: ['-j', '-H', 'Cookie: oraclelicense=accept-securebackup-cookie']\n==> Already downloaded /home/throgg/spack/var/spack/stage/jdk-8u92-linux-x64-fzug57sw2sdor4dsjooesubqttyk43a7/jdk-8u92-linux-x64.tar.gz\n==> Already staged jdk-8u92-linux-x64-fzug57sw2sdor4dsjooesubqttyk43a7 in /home/throgg/spack/var/spack/stage/jdk-8u92-linux-x64-fzug57sw2sdor4dsjooesubqttyk43a7\n==> No patches needed for jdk\n==> Building jdk\nTraceback (most recent call last):\n  File \"/home/throgg/spack/lib/spack/spack/build_environment.py\", line 512, in fork\n    function()\n  File \"/home/throgg/spack/lib/spack/spack/package.py\", line 997, in build_process\n    self.install(self.spec, self.prefix)\n  File \"/home/throgg/spack/var/spack/repos/builtin/packages/jdk/package.py\", line 70, in install\n    distutils.dir_util.copy_tree(\".\", prefix)\nAttributeError: 'module' object has no attribute 'dir_util'\n==> Error: Installation process had nonzero exit code : 256\n```\n\nThis change fixes it, but usual Python newbie disclaimers apply:\n\n```\n--- a/var/spack/repos/builtin/packages/jdk/package.py\n+++ b/var/spack/repos/builtin/packages/jdk/package.py\n@@ -26,6 +26,7 @@\n # Author: Justin Too <too1@llnl.gov>\n #\n import distutils\n+from distutils.dir_util import copy_tree\n\n import spack\n from spack import *\n@@ -67,4 +68,4 @@ class Jdk(Package):\n         super(Jdk, self).do_fetch(mirror_only)\n\n     def install(self, spec, prefix):\n-        distutils.dir_util.copy_tree(\".\", prefix)\n+        copy_tree(\".\", prefix)\n```\n\nIs this a Real Bug(tm) or something I did?  If its a bug, I can PR it.\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/1364",
+    "updated_at": "2016-08-01 20:20:44",
+    "created_at": "2016-07-25 18:15:57",
+    "closed_at": "2016-08-01 20:20:44",
+    "state": "closed",
+    "title": "JDK install problem: AttributeError: 'module' object has no attribute 'dir_util'",
+    "number": 1364,
+    "milestone": null,
+    "labels": [],
+    "id": 167430966,
+    "html_url": "https://github.com/spack/spack/issues/1364",
+    "assignees": [],
+    "comments": 2
+}

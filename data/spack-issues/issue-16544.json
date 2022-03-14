@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nThe plotly package incorrectly uses one and only one version of it's dependencies specified in upstream's requirements.txt instead of specifying a minimum version like upstream's setup.py:\r\nhttps://github.com/plotly/plotly.py/blob/v2.2.0/setup.py#L49\r\n\r\nThis is is introducing a circular dependency in my trying to use a fewer version of py-deeptools@3.4.1 which has a bugfix my labmate needs.  I can't install a newer version of py-requests because py-plotly use a conflicting\r\n\r\n```console\r\n$ spack spec py-deeptools\r\nInput spec\r\n--------------------------------\r\npy-deeptools\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    py-requests@2.5.0:\r\n        ^py-setuptools@24.3:\r\n            ^python@2.7:2.8,3.5:\r\n                ^pkgconfig@0.9.0:\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    py-plotly@2.0.0:\r\n        ^py-setuptools@24.3:\r\n            ^python@2.7:2.8,3.5:\r\n                ^pkgconfig@0.9.0:\r\n\r\n\r\npy-plotly requires py-requests version 2.3.0, but spec asked for 2.5.0:\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.14.2\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-zen\r\n```\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n```yaml\r\n# /etc/spack/packages.yaml \r\npackages:\r\n  all:\r\n    permissions:\r\n      write: group\r\n      group: users\r\n  r:\r\n    paths:\r\n      r@3.6.1: /usr/bin\r\n    buildable: false\r\n  # py-deeptools:\r\n  #   providers:\r\n  #     'python@3'\r\n```\r\n\r\n```yaml\r\n# /etc/spack/repos.yaml \r\nrepos:\r\n- /var/spack/repos/corelab\r\n- $spack/var/spack/repos/builtin\r\n```\r\n\r\n```yaml\r\n# /etc/spack/mirrors.yaml \r\nmirrors:\r\n  local: file:///var/spack/mirror\r\n```\r\n\r\n```console\r\n$ tree -F /var/spack/mirror/\r\n/var/spack/mirror/\r\n\u251c\u2500\u2500 jdk/\r\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 jdk-11.0.4_10.tar.gz -> jdk-11.0.4_linux-x64_bin.tar.gz\r\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 jdk-11.0.4_linux-x64_bin.tar.gz\r\n\u2514\u2500\u2500 trf/\r\n    \u2514\u2500\u2500 trf409.linux64\r\n\r\n2 directories, 3 files\r\n```\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "omsai",
+    "url": "https://api.github.com/repos/spack/spack/issues/16544",
+    "updated_at": "2020-05-12 22:06:20",
+    "created_at": "2020-05-09 21:47:39",
+    "closed_at": "2020-05-12 22:06:20",
+    "state": "closed",
+    "title": "Installation issue: py-plotly should not fix all versions of dependencies",
+    "number": 16544,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 615266312,
+    "html_url": "https://github.com/spack/spack/issues/16544",
+    "assignees": [],
+    "comments": 1
+}

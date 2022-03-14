@@ -1,0 +1,24 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nI ran spack containerize with the following spack environment  file and when building the resulting Dockerfile spack continued to install software into `/opt/spack/var/spack` instead of the set install path which results in an empty container being produced. Setting the concretizer to  `original` fixes the issue. Cc'ing @vsoch.\r\n\r\n```yaml\r\nspack:\r\n  specs: wget\r\n  view: true\r\n  config:\r\n    concretizer: clingo\r\n  container:\r\n    os_packages:\r\n      build:\r\n        - python3-dev\r\n    strip: false\r\n```\r\n\r\nDockerfile\r\n```Dockerfile\r\n# Build stage with Spack pre-installed and ready to be used\r\nFROM spack/ubuntu-bionic:latest as builder\r\n\r\n# Install OS packages needed to build the software\r\nRUN apt-get -yqq update && apt-get -yqq upgrade \\\r\n && apt-get -yqq install python3-dev \\\r\n && rm -rf /var/lib/apt/lists/*\r\n\r\n# What we want to install and how we want to install it\r\n# is specified in a manifest file (spack.yaml)\r\nRUN mkdir /opt/spack-environment \\\r\n&&  (echo \"spack:\" \\\r\n&&   echo \"  specs:\" \\\r\n&&   echo \"  - wget\" \\\r\n&&   echo \"  view: /opt/view\" \\\r\n&&   echo \"  config:\" \\\r\n&&   echo \"    concretizer: clingo\" \\\r\n&&   echo \"    install_tree: /opt/software\" \\\r\n&&   echo \"  concretization: together\") > /opt/spack-environment/spack.yaml\r\n\r\n# Install the software, remove unnecessary deps\r\nRUN cd /opt/spack-environment && spack env activate . && spack install --fail-fast && spack gc -y\r\n\r\n# Modifications to the environment that are necessary to run\r\nRUN cd /opt/spack-environment && \\\r\n    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh\r\n\r\n\r\n# Bare OS image to run the installed executables\r\nFROM ubuntu:18.04\r\n\r\nCOPY --from=builder /opt/spack-environment /opt/spack-environment\r\nCOPY --from=builder /opt/software /opt/software\r\nCOPY --from=builder /opt/view /opt/view\r\nCOPY --from=builder /etc/profile.d/z10_spack_environment.sh /etc/profile.d/z10_spack_environment.sh\r\n\r\n\r\n\r\nENTRYPOINT [\"/bin/bash\", \"--rcfile\", \"/etc/profile\", \"-l\", \"-c\"]\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack containerize\r\n$ docker run build -t wget .\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.1\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-skylake\r\n* **Concretizer:** clingo\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "alecbcs",
+    "url": "https://api.github.com/repos/spack/spack/issues/22294",
+    "updated_at": "2021-04-02 18:53:11",
+    "created_at": "2021-03-15 03:22:49",
+    "closed_at": "2021-03-30 15:23:32",
+    "state": "closed",
+    "title": "Clingo Concretizer Doesn't Respect Custom Install Tree",
+    "number": 22294,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-medium",
+        "bootstrap"
+    ],
+    "id": 831371510,
+    "html_url": "https://github.com/spack/spack/issues/22294",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

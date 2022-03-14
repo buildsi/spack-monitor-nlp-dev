@@ -1,0 +1,20 @@
+{
+    "body": "Allow environments to define a pre_cmd which runs before every individual command.\r\n\r\nThis is intended to allow developers to put conditions on their environments to warn users or raise errors.\r\n\r\nFor an environment that warns the user if they run it from a different environment (to help avoid \"wrong environment loaded\" bugs)\r\n```\r\nspack:\r\n  pre_cmd: |\r\n    import llnl.util.tty as tty\r\n    import os\r\n    if os.getcwd() != self.path:\r\n        tty.warn(\"RUNNING ENV %s FROM ALTERNATIVE DIRECTORY\" % self.name)\r\n  specs: []\r\n  ...\r\n```\r\n\r\nFor an environment that raises an error if a given environment variable is not defined.\r\n```\r\nspack:\r\n  pre_cmd: |\r\n    import os\r\n    assert 'CANARY' in os.environ, \"CANARY not set in environment\"\r\n  specs:\r\n  ...\r\n```\r\n\r\nThis PR already includes tests, I will add documentation if reviewers find the general architecture acceptable.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/19771",
+    "updated_at": "2021-07-22 02:02:44",
+    "created_at": "2020-11-06 02:08:06",
+    "closed_at": "2021-07-22 02:02:44",
+    "state": "closed",
+    "title": "env: add pre_cmd script option",
+    "number": 19771,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "environments"
+    ],
+    "id": 737398675,
+    "html_url": "https://github.com/spack/spack/pull/19771",
+    "assignees": [],
+    "comments": 1
+}

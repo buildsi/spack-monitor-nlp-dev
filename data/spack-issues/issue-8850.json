@@ -1,0 +1,23 @@
+{
+    "body": "Within the builtin repo are the standard packages `mpich` and `zoltan`. I want to use a customized version of `mpich` to build `zoltan` and have added a modified `mpich` package into a thirdparty repo.  \r\n\r\nSo, I created a etc/spack/repos.yaml as below along with packages in the thirdparty dir and a var/spack/repos/thirdparty/repo.yaml.\r\n```\r\nrepos:\r\n  - $spack/var/spack/repos/thirdparty\r\n  - $spack/var/spack/repos/builtin\r\n```\r\nThere is no ~/.spack/repos.yaml.\r\n\r\nThe problem is: for some dependencies, the builtin packages are being preferred over corresponding thirdparty packages. For dependencies, the builtin namespace packages take precedence over the thirdparty namespace packages defined in my site-level `repos.yaml`.\r\n\r\n### Expected Result\r\n\r\nConcretization of `mpich` should consistently reflect my thirdparty repo. \r\n```\r\n$ spack spec mpich\r\nConcretized\r\n--------------------------------\r\nmpich@3.2.1%clang@9.1.0-apple device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=darwin-highsierra-x86_64\r\n\r\n$ spack spec zoltan\r\nConcretized\r\n--------------------------------\r\n<snip>\r\n    ^mpich@3.2.1%clang@9.1.0-apple device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=darwin-highsierra-x86_64\r\n```\r\n\r\n### Actual Result\r\nFor the `zoltan` package, the `mpich` dependency is being concretized from the builtin repo, not my thirdparty repo. Since I have a site-level `repos.yaml`, shouldn't the first valid package for `mpich` be discovered in the namespace of the thirdparty repo? \r\n```\r\n$ spack spec mpich\r\nConcretized\r\n--------------------------------\r\n   ^mpich@3.2.1%clang@9.1.0-apple device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=darwin-highsierra-x86_64\r\n\r\n$ spack spec zoltan\r\nConcretized\r\n--------------------------------\r\n<snip>\r\n    ^mpich@3.2.1%clang@9.1.0-apple device=ch3 +hydra netmod=tcp patches=e591891fae6a1d029b95edbc93865c57d165784e77cf8b5822ae7d014b137a03 +pmi+romio~verbs arch=darwin-highsierra-x86_64\r\n```\r\n\r\n\r\n",
+    "user": "burgreen",
+    "url": "https://api.github.com/repos/spack/spack/issues/8850",
+    "updated_at": "2022-03-10 10:01:05",
+    "created_at": "2018-07-31 16:32:34",
+    "closed_at": "2022-03-10 10:01:05",
+    "state": "closed",
+    "title": "incorrect repos.yaml namespace precedence in dependencies",
+    "number": 8850,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate",
+        "repos"
+    ],
+    "id": 346265630,
+    "html_url": "https://github.com/spack/spack/issues/8850",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

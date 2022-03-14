@@ -1,0 +1,17 @@
+{
+    "body": "For resources, it is desirable to use the expanded archive name of the resource as the name of the directory when adding it to the root staging area.\r\n\r\n#11528 established 'spack-src' as the universal directory where source files are placed, which also affected the behavior of resources managed with Stages.\r\n\r\nThis adds a new property to Stage to remember the name of the expanded source directory, and uses this as the default name when placing a resource directory in the root staging area.\r\n\r\nThis also:\r\n\r\n* Ensures that downloaded sources are archived using the expanded archive name\r\n* Updates working_dir context manager to guarantee restoration of original working directory when an exception occurs\r\n* Adds a \"temp_cwd\" context manager which creates a temporary directory and sets it as the working directory\r\n* ~Tests handling of exploding tarballs~ (Edit 6/19: this was already handled)\r\n\r\nTODOS:\r\n\r\n- [x] Tests should be added to avoid regressions.\r\n- [x] (New: 6/14) Fix python 2.6 errors\r\n\r\nNote: this does not support resources using the `go` fetch strategy, but `go` fetching logic is currently in flux anyhow and no packages currently use `go`-based resources.\r\n\r\nNote: this undoes some changes from https://github.com/spack/spack/pull/11676 and https://github.com/spack/spack/pull/11667 that accommodated the behavior changes from #11528. Those changes are compatible with this PR but I removed them because they are not strictly required (and in general the purpose of this PR was to reduce the amount of work required to use resources). In terms of staging, this PR would work with the logic for `hpcviewer` before or after #11676, but the `hpcviewer` changes are not undone because that PR updated the directory structure for that package build.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/11688",
+    "updated_at": "2019-06-20 18:09:32",
+    "created_at": "2019-06-13 02:01:32",
+    "closed_at": "2019-06-20 18:09:32",
+    "state": "closed",
+    "title": "ResourceStage: use expanded archive name by default",
+    "number": 11688,
+    "milestone": null,
+    "labels": [],
+    "id": 455500122,
+    "html_url": "https://github.com/spack/spack/pull/11688",
+    "assignees": [],
+    "comments": 0
+}

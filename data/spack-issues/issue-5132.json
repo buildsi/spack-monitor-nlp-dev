@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #1279 \r\n\r\nSpecify that certain dependencies are for testing only. These packages are treated like build dependencies:\r\n\r\n* They don't affect the package hash (unless they influence the concretization of transitive dependencies). One consequence is that if you build a package without requesting tests, if you try again with tests it will not actually perform the tests (since the package is already built and the tests occur as part of the build)\r\n* They perform the same environment modifications as build dependencies (during the build of the package)\r\n\r\nThis also replaces the ```--run-tests``` option for ```spack install``` with two options\r\n\r\n* ```--test-all```: same behavior as previous ```--run-tests``` option; tests all packages in the DAG\r\n* ```--test-root```: test only the top-level package in the dag. I found this useful for the case of ```libpsl``` which wanted to run tests for the python dependency in the ```--test-all``` case.\r\n\r\nI've only tested this so far with ```libpsl```",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/5132",
+    "updated_at": "2017-11-12 00:57:27",
+    "created_at": "2017-08-16 20:52:04",
+    "closed_at": "2017-09-30 05:08:16",
+    "state": "closed",
+    "title": "Add test deptype",
+    "number": 5132,
+    "milestone": "v0.11.0",
+    "labels": [
+        "WIP",
+        "specs",
+        "dependencies"
+    ],
+    "id": 250756237,
+    "html_url": "https://github.com/spack/spack/pull/5132",
+    "assignees": [],
+    "comments": 17
+}

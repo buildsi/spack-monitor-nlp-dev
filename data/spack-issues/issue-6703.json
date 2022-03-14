@@ -1,0 +1,21 @@
+{
+    "body": "Executing the command:\r\n```\r\nspack buildcache list\r\n```\r\nresults in an error if mirrors have no `build_cache` subdirectory.\r\n\r\n### Expected Result\r\n\r\nI would expect something like:\r\n```console\r\n$ spack buildcache list\r\n==> No build caches in \"wdir\" mirror [/home/mculpo/wdir/spack-mirror]\r\n```\r\n\r\n### Actual Result\r\nAn error is raised by the command:\r\n```console\r\n$ spack buildcache list\r\n==> Finding buildcaches in /home/mculpo/wdir/wdir-mirror/build_cache\r\n==> Error: [Errno 2] No such file or directory: '/home/mculpo/wdir/wdir-mirror/build_cache'\r\n```\r\n\r\n### Steps to reproduce the issue\r\nAdd a mirror without a `build_cache` directory and list build caches:\r\n```console\r\n$ spack mirror add spack mirror add --scope=site wdir file:///home/mculpo/wdir/spack-mirror\r\n$ spack buildcache list\r\n==> Finding buildcaches in /home/mculpo/wdir/spack-mirror/build_cache\r\n==> Error: [Errno 2] No such file or directory: '/home/mculpo/wdir/spack-mirror/build_cache'\r\n...\r\n```\r\n\r\n### Information on your system\r\nHere's my `etc/spack/mirrors.yaml`:\r\n```yaml\r\nmirrors:\r\n  wdir: file:///home/mculpo/wdir/spack-mirror\r\n```\r\nI've seen the error on:\r\n```console\r\n$ uname -a\r\nLinux nuvolari 4.4.0-104-generic #127~14.04.1-Ubuntu SMP Mon Dec 11 12:44:15 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\nbut I don't think it's architecture specific.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6703",
+    "updated_at": "2020-08-13 06:06:02",
+    "created_at": "2017-12-17 15:39:27",
+    "closed_at": "2020-08-13 06:06:02",
+    "state": "closed",
+    "title": "spack buildcache list: unexpected failure",
+    "number": 6703,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "commands",
+        "buildcache"
+    ],
+    "id": 282702255,
+    "html_url": "https://github.com/spack/spack/issues/6703",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Like #5716, this is still not a rework of the concretizer, but it removes a ton of redundant work from our existing concretization algorithm.\r\n\r\nLook at the individual commit messages for details.  But, here are the improvements:\r\n\r\nBefore:\r\n* `xsdk` (30 nodes): 6s\r\n* `dealii` (44 nodes): 10s\r\n* `r-rminer` (134 nodes): 1m38s\r\n\r\nAfter:\r\n* `xsdk`: 1.7s (3.5x)\r\n* `dealii`: 2.5s (4x)\r\n* `r-rminer`: 5s (19x)\r\n\r\n- [x] Cache creation of `Compiler` objects from config data\r\n  - this one also prevents Spack from running `xcrun` zillions of times on macs\r\n- [x] Don't redundantly check for providers of non-virtuals when merging dependencies\r\n- [x] Improve `Spec.traverse` so it doesn't construct superfluous `dicts`\r\n- [x] Don't use an `OrderdDict` where we don't have to -- use a `list` (this is the big win for `r-rminer`\r\n- [x] Remove vestigial assertion in `Spec.root` that would ensure that *all* paths led to the root (oops)\r\n- [x] Add a fast path to `satisfies_dependencies` to avoid a bunch of extra work if there are no constraints to satisfy.\r\n\r\n`r-rminer` is kind of the upper bound package so far.  Compared to before #5716, concretizing this package is probably 100x faster.  Sorry for all the wasted time everyone! \ud83d\ude33 \r\n\r\n@alalazo @adamjstewart @davydden @scheibelp \r\n@baberlevi (I know you guys do tons of R stuff)\r\n\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/5763",
+    "updated_at": "2017-11-12 00:43:22",
+    "created_at": "2017-10-14 01:09:17",
+    "closed_at": "2017-10-14 02:46:58",
+    "state": "closed",
+    "title": "Even faster concretization",
+    "number": 5763,
+    "milestone": "v0.11.0",
+    "labels": [
+        "concretization",
+        "specs",
+        "performance"
+    ],
+    "id": 265453038,
+    "html_url": "https://github.com/spack/spack/pull/5763",
+    "assignees": [],
+    "comments": 1
+}

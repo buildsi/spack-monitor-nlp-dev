@@ -1,0 +1,22 @@
+{
+    "body": "Can we consider moving the `spack buildcache check` logic out of the child jobs and into `spack ci generate` or equivalent? Why should we stage out potentially hundreds of CI jobs when we know up-front whether a rebuild of the spec is necessary?\r\n\r\nLet's say someone changes `adios2` package such that *only* `adios2` needs to be updated at the build cache. We have ~240 specs part of `E4S environment` (counting dependencies). Current behavior dictates that that we stage out ~240 downstream CI jobs, one for each spec. One of the first tasks in each of these ~240 downstream jobs is to determine whether the spec is up-to-date at the build cache, and to shutdown if it is. Why should we do this when we have all the knowledge we need *up front* to know which specs need to be rebuilt?\r\n\r\n@scottwittenburg @opadron @tgamblin @shahzebsiddiqui @becker33 ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/18121",
+    "updated_at": "2021-02-25 22:48:21",
+    "created_at": "2020-08-17 20:41:12",
+    "closed_at": "2021-02-25 22:48:21",
+    "state": "closed",
+    "title": "PIpelines: Create downstream rebuild jobs ONLY when spec needs it",
+    "number": 18121,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "ecp",
+        "e4s",
+        "pipelines"
+    ],
+    "id": 680512940,
+    "html_url": "https://github.com/spack/spack/issues/18121",
+    "assignees": [],
+    "comments": 5
+}

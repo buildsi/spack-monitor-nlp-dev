@@ -1,0 +1,20 @@
+{
+    "body": "Bisected to  #18482 bugfix: fix config merge order for OrderdDicts\r\n\r\nMy CI script that ran `spack install [spec]` using a binary cache slowed down after #18482 to the point where building from sources is almost equally fast. Previously the CI job ran in 11 minutes (installing ~100 packages), now it's taking > 90 minutes and it is not even finished yet pulling binaries from the binary cache.\r\n\r\nPing @tgamblin.\r\n\r\nThe CI script builds a docker image as follows (adding a mirror / binary cache, copying an environment file, and then installing):\r\n\r\n```docker\r\n# \"Install\" compilers\r\nCOPY \"$COMPILER_CONFIG\" /opt/spack/etc/spack/compilers.yaml\r\n\r\n# Add our custom spack repo from here\r\nCOPY ./spack /user_repo\r\n\r\nRUN spack repo add --scope site /user_repo\r\n\r\n# Set up the binary cache and trust the public part of our signing key\r\nCOPY ./ci/spack/public_key.asc ./public_key.asc\r\nRUN spack mirror add --scope site minio [some url] && \\\r\n    spack gpg trust ./public_key.asc\r\n\r\n# Copy over the environment file\r\nCOPY $SPACK_ENVIRONMENT /spack_environment/spack.yaml\r\n\r\n# Build dependencies\r\n# 1. Create a spack environment named `ci` from the input spack.yaml file\r\n# 2. Install only the dependencies of this (top level is our package)\r\nRUN spack --color=always env create --without-view ci /spack_environment/spack.yaml\r\n\r\nRUN spack --color=always -e ci install --only=dependencies\r\n```",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/19539",
+    "updated_at": "2020-10-30 20:10:46",
+    "created_at": "2020-10-27 09:47:32",
+    "closed_at": "2020-10-30 20:10:46",
+    "state": "closed",
+    "title": "Major slowdown when installing binaries from binary cache due to #18482",
+    "number": 19539,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 730286215,
+    "html_url": "https://github.com/spack/spack/issues/19539",
+    "assignees": [],
+    "comments": 4
+}

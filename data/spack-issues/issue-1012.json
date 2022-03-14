@@ -1,0 +1,21 @@
+{
+    "body": "Reproducible by : \n\n```\n$ spack find\n==> 33 installed packages.\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\nbinutils@2.26+gold~krellpatch~libiberty  gmp@6.1.0        libtool@2.4.6                                                                                                 m4@1.4.17+sigsegv  python@2.7.11  \nbzip2@1.0.6                              isl@0.14         llvm@3.8.0+all_targets+clang+compiler-rt~debug+gold+internal_unwind+libcxx~link_dylib+lldb+polly~shared_libs  mpc@1.0.3          sqlite@3.8.5   \ncmake@3.5.2~doc+ncurses+openssl~qt       libedit@3.1      lmod@6.0.1                                                                                                    mpfr@3.1.4         swig@3.0.8     \ngcc@6.1.0+binutils+gold                  libsigsegv@2.10  lua@5.3.2                                                                                                     pcre@8.38          zlib@1.2.8     \n\n-- linux-x86_64 / gcc@6.1.0 -------------------------------------\nhdf5@1.10.0~cxx~debug+fortran+mpi+shared+szip~threadsafe  libsigsegv@2.10                     openmpi@1.10.2~mxm~pmi~psm~psm2~slurm~sqlite3~thread_multiple~tm~verbs+vt  zlib@1.2.8\nhdf5@1.10.0+cxx~debug+fortran~mpi+shared+szip~threadsafe  libtool@2.4.6                       openmpi@1.10.2~mxm~pmi~psm~psm2~slurm+sqlite3+thread_multiple~tm~verbs+vt  \nhwloc@1.11.3                                              m4@1.4.17+sigsegv                   sqlite@3.8.5                                                               \nlibpciaccess@0.13.4                                       openblas@0.2.18+fpic~openmp+shared  szip@2.1                                                                   \n\n$ spack uninstall arch=linux-x86_64\n==> Error: Unexpected end of input\n\n$ spack uninstall =linux-x86_64\n==> Error: Unexpected token\n```\n\nA similar issue will be triggered if querying for a dependency, e.g. : \n\n```\n$ spack uninstall ^szip\n==> Error: Unexpected end of input\n```\n\nNote that queries on compilers instead works : \n\n```\n$ spack uninstall -a %gcc@6.1.0\n==> The following packages will be uninstalled : \n\n-- linux-x86_64 / gcc@6.1.0 -------------------------------------\nvhxsri5 hdf5@1.10.0%gcc~cxx~debug+fortran+mpi+shared+szip~threadsafe\n\nq4cd33d hdf5@1.10.0%gcc+cxx~debug+fortran~mpi+shared+szip~threadsafe\n\nwhp7ocf hwloc@1.11.3%gcc\n\nwwwjaz6 libpciaccess@0.13.4%gcc\n\ntn76ik6 libsigsegv@2.10%gcc\n\nrounbef libtool@2.4.6%gcc\n\nm57favd m4@1.4.17%gcc+sigsegv\n\ntvffito openblas@0.2.18%gcc+fpic~openmp+shared\n\nfa3jbsy openmpi@1.10.2%gcc~mxm~pmi~psm~psm2~slurm~sqlite3~thread_multiple~tm~verbs+vt\n\n7kcx5zj openmpi@1.10.2%gcc~mxm~pmi~psm~psm2~slurm+sqlite3+thread_multiple~tm~verbs+vt\n\n4fjyj2l sqlite@3.8.5%gcc\n\nprj7bjf szip@2.1%gcc\n\nxfi4wik zlib@1.2.8%gcc\n\n\n==> Do you want to proceed ? [y/n]\nn\nOperation aborted\n```\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/1012",
+    "updated_at": "2017-01-26 22:29:39",
+    "created_at": "2016-06-01 06:18:28",
+    "closed_at": "2017-01-26 22:29:38",
+    "state": "closed",
+    "title": "spack uninstall : cannot query by architecture or dependencies, just by compilers",
+    "number": 1012,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 157831591,
+    "html_url": "https://github.com/spack/spack/issues/1012",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 4
+}

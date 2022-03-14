@@ -1,0 +1,17 @@
+{
+    "body": "The GCC package has a variant languages:\r\n\r\n```\r\n    languages [all]    all, ada, brig, c,      Compilers and runtime libraries to\r\n                       c++, fortran, go,       build\r\n                       java, jit, lto,         \r\n                       objc, obj-c++         \r\n```\r\n\r\nThe packages.py file contains the following statement:\r\n\r\n    depends_on('gnat', when='languages=ada')\r\n\r\nWhen trying to build it with languages=all, I would expect that it keeps the dependency on gnat, since all should include ada, which is not the case:\r\n\r\n```\r\nspack install gcc@5.4.0+binutils~piclibs languages=all ^binutils@2.28 ^gmp@6.1.2 ^gnat@2016 ^isl@0.18 ^mpc@1.0.3 ^mpfr@3.1.5 ^zip@3.0 ^zlib@1.2.11 %gcc@4.8.5 arch=linux-centos7-x86_64\r\n==> Error: gcc does not depend on gnat or zip\r\n```\r\n\r\nAdding\r\n\r\n`depends_on('gnat', when='languages=all')`\r\n\r\nsolves this problem.",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/4916",
+    "updated_at": "2017-07-27 13:53:46",
+    "created_at": "2017-07-27 11:38:31",
+    "closed_at": "2017-07-27 13:53:46",
+    "state": "closed",
+    "title": "adding gnat dependency for variant languages=all",
+    "number": 4916,
+    "milestone": null,
+    "labels": [],
+    "id": 246012130,
+    "html_url": "https://github.com/spack/spack/pull/4916",
+    "assignees": [],
+    "comments": 1
+}

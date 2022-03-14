@@ -1,0 +1,22 @@
+{
+    "body": "Fix the error message when fetching from consecutive `urls` of a package version. Each fail should show the currently failing URL, not the first url.\r\n\r\nExample multi-problem run that occured in real life:\r\n```\r\n==> 5821: Installing util-macros\r\ncurl: (28) Connection timed out after 10000 milliseconds\r\ncurl: (16) Error in the HTTP2 framing layer\r\ncurl: (22) The requested URL returned error: 403 Forbidden\r\n==> Fetching https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2\r\n==> Failed to fetch file from URL: https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2\r\n    Curl failed with error 28\r\n==> Fetching https://mirrors.ircam.fr/pub/x.org/individual/util/util-macros-1.19.1.tar.bz2\r\n==> Failed to fetch file from URL: https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2\r\n    Curl failed with error 16\r\n==> Fetching http://xorg.mirrors.pair.com/individual/util/util-macros-1.19.1.tar.bz2\r\n==> Failed to fetch file from URL: https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2\r\n    URL https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2 was not found!\r\n==> Fetching from https://www.x.org/archive/individual/util/util-macros-1.19.1.tar.bz2 failed.\r\n==> Error: FetchError: All fetchers failed for spack-stage-util-macros-1.19.1-se2a2e74oyusj2r4esgcb7pr3qhh45ef\r\n```\r\n\r\n[Errors on each of the mirrors:](https://curl.haxx.se/libcurl/c/libcurl-errors.html)\r\n- `urls[0]`: timeout\r\n- `urls[1]`: HTTP2 framing layer error\r\n- `urls[2]`: missing file on mirror\r\n\r\nOn the latter note, I found and added two additional and up-to-date x.org mirrors.",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/16434",
+    "updated_at": "2020-06-27 20:47:11",
+    "created_at": "2020-05-02 21:31:19",
+    "closed_at": "2020-06-18 08:37:33",
+    "state": "closed",
+    "title": "Fetching from urls: Error Message",
+    "number": 16434,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "mirrors",
+        "error-messages",
+        "user-experience"
+    ],
+    "id": 611278021,
+    "html_url": "https://github.com/spack/spack/pull/16434",
+    "assignees": [],
+    "comments": 1
+}

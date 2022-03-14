@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nAfter installing gptune like `spack install gptune` in a freshly cloned spack (with a fresh .spack directory) doing \r\n`spack load gptune`\r\nseems to break spack. Most commands result in `TypeError: __init__() got an unexpected keyword argument 'required'`. Full stack trace from spack debug below.\r\n\r\n### Error message\r\n\r\n```\r\nwspear@yu:~/bin/SPACK/spack$ spack find gptune\r\n==> Error: __init__() got an unexpected keyword argument 'required'\r\nwspear@yu:~/bin/SPACK/spack$ spack -d find gptune\r\n==> [2022-02-01-08:59:05.044838] Reading config file /home/wspear/bin/SPACK/spack/etc/spack/defaults/config.yaml\r\nTraceback (most recent call last):\r\n  File \"/home/wspear/bin/SPACK/spack/bin/spack\", line 98, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home/wspear/bin/SPACK/spack/lib/spack/spack/main.py\", line 900, in main\r\n    return _main(argv)\r\n  File \"/home/wspear/bin/SPACK/spack/lib/spack/spack/main.py\", line 859, in _main\r\n    command = parser.add_command(cmd_name)\r\n  File \"/home/wspear/bin/SPACK/spack/lib/spack/spack/main.py\", line 335, in add_command\r\n    self.subparsers = self.add_subparsers(metavar='COMMAND',\r\n  File \"/home/wspear/bin/SPACK/spack/lib/spack/spack/main.py\", line 314, in add_subparsers\r\n    sp = super(SpackArgumentParser, self).add_subparsers(**kwargs)\r\n  File \"/home/wspear/bin/SPACK/spack/opt/spack/linux-ubuntu20.04-westmere/gcc-9.3.0/py-argparse-1.4.0-he26hmfdaw3epehrw4sljthh264y3yp2/lib/python3.8/site-packages/argparse.py\", line 1698, in add_subparsers\r\n    action = parsers_class(option_strings=[], **kwargs)\r\nTypeError: __init__() got an unexpected keyword argument 'required'\r\nwspear@yu:~/bin/SPACK/spack$ spack info gptune\r\n==> Error: __init__() got an unexpected keyword argument 'required'\r\nwspear@yu:~/bin/SPACK/spack$ spack find\r\n==> Error: __init__() got an unexpected keyword argument 'required'\r\nwspear@yu:~/bin/SPACK/spack$ spack info\r\n==> Error: __init__() got an unexpected keyword argument 'required'\r\nwspear@yu:~/bin/SPACK/spack$ spack location\r\n==> Error: __init__() got an unexpected keyword argument 'required'\r\nwspear@yu:~/bin/SPACK/spack$ spack help\r\n==> Error: __init__() got an unexpected keyword argument 'required'\r\nwspear@yu:~/bin/SPACK/spack$ spack debug report\r\n==> Error: __init__() got an unexpected keyword argument 'required'\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-1043-0a595d488b\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-westmere\r\n* **Concretizer:** clingo\r\n\r\nThe script operation for loading gptune:\r\n[gptune-load.txt](https://github.com/spack/spack/files/7980560/gptune-load.txt)\r\n\r\n@liuyangzhuan \r\n@adamjstewart \r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/28713",
+    "updated_at": "2022-02-01 22:38:11",
+    "created_at": "2022-02-01 17:20:39",
+    "closed_at": "2022-02-01 22:38:11",
+    "state": "closed",
+    "title": "TypeError from most spack commands after loading gptune",
+    "number": 28713,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1120990970,
+    "html_url": "https://github.com/spack/spack/issues/28713",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 2
+}

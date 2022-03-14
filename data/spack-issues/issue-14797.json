@@ -1,0 +1,24 @@
+{
+    "body": "Including an external intel compiler as part of a Spack environment prevents installation of that environment. I think it's because external codes don't get linked into a Spack view.\r\n\r\n### Steps to reproduce the issue\r\n\r\nWith environment file `test.yaml`:\r\n```yaml\r\nspack:\r\n  specs:\r\n    - intel@18.0.2\r\n  view: true\r\n```\r\n\r\n```console\r\n$ spack env create test ./test.yaml\r\n==> Updating view at /projects/spack/var/spack/environments/test/.spack-env/view\r\n==> Created environment 'test' in /projects/spack/var/spack/environments/test\r\n$ spack env activate test\r\n$ spack concretize\r\n==> Concretized intel@18.0.2\r\n[+]  i4xujzv  intel@18.0.2%gcc@8.3.0 auto_dispatch=none +rpath arch=linux-rhel6-x86_64\r\n==> Updating view at /projects/spack/var/spack/environments/test/.spack-env/view\r\n==> Warning: [/projects/spack/var/spack/environments/test/.spack-env/view] Skipping external package: intel@18.0.2%gcc@8.3.0 auto_dispatch=none +rpath arch=linux-rhel6-x86_64/i4xujzv\r\n```\r\n\r\nThen try installing:\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack install\r\nTraceback (most recent call last):\r\n  File \"/projects/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/projects/spack/lib/spack/spack/main.py\", line 693, in main\r\n    ev.activate(env, args.use_env_repo)\r\n  File \"/projects/spack/lib/spack/spack/environment.py\", line 163, in activate\r\n    cmds += env.add_default_view_to_shell(shell)\r\n  File \"/projects/spack/lib/spack/spack/environment.py\", line 1107, in add_default_view_to_shell\r\n    spec, self.default_view))\r\n  File \"/projects/spack/lib/spack/spack/user_environment.py\", line 89, in environment_modifications_for_spec\r\n    spec.package.setup_run_environment(env)\r\n  File \"/projects/spack/lib/spack/spack/build_systems/intel.py\", line 1018, in setup_run_environment\r\n    env.extend(EnvironmentModifications.from_sourcing_file(f, *args))\r\n  File \"/projects/spack/lib/spack/spack/util/environment.py\", line 587, in from_sourcing_file\r\n    raise RuntimeError(msg)\r\nRuntimeError: Trying to source non-existing file: /projects/spack/var/spack/environments/test/.spack-env/view/compilers_and_libraries/linux/bin/compilervars.sh\r\n```\r\n\r\n### Information on your system\r\n\r\nrelevant section  of `etc/spack/packages.yaml`:\r\n```yaml\r\npackages:\r\n  intel:\r\n    paths:\r\n      intel@18.0.2: /opt/intel-2018\r\n    buildable: False\r\n```",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14797",
+    "updated_at": "2020-04-03 20:26:34",
+    "created_at": "2020-02-06 20:09:05",
+    "closed_at": "2020-04-03 20:26:34",
+    "state": "closed",
+    "title": "Failure to `install` in environments with external intel",
+    "number": 14797,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "intel",
+        "environments",
+        "triage"
+    ],
+    "id": 561241709,
+    "html_url": "https://github.com/spack/spack/issues/14797",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

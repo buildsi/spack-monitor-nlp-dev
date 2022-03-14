@@ -1,0 +1,22 @@
+{
+    "body": "(1) Properly encloses the ansi escape sequences used to colorize PS1 inside escaped square brackets -- a special requirement when using escape sequences inside PS1 that is necessary in order to properly determine the prompt length. Without this, formatting issues arise, as can easily be verified by (a) `spack env activate -p <env-name>` (b) type a long line of characters (c) try to delete the line, which will not be entirely possible.\r\n\r\n(2) Fixes the following incorrect behavior:\r\n```\r\n$> spack env activate -p e1\r\n[e1] $> spack env activate -p e2\r\n[e2] [e1] $> ...\r\n```\r\nto be:\r\n```\r\n$> spack env activate -p e1\r\n[e1] $> spack env activate -p e2\r\n[e2] $> ...\r\n```\r\n\r\n(3) When PS1 was unset, the old code set PS1='$$$$' which evaluated to `PID` concatenated to `PID`. Here I set it to ' $> ' which seems like a reasonable prompt when one is not set already (?)",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/12918",
+    "updated_at": "2021-06-11 22:46:44",
+    "created_at": "2019-09-23 21:16:41",
+    "closed_at": "2021-06-11 22:46:44",
+    "state": "closed",
+    "title": "fix ansi escape seq used to colorize PS1",
+    "number": 12918,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "color",
+        "user-experience",
+        "environments"
+    ],
+    "id": 497333124,
+    "html_url": "https://github.com/spack/spack/pull/12918",
+    "assignees": [],
+    "comments": 1
+}

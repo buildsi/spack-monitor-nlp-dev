@@ -1,0 +1,23 @@
+{
+    "body": "In #5132, we added a `test` deptype with the following properties:\r\n\r\n- Dependency is only added when `spack install --test` is specified\r\n- Doesn't affect the package hash\r\n- Performs same env modifications as `build` deptype\r\n\r\nThis PR adds one additional property:\r\n\r\n- Performs same modifications to `-I`, `-L`, and `-Wl,-rpath` in compiler wrapper as `link` deptype\r\n\r\nWhen we discussed #5132, one of the assumptions was that \"test\" dependencies only needed to be added to the `PATH` or `PYTHONPATH` to use them. However, this is not the case for all \"test\" dependencies. Specifically, `googletest` is needed as a \"test\" dependency for many packages, however it has no `prefix.bin` directory. It only has `prefix.include` and `prefix.lib` directories that are used to compile the unit tests of a package. This PR allows `googletest` to be RPATHed to the unit tests.\r\n\r\nOne concern I have is what happens when a unit test has many dependencies that we don't want RPATHed into the resulting executable. Could this be a problem? I want to make sure that `build` and `test` dependencies can still be uninstalled after installation without causing any unforeseen problems. Also, this won't affect the spec hash, right?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12842",
+    "updated_at": "2019-12-17 18:12:25",
+    "created_at": "2019-09-16 21:55:03",
+    "closed_at": "2019-12-17 18:12:20",
+    "state": "closed",
+    "title": "Add test dependencies to list of RPATHed dependencies",
+    "number": 12842,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "linking",
+        "tests"
+    ],
+    "id": 494296008,
+    "html_url": "https://github.com/spack/spack/pull/12842",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,17 @@
+{
+    "body": "I'm on the latest develop branch and having problems specifying an installation. I want to build parallel NetCDF and NetCDF-Fortran with PGI. OpenSSL and libpciaccess can't be built with PGI, so I'm linking to GCC versions. When I run:\n\n```\n$ spack spec netcdf-fortran %pgi ^netcdf+mpi ^openssl%gcc\nInput spec\n------------------------------\n  netcdf-fortran%pgi\n      ^netcdf+mpi\n      ^openssl%gcc\n\nNormalized\n------------------------------\n  netcdf-fortran%pgi\n      ^netcdf+mpi\n          ^curl\n              ^openssl%gcc\n                  ^zlib\n          ^m4\n\nConcretized\n------------------------------\n  netcdf-fortran@4.4.4%pgi@16.5-0 arch=linux-centos6-x86_64\n      ^netcdf@4.4.1%pgi@16.5-0+hdf4+mpi arch=linux-centos6-x86_64\n          ^curl@7.50.1%pgi@16.5-0 arch=linux-centos6-x86_64\n              ^openssl@1.0.2h%gcc@6.1.0 arch=linux-centos6-x86_64\n                  ^zlib@1.2.8%pgi@16.5-0 arch=linux-centos6-x86_64\n          ^hdf@4.2.11%pgi@16.5-0+szip arch=linux-centos6-x86_64\n              ^jpeg@9b%pgi@16.5-0 arch=linux-centos6-x86_64\n              ^szip@2.1%pgi@16.5-0 arch=linux-centos6-x86_64\n          ^hdf5@1.10.0-patch1%pgi@16.5-0+cxx~debug+fortran+mpi+shared+szip~threadsafe arch=linux-centos6-x86_64\n              ^mvapich2@2.2b%pgi@16.5-0~debug~gforker+hydra~mrail~nemesis~nemesisib~nemesisibtcp+psm~remshell~slurm~sock arch=linux-centos6-x86_64\n                  ^libpciaccess@0.13.4%pgi@16.5-0 arch=linux-centos6-x86_64\n                      ^libtool@2.4.6%pgi@16.5-0 arch=linux-centos6-x86_64\n                          ^m4@1.4.17%pgi@16.5-0+sigsegv arch=linux-centos6-x86_64\n                              ^libsigsegv@2.10%pgi@16.5-0 arch=linux-centos6-x86_64\n```\n\nIt works. But when I also specify the compiler to use for libpciaccess:\n\n```\n$ spack spec netcdf-fortran %pgi ^netcdf+mpi ^openssl%gcc ^libpciaccess%pgi\nInput spec\n------------------------------\n  netcdf-fortran%pgi\n      ^libpciaccess%pgi\n      ^netcdf+mpi\n      ^openssl%gcc\n\nNormalized\n------------------------------\n==> Error: netcdf-fortran does not depend on libpciaccess\n```\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1552",
+    "updated_at": "2016-09-08 18:58:46",
+    "created_at": "2016-08-17 17:05:49",
+    "closed_at": "2016-09-08 18:58:46",
+    "state": "closed",
+    "title": "Spack dependency resolution and normalization broken",
+    "number": 1552,
+    "milestone": null,
+    "labels": [],
+    "id": 171710155,
+    "html_url": "https://github.com/spack/spack/issues/1552",
+    "assignees": [],
+    "comments": 6
+}

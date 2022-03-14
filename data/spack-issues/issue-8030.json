@@ -1,0 +1,20 @@
+{
+    "body": "So this is actually a bug with `cURL` (I believe).  The question is whether it warrants a bypass in `spack`, e.g. `spack install --silent-curl <pkg>`.\r\n\r\n**I am happy to implement this if it is desired.**\r\n\r\n### `cURL` Bug\r\n\r\nThe progress bar can get confused sometimes, and starts spitting out a bunch of `#`'s without a carriage return.  I've experienced this locally, as well as on Travis.  Locally it usually happens through `tmux`, and only on larger archives such as OpenCV.  *Maybe it's even exclusive to downloading from GitHub*.  But it's never actually been a roadblock locally.\r\n\r\nOn Travis, though, the build can get killed:\r\n\r\n```\r\n==> Fetching https://github.com/Itseez/opencv/archive/3.3.0.tar.gz\r\n######################################################################## 100.0%\r\nThe log length has exceeded the limit of 4 MB (this usually means that the test suite is raising the same exception over and over).\r\nThe job has been terminated\r\n```\r\n\r\n**Note**: my success / failure ratio is inconsistent.  Sometimes downloading OpenCV works just fine, but when I happen to be watching the build, the time when the carriage returns disappear it will always fail.\r\n\r\n### `spack` Code Responsible\r\n\r\nhttps://github.com/spack/spack/blob/0dddb988696f3c90ea3c14c48346c265d744e2f2/lib/spack/spack/fetch_strategy.py#L249-L252\r\n\r\nOn Travis, `sys.stdout` is a `tty()`, but all of the `#` signs create issues.  The idea would be to do something like\r\n\r\n```py\r\nif not spack.silent_curl and sys.stdout.isatty(): \r\n    curl_args.append('-#')  # status bar when using a tty \r\nelse: \r\n    curl_args.append('-sS') # just errors when not. \r\n```\r\n\r\nand add the relevant option.\r\n\r\n### Consequences / Considerations\r\n\r\n- Travis will kill a job [when a job produces no log output for 10 minutes](https://docs.travis-ci.com/user/customizing-the-build#Build-Timeouts).  For very large downloads, this silent option may trigger a timeout.\r\n    - But Travis has **very** fast download times (at least in my experience).\r\n- This is different than a `-s` for silent install which has been discussed elsewhere.  This `--silent-curl` would still print out all of the normal phases and report that it was fetching, just no progress bar with `cURL`.\r\n\r\n--------------\r\n\r\nFWIW I reliably succeed with this very ugly (temporary) bypass:\r\n\r\n```console\r\n$ cat spack/lib/spack/spack/fetch_strategy.py | sed 's/        curl_args += self.extra_curl_options/        curl_args = [arg.replace(\"-#\", \"-sS\") for arg in curl_args] + self.extra_curl_options/g' > tmp_fetcher\r\n$ cat tmp_fetcher > spack/lib/spack/spack/fetch_strategy.py\r\n$ git -C spack/ --no-pager diff\r\n```\r\n```diff\r\ndiff --git a/lib/spack/spack/fetch_strategy.py b/lib/spack/spack/fetch_strategy.py\r\nindex 04e42a9f0..9f1907c97 100644\r\n--- a/lib/spack/spack/fetch_strategy.py\r\n+++ b/lib/spack/spack/fetch_strategy.py\r\n@@ -251,7 +251,7 @@ class URLFetchStrategy(FetchStrategy):\r\n         else:\r\n             curl_args.append('-sS')  # just errors when not.\r\n \r\n-        curl_args += self.extra_curl_options\r\n+        curl_args = [arg.replace(\"-#\", \"-sS\") for arg in curl_args] + self.extra_curl_options\r\n \r\n         # Run curl but grab the mime type from the http headers\r\n         curl = self.curl\r\n```",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/8030",
+    "updated_at": "2019-02-06 12:07:49",
+    "created_at": "2018-05-07 00:57:36",
+    "closed_at": "2019-02-06 12:07:49",
+    "state": "closed",
+    "title": "[feature] install option for silent download option",
+    "number": 8030,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "fetching"
+    ],
+    "id": 320645277,
+    "html_url": "https://github.com/spack/spack/issues/8030",
+    "assignees": [],
+    "comments": 4
+}

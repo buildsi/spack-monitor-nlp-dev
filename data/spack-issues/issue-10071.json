@@ -1,0 +1,21 @@
+{
+    "body": "As per the issue title above, a network drop while I was working on `regcm` package caused a DB corruption, which showed the following error:\r\n```\r\n==> Error: Specs\r\nlibtool@2.4.6%intel@18.0.3 arch=linux-centos7-x86_64  ^libsigsegv@2.11%gcc@8.2.0 cflags=\"-O2\" cxxflags=\"-O2\" fflags=\"-O2\"  arch=linux-centos7-x86_64  ^m4@1.4.18%gcc@8.2.0 cflags=\"-O2\" cxxflags=\"-O2\" fflags=\"-O2\"  patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e,fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8 +sigsegv arch=linux-centos7-x86_64\r\nand\r\nlibtool@2.4.6%intel@18.0.3 cflags=\"-O2\" cxxflags=\"-O2\" fflags=\"-O2\"  arch=linux-centos7-x86_64\r\nhave the same SHA-1 prefix!\r\n```\r\nI then tried a `spack reindex`, but it didn't work, and moreover, it now doesn't see hundreds of packages I've installed in spack, which are still installed and available at `opt/spack/linux-centos7-x86_64/`.\r\n```\r\n# tree -L 2 opt/spack/linux-centos7-x86_64/ |wc -l\r\n290\r\n```\r\n\r\nwhile:\r\n```\r\n# spack find\r\n==> 15 installed packages\r\n-- linux-centos7-x86_64 / gcc@7.2.0 -----------------------------\r\ndarshan-util@3.1.6\r\n\r\n-- linux-centos7-x86_64 / gcc@8.2.0 -----------------------------\r\ngdbm@1.14.1  libsigsegv@2.11  m4@1.4.18  ncurses@6.1  perl@5.26.2  readline@7.0  zlib@1.2.11\r\n\r\n-- linux-centos7-x86_64 / intel@18.0.3 --------------------------\r\nlibpciaccess@0.13.5  libtool@2.4.6  libxml2@2.9.8  pkgconf@1.5.4  util-macros@1.19.1  xz@5.2.4  zlib@1.2.11\r\n```\r\n\r\nI tried also removing the db locks:\r\n```console\r\n# rm var/spack/stage/.lock opt/spack/.spack-db/prefix_lock opt/spack/.spack-db/lock\r\n```\r\nand renaming the index:\r\n```console\r\n# mv opt/spack/.spack-db/index.json{,.bkp}\r\n```\r\nbut it didn't help, even after another `spack reindex`.\r\n\r\n### Information on the system\r\n\r\n 1. CentOS 7.5, working on https://github.com/exactlab/spack/tree/regcm_fixes, which I rebased this morning to upstream develop 8f0fc259\r\n 2. some compilers installed, gcc@{4.8.5,7.2.0,8.2.0}, pgi, intel@18\r\n\r\nI'm a bit worried: is there a way to perform a \"full reindex\" or force a reindex on `opt/`?",
+    "user": "bebosudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10071",
+    "updated_at": "2018-12-11 18:40:50",
+    "created_at": "2018-12-10 10:50:54",
+    "closed_at": "2018-12-11 11:07:10",
+    "state": "closed",
+    "title": "network drop caused DB corruption (same SHA-1 prefix) and reindex lost hundreds of packages",
+    "number": 10071,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 389243991,
+    "html_url": "https://github.com/spack/spack/issues/10071",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

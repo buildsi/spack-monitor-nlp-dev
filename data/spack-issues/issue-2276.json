@@ -1,0 +1,22 @@
+{
+    "body": "subj:\r\n```\r\n==> 'test/ij'\r\ntest/ij: error while loading shared libraries: libHYPRE-2.10.1.so: cannot open shared object file: No such file or directory\r\n```\r\nwith\r\n```\r\n/home/davydden/spack/opt/spack/linux-Ubuntu16-x86_64/gcc-5.4.0/openmpi-2.0.1-rtjbggt75kefexuodug6cx22fbcwgb22/bin/mpicc -O -fPIC -DHAVE_CONFIG_H -I. -I./.. -I/tmp/davydden/spack-stage/spack-stage-RsbFOY/hypre-2.10.1/src/hypre/include  -DHYPRE_TIMING -DHYPRE_FORTRAN -c ij.c \r\n...\r\n/home/davydden/spack/opt/spack/linux-Ubuntu16-x86_64/gcc-5.4.0/openmpi-2.0.1-rtjbggt75kefexuodug6cx22fbcwgb22/bin/mpicc -o ij ij.o -L/tmp/davydden/spack-stage/spack-stage-RsbFOY/hypre-2.10.1/src/hypre/lib -lHYPRE     -L/home/davydden/spack/opt/spack/linux-Ubuntu16-x86_64/gcc-5.4.0/openblas-0.2.19-4juihehcsrbrrnmzuyitrzo5g24tcgpi/lib  -lopenblas -L/home/davydden/spack/opt/spack/linux-Ubuntu16-x86_64/gcc-5.4.0/openblas-0.2.19-4juihehcsrbrrnmzuyitrzo5g24tcgpi/lib  -lopenblas  -lm\r\n```\r\nand\r\n```\r\n$ objdump -p libHYPRE.so | grep SONAME\r\n  SONAME               libHYPRE-2.10.1.so\r\n```\r\n\r\nI added the tests in https://github.com/LLNL/spack/commit/514c61b8fe923de7eb0c41205fdfaae48afb5cdf, but it could be that I was building it on macOS where `shared` is `off` by default.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2276",
+    "updated_at": "2019-12-03 13:54:50",
+    "created_at": "2016-11-08 06:38:46",
+    "closed_at": "2019-12-03 13:54:50",
+    "state": "closed",
+    "title": "Hypre: tests can't find the shared library to load",
+    "number": 2276,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "new-package"
+    ],
+    "id": 187913737,
+    "html_url": "https://github.com/spack/spack/issues/2276",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

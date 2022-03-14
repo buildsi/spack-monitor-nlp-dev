@@ -1,0 +1,21 @@
+{
+    "body": "In #2512, @kserradell reported the following error message when trying to build fontconig:\r\n```\r\nconfigure: error: Package requirements (freetype2) were not met: Package 'bzip2', required by 'freetype2', not found\r\n```\r\nIndeed, freetype was missing a dependency on bzip2. This PR includes the following modifications:\r\n\r\n- [x] Add missing bzip2 dependency to freetype\r\n- [x] Update freetype and libpng to AutotoolsPackage\r\n- [x] Add latest versions of freetype and libpng\r\n- [x] Remove most of older versions of libpng due to multiple security vulnerabilities\r\n- [x] Fix freetype homepage\r\n- [x] Add more detailed docstrings for freetype and libpng\r\n\r\nAfter adding the bzip2 dependency, both freetype and fontconfig are correctly linking to Spack's bzip2 installation instead of the system installation. All packages in the stack passed `--run-tests` for me with GCC 6.1.0.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2536",
+    "updated_at": "2016-12-12 22:20:37",
+    "created_at": "2016-12-09 15:40:09",
+    "closed_at": "2016-12-12 22:20:37",
+    "state": "closed",
+    "title": "Add missing bzip2 dependency to freetype",
+    "number": 2536,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "autotools"
+    ],
+    "id": 194626268,
+    "html_url": "https://github.com/spack/spack/pull/2536",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I am working on bringing `dmlc/mxnet`, a popular deep learning frame, into spack's repo (See https://github.com/LLNL/spack/pull/3579). Building dependency packages goes well, but weird things happened when I almost manage to build a CPU version of mxnet. Error arise regarding C++ macro substitution, in which `DMLC_THROW_EXCEPTION` should be defined in `dmlc/base.h` provided by external libray `dmlc-core`. Sure `dmlc-core` library has been built successfully within Spack.\r\n\r\nBut when I copied the building command from `spack-build.out` and run it outside Spack. It works! Since I used g++ shipped with CentOS 7 (`/usr/bin/g++`), no extra settings are required. No other mxnet users report similar issues yet.\r\n\r\nI appreciate tips for better debugging Spack behavior. For example, how can I compare compiler's behavior with and without Spack.\r\n\r\n\r\n```\r\n$ spack install -j1 mxnet@0.10.0.post2~opencv %gcc@4.8.5\r\n...[FAILED]\r\n$ view /tmp/hpc-jianwen/spack_stage/spack-stage/spack-stage-ozAww4/incubator-mxnet/spack-build.out\r\nIn file included from /lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/dmlc-core-71bfbd3-gk6qdv3pcsehvqxt7rdklrksajdk2n3e/include/dmlc/io.h:14:0,\r\n                 from include/mxnet/base.h:10,\r\n                 from src/operator/tensor/init_op.h:9,\r\n                 from src/operator/tensor/init_op.cc:6:\r\n/lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/dmlc-core-71bfbd3-gk6qdv3pcsehvqxt7rdklrksajdk2n3e/include/dmlc/./logging.h:289:20: error: expected \u2018;\u2019 at end of member declaration\r\n   ~LogMessageFatal() DMLC_THROW_EXCEPTION {\r\n                    ^\r\n\r\n\r\n$ cd /tmp/hpc-jianwen/spack_stage/spack-stage/spack-stage-ozAww4/incubator-mxnet\r\n$ g++ -std=c++11 -c -DMSHADOW_FORCE_STREAM -Wall -Wsign-compare -O3 -DNDEBUG=1 \\\r\n-I/lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/mshadow-20b54f0-vfbcjflw7m44weg2xuklpwdn7pfrcjs4/include \\\r\n-I/lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/dmlc-core-71bfbd3-gk6qdv3pcsehvqxt7rdklrksajdk2n3e/include -fPIC \\\r\n-I/lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/nnvm-b279286-k2zir7wuckegjqweavytwuratgodw4pv/include \\\r\n-Iinclude -funroll-loops -Wno-unused-variable -Wno-unused-parameter -Wno-unknown-pragmas \\\r\n-Wno-unused-local-typedefs -msse3 -DMSHADOW_USE_CUDA=0 -DMSHADOW_USE_CBLAS=1 -DMSHADOW_USE_MKL=0 -DMSHADOW_RABIT_PS=0 -DMSHADOW_DIST_PS=0 -DMSHADOW_USE_PASCAL=0 -DMXNET_USE_OPENCV=1 \\\r\n-I/lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/opencv-3.3.0-sllqtriqymprhycps65ob3uawhv63iai/include/opencv -I/lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/opencv-3.3.0-sllqtriqymprhycps65ob3uawhv63iai/include \\\r\n-I/lustre/home/acct-hpc/hpc-jianwen/spack/opt/linux-centos7-x86_64/gcc-4.8.5/openblas-0.2.20-w7pxktku4zupbdi6qgbhnlpslhfxi66w/include  \\\r\n-fopenmp  -DMXNET_USE_NVRTC=0 -MMD \\\r\n-c src/operator/tensor/init_op.cc -o build/src/operator/tensor/init_op.o\r\n[SUCCEED]\r\n```",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/5162",
+    "updated_at": "2017-08-19 09:07:56",
+    "created_at": "2017-08-18 20:56:22",
+    "closed_at": "2017-08-19 09:07:56",
+    "state": "closed",
+    "title": "C++ object compilation failed within Spack's environment",
+    "number": 5162,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 251356752,
+    "html_url": "https://github.com/spack/spack/issues/5162",
+    "assignees": [],
+    "comments": 1
+}

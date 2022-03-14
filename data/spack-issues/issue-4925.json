@@ -1,0 +1,19 @@
+{
+    "body": "This PR adds Spack support for the qmake build system.\r\n\r\nUnfortunately, I'm not able to test this. I am unable to install `qt` on macOS (see #2363 and #2496) or on CentOS 6. I even tried using `qt` built with Anaconda but that didn't work either. There are a few things that I would like to see tested before this is merged:\r\n\r\n1. ~Do these packages need `qt` as a build/link dependency or just build? Run `ldd -r` on any dynamic executables or shared libraries to confirm.~ Pretty sure it is a link dependency too.\r\n2. ~Are these packages actually using Spack's compiler wrappers? Add `echo \"USING SPACK'S COMPILER WRAPPERS\"` to `lib/spack/env/cc` to confirm. There are a few [qmake variables](http://doc.qt.io/qt-5/qmake-variable-reference.html) that can be set including `QMAKE_CC` and `QMAKE_CXX`, as well as some RPATH-related variables that could be set.~ The compiler wrappers are being used.\r\n3. ~Do packages built with `qmake` come with any build-time or install-time tests? Check the generated Makefile for targets like `check` or `test`.~ Found one with a `check:` target.\r\n\r\n@jrood-nrel added the `qwt` package in #4911, while @lee218llnl added the `qt-creator` package in #1659. Would either of you be willing to test this, or tell me your secret for getting `qt` installed?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4925",
+    "updated_at": "2017-08-04 15:53:52",
+    "created_at": "2017-07-28 17:08:55",
+    "closed_at": "2017-08-04 15:46:08",
+    "state": "closed",
+    "title": "Add a QMakePackage base class",
+    "number": 4925,
+    "milestone": null,
+    "labels": [
+        "qmake"
+    ],
+    "id": 246406579,
+    "html_url": "https://github.com/spack/spack/pull/4925",
+    "assignees": [],
+    "comments": 21
+}

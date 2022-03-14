@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```\r\n$ spack install intel-oneapi-compilers\r\n$ spack compiler add `spack location -i intel-oneapi-compilers`/compiler/latest/linux/bin\r\n$ spack install python@3.8.10%oneapi\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2581-aacba57\r\n* **Python:** 3.5.2\r\n* **Platform:** linux-ubuntu16.04-sandybridge\r\n* **Concretizer:** original\r\n```\r\n\r\nNo relevant configuration details (reproducible on a clean `spack` clone).\r\n\r\n### Additional information\r\n\r\nThe `install` phase is stuck. `top` shows a few `python` processes running at 100%. Attaching with `gdb` to one of these processes shows that the process is stuck in an infinite loop in `_Py_HashDouble()` around [here](https://github.com/python/cpython/blob/b05955d6f5f149523b5855a335444b7c6324bdb7/Python/pyhash.c#L116) (the `m` variable is equal to `inf` and the `while` loop never ends).\r\n\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6460615/spack-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6460617/spack-build-env.txt)\r\n\r\n@adamjstewart @skosukhin \r\n\r\nI was unsure if I should mention the maintainers of `intel-oneapi-compilers` too.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "arekfu",
+    "url": "https://api.github.com/repos/spack/spack/issues/23562",
+    "updated_at": "2021-05-13 11:04:21",
+    "created_at": "2021-05-11 16:25:52",
+    "closed_at": "2021-05-13 11:04:21",
+    "state": "closed",
+    "title": "Installation issue: python",
+    "number": 23562,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 887797853,
+    "html_url": "https://github.com/spack/spack/issues/23562",
+    "assignees": [],
+    "comments": 5
+}

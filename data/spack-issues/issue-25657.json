@@ -1,0 +1,22 @@
+{
+    "body": "By default, `py-pyqt5` installs its qt designer and qml plugins into `qt`'s install prefix, and we don't want that.\r\n\r\nI tested qt's `designer` with this fix and it correctly lists the pyqt5 plugin thanks to  `QT_PLUGIN_PATH`. But I wasn't able to simply test the qml plugin, but I found a couple reference saying `QT_PLUGIN_PATH` should work for qml plugins too.\r\n\r\nEDIT: for the record:\r\n```\r\n$ spack verify .../qt-5.15.2-i46xrjybjytgf6fdnseiu37p37g44242/.spack/spec.yaml\r\n==> In package qt/i46xrjy\r\n.../qt-5.15.2-i46xrjybjytgf6fdnseiu37p37g44242/plugins/PyQt5 verification failed with error(s):\r\n    added\r\n.../qt-5.15.2-i46xrjybjytgf6fdnseiu37p37g44242/plugins/PyQt5/libpyqt5qmlplugin.so verification failed with error(s):\r\n    added\r\n.../qt-5.15.2-i46xrjybjytgf6fdnseiu37p37g44242/plugins/designer/libpyqt5.so verification failed with error(s):\r\n    added\r\n```\r\n",
+    "user": "Jordan474",
+    "url": "https://api.github.com/repos/spack/spack/issues/25657",
+    "updated_at": "2022-02-11 08:50:07",
+    "created_at": "2021-08-27 09:48:59",
+    "closed_at": "2021-09-06 10:18:14",
+    "state": "closed",
+    "title": "py-pyqt5: Don't install files into qt install prefix",
+    "number": 25657,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package"
+    ],
+    "id": 981071198,
+    "html_url": "https://github.com/spack/spack/pull/25657",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

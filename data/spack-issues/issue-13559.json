@@ -1,0 +1,23 @@
+{
+    "body": "The `py-pybind11` package has a python module helper of the form:\r\n\r\n```python\r\nimport pybind11 as py\r\nprint(py.get_include())\r\n```\r\n\r\nwhich helps downstream, if they are not using the CMake config package (which probably everyone is using), to query the install location.\r\n\r\n`get_include()` currently points to the spec's Python include location instead of the package's include.\r\n\r\nDiff for a new unit test:\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/py-pybind11/package.py b/var/spack/repos/builtin/packages/py-pybind11/package.py\r\nindex cd482ceb3..0a86afb97 100644\r\n--- a/var/spack/repos/builtin/packages/py-pybind11/package.py\r\n+++ b/var/spack/repos/builtin/packages/py-pybind11/package.py\r\n@@ -60,3 +60,17 @@ class PyPybind11(CMakePackage):\r\n         super(PyPybind11, self).install(spec, prefix)\r\n         setup_py('install', '--single-version-externally-managed', '--root=/',\r\n                  '--prefix={0}'.format(prefix))\r\n+\r\n+    @run_after('install')\r\n+    @on_package_attributes(run_tests=True)\r\n+    def test(self):\r\n+        with working_dir('spack-test', create=True):\r\n+            # test include helper points to right location\r\n+            module = \"pybind11\"\r\n+            python = Executable(self.spec['python'].command.path)\r\n+            python('-c', 'import {0}'.format(module))\r\n+            inc = python('-c', 'import {0} as py; print(py.get_include())'.format(\r\n+                module), output=str)\r\n+            print(\"INC:\")\r\n+            print(inc)\r\n+            assert inc == self.prefix.include\r\n```\r\n\r\nSimilar to:\r\n- https://github.com/conda-forge/pybind11-feedstock/pull/32\r\n- https://github.com/pybind/pybind11/pull/1877",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/13559",
+    "updated_at": "2019-11-06 06:15:14",
+    "created_at": "2019-11-04 18:17:47",
+    "closed_at": "2019-11-06 06:15:14",
+    "state": "closed",
+    "title": "pybind11: fix get_include()",
+    "number": 13559,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "update-package"
+    ],
+    "id": 517321102,
+    "html_url": "https://github.com/spack/spack/issues/13559",
+    "assignees": [
+        "ax3l"
+    ],
+    "comments": 5
+}

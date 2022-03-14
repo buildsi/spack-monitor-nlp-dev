@@ -1,0 +1,22 @@
+{
+    "body": "Git 2.24 introduced a feature flag for repositories with many files, see:\r\nhttps://github.blog/2019-11-03-highlights-from-git-2-24/#feature-macros\r\n\r\nSince Spack's Git repository contains roughly 8,500 files, it can be\r\nworthwhile to enable this, especially on slow file systems such as NFS:\r\n```\r\n$ hyperfine --warmup 3 'cd spack-default; git status' 'cd spack-manyfiles; git status'\r\nBenchmark #1: cd spack-default; git status\r\n  Time (mean \u00b1 \u03c3):      3.388 s \u00b1  0.095 s    [User: 256.2 ms, System: 625.8 ms]\r\n  Range (min \u2026 max):    3.168 s \u2026  3.535 s    10 runs\r\n\r\nBenchmark #2: cd spack-manyfiles; git status\r\n  Time (mean \u00b1 \u03c3):     168.7 ms \u00b1  10.9 ms    [User: 98.6 ms, System: 126.1 ms]\r\n  Range (min \u2026 max):   144.8 ms \u2026 188.0 ms    19 runs\r\n\r\nSummary\r\n  'cd spack-manyfiles; git status' ran\r\n   20.09 \u00b1 1.42 times faster than 'cd spack-default; git status'\r\n```",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/25977",
+    "updated_at": "2021-09-16 15:41:11",
+    "created_at": "2021-09-15 18:32:35",
+    "closed_at": "2021-09-16 15:41:10",
+    "state": "closed",
+    "title": "Recommend Git's manyFiles feature",
+    "number": 25977,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 997389799,
+    "html_url": "https://github.com/spack/spack/pull/25977",
+    "assignees": [
+        "sethrj",
+        "adamjstewart"
+    ],
+    "comments": 6
+}

@@ -1,0 +1,17 @@
+{
+    "body": "See log below.  Three problems compounded upon each other here:\n1. Spack wrongly thought that 'http://download.osgeo.org/proj/proj-4.9.2.tar.gz.md5' was a version-5 tarball.\n2. When spack couldn't untar the file, it gave up on everything.\n3. There was no way (that I know of) to get Spack to get past this stuff it found by sniffing around.\n\nNow I'm dead in the water.  Fixes needed:\n1. Be smarter when sniffing around for different versions, don't be confused by .md5 files.\n2. If a \"tar file\" that Spack finds fails to untar or whatnot... just skip it and move on.\n3. Have some way to get Spack to set up for JUST the version you asked for.  This is a failsafe that will allow progress to be made, even if random confusing other stuff is in the remote directory.\n\n```\n[ankeli stage]$ spack create http://download.osgeo.org/proj/proj-4.9.2.tar.gz\n==> This looks like a URL for proj version 4.9.2.\n==> Creating template for package proj\n==> Found 18 versions of proj:\n  5         http://download.osgeo.org/proj/proj-4.9.2.tar.gz.md5\n  4.9.2     http://download.osgeo.org/proj/proj-4.9.2.tar.gz\n  4.9.1     http://download.osgeo.org/proj/proj-4.9.1.tar.gz\n  4.8.0     http://download.osgeo.org/proj/proj-4.8.0.tar.gz\n  4.7.0     http://download.osgeo.org/proj/proj-4.7.0.tar.gz\n  4.6.1     http://download.osgeo.org/proj/proj-4.6.1.tar.gz\n  4.6.0     http://download.osgeo.org/proj/proj-4.6.0.tar.gz\n  4.5.0     http://download.osgeo.org/proj/proj-4.5.0.tar.gz\n  4.4.9     http://download.osgeo.org/proj/proj-4.4.9.tar.gz\n  ...\n  4.4.0     http://download.osgeo.org/proj/proj-4.4.0.tar.gz\n\nInclude how many checksums in the package file? (default is 5, q to abort) 1\n==> Downloading...\n==> Trying to fetch from http://download.osgeo.org/proj/proj-4.9.2.tar.gz.md5\n######################################################################## 100.0%\n/usr/bin/tar: This does not look like a tar archive\n/usr/bin/tar: Exiting with failure status due to previous errors\n==> Error: Command exited with status 2:\n/usr/bin/tar --exclude=*/*/* -tf /home/rpfische/spack/var/spack/stage/spack-stage-uhAAHe/proj-4.9.2.tar.gz.md5\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/461",
+    "updated_at": "2016-03-02 14:53:29",
+    "created_at": "2016-02-29 18:45:45",
+    "closed_at": "2016-03-02 14:53:29",
+    "state": "closed",
+    "title": "Spack create confused by .md5 files",
+    "number": 461,
+    "milestone": null,
+    "labels": [],
+    "id": 137336091,
+    "html_url": "https://github.com/spack/spack/issues/461",
+    "assignees": [],
+    "comments": 0
+}

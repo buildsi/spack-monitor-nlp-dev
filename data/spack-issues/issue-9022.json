@@ -1,0 +1,19 @@
+{
+    "body": "[PyYAML](https://pyyaml.org/) is no longer maintained (or at least it wasn't for a long while) and it's somewhat awkward to use - we have to vendor it twice (for Python 2 and Python 3, since the source is separate).\r\n\r\n[ruamel.yaml](https://yaml.readthedocs.io/en/latest/) is a drop-in replacement.  It seems to work fine -- it took me 15 minutes to convert. All of our YAML modifications (`spack config blame`, line numbers, etc.) work on top of it.  It's single-source, works with `python2`/`python3` compatible, is actually maintained, and there are a few nice things about it that I'm particularly interested in:\r\n\r\n1. It allows round-tripping comments from/to files (so we could update configuration files and preserve comments)\r\n2. It can preserve line/column information from files read in, so we *might* be able to get rid of the line tracking we do in `spack.util.spack_yaml`.  It doesn't do it quite the same way that we do, and it doesn't preserve file information for commands like [`spack config blame`](https://github.com/spack/spack/pull/8081), so I'm not sure that's completely possible yet.\r\n3. It has its own support for ordered keys in `dicts`, so we could potentially trim that out of `spack.util.spack_yaml`, too.\r\n\r\nI'm mostly interested in (1) right now.  This addition removes ~3k lines of code from what we have to vendor for `PyYAML`, so that's a plus already, and while round-tripping comments doesn't yet work with configs, we can make that work gradually.\r\n\r\nI've vendored an old version (0.11) because it's the last version that supported Python 2.6.  When we one day drop 2.6 support, we can get the latest `ruamel` too.\r\n\r\nNote: there is also [`strictyaml`](https://github.com/crdoconnor/strictyaml), which kind of looks nicer (in the sense that I like all the simplifying assumptions it puts forth), but it appears to just use `ruamel` underneath and then restricts it.  I might like it better if it was simpler, faster, from-scratch implementation, because we definitely *don't* use all the YAML features.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/9022",
+    "updated_at": "2018-08-20 23:57:27",
+    "created_at": "2018-08-20 04:55:02",
+    "closed_at": "2018-08-20 23:36:05",
+    "state": "closed",
+    "title": "yaml: use `ruamel.yaml` instead of `pyyaml`",
+    "number": 9022,
+    "milestone": null,
+    "labels": [
+        "vendored-dependencies"
+    ],
+    "id": 351984938,
+    "html_url": "https://github.com/spack/spack/pull/9022",
+    "assignees": [],
+    "comments": 4
+}

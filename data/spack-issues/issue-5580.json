@@ -1,0 +1,20 @@
+{
+    "body": "@tgamblin @becker33\r\n\r\nFixes: https://github.com/LLNL/spack/issues/5565\r\n\r\nThis includes a number of edits to address issues where spack concretization attempts to set properties on already-installed specs. This is a WIP at the moment since I haven't thought all the changes through, but I can replicate #5565 and this appears to resolve it.\r\n\r\n* Don't set patches on packages if they have been concretized\r\n* Don't invoke `_concretize_helper` on already-concretized packages (which can add variants for example) - this may not strictly be an issue in #5565 but came up in my debugging. EDIT: this likely shares some logic with https://github.com/LLNL/spack/pull/4939\r\n* Don't add new dependencies to already-concretized specs: this was the trickiest part since the concretization deconstructs the DAG on each pass, I want to think over my approach here",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/5580",
+    "updated_at": "2017-10-05 17:33:05",
+    "created_at": "2017-10-03 02:42:37",
+    "closed_at": "2017-10-05 17:33:05",
+    "state": "closed",
+    "title": "Don't change properties on already-installed packages",
+    "number": 5580,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "hashes"
+    ],
+    "id": 262287259,
+    "html_url": "https://github.com/spack/spack/pull/5580",
+    "assignees": [],
+    "comments": 11
+}

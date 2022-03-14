@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #13247\r\nFixes #13355\r\n\r\nhttps://github.com/spack/spack/issues/13247#issuecomment-543205666 notes that python 3.8.0 removes `__str__` from `int`, so for python 3.8.0 invocations of `int.__str__` fall back on `int.__repr__`. Spack's `syaml_int` type assigns `__repr__ = str.__repr__` which appears to be causing failures.\r\n\r\nThis updates `syaml_int` type to use `int.__repr__` rather than `str.__repr__`, which allows running Spack with Python 3.8.0 and assigning integer configuration settings.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/13487",
+    "updated_at": "2019-10-29 20:51:49",
+    "created_at": "2019-10-29 16:58:19",
+    "closed_at": "2019-10-29 20:51:49",
+    "state": "closed",
+    "title": "Bugfix: syaml_int repr for Python 3.8.0",
+    "number": 13487,
+    "milestone": null,
+    "labels": [
+        "python3"
+    ],
+    "id": 514074943,
+    "html_url": "https://github.com/spack/spack/pull/13487",
+    "assignees": [],
+    "comments": 3
+}

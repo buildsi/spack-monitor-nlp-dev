@@ -1,0 +1,27 @@
+{
+    "body": "Resolves #7115.\r\n\r\nCurrently Spack assumes that compilers add `RPATH`s for any non-standard runtime directories they use.  For example, versions of `g++` and the Intel compiler that support newer versions of C++ need an updated `libstdc++.so`, so they link against a `libstdc++.so` in `$gcc_prefix/lib64`.  We call `$gcc_prefix/lib64` here an \"implicit link path\" because the compiler implicitly links against libaries there that were not included on the command line.\r\n\r\nWhile Spack-built compilers add `RPATH`s for these directories, compilers installed at many sites do not.  This leads to the following type of error when you run binaries built with these compilers:\r\n\r\n```\r\n/tmp/spack00t/spack-stage/cmake-3.15.1-ywecvmgyzvulocevd5dmilq55zsz5jlp/spack-src/Bootstrap.cmk/cmake: /lib64/libstdc++.s\r\no.6: version `GLIBCXX_3.4.20' not found (required by /tmp/spack00t/spack-stage/cmake-3.15.1-ywecvmgyzvulocevd5dmilq55zsz5\r\njlp/spack-src/Bootstrap.cmk/cmake)\r\n```\r\n\r\nThe solution so far has been to manually add `extra_rpaths` to `compilers.yaml`, which forces Spack to add the `RPATH`s, or to tell users to load the compiler's module when running with binaries it generated.  Neither of these is ideal.\r\n\r\nThis PR eliminates those requirements by doing a few things:\r\n- [x] Spack now auto-detects implicit link paths when it detects compilers, by querying compilers for what their implicit link paths are.  This is borrowed from [what CMake does](https://cmake.org/cmake/help/v3.0/variable/CMAKE_LANG_IMPLICIT_LINK_LIBRARIES.html) to detect implicit link paths.\r\n- [x] Spack adds these paths to `compilers.yaml` in a new `implicit_rpaths` field:\r\n\r\n    ```yaml\r\n    compilers:\r\n    - compiler:\r\n        spec:intel@19.0.1\r\n        paths:\r\n          cc: /opt/intel-19.0.1/bin/icc\r\n          cxx: /opt/intel-19.0.1/bin/icpc\r\n          f77: /opt/intel-19.0.1/bin/ifort\r\n          fc: /opt/intel-19.0.1/bin/ifort\r\n        environment: {}\r\n        # spack now detects these implicit paths automatically and sets them here\r\n        implicit_rpaths:\r\n        - /opt/intel-19.0.1/compilers_and_libraries_2019.4.243/linux/compiler/lib/intel64_lin\r\n        - /opt/gcc-4.9.3/lib64            \r\n        # you can still edit extra_rpaths but likely do not need to\r\n        extra_rpaths: []\r\n        flags: {}\r\n        modules: []\r\n        operating_system: rhel7\r\n        target: x86_64\r\n    ```\r\n- [x] Spack's compiler wrappers now automatically inject implicit RPATHs into binaries they build.\r\n\r\nSo, in summary, you likely no longer need to fiddle with `extra_rpaths`.  If you do have to, file an issue, and we'll see if we need to add more detection for it.",
+    "user": "mathstuf",
+    "url": "https://api.github.com/repos/spack/spack/issues/7153",
+    "updated_at": "2019-09-09 21:31:42",
+    "created_at": "2018-01-31 22:06:06",
+    "closed_at": "2019-08-24 13:21:46",
+    "state": "closed",
+    "title": "Implicit link paths",
+    "number": 7153,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "rpath",
+        "intel",
+        "gcc",
+        "libstdc++",
+        "c++"
+    ],
+    "id": 293329001,
+    "html_url": "https://github.com/spack/spack/pull/7153",
+    "assignees": [
+        "tgamblin",
+        "scheibelp"
+    ],
+    "comments": 25
+}

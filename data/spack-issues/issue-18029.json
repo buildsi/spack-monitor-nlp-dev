@@ -1,0 +1,19 @@
+{
+    "body": "CP2K leads to spec conflict for\r\n\r\n```\r\nspack install cp2k@7.1 +elpa\r\n```\r\n\r\nIssue is caused by code below,\r\n\r\n```\r\n    depends_on('elpa@2011.12:2017.11+openmp', when='+openmp+elpa@6.0:')\r\n    depends_on('elpa@2018.05:+openmp', when='+openmp+elpa@7.0:')\r\n    depends_on('elpa@2011.12:2016.13~openmp', when='~openmp+elpa@:5.999')\r\n    depends_on('elpa@2011.12:2017.11~openmp', when='~openmp+elpa@6.0:')\r\n    depends_on('elpa@2018.05:~openmp', when='~openmp+elpa@7.0:')\r\n```\r\n\r\nIssued may be fixed as follows,\r\n\r\n```\r\n    **depends_on('elpa@2011.12:2017.11+openmp', when='+openmp+elpa@6.0:6.999')**\r\n    depends_on('elpa@2018.05:+openmp', when='+openmp+elpa@7.0:')\r\n    depends_on('elpa@2011.12:2016.13~openmp', when='~openmp+elpa@:5.999')\r\n    **depends_on('elpa@2011.12:2017.11~openmp', when='~openmp+elpa@6.0:6.999')**\r\n    depends_on('elpa@2018.05:~openmp', when='~openmp+elpa@7.0:')\r\n```\r\n",
+    "user": "ghost",
+    "url": "https://api.github.com/repos/spack/spack/issues/18029",
+    "updated_at": "2020-09-10 15:00:34",
+    "created_at": "2020-08-12 20:17:55",
+    "closed_at": "2020-09-10 15:00:34",
+    "state": "closed",
+    "title": "Installation issue: CP2K",
+    "number": 18029,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 677951691,
+    "html_url": "https://github.com/spack/spack/issues/18029",
+    "assignees": [],
+    "comments": 2
+}

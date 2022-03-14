@@ -1,0 +1,22 @@
+{
+    "body": "Closes #27010.\r\n\r\nThere were some loose ends left in ##26735 that cause errors when using `SPACK_DISABLE_LOCAL_CONFIG`.\r\n\r\n- [x] Fix hard-coded `~/.spack` references in `install_test.py` and `monitor.py`\r\n\r\nAlso, if `SPACK_DISABLE_LOCAL_CONFIG` is used, there is the issue that `$user_config_path`, when used in configuration files, makes no sense, because there is no user config scope.\r\n\r\nSince we already have `$user_cache_path` in configuration files, and since there really shouldn't be *any* data stored in a configuration scope (which is what you'd configure in `config.yaml`/`bootstrap.yaml`/etc., this just removes `$user_config_path`.\r\n\r\nThere will *always* be a `$user_cache_path`, as Spack needs to write files, but we shouldn't rely on the existence of a particular configuration scope in the Spack code, as scopes are configurable, both in number and location.\r\n\r\n- [x] Remove `$user_config_path` substitution.\r\n- [x] Fix reference to `$user_config_path` in `etc/spack/deaults/bootstrap.yaml` to refer to `$user_cache_path`, which is where it was intended to be.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/27022",
+    "updated_at": "2021-10-28 21:33:45",
+    "created_at": "2021-10-28 18:10:13",
+    "closed_at": "2021-10-28 21:33:44",
+    "state": "closed",
+    "title": "config: fix `SPACK_DISABLE_LOCAL_CONFIG`, remove `$user_config_path`",
+    "number": 27022,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "defaults",
+        "tests",
+        "utilities"
+    ],
+    "id": 1038801357,
+    "html_url": "https://github.com/spack/spack/pull/27022",
+    "assignees": [],
+    "comments": 7
+}

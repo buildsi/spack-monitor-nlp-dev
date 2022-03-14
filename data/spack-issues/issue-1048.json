@@ -1,0 +1,21 @@
+{
+    "body": "using spack to build lua, the lua executable doesn't run when built with clang, or intel compilers.\n\nThe issue is with ncurses, which is being lined with -L and -l. I know spack does rpath magic in the compiler wrappers, but the rpath magic doesn't appear to work for the lua build. \n\nHere is some more info:\n\nLooking at the build line for lua:\n\n```\n         'MYLDFLAGS=-L%s -L%s ' % (\n             spec['readline'].prefix.lib,\n             spec['ncurses'].prefix.lib),\n         'MYLIBS=-lncurses',\n```\n\nand an older one  (this is the one we actually built with)\n\n```\n    make('INSTALL_TOP=%s' % prefix,\n         'MYLDFLAGS=-L%s -lncurses' % spec['ncurses'].prefix.lib,\n         target)\n```\n\nHere is an example of the error we get when trying to run lua built with intel:\n\n../spack/opt/spack/chaos_5_x86_64_ib/intel-15.0.187/lua-5.1.5-rfr5m5nbtre7gkouhvst6waau6mi5qvl/bin/lua\n../spack/opt/spack/chaos_5_x86_64_ib/intel-15.0.187/lua-5.1.5-rfr5m5nbtre7gkouhvst6waau6mi5qvl/bin/lua: error while loading shared libraries: libncurses.so.6: cannot open shared object file: No such file or directory\n\nHere are the ldd calls for the lua bins built with clang and intel:\n\nsurface86>:ldd .../spack/opt/spack/chaos_5_x86_64_ib/intel-15.0.187/lua-5.1.5-rfr5m5nbtre7gkouhvst6waau6mi5qvl/bin/lua\n    linux-vdso.so.1 =>  (0x00002aaaaaacb000)\n    libncurses.so.6 => not found\n    libm.so.6 => /lib64/libm.so.6 (0x00002aaaaaccd000)\n    libdl.so.2 => /lib64/libdl.so.2 (0x00002aaaaaf51000)\n    libreadline.so.6 => /lib64/libreadline.so.6 (0x00002aaaab155000)\n    libhistory.so.6 => /usr/lib64/libhistory.so.6 (0x00002aaaab399000)\n    libc.so.6 => /lib64/libc.so.6 (0x00002aaaab5a1000)\n    /lib64/ld-linux-x86-64.so.2 (0x00002aaaaaaab000)\n    libtinfo.so.5 => /lib64/libtinfo.so.5 (0x00002aaaab935000)\n\nsurface86> ldd ../spack/opt/spack/chaos_5_x86_64_ib/clang-3.5.0/lua-5.1.5-bwdki5a4w3r6zn3sydcxkstccezfmgys/bin/lua \n    linux-vdso.so.1 =>  (0x00002aaaaaacb000)\n    libncurses.so.6 => not found\n    libm.so.6 => /lib64/libm.so.6 (0x00002aaaaaccd000)\n    libdl.so.2 => /lib64/libdl.so.2 (0x00002aaaaaf51000)\n    libreadline.so.6 => /lib64/libreadline.so.6 (0x00002aaaab155000)\n    libhistory.so.6 => /usr/lib64/libhistory.so.6 (0x00002aaaab399000)\n    libc.so.6 => /lib64/libc.so.6 (0x00002aaaab5a1000)\n    /lib64/ld-linux-x86-64.so.2 (0x00002aaaaaaab000)\n    libtinfo.so.5 => /lib64/libtinfo.so.5 (0x00002aaaab935000)\n\nand here is an ldd for a lua install built with gcc -- which works. \n(you can see the full path is embedded)\n\nsurface86@cyrush:ldd ../spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.3/lua-5.1.5-axspkephlc7v6bqv5jnxcx4ronj57cd4/bin/lua\n    linux-vdso.so.1 =>  (0x00002aaaaaacb000)\n    libncurses.so.6 => {FULL_PATH}/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.3/ncurses-6.0-ghvns4xykjcblstayazsihjaemwvpbhq/lib/libncurses.so.6 (0x00002aaaaaccd000)\n    libm.so.6 => /lib64/libm.so.6 (0x00002aaaaaf74000)\n    libdl.so.2 => /lib64/libdl.so.2 (0x00002aaaab1f8000)\n    libreadline.so.6 => {FULL_PATH}/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.3/readline-6.3-q7yywgagvkriovs6ofvlv74cunn5fmnm/lib/libreadline.so.6 (0x00002aaaab3fd000)\n    libhistory.so.6 => {FULL_PATH}/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.3/readline-6.3-q7yywgagvkriovs6ofvlv74cunn5fmnm/lib/libhistory.so.6 (0x00002aaaab643000)\n    libc.so.6 => /lib64/libc.so.6 (0x00002aaaab84c000)\n    /lib64/ld-linux-x86-64.so.2 (0x00002aaaaaaab000)\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/1048",
+    "updated_at": "2020-03-06 22:01:04",
+    "created_at": "2016-06-12 19:30:13",
+    "closed_at": "2020-03-06 22:01:03",
+    "state": "closed",
+    "title": "lua build isn't using rpath to link ncurses on clang or intel compilers",
+    "number": 1048,
+    "milestone": null,
+    "labels": [
+        "rpath"
+    ],
+    "id": 159843502,
+    "html_url": "https://github.com/spack/spack/issues/1048",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

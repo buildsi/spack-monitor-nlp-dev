@@ -1,0 +1,19 @@
+{
+    "body": "The libxc package configures some optimization options for the build through setting `CFLAGS` and `FCFLAGS`:\r\nhttps://github.com/spack/spack/blob/ab7b07553beecd54475e90127e2e02ba269ec99e/var/spack/repos/builtin/packages/libxc/package.py#L55-L78\r\n\r\nThis predates the whole architecture detection added in v0.13.0 but now it can somehow conflict.\r\n\r\nIn our case, Spack detects that we have `skylake_avx512` so it injects `-march` and `-mtune` accordingly which \"conflicts\" with `-xSSE4.2 -axAVX,CORE-AVX2`.\r\n\r\nSupposedly the compilers are supposed to handle this but currently it breaks with Intel 19.1.X, or at least for libxc it causes an internal compiler error at link time. Of course I will make sure to report this to Intel because it is a compiler bug.\r\n\r\nHowever I am wondering if the \"libxc\" specific optimizations still make sense now that Spack tries to optimize the builds in general.\r\n\r\nDepending on your opinion, I could provide a PR which:\r\n1. adds a `conflicts` with Intel 19.1.x\r\n2. disable the \"libxc\" optimizations for Intel 19.1.x to workaround the issue\r\n3. remove the \"libxc\" optimizations.",
+    "user": "RemiLacroix-IDRIS",
+    "url": "https://api.github.com/repos/spack/spack/issues/17794",
+    "updated_at": "2020-10-26 15:32:18",
+    "created_at": "2020-07-30 18:43:47",
+    "closed_at": "2020-10-26 15:32:18",
+    "state": "closed",
+    "title": "libxc: Conflicting optimization options break build with Intel 19.1.x",
+    "number": 17794,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 669075894,
+    "html_url": "https://github.com/spack/spack/issues/17794",
+    "assignees": [],
+    "comments": 3
+}

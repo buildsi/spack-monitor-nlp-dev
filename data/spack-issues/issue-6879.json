@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\n\r\nOpenfoam-org 4.1 and 5.0 fails on fresh centos7 and fails in package.py\r\n\r\n### Expected Result\r\n\r\nBuild openfoam-org \r\n\r\n\r\n### Actual Result\r\n\r\nopenfoam-org@4.1 and @5.0 both fail with same error\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nyum -y install gcc gcc-gfortran gcc-c++ file git make which patch bzip2\r\n\r\ngit clone https://github.com/spack/spack.git\r\n\r\nPATH=$PATH:~/spack/bin\r\n\r\n#intall helper utilities for spack operation like modules\r\nspack bootstrap\r\n\r\n#add mdoule to CLI\r\nsource spack/share/spack/setup-env.sh\r\n\r\n\r\nspack install gcc@6.4.0\r\n<snip console>\r\nspack install  openfoam-org@5.0%gcc@6.4.0\r\n==> Installing openfoam-org\r\n==> Using cached archive: /home/brockp/spack/var/spack/cache/openfoam-org/openfoam-org-5.0.tar.gz\r\n==> Staging archive: /home/brockp/spack/var/spack/stage/openfoam-org-5.0-4j7ddenwnr2vqxpd7fnoigdql3esztmz/version-5.0.tar.gz\r\n==> Created stage in /home/brockp/spack/var/spack/stage/openfoam-org-5.0-4j7ddenwnr2vqxpd7fnoigdql3esztmz\r\n==> Applied patch 50-etc.patch\r\n==> Applied patch 41-site.patch\r\n==> renamed OpenFOAM-5.x-version-5.0 -> OpenFOAM-5.0\r\n==> Added file spack-Allwmake\r\n==> Added file README-spack\r\n==> Added file bin/foamEtcFile\r\n==> Error: AttributeError: 'Version' object has no attribute 'startswith'\r\nAttributeError: AttributeError: 'Version' object has no attribute 'startswith'\r\n\r\n/home/brockp/spack/var/spack/repos/builtin/packages/openfoam-org/package.py:216, in patch:\r\n     16            rewrite_environ_files(  # Adjust etc/bashrc and etc/cshrc\r\n     17                edits,\r\n     18                posix=join_path('etc', 'bashrc'),\r\n  >> 19                cshell=join_path('etc', 'cshrc'))\r\n```\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. which platform you are using\r\nblank centos7  docker image\r\n\r\n```\r\ndocker pull centos\r\n```\r\n\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\n\r\n-----\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!",
+    "user": "brockpalen",
+    "url": "https://api.github.com/repos/spack/spack/issues/6879",
+    "updated_at": "2018-01-10 15:18:11",
+    "created_at": "2018-01-10 03:27:08",
+    "closed_at": "2018-01-10 12:48:23",
+    "state": "closed",
+    "title": "openfoam-org build issue",
+    "number": 6879,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 287304206,
+    "html_url": "https://github.com/spack/spack/issues/6879",
+    "assignees": [],
+    "comments": 3
+}

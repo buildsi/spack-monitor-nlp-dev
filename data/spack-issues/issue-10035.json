@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gcc@7.2.0\r\n...\r\n>> 29760    /apps/spack/var/spack/stage/gcc-7.2.0-bcsmtl56t3etoswkauritld6bzfnjfzx/gcc-7.2.0/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc:157:10: fatal error: sys/ustat.h: No such file or directory\r\n     29761     #include <sys/ustat.h>\r\n     29762              ^~~~~~~~~~~~~\r\n     29763    compilation terminated.\r\n...\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux glados 4.18.16-300.fc29.x86_64 #1 SMP Sat Oct 20 23:24:08 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Fedora release 29 (Twenty Nine)\r\n``` \r\n\r\n### Additional information\r\n\r\nThis issue is with the system glibc (2.28).\r\nBroken versions are releases before 7.4.0 (Except 6.5.0 where I believe the fix was backported)\r\n\r\nI have attached the patched used in the GCC 6.4.0 Arch Linux user repo package.\r\n\r\n[glibc2.28-ustat.patch.txt](https://github.com/spack/spack/files/2652903/glibc2.28-ustat.patch.txt)\r\n\r\nI'm not sure if **all** the releases are broken, I think the required addition to the `package.py` is:\r\n```\r\npatch('glibc2.28-ustat.patch', when='@4:6.4,7:7.3')\r\n```\r\n\r\nI can submit a pull request if this looks correct\r\n",
+    "user": "jameshclrk",
+    "url": "https://api.github.com/repos/spack/spack/issues/10035",
+    "updated_at": "2018-12-08 02:06:08",
+    "created_at": "2018-12-06 13:55:10",
+    "closed_at": "2018-12-08 02:06:08",
+    "state": "closed",
+    "title": "Installation issue: gcc@7.2.0",
+    "number": 10035,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "gcc"
+    ],
+    "id": 388224253,
+    "html_url": "https://github.com/spack/spack/issues/10035",
+    "assignees": [],
+    "comments": 1
+}

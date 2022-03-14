@@ -1,0 +1,21 @@
+{
+    "body": "I'm trying Spack on a new system, and am running into a bewildering error. I try\r\n\r\n`spack install zlib%gcc@7.2.0`\r\n\r\nAnd somewhere in configure I get your standard broken GCC messages\r\n\r\n```\r\n  /home/projects/x86-64/binutils/2.30.0/lib/../x86_64-pc-linux-gnu/bin/ld: cannot find crtbeginS.o: No such file or directory\r\n  /home/projects/x86-64/binutils/2.30.0/lib/../x86_64-pc-linux-gnu/bin/ld: cannot find -lgcc\r\n  /home/projects/x86-64/binutils/2.30.0/lib/../x86_64-pc-linux-gnu/bin/ld: cannot find -lgcc\r\n```\r\n\r\nI tried two things to reproduce this, (1) configuring with that GCC, which works, and (2) sourcing the spack-build.env file, and running the same configure line Spack did, which also works. (Side note: whoever made spack produce the `spack-build.env` file is awesome, that's a great feature).\r\n\r\nThe only other information I have is that when running with --stacktrace -d I see\r\n\r\n```\r\n.../src/spack/lib/spack/spack/build_environment.py:689 ==> [2019-09-20-10:02:25.656839] A dependency has updated CPATH, this may lead pkg-config to assume that the package is part of the system includes and omit it when invoked with '--cflags'.\r\n```\r\n\r\nI'm not really sure what other information would help, I'm on one of our testbeds (Blake) which I could probably get somebody an account on if necessary, but if somebody could walk me through next debugging steps in a situation like this I'd appreciate it.\r\n\r\nThanks for reading/trying to help!",
+    "user": "DavidPoliakoff",
+    "url": "https://api.github.com/repos/spack/spack/issues/12888",
+    "updated_at": "2019-09-20 21:23:44",
+    "created_at": "2019-09-20 16:06:13",
+    "closed_at": "2019-09-20 18:13:24",
+    "state": "closed",
+    "title": "Difference in behavior between running configure with Spacks build-env and how Spack configures software",
+    "number": 12888,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 496433406,
+    "html_url": "https://github.com/spack/spack/issues/12888",
+    "assignees": [
+        "DavidPoliakoff"
+    ],
+    "comments": 5
+}

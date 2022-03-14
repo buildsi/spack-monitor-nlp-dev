@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install openblas @ 3.3.0\r\n==> Installing openblas\r\n...\r\n==> Error: ChecksumError: sha256 checksum failed for /net/scratch3/dantopa/spack/spack.standard.hypre/var/spack/stage/openblas-0.3.3-lmpt6kjycnlzqm357jopbnpoqtwcdsa5/v0.3.3.tar.gz\r\n   Expected 49d88f4494ae780e3d7fa51769c00d982d7cdb73e696054ac3baa81d42f13bab \r\nbut got 79917d4e0e3eb3081628612a3ddb8084d2ba0e552fef0b7a0b94989f6a53223d\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a\r\nLinux sn247.localdomain 3.10.0-693.17.1.1chaos.ch6.x86_64 #1 SMP Fri Jan 26 13:23:01 PST 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tRed Hat Enterprise Linux Server release 7.4 (Maipo)\r\n``` \r\nHere is the problem:\r\nhttps://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/openblas/package.py\r\nline 40\r\n    `version('0.3.3', sha256='49d88f4494ae780e3d7fa51769c00d982d7cdb73e696054ac3baa81d42f13bab')`\r\n\r\n### Additional information\r\n\r\n```\r\n$ sha256sum openblas-0.3.3.tar.gz \r\n79917d4e0e3eb3081628612a3ddb8084d2ba0e552fef0b7a0b94989f6a53223d  openblas-0.3.3.tar.gz\r\n```",
+    "user": "floquet",
+    "url": "https://api.github.com/repos/spack/spack/issues/9487",
+    "updated_at": "2018-10-11 20:41:31",
+    "created_at": "2018-10-10 22:47:27",
+    "closed_at": "2018-10-11 07:23:51",
+    "state": "closed",
+    "title": "Installation issue: OpenBLAS 0.3.3 sha256 is incorrect - please fix package.py",
+    "number": 9487,
+    "milestone": null,
+    "labels": [
+        "blas-lapack-scalapack"
+    ],
+    "id": 368885283,
+    "html_url": "https://github.com/spack/spack/issues/9487",
+    "assignees": [],
+    "comments": 5
+}

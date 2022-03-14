@@ -1,0 +1,17 @@
+{
+    "body": "I was trying to debug a problem in the patch method of the libxsmm package (#1413), so I set `backup=True` to compare the Makefile.inc and it's backup copy. Much to my chagrin, I discovered that only one line of the file had changed. Upon further inspection, I discovered that the backup file wasn't the same as the original file.\n\nFor packages like libxsmm that call the `filter` method multiple times, `filter_file` was taking the current file, overwriting the old backup with it, and applying the change. In effect, Makefile.inc contained all replaced text, and the backup file contained all replaced text except for the last filter.\n\nThe solution was to create a backup file only if one does not already exist. This required me to edit the new file in place. After applying these changes, the backup file is identical to the old file before patching and the new file contains all changes as expected.\n\n@mdevlin1 \n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1414",
+    "updated_at": "2016-08-01 21:11:00",
+    "created_at": "2016-08-01 20:56:13",
+    "closed_at": "2016-08-01 21:10:59",
+    "state": "closed",
+    "title": "Fix backup=True for filter_file",
+    "number": 1414,
+    "milestone": null,
+    "labels": [],
+    "id": 168740145,
+    "html_url": "https://github.com/spack/spack/pull/1414",
+    "assignees": [],
+    "comments": 0
+}

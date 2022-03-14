@@ -1,0 +1,22 @@
+{
+    "body": "It seems that maybe #19078 has broken `py-cffi`, as the source checksum added in that PR for version `1.14.3` does not seem to match.  \r\n\r\nI downloaded the package from pypi manually, and I got the erroneous checksum mentioned in the error message below.\r\n\r\n```\r\n==> [2020-10-03-03:26:18.867764] '/usr/bin/curl' '-C' '-' '-o' '/tmp/root/spack-stage/spack-stage-py-cffi-1.14.3-vzeiz2uf7wdujtbcy5fmnrcoco632o5j/cffi-1.14.3.tar.gz.part' '-f' '-D' '-' '-L' 'https://pypi.io/packages/source/c/cffi/cffi-1.14.3.tar.gz' '-k' '-sS' '--connect-timeout' '10'\r\n...\r\n==> [2020-10-03-03:26:19.037170] Error: ChecksumError: sha256 checksum failed for /tmp/root/spack-stage/spack-stage-py-cffi-1.14.3-vzeiz2uf7wdujtbcy5fmnrcoco632o5j/cffi-1.14.3.tar.gz\r\n    Expected 18d82244ee114f543149c66a6e0c14e9c4f8a1044b5cdaadd0f82159d6a6ff59 but got f92f789e4f9241cd262ad7a555ca2c648a98178a953af117ef7fad46aa1d5591\r\n\r\n/builds/spack/e4s/spack/lib/spack/spack/package.py:1266, in do_fetch:\r\n       1263        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1264        self._fetch_time = time.time() - start_time\r\n       1265\r\n  >>   1266        if checksum and self.version in self.versions:\r\n       1267            self.stage.check()\r\n       1268\r\n       1269        self.stage.cache_local()\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-cffi\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\nroot@95b373678ddb:/work# spack debug report\r\n* **Spack:** 0.15.4-1263-7cfdf6197\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-haswell\r\n```\r\n\r\nThe `py-cffi` package does not list any maintainers:\r\n\r\n```\r\nroot@95b373678ddb:/work# spack maintainers py-cffi\r\nroot@95b373678ddb:/work#\r\n```\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/19140",
+    "updated_at": "2020-10-04 20:38:11",
+    "created_at": "2020-10-03 14:55:28",
+    "closed_at": "2020-10-04 20:38:11",
+    "state": "closed",
+    "title": "Installation issue: py-cffi",
+    "number": 19140,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "checksum",
+        "ecp",
+        "e4s"
+    ],
+    "id": 714107248,
+    "html_url": "https://github.com/spack/spack/issues/19140",
+    "assignees": [],
+    "comments": 6
+}

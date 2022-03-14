@@ -1,0 +1,19 @@
+{
+    "body": "Hey @citibeth @trws @adamjstewart \n\nWe were talking about this yesterday (#1108) . Bower lets you do the following\n\n```\nbower install [github link]\n```\n\nIt pulls a package.json out of the given repository and installs the dependencies and the package itself. This leads to a turnaround from \"I see a project that interests me\" to \"I have this package installed for my project\" on the order of five minutes. The spack equivalent is to... spack edit -f [desiredPackageName] and copy and paste from the github repo? In the absence of this feature, I'll be polishing up a bash script for this purpose (do not run this under any circumstances, it hasn't been vetted and I can think of ways to make it delete things you wouldn't want deleted)\n\n```\n#!/bin/env bash\necho $tarball\ncurl -L $1/tarball/master  | tar -xz */package.py\n#name of the downloaded package\npackagename=$(grep \"class.*Package\" */package.py | sed \"s,class ,,\" | sed \"s,[(].*,,\")\n#name of the folder I get from github\nfoldername=$(ls -d */)\nmv -f $foldername $packagename\n#make a package folder\nmkdir ../var/spack/repos/builtin/packages/$packagename\n#move the package into that folder\nmv -f $packagename/* ../var/spack/repos/builtin/packages/$packagename\nrm -r $packagename\n#install it\nspack install $packagename\n```\n\n(Run from a specific directory) I can point this at my test repo (https://github.com/DavidPoliakoff/trivial), whose only interesting feature is having a package.py in the root, and it will pull the package file out of the repo, make a directory for it in my spack repo, move the package.py into that directory, then install it.\n\nThis is a horrible way of achieving the goal, but it's what I'll use in projects I don't feel like putting up package PR's for until\n\n```\nspack [verb] [github link]\n```\n\nlets me install the contents of that repo using spack, using a package.py provided by that github repo. Essentially, this lets me turn the spack model on its head, instead of $SPACK_ROOT/var/spack/repos/builtin/packages/ being the place that says what packages exist, software packages can provide a description of how they should be packaged by spack, and commands can be run to pull them down.\n\nTODO's would be\n\n1) Pythonic, spacky implementation of this bash script (perhaps through a new verb, spack clone)\n2) Dependency handling. How can my repo depend on another repo? Perhaps syntax like (depends_on(get_github_package(\"[github URL]\"))\n3) Doing the same for hg, svn, tarballs\n\nBasically, Spack wants to have a repo (or set of repos) that tell it where software exists, and how to pull it down. This is a great model, but I also want software to be able to say \"here's how Spack can install me\" and have Spack be able to respond\n",
+    "user": "DavidPoliakoff",
+    "url": "https://api.github.com/repos/spack/spack/issues/1136",
+    "updated_at": "2018-12-17 18:08:34",
+    "created_at": "2016-06-28 21:20:21",
+    "closed_at": "2018-12-17 18:08:34",
+    "state": "closed",
+    "title": "Easy installation of a git repo with a package.py in the root",
+    "number": 1136,
+    "milestone": null,
+    "labels": [
+        "proposal"
+    ],
+    "id": 162790274,
+    "html_url": "https://github.com/spack/spack/issues/1136",
+    "assignees": [],
+    "comments": 63
+}

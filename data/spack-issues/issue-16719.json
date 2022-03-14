@@ -1,0 +1,21 @@
+{
+    "body": "This PR ~is mainly for the discussion in #16671 and~ is an extension of #15950.\r\n\r\nThe advantage of merging this is that we can install all valid configurations of `netcdf-c`:\r\n1. It is possible to build `netcdf-c` without parallel I/O even when `hdf5` is built with `+mpi`:\r\n    ```console\r\n    $ spack install netcdf-c~mpi ^hdf5+mpi\r\n    ```\r\n    but not for versions before `4.4.0` as it should be:\r\n    ```console\r\n    $ spack install netcdf-c@4.3.3.1~mpi ^hdf5+mpi\r\n    ==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n    \r\n    hdf5+mpi\r\n    \r\n    \r\n    while trying to concretize the partial spec:\r\n    \r\n        netcdf-c@4.3.3.1~mpi\r\n            ^zlib@1.2.5:\r\n    ```\r\n\r\n2. It is possible to build `netcdf-fortran` when `netcdf-c` is built without NetCDF4 parallel features (i.e. `~mpi`) but with parallel features for NetCDF3 (i.e. `+parallel-netcdf`):\r\n    ```console\r\n    $ spack install netcdf-fortran ^netcdf-c~mpi+parallel-netcdf\r\n    ```\r\n\r\nThe main disadvantage of this is that in order to build `netcdf-c` without MPI dependencies at all, one has to run:\r\n```console\r\n$ spack spec -I netcdf-fortran ^netcdf-c~mpi ^hdf5~mpi`\r\n```\r\n\r\nBut this can be handled in `packages.yaml`:\r\n```yaml\r\n  netcdf-c:\r\n    variants: ~mpi\r\n  hdf5:\r\n    variants: ~mpi\r\n```\r\n\r\nWith this configuration, one can install `netcdf-fortran` without MPI dependencies by calling:\r\n```console\r\n$ spack install netcdf-fortran\r\n```\r\nand enable MPI by calling:\r\n```console\r\n$ spack install netcdf-fortran ^netcdf-c+mpi\r\n```",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/16719",
+    "updated_at": "2020-08-22 21:06:18",
+    "created_at": "2020-05-19 10:52:38",
+    "closed_at": "2020-08-22 21:06:18",
+    "state": "closed",
+    "title": "NetCDF: fix constraints 2",
+    "number": 16719,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 620878146,
+    "html_url": "https://github.com/spack/spack/pull/16719",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I found a neat linker problem on Ubuntu 14.04 with both OpenMPI 2.0.1 and MPICH 3.2 in spack.\r\n\r\nWhen building a *the HDF5 Fortran library*, in my case HDF5 (1.8.X or 1.10/latest), against one of both the following default dependencies cause problems:\r\n\r\n**Update**: the report below is caused by our system having a [`/lib64/mpi.so`](#issuecomment-271605561) and HDF5's fortran library build tools seem to be quite doubtful about which `mpi.so` to take.\r\n\r\n***\r\n\r\n- via `mpif90` for HDF5's Fortran lib, `-lnuma` tries to get linked but is not found (since it was taken from the system)\r\n- I expected it to get side-pulled in via `hwloc` (in spack), but actually `libopen-pal` (from system) triggers it\r\n- the problem is, that *only a file called* `libnuma.so.1` is available on a few debian/ubuntu (and supposedly [some redhat](http://www.shocksolution.com/2013/02/openmpi-on-redhat-5-cannot-find-lnuma/)) systems, *without a simlink* `libnuma.so -> libnuma.so`\r\n\r\nIf I replace the failing `-lnuma` to the absolute path used in `libopen-pal.so`'s `libnuma.so.1` this fixes it.\r\n\r\nThis happens when people only install the package [libnuma1](http://packages.ubuntu.com/search?mode=exactfilename&suite=trusty&section=all&arch=any&keywords=libnuma.so.1&searchon=contents) (lib) but forget to install [libnuma-dev](http://packages.ubuntu.com/search?suite=trusty&arch=any&mode=exactfilename&searchon=contents&keywords=libnuma.so) (headers & simlinks).\r\n\r\n~~The obscure thing is now, that `hwlock` (built in spack for MPI) brings its own `libnuma` headers (`numa.h`)!~~ (*not sure if that was fully correct*) (also seems to be included in common [linux header packages](http://packages.ubuntu.com/search?mode=exactfilename&suite=trusty&section=all&arch=any&keywords=numa.h&searchon=contents)).\r\n\r\n~~Long story short: can and should we built our own `libnuma` (and `libopen-pal`) or at least make the latter a variant?~~",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/2791",
+    "updated_at": "2019-12-05 23:11:27",
+    "created_at": "2017-01-10 14:57:51",
+    "closed_at": "2019-12-05 17:04:59",
+    "state": "closed",
+    "title": "MPI & HDF5 on Ubuntu 14.04",
+    "number": 2791,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 199843155,
+    "html_url": "https://github.com/spack/spack/issues/2791",
+    "assignees": [],
+    "comments": 10
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Trying to install jdk from a local copy. However, it doesn't seem to check for the mirror:\r\n```\r\n-bash-4.1$ spack install jdk@8u131\r\n==> Installing jdk\r\n==> Warning: There is no checksum on file to fetch jdk@8u131 safely.\r\n==>   Fetch anyway? [y/N] Y\r\n==> Fetching with no checksum.\r\n  Add a checksum or use --no-checksum to skip this check.\r\n==> Already downloaded /dat/usr/e157618/spack/var/spack/stage/jdk-8u131-7guhn2fouifp2h43w3eresaz6m4uyu5c/jdk-8u131-linux-x64.tar.gz\r\n==> Already staged jdk-8u131-7guhn2fouifp2h43w3eresaz6m4uyu5c in /dat/usr/e157618/spack/var/spack/stage/jdk-8u131-7guhn2fouifp2h43w3eresaz6m4uyu5c\r\n==> Error: StageError: Archive was empty for jdk-8u131-7guhn2fouifp2h43w3eresaz6m4uyu5c\r\n/dat/usr/e157618/spack/lib/spack/spack/package.py:940, in do_stage:\r\n     932      def do_stage(self, mirror_only=False):\r\n     933          \"\"\"Unpacks the fetched tarball, then changes into the expanded tarball\r\n     934             directory.\"\"\"\r\n     935          if not self.spec.concrete:\r\n     936              raise ValueError(\"Can only stage concrete packages.\")\r\n     937  \r\n     938          self.do_fetch(mirror_only)\r\n     939          self.stage.expand_archive()\r\n  >> 940          self.stage.chdir_to_source()\r\n```\r\n\r\nI think I have the mirrors set up correctly as from the tutorial; a mirrors.yaml file located in .spack with contents:\r\n```yaml\r\nmirrors:\r\n  manual:  file://~/.spack/manual_mirror\r\n```\r\nAlso, I have the tar.gz file in the directory:\r\n```\r\n~/.spack/manual_mirror/jdk/jdk-8u131.tar.gz\r\n```\r\n",
+    "user": "kdfred",
+    "url": "https://api.github.com/repos/spack/spack/issues/4451",
+    "updated_at": "2017-06-09 16:19:49",
+    "created_at": "2017-06-07 17:43:23",
+    "closed_at": "2017-06-09 16:19:49",
+    "state": "closed",
+    "title": "Error building from local mirror",
+    "number": 4451,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "mirrors"
+    ],
+    "id": 234289168,
+    "html_url": "https://github.com/spack/spack/issues/4451",
+    "assignees": [],
+    "comments": 3
+}

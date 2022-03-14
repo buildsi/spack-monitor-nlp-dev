@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #1992. Fixes #1178. Fixes #1377. Fixes #2123.\r\n\r\n**Fixes:**\r\n- [x] Behavior of `satisfies()` fixed for concrete specs with DAG hashes\r\n  - spec.satisfies('/abc123') will only match another spec with same hash.\r\n  - Prior behavior was just doing a match, which can be ambiguous.\r\n- [x] Uninstall/activate/deactivate/whatever by hash is precise now.\r\n- [x] `installed_dependents()` moved to DB from `Package` because we might not know a `Spec`'s `Package` anymore.  New version handles specs with unknown packages.\r\n- [x] Minor: Fix default args in `Spec.tree()`\r\n- [x] Minor: Fix exception name in `spec.py`\r\n\r\n**Improvements:**\r\n- [x] `spack find` and `spack.store.db.query()` are now faster for simple hash lookups\r\n  - skips linear calls to `satisfies()` if `query()` only needs to look up by hash\r\n  - `spack find` uses `query()` better.\r\n- [x] More concise, readable output for disambiguating specs from the command line\r\n\r\n**Test:**\r\n- [x] Added a test to ensure `satisfies()` respects `dag_hash()` for concrete specs.\r\n\r\n@davydden @eschnett @alalazo @adamjstewart @becker33 ",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2626",
+    "updated_at": "2016-12-19 17:09:54",
+    "created_at": "2016-12-19 07:27:47",
+    "closed_at": "2016-12-19 17:09:54",
+    "state": "closed",
+    "title": "Fixes for various hash issues",
+    "number": 2626,
+    "milestone": null,
+    "labels": [
+        "hashes"
+    ],
+    "id": 196347660,
+    "html_url": "https://github.com/spack/spack/pull/2626",
+    "assignees": [],
+    "comments": 5
+}

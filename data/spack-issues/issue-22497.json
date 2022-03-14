@@ -1,0 +1,19 @@
+{
+    "body": "`openmpi requires hwloc constrain a concrete spec hwloc@2.0:+cuda, but spec asked for hwloc@2.4.1`\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Install a CUDA of your choice.\r\n2. Install a UCX with that CUDA.\r\n3. Install OMPI with that UCX.\r\n\r\n### Information on your system\r\n\r\nShould be reproducible on any CUDA-enabled cluster.\r\n\r\n### Additional information\r\n\r\n@hppritcha I believe https://github.com/spack/spack/blob/95ad5b882c990971e74d04261a665ba680f7c4be/var/spack/repos/builtin/packages/openmpi/package.py#L276\r\nshould be\r\n`depends_on('hwloc@2:', when='@4: ~internal-hwloc')`\r\n\r\nOtherwise it would appear that the former is slightly too restrictive; forcing hwloc to a 2.0.x version when any 2.y.z version would do.\r\nHowever, I could be wrong and perhaps there is some compelling reason hwloc needs to be held back to 2.0.x if CUDA is present.\r\n\r\nThanks!\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "nhanford",
+    "url": "https://api.github.com/repos/spack/spack/issues/22497",
+    "updated_at": "2021-03-29 20:26:32",
+    "created_at": "2021-03-23 23:08:04",
+    "closed_at": "2021-03-29 20:26:32",
+    "state": "closed",
+    "title": "Installation issue: OpenMPI+CUDA fails to build in certain cases due to hwloc version constraint mismatch",
+    "number": 22497,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 839194791,
+    "html_url": "https://github.com/spack/spack/issues/22497",
+    "assignees": [],
+    "comments": 2
+}

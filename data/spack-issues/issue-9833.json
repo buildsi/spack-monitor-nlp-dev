@@ -1,0 +1,20 @@
+{
+    "body": "There is currently to possible ways to pass the repo URL to the GitFetchStrategy:\r\n\r\n```\r\nclass MyPackage(Package):\r\n    git=\"https://whatsoever.org\"\r\n    version(\"master\", branch=\"master\")\r\n```\r\nand\r\n```\r\nclass MyPackage(Package):\r\n    version(\"master\", git=\"https://whatsoever.org\", branch=\"master\")\r\n```\r\n\r\nI would have believed that the first is a sort of shortcut for the latter in the presence of many versions. Unfortunately, they behave differently. If you come through a code path that needs to select a fetch strategy for a version (e.g. in `spack.fetch_strategy.for_package_version`), the required attributes for the git strategy are not matched for the first version, but are for the latter. This leads to weird mistakes.\r\n\r\nDocumentation only explains the first one.\r\n\r\nI am not sure what is the correct way to fix this inconsistency. Possible ways:\r\n* Document the behaviour\r\n* Deprecate the first behaviour\r\n* Include the packages `git` field into the version in the first case to make it work identical (no idea whether its possible)",
+    "user": "dokempf",
+    "url": "https://api.github.com/repos/spack/spack/issues/9833",
+    "updated_at": "2021-01-16 20:12:20",
+    "created_at": "2018-11-13 10:51:32",
+    "closed_at": "2021-01-16 20:12:20",
+    "state": "closed",
+    "title": "version(git=..., ...) vs. git=... version(...)",
+    "number": 9833,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "git"
+    ],
+    "id": 380166187,
+    "html_url": "https://github.com/spack/spack/issues/9833",
+    "assignees": [],
+    "comments": 4
+}

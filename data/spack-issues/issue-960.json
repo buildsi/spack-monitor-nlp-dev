@@ -1,0 +1,17 @@
+{
+    "body": "On our linux build systems ccache is installed. This build of the simplest package takes forever and eventually fails. There is apparently an infinite loop involved somewhere.  I checked on the build system and spack picks up the ccache wrapper for cc and cxx. Only by removing the system compiler and adding it back with the explicit path can I get spack to use the actual gcc executables (see below)\n\n-bash-4.1$ rm ~/.spack/*\n-bash-4.1$ spack compiler add\n==> Found no new compilers\n-bash-4.1$ spack compiler info gcc\ngcc@4.4.7:\n    cc  = /usr/lib64/ccache/gcc\n    cxx = /usr/lib64/ccache/g++\n    f77 = /usr/bin/gfortran\n    fc  = /usr/bin/gfortran\n-bash-4.1$ spack compiler add /usr/bin\n==> Found no new compilers\n-bash-4.1$ spack compiler rm gcc\n==> Removed compiler gcc@4.4.7\n-bash-4.1$ spack compiler add /usr/bin\n==> Added 1 new compiler to /scratch/.spack/compilers.yaml\n    gcc@4.4.7\n-bash-4.1$ spack compiler info gcc\ngcc@4.4.7:\n    cc  = /usr/bin/gcc\n    cxx = /usr/bin/g++\n    f77 = /usr/bin/gfortran\n    fc  = /usr/bin/gfortran\n",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/960",
+    "updated_at": "2016-10-21 15:44:06",
+    "created_at": "2016-05-16 16:47:18",
+    "closed_at": "2016-10-21 15:44:06",
+    "state": "closed",
+    "title": "Spack and ccache on Linux systems causing infinite loop?",
+    "number": 960,
+    "milestone": null,
+    "labels": [],
+    "id": 155070419,
+    "html_url": "https://github.com/spack/spack/issues/960",
+    "assignees": [],
+    "comments": 0
+}

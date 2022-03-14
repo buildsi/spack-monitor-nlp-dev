@@ -1,0 +1,20 @@
+{
+    "body": "In Fujitsu compiler, `char` is unsigned.\r\nSo comparison of `EOF` with `char` variable becomes error.\r\nI patched as below. \r\n1. use `signed char` local variables\r\n> \\-  char cc;\r\n\\+  signed char cc;\r\n2. use cast to `char` for compare with char[]\r\n> \\-        if (buffer[i] == EOF)\r\n\\+        if (buffer[i] == ((char)(EOF)))",
+    "user": "ketsubouchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/18126",
+    "updated_at": "2020-08-28 15:02:43",
+    "created_at": "2020-08-18 00:40:07",
+    "closed_at": "2020-08-28 15:02:43",
+    "state": "closed",
+    "title": "genometools: use signed char for %fj",
+    "number": 18126,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "fujitsu"
+    ],
+    "id": 680607295,
+    "html_url": "https://github.com/spack/spack/pull/18126",
+    "assignees": [],
+    "comments": 1
+}

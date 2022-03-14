@@ -1,0 +1,19 @@
+{
+    "body": "The `python` package states (incorrectly):\r\n```\r\n    # https://docs.python.org/3/whatsnew/3.7.html#build-changes\r\n    depends_on(\"libffi\", when=\"@3.7:\")\r\n    depends_on(\"openssl@1.0.2:\", when=\"@3.7:\")\r\n```\r\n\r\nThis is based on an incorrect reading of the build-changes for Python 3.7.  In fact, OpenSSL is desired/used by many Python versions, probably going back to Python2.  It is required to access anything SSL over the network; and is also required by Spack itself.  See here, for example, in my build log for `python@3.6` where it tried (an failed) to find/build appropriate SSL support:\r\n```\r\n...\r\nPython build finished successfully!\r\nThe necessary bits to build these optional modules were not found:\r\n_ssl                  ossaudiodev           spwd               \r\nTo find the necessary bits, look in setup.py in detect_modules() for the module's name.\r\n\r\nThe following modules found by detect_modules() in setup.py, have been\r\nbuilt by the Makefile instead, as configured by the Setup files:\r\natexit                pwd                   time               \r\n\r\nFailed to build these modules:\r\n_lzma                                                          \r\n\r\nrunning build_scripts\r\n...\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10330",
+    "updated_at": "2019-01-12 23:39:14",
+    "created_at": "2019-01-12 22:24:55",
+    "closed_at": "2019-01-12 23:39:14",
+    "state": "closed",
+    "title": "SSL is Useful/Required for All Python Versions",
+    "number": 10330,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 398597981,
+    "html_url": "https://github.com/spack/spack/issues/10330",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,19 @@
+{
+    "body": "In https://github.com/spack/spack/pull/10152/files#r244341437, @healther suggested combining `copy` and `copy_tree` (and similarly `install` and `install_tree`) into a single `copy` (and `install`) method that knows what to do when it encounters either a single file or a directory structure.\r\n\r\n### Rationale\r\n\r\nThis change would simplify the API for copying/installing files and directories.\r\n\r\n### Description\r\n\r\nThe simplest way of implementing this change would be add a check in `copy` to see if `src` is a file or a directory. Aside from that, we would simply be combining the logic of `copy` and `copy_tree` into a single method.\r\n\r\n### Additional information\r\n\r\nThe incentive to keep things the way they are, and probably the reason they were designed this way in the first place, is that this is how other libraries do things. For example:\r\n\r\n- Python's `shutil` module has separate [copy](https://docs.python.org/3/library/shutil.html#shutil.copy) and [copytree](https://docs.python.org/3/library/shutil.html#shutil.copytree) methods\r\n- Python's `distutils` package has separate [file_util.copy_file](https://docs.python.org/3.7/distutils/apiref.html#distutils.file_util.copy_file) and [dir_util.copy_tree](https://docs.python.org/3.7/distutils/apiref.html#distutils.dir_util.copy_tree) methods.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/10209",
+    "updated_at": "2020-03-05 21:41:27",
+    "created_at": "2018-12-28 15:32:59",
+    "closed_at": "2020-03-05 21:41:27",
+    "state": "closed",
+    "title": "Combine install and install_tree?",
+    "number": 10209,
+    "milestone": null,
+    "labels": [
+        "proposal"
+    ],
+    "id": 394661552,
+    "html_url": "https://github.com/spack/spack/issues/10209",
+    "assignees": [],
+    "comments": 2
+}

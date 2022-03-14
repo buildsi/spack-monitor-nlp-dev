@@ -1,0 +1,21 @@
+{
+    "body": "fixes #12665\r\n\r\nThis PR ensures that more front-end compilers are detected automatically on Cray. It does so by iterating on compilers supported on Cray machines, loading their PE and module and checking the PATH. For instance, before this PR we had on Piz Daint:\r\n```console\r\n> time spack compiler find\r\n==> Added 19 new compilers to /users/culpo/.spack/compilers.yaml\r\n    pgi@20.1.0  pgi@19.5.0  intel@19.0.1.144  intel@18.0.1.163  gcc@8.3.0  gcc@8.1.0  gcc@7.3.0  cce@9.0.2-classic  cce@9.0.1-classic  cce@8.7.9\r\n    pgi@19.7.0  pgi@19.4.0  intel@18.0.2.199  intel@17.0.4.196  gcc@8.2.0  gcc@7.4.1  gcc@6.1.0  cce@9.0.2          cce@9.0.1\r\n==> Compilers are defined in the following files:\r\n    /users/culpo/.spack/compilers.yaml\r\n\r\nreal\t0m1,098s\r\nuser\t0m0,915s\r\nsys\t0m0,344s\r\n```\r\nwhile after\r\n```console\r\n> time spack  compiler find\r\n==> Added 32 new compilers to /users/culpo/.spack/compilers.yaml\r\n    pgi@20.1.0  pgi@19.5.0  intel@19.0.1.144  intel@18.0.1.163  gcc@8.3.0  gcc@8.1.0  gcc@7.3.0          cce@9.0.2\r\n    pgi@20.1    pgi@19.5    intel@19.0.1.144  intel@18.0.1      gcc@8.3.0  gcc@8.1.0  gcc@6.1.0          cce@9.0.1-classic\r\n    pgi@19.7.0  pgi@19.4.0  intel@18.0.2.199  intel@17.0.4.196  gcc@8.2.0  gcc@7.4.1  gcc@6.1.0          cce@9.0.1\r\n    pgi@19.7    pgi@19.4    intel@18.0.2      intel@17.0.4      gcc@8.2.0  gcc@7.3.0  cce@9.0.2-classic  cce@8.7.9\r\n==> Compilers are defined in the following files:\r\n    /users/culpo/.spack/compilers.yaml\r\n\r\nreal\t0m7,187s\r\nuser\t0m6,669s\r\nsys\t0m2,419s\r\n```\r\n\r\nA few caveats:\r\n- `spack compiler find` is much slower on Cray (~20x~ 7x in this example) However this command needs to be executed a single time, so it might be acceptable\r\n- ~`cce` compilers ARE NOT detected on the front-end to avoid spurious `sles15` entries with `cc` etc. recorded as a compiler~",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17267",
+    "updated_at": "2020-06-29 14:53:34",
+    "created_at": "2020-06-26 09:22:23",
+    "closed_at": "2020-06-29 14:53:09",
+    "state": "closed",
+    "title": "Detect FE compilers automatically on Cray",
+    "number": 17267,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "compilers",
+        "bugfix"
+    ],
+    "id": 646131376,
+    "html_url": "https://github.com/spack/spack/pull/17267",
+    "assignees": [],
+    "comments": 12
+}

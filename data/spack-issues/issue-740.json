@@ -1,0 +1,17 @@
+{
+    "body": "This PR adds py-scikit-learn-0.17.1 and adds py-scikit-image along with new dependent packages.\n\n@tgamblin \nScikit-image depends on py-pillow which creates several '*.py' scripts in the bin directory. As was noticed with numpy dependencies, those binaries/scripts get copied to the bin directory the scikit-image package. This means that those need to be added to the `ignore` parameter of `extends`. In this case, scikit-image also creates a program in bin (no '.py' extension) which needs to be linked during activation. This was accomplished with the regex in the ignore parameter but this does not feel right. Should the next version of scikit-image create a '.py' script in bin then the regex will not be correct any longer. It seems like spack needs something that will automatically add scripts in the bin directory to the ignore list once they have been activated so that it does not have to be done at the package level.\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/740",
+    "updated_at": "2016-04-05 06:11:04",
+    "created_at": "2016-04-04 19:21:45",
+    "closed_at": "2016-04-05 06:11:04",
+    "state": "closed",
+    "title": "Scikit",
+    "number": 740,
+    "milestone": null,
+    "labels": [],
+    "id": 145779293,
+    "html_url": "https://github.com/spack/spack/pull/740",
+    "assignees": [],
+    "comments": 0
+}

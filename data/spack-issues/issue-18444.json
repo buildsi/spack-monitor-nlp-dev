@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nThere seems to be a problem building gcc with nvptx support due to a recent change in the CUDA package.\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n\r\n```console\r\n$ spack install gcc@9.3.0+nvptx\r\n...\r\n >> 34532    configure: error: CUDA driver package required for nvptx support\r\n..\r\n >> 34535    make[1]: *** [configure-target-libgomp] Error 1\r\n```\r\n\r\n### Information on your system\r\n\r\n$ spack debug report\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-skylake_avx512\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\nThis looks to be due to the following commit which excludes the stubs directory from the CUDA library path:\r\n\r\nhttps://github.com/spack/spack/commit/54bce00d4dd606b20f8b6ad1efad58d2fc0fddeb\r\n\r\nI suspect that configure is looking for libcuda.so which is not included in the runtime libraries (it comes with the driver) but there is a stub present.\r\n\r\nI can build correctly using the previous version of the CUDA package.py \r\n\r\n@michaelkuhn - I'm not sure if this should be considered a GCC issue or a CUDA one but the commit by @haampie mentioned above isn't daft as far as CUDA itself goes. \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "ilbiondo",
+    "url": "https://api.github.com/repos/spack/spack/issues/18444",
+    "updated_at": "2021-04-23 21:45:19",
+    "created_at": "2020-09-01 14:43:12",
+    "closed_at": "2021-04-23 21:45:19",
+    "state": "closed",
+    "title": "Installation issue: gcc+nvptx ",
+    "number": 18444,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "gcc",
+        "cuda"
+    ],
+    "id": 690202320,
+    "html_url": "https://github.com/spack/spack/issues/18444",
+    "assignees": [],
+    "comments": 9
+}

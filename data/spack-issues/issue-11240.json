@@ -1,0 +1,19 @@
+{
+    "body": "Installing a package with a new compiler causes directory to be created with the wrong group ownership. \r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\necptestb@thetalogin1:/lus/theta-fs0/software/spack/spack-dev/opt/spack/cray-cnl8-mic_knl> ll\r\ndrwxrwxr-x 6 spack    software 4096 Apr 19 16:47 gcc-8.2.0\r\necptestb@thetalogin1:/lus/theta-fs0/software/spack/spack-dev/opt/spack/cray-cnl8-mic_knl> spack install spack-dummy-package %intel@18.0.0.128 \r\n==> mpich@3.1 : has external module in cray-mpich\r\n...\r\n==> Successfully installed spack-dummy-package\r\n  Fetch: 0.25s.  Build: 2.25s.  Total: 2.50s.\r\n[+] /lus/theta-fs0/software/spack/spack-dev/opt/spack/cray-cnl8-mic_knl/intel-18.0.0.128/spack-dummy-package-refactor-yebephikrhqwmc36r2xtrrt7uobwllyx\r\necptestb@thetalogin1:/lus/theta-fs0/software/spack/spack-dev/opt/spack/cray-cnl8-mic_knl> ll\r\ndrwxrwxr-x 6 spack    software       4096 Apr 19 16:47 gcc-8.2.0\r\ndrwxrwxr-x 3 ecptestb **ecp-testbed-01** 4096 Apr 19 20:56 intel-18.0.0.128\r\necptestb@thetalogin1:/lus/theta-fs0/software/spack/spack-dev/opt/spack/cray-cnl8-mic_knl> ll intel-18.0.0.128/\r\ntotal 4\r\ndrwxrwsr-x 4 ecptestb software 4096 Apr 19 20:56 spack-dummy-package-refactor-yebephikrhqwmc36r2xtrrt7uobwllyx\r\n```\r\n\r\nThe package installed and has correct group (software) ownership within the subdirectory, but the parent intel-18.0.0.128 directory is created with the wrong group ownership (user's default group). \r\n\r\nThe packages.py file declares the group and permission settings which are handled correctly for the final installation directory, just not the intermediate. \r\n```\r\npackages:\r\n  all:\r\n    permissions:\r\n      write: group\r\n      group: software\r\n```\r\n\r\n### Information on your system\r\n\r\nCray XC-40 theta at ALCF\r\n",
+    "user": "frankwillmore",
+    "url": "https://api.github.com/repos/spack/spack/issues/11240",
+    "updated_at": "2019-07-19 15:14:42",
+    "created_at": "2019-04-19 21:09:43",
+    "closed_at": "2019-07-19 15:14:42",
+    "state": "closed",
+    "title": "Installing a package with a new compiler causes directory to be created with the wrong group ownership ",
+    "number": 11240,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 435305493,
+    "html_url": "https://github.com/spack/spack/issues/11240",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Hi All,\r\nI'm trying to install hdf5 1.8.18 with Spack, using the Intel 2017 compiler, IntelMPI 2017, both of which are installed external to spack.\r\n\r\nThe build crashes out when it gets to the C++ section, as the build complains (correctly) that it can't find:\r\n/awe/intel/impi/2017.1.132/intel64/bin/mpic++    This file doesn't exist in the intel MPI directory. - I assume that it should be pointing to /awe/intel/impi/2017.1.132/intel64/bin/mpicxx?\r\n\r\nThis file is specified when spack issues the hdf5 configuration stage by setting the CXX flag.\r\n\r\nDoes anyone know where this is set?\r\n\r\nThe hdf5 package.py, has the line:\r\n```\r\n202:                  if '+cxx' in spec\r\n202:                      extra_args.append(\"CXX=%s\" % spec.['mpi']/mpicxx)\r\n\r\n```\r\nI then looked in in the Intel-parallel-studio package.py file\r\nat the end there is the line:\r\n\r\n```\r\n424:         self.spec.mpicxx = join.path(bindir, 'mpic++')\r\n```\r\nI tried changing the mpic++ to mpicxx, but to no avail.\r\n\r\nDoes anyone have any ideas?\r\n\r\n(I cloned a fresh version of spack today)\r\n\r\ncheers,\r\n\r\nChris.",
+    "user": "cnelson3",
+    "url": "https://api.github.com/repos/spack/spack/issues/4250",
+    "updated_at": "2017-05-24 08:15:27",
+    "created_at": "2017-05-15 16:02:47",
+    "closed_at": "2017-05-24 08:15:27",
+    "state": "closed",
+    "title": "hdf5@1.8.18 +mpi c++ error (with intel and intelmpi)",
+    "number": 4250,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "external-packages",
+        "mpi"
+    ],
+    "id": 228763840,
+    "html_url": "https://github.com/spack/spack/issues/4250",
+    "assignees": [],
+    "comments": 4
+}

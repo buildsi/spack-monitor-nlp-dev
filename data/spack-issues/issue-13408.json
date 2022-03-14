@@ -1,0 +1,17 @@
+{
+    "body": "Fixes #13404\r\n\r\nfd58c98 formats the `Stage`'s `archive_path` in `Stage.archive` (as part of `web.push_to_url`). This is not needed and if the formatted differs from the original path (for example if the archive file name contains a URL query suffix), then the copy fails.\r\n\r\nThis removes the formatting that occurs in `web.push_to_url`. Admittedly the archive path chosen by the stage should strip off strings like `?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Flibuuid%2F&ts=1433881396&use_mirror=iweb` from `libuuid-1.0.3.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Flibuuid%2F&ts=1433881396&use_mirror=iweb`, but that should be handled when the archive names are chosen (i.e. in `Stage.expected_archive_files`).\r\n\r\nSee also: https://github.com/spack/spack/pull/11117#discussion_r338301058",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/13408",
+    "updated_at": "2019-10-24 17:33:46",
+    "created_at": "2019-10-23 22:59:27",
+    "closed_at": "2019-10-23 23:50:52",
+    "state": "closed",
+    "title": "Don't format local path when caching a local archive",
+    "number": 13408,
+    "milestone": null,
+    "labels": [],
+    "id": 511614664,
+    "html_url": "https://github.com/spack/spack/pull/13408",
+    "assignees": [],
+    "comments": 5
+}

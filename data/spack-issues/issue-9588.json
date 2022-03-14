@@ -1,0 +1,19 @@
+{
+    "body": "Miniconda2 and miniconda3 will always attempt to install v4.3.11 regardless of the version in the spec.  The problem stems from the install() function using self.url (which is hard-coded to the 4.3.11 version) instead of self.stage.archive_file.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install miniconda2 # any version other than 4.3.11 will trigger the issue\r\n==> Installing miniconda2\r\n==> Using cached archive: /home/xmr/git/spack/var/spack/cache/miniconda2/miniconda2-4.5.4.None\r\n==> Already staged miniconda2-4.5.4-dyueiw7vx4rikzfqi4qxshnnmg2yrgu2 in /home/xmr/git/spack/var/spack/stage/miniconda2-4.5.4-dyueiw7vx4rikzfqi4qxshnnmg2yrgu2\r\n==> No patches needed for miniconda2\r\n==> Building miniconda2 [Package]\r\n==> Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 127:\r\n    '/bin/bash' 'Miniconda2-4.3.11-Linux-x86_64.sh' '-b' '-f' '-p' '/home/xmr/git/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.3.0/miniconda2-4.5.4-dyueiw7vx4rikzfqi4qxshnnmg2yrgu2'\r\n\r\n1 error found in build log:\r\n     1    ==> Executing phase: 'install'\r\n     2    ==> '/bin/bash' 'Miniconda2-4.3.11-Linux-x86_64.sh' '-b' '-f' '-p' '/home/xmr/g\r\n          it/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.3.0/miniconda2-4.5.4-dyueiw7v\r\n          x4rikzfqi4qxshnnmg2yrgu2'\r\n  >> 3    /bin/bash: Miniconda2-4.3.11-Linux-x86_64.sh: No such file or directory\r\n\r\nSee build log for details:\r\n  /home/xmr/git/spack/var/spack/stage/miniconda2-4.5.4-dyueiw7vx4rikzfqi4qxshnnmg2yrgu2/spack-build.out\r\n```\r\n\r\nNote in the error message that it couldn't find the Miniconda2-4.3.11-Linux-x86_64.sh file.  That's not the version that was requested and it's not the file that Spack downloads.\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux boo4 4.15.0-36-generic #39-Ubuntu SMP Mon Sep 24 16:19:09 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:    Ubuntu 18.04.1 LTS\r\n``` \r\n### Additional information\r\nMinor changes to the install() function to use ```self.stage.archive_file``` instead of ```self.url``` fix the issue. Pull request will be coming shortly.",
+    "user": "rgmiller",
+    "url": "https://api.github.com/repos/spack/spack/issues/9588",
+    "updated_at": "2018-10-30 20:01:02",
+    "created_at": "2018-10-19 17:45:30",
+    "closed_at": "2018-10-30 20:01:02",
+    "state": "closed",
+    "title": "Installation issue: miniconda2 & miniconda3",
+    "number": 9588,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 372052991,
+    "html_url": "https://github.com/spack/spack/issues/9588",
+    "assignees": [],
+    "comments": 2
+}

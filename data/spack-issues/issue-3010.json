@@ -1,0 +1,19 @@
+{
+    "body": "The number of parallel jobs when installing can be controlled as:\r\n```sh\r\nspack install --jobs <njobs> foo\r\n```\r\nIf `--jobs` is not specified, the [default is to make use of all cores on the machine](https://github.com/LLNL/spack/blob/v0.10.0/lib/spack/spack/build_environment.py#L355) using `multiprocessing.cpu_count()`.\r\n\r\nI'd like to propose that the default could be controlled via an environment variable, e.g. `SPACK_PARALLEL_JOBS` such that if it is set, it's value will be used instead of `multiprocessing.cpu_count()`.\r\n\r\nThe advantage of `SPACK_PARALLEL_JOBS` is that one don't have to specify `--jobs` explicitly.  If a shared system has a build machine with multiple users, sysadm can set the default number of parallel jobs to say, `SPACK_PARALLEL_JOBS=4`.  If building via a scheduler such as TORQUE / PBS, one set it as `export SPACK_PARALLEL_JOBS=$PBS_NUM_PPN`.\r\n\r\n\r\nPS. Parallel jobs can be [disabled using `SPACK_NO_PARALLEL_MAKE=true`](https://github.com/LLNL/spack/blob/v0.10.0/lib/spack/spack/build_environment.py#L112-L113).  This could be replaced with `SPACK_PARALLEL_JOBS=1`.\r\n\r\n",
+    "user": "HenrikBengtsson",
+    "url": "https://api.github.com/repos/spack/spack/issues/3010",
+    "updated_at": "2017-04-15 15:31:01",
+    "created_at": "2017-02-03 05:12:16",
+    "closed_at": "2017-04-15 15:31:01",
+    "state": "closed",
+    "title": "WISH: spack install defaulting to --jobs=$SPACK_PARALLEL_JOBS",
+    "number": 3010,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 205073865,
+    "html_url": "https://github.com/spack/spack/issues/3010",
+    "assignees": [],
+    "comments": 4
+}

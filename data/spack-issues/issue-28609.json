@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce\n\nAdd an external CUDA 11.6, and default all package variants to `+cuda`:\r\n```yaml\r\npackages:\r\n  cuda:\r\n    buildable: false\r\n    externals:\r\n    - spec: cuda@11.6\r\n      prefix: /usr/local/cuda-11.6\r\n  all:\r\n    variants: +cuda\r\n```\r\n\r\nThen try installing `superlu-dist`, which currently conflicts with CUDA 11.5+.\n\n### Error message\n\n```console\r\n$ spack spec -I superlu-dist\r\nInput spec\r\n--------------------------------\r\n -   superlu-dist\r\n\r\nConcretized\r\n--------------------------------\r\n -   superlu-dist@7.1.1%gcc@8.4.1~cuda~int64~ipo~openmp~rocm+shared build_type=RelWithDebInfo arch=linux-rhel8-haswell\r\n# <snip>\r\n -           ^spectrum-mpi@10.4%gcc@8.4.1 arch=linux-rhel8-haswell\r\n```\r\n\r\n`spectrum-mpi` showed up this time, and `mpt` showed up a previous iteration. Setting `providers: [openmpi]` does nothing.\r\n\r\nNeither `mpt` nor `spectrum-mpi` are in the list of providers in the etc/spack file. Should they be? Should they be deleted? Should they `conflict` with systems that don't support them?\n\n### Information on your system\n\n* **Spack:** 0.17.1-970-b700335be7\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-haswell\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/28609",
+    "updated_at": "2022-01-29 12:58:09",
+    "created_at": "2022-01-26 13:28:11",
+    "closed_at": "2022-01-29 12:58:09",
+    "state": "closed",
+    "title": "Mystery MPI implementations due to conflict resolution",
+    "number": 28609,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage",
+        "concretizer-use-case"
+    ],
+    "id": 1115020249,
+    "html_url": "https://github.com/spack/spack/issues/28609",
+    "assignees": [],
+    "comments": 0
+}

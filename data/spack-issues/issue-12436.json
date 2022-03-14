@@ -1,0 +1,22 @@
+{
+    "body": "I'm trying to generate lmod modules without a hash post-fix. I have spack installed at /usr/local. At /usr/local/spack/etc/spack my modules.yaml file is:\r\n```\r\nmodules:\r\n  enable::\r\n    - lmod\r\n  lmod:\r\n    core_compilers:\r\n      - 'gcc@4.8.5'\r\n    hierarchy:\r\n      - mpi\r\n    hash_length: 0\r\n    whitelist:\r\n      - gcc\r\n    blacklist:\r\n      - '%gcc@4.8.5'\r\n```\r\nThen, I ran\r\n```console\r\n$ spack module lmod refresh --delete-tree -y\r\n==> Regenerating lmod module files\r\n==> Warning: Quotes in command arguments can confuse scripts like configure.\r\n  The following arguments may cause problems when executed:\r\n      source /usr/local/spack/opt/spack/linux-centos7-x86_64/gcc-9.1.0/intel-mpi-2019.4.243-u2ukgstakhmzbvzhx6at22bxq3jtzbub/compilers_and_libraries_2019.4.243/linux/mpi/intel64/bin/mpivars.sh intel64 &> /dev/null && python -c \"import os, json; print(json.dumps(dict(os.environ)))\"\r\n  Quotes aren't needed because spack doesn't use a shell.\r\n  Consider removing them\r\n$ module use /usr/local/spack/share/spack/lmod/linux-centos7-x86_64/Core\r\n$ module avail\r\n\r\n---------------------------- /usr/local/spack/share/spack/lmod/linux-centos7-x86_64/Core ----------------------------\r\n   gcc/9.1.0-mj7s6dg\r\n\r\n--------------------------------------- /usr/share/lmod/lmod/modulefiles/Core ---------------------------------------\r\n   lmod    settarg\r\n\r\nUse \"module spider\" to find all possible modules.\r\nUse \"module keyword key1 key2 ...\" to search for all possible modules matching any of the \"keys\".\r\n```\r\nThe module for gcc still has the hash prefixed even though I have `hash_length: 0` in my module.yaml file. Previously, hash_length had worked tcl modules.\r\n\r\n### Information about my system\r\n\r\n```console\r\n$ uname -r\r\n3.10.0-693.el7.x86_64\r\n$ spack -V\r\n0.12.1\r\n$ spack find\r\n==> 61 installed packages\r\n-- linux-centos7-x86_64 / gcc@4.8.5 -----------------------------\r\nautoconf@2.69    gdbm@1.18.1      libtool@2.4.6  ncurses@6.1    readline@7.0\r\nautomake@1.16.1  gmp@6.1.2        m4@1.4.18      pcre@8.42      vim@8.1.0338\r\nemacs@26.1       isl@0.19         mpc@1.1.0      perl@5.26.2    zlib@1.2.11\r\ngcc@9.1.0        libsigsegv@2.11  mpfr@3.1.6     pkgconf@1.6.0\r\n\r\n-- linux-centos7-x86_64 / gcc@9.1.0 -----------------------------\r\nautoconf@2.69         libiconv@1.15              openmpi@3.1.4\r\nautomake@1.16.1       libpciaccess@0.13.5        openssl@1.1.1b\r\nbzip2@1.0.8           libsigsegv@2.11            pcre@8.42\r\ncurl@7.63.0           libtool@2.4.6              perl@5.26.2\r\ndiffutils@3.7         libxml2@2.9.9              pkgconf@1.6.0\r\nexpat@2.2.5           lmod@8.1.5                 pkgconf@1.6.1\r\ngdbm@1.18.1           lua@5.3.5                  readline@7.0\r\ngettext@0.19.8.1      lua-luafilesystem@1_7_0_2  tar@1.31\r\ngit@2.21.0            lua-luaposix@33.4.0        tcl@8.6.8\r\ngmp@6.1.2             m4@1.4.18                  unzip@6.0\r\nhwloc@1.11.11         mpc@1.1.0                  util-macros@1.19.1\r\nintel-mpi@2019.4.243  mpfr@3.1.6                 vim@8.1.0338\r\nisl@0.19              ncurses@6.1                xz@5.2.4\r\nlibbsd@0.9.1          numactl@2.0.12             zlib@1.2.11\r\n$ spack compilers\r\n==> Available compilers\r\n-- gcc centos7-x86_64 -------------------------------------------\r\ngcc@9.1.0  gcc@4.8.5  gcc@4.4.7\r\n```\r\n",
+    "user": "ianbrobin",
+    "url": "https://api.github.com/repos/spack/spack/issues/12436",
+    "updated_at": "2019-08-16 16:52:21",
+    "created_at": "2019-08-15 21:18:38",
+    "closed_at": "2019-08-16 16:52:21",
+    "state": "closed",
+    "title": "hash_length is not working with lmod",
+    "number": 12436,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 481343529,
+    "html_url": "https://github.com/spack/spack/issues/12436",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Apparently a failed `spack buildcache` command leaves the working directory in a possibly broken state, that must be cleaned manually.\r\n\r\n### Expected Result\r\n\r\nI expect either:\r\n\r\n1. The command does not exit with an error (just a warning), and creates the build cache\r\n2. The command exits with an error and the build cache is not created\r\n\r\n### Actual Result\r\n\r\nThe command creates a tarball in:\r\n```console\r\n$ tree build_cache/\r\nbuild_cache/\r\n\u251c\u2500\u2500 linux-ubuntu14.04-x86_64\r\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 gcc-4.8\r\n\u2502\u00a0\u00a0     \u2514\u2500\u2500 zlib-1.2.11\r\n\u2502\u00a0\u00a0         \u2514\u2500\u2500 linux-ubuntu14.04-x86_64-gcc-4.8-zlib-1.2.11-eksallf6cymqkp6pkz6ymzjakqt6bqkx.tar.gz\r\n\u2514\u2500\u2500 linux-ubuntu14.04-x86_64-gcc-4.8-zlib-1.2.11-eksallf6cymqkp6pkz6ymzjakqt6bqkx.spec.yaml\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack buildcache create zlib\r\n==> adding matching spec zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64 \r\n==> recursing dependencies\r\n==> adding dependency zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64 \r\n==> creating binary cache file for package zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64  \r\n==> Error: no default key available for signing, use -y to create unsigned build caches or spack gpg init to create a default key\r\n\r\n$ spack buildcache create zlib\r\n==> adding matching spec zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64 \r\n==> recursing dependencies\r\n==> adding dependency zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64 \r\n==> creating binary cache file for package zlib@1.2.11%gcc@4.8+optimize+pic+shared arch=linux-ubuntu14.04-x86_64  \r\n==> Warning: /home/mculpo/PycharmProjects/spack/build_cache/linux-ubuntu14.04-x86_64-gcc-4.8-zlib-1.2.11-eksallf6cymqkp6pkz6ymzjakqt6bqkx.spec.yaml exists, use -f to force overwrite.\r\n```\r\n\r\n### Information on your system\r\nUsing 20092adb944615b96e4265d5d23627f91b2d5c58 with default configuration on:\r\n```console\r\n$ uname -a\r\nLinux nuvolari 4.4.0-98-generic #121~14.04.1-Ubuntu SMP Wed Oct 11 11:54:55 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6369",
+    "updated_at": "2018-03-07 02:03:43",
+    "created_at": "2017-11-18 18:13:57",
+    "closed_at": "2018-03-07 02:03:43",
+    "state": "closed",
+    "title": "spack buildcache doesn't clean up on failure?",
+    "number": 6369,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "commands",
+        "buildcache"
+    ],
+    "id": 275098512,
+    "html_url": "https://github.com/spack/spack/issues/6369",
+    "assignees": [],
+    "comments": 1
+}

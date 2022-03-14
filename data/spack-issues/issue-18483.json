@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #18463.\r\n\r\nAMD's fork of clang is used by some packages either indirectly through `hipcc` (rocfft, roclbas, etc) or directly (rocm-device-libs). This bypasses Spack's compiler wrappers, which causes issues with linking, rpaths and it skips microarch optimization flags. In particular, `hipcc` 3.7.0 always adds an `-lnuma` flag, but numactl might currently not end up in the rpaths.\r\n\r\nThis patch is an ugly hack to fix this. It replaces the `clang` and `clang++` symlinks with Spack's compiler wrapper. As it turns out, even though `clang++` itself is merely a symlink, it has to be called `clang++` for it to realize it is a c++ compiler/linker, so we cannot simply rename `clang++` to `amd-clang++` or so. Instead, this patch creates a `bin/orig/clang` and `bin/orig/clang++`  symlinks pointing to `bin/clang-11`, and makes the compiler wrapper in `bin/clang` and `bin/clang++` call `bin/origin/clang` and `bin/orig/clang++`.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18483",
+    "updated_at": "2021-03-04 12:21:59",
+    "created_at": "2020-09-03 13:12:03",
+    "closed_at": "2021-03-04 12:21:59",
+    "state": "closed",
+    "title": "Install wrapper compilers for AMD's fork of clang",
+    "number": 18483,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "AMD"
+    ],
+    "id": 691959395,
+    "html_url": "https://github.com/spack/spack/pull/18483",
+    "assignees": [],
+    "comments": 5
+}

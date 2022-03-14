@@ -1,0 +1,17 @@
+{
+    "body": "While the original goal of this PR was just to add a package for Cantera, I ended up having to do a little extra work:\n- [x] Add support for SCons as a build system #986\n- [x] Overhaul `spack create` mechanics #945, #1016\n- [x] Add packages for Cantera, SuperLU_MT, 3to2, unittest2, unittest2py3k\n- [x] Rewrite Sundials package from scratch\n- [ ] Work out bugs in Sundials package\n\nNow that SCons has been integrated into Spack, it supports parallel builds and doesn't require you to locate it with `which('scons')`. I modified the Serf package to use this. @robertdfrench Can you confirm that Serf and Subversion still build for you? The only thing that might go wrong is that Serf might not support being built in parallel.\n\nWhen downloading a package that uses SCons, `spack create` will now detect this and provide the appropriate default installation instructions. While I was at it, I reorganized the code in a way I felt makes more sense. I also incorporated my changes from #945 since I didn't feel like merging them later. Let me know if you do/don't like it. It should probably be tested a little more...\n\nPreviously, when running `spack create` with a URL that points to a .zip file, Spack would try to peek into it with tar, and it would crash. Now, it uses unzip and correctly detects the files inside.\n\nThe Sundials package needed a complete overhaul. The URL changed, the previous version is no longer available, and \"Starting with version 2.6.0 of sundials, CMake is the only supported method of installation.\" There are still a couple of bugs to work out. So far I am unable to get it to link to SuperLU_MT or SuiteSparse's KLU libraries. @tgamblin Do you happen to know any Sundials developers at LLNL?\n\nThere are also a few `depends_on` mechanics that don't work as expected for Cantera and Sundials.\n\nI don't think any of these changes require updates to the documentation, but let me know if you think otherwise.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/994",
+    "updated_at": "2016-06-21 06:55:53",
+    "created_at": "2016-05-26 20:46:17",
+    "closed_at": "2016-06-21 06:54:10",
+    "state": "closed",
+    "title": "Add scons support, .zip support, and Cantera package",
+    "number": 994,
+    "milestone": null,
+    "labels": [],
+    "id": 157075279,
+    "html_url": "https://github.com/spack/spack/pull/994",
+    "assignees": [],
+    "comments": 10
+}

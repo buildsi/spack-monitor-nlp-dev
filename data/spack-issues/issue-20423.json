@@ -1,0 +1,21 @@
+{
+    "body": "Continuing to convert everything in `asp.py` into facts, make the generation of ground rules for conditional dependencies use facts, and move the semantics into `concretize.lp`.\r\n\r\nThis is probably the most complex logic in Spack, as dependencies can be conditional on anything, and we need conditional ASP rules to accumulate and map all the dependency conditions to spec attributes.\r\n\r\nThe logic looks complicated, but essentially it accumulates any constraints associated with particular conditions into a fact associated with the condition by id. Then, if *any* condition id's fact is True, we trigger the dependency.  This simplifies the way `declared_dependency()` works -- the dependency is now declared regardless of whether it is conditional, and the conditions are handled by `dependency_condition()` facts.\r\n\r\nThere's a nit in the loop structure here: we currently emit a bunch of extra `declared_dependency` facts.  Need to think about how best to remove those.\r\n\r\n- [x] simplify by making `spec_clauses` transitive by default\r\n- [x] move conditional dependency logic into `concretize.lp`, including:\r\n  - [x] conditions from `when=` clauses\r\n  - [x] constraints imposed on the dependency (e.g., `@1.0` in `depends_on(\"foo@1.0\")`)\r\n- [x] don't generate so many `declared_dependency` facts\r\n- [x] `depends_on` clauses are numbered globally and identified only by ID, to simplify grounding",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/20423",
+    "updated_at": "2020-12-20 15:00:49",
+    "created_at": "2020-12-16 09:06:51",
+    "closed_at": "2020-12-20 15:00:48",
+    "state": "closed",
+    "title": "concretizer: move conditional dependency logic into `concretize.lp`",
+    "number": 20423,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "refactoring",
+        "performance"
+    ],
+    "id": 768609778,
+    "html_url": "https://github.com/spack/spack/pull/20423",
+    "assignees": [],
+    "comments": 1
+}

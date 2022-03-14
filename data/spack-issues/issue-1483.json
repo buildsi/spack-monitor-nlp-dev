@@ -1,0 +1,17 @@
+{
+    "body": "I was surprised to find that set_executable only made things executable for the owner.\n\nAs it is, I may end up doing this (from cuda.py) in my install step:\n\n```\n        chmod = which('chmod')\n        chmod('+x', runfile)\n```\n\nThis is more like what I thought set_executable would do:\n\n```\ndiff --git a/lib/spack/llnl/util/filesystem.py b/lib/spack/llnl/util/filesystem.py\nindex 4cf9916..4d1a287 100644\n--- a/lib/spack/llnl/util/filesystem.py\n+++ b/lib/spack/llnl/util/filesystem.py\n@@ -368,8 +368,11 @@ def traverse_tree(source_root, dest_root, rel_path='', **kwargs):\n\n\n def set_executable(path):\n-    st = os.stat(path)\n-    os.chmod(path, st.st_mode | stat.S_IEXEC)\n+    mode = os.stat(path).st_mode\n+    mode |= stat.S_IXUSR\n+    mode |= stat.S_IXGRP\n+    mode |= stat.S_IXOTH\n+    os.chmod(path, mode)\n\n\n def remove_dead_links(root):\n```\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/1483",
+    "updated_at": "2017-04-12 21:31:38",
+    "created_at": "2016-08-09 21:01:24",
+    "closed_at": "2017-04-12 21:31:38",
+    "state": "closed",
+    "title": "Is there a reason set_executable only sets S_IXUSR?",
+    "number": 1483,
+    "milestone": null,
+    "labels": [],
+    "id": 170269694,
+    "html_url": "https://github.com/spack/spack/issues/1483",
+    "assignees": [],
+    "comments": 7
+}

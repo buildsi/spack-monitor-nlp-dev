@@ -1,0 +1,21 @@
+{
+    "body": "@adamjstewart @tgamblin \r\n\r\nThis is kind of a draft PR. I thought I would run this by you guys since its the opposite of what we discussed at the outset of ECP. If I don't hear back from you in a couple of days, I will assume that you have no concerns and will proceed with the code changes described below.\r\n\r\nThe QMCPACK Spack package currently patches Quantum-ESPRESSO (QE) so that QMCPACK can read QE's output. This forms the basis of >80% of the QMCPACK user workflows. So far, we have not succeeded in upstreaming our patch into QE but we would still like to do this envtually. The QMCPACK Spack package currently performs a dependency patching of QE. Unfortunately, the resulting `spack install qmcpack+qe` only consistently works with GCC. A lot of breakage arises from shortcomings in the QE build system. \r\n\r\nI would like to move the QMCPACK-QE converter from QMCPACK Spack package to the QE Spack package -- I would then introduce a new variant and apply the patch the normal way. In on other worlds, I would like to move the equivalent lines of code below:\r\nhttps://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/qmcpack/package.py#L162-L172\r\ninto the QE Spack package.\r\n\r\nThis would be much easier for users... it would be two instead of one Spack install invocations, `spack install qmcpack` and `spack install quantum-espresso`, but the probability of those install succeeding with a non-GCC compiler would be higher.  (mostly because I think QE will continue to only be compiled with GCC or the Intel compiler, while QMCPACK can be compiled with at least four compilers). Finally, we would be able to bundle these two science codes in a Spack environment\r\nhttps://spack.readthedocs.io/en/latest/environments.html\r\n\r\n@prckent ",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/16223",
+    "updated_at": "2020-05-03 20:53:05",
+    "created_at": "2020-04-22 00:01:13",
+    "closed_at": "2020-05-03 20:53:05",
+    "state": "closed",
+    "title": "QMCPACK Quantum-ESPRESSO converter moving to Quantum-ESPRESSO package",
+    "number": 16223,
+    "milestone": null,
+    "labels": [
+        "question",
+        "dependencies",
+        "patch"
+    ],
+    "id": 604357909,
+    "html_url": "https://github.com/spack/spack/issues/16223",
+    "assignees": [],
+    "comments": 6
+}

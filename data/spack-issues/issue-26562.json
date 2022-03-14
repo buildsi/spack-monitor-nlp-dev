@@ -1,0 +1,21 @@
+{
+    "body": "### Problem\r\n\r\n`mesa` will try to raise a `SpecError` dynamically if it's told to enable the multi-valued `swr` variant when `+llvm` isn't also enabled. Two problems with this:\r\n- The concretizer doesn't understand this and it will cause annoying failures for users who don't want to build all of llvm.\r\n- `SpecError` isn't exported in the top-level `from spack import *` module that `.../mesa/package.py` imports at the top, causing a very confusing error while building the package.\r\n\r\n### Solution\r\n1. List the values of the `swr` variant that count as being \"enabled\", i.e. ones that will need llvm in order to build, as a private class-level variable `_SWR_ENABLED_VALUES`.\r\n2. Make the commented-out `# conflicts('~llvm', when='~swr=none')` line work as intended, by adding a `conflicts(`~llvm`, ...)` for each \"enabled\" value of the `swr` variant.\r\n\r\n### Result\r\n`mesa`'s relationship between the `llvm` and `swr` variants is now visible to the concretizer!",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/26562",
+    "updated_at": "2021-10-06 17:07:43",
+    "created_at": "2021-10-06 16:38:00",
+    "closed_at": "2021-10-06 17:07:43",
+    "state": "closed",
+    "title": "use conflicts() instead of referring to SpecError in mesa",
+    "number": 26562,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "conflicts",
+        "new-variant"
+    ],
+    "id": 1018721931,
+    "html_url": "https://github.com/spack/spack/pull/26562",
+    "assignees": [],
+    "comments": 0
+}

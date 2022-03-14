@@ -1,0 +1,19 @@
+{
+    "body": "## Summary\r\n\r\n### Expected Result\r\n\r\nThe command `gcj` should \"just work\"\r\n\r\n### Actual Result\r\n\r\n```\r\ngcj: error trying to exec 'ecj1': execvp: Permission denied\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nRun `gcj` on any `.java` file.\r\n\r\n## Details\r\n\r\nThis is because GCJ requires the Eclipse Java parser; but does not ship with it.  So when you build `gcc+java`, you have to download the Eclipse Java parser (jar file) separately, and then include it in the build.\r\n\r\nSee here: https://stackoverflow.com/questions/5625800/gcc-gcj-needs-ecj-and-other-libraries\r\n\r\n> The cause for an openSUSE version of the gcc is basically this: If the configure step of the compilation of gcc did not find the ecj.jar file, ecj1 will be missing at the time when gcj, which has just been build, is called. ecj.jar can be taken from ftp://sourceware.org/pub/java/ecj-4.8.jar for example.\r\n> \r\n> The two options are:\r\n> \r\n> i) Put ecj.jar in $HOME/share/java/ecj.jar, reconfigure gcc with ./configure .... --with-ecj-jar=$HOME/java/ecj.jar and recompile gcc. Future compilations with that gcc will not require ecj1 .\r\n> \r\n> ii) Put ecj.jar in $HOME/share/java/ecj.jar and create ecj1(.exe) through a compilation like gcj -o$HOME/bin/ecj1(.exe) --main=org.eclipse.jdt.internal.compiler.batch.GCCMain $HOME/share/java/ecj.jar assuming that the $HOME/bin is in the PATH for subsequent calls of gcj.\r\n> \r\n> The thing that is actually \"broken\" here the fact that gcc 4.8.* is not shipped by default with ecj.jar at some standard place.\r\n\r\n\r\n## Note\r\n\r\n`gcj` has been removed from GCC as of version 7.  HOWEVER... some programs (`pdftk` in particular) require `gcj`.  No, they won't run with a \"regular\" Java runtime, at least not without modification.  So building these packages requires a working GCJ.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/8165",
+    "updated_at": "2018-08-01 02:32:34",
+    "created_at": "2018-05-17 01:31:58",
+    "closed_at": "2018-08-01 02:32:34",
+    "state": "closed",
+    "title": "gcj not built correctly with GCC",
+    "number": 8165,
+    "milestone": null,
+    "labels": [
+        "java"
+    ],
+    "id": 323841757,
+    "html_url": "https://github.com/spack/spack/issues/8165",
+    "assignees": [],
+    "comments": 1
+}

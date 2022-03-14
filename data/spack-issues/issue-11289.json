@@ -1,0 +1,19 @@
+{
+    "body": "\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-numpy@1.16.2%intel@18.0.4 ^intel-mkl@2018.4.274%intel@18.0.4\r\n... \r\n==> Error: InstallError: Cannot find a BLACS library for the given MPI.\r\n\r\n....../spack/lib/spack/spack/build_systems/intel.py:798, in scalapack_libs:\r\n        795            blacs_lib = 'libmkl_blacs_intelmpi'\r\n        796        elif '^mpt' in spec_root:\r\n        797            blacs_lib = 'libmkl_blacs_sgimpt'\r\n  >>    798        else:\r\n        799            raise_lib_error('Cannot find a BLACS library for the given MPI.')\r\n        800\r\n        801        int_suff = '_' + self.intel64_int_suffix\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux login5.occigen 3.10.0-862.14.4.el7.x86_64 #1 SMP Fri Sep 21 09:07:21 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:\tRed Hat Enterprise Linux Server release 7.5 (Maipo)\r\n``` \r\n\r\n### Additional information\r\nWe are on \"develop\" branch, the build was working correctly in \"0.12.0\".\r\n\r\nThis seems to fail because in libs() function from spack/lib/spack/spack/build_systems/intel.py there are the following lines:\r\n\r\n```\r\nif '+mkl' in self.spec or self.provides('scalapack'):\r\n            result = self.scalapack_libs + result\r\n\r\n```\r\n\r\nWhich will add scalapack_libs if one depend on mkl.\r\n\r\nOr py-numpy does depend on mkl, but not on MPI, which explains why this line fails once it calls the scalapack_libs function.\r\n",
+    "user": "HGab",
+    "url": "https://api.github.com/repos/spack/spack/issues/11289",
+    "updated_at": "2019-05-10 01:54:06",
+    "created_at": "2019-04-25 13:44:29",
+    "closed_at": "2019-05-10 01:54:06",
+    "state": "closed",
+    "title": "Installation issue: py-numpy with intel",
+    "number": 11289,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 437207748,
+    "html_url": "https://github.com/spack/spack/issues/11289",
+    "assignees": [],
+    "comments": 1
+}

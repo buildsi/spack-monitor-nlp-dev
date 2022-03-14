@@ -1,0 +1,21 @@
+{
+    "body": "fixes https://github.com/spack/spack/issues/17405\r\n\r\nThis silences the spurious but common CI failure:\r\n\r\n```\r\nFileNotFoundError: [Errno 2] No such file or directory: 'S.gpg-agent.extra'\r\n```\r\n\r\nThe problem is:\r\n\r\n> `shutil.rmtree` deleted the agents main socket, `gpg-agent`\r\n> detected that, and deleted the other sockets as well, racing\r\n> `shutil.rmtree` which did not cope will with that.\r\n\r\nThe fix is to ignore `shutil.rmtree` errors.\r\n\r\nSee \r\n\r\n- https://bugs.python.org/issue29699 \r\n- https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gpgme.git;a=commitdiff;h=de8494b16bc50c60a8438f2cae1f8c88e8949f7a\r\n\r\nfor details. The issue is known to Python devs since March 2017, and\r\nthey don't seem keen on fixing it.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26665",
+    "updated_at": "2021-10-12 12:42:36",
+    "created_at": "2021-10-11 20:54:22",
+    "closed_at": "2021-10-12 12:01:53",
+    "state": "closed",
+    "title": "Fix potentially broken shutil.rmtree in tests",
+    "number": 26665,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 1023105795,
+    "html_url": "https://github.com/spack/spack/pull/26665",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

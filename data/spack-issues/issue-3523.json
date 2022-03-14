@@ -1,0 +1,20 @@
+{
+    "body": "I am looking into using Spack to manage a small number of packages on a HPC for my research group. The HPC has an existing large variety of environment modules installed by the administrators, which I would like to use from within Spack.\r\n\r\nTo get a handle on how Spack works I have created an empty repository with a single package that depends on MPI\r\n```python\r\nclass Hdf5(AutotoolsPackage):\r\n    homepage = \"https://support.hdfgroup.org/HDF5/\"\r\n    url      = \"https://support.hdfgroup.org/ftp/HDF5/current18/src/hdf5-1.8.18.tar.bz2\"    \r\n    version('1.8.18', '29117bf488887f89888f9304c8ebea0b')\r\n    depends_on('mpi')\r\n    def configure_args(self):\r\n        args = ['--enable-mpi']\r\n        return args\r\n```\r\nand I have set up the central MPI module in `packages.yaml` following http://spack.readthedocs.io/en/latest/build_settings.html#external-packages\r\n```yaml\r\npackages:\r\n    openmpi:\r\n        buildable: False\r\n        modules:\r\n            openmpi@1.10.2%intel@17.0.1.132: openmpi/1.10.2\r\n    all:\r\n        compiler:\r\n            - intel\r\n        providers:\r\n            mpi:\r\n                - openmpi\r\n```\r\nMy understanding is that this will run `module load openmpi/1.10.2` when building the package\r\n\r\nIf I try to install the package I get the following error:\r\n```\r\n$ spack --debug install hdf5\r\n==> Reading config file /short/w35/saw562/scratch/spack/spack/etc/spack/defaults/packages.yaml\r\n==> Reading config file /home/562/saw562/.spack/packages.yaml\r\n==> READ LOCK: /home/562/saw562/.spack/cache/providers/.arccss-index.yaml.lock[0:0] [Acquiring]\r\n==> READ LOCK: /home/562/saw562/.spack/cache/providers/.arccss-index.yaml.lock[0:0] [Released]\r\n==> '/opt/Modules/3.2.6/bin/modulecmd' 'python' 'show' 'openmpi/1.10.2'\r\n==> Error: The spec 'mpi' is configured as not buildable, and no matching external installs were found\r\n```\r\nIt appears that the installer is not able to find the openmpi module, although `modulecmd python show openmpi/1.10.2` works fine. Is there something special that it's looking for inside the module?",
+    "user": "ScottWales",
+    "url": "https://api.github.com/repos/spack/spack/issues/3523",
+    "updated_at": "2017-03-24 01:47:01",
+    "created_at": "2017-03-23 02:31:48",
+    "closed_at": "2017-03-23 23:20:00",
+    "state": "closed",
+    "title": "External environment module not found",
+    "number": 3523,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "external-packages"
+    ],
+    "id": 216270461,
+    "html_url": "https://github.com/spack/spack/issues/3523",
+    "assignees": [],
+    "comments": 6
+}

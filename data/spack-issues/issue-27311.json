@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\nspack install openmpi schedulers=slurm ^slurm\r\n```\r\nWhat happens is that this concretizes to openmpi ~pmix schedulers=slurm ^slurm~pmix,\r\nbut during the build there is an error message\r\n```\r\nerror found in build log:\r\n     150    checking whether cuPointerGetAttributes is declared... no\r\n     151    checking if have cuda support... no\r\n     152    checking if user requested PMI support... no\r\n     153    configure: WARNING: Open MPI requires PMIx support. It can be built\r\n     154    configure: WARNING: with either its own internal copy of PMIx, or with\r\n     155    configure: WARNING: an external copy that you supply.\r\n  >> 156    configure: error: Cannot continue\r\n\r\n\r\n```\r\nSo I believe there is a line missing in the openmpi/package.py like\r\n```\r\nconflicts('~pmi', when='schedulers=slurm')\r\n```\n\n### Information on your system\n\n **Spack:** 0.17.0-4-4c08beeaef\r\n* **Python:** 3.8.10hppritcha  naughtont3\r\n* **Platform:** linux-ubuntu20.04-icelake\r\n* **Concretizer:** clingo\r\n* \r\n[spack-build-env.txt](https://github.com/spack/spack/files/7504250/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7504252/spack-build-out.txt)\r\n\r\n@hppritcha, @naughtont3\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "jthies",
+    "url": "https://api.github.com/repos/spack/spack/issues/27311",
+    "updated_at": "2021-11-19 07:08:39",
+    "created_at": "2021-11-09 11:26:45",
+    "closed_at": "2021-11-09 11:37:37",
+    "state": "closed",
+    "title": "Installation issue: openmpi",
+    "number": 27311,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1048493027,
+    "html_url": "https://github.com/spack/spack/issues/27311",
+    "assignees": [],
+    "comments": 2
+}

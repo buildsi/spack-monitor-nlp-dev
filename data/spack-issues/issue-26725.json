@@ -1,0 +1,26 @@
+{
+    "body": "We are in the midst of transitioning the xsdk package to use the `CudaPackage` and `RocmPackage` classes with the goal of propagating xsdk level `+cuda`, `cuda_arch`, `+rocm`, and `amdgpu_targets` to the dependencies. \r\n\r\nTo do so, I have written wrapper functions for `depends_on` which essentially handle doing this:\r\n\r\n```\r\ndepends_on('some-package ~cuda', when='~cuda')\r\nfor arch in CudaPackage.cuda_arch_values:\r\n   depends_on('some-package +cuda cuda_arch=%s'' % arch, when='+cuda cuda_arch=%s' % arch)\r\n```\r\n\r\nand the equivalent for rocm.\r\n\r\nOur question is, do the Spack maintainers approve of this approach? Is there a better way to do it (I think with #9740 there would be). \r\n\r\nNote there are some other changes that show up in the PR, but the main focus of this draft PR is the `xsdk_depends_on`, `depends_on_cuda`. and `depends_on_rocm` functions in the xsdk `package.py` and their use.\r\n\r\nP.S. I won't be able to respond much in the next couple of weeks to this, but the xSDK work must go on :smile:  @balay should be able to handle the feedback in the mean time.",
+    "user": "balos1",
+    "url": "https://api.github.com/repos/spack/spack/issues/26725",
+    "updated_at": "2021-11-05 20:59:52",
+    "created_at": "2021-10-14 00:09:34",
+    "closed_at": "2021-11-05 20:59:52",
+    "state": "closed",
+    "title": "[DONT-MERGE] RFC: xSDK - propagate cuda/rocm variants along with arch/target to dependencies",
+    "number": 26725,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "python",
+        "dependencies",
+        "discussion",
+        "xSDK",
+        "patch",
+        "update-package",
+        "maintainers"
+    ],
+    "id": 1025799019,
+    "html_url": "https://github.com/spack/spack/pull/26725",
+    "assignees": [],
+    "comments": 1
+}

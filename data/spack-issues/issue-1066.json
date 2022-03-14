@@ -1,0 +1,21 @@
+{
+    "body": "Right now the external packages listed in the `packages.yaml` configuration file return immediately from `Package.do_install`:\n\n``` python\n...\n        # No installation needed if package is external\n        if self.spec.external:\n            tty.msg(\"%s is externally installed in %s\" %\n                    (self.name, self.spec.external))\n            return\n...\n```\n\nThis means that they don't trigger any kind of post-install hook (i.e. no module file gets generated for them) and they don't get registered in the `index.yaml` DB. \n\nI would like to change the behavior so that external packages are treated mostly like normal packages, in particular : \n- external packages will be added to the DB (recording information on whether they are external or not)\n- post-install hooks are triggered for them (and module files get generated)\n\nCan this be of interest for reintegration into `develop`? \n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/1066",
+    "updated_at": "2017-04-23 01:06:28",
+    "created_at": "2016-06-16 11:48:37",
+    "closed_at": "2017-04-23 01:06:28",
+    "state": "closed",
+    "title": "[Question] : external packages and post-install hooks",
+    "number": 1066,
+    "milestone": null,
+    "labels": [
+        "external-packages"
+    ],
+    "id": 160642489,
+    "html_url": "https://github.com/spack/spack/issues/1066",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,24 @@
+{
+    "body": "Hi,\r\nSorry to bother you all.\r\nAfter loading the spack modules via:\r\n```console\r\n  spack load -r python@3.7.6\r\n  spack load py-h5py\r\n  spack load py-scipy\r\n  spack load py-pyfftw\r\n  spack load py-mpi4py\r\n```\r\nWhen in the python code I am using I try to do `import spicy_fftpack`, I have been getting an error message that ends with:\r\n\r\n### Error Message\r\n```python\r\nfrom scipy.fftpack import (dct, idct, dst, idst, diff, tilbert, itilbert,\r\nImportError: cannot import name '_fftpack' from 'scipy.fftpack'\r\n```\r\nThe full error output is in [error.txt](https://github.com/spack/spack/files/4252499/error.txt).\r\n\r\nI think that that error is solved in the recent version of pfftw (https://github.com/pyFFTW/pyFFTW/pull/265 and https://github.com/pyFFTW/pyFFTW/issues/279).\r\n\r\nBut in my machine I still get that error.\r\nI am not sure if I am installing py-pyfftw or py-scipy incorrectly, or making another mistake.\r\nOr if I would just need to add an equivalent line to:\r\n```vim\r\nversion('0.11.1', sha256='05ea28dede4c3aaaf5c66f56eb0f71849d0d50f5bc0f53ca0ffa69534af14926')\r\n```\r\nbut for version `0.12.0`, to the package.py of py-pyfftw of spack.\r\n\r\nDo you have any suggestion on how I can fix this issue and correctly import the library?\r\n\r\nThank you,\r\nDiana\r\n\r\n### System\r\n\r\n 1. macOS Catalina - %clang@11.0.0-apple (but with gcc@9.2.0 fortran compilers - see compilers.yaml below)\r\n 2. spack installed python (@3.7.6)\r\n 3. spack installed py-scipy (@1.4.1)\r\n 4. spack installed py-pfftw (@0.11.1)\r\n\r\n-----\r\n\r\n**compilers.yaml**\r\n```vim\r\ncompilers:\r\n- compiler:\r\n    spec: clang@11.0.0-apple\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n      fc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n    flags: {}\r\n    operating_system: catalina\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n- compiler:\r\n    spec: gcc@9.2.0\r\n    paths:\r\n      cc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gcc\r\n      cxx: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/g++\r\n      f77: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n      fc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n    flags: {}\r\n    operating_system: catalina\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n-----\r\n\r\n**packages.yaml**\r\n```vim\r\npackages:\r\n  all:\r\n    providers:\r\n      mpi: [mpich, openmpi]\r\n```",
+    "user": "LDAmorim",
+    "url": "https://api.github.com/repos/spack/spack/issues/15218",
+    "updated_at": "2020-04-21 16:38:41",
+    "created_at": "2020-02-25 22:33:54",
+    "closed_at": "2020-02-28 02:31:35",
+    "state": "closed",
+    "title": "py-pyfftw import issue with scipy.fftpack",
+    "number": 15218,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "python",
+        "update-package"
+    ],
+    "id": 570881459,
+    "html_url": "https://github.com/spack/spack/issues/15218",
+    "assignees": [
+        "LDAmorim"
+    ],
+    "comments": 3
+}

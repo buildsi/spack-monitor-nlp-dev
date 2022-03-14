@@ -1,0 +1,19 @@
+{
+    "body": "Have `spack install` exit with a nonzero status (e.g., `sys.exit(1)` or `exit(EXIT_FAILURE)`) if one or more packages could not be built. Spack 0.16.2 does not do this.\r\n\r\n### Rationale\r\n\r\n1. If some packages could not be installed, this is an error and consequently the exit status should not be zero.\r\n2. Always returning zero breaks any attempt at scripting.\r\n\r\n### Description\r\n\r\nThere is no alternative to setting the exit status because\r\n* shells have built-in features working the exit status of a program,\r\n* processes are given the exit code of their child processes (e.g., by `wait()`), and\r\n* continuous integration environments check for nonzero exit statuses to detect pipeline failures.\r\n\r\nParsing standard error is error prone and unreliable.\r\n\r\n### Additional information\r\n\r\nI am running Spack builds in a container in a continuous integration (CI) environment and everything always succeeds when `spack install` actually fails to install half of the packages.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "christoph-conrads",
+    "url": "https://api.github.com/repos/spack/spack/issues/24521",
+    "updated_at": "2021-07-05 09:34:20",
+    "created_at": "2021-06-25 10:16:22",
+    "closed_at": "2021-06-28 15:24:23",
+    "state": "closed",
+    "title": "Exit with nonzero status if `spack install` fails",
+    "number": 24521,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 930040337,
+    "html_url": "https://github.com/spack/spack/issues/24521",
+    "assignees": [],
+    "comments": 6
+}

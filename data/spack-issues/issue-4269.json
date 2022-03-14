@@ -1,0 +1,19 @@
+{
+    "body": "Was trying to build MFEM like so...\r\n\r\n`spack install mfem%gcc@6.1+hypre+metis+superlu-dist+debug+netcdf+suite-sparse`\r\n\r\nBut, that failed with\r\n```\r\n==> Error: InstallError: mfem+suite-sparse must be built with +metis and +lapack!\r\n/Users/miller86/spack/spack/var/spack/repos/builtin/packages/mfem/package.py:102, in check_variants:\r\n     95       def check_variants(self, spec):\r\n     96           if '+mpi' in spec and ('+hypre' not in spec or '+metis' not in spec):\r\n     97               raise InstallError('mfem+mpi must be built with +hypre ' +\r\n     98                                  'and +metis!')\r\n     99           if '+suite-sparse' in spec and ('+metis' not in spec or\r\n     100                                          '+lapack' not in spec):\r\n     101              raise InstallError('mfem+suite-sparse must be built with ' +\r\n  >> 102                                 '+metis and +lapack!')\r\n     103          if 'metis@5:' in spec and '%clang' in spec and (\r\n     104                  '^cmake %gcc' not in spec):\r\n```\r\n\r\nMy first thought is to just enforce this requirement by adding following...\r\n\r\n```\r\n    depends_on('lapack', when='+suite-sparse')\r\n    depends_on('metis', when='+suite-sparse')\r\n```\r\n\r\nBut, then I was wondering if the logic in line 99, above, would still fail? I mean, would `+metis` and `+lapack` appear in spec given the `depends_on` lines above? I was thinking not.\r\n\r\nFinally, I started wondering why MFEM included logic to check this error and I believe its because suite-sparse depends on lapack and metis...in which case, why does MFEM include any logic for this? Why doesn't it just depend on suite-sparse package to get it  right? \r\n\r\nSo, I guess my question is, isn't this MFEM logic wrong and shouldn't it be removed?",
+    "user": "markcmiller86",
+    "url": "https://api.github.com/repos/spack/spack/issues/4269",
+    "updated_at": "2017-08-25 01:29:35",
+    "created_at": "2017-05-16 21:41:04",
+    "closed_at": "2017-08-25 01:29:35",
+    "state": "closed",
+    "title": "Conditional dependencies in MFEM",
+    "number": 4269,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 229177353,
+    "html_url": "https://github.com/spack/spack/issues/4269",
+    "assignees": [],
+    "comments": 3
+}

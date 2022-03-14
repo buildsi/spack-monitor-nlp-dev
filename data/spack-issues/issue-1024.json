@@ -1,0 +1,17 @@
+{
+    "body": "Tkinter is normally a default part of python. But, if the python installer in spack doesn't find Tk/Tcl in system locations, this module will be broken. To enable this module, I believe we can add dependencies on Tk and Tcl and configure arguments for python\n\n```\ndepends_on(\"tk\")\ndepends_on(\"tcl\")\n...\n\"--with-tcltk-includes=-I%s/include -I%s/include\" % ( spec['tk'].prefix, spec['tcl'].prefix ),\n\"--with-tcltk-libs=%s/lib %s/lib\" % ( spec['tk'].prefix, spec['tcl'].prefix )\n```\n\nI also needed to set `TCL_LIBRARY` and `TK_LIBRARY` in my environment, but it seems there should be a better way to point python to the Tk/tcl libraries.\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/1024",
+    "updated_at": "2016-07-22 15:25:12",
+    "created_at": "2016-06-08 14:10:23",
+    "closed_at": "2016-07-22 15:25:12",
+    "state": "closed",
+    "title": "Spack provided python does not provide Tkinter",
+    "number": 1024,
+    "milestone": null,
+    "labels": [],
+    "id": 159173237,
+    "html_url": "https://github.com/spack/spack/issues/1024",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "#23230 appeared to introduce a typo/python error in package.py\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install bzip2\r\n...\r\n==> Installing bzip2-1.0.8-4efigg64jltb6topl5suvz4dmpvupmei\r\n==> No binary for bzip2-1.0.8-4efigg64jltb6topl5suvz4dmpvupmei found: installing from source\r\n==> Warning: included configuration files should be updated manually [files=/software/spack/dev-environments/gcc840/packages-gcc840.yaml, /software/spack/dev-environments/common/packages-common.yaml]\r\n==> Using cached archive: /software/spack/git.2021.04.28/var/spack/cache/_source-cache/archive/ab/ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269.tar.gz\r\n==> Error: NameError: name 'spec' is not defined\r\n\r\n/software/spack/git.2021.04.28/var/spack/repos/builtin/packages/bzip2/package.py:57, in patch:\r\n         56    def patch(self):\r\n  >>     57        if spec.satisfies('+debug'):\r\n         58            for makefile in ['Makefile', 'Makefile-libbz2_so']:\r\n         59                filter_file(r'-O ', '-O0 ', makefile)\r\n         60                filter_file(r'-O2 ', '-O0 ', makefile)\r\n...\r\n```\r\n\r\n### Information on your system\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2429-f5e6c32495\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-x86_64\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\nDoes not reach point of creating spack-build-out.txt, etc\r\n\r\nNo maintainers, I believe issue was added by @scheibelp  in #23230\r\n\r\n\r\n### General information\r\n\r\n\r\n- [X ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [X ] I have uploaded the build log and environment files \r\n(Not applicable/none generated)\r\n- [X ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/23318",
+    "updated_at": "2021-04-28 17:01:15",
+    "created_at": "2021-04-28 14:23:43",
+    "closed_at": "2021-04-28 17:01:15",
+    "state": "closed",
+    "title": "Installation issue: bzip2: python error in package.py",
+    "number": 23318,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 870006728,
+    "html_url": "https://github.com/spack/spack/issues/23318",
+    "assignees": [],
+    "comments": 0
+}

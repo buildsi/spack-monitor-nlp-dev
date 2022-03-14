@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #2027.\r\n\r\nOk, so #2010 was a nice speed boost but it doesn't work for everyone and only takes advantage of C YAML if you've got it installed.  Also, it seems to cause issues on BG/Q (see @pramodk's #2027).  So for reliability it seems like we *don't* really want to fall back on CYAML.  \r\n\r\nHowever, YAML is just a more human-readable JSON, and JSON is built into Python.  They have the same object model (we even already use `jsonschema` to validate YAML config files).\r\n\r\nSo I tried it out and compared JSON and YAML speeds for reading the Spack DB (the is the main bottleneck for `spack find`).  Here is what I got:\r\n\r\n- JSON is much faster than YAML \r\n  - **~180x** faster than Python YAML (on my mac)\r\n  - **~25x** faster than C YAML on my mac.\r\n- Don't need human readability for the package database.\r\n- JSON requires no major changes to the code -- same object model as YAML.\r\n\r\nSo it seems like using JSON for the database and other index files is the way to go.  JSON is built into Python, unlike C YAML, so doesn't add a dependency, and it's faster than the C libyaml.\r\n\r\nIf you wan to try this out, [here is a gist](https://gist.github.com/tgamblin/93ba38c3dbe099e7c979e71d75b49f11) -- set `test_file` to the path to `opt/spack/.spack-db/index.yaml` (or wherever your install root is now that #2152 is in) and it'll print out the speedup of reading your install database with JSON and YAML using `timeit`. I didn't compare with pickle, but [people say JSON is faster than that](https://konstantin.blog/2010/pickle-vs-json-which-is-faster/), too.\r\n\r\nYou can also just try this PR out by merging it, then typing `spack reindex`, and it'll build you a `json` database.  `spack find` should run faster after that.  As written the PR will read an old `index.yaml` if it is present, but it will not write it again (once an index.json database is written it won't go back to YAML).\r\n\r\n@pramodk @adamjstewart @alalazo @davydden @eschnett @lee218llnl: let me know how this does with your installations if you get a chance.  I'd be curious to now how fast `spack find` is with and without it.\r\n\r\nComments welcome.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2189",
+    "updated_at": "2017-05-01 00:53:30",
+    "created_at": "2016-10-31 12:35:31",
+    "closed_at": "2016-12-05 18:03:58",
+    "state": "closed",
+    "title": "Use JSON for the database instead of YAML.",
+    "number": 2189,
+    "milestone": null,
+    "labels": [
+        "pkg-database",
+        "performance"
+    ],
+    "id": 186273155,
+    "html_url": "https://github.com/spack/spack/pull/2189",
+    "assignees": [],
+    "comments": 26
+}

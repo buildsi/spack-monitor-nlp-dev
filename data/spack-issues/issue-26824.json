@@ -1,0 +1,19 @@
+{
+    "body": "Fixes this error when running spack on Cori or Perlmutter at NERSC\r\n\r\n```\r\n =gartung@perlmutter:login37:~> source spack/share/spack/setup-env.sh \r\nTraceback (most recent call last):\r\n  File \"/global/homes/g/gartung/spack/bin/spack\", line 100, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/global/u1/g/gartung/spack/lib/spack/spack/main.py\", line 751, in main\r\n    print_setup_info(*args.print_shell_vars.split(','))\r\n  File \"/global/u1/g/gartung/spack/lib/spack/spack/main.py\", line 669, in print_setup_info\r\n    shell_set('_sp_sys_type', str(spack.architecture.default_arch()))\r\n  File \"/global/u1/g/gartung/spack/lib/spack/llnl/util/lang.py\", line 190, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/global/u1/g/gartung/spack/lib/spack/spack/architecture.py\", line 191, in default_arch\r\n    return Arch(platform(), 'default_os', 'default_target')\r\n  File \"/global/u1/g/gartung/spack/lib/spack/llnl/util/lang.py\", line 190, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/global/u1/g/gartung/spack/lib/spack/spack/architecture.py\", line 176, in _platform\r\n    return spack.platforms.host()\r\n  File \"/global/u1/g/gartung/spack/lib/spack/spack/platforms/__init__.py\", line 29, in host\r\n    return platform_cls()\r\n  File \"/global/u1/g/gartung/spack/lib/spack/spack/platforms/cray.py\", line 63, in __init__\r\n    raise NoPlatformError()\r\nspack.platforms._platform.NoPlatformError: Could not determine a platform for this machine\r\n```\r\n\r\nFixes #25914 (partially)",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/26824",
+    "updated_at": "2021-10-19 19:21:05",
+    "created_at": "2021-10-19 17:10:46",
+    "closed_at": "2021-10-19 18:26:07",
+    "state": "closed",
+    "title": "Fix Cray target setting on Perlmutter where 'target-' in not included in module name",
+    "number": 26824,
+    "milestone": null,
+    "labels": [
+        "architecture"
+    ],
+    "id": 1030553470,
+    "html_url": "https://github.com/spack/spack/pull/26824",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "There are a few perl packages that are built with Build.PL rather than Makefile.PL and in those cases the configure step will generate a 'Build' script. The first line of that script will be the shebang pointing to the perl installation. The perl build system sets the Build script as the executable for building.\r\n```\r\n    def configure(self, spec, prefix):                                                                                  \r\n        \"\"\"Runs Makefile.PL or Build.PL with arguments consisting of                                                    \r\n        an appropriate installation base directory followed by the                                                      \r\n        list returned by :py:meth:`~.PerlPackage.configure_args`.                                                       \r\n                                                                                                                        \r\n        :raise RuntimeError: if neither Makefile.PL or Build.PL exist                                                   \r\n        \"\"\"                                                                                                             \r\n        if os.path.isfile('Makefile.PL'):                                                                               \r\n            self.build_method = 'Makefile.PL'                                                                           \r\n            self.build_executable = inspect.getmodule(self).make                                                        \r\n        elif os.path.isfile('Build.PL'):                                                                                \r\n            self.build_method = 'Build.PL'                                                                              \r\n            self.build_executable = Executable(                                                                         \r\n                os.path.join(self.stage.source_path, 'Build'))\r\n```\r\nThe problem is that if the shebang line is too long, the build step will fail with a bad interpreter error.\r\n\r\n```console\r\n$ spack install perl-module-build-tiny\r\n...\r\n==> Error: ProcessError: /dev/shm/gpjohnsn/perl-module-build-tiny-0.039-n5cctcc3r55bzjmshv2kx7rw2y5k56o6/spack-src/Build: No such file or directory\r\n    Command: '/dev/shm/gpjohnsn/perl-module-build-tiny-0.039-n5cctcc3r55bzjmshv2kx7rw2y5k56o6/spack-src/Build'\r\nSee build log for details:\r\n  /dev/shm/gpjohnsn/perl-module-build-tiny-0.039-n5cctcc3r55bzjmshv2kx7rw2y5k56o6/spack-build-out.txt\r\n```\r\nThe log does not show anything but running the command manually does.\r\n```console\r\n$ /dev/shm/gpjohnsn/perl-module-build-tiny-0.039-n5cctcc3r55bzjmshv2kx7rw2y5k56o6/spack-src/Build\r\n-bash: /dev/shm/gpjohnsn/perl-module-build-tiny-0.039-n5cctcc3r55bzjmshv2kx7rw2y5k56o6/spack-src/Build: /opt/packages/gpjohnsn/opt/ssoft/apps_devel/linux-centos7-x86_64/gcc-9.1.0/per: bad interpreter: No such file or directory\r\n```\r\n\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12852",
+    "updated_at": "2019-09-26 20:38:14",
+    "created_at": "2019-09-17 22:21:11",
+    "closed_at": "2019-09-26 20:38:14",
+    "state": "closed",
+    "title": "overly long shebangs can break perl package builds",
+    "number": 12852,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 494881465,
+    "html_url": "https://github.com/spack/spack/issues/12852",
+    "assignees": [],
+    "comments": 0
+}

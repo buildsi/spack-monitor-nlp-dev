@@ -1,0 +1,20 @@
+{
+    "body": "See the discussion in #4945 (after the merge) for additional background.\r\n\r\nlibbsd builds with gcc@5.4.0 on CentOS 7, but not with the system's gcc@4.8.5.  Others have reported problems with gcc@4.8.3 on Fedora 19.\r\n\r\nThe problem boils down to the lack of support for the clang extension `__has_include_next`.  The immediate symptom seems to be the pre-processor using defining macro like this\r\n\r\n```c\r\n#define __has_include 1\r\n```\r\n\r\nthen then tripping over an expansion of it like this:\r\n\r\n```\r\nblah.h:13:23: error: missing binary operator before token \"(\"\r\n```\r\n\r\nThis patch changes the macro definition to:\r\n\r\n```c\r\n#define __has_include(X) 1\r\n```\r\n\r\nwhich swallows the arguments with which the macro is invoked.\r\n\r\nThe end result is that libbsd builds for me on CentOS 7 using the system compiler.\r\n\r\nI'm unsure about how to constrain the compiler version, this is the only system I have at hand to test.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4979",
+    "updated_at": "2017-08-08 22:08:32",
+    "created_at": "2017-08-04 23:56:51",
+    "closed_at": "2017-08-05 18:33:24",
+    "state": "closed",
+    "title": "Fix libbsd's cdefs.h to be compatible with gcc 4.8.x",
+    "number": 4979,
+    "milestone": null,
+    "labels": [
+        "gcc",
+        "patch"
+    ],
+    "id": 248142272,
+    "html_url": "https://github.com/spack/spack/pull/4979",
+    "assignees": [],
+    "comments": 4
+}

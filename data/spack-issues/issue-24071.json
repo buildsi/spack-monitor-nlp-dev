@@ -1,0 +1,22 @@
+{
+    "body": "### Problem\r\n\r\n#23947 adds `flake8` import style checking, which is awesome. It would be great however if we could force `spack style` to fix import ordering itself. `isort` allows this and is compatible with `black`.\r\n\r\n### Solution\r\n- Add `run_isort()` to `style.py` to execute isort in `spack style`, and add a [`pyproject.toml`](https://pycqa.github.io/isort/docs/configuration/config_files/) configuration file.\r\n    - See this page on [custom sections](https://pycqa.github.io/isort/docs/configuration/custom_sections_and_ordering/) and this page on [isort options](https://pycqa.github.io/isort/docs/configuration/options/) to understand the content of this config file.\r\n- Add `isort` to our dependencies in `unit_tests.yaml`.\r\n- Add a `--fix` argument to `spack style`, which configures isort and black to edit files on the local filesystem instead of printing out a diff.\r\n- Add the `--show-error-codes` argument to mypy so that the user can easily see how to disable the warning with a focused `# type: ignore[<error-code>]` comment.\r\n    - See [mypy's documentation on error codes](https://mypy.readthedocs.io/en/stable/error_codes.html).\r\n\r\n### Result\r\nWe can automatically fix import sorting errors identified via #23947 with isort, and we can automatically apply the black formatter as well with the `--fix` option to `spack style`!",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/24071",
+    "updated_at": "2021-07-08 00:27:32",
+    "created_at": "2021-06-01 19:27:21",
+    "closed_at": "2021-07-08 00:27:32",
+    "state": "closed",
+    "title": "add support for isort and --fix to spack style",
+    "number": 24071,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "flake8",
+        "workflow"
+    ],
+    "id": 908619525,
+    "html_url": "https://github.com/spack/spack/pull/24071",
+    "assignees": [],
+    "comments": 4
+}

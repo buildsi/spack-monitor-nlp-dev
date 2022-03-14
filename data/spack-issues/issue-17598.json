@@ -1,0 +1,19 @@
+{
+    "body": "### Rationale\r\n\r\nSpack handles the `-j` flag differently from other popular build systems like `make` and `ninja`, because it sets a hard limit for the number of build jobs to the number of cores:\r\n\r\n```python\r\n# first the -j value is saved like\r\njobs = min(jobs, multiprocessing.cpu_count())\r\nspack.config.set('config:build_jobs', jobs, scope='command_line')\r\n\r\n# later it is used as\r\njobs = spack.config.get('config:build_jobs', 16) if pkg.parallel else 1\r\njobs = min(jobs, multiprocessing.cpu_count())\r\n```\r\n\r\nFor reference, `make`, `ninja`, `scons` and `ctest` do not have an upper limit, and `ninja` seems to set the number of parallel jobs to `nproc + 2` by default on my system (something currently not possible with spack):\r\n\r\n```\r\n$ make --help | grep \"jobs\"\r\n  -j [N], --jobs[=N]          Allow N jobs at once; infinite jobs with no arg.\r\n$ ninja --help 2>&1 | grep \"jobs\"\r\n  -j N     run N jobs in parallel (0 means infinity) [default=18 on this system]\r\n```\r\n\r\nWhen it comes to the optimal number of build jobs, it seems to be common practice to have slightly more jobs than cores (like ninja does, see also https://stackoverflow.com/questions/15289250/make-j4-or-j8). I would expect to be able to enforce this in spack by specifying the `-j` flag, but I can't since it has an upper limit.\r\n\r\nNotice that `ninja` also respects cpuset / taskset on Linux, which spack does not:\r\n\r\n```\r\n$ taskset -c 0-1 ninja --help 2>&1 | grep \"jobs\"\r\n  -j N     run N jobs in parallel (0 means infinity) [default=3 on this system]\r\n```\r\n\r\nit automatically sets the number of jobs to 3 when I give it just 2 cores (so, nproc + 1 here), which is very useful.\r\n\r\n### Description\r\n\r\nIt would be nice if the `-j` flag would be handled differently, in this way:\r\n\r\n- If `-j` is specified by the user, simply take this value as the number of build jobs, do not limit it by the number of cpu cores.\r\n- If `-j` is _not_ specified, take a sensible default:\r\n   - Take `min(config:build_jobs, cpus available)`\r\n   - Furthermore, on Linux, ensure that `cpus available` corresponds with the number of cores made available to the process through cgroups / cpuset, i.e. `sched_setaffinity`, such that it gets a proper default in `slurm`, `docker`, `kubernetes`, or people who simply use `taskset` (#17566).\r\n\r\n\r\n### Additional information\r\n\r\nCame up in #17566.\r\n\r\n\r\n### General information\r\n\r\n- [ ] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/17598",
+    "updated_at": "2021-03-30 19:03:51",
+    "created_at": "2020-07-20 13:19:53",
+    "closed_at": "2021-03-30 19:03:51",
+    "state": "closed",
+    "title": "Make -j, --jobs flags definitive",
+    "number": 17598,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 661815566,
+    "html_url": "https://github.com/spack/spack/issues/17598",
+    "assignees": [],
+    "comments": 2
+}

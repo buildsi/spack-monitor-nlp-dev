@@ -1,0 +1,21 @@
+{
+    "body": "I find myself saying the same thing over and over again.  So here's a list of requirements for `package.py` submissions that should be added to our documentation (in no particular order):\r\n\r\n1. At least one numeric (checksummable) version must be supplied.\r\n\r\n2. All explicit versions in `depends_on()` statements must also be for checksummable versions.\r\n\r\n3. If the package builds binaries... please check them with `ldd` to make sure there are no \"hidden\" dependencies in your package that are not listed as a `depends_on()` in `package.py`.  if you find any, please add them.\r\n\r\n4. Does this package build static libraries?  If so, make sure there is a `+pic` variant, turned on by default, that adds the `-fPIC` flag.  (More is needed on compiler-independent ways to do this).  This allows it to be linked with shared libraries higher up the Spack DAG.\r\n\r\n5. Does upstream provide a way to build shared or static libraries?  If so, add `+shared` and `+static` variants as appropriate.  By default, it should build a shared library (and may or may not also build static in that).\r\n\r\n6. Does the build download stuff during the `install()` phase?  If so, please re-work things so it does not.  Usually this happens because the upstream authors wanted to auto-install dependencies.  Usually you can disable it by supplying command line options to the build that tell it where those dependencies have already been built.\r\n\r\n7. Is your package a Python package?  If so, please indicate whether it's Python2-only (`depends_on('python@2:2.7')`), Python3-only (`depends_on('python@3:')`) or both (nothing needed).  This is in addition to the `extends('python')` declaration you've used.  (You may need a more complex version spec for `python` if you know that your package doesn't work for certain Python versions).  (Soon: please subclass from `PythonPackage`).\r\n\r\n8. Is your package built with CMake?  If so, subclass from `CMakePackage`.\r\n\r\n9. Is there a copyright notice at the top?\r\n\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2461",
+    "updated_at": "2017-11-22 12:37:11",
+    "created_at": "2016-12-02 18:50:29",
+    "closed_at": "2017-11-22 12:37:11",
+    "state": "closed",
+    "title": "Checklist for package file submission",
+    "number": 2461,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 193189535,
+    "html_url": "https://github.com/spack/spack/issues/2461",
+    "assignees": [
+        "citibeth"
+    ],
+    "comments": 4
+}

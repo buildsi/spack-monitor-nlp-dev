@@ -1,0 +1,20 @@
+{
+    "body": "I haven't been able to download and test all of the archives, but it looks like we may be affected by homebrew/homebrew-core#18044.  See also easybuilders/easybuild#5151.\r\n\r\n*Short story:* GitHub has changed the way they generate their release \"archives\". They're generated dynamically so many checksums have changed for `github.com/.../archive/` URLs.   Looks like we may have to download all these tarballs and re-checksum them.  \r\n\r\nI count 258 packages and 728 tarballs that we'll need to deal with.  Great! \ud83d\udd25 \ud83d\udd25 \ud83d\udd25 \r\n\r\n*Long story:* See the details here:\r\n\r\n* homebrew/homebrew-core#18044\r\n* easybuilders/easybuild-easyconfigs#5151\r\n* google/protobuf#3619\r\n* bazelbuild/bazel#3722\r\n* tensorflow/tensorflow#12979\r\n\r\nI don't think it's that hard to do this but it's tedious.  It's also not clear to me right now whether their hashes will change back, or whether they might change again.  If they're definitely going to stay changed, I think we should take the plunge, download and checksum these (using https), and use the opportunity to start using SHA256 instead of MD5 if we're doing this anyway.\r\n\r\nNote: The `github.com/.../release/...` URLs are apparently stable (they respect the file the author uploads, and are not dynamically generated).  It might be worth switching to those URLs where possible, but I don't think it's possible for all of our projects.\r\n\r\n@adamjstewart @alalazo @mamelara @scheibelp @becker33 @lee218llnl @mplegendre ",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/5411",
+    "updated_at": "2018-12-17 18:31:58",
+    "created_at": "2017-09-21 09:08:33",
+    "closed_at": "2018-12-17 18:31:57",
+    "state": "closed",
+    "title": "Github Archive URL checksums have changed",
+    "number": 5411,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "security"
+    ],
+    "id": 259426631,
+    "html_url": "https://github.com/spack/spack/issues/5411",
+    "assignees": [],
+    "comments": 24
+}

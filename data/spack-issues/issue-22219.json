@@ -1,0 +1,22 @@
+{
+    "body": "This pull request has been created to add AOCC-3.0.0 to SPACK community.\r\nAMD Optimizing C/C++ Compiler (AOCC) is a highly optimized C, C++, and Fortran compiler for x86 targets, especially for Zen based AMD processors.\r\nIt supports Flang as the default Fortran front-end compiler.\r\n\r\n\r\nIn AOCC-3.0.0 we have identified a last minute compilation issue against SQLite and we found that workaround is to have an additional default compiler flag for AOCC-3.0.0 only using \u2018spack/lib/spack/spack/compilers/aocc.py\u2019. \r\n\r\nThis workaround avoids manual modification of compilers.yaml file using command \"spack config edit compilers\". \r\n\r\nPlease note that we have tested the same and the behavior is as expected.\r\n\r\nFile:spack/lib/spack/spack/compilers/aocc.py\r\n--snip\u2014\r\n    @property\r\n    def cflags(self):\r\n        if self.real_version == ver('3.0.0'):\r\n            return \"-mllvm -eliminate-similar-expr=false\"\r\n\r\n    @property\r\n    def cxxflags(self):\r\n        if self.real_version == ver('3.0.0'):\r\n            return \"-mllvm -eliminate-similar-expr=false\"\r\n\r\n    @property\r\n    def fflags(self):\r\n        if self.real_version == ver('3.0.0'):\r\n            return \"-mllvm -eliminate-similar-expr=false\"\r\n--snip\u2014",
+    "user": "amd-toolchain-support",
+    "url": "https://api.github.com/repos/spack/spack/issues/22219",
+    "updated_at": "2021-03-17 15:06:26",
+    "created_at": "2021-03-10 12:09:22",
+    "closed_at": "2021-03-17 15:06:26",
+    "state": "closed",
+    "title": "spack recipe for AOCC 3.0 release",
+    "number": 22219,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "ecp",
+        "e4s",
+        "AMD"
+    ],
+    "id": 827634829,
+    "html_url": "https://github.com/spack/spack/pull/22219",
+    "assignees": [],
+    "comments": 5
+}

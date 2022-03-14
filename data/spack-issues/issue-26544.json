@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce\n\nInstalling `glib` (and some other packages including `harfbuzz`, `gettext`, and likely more) results in duplicate LC_RPATH commands in the library headers for a shared library on macOS:\r\n```console\r\n$ otool -l libglib-2.0.0.dylib | grep -B2 pcre\r\n          cmd LC_LOAD_DYLIB\r\n      cmdsize 104\r\n         name /rnsdhpc/code/spack/opt/spack/apple-clang/pcre/gg7dg7k/lib/libpcre.1.dylib (offset 24)\r\n--\r\n          cmd LC_RPATH\r\n      cmdsize 72\r\n         path /rnsdhpc/code/spack/opt/spack/apple-clang/pcre/gg7dg7k/lib (offset 12)\r\n--\r\n          cmd LC_RPATH\r\n      cmdsize 72\r\n         path /rnsdhpc/code/spack/opt/spack/apple-clang/pcre/gg7dg7k/lib (offset 12)\r\n```\r\n(The fact that `libpcre` is using a non-relocatable `install_name` is an issue for another day.)\r\n\r\nThis does *not* appear to happen on linux (maybe the linker removes duplicate rpaths?) even though `SPACK_RPATH_DIRS` also includes the `pcre` lib path and autoconf generates `-Wl,-rpath,/projects/spack/opt/spack/gcc-8.4.1/pcre/jo5msfl/lib`.\r\n```\r\n$ readelf -d libglib-2.0.so | grep pcre\r\n 0x0000000000000001 (NEEDED)             Shared library: [libpcre.so.1]\r\n 0x000000000000000f (RPATH)              Library rpath: [/projects/spack/opt/spack/gcc-8.4.1/pcre/jo5msfl/lib:/projects/spack/opt/spack/gcc-8.4.1/glib/6ohom46/lib:/projects/spack/opt/spack/gcc-8.4.1/glib/6ohom46/lib64:/projects/spack/opt/spack/gcc-8.4.1/libffi/afzdzln/lib64:/projects/spack/opt/spack/gcc-8.4.1/libffi/afzdzln/lib:/projects/spack/opt/spack/gcc-8.4.1/gettext/ra7brtu/lib:/projects/spack/opt/spack/gcc-8.4.1/ncurses/jko6ths/lib:/projects/spack/opt/spack/gcc-8.4.1/libxml2/kzdmd2t/lib:/projects/spack/opt/spack/gcc-8.4.1/zlib/mdmkw3i/lib:/projects/spack/opt/spack/gcc-8.4.1/xz/ea2mqth/lib:/projects/spack/opt/spack/gcc-8.4.1/bzip2/o7jzjqd/lib:/projects/spack/opt/spack/gcc-8.4.1/libiconv/4ailfun/lib]\r\n```\n\n### Error message\n\nThere's no error message, but it prevents the ability to use a single `install_name_tool -delete_rpath` command to remove or change the rpaths for the library, since the command won't take multiple `delete_rpath` and will only delete the first one it encounters. It's not a major issue except that it makes it much harder to create relocatable dependencies based on a spack toolchain.\n\n### Information on your system\n\n* **Spack:** 0.16.3-4706-3157a97743\r\n* **Python:** 3.8.5\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/26544",
+    "updated_at": "2021-10-18 17:34:17",
+    "created_at": "2021-10-05 22:38:01",
+    "closed_at": "2021-10-18 17:34:17",
+    "state": "closed",
+    "title": "Duplicate rpaths in some autotools packages",
+    "number": 26544,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "triage"
+    ],
+    "id": 1016981013,
+    "html_url": "https://github.com/spack/spack/issues/26544",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,25 @@
+{
+    "body": "`rocprofiler-dev` depends on `numactl`\r\n\r\nWithout this PR, you get the following error on a system lacking `libnuma`:\r\n```\r\n$> spack install rocprofiler-dev\r\n...\r\n5 errors found in build log:\r\n     114    /spack/lib/spack/env/gcc/gcc -O3 -DNDEBUG -rdynamic CMakeFiles/c_test.dir/app/c_test.c.o -o c_test\r\n     115    make[2]: Leaving directory '/tmp/root/spack-stage/spack-stage-rocprofiler-dev-4.3.1-lyaghxcr542jtnmogk6iwtvgupievwrx/spack-build-lyaghxc'\r\n     116    [ 38%] Built target c_test\r\n     117    [ 41%] Linking CXX executable ctrl\r\n     118    cd /tmp/root/spack-stage/spack-stage-rocprofiler-dev-4.3.1-lyaghxcr542jtnmogk6iwtvgupievwrx/spack-build-lyaghxc/test && /spack/opt/spack/linux-ubuntu20.04-x86_\r\n            64/gcc-9.3.0/cmake-3.21.4-55vqjfj2bk55ga4fj3erj5tpzugh3t3b/bin/cmake -E cmake_link_script CMakeFiles/ctrl.dir/link.txt --verbose=1\r\n     119    /spack/lib/spack/env/gcc/g++  -std=c++11 -Wall -Werror -Werror=return-type -fexceptions -fvisibility=hidden -fno-math-errno -fno-threadsafe-statics -fmerge-all\r\n            -constants -fms-extensions -fmerge-all-constants -Werror=unused-result -fPIC -m64  -msse -msse2 -O3 -DNDEBUG -rdynamic CMakeFiles/ctrl.dir/app/test.cpp.o CMake\r\n            Files/ctrl.dir/ctrl/test_hsa.cpp.o CMakeFiles/ctrl.dir/util/hsa_rsrc_factory.cpp.o CMakeFiles/ctrl.dir/util/perf_timer.cpp.o CMakeFiles/ctrl.dir/simple_convolu\r\n            tion/simple_convolution.cpp.o -o ctrl  /opt/rocm-4.3.1/lib/libhsa-runtime64.so /opt/rocm-4.3.1/lib/libhsakmt.so -lc -lstdc++ -ldl -lpthread -lrt -lnuma\r\n  >> 120    /usr/bin/ld: cannot find -lnuma\r\n  >> 121    collect2: error: ld returned 1 exit status\r\n  >> 122    make[2]: *** [test/CMakeFiles/ctrl.dir/build.make:166: test/ctrl] Error 1\r\n     123    make[2]: Leaving directory '/tmp/root/spack-stage/spack-stage-rocprofiler-dev-4.3.1-lyaghxcr542jtnmogk6iwtvgupievwrx/spack-build-lyaghxc'\r\n  >> 124    make[1]: *** [CMakeFiles/Makefile2:327: test/CMakeFiles/ctrl.dir/all] Error 2\r\n...\r\n```\r\n\r\n@srekolam @arjun-raj-kuppala @haampie \r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/27839",
+    "updated_at": "2021-12-16 22:17:06",
+    "created_at": "2021-12-07 16:36:07",
+    "closed_at": "2021-12-16 22:17:06",
+    "state": "closed",
+    "title": "rocprofiler-dev: add depends_on numactl",
+    "number": 27839,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "don't-merge-yet",
+        "update-package",
+        "e4s",
+        "AMD",
+        "ROCm/hip"
+    ],
+    "id": 1073553820,
+    "html_url": "https://github.com/spack/spack/pull/27839",
+    "assignees": [],
+    "comments": 4
+}

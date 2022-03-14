@@ -1,0 +1,19 @@
+{
+    "body": "In the package 'espresso' (QuantumESPRESSO) there are the two following lines:\r\n\r\nhttps://github.com/spack/spack/blob/00d48e60bf46545f5cb02c2d0a95cba9bb2bd486/var/spack/repos/builtin/packages/espresso/package.py#L74-L75\r\n\r\nThe `@6.1` part of the `when` parameter appears to work, but the rest does not. In fact, if the QE version matches, the patch is applied even when the ELPA variant is not requested, and it is applied twice, resulting in an installation failure since the second attempt at patching returns a non-zero exit value:\r\n\r\n```\r\n$ spack install espresso@6.1.0%intel~elpa~hdf5+mpi~openmp+scalapack^intel-mkl\r\n==> mpich@7.6.0 : has external module in cray-mpich/7.6.0\r\n==> mpich@7.6.0 : is actually installed in /opt/cray/pe/mpt/7.6.0/gni/mpich-intel/16.0\r\n==> mpich@7.6.0 : already registered in DB\r\n==> fftw is already installed in /project/XX/mborelli/spack/spack/opt/spack/cray-CNL-haswell/intel-17.0.4/fftw-3.3.6-pl2-edohheertihuooebtssldperogcrmpef\r\n==> intel-mkl@11.3.3 : externally installed in /opt/intel/compilers_and_libraries_2017.1.132/linux/mkl\r\n==> intel-mkl@11.3.3 : already registered in DB\r\n==> Installing espresso\r\n==> Using cached archive: /project/XX/mborelli/spack/spack/var/spack/cache/espresso/espresso-6.1.0.tar.gz\r\n==> Staging archive: /project/XX/mborelli/spack/spack/var/spack/stage/espresso-6.1.0-6ot4pyfxivdlybljp5jx2t7qdsui7iac/qe-6.1.tar.gz\r\n==> Created stage in /project/XX/mborelli/spack/spack/var/spack/stage/espresso-6.1.0-6ot4pyfxivdlybljp5jx2t7qdsui7iac\r\n==> Applied patch dspev_drv_elpa.patch\r\nReversed (or previously applied) patch detected!  Assume -R? [n] n\r\nApply anyway? [n] n\r\n1 out of 1 hunk ignored -- saving rejects to file LAXlib/dspev_drv.f90.rej\r\nReversed (or previously applied) patch detected!  Assume -R? [n] n\r\nApply anyway? [n] n\r\n1 out of 1 hunk ignored -- saving rejects to file LAXlib/zhpev_drv.f90.rej\r\n==> Patch dspev_drv_elpa.patch failed.\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/project/XX/mborelli/spack/spack/var/spack/repos/builtin/packages/espresso/dspev_drv_elpa.patch' '-d' '.'\r\n==> Error: [Errno 2] No such file or directory: '/project/XX/mborelli/spack/spack/var/spack/stage/espresso-6.1.0-6ot4pyfxivdlybljp5jx2t7qdsui7iac/qe-6.1/spack-build.out'\r\n\r\n```\r\n\r\nI couldn't figure out from the docs whether this is an incorrect spec pattern or there is an actual problem in the patch API.",
+    "user": "borellim",
+    "url": "https://api.github.com/repos/spack/spack/issues/6199",
+    "updated_at": "2021-03-10 15:29:44",
+    "created_at": "2017-11-08 15:12:33",
+    "closed_at": "2021-03-10 15:29:44",
+    "state": "closed",
+    "title": "espresso: \"when\" parameter on patch commands is not fully parsed",
+    "number": 6199,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 272233654,
+    "html_url": "https://github.com/spack/spack/issues/6199",
+    "assignees": [],
+    "comments": 1
+}

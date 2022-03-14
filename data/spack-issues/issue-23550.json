@@ -1,0 +1,23 @@
+{
+    "body": "```console\r\n$ spack install petsc+mumps\r\n```\r\nfails since PRs https://github.com/spack/spack/pull/23161 by @RemiLacroix-IDRIS (add `+openmp` version to mumps)  and https://github.com/spack/spack/pull/23143 by me (set `+openmp` as default for mumps): a test program for mumps fails for not finding openmp in petsc's configure.\r\n\r\nhttps://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Mat/MATSOLVERMUMPS.html reads \r\n> \"Use` ./configure --with-openmp --download-hwloc` (or `--with-hwloc`) to enable running MUMPS in MPI+OpenMP hybrid mode and non-MUMPS in flat-MPI mode.\"\r\n\r\n@balay @jedbrown @BarrySmith \r\nI can work on a PR for this.\r\n\r\nJust adding \r\n```python\r\n            if spec.satisfies('^mumps+openmp'):\r\n                options.extend([\r\n                    '--with-openmp=1'\r\n                ])\r\n```\r\nsolves the installation issue, but as far as I understand, when `^mumps+openmp`, petsc should depend on hwloc and have `--with-openmp=1` and `--with-hwloc-dir=...`\r\nAm I correct?\r\n\r\nOr should we add `+openmp` and `+hwloc` variants to petsc and use conflicts to forbid `spack install petsc ~openmp ^mumps +openmp` and `spack install petsc ~hwloc ^mumps +openmp`?",
+    "user": "lpoirel",
+    "url": "https://api.github.com/repos/spack/spack/issues/23550",
+    "updated_at": "2021-06-01 09:37:19",
+    "created_at": "2021-05-10 22:16:34",
+    "closed_at": "2021-06-01 09:37:19",
+    "state": "closed",
+    "title": "Installation issue: petsc+mumps [^mumps+openmp]",
+    "number": 23550,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 885229424,
+    "html_url": "https://github.com/spack/spack/issues/23550",
+    "assignees": [
+        "jedbrown",
+        "BarrySmith",
+        "balay"
+    ],
+    "comments": 0
+}

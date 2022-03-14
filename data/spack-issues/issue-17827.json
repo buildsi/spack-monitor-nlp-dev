@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #17469.\r\n    \r\n`spack buildcache list` was trying to construct an `Arch` object and compare it to `arch_for_spec(<spec>)`. for each spec in the buildcache.  `Arch` objects are only intended to be constructed for the machine they describe. The `ArchSpec` object (part of the `Spec`) is the descriptor that lets us talk about architectures anywhere.\r\n    \r\n- [x] Make it easier to get a `Spec` with a proper `ArchSpec` from an `Arch` object via new `Arch.to_spec()` method.\r\n    \r\n- [x] Pull `spack.architecture.default_arch()` out of `spack.architecture.sys_type()` so we can get an `Arch` instead of a string.\r\n    \r\n- [x] Modify `spack buildcache list` and `spack buildcache install` to filter with `Spec` matching instead of using `Arch`.\r\n\r\n- [x] regression test",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/17827",
+    "updated_at": "2020-08-01 19:21:59",
+    "created_at": "2020-08-01 06:14:14",
+    "closed_at": "2020-08-01 15:36:13",
+    "state": "closed",
+    "title": "bugfix: fix spack buildcache list --allarch",
+    "number": 17827,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "buildcache"
+    ],
+    "id": 670573800,
+    "html_url": "https://github.com/spack/spack/pull/17827",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,21 @@
+{
+    "body": "I have the autotools  packages (m4, autoconf, etc.) loaded as externals through homebrew. To my consternation, a clean build of my toolchain with a clean homebrew+spack fails during any autotools package:\r\n```\r\n+ aclocal -I Tools/config\r\nautom4te: error: need GNU m4 1.4 or later: /usr/local/opt/m4/bin/m4\r\naclocal: error: autom4te failed with exit status: 1\r\n```\r\ndigging into this I found that the brew-installed autoconf (specifically `autom4te`) has the wrong default prefix, since Homebrew no longer symlinks m4 to `opt/`:\r\n```perl\r\nmy $m4 = $ENV{\"M4\"} || '/usr/local/opt/m4/bin/m4';\r\n```\r\n\r\nSo I've added code in the `m4` spack package to export this environment variable.\r\n\r\nI'm not sure where the right place in homebrew is to report the error, since it seems like an installation with Homebrew. (It's definitely not spack's fault.) Regardless, exporting the M4 environment variable should make spack's autotools toolchain more robust, and it fixes my problem without waiting for a homebrew update.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/22765",
+    "updated_at": "2021-04-06 10:52:45",
+    "created_at": "2021-04-03 15:27:04",
+    "closed_at": "2021-04-06 10:21:39",
+    "state": "closed",
+    "title": "m4: export environment variable for autoconf etc",
+    "number": 22765,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "external-packages",
+        "autotools"
+    ],
+    "id": 849679649,
+    "html_url": "https://github.com/spack/spack/pull/22765",
+    "assignees": [],
+    "comments": 0
+}

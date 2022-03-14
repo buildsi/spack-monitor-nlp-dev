@@ -1,0 +1,22 @@
+{
+    "body": "I need help with spack syntax.\r\n\r\nI'd like to do something like the following in 'class Xsdk(Package):' This way - I don't multiply lines of code for each conditional.\r\n\r\nIs it possible to have such conditional (on a variant declared in the same class )- and if so - what would be the appropriate syntax?\r\n\r\nThanks,\r\n```\r\n-    depends_on('petsc@develop+trilinos+mpi+hypre+superlu-dist+metis+hdf5~mumps+double~int64',\r\n+    petsc_trilinos='+trilinos' if '+trilinos' in self.spec else '~trilinos'\r\n+    depends_on('petsc@develop+mpi+hypre+superlu-dist+metis+hdf5~mumps+double~int64'+petsc_trilinos,\r\n                when='@develop')\r\n```\r\nThe above code gives:\r\n```\r\n[balay@pj01 spack]$ spack spec xsdk\r\nInput spec\r\n--------------------------------\r\nxsdk\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: name 'self' is not defined\r\n[balay@pj01 spack]$ \r\n\r\n```",
+    "user": "balay",
+    "url": "https://api.github.com/repos/spack/spack/issues/12286",
+    "updated_at": "2019-08-16 14:56:21",
+    "created_at": "2019-08-05 19:17:28",
+    "closed_at": "2019-08-16 14:56:21",
+    "state": "closed",
+    "title": "spack syntax help",
+    "number": 12286,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 477016145,
+    "html_url": "https://github.com/spack/spack/issues/12286",
+    "assignees": [
+        "tgamblin",
+        "adamjstewart"
+    ],
+    "comments": 3
+}

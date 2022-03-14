@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install dealii\r\nIn file included from /Users/davydden/spack/var/spack/stage/dealii-develop-5vwbosjcavai5ao5mccewnakp3wupaz6/dealii/source/sundials/arkode.cc:19:\r\nIn file included from /Users/davydden/spack/var/spack/stage/dealii-develop-5vwbosjcavai5ao5mccewnakp3wupaz6/dealii/include/deal.II/sundials/arkode.h:38:\r\n/Users/davydden/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.0-apple/sundials-4.0.1-5za3vcazzodfej5awpcbaxjp6amhpntq/include/arkode/arkode_impl.h:27:10: fatal error: 'arkode_adapt_impl.h' file not found\r\n#include \"arkode_adapt_impl.h\"\r\n         ^~~~~~~~~~~~~~~~~~~~~\r\n1 error generated.\r\n```\r\n\r\nnotice that `deal.II` only includes `arkode.h`, which includes `arkode_impl.h` and that one expects `arkode_adapt_impl.h` to be around. It's not the the `sundials` installation prefix:\r\n\r\n```\r\n$ ls ~/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.0-apple/sundials-4.0.1-5za3vcazzodfej5awpcbaxjp6amhpntq/include/arkode/\r\narkode.h\t\tarkode_arkstep.h\tarkode_bandpre.h\tarkode_bbdpre.h\t\tarkode_butcher.h\tarkode_butcher_dirk.h\tarkode_butcher_erk.h\tarkode_erkstep.h\tarkode_impl.h\t\tarkode_ls.h\t\tarkode_mristep.h\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nDarwin 18.2.0 Darwin Kernel Version 18.2.0: Mon Nov 12 20:24:46 PST 2018; root:xnu-4903.231.4~2/RELEASE_X86_64 x86_64\r\n``` \r\nappeared after https://github.com/spack/spack/pull/10306 which made `4.x` default, there was no issue with `3.2.1`. \r\n\r\n\r\n@cswoodward @gardner48 @balos1 ping.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/10321",
+    "updated_at": "2019-01-14 21:31:29",
+    "created_at": "2019-01-12 05:27:25",
+    "closed_at": "2019-01-12 17:28:34",
+    "state": "closed",
+    "title": "Installation issue: sundials 4.0.1 has broken headers in arkode",
+    "number": 10321,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "xSDK"
+    ],
+    "id": 398523188,
+    "html_url": "https://github.com/spack/spack/issues/10321",
+    "assignees": [],
+    "comments": 5
+}

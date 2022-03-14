@@ -1,0 +1,20 @@
+{
+    "body": "Spack keeps pushing existing packages to the binary cache\r\n\r\n### Steps to reproduce the issue\r\n\r\n```bash\r\n$ spack find -p /2ocj3q2\r\n==> 1 installed package\r\n-- linux-ubuntu18.04-x86_64 / gcc@7.5.0 -------------------------\r\npython@3.8.5  /opt/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.5.0/python-3.8.5-2ocj3q2hl5vz5qhpeli6y73z63mk23vn\r\n$ spack buildcache check --rebuild-on-error --mirror-url https://spack.dev:9000/spack -s /2ocj3q2\r\n==> Rebuilding python@3.8.5%gcc@7.5.0+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4+uuid+zlib patches=0d98e93189bc278fbc37a50ed7f183bd8aaf249a8e1670a465f0db6bb4f8cf87 arch=linux-ubuntu18.04-x86_64/2ocj3q2, reason: full_hash was missing from remote spec.yaml\r\n```\r\n\r\nbut the remote has full hashes for sure:\r\n\r\n```\r\n$ curl -s https://spack.dev:9000/spack/build_cache/linux-ubuntu18.04-x86_64-gcc-7.5.0-python-3.8.5-2ocj3q2hl5vz5qhpeli6y73z63mk23vn.spec.yaml | grep --color=always full_hash\r\n    full_hash: ytltjej6ln3tst4f7birdiundhwpswev\r\n    full_hash: t57kskuxst7gbcgzjjrj3fruhl2z2vq6\r\n    full_hash: e7kp4ragnx2k7fz7gfckrhtuqgaufvc5\r\n    full_hash: cu3gas6whofmoemp36g4qj4xr5hpzzfr\r\n    full_hash: xlwj7aqluirzplat4koc3x4ihbs25vlb\r\n    full_hash: qfppn3u4swovlkdgydwsslcfbflqfrv7\r\n    full_hash: al4gdgbj7ma4aukg4a2j37mdz4pvnaik\r\n    full_hash: rcic4xkdpndjv2lja3y2oqmefjbgqek6\r\n    full_hash: ozozfu57iuxi6hzdbddqdva5c5fvjxcu\r\n    full_hash: j5iefqodml65n32mymuau2pd3ngstsmi\r\n    full_hash: pusjal4kweom63v4wcg6d6lb2m7dctrh\r\n    full_hash: tzsur4woxnjlrdz3urdcfwg3a3c4qsjp\r\n    full_hash: nlz25m53qas3gdkerbbnmn7el2pn2end\r\n    full_hash: dfsabpon5ujg2g2ts6o5w7j77jgsgqg2\r\n    full_hash: 3kzo4e3zoaguf6zatxpy36fyhbrxr4fe\r\n    full_hash: efht5eh5tp7a7lgp74nimrcj6vvxxxv2\r\n    full_hash: ee4jlhplhlrbyycu5t5mfmqfmldnvocl\r\n```\r\n\r\n Ping @scottwittenburg \r\n\r\n### Information on your system\r\n\r\n* **Spack:** 7f2f2a01ff41c9b58d9da4dcad839389e99bb040\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-zen2\r\n\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/19128",
+    "updated_at": "2020-10-03 13:16:12",
+    "created_at": "2020-10-02 14:16:41",
+    "closed_at": "2020-10-03 13:16:12",
+    "state": "closed",
+    "title": "Binary cache issue: \"reason: full_hash was missing from remote spec.yaml\" happens all the time",
+    "number": 19128,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 713656396,
+    "html_url": "https://github.com/spack/spack/issues/19128",
+    "assignees": [],
+    "comments": 4
+}

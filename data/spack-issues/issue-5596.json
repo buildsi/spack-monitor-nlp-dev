@@ -1,0 +1,21 @@
+{
+    "body": "refers #5587\r\ncloses #5593\r\n\r\nThe implementation introduced in #5476 used `dedupe` to set a private member of a `MultiValuedVariant` object. `dedupe` is meant to give a stable deduplication of the items in a sequence, and *returns an object whose value depends on the order of the items in its argument*. \r\n\r\nNow the private member is set implicitly using the associated property setter. The logic changes from stable deduplication to a totally ordered deduplication (i.e. instead of `dedupe(t)` it uses `sorted(set(t))`). \r\n\r\nThis should also grant that packages that shuffle the same set of patch directives maintain the same hash. I didn't try that out, but looking at the implementation I expect:\r\n```python\r\nclass A(Package):\r\n    \r\n    patch('foo.patch')\r\n    patch('bar.patch')\r\n    patch('baz.patch')\r\n```\r\nto have a different hash in `develop` with respect to:\r\n```python\r\nclass A(Package):\r\n    \r\n    # The order of directives changes here\r\n    patch('bar.patch')\r\n    patch('baz.patch')\r\n    patch('foo.patch')\r\n```\r\nwhile it should give the same hash now. \r\n\r\n~@tgamblin Was the previous implementation done on purpose out of concerns of the order of application of patches?~\r\n\r\nEDIT: after reading the code in #5476 I can say for sure that the answer to the question above is yes. This PR is currently a work in progress because I need to figure out the best way to ensure the right order of application for patches.\r\n\r\nProbably there are also workarounds that could maintain the same logic as in `develop`, even though I argue that setting private attributes to by-pass a setter is not a best-practice (and fires back sometimes :smile:).",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/5596",
+    "updated_at": "2017-10-04 20:12:05",
+    "created_at": "2017-10-04 07:53:29",
+    "closed_at": "2017-10-04 18:39:26",
+    "state": "closed",
+    "title": "Patches: the underlying MV variant now uses the property setter",
+    "number": 5596,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "WIP",
+        "don't-merge-yet"
+    ],
+    "id": 262696755,
+    "html_url": "https://github.com/spack/spack/pull/5596",
+    "assignees": [],
+    "comments": 9
+}

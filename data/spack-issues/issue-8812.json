@@ -1,0 +1,19 @@
+{
+    "body": "Trying to build FTGL in a GCC 8.1-based Docker image, I found two issues:\r\n\r\n- There is an unnecessary qualifier in a C++ header, which leads to a warning in GCC 8, and for some reason someone thought that enabling -Werror in production builds was a good idea...\r\n- Although the package will build if Doxygen is not present, it will not install because the installer unconditionally assumes that the docs folder is present.\r\n\r\nThis PR provides two basic workarounds for these issues. However, if someone with autotools experience can have a look at the FTGL source and tell me how to 1/remove this silly -Werror compilation flag and 2/make sure that the absence of docs does not make installation fail, I think better fixes can probably be devised.",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/8812",
+    "updated_at": "2018-08-06 09:58:37",
+    "created_at": "2018-07-26 09:31:54",
+    "closed_at": "2018-07-26 20:54:47",
+    "state": "closed",
+    "title": "FTGL package workarounds",
+    "number": 8812,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 344766709,
+    "html_url": "https://github.com/spack/spack/pull/8812",
+    "assignees": [],
+    "comments": 2
+}

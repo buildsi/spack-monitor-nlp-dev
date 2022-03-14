@@ -1,0 +1,22 @@
+{
+    "body": "Previously the `spack load` command was a wrapper around `module load`. This required some bootstrapping of modules to make `spack load` work properly.\r\n\r\nWith this PR, the `spack` shell function handles the environment modifications necessary to add packages to your user environment. This removes the dependence on environment modules or lmod and removes the requirement to bootstrap spack (beyond using the setup-env scripts).\r\n\r\nIncluded in this PR is support for MacOS when using Apple's System Integrity Protection (SIP), which is enabled by default in modern MacOS versions. SIP clears the `LD_LIBRARY_PATH` and `DYLD_LIBRARY_PATH` variables on process startup for executables that live in `/usr` (but not '/usr/local', `/System`, `/bin`, and `/sbin` among other system locations. Spack cannot know the `LD_LIBRARY_PATH` of the calling process when executed using `/bin/sh` and `/usr/bin/python`. The `spack` shell function now manually forwards these two variables, if they are present, as `SPACK_<VAR>` and recovers those values on startup.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/14062",
+    "updated_at": "2020-03-20 01:44:04",
+    "created_at": "2019-12-10 02:25:06",
+    "closed_at": "2020-01-23 06:36:02",
+    "state": "closed",
+    "title": "Remove `spack load` dependence on modules",
+    "number": 14062,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "commands"
+    ],
+    "id": 535451555,
+    "html_url": "https://github.com/spack/spack/pull/14062",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 23
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Both `jinja2` and `pytest` have a `setuptools` dependency, but we aren't currently vendoring `setuptools`:\r\n```console\r\n$ grep -R pkg_resources\r\njinja2/loaders.py:        from pkg_resources import DefaultProvider, ResourceManager, \\\r\n_pytest/vendored_packages/pluggy.py:        from pkg_resources import (iter_entry_points, DistributionNotFound,\r\n_pytest/config.py:        import pkg_resources\r\n_pytest/config.py:            for entrypoint in pkg_resources.iter_entry_points('pytest11')\r\n_pytest/assertion/rewrite.py:        self._register_with_pkg_resources()\r\n_pytest/assertion/rewrite.py:    def _register_with_pkg_resources(cls):\r\n_pytest/assertion/rewrite.py:            import pkg_resources\r\n_pytest/assertion/rewrite.py:            pkg_resources.__name__\r\n_pytest/assertion/rewrite.py:        pkg_resources.register_loader_type(cls, pkg_resources.DefaultProvider)\r\n_pytest/outcomes.py:            from pkg_resources import parse_version as pv\r\n_pytest/outcomes.py:                          \"pkg_resources to parse version strings.\" % (modname,),\r\n```\r\nCurrently, when I build `python` with Spack and use it to try to run the unit tests, I see the following error message:\r\n```\r\n==> Error: No module named 'pkg_resources'\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/9034",
+    "updated_at": "2020-03-23 23:55:08",
+    "created_at": "2018-08-21 15:52:58",
+    "closed_at": "2020-03-23 23:55:08",
+    "state": "closed",
+    "title": "Setuptools needs to be vendored",
+    "number": 9034,
+    "milestone": null,
+    "labels": [
+        "vendored-dependencies"
+    ],
+    "id": 352605573,
+    "html_url": "https://github.com/spack/spack/issues/9034",
+    "assignees": [],
+    "comments": 12
+}

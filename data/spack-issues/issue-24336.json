@@ -1,0 +1,20 @@
+{
+    "body": "After running `spack install z3` the installed files did not include the file `Z3Config.cmake`\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install z3\r\n$ find <spack install dir> -type f | grep Z3Config.cmake\r\n<no output>\r\n```\r\n\r\n### Error Message\r\nWhen building a CMake project with a line `find_package(Z3 REQUIRED)` the following occurs:\r\n\r\n```console\r\n$ spack install z3\r\n...\r\n$ spack load z3\r\n$ mkdir build\r\n$ cd build\r\n$ cmake ..\r\n...\r\nCMake Error at tools/dlcomp/CMakeLists.txt:1 (find_package):\r\n  By not providing \"FindZ3.cmake\" in CMAKE_MODULE_PATH this project has asked\r\n  CMake to find a package configuration file provided by \"Z3\", but CMake did\r\n  not find one.\r\n\r\n  Could not find a package configuration file provided by \"Z3\" with any of\r\n  the following names:\r\n\r\n    Z3Config.cmake\r\n    z3-config.cmake\r\n\r\n  Add the installation prefix of \"Z3\" to CMAKE_PREFIX_PATH or set \"Z3_DIR\" to\r\n  a directory containing one of the above files.  If \"Z3\" provides a separate\r\n  development package or SDK, be sure it has been installed.\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.2-3131-ba65cc7\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-sandybridge\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\nThe Z3 solver has two build modes: Makefile and CMake. The README.md in the Z3 project states the following regarding CMake: \"It is recommended for most build tasks, except for building OCaml bindings.\"\r\n\r\nThe CMake implementation was made starting with v4.5.0 of the Z3 solver.\r\n\r\nPackage changes forthcoming.",
+    "user": "jjolly",
+    "url": "https://api.github.com/repos/spack/spack/issues/24336",
+    "updated_at": "2021-06-17 05:03:38",
+    "created_at": "2021-06-15 18:28:10",
+    "closed_at": "2021-06-17 05:03:38",
+    "state": "closed",
+    "title": "Z3Config.cmake not installed due to Makefile build",
+    "number": 24336,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 921681065,
+    "html_url": "https://github.com/spack/spack/issues/24336",
+    "assignees": [],
+    "comments": 0
+}

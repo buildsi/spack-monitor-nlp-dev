@@ -1,0 +1,20 @@
+{
+    "body": "Spack doesn't check if a package is an external when trying to build mirrors, and always tries to download tarballs.\r\n\r\n### Expected Result\r\n```console\r\n$ spack mirror create -d /tmp/mirror openssl@1.0.2n\r\n==> Skipping openssl@1.0.2n%gcc@8+systemcerts arch=linux-ubuntu18.04-x86_64 /dobj3bn as it is an external spec.\r\n==> Successfully updated mirror in /tmp/mirror\r\n  Archive stats:\r\n    0    already present\r\n    0    added\r\n    0    failed to fetch.\r\n\r\n$ spack mirror create -d /tmp/mirror openssl@system\r\n==> Skipping openssl@system%gcc@8+systemcerts arch=linux-ubuntu18.04-x86_64 /j2jpe3s as it is an external spec.\r\n==> Successfully updated mirror in /tmp/mirror\r\n  Archive stats:\r\n    0    already present\r\n    0    added\r\n    0    failed to fetch.\r\n```\r\n\r\n### Actual Result\r\n```console\r\n$ spack mirror create -d /tmp/mirror openssl@system\r\n==> Warning: No known version matches spec: openssl@system%gcc@8+systemcerts arch=linux-ubuntu18.04-x86_64\r\n==> Successfully created mirror in /tmp/mirror\r\n  Archive stats:\r\n    0    already present\r\n    0    added\r\n    0    failed to fetch.\r\n\r\n$ spack mirror create -d /tmp/mirror openssl@1.0.2n\r\n==> Adding package openssl@1.0.2n to mirror\r\n==> Fetching http://www.openssl.org/source/openssl-1.0.2n.tar.gz\r\n########################################################################################################################################### 100,0%########################################################################################################################################### 100,0%\r\n==> openssl@1.0.2n : checksum passed\r\n==> openssl@1.0.2n : added\r\n==> Successfully updated mirror in /tmp/mirror\r\n  Archive stats:\r\n    0    already present\r\n    1    added\r\n    0    failed to fetch.\r\n```\r\n\r\n### Steps to reproduce the issue\r\nConfigure spack with this `packages.yaml`\r\n```yaml\r\npackages:\r\n  openssl:\r\n    buildable: False\r\n    paths:\r\n      openssl@1.0.2n: /usr\r\n      openssl@system: /usr\r\n```\r\n\r\n### Information on your system\r\n\r\nThe only relevant part is the `packages.yaml` above\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/8083",
+    "updated_at": "2018-06-01 19:27:12",
+    "created_at": "2018-05-10 14:41:23",
+    "closed_at": "2018-06-01 19:27:12",
+    "state": "closed",
+    "title": "spack mirror tries to download tarballs for external packages",
+    "number": 8083,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "external-packages"
+    ],
+    "id": 321956751,
+    "html_url": "https://github.com/spack/spack/issues/8083",
+    "assignees": [],
+    "comments": 0
+}

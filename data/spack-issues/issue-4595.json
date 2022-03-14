@@ -1,0 +1,21 @@
+{
+    "body": "@luigi-calori @svenevs you seemed interested in #2548 and this is supposed to be better\r\n\r\nThis is intended as a replacement to #2548. It can handle a few cases that #2548 cannot. It is also intended to be useful to support concretization of new specs using previously-concretized specs, which will be useful for contexts (https://github.com/LLNL/spack/pull/4585).\r\n \r\nIt can currently concretize:\r\n \r\n* spack spec -t opencv+python+qt ^python@3.6.1\r\n* spack spec -t python@3.6.1+tk\r\n* spack spec -t py-ipython\r\n* All cases of python modules that depend on py-setuptools (which failed for #2548)\r\n \r\nIt is a relaxation on the current concretization model, which requires that only one instance of any particular package exists in a dependency DAG. The new (looser) constraints are:\r\n \r\n* The run/link dependencies of X and Y are synchronized if they are direct dependencies of some W\r\n* P and Q are synchronized if they are weakly connected via (run, link) dependency types\r\n \r\nFor example, given:\r\n \r\n![image](https://user-images.githubusercontent.com/1659704/27505533-e3575852-5856-11e7-8785-da84169c1bd0.png)\r\n\r\n* run/link dependencies are synchronized across X, W, and Y\r\n* run/link dependencies are synchronized across Y, W, and Z\r\n* this means that if python appears in X, Y, and Z that it is synchronized across all 3\r\n* But if python only appears in X and Z then it is not synchronized between the two\r\n \r\nThis is not as flexible as the deptype model in #3768 would allow, but it is a compromise between that and simplicity of implementation.\r\n \r\nIt works by\r\n \r\n* passing an object through the recursive normalization which is used for sharing dependencies across multiple branches\r\n* re-initializing this object when encountering a build-only dependency\r\n* Updates notion of node identity (no longer name-based)\r\n \r\nTODOs\r\n \r\n- [x] #2548 introduced the notion of an \"include\" deptype that also needs to be added here. For now, to demonstrate the concept, a few cases which should be \"include\" have been temporarily set as \"link\"\r\n  - (7/13/17) the \"include\" deptype is now available in this PR. It is treated exactly the same as a link dependency. Any header-only library should be given the \"include\" deptype vs. the \"build\" deptype\r\n- [x] Need to clean up references to Spec.normalize (they should now generally be Spec.normalize_top)\r\n- [x] A couple tests need to be replaced\r\n- [x] (EDIT) Ensure that a sensible error message is printed if a build dependency has a virtual dependency (directly or transitively)\r\n- [x] (EDIT) Additional unit tests\r\n- [ ] (EDIT) update graph output now that some dependencies can be duplicated\r\n- [ ] (7/21/17) xproto dependency type has been updated for libx11 tree to 'include', but it should in fact be changed from build to include everywhere. This will affect many (~30) packages\r\n \r\nLimitations introduced:\r\n \r\n* build-only dependencies cannot have virtual dependencies\r\n* (7/13/17) when accessing a dependency X using ```spec['X']```, X must either be (a) a transitive run/link/include dependency or (b) a transitive run/link/include dependency of a direct build dependency. In other words, indirect build dependencies are excluded\r\n* ~~(8/31/17) when a user specifies constraints on dependencies from the command line, they cannot constrain build-only dependencies~~ (EDIT) no longer an issue\r\n* ~~(internal change) Spec.normalize should no longer be called by itself~~ (EDIT) no longer a problem\r\n\r\n\r\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/4595",
+    "updated_at": "2022-01-19 23:26:14",
+    "created_at": "2017-06-24 04:13:22",
+    "closed_at": "2022-01-19 23:26:13",
+    "state": "closed",
+    "title": "Perform concretization of build-only deps separately - part two",
+    "number": 4595,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "WIP",
+        "concretization"
+    ],
+    "id": 238293198,
+    "html_url": "https://github.com/spack/spack/pull/4595",
+    "assignees": [],
+    "comments": 37
+}

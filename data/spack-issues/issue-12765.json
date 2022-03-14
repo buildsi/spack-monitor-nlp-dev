@@ -1,0 +1,20 @@
+{
+    "body": "fixes #13101\r\nfixes #7358 \r\n\r\nWhen filtering files that have encoding which are not compatible with ASCII there could be weird differences depending if a user employs Python 2 vs. 3 as an interpreter for Spack. One example was for instance reported in #7358 for PAPI (installs with Python 2 but fails with Python 3).\r\n\r\nReasearching a bit on the [subject](https://stackoverflow.com/a/436299/771663) makes it clear that detecting the encoding of a text file 100% correctly all the time is impossible. This PR thus forces the error handling of `filter_file` to be [surrogateescape](https://docs.python.org/3.7/library/functions.html#open):\r\n\r\n> 'surrogateescape' will represent any incorrect bytes as code points in the Unicode Private Use Area ranging from U+DC80 to U+DCFF. These private code points will then be turned back into the same bytes when the surrogateescape error handler is used when writing data. This is useful for processing files in an unknown encoding.\r\n\r\nThis should allow us to ignore all the characters that are not natively understood by the current Python interpreter and to restore them as they were when writing the filtered file back.\r\n\r\nI'm not sure if a user could specify \"strange\" characters as Unicode code points and perform a match  on them but hopefully we'll never have a need for this use case :slightly_smiling_face:",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/12765",
+    "updated_at": "2019-10-30 12:27:59",
+    "created_at": "2019-09-08 08:55:09",
+    "closed_at": "2019-10-15 03:35:16",
+    "state": "closed",
+    "title": "filter_file uses \"surrogateescape\" error handling",
+    "number": 12765,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python3"
+    ],
+    "id": 490728828,
+    "html_url": "https://github.com/spack/spack/pull/12765",
+    "assignees": [],
+    "comments": 7
+}

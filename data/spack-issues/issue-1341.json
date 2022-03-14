@@ -1,0 +1,19 @@
+{
+    "body": "@becker33 just informed me that we've been able to handle non-boolean variants since the cflags support was merged. Now that this is possible, I propose we start using them. Let's start with the MPI packages. For example, MVAPICH2 has the following variants that control the process manager:\n\n```\n    gforker         off       Sets gforker as one of the process managers\n    hydra           off       Sets hydra as one of the process managers\n    remshell        off       Sets remshell as one of the process managers\n    slurm           off       Sets slurm as the only process manager\n```\n\nIt also has the following variants for network type:\n\n```\n    mrail           off       Configures a build for OFA-IB-CH3\n    nemesis         off       Configures a build for TCP/IP-Nemesis\n    nemesisib       off       Configures a build for OFA-IB-Nemesis\n    nemesisibtcp    off       Configures a build for both OFA-IB-Nemesis and TCP/IP-Nemesis\n    psm             off       Configures a build for QLogic PSM-CH3\n    sock            off       Configures a build for TCP/IP-CH3\n```\n\nKeep in mind that both of these sets are mutually exclusive (you can't use multiple process managers). By collapsing all of these variants into two non-boolean variants, we can remove a lot of mutual exclusion logic.\n\nWhat would this look like? Instead of `mvapich2@2.2b~debug~gforker+hydra~mrail~nemesis~nemesisib~nemesisibtcp+psm~remshell~slurm~sock`, we would have `mvapich2@2.2b~debug procman=hydra network=psm`\n\n@becker33 There are still a lot of things I don't understand or that may need to be added in terms of support. What would the variant initialization look like in a package.py? How can I specify a list of possible values for this non-boolean variant? I would like `spack info` to list each possible value as well.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1341",
+    "updated_at": "2017-05-01 20:08:48",
+    "created_at": "2016-07-22 19:18:08",
+    "closed_at": "2017-05-01 20:08:48",
+    "state": "closed",
+    "title": "Replace mutually exclusive variants with non-boolean variants",
+    "number": 1341,
+    "milestone": null,
+    "labels": [
+        "variants"
+    ],
+    "id": 167113514,
+    "html_url": "https://github.com/spack/spack/issues/1341",
+    "assignees": [],
+    "comments": 1
+}

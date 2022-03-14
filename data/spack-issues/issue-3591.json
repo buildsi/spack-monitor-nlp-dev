@@ -1,0 +1,22 @@
+{
+    "body": "I found Mercurial (hg) instantiated by Spack is failing to locate python's modules and library files.\r\n\r\nMercurial's executable is a python script, which start with finding python modules using its relative path. It appears that Spack is not setting the current directory properly when executing Mercurial.\r\n\r\n(This is how Mercurial's executable look like:)\r\n```\r\n#!/System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python\r\n#\r\n# mercurial - scalable distributed SCM\r\n#\r\n# Copyright 2005-2007 Matt Mackall <mpm@selenic.com>\r\n#\r\n# This software may be used and distributed according to the terms of the\r\n# GNU General Public License version 2 or any later version.\r\n\r\nimport os\r\nimport sys\r\n\r\nif os.environ.get('HGUNICODEPEDANTRY', False):\r\n    try:\r\n        reload(sys)\r\n        sys.setdefaultencoding(\"undefined\")\r\n    except NameError:\r\n        pass\r\n\r\n**libdir = '../../Library/Python/2.7/site-packages/'**\r\n```\r\n",
+    "user": "keitat",
+    "url": "https://api.github.com/repos/spack/spack/issues/3591",
+    "updated_at": "2017-04-20 01:59:05",
+    "created_at": "2017-03-28 19:17:07",
+    "closed_at": "2017-04-20 01:59:05",
+    "state": "closed",
+    "title": "Mercurial 3.9.1 is not executed at the right directly location (OSX10.11)",
+    "number": 3591,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "mercurial"
+    ],
+    "id": 217664326,
+    "html_url": "https://github.com/spack/spack/issues/3591",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 1
+}

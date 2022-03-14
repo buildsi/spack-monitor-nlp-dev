@@ -1,0 +1,20 @@
+{
+    "body": "\r\n-----\r\n\r\nSummary\r\n\r\nUnable to install suite-sparse\r\n\r\n### Expected Result\r\n\r\nTo install dealii@develop and dependencies\r\n\r\n### Actual Result\r\n\r\nFails at suite-sparse\r\n\r\n```\r\n     20    make[1]: Leaving directory '/tmp/praveen/spack-stage/spack-stage-Nzej3V/SuiteSparse/SuiteSparse_config'\r\n     21    ( cd GraphBLAS && make CMAKE_OPTIONS='-DCMAKE_INSTALL_PREFIX=/home/praveen/Applications/spack/opt/spack/linux-opensuse20180316-x86_64/gcc-7.3\r\n           .1/suite-sparse-5.2.0-f6bv4u5efrw5kw74h7jrpwkmabeysmc3' install )\r\n     22    make[1]: Entering directory '/tmp/praveen/spack-stage/spack-stage-Nzej3V/SuiteSparse/GraphBLAS'\r\n     23    ( cd build ; cmake -DCMAKE_INSTALL_PREFIX=/home/praveen/Applications/spack/opt/spack/linux-opensuse20180316-x86_64/gcc-7.3.1/suite-sparse-5.2\r\n           .0-f6bv4u5efrw5kw74h7jrpwkmabeysmc3 .. ; make ; make install )\r\n     24    /bin/sh: cmake: command not found\r\n     25    make[2]: Entering directory '/tmp/praveen/spack-stage/spack-stage-Nzej3V/SuiteSparse/GraphBLAS/build'\r\n  >> 26    make[2]: *** No targets specified and no makefile found.  Stop.\r\n     27    make[2]: Leaving directory '/tmp/praveen/spack-stage/spack-stage-Nzej3V/SuiteSparse/GraphBLAS/build'\r\n     28    make[2]: Entering directory '/tmp/praveen/spack-stage/spack-stage-Nzej3V/SuiteSparse/GraphBLAS/build'\r\n  >> 29    make[2]: *** No rule to make target 'install'.  Stop.\r\n     30    make[2]: Leaving directory '/tmp/praveen/spack-stage/spack-stage-Nzej3V/SuiteSparse/GraphBLAS/build'\r\n     31    make[1]: *** [Makefile:27: install] Error 2\r\n     32    make[1]: Leaving directory '/tmp/praveen/spack-stage/spack-stage-Nzej3V/SuiteSparse/GraphBLAS'\r\n     33    make: *** [Makefile:40: install] Error 2\r\n```\r\n\r\nBut spack has already installed cmake at this stage !!!\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install -j6 --only dependencies dealii@develop ^cmake@3.9.4\r\n```\r\n\r\nI get same problem even when I don't force the cmake version.\r\n\r\n\r\n### Information on your system\r\n\r\nI am on OpenSuse tumbleweed\r\n\r\nMy compilers.yaml file\r\n\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: opensuse20180316\r\n    paths:\r\n      cc: /usr/bin/gcc-7\r\n      cxx: /usr/bin/g++-7\r\n      f77: /usr/bin/gfortran-7\r\n      fc: /usr/bin/gfortran-7\r\n    spec: gcc@7.3.1\r\n    target: x86_64\r\n```\r\n\r\nMy packages.yaml file\r\n\r\n```\r\npackages:\r\n   hdf5:\r\n      variants: +fortran\r\n   petsc:\r\n      variants: +mumps\r\n   dealii:\r\n      variants: ~python\r\n   all:\r\n      providers:\r\n         mpi: [mpich]\r\n```\r\n\r\nDetailed log\r\n\r\n[spack-build.out.txt](https://github.com/spack/spack/files/1831959/spack-build.out.txt)\r\n",
+    "user": "cpraveen",
+    "url": "https://api.github.com/repos/spack/spack/issues/7537",
+    "updated_at": "2018-03-21 21:49:02",
+    "created_at": "2018-03-21 03:15:13",
+    "closed_at": "2018-03-21 21:49:02",
+    "state": "closed",
+    "title": "Installation of suite-sparse fails due to cmake not found",
+    "number": 7537,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "cmake"
+    ],
+    "id": 307107841,
+    "html_url": "https://github.com/spack/spack/issues/7537",
+    "assignees": [],
+    "comments": 10
+}

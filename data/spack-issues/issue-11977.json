@@ -1,0 +1,21 @@
+{
+    "body": "fixes #3690\r\nfixes #5637 \r\n\r\nUninstalling dependents of a spec was relying on a traversal of the parents done by inspecting `spec._dependents`. This is in turn a `DependencyMap` that maps a package name to a single `DependencySpec` object (an edge in the DAG) and cannot thus model the case where a spec has multiple configurations of the same parent package installed.\r\n\r\nThis commit works around this issue by constructing the list of specs to be uninstalled in an alternative way, and adds tests to verify the behavior. The core issue with `DependencyMap` is not resolved here.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11977",
+    "updated_at": "2019-07-15 17:35:34",
+    "created_at": "2019-07-10 15:21:19",
+    "closed_at": "2019-07-15 17:30:03",
+    "state": "closed",
+    "title": "spack uninstall can uninstall specs with multiple roots",
+    "number": 11977,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs",
+        "pkg-database"
+    ],
+    "id": 466372589,
+    "html_url": "https://github.com/spack/spack/pull/11977",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Fixes #502.\n- Fix bug introduced during merge of stage refactor.\n  - install prefix was not created before build_environment.fork()\n    - build_environment.fork() calls setup_dependent_environment\n    - python's setup_dependent_environment can inadvertently create\n      the install prefix before directory_layout expects it.\n- Clean up Package.do_install:\n  - simplify control flow: parent process now entirely responsible for\n    creating/destroying the install prefix. cleanup is now in one place.\n  - Hoisting cleanup out of the child improves nesting of try/catch in\n    `real_work`.\n  - `real_work` renamed to `build_process`\n- also fixes race in `pango` install.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/504",
+    "updated_at": "2016-03-08 11:43:53",
+    "created_at": "2016-03-08 10:56:56",
+    "closed_at": "2016-03-08 11:43:53",
+    "state": "closed",
+    "title": "Bugfix/GitHub 502: Error: No spec file found at path",
+    "number": 504,
+    "milestone": null,
+    "labels": [],
+    "id": 139246103,
+    "html_url": "https://github.com/spack/spack/pull/504",
+    "assignees": [],
+    "comments": 4
+}

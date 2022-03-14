@@ -1,0 +1,21 @@
+{
+    "body": "@alalazo I was hoping to try out the new `with_or_without` and `enable_or_disable` functionality that you added to `AutotoolsPackage` but I'm afraid it doesn't work the way I would expect. I have a package with several optional dependencies that can be specified via configure like so:\r\n```\r\n$ ./configure --with-zlib --without-libpsl --enable-pcre\r\n```\r\nNormally I would have to add the following to `configure_args`:\r\n```python\r\nargs = []\r\n\r\nif '+zlib' in self.spec:\r\n    args.append('--with-zlib')\r\nelse:\r\n    args.append('--without-zlib')\r\n\r\nif '+libpsl' in self.spec:\r\n    args.append('--with-libpsl')\r\nelse:\r\n    args.append('--without-libpsl')\r\n\r\nif '+pcre' in self.spec:\r\n    args.append('--enable-pcre')\r\nelse:\r\n    args.append('--disable-pcre')\r\n\r\nreturn args\r\n```\r\nbut I was hoping these functions would let me do:\r\n```python\r\nreturn [\r\n    self.with_or_without('zlib'),                                       \r\n    self.with_or_without('libpsl'),                                     \r\n    self.enable_or_disable('pcre'),\r\n]\r\n```\r\ninstead. But I get the error message:\r\n```\r\n==> Error: TypeError: expected string or buffer\r\n```\r\nDo these functions only support multi-valued variants? Can we get this use case working as well? I'm pretty sure it's much more common.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4112",
+    "updated_at": "2017-09-11 23:20:50",
+    "created_at": "2017-05-03 17:04:41",
+    "closed_at": "2017-09-11 23:20:50",
+    "state": "closed",
+    "title": "with_or_without / enable_or_disable",
+    "number": 4112,
+    "milestone": null,
+    "labels": [
+        "autotools"
+    ],
+    "id": 226052770,
+    "html_url": "https://github.com/spack/spack/issues/4112",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

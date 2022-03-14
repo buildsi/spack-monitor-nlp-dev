@@ -1,0 +1,21 @@
+{
+    "body": "Playing around with the `modules.yaml` feature and setting\r\n```\r\nnaming_scheme: '${PACKAGE}/${PACKAGE}-${VERSION}-${OPTIONS}-${COMPILERNAME}-${COMPILERVER}'\r\n```\r\n\r\nIt leads to `emacs` with the following name `emacs/emacs-25.1?toolkit=gtk?-gcc-4.8.5`:\r\n```\r\n[vagrant@sandbox ~]$ module avail emacs\r\n\r\n-------------- /vagrant/spack/share/spack/modules/linux-centos7-x86_64 --------------\r\nemacs/emacs-25.1?toolkit=gtk?-gcc-4.8.5\r\n[vagrant@sandbox ~]$ cd /vagrant/spack/share/spack/modules/linux-centos7-x86_64/emacs/\r\n[vagrant@sandbox emacs]$ ls -l\r\ntotal 4\r\n-rw-r--r-- 1 vagrant vagrant 974 Jan 23 10:22 emacs-25.1 toolkit=gtk -gcc-4.8.5\r\n```\r\n\r\nVery quick guess, it's because `spec.variants['toolkit'].value` is one of `gtk` or `athena` and not `True` or `False`?\r\n```\r\n        toolkit = spec.variants['toolkit'].value\r\n        if '+X' in spec:\r\n            if toolkit not in ('gtk', 'athena'):\r\n                raise InstallError(\"toolkit must be in (gtk, athena), not %s\" %\r\n                                   toolkit)\r\n            args = [\r\n                '--with-x',\r\n                '--with-x-toolkit={0}'.format(toolkit)\r\n            ]\r\n        else:\r\n            args = ['--without-x']\r\n```",
+    "user": "TheQueasle",
+    "url": "https://api.github.com/repos/spack/spack/issues/2884",
+    "updated_at": "2017-10-05 01:14:07",
+    "created_at": "2017-01-19 21:33:38",
+    "closed_at": "2017-10-05 01:14:07",
+    "state": "closed",
+    "title": "Module naming scheme `OPTIONS` and the `emacs` package",
+    "number": 2884,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 201981724,
+    "html_url": "https://github.com/spack/spack/issues/2884",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 14
+}

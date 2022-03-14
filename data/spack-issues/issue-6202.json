@@ -1,0 +1,17 @@
+{
+    "body": "I noticed a similar error on a few other spackages but llvm seems to trigger it most consistently. It appears that even though Spack thinks it is using the specified version the path is not set up to actually use the intended CMake. So if your platform has a particularly old version of CMake, it is unable to build things that are dependent on more modern features\r\n\r\n```\r\n[rspavel@cn212 ~]$ spack install llvm\r\n...\r\n==> cmake@3.7.1 : externally installed in /projects/opt/centos7/cmake/3.7.1/bin/cmake\r\n==> cmake@3.7.1 : already registered in DB\r\n...\r\n==> Building llvm [CMakePackage]\r\n==> Executing phase: 'cmake'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    'cmake' '/home/rspavel/Software/spack/var/spack/stage/llvm-5.0.0-r2jo5zftpctuqjouhlzacb2fc4mlezgr/llvm-5.0.0.src' '-G' 'Unix Makefiles' '\r\n...\r\n\r\n1 error found in build log:\r\n     [ ... ]\r\n  >> 3     CMake Error at CMakeLists.txt:3 (cmake_minimum_required):\r\n     4       CMake 3.4.3 or higher is required.  You are running version 2.8.12.2\r\n     5\r\n     6\r\n     7     -- Configuring incomplete, errors occurred!\r\n...\r\n[rspavel@cn212 ~]$ cat ~/.spack/packages.yaml\r\npackages:\r\n    cmake:\r\n        paths:\r\n            cmake@3.7.1: /projects/opt/centos7/cmake/3.7.1/bin/cmake\r\n        buildable: False\r\n[rspavel@cn212 ~]$ /projects/opt/centos7/cmake/3.7.1/bin/cmake --version\r\ncmake version 3.7.1\r\n[rspavel@cn212 ~]$ /usr/bin/cmake --version\r\ncmake version 2.8.12.2\r\n[rspavel@cn212 ~]$ spack env llvm which cmake\r\n/usr/bin/cmake\r\n```",
+    "user": "rspavel",
+    "url": "https://api.github.com/repos/spack/spack/issues/6202",
+    "updated_at": "2017-11-08 18:48:37",
+    "created_at": "2017-11-08 18:11:37",
+    "closed_at": "2017-11-08 18:24:59",
+    "state": "closed",
+    "title": "Spack using system CMake instead of Spack CMake",
+    "number": 6202,
+    "milestone": null,
+    "labels": [],
+    "id": 272296610,
+    "html_url": "https://github.com/spack/spack/issues/6202",
+    "assignees": [],
+    "comments": 4
+}

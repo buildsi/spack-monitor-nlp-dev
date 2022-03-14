@@ -1,0 +1,17 @@
+{
+    "body": "I see below error:\r\n\r\n```\r\n==> No patches needed for node-js\r\n==> Building node-js [Package]\r\n==> Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16' 'install'\r\n\r\n18 errors found in build log:\r\n     [ ... ]\r\n     9154  /usr/bin/ld: skipping incompatible /usr/lib/libdl.so when searching for -ldl\r\n     9155  /usr/bin/ld: skipping incompatible /usr/lib/librt.so when searching for -lrt\r\n     9156  /usr/bin/ld: skipping incompatible /usr/lib/libm.so when searching for -lm\r\n     9157  /usr/bin/ld: skipping incompatible /usr/lib/libpthread.so when searching for -lpthread\r\n     9158  /usr/bin/ld: skipping incompatible /usr/lib/libc.so when searching for -lc\r\n     9159  ../src/tls_wrap.cc: In member function \u2018void node::TLSWrap::InitSSL()\u2019:\r\n  >> 9160  ../src/tls_wrap.cc:145:64: error: \u2018SSL_set_cert_cb\u2019 was not declared in this scope\r\n     9161     SSL_set_cert_cb(ssl_, SSLWrap<TLSWrap>::SSLCertCallback, this);\r\n     9162                                                                  ^\r\n     9163  ../src/node_crypto.cc: In function \u2018int node::crypto::SSL_CTX_use_certificate_chain(SSL_CTX*, X509*, stack_st_X509*, X509**, X509**)\u2019:\r\n  >> 9164  ../src/node_crypto.cc:519:42: error: \u2018SSL_CTX_add1_chain_cert\u2019 was not declared in this scope\r\n     9165         r = SSL_CTX_add1_chain_cert(ctx, ca);\r\n     9166                                            ^\r\n     9167  make[1]: *** [/tmp/kumbhar-adm/spack-stage/spack-stage-6r6emZ/node-v7.1.0/out/Release/obj.target/node/src/tls_wrap.o] Error 1\r\n     9168  make[1]: *** Waiting for unfinished jobs....\r\n     9169  ../src/node_crypto.cc: In static member function \u2018static void node::crypto::SSLWrap<Base>::CertCbDone(const v8::FunctionCallbackInfo<v8::Value>&)\u2019:\r\n  >> 9170  ../src/node_crypto.cc:2380:51: error: there are no arguments to \u2018SSL_CTX_get0_certificate\u2019 that depend on a template parameter, so a declaration of \u2018SSL_CTX_get0_certificate\u2019 must be available [-fpermissive]\r\n     9171       X509* x509 = SSL_CTX_get0_certificate(sc->ctx_);\r\n     9172                                                     ^\r\n     9173  ../src/node_crypto.cc:2380:51: note: (if you use \u2018-fpermissive\u2019, G++ will accept your code, but allowing the use of an undeclared name is deprecated)\r\n  >> 9174  ../src/node_crypto.cc:2381:54: error: there are no arguments to \u2018SSL_CTX_get0_privatekey\u2019 that depend on a template parameter, so a declaration of \u2018SSL_CTX_get0_privatekey\u2019 must be available [-fpermissive]\r\n     9175       EVP_PKEY* pkey = SSL_CTX_get0_privatekey(sc->ctx_);\r\n     9176                                                        ^\r\n  >> 9177  ../src/node_crypto.cc:2384:51: error: there are no argument\r\n```\r\n\r\nthis https://github.com/nodejs/node/issues/2783 says:\r\n\r\n> Your copy of openssl is too old, you need 1.0.2.",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5650",
+    "updated_at": "2017-10-11 23:19:50",
+    "created_at": "2017-10-07 16:43:54",
+    "closed_at": "2017-10-08 23:04:10",
+    "state": "closed",
+    "title": "Fix node-js : requires openssl min 1.0.2",
+    "number": 5650,
+    "milestone": null,
+    "labels": [],
+    "id": 263654564,
+    "html_url": "https://github.com/spack/spack/pull/5650",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "I have the following setup for external MPI from HPC admins:\r\n```\r\n  openmpi:\r\n    version: [2.0.2]\r\n    paths:\r\n      openmpi@2.0.2%gcc@4.8.5: /apps/OpenMPI/2.0.2-gcc/\r\n    buildable: False\r\n```\r\n\r\n### Expected Result\r\n\r\nspack should use it in concretization (that was the behaviour from around January 2018)\r\n\r\n### Actual Result\r\n\r\nconcretizer shows that `openmpi` will be installed\r\n```\r\n     dealii@develop%gcc@4.8.5~adol-c+arpack~assimp build_type=DebugRelease ~cuda cuda_arch= ~doc~gmsh+gsl+hdf5~int64+metis+mpi~nanoflann+netcdf+oce+optflags+p4est+petsc~python~scalapack+slepc~sundials+trilinos arch=linux-centos7-x86_64\r\n         ^arpack-ng@3.5.0%gcc@4.8.5+mpi+shared arch=linux-centos7-x86_64\r\n             ^cmake@3.11.0%gcc@4.8.5~doc+ncurses+openssl+ownlibs~qt arch=linux-centos7-x86_64\r\n[+]              ^ncurses@6.0%gcc@4.8.5 patches=f84b2708a42777aadcc7f502a261afe10ca5646a51c1ef8b5e60d2070d926b57 ~symlinks~termlib arch=linux-centos7-x86_64\r\n[+]                  ^pkgconf@1.4.0%gcc@4.8.5 arch=linux-centos7-x86_64\r\n                 ^openssl@1.0.2n%gcc@4.8.5+systemcerts arch=linux-centos7-x86_64\r\n[+]                  ^zlib@1.2.11%gcc@4.8.5+optimize+pic+shared arch=linux-centos7-x86_64\r\n[+]          ^openblas@0.2.20%gcc@4.8.5 cpu_target= ~ilp64 patches=47cfa7a952ac7b2e4632c73ae199d69fb54490627b66a62c681e21019c4ddc9d +pic+shared threads=none ~virtual_machine arch=linux-centos7-x86_64\r\n             ^openmpi@2.0.2%gcc@4.8.5~cuda fabrics=verbs ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple~ucx+vt arch=linux-centos7-x86_64\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nedit `packages.yaml` and try concretizing.\r\n\r\n### Information on your system\r\n\r\nCentOS",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/7653",
+    "updated_at": "2018-03-31 13:05:50",
+    "created_at": "2018-03-31 06:59:29",
+    "closed_at": "2018-03-31 13:05:50",
+    "state": "closed",
+    "title": "treatment of externals changed recently?",
+    "number": 7653,
+    "milestone": null,
+    "labels": [
+        "question",
+        "external-packages"
+    ],
+    "id": 310218511,
+    "html_url": "https://github.com/spack/spack/issues/7653",
+    "assignees": [],
+    "comments": 2
+}

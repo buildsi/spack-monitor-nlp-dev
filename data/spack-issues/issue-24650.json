@@ -1,0 +1,28 @@
+{
+    "body": "This PR adds a context manager that permit to group the common part of a `when=` argument and add that to the context:\r\n```python\r\nclass Gcc(AutotoolsPackage):\r\n    with when('+nvptx'):\r\n        depends_on('cuda')\r\n        conflicts('@:6', msg='NVPTX only supported in gcc 7 and above')\r\n        conflicts('languages=ada')\r\n        conflicts('languages=brig')\r\n        conflicts('languages=go')\r\n```\r\nThe above snippet is equivalent to:\r\n```python\r\nclass Gcc(AutotoolsPackage):\r\n    depends_on('cuda', when='+nvptx')\r\n    conflicts('@:6', when='+nvptx', msg='NVPTX only supported in gcc 7 and above')\r\n    conflicts('languages=ada', when='+nvptx')\r\n    conflicts('languages=brig', when='+nvptx')\r\n    conflicts('languages=go', when='+nvptx')\r\n```\r\nwhich needs a repetition of the `when='+nvptx'` argument. The context manager might help improving readability and permits to group together directives related to the same semantic aspect (e.g. all the directives needed to model the behavior of `gcc` when `+nvptx` is active). \r\n\r\nModifications:\r\n\r\n- [x] Added a `when` context manager to be used with package directives\r\n- [x] Add unit tests and documentation for the new feature\r\n- [x] Modified `cp2k` and `gcc` to show the use of the context manager \r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/24650",
+    "updated_at": "2021-07-02 17:34:02",
+    "created_at": "2021-07-01 12:30:11",
+    "closed_at": "2021-07-02 15:43:16",
+    "state": "closed",
+    "title": "Add `when` context manager to group common constraints in packages",
+    "number": 24650,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "documentation",
+        "dependencies",
+        "virtual-dependencies",
+        "tests",
+        "resources",
+        "directives",
+        "update-package",
+        "conflicts",
+        "maintainers"
+    ],
+    "id": 934793283,
+    "html_url": "https://github.com/spack/spack/pull/24650",
+    "assignees": [],
+    "comments": 9
+}

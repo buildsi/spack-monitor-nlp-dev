@@ -1,0 +1,19 @@
+{
+    "body": "Couldn't build qt-5.9.1 on my system and figured I'd try it with new versions:\r\n\r\n     version('5.10.0', 'c5e275ab0ed7ee61d0f4b82cd471770d')\r\n     version('5.9.3',  'eae2435509493a2084405714e0a9bdf9')\r\n\r\nNo better. Dug through the build output and it was first choking on `-system-freetype` and after hacking around that, it was choking on `-fontconfig`. It's still chugging away (I have lots building today), but these hacks seem to have helped:\r\n\r\n    @@ -209,8 +210,8 @@ class Qt(Package):\r\n                 '-confirm-license',\r\n                 '-openssl-linked',\r\n                 '-optimized-qmake',\r\n    -            '-fontconfig',\r\n    -            '-system-freetype',\r\n    +            ## NO '-fontconfig',\r\n    +            ## NO '-system-freetype',\r\n                 '-I{0}/freetype2'.format(self.spec['freetype'].prefix.include),\r\n                 '-no-pch'\r\n             ]\r\n\r\nNot the most conclusive issue report, but thought I'd raise it anyhow. It looks like @adamjstewart or @davydden are the ones who might know what's going on here.\r\n\r\nCheers,\r\n/mark\r\n",
+    "user": "olesenm",
+    "url": "https://api.github.com/repos/spack/spack/issues/6685",
+    "updated_at": "2019-12-13 09:37:46",
+    "created_at": "2017-12-14 13:51:30",
+    "closed_at": "2019-12-13 09:37:46",
+    "state": "closed",
+    "title": "Cannot build qt5 due to fonts",
+    "number": 6685,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 282107405,
+    "html_url": "https://github.com/spack/spack/issues/6685",
+    "assignees": [],
+    "comments": 7
+}

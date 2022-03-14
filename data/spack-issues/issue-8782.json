@@ -1,0 +1,19 @@
+{
+    "body": "Here is an attempt to package [Templight](https://github.com/mikael-s-persson/templight), a clang patch/wrapper which allows C++ developers to profile the effect of template instantiations on compilation times and compiler memory consumption, and to interactively walk through templight instantations in a GDB-like fashion in order to more quickly resolve template metaprogramming bugs. This is very useful whenever doing any advanced C++ programming, or dealing with libraries that do.\r\n\r\nThis package needed a bit of work. The main reason is that the templight authors believe that the only road towards templight stabilization is to have it integrated into upstream LLVM, and therefore did not bother with a proper release process, in spite of numerous user requests. As of today, the official build instructions are still \"fetch the templight master, the LLVM/clang trunk, put them together and cross fingers\". As anyone who has ever tried to build work on top of another project's master/trunk can attest, this procedure is brittle, and as a matter of fact [it currently doesn't work without a bit of help](https://github.com/mikael-s-persson/templight/issues/65). Clearly, something better was needed for packaging.\r\n\r\nMy proposed workaround is to package combinations of templight master commits, LLVM trunk revisions and patches which are known to work as date-based releases. If the templight team's policy towards stable releases ever changes, or if they do manage to get templight integrated into upstream clang, then we can move to the corresponding official releases. But for now, I think it would be a shame to be unable to use such a useful tool just because its authors do not fully realize the importance of having stable releases :smile: \r\n\r\nAs for the rest, since templight is essentially an LLVM patch, I decided to take the LLVM recipe, trim it down to its minimal components (templight is a debugging tool, not a production compiler, so we don't need all of LLVM's bells and whistles when using it), and use that.\r\n\r\nFeel free to send me your comments on the current state of this effort!",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/8782",
+    "updated_at": "2018-08-06 09:58:37",
+    "created_at": "2018-07-23 09:10:15",
+    "closed_at": "2018-07-26 16:19:15",
+    "state": "closed",
+    "title": "Templight package",
+    "number": 8782,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 343549099,
+    "html_url": "https://github.com/spack/spack/pull/8782",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,21 @@
+{
+    "body": "If the `self.stage.archive_file` is used in a packages it appears that is returns None.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI was able to reproduce with both Miniconda versions; however I should find / try other packages using this variables.\r\n\r\n```console\r\n$ spack install miniconda3\r\n...\r\n$ spack install miniconda2\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> Installing miniconda3\r\n==> Searching for binary cache of miniconda3\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for miniconda3 found: installing from source\r\n==> Using cached archive: /spack/var/spack/cache/miniconda3/miniconda3-4.6.14.None\r\n==> Staging unexpanded archive /spack/var/spack/stage/miniconda3-4.6.14-6i3ashynd6pvi4fkr6e4ty5a6l6tqhx5/Miniconda3-4.6.14-Linux-x86_64.sh in /spack/var/spack/stage/miniconda3-4.6.14-6i3ashynd6pvi4fkr6e4ty5a6l6tqhx5/spack-src\r\n==> Created stage in /spack/var/spack/stage/miniconda3-4.6.14-6i3ashynd6pvi4fkr6e4ty5a6l6tqhx5\r\n==> No patches needed for miniconda3\r\n==> Building miniconda3 [Package]\r\n==> Executing phase: 'install'\r\n==> Error: TypeError: expected str, bytes or os.PathLike object, not NoneType\r\n\r\n/spack/var/spack/repos/builtin/packages/miniconda3/package.py:26, in install:\r\n         23    def install(self, spec, prefix):\r\n         24        # peel the name of the script out of the pathname of the\r\n         25        # downloaded file\r\n  >>     26        dir, script = split(self.stage.archive_file)\r\n         27        bash = which('bash')\r\n         28        bash(script, '-b', '-f', '-p', self.prefix)\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ uname -a\r\nLinux xx-fe1.cluster 3.10.0-957.12.2.el7.x86_64 #1 SMP Tue May 14 21:24:32 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ python --version\r\nPython 2.7.5\r\n\r\n$ cat /etc/os-release\r\nNAME=\"CentOS Linux\"\r\nVERSION=\"7 (Core)\"\r\n```\r\n\r\nNot also reproduced with `Python 2.7.15`\r\n",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/11816",
+    "updated_at": "2019-06-21 23:56:39",
+    "created_at": "2019-06-21 18:14:14",
+    "closed_at": "2019-06-21 23:56:39",
+    "state": "closed",
+    "title": "self.stage.archive_file appears to return None",
+    "number": 11816,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 459314925,
+    "html_url": "https://github.com/spack/spack/issues/11816",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

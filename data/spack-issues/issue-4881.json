@@ -1,0 +1,21 @@
+{
+    "body": "lammps will not install with intel compiler 17.0.4. When I check spack-build.out, it is empty.\r\n\r\nThe only errors I see are:\r\n```\r\n==> Error: AttributeError: 'Spec' object has no attribute 'mpicxx_shared_libs'\r\n/blues/gpfs/home/software/spack-0.10.1/var/spack/repos/builtin/packages/lammps/package.py:98, in edit:\r\n     62       def edit(self, spec, prefix):\r\n     63           config = []\r\n     64   \r\n     65           config.append('CC = c++')\r\n     66           if self.compiler.name == 'intel':\r\n     67               # This is taken from MAKE/OPTIONS/Makefile.intel_cpu_intelmpi\r\n     68               config.append('OPTFLAGS = -xHost -O2 -fp-model fast=2 -no-prec-div -qoverride-limits')  # noqa: E501\r\n     69               config.append('CCFLAGS = -g -qopenmp -DLAMMPS_MEMALIGN=64 -no-offload -fno-alias -ansi-alias -restrict $(OPTFLAGS)')  # noqa: E501\r\n     70               config.append('LINKFLAGS = -qopenmp $(OPTFLAGS)')\r\n     71           else:\r\n     72               # This is taken from MAKE/OPTIONS/Makefile.g++\r\n     73               config.append('OPTFLAGS = -O3')\r\n     74               config.append('CCFLAGS = -fopenmp')\r\n     75               config.append('LINKFLAGS = -fopenmp $(OPTFLAGS)')\r\n     76   \r\n     77           config.append('SHFLAGS = -fPIC')\r\n     78           config.append('DEPFLAGS = -M')\r\n     79           config.append('LINK = c++')\r\n     80   \r\n     81           config.append('LIB = ')\r\n     82           config.append('SIZE = size')\r\n     83   \r\n     84           config.append('ARCHIVE = ar')\r\n     85           config.append('ARFLAGS = -rc')\r\n     86           config.append('SHLIBFLAGS = -shared')\r\n     87   \r\n     88           config.append('LMP_INC = -DLAMMPS_GZIP')\r\n     89   \r\n     90           mpi_path = self.spec['mpi'].prefix.lib\r\n     91           mpi_inc = self.spec['mpi'].prefix.include\r\n     92   \r\n     93           config.append(\r\n     94               'MPI_INC = -DMPICH_SKIP_MPICXX -DOMPI_SKIP_MPICXX=1 -I{0}'.format(\r\n     95                   mpi_inc))\r\n     96           config.append('MPI_PATH = -L{0}'.format(mpi_path))\r\n     97           config.append('MPI_LIB = {0}'.format(\r\n  >> 98               ' '.join(self.spec['mpi'].mpicxx_shared_libs)))\r\n     99   \r\n     100          config.append('FFT_INC = -DFFT_FFTW3 -L{0}'.format(\r\n     101              self.spec['fftw'].prefix.include))\r\n     102          config.append('FFT_PATH = -L{0}'.format(self.spec['fftw'].prefix.lib))\r\n     103          config.append('FFT_LIB = -lfftw3')\r\n     104  \r\n     105          config.append('JPG_INC = ')\r\n     106          config.append('JPG_PATH = ')\r\n     107          config.append('JPG_LIB = ')\r\n     108  \r\n     109          makefile_inc_template = \\\r\n     110              join_path(os.path.dirname(self.module.__file__),\r\n     111                        'Makefile.inc')\r\n     112          with open(makefile_inc_template, \"r\") as fhr:\r\n     113              config.extend(fhr.read().split('\\n'))\r\n     114  \r\n     115          with working_dir('src/MAKE/'):\r\n     116              with open('Makefile.{0}'.format(self.target_name), 'w') as fh:\r\n     117                  fh.write('\\n'.join(config))\r\n\r\nSee build log for details:\r\n  /tmp/ssergien/spack-stage/spack-stage-I_NfTZ/lammps-stable_17Nov2016/spack-build.out\r\n```",
+    "user": "ssergien",
+    "url": "https://api.github.com/repos/spack/spack/issues/4881",
+    "updated_at": "2017-09-11 18:48:33",
+    "created_at": "2017-07-24 16:47:27",
+    "closed_at": "2017-09-11 18:48:33",
+    "state": "closed",
+    "title": "lammps will not install with intel compiler 17.0.4",
+    "number": 4881,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "mpi",
+        "intel"
+    ],
+    "id": 245141413,
+    "html_url": "https://github.com/spack/spack/issues/4881",
+    "assignees": [],
+    "comments": 6
+}

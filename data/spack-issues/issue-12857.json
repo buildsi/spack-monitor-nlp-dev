@@ -1,0 +1,25 @@
+{
+    "body": "Fixes #12651\r\nFixes #12798\r\nFixes #13009 \r\n\r\nThis PR restructures tests needing to temporarily change the`config:build_stage` path such that the tests no longer create or overwrite the setting in `$HOME/.spack/config.yaml`.  The change also appears to resolve stage path related issues when filtering tests on staging.\r\n\r\nThis PR consists of **two distinct commits**.  The first provides support for nested `overrides` scopes, which are created via the `spack.config.override` context manager.  The second commit changes how the `autouse`'d `mock_stage` and assorted test fixtures and tests establish their temporary stage directories. \r\n\r\nTODO :\r\n- [x]  Resolve test failures and errors (by setting `stage._stage_root` instead of using `spack.config.override`)\r\n- [x] Address potential presence of `$spack/test-stage` (made `test-stage` hidden)\r\n- [x] Address fixture vs test issue for `test_get_stage_root_in_spack` (added directory presence check)\r\n- [x] Make `overrides-` (internal overrides base name) a `config.py` variable\r\n- [x] Change `always_access_path` name and fixture\r\n- [x] Update `test_stage_purge` docstring\r\n- [x] Hide `test_stage` within a spack instance; ensure stage root is a directory\r\n- [x] Move base name of config override scope to `config.py`\r\n- [x] Change name and comment for `always_access_path` fixture to reflect it mocking `can_access`\r\n- [x] Correct `test_stage_purge` docstring\r\n- [x] Add `spack` to `test_stage` within a spack instance (to reduce odds of conflict)\r\n- [x] Move `instance_path_for_stage` fixture code into the only test using it\r\n- [x] Change a couple of stage test asserts\r\n- [x] Remove stage-related use of `nomockstage`\r\n- [x] Change docstring for `test_get_stage_root_in_spack`\r\n- [x] Add TODO to address requested `tmp_build_stage_dir` follow-on work",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/12857",
+    "updated_at": "2019-10-16 19:01:15",
+    "created_at": "2019-09-18 02:36:47",
+    "closed_at": "2019-10-10 23:50:07",
+    "state": "closed",
+    "title": "Tests/bugfix: clean up build stage handling; no user config.yaml change (#12651, #12798, #13009)",
+    "number": 12857,
+    "milestone": null,
+    "labels": [
+        "refactoring",
+        "tests",
+        "impact-medium",
+        "stage",
+        "bugfix"
+    ],
+    "id": 494952191,
+    "html_url": "https://github.com/spack/spack/pull/12857",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 12
+}

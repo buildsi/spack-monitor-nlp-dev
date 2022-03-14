@@ -1,0 +1,19 @@
+{
+    "body": "I'm working on version bumping `ncbi-toolkit` to `22_0_0` and found that:\r\n1. Upstream's configure script generates the build directory only using the major version number of `gcc` and setting the other version digits to zero, which is why the spack build fails for `gcc@8.3.0` below.\r\n2. The spack build further restricts one only to using the `gcc` compiler, but upstream supports `intel`, etc, so the useless compiler restriction should also be removed.\r\n\r\nPatch incoming that addresses both issues.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install ncbi-toolkit@22_0_0\r\n--snip--\r\n==> Created stage in /home/omsai/src/libkmap/spack/var/spack/stage/ncbi-toolkit-22_0_0-r4gzkg7temhtcdjqztodgizppujvqudb\r\n==> Ran patch() for ncbi-toolkit\r\n==> Building ncbi-toolkit [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: OSError: [Errno 2] No such file or directory: 'GCC830-DebugMT64/build'\r\n\r\n/home/omsai/src/libkmap/spack/var/spack/repos/builtin/packages/ncbi-toolkit/package.py:45, in build:\r\n         42        compiler_version = self.compiler.version.joined\r\n         43\r\n         44        with working_dir(join_path(\r\n  >>     45                'GCC{0}-DebugMT64'.format(compiler_version), 'build')):\r\n         46            make('all_r')\r\n\r\nSee build log for details:\r\n  /home/omsai/src/libkmap/spack/var/spack/stage/ncbi-toolkit-22_0_0-r4gzkg7temhtcdjqztodgizppujvqudb/spack-build-out.txt\r\n```\r\n\r\nThe actual directory upstream creates for gcc@8.3.0 is:\r\n`./spack-src/GCC800-DebugMT64/build`\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a\r\nLinux xm1 4.19.0-5-amd64 #1 SMP Debian 4.19.37-5+deb10u1 (2019-07-19) x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tDebian GNU/Linux 10 (buster)\r\n$ gcc --version | head -1\r\ngcc (Debian 8.3.0-6) 8.3.0\r\n``` \r\n\r\n```YAML\r\n# compilers.yaml\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: debian10\r\n    paths:\r\n      cc: /usr/bin/gcc-8\r\n      cxx: /usr/bin/g++-8\r\n      f77: /usr/bin/gfortran-8\r\n      fc: /usr/bin/gfortran-8\r\n    spec: gcc@8.3.0\r\n```\r\n",
+    "user": "omsai",
+    "url": "https://api.github.com/repos/spack/spack/issues/12276",
+    "updated_at": "2019-08-15 17:49:53",
+    "created_at": "2019-08-04 18:49:23",
+    "closed_at": "2019-08-15 17:49:52",
+    "state": "closed",
+    "title": "Installation issue: ncbi-toolkit",
+    "number": 12276,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 476582314,
+    "html_url": "https://github.com/spack/spack/issues/12276",
+    "assignees": [],
+    "comments": 2
+}

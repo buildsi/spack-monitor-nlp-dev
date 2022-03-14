@@ -1,0 +1,24 @@
+{
+    "body": "Building a set of spack packages inside of an anonymous environment produced module files without proper paths to the external packages.  Specifically, I was building the LBANN environment as detailed at https://lbann.readthedocs.io/en/latest/building_lbann.html.  The environment uses external packages for cmake, cuda, and mvapich2.  Previous versions of spack correctly created the modules for each of these.  With the head of develop from Thursday 10/24 just prior to the release of 0.13, spack was no longer able to properly create the module files.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\nUsing the lbann build instructions:\r\n\r\n```console\r\n$ export LBANN_HOME=/path/to/lbann/git/repo\r\n$ export LBANN_BUILD_DIR=/path/to/a/build/directory\r\n$ export LBANN_INSTALL_DIR=/path/to/an/install/directory\r\n$ cd ${LBANN_BUILD_DIR}\r\n$ spack env create -d . ${LBANN_HOME}/spack_environments/developer_release_<arch>_cuda_spack.yaml # where <arch> = x86_64 | ppc64le\r\n$ cp ${LBANN_HOME}/spack_environments/std_versions_and_variants_llnl_lc_cz.yaml .\r\n$ cp ${LBANN_HOME}/spack_environments/externals_<arch>_llnl_lc_cz.yaml . # where <arch> = x86_64 | ppc64le\r\n$ spack install\r\n$ spack env loads # Spack creates a file named loads that has all of the correct modules\r\n$ source ${SPACK_ROOT}/share/spack/setup-env.sh # Rerun setup since spack doesn't modify MODULEPATH unless there are module files defined\r\n$ source loads\r\n```\r\n\r\n### Error Message\r\n\r\nIf you try to follow the rest of the build instructions at this point you will find that the module files for cuda, cmake, and mvapich2 are not properly generated.  These are the three external packages used.\r\n\r\n### Information on your system\r\n\r\nThis is done on an x86 + GPU system on LC using the directions for developers at:\r\nhttps://lbann.readthedocs.io/en/latest/building_lbann.html for the https://github.com/LLNL/lbann/ project.\r\n\r\n-----\r\n",
+    "user": "bvanessen",
+    "url": "https://api.github.com/repos/spack/spack/issues/13486",
+    "updated_at": "2019-11-05 13:01:11",
+    "created_at": "2019-10-29 16:39:03",
+    "closed_at": "2019-11-05 13:01:10",
+    "state": "closed",
+    "title": "Module files for external packages are not properly created in anonymous environments",
+    "number": 13486,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "external-packages",
+        "environments"
+    ],
+    "id": 514061744,
+    "html_url": "https://github.com/spack/spack/issues/13486",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

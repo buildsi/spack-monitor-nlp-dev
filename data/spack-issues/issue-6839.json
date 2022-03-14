@@ -1,0 +1,17 @@
+{
+    "body": "### Summary\r\n\r\nThe current recipe for metis allows conflicting optimization levels to appear on the compile line in a way that isn't expected. For example: `spack -d install metis build_type=RelWithDebInfo cflags=\"-O3 -g\"` doesn't compile with the expected CFLAGS.  I expect to see compile lines similar to this:\r\n\r\n```\r\n/usr/bin/gcc -O3 -g <include directives and defines> -o file.o -c file.c\r\n```\r\n\r\n### Actual Result\r\n\r\n```\r\n/usr/bin/gcc -O3 -g <include directives and defines> -O3 -O2 -g -DDNDEBUG -o file.o -c file.c\r\n```\r\n\r\nBecause `-O2` is listed after `-O3` the optimization is not what I expect.  I believe the `-O2 -g -DDNDEBUG` flags are inserted by CMake as they are the default `CMAKE_C__FLAGS_RELWITHDEBINFO` values for gcc.\r\n\r\nI'm actually not sure where that second `-O3` is coming from.\r\n\r\n### Possible solution\r\n\r\nIf `SPACK_CFLAGS` is set in the build environment, then zero-out the cmake defaulted `CMAKE_C_FLAGS_XXX` variables.\r\n\r\nI have a patch incoming (#6840) to fix this problem (if it passes review).\r\n\r\n### Related Issues\r\n\r\n#6732 \r\n#6640 \r\n#6749 \r\n#6745 \r\n#6714 \r\n  ",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/6839",
+    "updated_at": "2019-05-09 14:21:09",
+    "created_at": "2018-01-05 22:16:43",
+    "closed_at": "2019-05-09 14:21:09",
+    "state": "closed",
+    "title": "metis doesn't always respect cflags",
+    "number": 6839,
+    "milestone": null,
+    "labels": [],
+    "id": 286420617,
+    "html_url": "https://github.com/spack/spack/issues/6839",
+    "assignees": [],
+    "comments": 9
+}

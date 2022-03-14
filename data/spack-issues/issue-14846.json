@@ -1,0 +1,21 @@
+{
+    "body": "---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install llvm@9.0.1\r\n\r\n...\r\n==> Building libedit [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/tmp/step/spack-stage/spack-stage-libedit-3.1-20170329-6yorh6hmyp7mlm6ihmlnvbypcrazseqj/spack-src/configure' '--prefix=/home/step/environments/dealii-9.1-clang-9.0/spack/opt/spack/linux-ubuntu19.10-skylake/gcc-9.2.1/libedit-3.1-20170329-6yorh6hmyp7mlm6ihmlnvbypcrazseqj'\r\n\r\n1 error found in build log:\r\n     85    checking whether ln -s works... yes\r\n     86    checking for gawk... (cached) gawk\r\n     87    checking for nroff... /usr/bin/nroff\r\n     88    checking for tgetent in -lncurses... no\r\n     89    checking for tgetent in -lcurses... no\r\n     90    checking for tgetent in -ltermcap... no\r\n  >> 91    configure: error: libncurses, libcurses, or libtermcap is required!\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nHere is a brief description of my OS:\r\n```commandline\r\n$ uname -a \r\nLinux Zorn 5.3.0-29-generic #31-Ubuntu SMP Fri Jan 17 17:27:26 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Ubuntu 19.10\r\n``` \r\n\r\n### Additional information\r\n\r\nRecentely, the following lines were added to the packages.py file of llvm:\r\n\r\n```commandline\r\n# ncurses dependency\r\ndepends_on('ncurses+termlib')\r\n```\r\n\r\nand, therefore, now llvm requires that ncurses is compiled with the support for termlib. Unfortunately, it looks like libedit configure is not able to recognize the ncurses library if it is installed with the +termlib flag.\r\n\r\nI am currently using spack (commit d1d5f5f9) without any configuration different from the default one. I do not have any other package installed when I execute\r\n```console\r\nspack install llvm@9.0.1\r\n```\r\nI am using the default compiler of Ubuntu (gcc@9.2.1)\r\n\r\nThank you!\r\n",
+    "user": "spiani",
+    "url": "https://api.github.com/repos/spack/spack/issues/14846",
+    "updated_at": "2020-02-11 14:13:12",
+    "created_at": "2020-02-07 18:19:18",
+    "closed_at": "2020-02-10 18:44:53",
+    "state": "closed",
+    "title": "Installation issue: llvm",
+    "number": 14846,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 561796345,
+    "html_url": "https://github.com/spack/spack/issues/14846",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 15
+}

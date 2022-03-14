@@ -1,0 +1,17 @@
+{
+    "body": "- later versions do not seem to work properly with `libdwarf`.\r\n\r\n@lee218llnl: is this the right resolution?  I think we should keep the preferred version at one that works well with `libdwarf` until there is a fix for the issue described in your email:\r\n\r\n> Elfutils 0.168 was added in [3923bdc](https://github.com/LLNL/spack/commit/3923bdca90bd60678f041d7ad6235c406dc05459#diff-432b6709875797fbdc23169be936fefe) by @kserradell (fixing #3443 by @nicksan2c). The problem appears to be due to the fact that `libdwarf` has a `libdwarfdefs.h` header that does this:\r\n>  \r\n> ```\r\n> #ifndef SHF_COMPRESSED\r\n> /*  This from ubuntu xenial. Is in top of trunk binutils\r\n>     as of February 2016. Elf Section Flag */\r\n> #define SHF_COMPRESSED (1 << 11)\r\n> #endif\r\n>  ```\r\n>  \r\n>  \r\n> While elfutils does this:\r\n>  \r\n> ```\r\n> #ifndef SHF_COMPRESSED\r\n> /* Older glibc elf.h might not yet define the ELF compression types.  */\r\n> #define SHF_COMPRESSED      (1 << 11)  /* Section with compressed data. */\r\n>  \r\n> /* Section compression header.  Used when SHF_COMPRESSED is set.  */\r\n>  \r\n> typedef struct\r\n> {\r\n>    Elf32_Word   ch_type;        /* Compression format.  */\r\n>    Elf32_Word   ch_size;        /* Uncompressed data size.  */\r\n>    Elf32_Word   ch_addralign;   /* Uncompressed data alignment.  */\r\n> } Elf32_Chdr;\r\n>  \r\n> typedef struct\r\n> {\r\n>    Elf64_Word   ch_type;        /* Compression format.  */\r\n>    Elf64_Word   ch_reserved;\r\n>    Elf64_Xword  ch_size;        /* Uncompressed data size.  */\r\n>    Elf64_Xword  ch_addralign;   /* Uncompressed data alignment.  */\r\n> } Elf64_Chdr;\r\n>  \r\n> /* Legal values for ch_type (compression algorithm).  */\r\n> #define ELFCOMPRESS_ZLIB       1          /* ZLIB/DEFLATE algorithm.  */\r\n> #define ELFCOMPRESS_LOOS       0x60000000 /* Start of OS-specific.  */\r\n> #define ELFCOMPRESS_HIOS       0x6fffffff /* End of OS-specific.  */\r\n> #define ELFCOMPRESS_LOPROC     0x70000000 /* Start of processor-specific.  */\r\n> #define ELFCOMPRESS_HIPROC     0x7fffffff /* End of processor-specific.  */\r\n> #endif\r\n>  ```\r\n>  \r\n> Thus the types do not get defined. From https://www.prevanders.net/dwarf.html I found this blurb:\r\n>  \r\n> \u201cSture Carlson reports a new problem compiling libdwarf/dwarf_elf_access.c in CentOS. CentOS-7.3 libelf.h makes an assumption of the connection between SHF_COMPRESSED and Elf32(64)_Chdr that conflicts with libdwarf coding. Moving the SHF_COMPRESSED from a libdwarf header to a C file in libdwarf source fixes the problem very simply. The libdwarf fix is now on sourceforge. (December 20, 2016)\u201d\r\n>  \r\n> It doesn\u2019t look like there is a release yet with this fix in place.\r\n\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/3570",
+    "updated_at": "2017-03-28 16:34:09",
+    "created_at": "2017-03-27 17:21:46",
+    "closed_at": "2017-03-27 18:15:47",
+    "state": "closed",
+    "title": "Make 0.163 the preferred version of elfutils.",
+    "number": 3570,
+    "milestone": null,
+    "labels": [],
+    "id": 217316299,
+    "html_url": "https://github.com/spack/spack/pull/3570",
+    "assignees": [],
+    "comments": 1
+}

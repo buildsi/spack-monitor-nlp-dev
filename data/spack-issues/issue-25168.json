@@ -1,0 +1,21 @@
+{
+    "body": "Requires #25167.\r\n\r\nLong, padded install paths can get to be very long in the verbose install output and prevent people from seeing the real errors in pipeline builds on gitlab.spack.io (see https://github.com/spack/spack/pull/25137#issuecomment-889583746).\r\n\r\nWe filtered padding out of the build login #24514, but it still shows up in all the commands that are run by the build. This has to be filtered out by the `spack.util.executable.Executable` class, as it generates these debug messages.\r\n\r\n- [x] add ability to filter paths from Executable output.\r\n- [x] add a context manager that can enable path filtering\r\n- [x] make `build_process` in `installer.py`\r\n\r\nThis should hopefully allow us to see most of the build output in Gitlab pipeline builds again.\r\n\r\nNote that to do this modification we need #25167, so that we do not just keep indenting all the code in `build_process` as we add context managers.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/25168",
+    "updated_at": "2021-08-03 10:00:34",
+    "created_at": "2021-07-31 09:10:58",
+    "closed_at": "2021-08-03 10:00:33",
+    "state": "closed",
+    "title": "installation: filter padding from command arguments",
+    "number": 25168,
+    "milestone": null,
+    "labels": [
+        "utilities"
+    ],
+    "id": 957207563,
+    "html_url": "https://github.com/spack/spack/pull/25168",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

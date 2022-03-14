@@ -1,0 +1,20 @@
+{
+    "body": "### Before\r\n```\r\n$ spack spec sundials +hypre ^hypre@2.12.1\r\nInput spec\r\n--------------------------------\r\nsundials+hypre\r\n    ^hypre@2.12.1\r\n\r\nNormalized\r\n--------------------------------\r\n==> Error: sundials does not depend on hypre\r\n```\r\n\r\n### After\r\n\r\nWorks as expected.\r\n\r\nThis bug was reported by Julian Andrej over Slack. The problem is that previously, `sundials+hypre` didn't depend on `hypre`, `sundials+hypre+int64` and `sundials+hypre~int64` depended on `hypre`. Spack's concretizer isn't currently smart enough to realize that this represents the entire space of possibilities, and tries to decide whether or not the package actually depends on `hypre` before it makes a final decision as to the value of `+int64`. By specifying that `sundials+hypre` _always_ depends on `hypre`, we can get around this problem.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/6075",
+    "updated_at": "2017-11-02 14:13:50",
+    "created_at": "2017-11-01 13:26:10",
+    "closed_at": "2017-11-02 07:16:44",
+    "state": "closed",
+    "title": "sundials+hypre depends on hypre",
+    "number": 6075,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "dependencies"
+    ],
+    "id": 270307513,
+    "html_url": "https://github.com/spack/spack/pull/6075",
+    "assignees": [],
+    "comments": 0
+}

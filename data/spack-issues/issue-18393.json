@@ -1,0 +1,20 @@
+{
+    "body": "### Bugfix for `gcc@10.0.0:`\r\n\r\n`libdrm %gcc@10.2.0` fails to compile on `linux-ubuntu20.04-skylake_avx512` in `develop` with the following error ([spack-build-out.txt](https://github.com/spack/spack/files/5145785/spack-build-out.txt)):\r\n```console\r\n==> Installing libdrm\r\n==> No binary for libdrm found: installing from source\r\n==> Using cached archive: /data/spack/var/spack/cache/_source-cache/archive/6a/6a5337c054c0c47bc16607a21efa2b622e08030be4101ef4a241c5eb05b6619b.tar.gz\r\n==> libdrm: Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16'\r\n\r\n1 error found in build log:\r\n     308      CC       bufctx.lo\r\n     309      CC       abi16.lo\r\n     310      CCLD     libdrm_nouveau.la\r\n     311    /usr/bin/ld: .libs/pushbuf.o:/tmp/wdconinc/spack-stage/spack-stage-libdrm-2.4.100-maf3nidkjafqyjfc66y4yvzxq6my4zl2/spack-src/nouveau/private.h:1\r\n            3: multiple definition of `nouveau_debug'; .libs/nouveau.o:/tmp/wdconinc/spack-stage/spack-stage-libdrm-2.4.100-maf3nidkjafqyjfc66y4yvzxq6my4zl2\r\n            /spack-src/nouveau/private.h:13: first defined here\r\n     312    /usr/bin/ld: .libs/bufctx.o:/tmp/wdconinc/spack-stage/spack-stage-libdrm-2.4.100-maf3nidkjafqyjfc66y4yvzxq6my4zl2/spack-src/nouveau/private.h:13\r\n            : multiple definition of `nouveau_debug'; .libs/nouveau.o:/tmp/wdconinc/spack-stage/spack-stage-libdrm-2.4.100-maf3nidkjafqyjfc66y4yvzxq6my4zl2/\r\n            spack-src/nouveau/private.h:13: first defined here\r\n     313    /usr/bin/ld: .libs/abi16.o:/tmp/wdconinc/spack-stage/spack-stage-libdrm-2.4.100-maf3nidkjafqyjfc66y4yvzxq6my4zl2/spack-src/nouveau/private.h:13:\r\n             multiple definition of `nouveau_debug'; .libs/nouveau.o:/tmp/wdconinc/spack-stage/spack-stage-libdrm-2.4.100-maf3nidkjafqyjfc66y4yvzxq6my4zl2/s\r\n            pack-src/nouveau/private.h:13: first defined here\r\n  >> 314    collect2: error: ld returned 1 exit status\r\n     315    make[2]: *** [Makefile:657: libdrm_nouveau.la] Error 1\r\n     316    make[1]: *** [Makefile:859: all-recursive] Error 1\r\n     317    make: *** [Makefile:618: all] Error 2\r\n\r\nSee build log for details:\r\n  /tmp/wdconinc/spack-stage/spack-stage-libdrm-2.4.100-maf3nidkjafqyjfc66y4yvzxq6my4zl2/spack-build-out.txt\r\n```\r\n\r\nThis PR adds `CFLAGS=-fcommon` to the `configure` phase when `%gcc@10.0.0:`, which allows the compilation to succeed on my `%gcc@10.2.0:` ([spack-build-out.txt](https://github.com/spack/spack/files/5145819/spack-build-out.txt)).\r\n\r\n### Rewrite to use `AutotoolsPackage`\r\n\r\nFurthermore, anticipating the request, this is an autotools package, so it was rewritten to use AutotoolsPackage. The compiled versions on `%gcc@9.3.0` before and after the change were compared. The libraries had identical md5sum hashes. The only difference is that the previous version explicitly included the `make('check')` step, which is only included with `spack install --test all` in the AutotoolsPackage (as in the successful build output linked above).\r\n\r\n### Newer versions\r\n\r\nFinally, no attempt was made to support newer versions 2.4.101 or 2.4.102, which are distributed only as `tar.xz` files and use meson as the build system.",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/18393",
+    "updated_at": "2020-08-29 21:04:43",
+    "created_at": "2020-08-29 18:20:16",
+    "closed_at": "2020-08-29 20:39:03",
+    "state": "closed",
+    "title": "[libdrm] AutotoolsPackage; %gcc@10.0.0 requires CFLAGS=-fcommon",
+    "number": 18393,
+    "milestone": null,
+    "labels": [
+        "gcc",
+        "update-package"
+    ],
+    "id": 688581275,
+    "html_url": "https://github.com/spack/spack/pull/18393",
+    "assignees": [],
+    "comments": 1
+}

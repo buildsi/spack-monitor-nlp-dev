@@ -1,0 +1,17 @@
+{
+    "body": "I\u2019m may have been missing something obvious but I\u2019m running into the following when installing `czmq` with the latest version of Spack.\r\n```\r\n$ spack install czmq\r\n...\r\n==> Executing phase: 'autoreconf'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/ecp/sw/opt/xeon-x86_64/linux-centos7-x86_64/gcc-4.8.5/autoconf-2.69-dzuvqtysoqchxxlnfcfdvflwlvnwl542/bin/autoreconf' '-ivf' '-I' '/ecp/sw/opt/xeon-x86_64/linux-centos7-x86_64/gcc-4.8.5/pkgconf-1.6.1-zyia6fm5vvznsxxla43wto6vezv3jciz/share/aclocal'\r\n\r\n1 error found in build log:\r\n     5     ==> [2019-09-17-08:03:53.989870] Warning: *        a custom AUTORECO\r\n           NF phase in the package       *\r\n     6     ==> [2019-09-17-08:03:53.989947] Warning: **************************\r\n           *******************************\r\n     7     ==> [2019-09-17-08:03:53.999625] '/ecp/sw/opt/xeon-x86_64/linux-cent\r\n           os7-x86_64/gcc-4.8.5/autoconf-2.69-dzuvqtysoqchxxlnfcfdvflwlvnwl542/\r\n           bin/autoreconf' '-ivf' '-I' '/ecp/sw/opt/xeon-x86_64/linux-centos7-x\r\n           86_64/gcc-4.8.5/pkgconf-1.6.1-zyia6fm5vvznsxxla43wto6vezv3jciz/share\r\n           /aclocal'\r\n     8     autoreconf: Entering directory `.'\r\n     9     autoreconf: configure.ac: not using Gettext\r\n     10    autoreconf: running: aclocal -I /ecp/sw/opt/xeon-x86_64/linux-centos\r\n           7-x86_64/gcc-4.8.5/pkgconf-1.6.1-zyia6fm5vvznsxxla43wto6vezv3jciz/sh\r\n           are/aclocal --force -I config\r\n  >> 11    aclocal: error: couldn't open directory 'config': No such file or di\r\n           rectory\r\n     12    autoreconf: aclocal failed with exit status: 1\r\n\r\n```\r\nI\u2019ve tried on a different machine with the same results. Should note I\u2019ve been able to successfully install this in the past and trying with a Spack revision from a few months ago worked as expected. Looking at the dependencies the only change was a newer version of `zeromq` and I wasn't able to find a specific change to autotools that would seem like I could attribute to this new error?\r\n\r\nhttps://github.com/spack/spack/blob/develop/lib/spack/spack/build_systems/autotools.py#L188\r\n\r\nSo adding the `def autoreconf` to execute the `autogen.sh` seemed like the solution in this case but I'm not an expert on this package so there may exist a better solution.",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/12846",
+    "updated_at": "2019-09-21 01:14:58",
+    "created_at": "2019-09-17 15:05:37",
+    "closed_at": "2019-09-21 01:14:42",
+    "state": "closed",
+    "title": "Added autoreconf stage for czmq",
+    "number": 12846,
+    "milestone": null,
+    "labels": [],
+    "id": 494681951,
+    "html_url": "https://github.com/spack/spack/pull/12846",
+    "assignees": [],
+    "comments": 1
+}

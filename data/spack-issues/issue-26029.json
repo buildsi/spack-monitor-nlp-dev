@@ -1,0 +1,22 @@
+{
+    "body": "fixes #25992\r\n\r\nCurrently the bootstrapping process may need a compiler.\r\n\r\nWhen bootstrapping from sources the need is obvious, while when bootstrapping from binaries it's currently needed in case `patchelf` is not on the system (since it will be then bootstrapped from sources).\r\n\r\nBefore this PR we were searching for compilers as the first operation, in case they were not declared in the configuration. This fails in case we start bootstrapping from within an environment.\r\n\r\nThe fix is to defer the search until we have swapped configuration.\r\n\r\nModifications:\r\n- [x] Search for compilers during bootstrapping _after_ configuration has been swapped\r\n- [x] Add unit tests to avoid regressions",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/26029",
+    "updated_at": "2021-09-18 00:28:48",
+    "created_at": "2021-09-17 10:34:09",
+    "closed_at": "2021-09-18 00:28:48",
+    "state": "closed",
+    "title": "Bootstrap should search for compilers after switching config scopes",
+    "number": 26029,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "tests",
+        "commands",
+        "bootstrap"
+    ],
+    "id": 999203501,
+    "html_url": "https://github.com/spack/spack/pull/26029",
+    "assignees": [],
+    "comments": 0
+}

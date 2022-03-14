@@ -1,0 +1,22 @@
+{
+    "body": "First working design for new spack external add/rm/list command. Would like some feedback on it.\r\n\r\nUsage works as follows:\r\n```spack external add [package_spec] [path_or_module_for_external_pkg]```\r\n```spack external rm [package_spec]```\r\n```spack external list```\r\nAll take an optional scope flag\r\n\r\n**external add**\r\nThe external add command takes in a package spec (with or without a package version) and either a path or module name. This information is passed to the ExternalPackage class which then validates the path or module and attempts to detect a version. If a version is not detected and the user did not specify a version in the spec, a version is spit out. Otherwise, that version is appended to the spec. An external package object is created and is used to add an entry to packages.yaml. \r\n\r\nexample:\r\n```\u250c[mamelara::spack\r\n\u2514\u2524[16:53] \u279c spack external add mpich@7.4.4%gcc@6.2.0 cray-mpich/7.4.4\r\n==> Added mpich@7.4.4%gcc@6.2.0 to /global/homes/m/mamelara/.spack/cray/packages.yaml\r\n```\r\n\r\n**external rm**\r\nThe external rm command also takes as input a package_spec. It will remove the specified spec entry from a package. If that package entry is empty (no specs) then that entire package entry is removed.\r\n\r\nexample:\r\n```\r\n\u250c[mamelara::spack\r\n\u2514\u2524[16:54] \u279c spack external rm mpich@7.4.4%gcc@6.2.0\r\n==> Removed package: mpich@7.4.4%gcc@6.2.0\r\n==> Removed mpich\r\n```\r\n**external list**\r\nOutputs the contents of a list. Similar to compiler list. \r\n\r\noutput:\r\n```\r\n\u250c[mamelara::spack\r\n\u2514\u2524[16:56] \u279c spack external list\r\n==> Available external packages\r\n-- petsc --------------------------------------------------------\r\npetsc@3.6.1.0%gcc@6.2.0   cray-petsc/3.6.1.0\r\n\r\n-- mkl ----------------------------------------------------------\r\nmkl@11.3.2.181%intel@16.0.3.210   /opt/intel/compilers_and_libraries_2016.3.210/linux/mkl\r\n\r\n-- netcdf -------------------------------------------------------\r\nnetcdf@4.4.1%intel@16.0.3.210   cray-netcdf/4.4.1\r\nnetcdf@4.4.1%gcc@6.2.0          cray-netcdf/4.4.1\r\n\r\n-- hdf5 ---------------------------------------------------------\r\nhdf5@1.8.16%gcc@6.2.0          cray-hdf5/1.8.16\r\nhdf5@1.8.14%intel@16.0.3.210   cray-hdf5/1.8.14\r\nhdf5@1.8.16%intel@16.0.3.210   cray-hdf5/1.8.16\r\n```\r\n\r\nSo far I've tested this on Cori and on my Mac. Please feel free to comment on it and I'm open to all kinds of suggestions and looking to improve functionality and design. Thanks!\r\n\r\nNote: I'm not too excited about how I have been detecting versions from packages. Currently, I just look through the path for something that looks like a version and stick it on to the spec string. I also parse the output of module avail but not sure if my way is too NERSC specific. \r\n\r\nAnother thing, I added more tests and a mock modulefiles path to test modulecmd with fake modulefiles. Hopefully people will find that useful.",
+    "user": "mamelara",
+    "url": "https://api.github.com/repos/spack/spack/issues/2507",
+    "updated_at": "2020-05-06 00:37:35",
+    "created_at": "2016-12-07 16:07:05",
+    "closed_at": "2020-05-06 00:37:35",
+    "state": "closed",
+    "title": "Feature/external",
+    "number": 2507,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "RFC"
+    ],
+    "id": 194091141,
+    "html_url": "https://github.com/spack/spack/pull/2507",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 21
+}

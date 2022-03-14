@@ -1,0 +1,22 @@
+{
+    "body": "Hi,\r\n\r\nI am trying to install all R packages from spack in an environment. I can install most of them properly, but `r-cairo` and others dependent on this one fail.\r\n\r\n\r\nThen I proceed to install packages and get the following for `r-cairo`:\r\n```sh\r\nspack -d install\r\n...\r\n  >> 147    xlib-backend.c:34:10: fatal error: X11/Intrinsic.h: No such file or directory\r\n     148       34 | #include <X11/Intrinsic.h>      /*->    Xlib.h  Xutil.h Xresource.h .. */\r\n     149          |          ^~~~~~~~~~~~~~~~~\r\n     150    compilation terminated.\r\n  >> 151    make: *** [xlib-backend.o] Error 1\r\n     152    make: *** Waiting for unfinished jobs....\r\n     153    ERROR: compilation failed for package 'Cairo'\r\n\r\n...\r\n```\r\n\r\n### Information on my system\r\n\r\n```sh\r\n$ spack debug report\r\n* **Spack:** 0.16.1-1621-e9c399110e\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-cascadelake\r\n* **Concretizer:** original\r\n```\r\n### Additional information\r\nMy environment config file looks like this:\r\n```yaml\r\nspack:\r\n  # add package specs to the `specs` list\r\n  #concretization: separately\r\n  concretization: together\r\n  packages:\r\n    all:\r\n      compiler:\r\n      - gcc@10.2.0\r\n      target:\r\n      - linux-centos7-x86_64\r\n    r:\r\n      version:\r\n      - 4.0.4\r\n      variants: +X+rmath\r\n    cairo:\r\n      version:\r\n      - 1.16.0\r\n      variants: +X+fc+ft+gobject+pdf+png\r\n    harfbuzz:\r\n      version:\r\n      - 2.6.8\r\n      variants: +graphite2\r\n    proj:\r\n      version:\r\n      - 7.2.1\r\n  view: true\r\n  specs:\r\n  - r-...\r\n  - ...\r\n```\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "jacorvar",
+    "url": "https://api.github.com/repos/spack/spack/issues/25149",
+    "updated_at": "2021-08-09 07:27:58",
+    "created_at": "2021-07-30 13:21:25",
+    "closed_at": "2021-08-09 07:27:58",
+    "state": "closed",
+    "title": "r-cairo installation fails",
+    "number": 25149,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "triage"
+    ],
+    "id": 956741898,
+    "html_url": "https://github.com/spack/spack/issues/25149",
+    "assignees": [
+        "glennpj"
+    ],
+    "comments": 9
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Previously, we could only match strings.\r\n\r\n```\r\nspack:\r\n  definitions:\r\n  - mpis: [mvapich2@2.3.1]\r\n    when: target=='haswell'\r\n```\r\n\r\nBut we could not match ranges of targets. Now we can, using the `arch` or `architecture` fields.\r\n\r\n```\r\nspack:\r\n  definitions:\r\n  - mpis: [mvapich2@2.3.1]\r\n    when: arch.satisfies('target=x86_64:')\r\n```\r\n\r\nUsers can still use string matching for the architecture, against the new field `arch_str`.\r\n\r\n```\r\nspack:\r\n  definitions:\r\n  - mpis: [mvapich2@2.3.1]\r\n    when: arch_str == 'linux-rhel7-broadwell'\r\n```",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/17056",
+    "updated_at": "2020-06-25 17:13:33",
+    "created_at": "2020-06-11 16:12:31",
+    "closed_at": "2020-06-25 17:13:27",
+    "state": "closed",
+    "title": "environment spec lists: improve ability to query architecture in when clauses",
+    "number": 17056,
+    "milestone": null,
+    "labels": [
+        "environments"
+    ],
+    "id": 637149766,
+    "html_url": "https://github.com/spack/spack/pull/17056",
+    "assignees": [],
+    "comments": 0
+}

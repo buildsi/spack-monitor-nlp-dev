@@ -1,0 +1,17 @@
+{
+    "body": "Linux-only for now\r\n\r\n- adds experimental support for \"locking\" attempts at doing `spack install package` multiple times simultaneously with the same spack instance (can be a problem leading to errors in certain CI testing situations, for example)\r\n- the regression test, while reproducibly failing locally before the fix & passing after, is a little gruesome with `subprocess` shell usage---there may be better ways to use your mocking test infrastructure here?\r\n\r\nHere's a simple example of this working for me locally on a Linux box, along with output:\r\n\r\n```\r\ntyler@machine:$ spack install bzip2 & spack install bzip2 && wait\r\n[1] 32050\r\nAcquired spack install Linux lock\r\nspack is currently locked from additional install commands to protect against undesirable behavior with simultaneous installs\r\n==> libiconv is already installed in /home/tyler/github_projects/spack/opt/spack/linux-ubuntu18.04-skylake_avx512/gcc-7.4.0/libiconv-1.16-ajkkpczfc3ijoubpfvksfghjg6hy2ovq\r\n==> diffutils is already installed in /home/tyler/github_projects/spack/opt/spack/linux-ubuntu18.04-skylake_avx512/gcc-7.4.0/diffutils-3.7-woopak5zo6qrczxc37b4r6wvwm5o5snx\r\n==> Installing bzip2\r\n==> Searching for binary cache of bzip2\r\n==> No binary for bzip2 found: installing from source\r\n==> Using cached archive: /home/tyler/github_projects/spack/var/spack/cache/bzip2/bzip2-1.0.8.tar.gz\r\n==> Staging archive: /tmp/tyler/spack-stage/bzip2-1.0.8-x4qtjiesmosoaosdibkhxsacpovckflu/bzip2-1.0.8.tar.gz\r\n==> Created stage in /tmp/tyler/spack-stage/bzip2-1.0.8-x4qtjiesmosoaosdibkhxsacpovckflu\r\n==> Ran patch() for bzip2\r\n==> Building bzip2 [Package]\r\n==> Executing phase: 'install'\r\n==> Successfully installed bzip2\r\n  Fetch: 0.00s.  Build: 1.92s.  Total: 1.93s.\r\n\r\n```\r\n\r\ncc @junghans ",
+    "user": "tylerjereddy",
+    "url": "https://api.github.com/repos/spack/spack/issues/13217",
+    "updated_at": "2020-02-19 08:04:23",
+    "created_at": "2019-10-14 23:45:59",
+    "closed_at": "2020-02-19 08:04:23",
+    "state": "closed",
+    "title": "WIP, ENH: Linux simultaneous install locking",
+    "number": 13217,
+    "milestone": null,
+    "labels": [],
+    "id": 506926204,
+    "html_url": "https://github.com/spack/spack/pull/13217",
+    "assignees": [],
+    "comments": 7
+}

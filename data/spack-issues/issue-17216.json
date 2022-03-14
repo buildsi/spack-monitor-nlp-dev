@@ -1,0 +1,22 @@
+{
+    "body": "The new `test_make_elf_binaries_relative` path check suffers the same issue as those for rpath tests in #16637; namely, some compilers add rpaths.  \r\n\r\nThis PR changes from an equality comparison to 'contains' to reflect this difference.\r\n\r\nThe output I was getting _prior to_ this change was:\r\n```\r\n=================================== FAILURES ===================================\r\n_______________________ test_make_elf_binaries_relative ________________________\r\n\r\nhello_world = <function hello_world.<locals>._factory at 0x2aab66598a60>\r\ncopy_binary = <function copy_binary.<locals>._copy_somewhere at 0x2aab66598f28>\r\ntmpdir = local('/tmp/$USER/pytest-of-$USER/pytest-0/test_make_elf_binaries_relativ0')\r\n\r\n    @pytest.mark.requires_executables('patchelf', 'strings', 'file', 'gcc')\r\n    def test_make_elf_binaries_relative(hello_world, copy_binary, tmpdir):\r\n        orig_binary = hello_world(rpaths=[\r\n            str(tmpdir.mkdir('lib')), str(tmpdir.mkdir('lib64')), '/opt/local/lib'\r\n        ])\r\n        new_binary = copy_binary(orig_binary)\r\n    \r\n        spack.relocate.make_elf_binaries_relative(\r\n            [str(new_binary)], [str(orig_binary)], str(orig_binary.dirpath())\r\n        )\r\n    \r\n>       assert rpaths_for(new_binary) == '$ORIGIN/lib:$ORIGIN/lib64:/opt/local/lib'\r\nE       AssertionError: assert '/usr/tce/pac...opt/local/lib' == '$ORIGIN/lib:$...opt/local/lib'\r\nE         - /usr/tce/packages/gcc/gcc-4.9.3/lib:/usr/tce/packages/gcc/gcc-4.9.3/lib64:$ORIGIN/lib:$ORIGIN/lib64:/opt/local/lib\r\nE         + $ORIGIN/lib:$ORIGIN/lib64:/opt/local/lib\r\n\r\nlib/spack/spack/test/relocate.py:340: AssertionError\r\n```",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/17216",
+    "updated_at": "2020-06-23 22:17:36",
+    "created_at": "2020-06-23 19:19:50",
+    "closed_at": "2020-06-23 22:17:36",
+    "state": "closed",
+    "title": "bugfix/tests: check rpath presence not equality",
+    "number": 17216,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "bugfix"
+    ],
+    "id": 644084854,
+    "html_url": "https://github.com/spack/spack/pull/17216",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 1
+}

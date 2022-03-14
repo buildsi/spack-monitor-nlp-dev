@@ -1,0 +1,17 @@
+{
+    "body": "When building CGNS with 4 cores, the following error was some times encountered:\r\n\r\n```\r\n[ 12%] Building C object src/CMakeFiles/cgns_shared.dir/cgns_io.c.o\r\ncd /tmp/bherman/spack-stage/spack-stage-cgns-4.1.1-e6lye4cpaks5oz2mo57qolnu4u5s4m7v/spack-build-e6lye4c/src && /opt/spack/install/linux-centos7-x86_64/gcc-10.2.0/openmpi-3.1.6-bjtbd4j4/bin/mpicc -DH5_BUILT_AS_STATIC_LIB -Dcgns_shared_EXPORTS -I/tmp/bherman/spack-stage/spack-stage-cgns-4.1.1-e6lye4cpaks5oz2mo57qolnu4u5s4m7v/spack-build-e6lye4c/src -I/tmp/bherman/spack-stage/spack-stage-cgns-4.1.1-e6lye4cpaks5oz2mo57qolnu4u5s4m7v/spack-src/src -I/opt/spack/install/linux-centos7-x86_64/gcc-10.2.0/hdf5-1.10.7-eegw7wms/include -I/opt/spack/install/linux-centos7-x86_64/gcc-10.2.0/zlib-1.2.11-apt6zkja/include -I/opt/spack/install/linux-centos7-x86_64/gcc-10.2.0/libszip-2.1.1-hrholadp/include -O2 -g -DNDEBUG -fPIC -o CMakeFiles/cgns_shared.dir/cgns_io.c.o -c /tmp/bherman/spack-stage/spack-stage-cgns-4.1.1-e6lye4cpaks5oz2mo57qolnu4u5s4m7v/spack-src/src/cgns_io.c\r\nf951: Fatal Error: Cannot rename module file 'cgns.mod0' to 'cgns.mod': No such file or directory\r\ncompilation terminated.\r\n```\r\n\r\nThere is likely an issue in the way CMake is being leveraged resulting in a race condition. Instead of digging into CGNS's CMake process, setting ``parallel = False`` fixes the problem in the short term. The package does not take too long to build on a single core.",
+    "user": "bryanherman",
+    "url": "https://api.github.com/repos/spack/spack/issues/21766",
+    "updated_at": "2021-04-07 11:41:57",
+    "created_at": "2021-02-18 18:26:26",
+    "closed_at": "2021-02-19 11:11:07",
+    "state": "closed",
+    "title": "CGNS: set parallel build to False to fix cp error",
+    "number": 21766,
+    "milestone": null,
+    "labels": [],
+    "id": 811351835,
+    "html_url": "https://github.com/spack/spack/pull/21766",
+    "assignees": [],
+    "comments": 2
+}

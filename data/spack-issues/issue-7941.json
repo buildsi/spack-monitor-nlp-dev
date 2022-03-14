@@ -1,0 +1,22 @@
+{
+    "body": "For specs that have multi-valued variants specified and a dependency following them, the string representation of a Spec might be parsed differently from the originating Spec.\r\n\r\n### Expected Result\r\n\r\nIf I declare something like:\r\n```python\r\nSpack version 0.11.2\r\nPython 2.7.6, Linux x86_64\r\n>>> import spack.spec\r\n>>> s = spack.spec.Spec('fftw+mpi simd=avx2 ^mvapich2')\r\n>>> str(s)\r\n'fftw+mpi simd=avx2^mvapich2'\r\n>>> t = spack.spec.Spec(str(s))\r\n```\r\nI expect `s` and `t` to be semantically the same spec\r\n\r\n### Actual Result\r\nThe fact that `str(s)` is emitted without a space between the variant value and the dependency causes Spack to interpret `avx2^mvapich2` as a unique token.\r\n\r\n### Steps to reproduce the issue\r\n```python\r\nSpack version 0.11.2\r\nPython 2.7.6, Linux x86_64\r\n>>> import spack.spec\r\n>>> s = spack.spec.Spec('fftw+mpi simd=avx2 ^mvapich2')\r\n>>> str(s)\r\n'fftw+mpi simd=avx2^mvapich2'\r\n>>> t = spack.spec.Spec(str(s))\r\n>>> s.concretize()\r\n>>> t.concretize()\r\nTraceback (most recent call last):\r\n  File \"<console>\", line 1, in <module>\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 1829, in concretize\r\n    changes = (self.normalize(force),\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 2206, in normalize\r\n    self.validate_or_raise()\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/spec.py\", line 2268, in validate_or_raise\r\n    substitute_abstract_variants(spec)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/variant.py\", line 615, in substitute_abstract_variants\r\n    pkg_variant.validate_or_raise(new_variant, spec.package_class)\r\n  File \"/home/mculpo/PycharmProjects/spack/lib/spack/spack/variant.py\", line 135, in validate_or_raise\r\n    raise InvalidVariantValueError(self, not_allowed_values, pkg)\r\nInvalidVariantValueError: invalid values for variant \"simd\" in package \"fftw\": ['avx2^mvapich2']\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\nShould not be relevant, as the problem is very likely in the parsing.\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/7941",
+    "updated_at": "2018-05-07 07:05:51",
+    "created_at": "2018-04-30 06:47:07",
+    "closed_at": "2018-05-07 07:05:51",
+    "state": "closed",
+    "title": "String representation of a spec might be semantically different from the originating spec",
+    "number": 7941,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs"
+    ],
+    "id": 318799032,
+    "html_url": "https://github.com/spack/spack/issues/7941",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

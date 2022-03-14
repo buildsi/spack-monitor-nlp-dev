@@ -1,0 +1,21 @@
+{
+    "body": "This PR adds a variant to every package that extends `CMakePackage` to control [`CMAKE_BUILD_TYPE`](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html). \r\n\r\nInstead of having every package override `build_type` on their own, I figure the best way to do this is to create a universal variant for all `CMakePackage` packages.\r\n\r\nStill stumbling over a few hurdles. Apparently not all CMake packages have the same possible build types? @davydden Can you confirm that `dealii` only has the following possible values?\r\n```python\r\n# CMAKE_BUILD_TYPE should be DebugRelease | Debug | Release \r\n```\r\n`symengine` may or may not be in the same boat. Does anyone know how to check what the possible values are for any given project? I want to make sure I didn't break any of the other packages.\r\n\r\nSo I need a way of being able to override the possible values of a variant in a subclass. A simple variable didn't do the trick as the variant was registered before the value was changed. @alalazo Any ideas?\r\n\r\nAnother question: do we want the values to be lowercase or CamelCase?\r\n\r\nJust a heads up, this will change the variants (and therefore the specs/hashes) of every CMakePackage in Spack.\r\n\r\n@mathstuf may also be interested in this discussion.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4797",
+    "updated_at": "2017-07-26 00:19:49",
+    "created_at": "2017-07-17 21:22:29",
+    "closed_at": "2017-07-25 23:34:44",
+    "state": "closed",
+    "title": "Add universal build_type variant to CMakePackage",
+    "number": 4797,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "variants",
+        "cmake"
+    ],
+    "id": 243531714,
+    "html_url": "https://github.com/spack/spack/pull/4797",
+    "assignees": [],
+    "comments": 39
+}

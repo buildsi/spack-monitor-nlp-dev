@@ -1,0 +1,19 @@
+{
+    "body": "Hi I'm working with NERSC and we are thinking of implementing the spack package manager to our system.\nWe would like to eventually build a substantial amount of bioinformatic tools using spack.\n\nI've been testing out writing formula using blast. I've been receiving this error:\n==> Installing blast\n==> Trying to fetch from ftp://ftp.ncbi.nlm.nih.gov/2.2.30/executables/blast+/2.2.30/ncbi-2.2.30-2.2.30+-src.tar.gz\n\ncurl: (9) Server denied you to change to the given directory\n==> Fetching from ftp://ftp.ncbi.nlm.nih.gov/2.2.30/executables/blast+/2.2.30/ncbi-2.2.30-2.2.30+-src.tar.gz failed.\n==> Error: All fetchers failed for blast@2.2.30%gcc@4.8=unknown_arch\n\nOne thing that I've noticed is that it changes blast into version 2.2.30 thus giving the wrong URL. Does spack recognize the blast keyword and turns it into it's version number?\n\nHere is the formula that I've written:\n\n```\n   from spack import *\n   class Blast(Package) \n   homepage = \"http://blast.ncbi.nlm.nih.gov\"\n   url      = \"ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.30/ncbi-blast-2.2.30+-src.tar.gz\"\n\n   version('2.2.30', 'f8e9a5eb368173142fe6867208b73715')\n\n  def install(self, spec, prefix):\n      configure(\"--prefix=%s\" % prefix)\n      make()\n      make(\"install\")\n```\n\nThanks for your help!\n",
+    "user": "mamelara",
+    "url": "https://api.github.com/repos/spack/spack/issues/51",
+    "updated_at": "2016-06-21 00:10:33",
+    "created_at": "2015-06-04 18:59:48",
+    "closed_at": "2016-06-21 00:10:33",
+    "state": "closed",
+    "title": "Installing Blast Error: Curl: (9) Server denied you to change to the given directory ",
+    "number": 51,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 85230872,
+    "html_url": "https://github.com/spack/spack/issues/51",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\n$ spack install meson\r\n$ spack load meson\r\n$ meson --help\r\nmeson --help\r\nTraceback (most recent call last):\r\n  File \"/sw-ng/spack/opt/spack/linux-opensuse_leap15-sandybridge/gcc-11.2.0/meson-0.59.2-w3xwpklyb6mnoosqb6oclexad6clr2on/bin/meson\", line 6, in <module>\r\n    from pkg_resources import load_entry_point\r\n  File \"/usr/lib/python3.6/site-packages/pkg_resources/__init__.py\", line 3123, in <module>\r\n    @_call_aside\r\n  File \"/usr/lib/python3.6/site-packages/pkg_resources/__init__.py\", line 3107, in _call_aside\r\n    f(*args, **kwargs)\r\n  File \"/usr/lib/python3.6/site-packages/pkg_resources/__init__.py\", line 3136, in _initialize_master_working_set\r\n    working_set = WorkingSet._build_master()\r\n  File \"/usr/lib/python3.6/site-packages/pkg_resources/__init__.py\", line 578, in _build_master\r\n    ws.require(__requires__)\r\n  File \"/usr/lib/python3.6/site-packages/pkg_resources/__init__.py\", line 895, in require\r\n    needed = self.resolve(parse_requirements(requirements))\r\n  File \"/usr/lib/python3.6/site-packages/pkg_resources/__init__.py\", line 781, in resolve\r\n    raise DistributionNotFound(req, requirers)\r\npkg_resources.DistributionNotFound: The 'meson==0.59.2' distribution was not found and is required by the application\r\n$ echo $PYTHONPATH\r\n/sw-ng/spack/opt/spack/linux-opensuse_leap15-sandybridge/gcc-11.2.0/py-setuptools-57.4.0-p7r4vvplum63eqqx6tf7qwfitk7ppalp/lib64/python3.6/site-packages:/sw-ng/spack/opt/spack/linux-opensuse_leap15-sandybridge/gcc-11.2.0/meson-0.59.2-w3xwpklyb6mnoosqb6oclexad6clr2on/lib64/python3.6/site-packages:/sw-ng/spack/opt/spack/linux-opensuse_leap15-sandybridge/gcc-11.2.0/py-setuptools-57.4.0-p7r4vvplum63eqqx6tf7qwfitk7ppalp/lib64/python3.6/site-packages:/sw-ng/spack/opt/spack/linux-opensuse_leap15-sandybridge/gcc-11.2.0/ninja-1.10.2-x4i5ucjcn43khkqqjam4ae3xqcn5ahtk/misc\r\n$ ls /sw-ng/spack/opt/spack/linux-opensuse_leap15-sandybridge/gcc-11.2.0/meson-0.59.2-w3xwpklyb6mnoosqb6oclexad6clr2on/lib64/python3.6/site-packages\r\n$ ls /sw-ng/spack/opt/spack/linux-opensuse_leap15-sandybridge/gcc-11.2.0/meson-0.59.2-w3xwpklyb6mnoosqb6oclexad6clr2on/lib/python3.6/site-packages\r\nmeson-0.59.2-py3.6.egg-info  mesonbuild\r\n```\r\n\r\nMeaning: the directory included in `$PYTHONPATH` does not contain the Meson distro while the `lib` dir would.\r\n\r\n@michaelkuhn\n\n### Information on your system\n\n* **Spack:** 0.16.3-4672-572791006d\r\n* **Python:** 3.6.13\r\n* **Platform:** linux-opensuse_leap15-sandybridge\r\n* **Concretizer:** clingo\n\n### Additional information\n\nSince this is not a build problem, but rather that the installed files are broken I don't have the spack-build* files.\r\nI wonder whether this is a general problem with Python packages.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "dev-zero",
+    "url": "https://api.github.com/repos/spack/spack/issues/26546",
+    "updated_at": "2022-01-14 02:11:17",
+    "created_at": "2021-10-06 07:07:45",
+    "closed_at": "2022-01-14 02:11:17",
+    "state": "closed",
+    "title": "Installation issue: meson broken on multilib systems with lib/lib64 split (like openSUSE)",
+    "number": 26546,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1017644355,
+    "html_url": "https://github.com/spack/spack/issues/26546",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 15
+}

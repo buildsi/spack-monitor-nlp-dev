@@ -1,0 +1,20 @@
+{
+    "body": "Hello,\r\n\r\nAs posted on [google group](https://groups.google.com/forum/#!topic/spack/WdbtdkZb6lk), I am trying Spack on Cray KNL system. On other Cray systems (XK-7/XC-30), `spack compiler find` auto-detects **PrgEnv-***.  On this KNL system, this auto-detection isn't working.\r\n\r\nI am looking at `lib/spack/spack/operating_systems/cnl.py`, line 56:\r\n\r\n```\r\n            output = modulecmd(\r\n                'avail', cmp_cls.PrgEnv_compiler, output=str, error=str)\r\n\r\n            # added this debug line\r\n            print \"DEBUG ===> : \", cmp_cls, paths, cmp_cls.PrgEnv_compiler, \"OUTPUT : =>\", output\r\n```\r\nWith this, `spack compiler find` gives : \r\n\r\n```\r\nDEBUG ===> :  <class 'spack.compilers.Gcc'> ('/home/kumbhar/spack/bin', '/opt/cray/pe/mpt/7.5.0......................................................................./misc', '/usr/lib/mit/bin', '/usr/lib/mit/sbin', '/opt/cray/pe/bin') gcc OUTPUT : => ModuleCmd_Avail.c(821):ERROR:64: Directory '/usr/bin/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/jdb' not found\r\nutility.c(2263):ERROR:50: Cannot open file '/usr/bin/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/keygen' for 'reading'\r\nModuleCmd_Avail.c(821):ERROR:64: Directory '/usr/bin/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/X11/ControlPanel' not found\r\nutility.c(2263):ERROR:50: Cannot open file\r\n..............................................\r\n\r\n```\r\n\r\nBefore looking into further details, anything obviously wrong here?\r\n\r\nThanks!\r\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2572",
+    "updated_at": "2017-01-09 18:37:19",
+    "created_at": "2016-12-13 16:12:58",
+    "closed_at": "2017-01-09 18:37:19",
+    "state": "closed",
+    "title": "Spack on Cray KNL system and module detection error",
+    "number": 2572,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "compilers"
+    ],
+    "id": 195296005,
+    "html_url": "https://github.com/spack/spack/issues/2572",
+    "assignees": [],
+    "comments": 15
+}

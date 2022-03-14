@@ -1,0 +1,22 @@
+{
+    "body": "This PR will add a new audit, specifically for spack package homepage urls (and eventually other kinds I suspect) to see if there is an http address that can be changed to https. Usage is as follows:\r\n\r\n```bash\r\n$ spack audit packages-https <package>\r\n```\r\nAnd in list view:\r\n\r\n```bash\r\n$ spack audit list\r\ngeneric:\r\n  Generic checks relying on global variables\r\n\r\nconfigs:\r\n  Sanity checks on compilers.yaml\r\n  Sanity checks on packages.yaml\r\n\r\npackages:\r\n  Sanity checks on specs used in directives\r\n\r\npackages-https:\r\n  Sanity checks on https checks of package urls, etc.\r\n```\r\n\r\nI think it would be unwise to include with packages, because when run for all, since we do requests it takes a long time. I also like the idea of more well scoped checks - likely there will be other addresses for http/https within a package that we eventually check. For now, there are two error cases - one is when an https url is tried but there is some SSL error (or other error that means we cannot update to https):\r\n\r\n```bash\r\n$ spack audit packages-https zoltan\r\nPKG-HTTPS-DIRECTIVES: 1 issue found\r\n1. Error with attempting https for \"zoltan\": \r\n    <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.cs.sandia.gov'. (_ssl.c:1125)>\r\n```\r\nThis is either not fixable, or could be fixed with a change to the url or (better) contacting the site owners to ask about some certificate or similar.\r\n\r\nThe second case is when there is an http that needs to be https, which is a huge issue now, but hopefully not after this spack PR.\r\n\r\n```bash\r\n$ spack audit packages-https xman\r\nPackage \"xman\" uses http but has a valid https endpoint.\r\n```\r\n\r\nAnd then when a package is fixed:\r\n\r\n```bash\r\n$ spack audit packages-https zlib\r\nPKG-HTTPS-DIRECTIVES: 0 issues found.\r\n```\r\nAnd that's mostly it. :)",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/25670",
+    "updated_at": "2021-09-02 06:46:27",
+    "created_at": "2021-08-27 23:56:04",
+    "closed_at": "2021-09-02 06:46:27",
+    "state": "closed",
+    "title": "Add spack audit packages-https",
+    "number": 25670,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "maintainers"
+    ],
+    "id": 981668122,
+    "html_url": "https://github.com/spack/spack/pull/25670",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

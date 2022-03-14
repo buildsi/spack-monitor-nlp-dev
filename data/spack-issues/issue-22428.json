@@ -1,0 +1,24 @@
+{
+    "body": "updates to:\r\n\r\n - ascent\r\n - vtk-h\r\n - vtk-m\r\n - dray\r\n - mfem\r\n - babelflow\r\n - parallelmergetree\r\n\r\nThese changes are intertwined, I tested building the chain of packages using the following spack env setups in ascent's ci containers, here are the spack.yaml files:\r\n\r\nubuntu 18 based:\r\nhttps://github.com/Alpine-DAV/ascent/blob/develop/scripts/uberenv/spack_envs/ci/ubuntu_18_devel/spack.yaml\r\n\r\nubuntu 18 + cuda 10.1 based:\r\nhttps://github.com/Alpine-DAV/ascent/blob/develop/scripts/uberenv/spack_envs/ci/ubuntu_18_cuda_10.1_devel/spack.yaml\r\n\r\nSeveral of these packages are primarily used in ascent - so building with ascent is a good test of changes to the packages. \r\n\r\nI hope to not break these up b/c I have already spent many days testing. \r\n\r\nHere are some more details:\r\n\r\n- This allows vtk-m to be built using cuda 10.1 (prev had a min of 10.2). This is the default version on summit and we have used 10.1 to successfully build ascent + vtk-m.\r\n- This removes `vtk-m@ascent_ver`, since non-numeric versions are very difficult to wield\r\n- This limits the issue in #22459 to only apply to mfem 4.1 (where the BOM bytes exist in the mfem release)\r\n- This removes a few version constraint forwarding statements from package.py files (we expect to suggest usable combos in spack envs)\r\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/22428",
+    "updated_at": "2021-03-26 21:10:33",
+    "created_at": "2021-03-19 23:30:32",
+    "closed_at": "2021-03-26 20:47:46",
+    "state": "closed",
+    "title": "update ascent and friends for the ascent 0.7.0 release",
+    "number": 22428,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "versions",
+        "variants",
+        "update-package",
+        "ecp"
+    ],
+    "id": 836476180,
+    "html_url": "https://github.com/spack/spack/pull/22428",
+    "assignees": [],
+    "comments": 23
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Adds ZeroMQ 4.2.2, which has a slightly modified build environment and fails when build from the [official tarball](https://github.com/zeromq/libzmq/releases/download/v4.2.2/zeromq-4.2.2.tar.gz) (so we checkout [the git tag](https://github.com/zeromq/libzmq/issues/2621)). The `autoreconf` step depends on #4736.\r\n- [x] update: I used the wrong tarball link, we can also use the `.tar.gz` instead and sha it\r\n- but that release does not build with [some versions of CMake anyway](https://github.com/zeromq/libzmq/issues/2621#issuecomment-314782300)\r\n\r\nAdds the C++ Headers for ZeroMQ aka `cppzmq` that first build with `libzmq` (ZeroMQ) [v4.2.2](https://github.com/zeromq/libzmq/pull/2295).\r\n\r\nUnfortunately, in order to install the C++ headers of ZeroMQ, the `libzmq` (ZeroMQ package) needs to build [as `CMakePackage` instead of `AutotoolsPackage`](https://github.com/zeromq/cppzmq/pull/128). Otherwise, the [CMake module to find it is not created and installed](https://github.com/zeromq/libzmq/issues/2621#issuecomment-315297320).\r\n\r\nNow, if we generally change the build to use CMake for ZeroMQ it seems to fail on already submitted versions... How do we proceed? Can we specify to build all further versions in `4.2.0:` with CMake and the older with autotools? Or shall I add a temporary `FindZeroMQ.cmake` in the patch step from [some issue I found on the internet](https://github.com/zeromq/cppzmq/issues/127)? :)\r\n\r\n## Update\r\n\r\n- [x] I might just patch in https://github.com/zeromq/cppzmq/issues/132 and we can stay with autotools",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/4737",
+    "updated_at": "2017-07-21 12:51:42",
+    "created_at": "2017-07-12 13:54:19",
+    "closed_at": "2017-07-17 08:24:59",
+    "state": "closed",
+    "title": "ZeroMQ: C++ Headers (cppzmq)",
+    "number": 4737,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "new-package",
+        "WIP",
+        "RFC"
+    ],
+    "id": 242388390,
+    "html_url": "https://github.com/spack/spack/pull/4737",
+    "assignees": [],
+    "comments": 4
+}

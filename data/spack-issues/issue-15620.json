@@ -1,0 +1,24 @@
+{
+    "body": "Since #15381 was merged, I'm seeing a KeyError when I try to submit build jobs on Cray.\r\n\r\n### Spack version\r\n\r\n```console\r\n$ spack --version\r\n0.14.1-323-4b771bc52\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nI'm using the following PBS file on Blue Waters:\r\n```bash\r\n$ cat build-pytorch.pbs \r\n#!/usr/bin/env bash\r\n#PBS -l nodes=1:ppn=32:xe\r\n#PBS -l walltime=48:00:00\r\n#PBS -q normal\r\n#PBS -N pytorch-0.4.1\r\n#PBS -A bbcj\r\n#PBS -j oe\r\n#PBS -M adamjs5@illinois.edu\r\n#PBS -m abef\r\n\r\n# Modules\r\n# See https://github.com/numpy/numpy/issues/14233\r\nmodule load binutils\r\n\r\n# Environment\r\n. ~/spack/share/spack/setup-env.sh\r\n\r\n# Build PyTorch\r\naprun env spack --color=never install --test=root py-torch@0.4.1\r\n```\r\n\r\n### Error Message\r\n\r\nThe build fails with the following error:\r\n```\r\nTraceback (most recent call last):\r\n  File \"/u/sciteam/stewart1/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/main.py\", line 770, in main\r\n    if spack.config.get('config:debug'):\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/config.py\", line 671, in get\r\n    return config.get(path, default, scope)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/llnl/util/lang.py\", line 552, in __getattr__\r\n    return getattr(self.instance, name)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/llnl/util/lang.py\", line 548, in instance\r\n    self._instance = self.factory()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/config.py\", line 653, in _config\r\n    _add_platform_scope(cfg, ConfigScope, name, path)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/config.py\", line 606, in _add_platform_scope\r\n    platform = spack.architecture.platform().name\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/llnl/util/lang.py\", line 178, in _memoized_function\r\n    func.cache[args] = func(*args)\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/architecture.py\", line 516, in platform\r\n    return platform_cls()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/platforms/cray.py\", line 63, in __init__\r\n    _target = self._default_target_from_env()\r\n  File \"/mnt/a/u/sciteam/stewart1/spack/lib/spack/spack/platforms/cray.py\", line 121, in _default_target_from_env\r\n    env={'TERM': os.environ['TERM']},\r\n  File \"/usr/lib64/python2.6/UserDict.py\", line 22, in __getitem__\r\n    raise KeyError(key)\r\nKeyError: 'TERM'\r\n```\r\n`TERM` is set when I am logged in to the login nodes, but not when I submit a job.\r\n\r\n### Information on your system\r\n\r\nCray CNL5 Interlagos, Blue Waters\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n@becker33 @tgamblin ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/15620",
+    "updated_at": "2020-04-15 18:05:42",
+    "created_at": "2020-03-21 16:03:04",
+    "closed_at": "2020-04-15 18:05:42",
+    "state": "closed",
+    "title": "KeyError: 'TERM' on Cray ",
+    "number": 15620,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "platform-support",
+        "triage"
+    ],
+    "id": 585527329,
+    "html_url": "https://github.com/spack/spack/issues/15620",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "It seems that commands that were accepting multiple spec constraints now discard everything but the first one. I suspect this may have something to do with changes in the way spec are parsed.\n\nReproducible by : \n\n```\n$ spack install szip\n==> Installing szip\n==> Trying to fetch from file:///home/mculpo/production/spack-mirror/szip/szip-2.1.tar.gz\n######################################################################## 100,0%\n==> Staging archive: /home/mculpo/PycharmProjects/spack/var/spack/stage/szip-2.1-esfmhl54wbdb7nnnip6y6jbxlbmxs2jq/szip-2.1.tar.gz\n==> Created stage in /home/mculpo/PycharmProjects/spack/var/spack/stage/szip-2.1-esfmhl54wbdb7nnnip6y6jbxlbmxs2jq\n==> No patches needed for szip\n==> Building szip\n==> Successfully installed szip\n  Fetch: 0.01s.  Build: 7.92s.  Total: 7.94s.\n[+] /home/mculpo/PycharmProjects/spack/opt/spack/linux-x86_64/gcc-4.8/szip-2.1-esfmhl54wbdb7nnnip6y6jbxlbmxs2jq\n\n$ spack install zlib\n==> Installing zlib\n==> Trying to fetch from file:///home/mculpo/production/spack-mirror/zlib/zlib-1.2.8.tar.gz\n######################################################################## 100,0%\n==> Staging archive: /home/mculpo/PycharmProjects/spack/var/spack/stage/zlib-1.2.8-d6pdl6xvnvap6ihrqcqtgvweghbszmix/zlib-1.2.8.tar.gz\n==> Created stage in /home/mculpo/PycharmProjects/spack/var/spack/stage/zlib-1.2.8-d6pdl6xvnvap6ihrqcqtgvweghbszmix\n==> No patches needed for zlib\n==> Building zlib\n==> Successfully installed zlib\n  Fetch: 0.01s.  Build: 3.23s.  Total: 3.24s.\n[+] /home/mculpo/PycharmProjects/spack/opt/spack/linux-x86_64/gcc-4.8/zlib-1.2.8-d6pdl6xvnvap6ihrqcqtgvweghbszmix\n\n$ spack find szip zlib\n==> 1 installed packages.\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\nszip@2.1\n\n$ spack find zlib szip\n==> 1 installed packages.\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\nzlib@1.2.8\n\n$ spack uninstall szip zlib\n==> The following packages will be uninstalled : \n\n-- linux-x86_64 / gcc@4.8 ---------------------------------------\nesfmhl5 szip@2.1%gcc\n\n\n==> Do you want to proceed ? [y/n]\n...\n```\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/978",
+    "updated_at": "2017-02-08 21:40:41",
+    "created_at": "2016-05-19 09:15:03",
+    "closed_at": "2017-02-08 21:40:41",
+    "state": "closed",
+    "title": "spack <command> ... : some no longer accept multiple specs",
+    "number": 978,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 155689244,
+    "html_url": "https://github.com/spack/spack/issues/978",
+    "assignees": [],
+    "comments": 1
+}

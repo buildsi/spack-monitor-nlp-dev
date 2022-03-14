@@ -1,0 +1,22 @@
+{
+    "body": "We are installing openmpi on a host that happens to have GPFS installed. openmpi detects gpfs.h and links in libgpfs.so; but this prevents the build from being used on other systems that do not have GPFS installed. (It also means that the build depends on state that isn't expressed in its spec.)\r\n\r\n- Why does openmpi see gpfs.h or libgpfs.so? I would have expected the build environment to not expose these during `./configure`.\r\n- If I built this package with the same spec on two similar systems, one with GPFS and one without, would I end up with two different builds that share the same hash?\r\n- I am working on a modification to the openmpi package that would allow this to be controlled; but my first attempt hasn't had the desired effect. See https://www.mail-archive.com/users@lists.open-mpi.org//msg33758.html\r\n\r\n### Spack version\r\n```console\r\n$ spack --version\r\n0.14.1-415-cbcac72\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ rpm -ql gpfs.base | grep -i 'gpfs\\.h'\r\n/usr/lpp/mmfs/include/gpfs.h\r\n$ spack install openmpi\r\n```\r\n\r\n### Error Message\r\n\r\nNo error message in spack; but on hosts that then don't have GPFS.\r\n\r\n```console\r\n   libgpfs.so => not found\r\n   libpsm2.so.2 => not found\r\n```\r\n### Information on your system\r\n```\r\n$ cat /etc/redhat-release \r\nRed Hat Enterprise Linux Server release 7.6 (Maipo)\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "anderbubble",
+    "url": "https://api.github.com/repos/spack/spack/issues/15746",
+    "updated_at": "2020-05-02 16:07:51",
+    "created_at": "2020-03-29 23:49:28",
+    "closed_at": "2020-05-02 16:07:51",
+    "state": "closed",
+    "title": "openmpi links host libgpfs.so with no way to exclude",
+    "number": 15746,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 589914012,
+    "html_url": "https://github.com/spack/spack/issues/15746",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

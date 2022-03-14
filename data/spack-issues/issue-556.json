@@ -1,0 +1,17 @@
+{
+    "body": "This is a continuation of: https://github.com/LLNL/spack/issues/275\n@eschnett @lee218llnl @tgamblin \n\nAdding build dependencies will be a good start, but I don't think it will solve all the problems we're encountering with Python 2 vs. 3.  Consider the following:\n\nSuppose we have Library A and Library B, both of them are C/C++/Fortran libraries that do useful things.  They also come with Python bindings, provided as Python extension modules.  For whatever reason, Library A provides only Python 2 bindings, and Library B provides only Python 3 bindings.\n\nNow I want to build Application C, which depends on Library A and Library B.  As author of Application C, I don't care about Python, I'm just writing a C/C++/Fortran program that uses two libraries.  Linking C with A and B is perfectly legal and correct.  However, Spack as it currently stands would disallow this.\n\nA this point, I have no obvious answer to this problem, I believe some brainstorming is in order.  Let me suggest the following possibilities:\n1. Separate python2 from python3.  Thoughts:\n   a) This makes sense because Python2 and Python3 are different languages with different binaries created by the default Python build.\n   b) I would hope we don't have to go down the slippery slope of creating new package versions for every minor version of Python.\n   c) This won't solve every Python compatibility problem: if Library A needs python3@3.4: and Library B needs python3@3.0:3.3, then we still have an unnecessary incompatibility\n2. What if instead of Library A, we had two packages:\n\n```\n         alib:   Just the C/C++/Fortran library\n         alib-py: Python bindings for alib\n            depends_on('alib')\n            depends_on('python@2.7')\n```\n\nand similarly for B:\n\n```\n         blib:   Just the C/C++/Fortran library\n         blib-py: Python bindings for blib\n            depends_on('blib')\n            depends_on('python@3.2:')\n```\n\nNow we can link alib and blib no problem.  However... How can we make two Spack packages out of a single build?  This is where maybe Spack needs a new feature.  For example... what if we had \"underlying\" packages that then get turned into multiple \"borrowing\" packages:\n\n```\nalib-underlying:  # The underlying package, produces C library and Python extension\n\nalib:\n    depends_on('alib-underlying')\n    To install: copy/link bin/, lib/, etc. directories from alib-underlying\n\nalib-py:\n    depends_on('alib-underlying')\n    To install: copy/link the python/ directory from alib-underlying\n```\n\nThis idea is based on the observation that any package that provides a useful library plus Python bindings is really like two packages in one.  As long as Python-related packages provide ONLY a Python bindings, then I think we'll be able to manage.  But if real-world packages provide multiple things at once, we need to figure out how to separate out Python-only packages.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/556",
+    "updated_at": "2016-03-25 17:11:06",
+    "created_at": "2016-03-16 19:00:39",
+    "closed_at": "2016-03-25 17:11:06",
+    "state": "closed",
+    "title": "REALLY, Maybe There Should be Two Python Packages",
+    "number": 556,
+    "milestone": null,
+    "labels": [],
+    "id": 141370397,
+    "html_url": "https://github.com/spack/spack/issues/556",
+    "assignees": [],
+    "comments": 5
+}

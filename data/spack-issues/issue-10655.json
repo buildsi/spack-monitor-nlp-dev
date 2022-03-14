@@ -1,0 +1,20 @@
+{
+    "body": "The problem happens when `x->y` but `y` does not exist.  This can happen (but is harmless) when using Spack Setup.  See below for how these cases are handled in Python:\r\n```\r\n$ ln -s x y\r\n$ ls -l x\r\nls: cannot access x: No such file or directory\r\n$ ls -l y\r\nlrwxrwxrwx 1 rpfische s1001 1 Feb 20 10:09 y -> x\r\n\r\n\r\n$ python\r\nPython 2.6.9 (unknown, Nov 19 2014, 15:44:49) \r\n[GCC 4.3.4 [gcc-4_3-branch revision 152973]] on linux2\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import os\r\n>>> os.path.exists('x')\r\nFalse\r\n>>> os.path.exists('y')\r\nFalse\r\n\r\n$ echo hello >x\r\n$ python\r\n>>> os.path.exists('x')\r\nTrue\r\n>>> os.path.exists('y')\r\nTrue\r\n\r\n$ rm x\r\n$ python\r\n>>> os.path.islink('y')\r\nTrue\r\n>>> os.path.islink('ggg')\r\nFalse\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10655",
+    "updated_at": "2019-11-21 14:52:01",
+    "created_at": "2019-02-20 15:34:44",
+    "closed_at": "2019-11-21 14:52:01",
+    "state": "closed",
+    "title": "Fix problem detecting a symlink pointing to a non-existent file.",
+    "number": 10655,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments"
+    ],
+    "id": 412488145,
+    "html_url": "https://github.com/spack/spack/pull/10655",
+    "assignees": [],
+    "comments": 1
+}

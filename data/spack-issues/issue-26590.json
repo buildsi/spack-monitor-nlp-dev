@@ -1,0 +1,21 @@
+{
+    "body": "Spack's GCC install hardwires (through the specs file) the linker to adding an rpath entry to GCC's library dir, so that compiled binaries get the right libstdc++ etc. Unfortunately this leaves build tools like CMake unable to automatically remove those hardcoded paths when creating a relocatable installation.\r\n\r\nMy solution is to slightly refactor the way spack modifies the GCC `specs` file so that a simple robust spec file:\r\n```\r\n*link_libgcc_rpath:\r\n\r\n\r\n```\r\nand the linker option `--specs=norpath.spec` will skip the addition of the spack rpaths. (You can instead use CMake's `CMAKE_BUILD_RPATH` to provide the paths to the GCC libraries as needed). I've tested that the updated spec file works exactly like the original with single-line builds of an executable, as well as using GCC to generate shared libraries, and that the spec option above can disable the extra rpaths in both cases.\r\n\r\nFixes #26582 .\r\n\r\nThis *also* fixes the rpath construction on macOS, which has always been incorrect: rpaths must be given as separate rpath commands to the linker, rather than combined with a colon as is the case for linux.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/26590",
+    "updated_at": "2021-10-24 17:46:56",
+    "created_at": "2021-10-08 01:31:10",
+    "closed_at": "2021-10-24 17:46:53",
+    "state": "closed",
+    "title": "gcc: support alternate mechanism for providing GCC rpaths",
+    "number": 26590,
+    "milestone": null,
+    "labels": [
+        "rpath",
+        "gcc",
+        "update-package"
+    ],
+    "id": 1020592624,
+    "html_url": "https://github.com/spack/spack/pull/26590",
+    "assignees": [],
+    "comments": 12
+}

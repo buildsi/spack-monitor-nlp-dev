@@ -1,0 +1,19 @@
+{
+    "body": "On cetus:\r\n\r\nin barry/develop branch\r\n\r\nI tried to install petsc@develop, there was a failure in metis (after recognizing a current installation of mpich)\r\n\r\n```\r\n-- Installing: /gpfs/mira-home/sarich/bspack/opt/spack/bgq-cnk-ppc64/gcc-4.4.7/metis-5.1.0-mlh2krodbxlgsgnqgv4qxu6tm2xfggro/bin/gpmetis\r\nCMake Error at programs/cmake_install.cmake:45 (file):\r\n  file RPATH_CHANGE could not write new RPATH:\r\n\r\n    /gpfs/mira-home/sarich/bspack/opt/spack/bgq-cnk-ppc64/gcc-4.4.7/metis-5.1.0-mlh2krodbxlgsgnqgv4qxu6tm2xfggro/lib:/gpfs/mira-home/sarich/bspack/opt/spack/bgq-cnk-ppc64/gcc-4.4.7/metis-5.1.0-mlh2krodbxlgsgnqgv4qxu6tm2xfggro/lib64\r\n\r\n  to the file:\r\n\r\n    /gpfs/mira-home/sarich/bspack/opt/spack/bgq-cnk-ppc64/gcc-4.4.7/metis-5.1.0-mlh2krodbxlgsgnqgv4qxu6tm2xfggro/bin/gpmetis\r\n\r\n  No valid ELF RPATH or RUNPATH entry exists in the file;\r\nCall Stack (most recent call first):\r\n  cmake_install.cmake:39 (include)\r\n  \r\n```\r\n\r\nAnd what is more, now when I try again, spack tries and fails to install mpich:\r\n```\r\n==> Installing mpich\r\n==> Warning: There is no checksum on file to fetch mpich@3 safely.\r\n  Fetch anyway? [y/N] ==> Error: EOFError: EOF when reading a line\r\n/gpfs/mira-home/sarich/bspack/lib/spack/spack/package.py:941, in do_fetch:\r\n     922      def do_fetch(self, mirror_only=False):\r\n     923          \"\"\"\r\n     924          Creates a stage directory and downloads the tarball for this package.\r\n     925          Working directory will be set to the stage directory.\r\n     926          \"\"\"\r\n     927          if not self.spec.concrete:\r\n     928              raise ValueError(\"Can only fetch concrete packages.\")\r\n     929  \r\n     930          start_time = time.time()\r\n     931          if spack.do_checksum and self.version not in self.versions:\r\n     932              tty.warn(\"There is no checksum on file to fetch %s safely.\" %\r\n     933                       self.spec.format('$_$@'))\r\n     934  \r\n     935              # Ask the user whether to skip the checksum if we're\r\n     936              # interactive, but just fail if non-interactive.\r\n     937              ck_msg = \"Add a checksum or use --no-checksum to skip this check.\"\r\n     938              ignore_checksum = False\r\n     939              if sys.stdout.isatty():\r\n     940                  ignore_checksum = tty.get_yes_or_no(\"  Fetch anyway?\",\r\n  >> 941                                                      default=False)\r\n     942                  if ignore_checksum:\r\n     943                      tty.msg(\"Fetching with no checksum.\", ck_msg)\r\n     944  \r\n     945              if not ignore_checksum:\r\n     946                  raise FetchError(\"Will not fetch %s\" %\r\n     947                                   self.spec.format('$_$@'), ck_msg)\r\n     948  \r\n     949          self.stage.fetch(mirror_only)\r\n     950  \r\n     951          self._fetch_time = time.time() - start_time\r\n     952  \r\n     953          if spack.do_checksum and self.version in self.versions:\r\n     954              self.stage.check()\r\n     955  \r\n     956          self.stage.cache_local()\r\n```\r\n",
+    "user": "sarich",
+    "url": "https://api.github.com/repos/spack/spack/issues/2242",
+    "updated_at": "2017-01-10 18:42:24",
+    "created_at": "2016-11-04 15:52:16",
+    "closed_at": "2017-01-10 18:42:24",
+    "state": "closed",
+    "title": "spack trying and failing to install mpich (set as not buildable) after failed metis build",
+    "number": 2242,
+    "milestone": null,
+    "labels": [
+        "xSDK"
+    ],
+    "id": 187369520,
+    "html_url": "https://github.com/spack/spack/issues/2242",
+    "assignees": [],
+    "comments": 1
+}

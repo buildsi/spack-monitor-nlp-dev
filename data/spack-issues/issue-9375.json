@@ -1,0 +1,19 @@
+{
+    "body": "I have encountered what I believe to be 2 bugs with the ```buildcache``` feature\r\n\r\n- Bug 1: Cannot install dependencies from build cache\r\n- Bug 2: Modules must be refreshed after being installed from buildcache\r\n\r\n### Information on your system\r\nI am running spack inside of Docker containers for SLES12 SP1. Other than what Spack needs to run, nothing else is installed in any of the containers.\r\n\r\n### Bug 1 - cannot install from cache\r\nWithin Docker containers I have built a number of compilers using Spack (multiple versions of GCC and LLVM/Clang). For each one I created a buildcache and pushed them to a central webserver (all to the same repository, thus making me from index.html from each before uploading (otherwise we would be overwriting that file constantly).\r\n\r\nWhile in another Docker container, I want to install another package that may share dependencies with some GCC or LLVM that was already built. I want to simply use whatever is in the build cache if it is there. So I add the mirror and install whatever it is I want to install.\r\n\r\ne.g.\r\n```\r\nspack mirror add my_build_cache https://server/path/to/buildcache/\r\nspack install --use-cache llvm@3.5.1\r\n```\r\n\r\nIn this particular case, it is able to pull some packages out of the buildcache and build others that are not there, but fails with an unknown error when it tries to pull out ```bzip2@1.0.6``` from the build cache. _Nothing_ is reported, simply an ```==> Error:```\r\n\r\n### Bug 2 - modules installed from build cache must be refreshed\r\nAfter building a compiler in one Docker container and uploading it a build cache, I attempted to install it in another Docker container. I added my mirror pointing to the build cache, and simply did:\r\n\r\n```\r\nspack install gcc@8.2.0\r\n```\r\n\r\nThis installation completed, but spack could not find the new compiler. I had to do the following:\r\n\r\n```\r\nspack module refresh gcc@8.2.0\r\n```\r\n\r\nAt this point, spack was able to find the compiler.\r\n",
+    "user": "Lnk2past",
+    "url": "https://api.github.com/repos/spack/spack/issues/9375",
+    "updated_at": "2018-10-15 18:18:17",
+    "created_at": "2018-09-27 19:43:16",
+    "closed_at": "2018-10-12 17:43:07",
+    "state": "closed",
+    "title": "spack buildcache doesn't generate module files",
+    "number": 9375,
+    "milestone": null,
+    "labels": [],
+    "id": 364625833,
+    "html_url": "https://github.com/spack/spack/issues/9375",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```spack install -j8 --fail-fast --only dependencies dealii```\r\n\r\nTrilinos fails to compile.\n\n### Information on your system\n\n* **Spack:** 0.16.2-4210-b12f38383c\r\n* **Python:** 3.9.6\r\n* **Platform:** darwin-bigsur-m1\r\n* **Concretizer:** original\r\n\r\ncompilers.yaml\r\n\r\n```\r\ncompilers:\r\n- compiler:\r\n    spec: apple-clang@12.0.5\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /opt/homebrew/bin/gfortran\r\n      fc: /opt/homebrew/bin/gfortran\r\n    flags: {}\r\n    operating_system: bigsur\r\n    target: aarch64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\npackages.yaml\r\n\r\n```\r\npackages:\r\n   dealii: \r\n      variants: ~examples +simplex ~nanoflann ~gmsh ~oce +trilinos ~arborx\r\n   hdf5:\r\n      variants: +fortran +cxx +hl\r\n   petsc:\r\n      variants: +mumps +suite-sparse\r\n   cgns:\r\n      variants: +fortran\r\n   trilinos:\r\n      variants: +rol\r\n   all:\r\n      providers:\r\n         mpi: [openmpi]\r\n         blas: [openblas]\r\n         lapack: [openblas]\r\n```\n\n### Additional information\n\n[spack-build-out.txt](https://github.com/spack/spack/files/7147193/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7147194/spack-build-env.txt)\r\n\r\n@keitat  @kuberry  @sethrj\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "cpraveen",
+    "url": "https://api.github.com/repos/spack/spack/issues/25900",
+    "updated_at": "2022-02-09 19:04:48",
+    "created_at": "2021-09-11 04:10:01",
+    "closed_at": "2021-09-13 14:51:39",
+    "state": "closed",
+    "title": "Installation issue: Trilinos on macos BigSur and m1 cpu",
+    "number": 25900,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 993741675,
+    "html_url": "https://github.com/spack/spack/issues/25900",
+    "assignees": [],
+    "comments": 11
+}

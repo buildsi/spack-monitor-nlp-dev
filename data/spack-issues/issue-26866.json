@@ -1,0 +1,25 @@
+{
+    "body": "### Steps to reproduce\r\n\r\n```yaml\r\nspack:\r\n  specs:\r\n  - sirius ^intel-mkl\r\n  \"packages:\":\r\n    all:\r\n      compiler: [gcc, intel, pgi, clang, xl, nag, fj, aocc]\r\n      providers:\r\n        blas: [openblas, amdblis]\r\n        fftw-api: [fftw, amdfftw]\r\n        lapack: [openblas, amdlibflame]\r\n        mkl: [intel-mkl]\r\n        mpi: [openmpi, mpich]\r\n        scalapack: [netlib-scalapack, amdscalapack]\r\n```\r\n\r\n`spack -e . concretize` shows `openblas@0.3.18`, `intel-mkl@2020.4.304`, `fftw@3.3.9`\r\n\r\nmeaning, repeated providers for blas, lapack (openblas / intel-mkl) and fftw-api (fftw, intel-mkl).\r\n\r\nI can't find a Spack version where this does *not* happen right now.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26866",
+    "updated_at": "2021-10-25 07:16:39",
+    "created_at": "2021-10-21 08:29:23",
+    "closed_at": "2021-10-25 07:11:05",
+    "state": "closed",
+    "title": "concretizer does not take a unique provider",
+    "number": 26866,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "workaround",
+        "impact-medium",
+        "concretizer-use-case"
+    ],
+    "id": 1032207935,
+    "html_url": "https://github.com/spack/spack/issues/26866",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 17
+}

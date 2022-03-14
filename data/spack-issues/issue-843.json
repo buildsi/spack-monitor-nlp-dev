@@ -1,0 +1,17 @@
+{
+    "body": "This PR adds a trivial implementation of building the dependencies of a given package in parallel, using\n`spack install --parallel <target>`\n\nIt spawns each a thread per dependency. As the CPU time is spent outside Python this should be sufficient for a significant speedup. Concerning thread-safety I currently rely on\n- the GIL for all Python code\n- the separation of environments via os.fork for the actual build processes\n- an explicit handling to avoid building the same package multiple times\n\nAs I have no idea which implicit assumptions I break (how does `extends` behave?), I marked this feature as _experimental_ in the help message. Will be a long way to completion I suppose.\n",
+    "user": "hegner",
+    "url": "https://api.github.com/repos/spack/spack/issues/843",
+    "updated_at": "2018-06-05 19:15:51",
+    "created_at": "2016-04-27 02:53:18",
+    "closed_at": "2017-09-17 03:14:09",
+    "state": "closed",
+    "title": "Add parallelization in the build process",
+    "number": 843,
+    "milestone": null,
+    "labels": [],
+    "id": 151287112,
+    "html_url": "https://github.com/spack/spack/pull/843",
+    "assignees": [],
+    "comments": 5
+}

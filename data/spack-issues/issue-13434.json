@@ -1,0 +1,20 @@
+{
+    "body": "#13410 upgraded the database version, which is something we should've done after #12933.  However, Spack reindexes the whole database on read.  It can seem like Spack is taking a *really* long time to do this (10-20 seconds on my mac, and I'm sure much longer on a cluster with NFS and more installs).\r\n\r\nReindexing takes a significant amount of time, and there's no reason to do it from DB version `0.9.3` to version `5`. The only difference is that v5 can contain \"deprecated_for\" fields, which doesn't actually require a reindex -- just that we indicate when we've written a DB that could contain `deprecated_for` fields.\r\n\r\nAnother issue is that we print nothing when we do the reindex.  So for me, it just seemed like Spack was cranking away and taking a really long time and I hit ctrl-c.  When I launched Spack again, the reindex hadn't completed.\r\n\r\nI think we should rethink reindexing on DB upgrade and try to avoid it.  For now (for the 0.13.0 release) I'm just making it so that we skip it, since it is not necessary anyway.\r\n\r\n- [x] Add a `_skip_reindex` list at the start of `database.py`\r\n- [x] Skip the reindex for upgrades in this list. The new version will just be written to the file the first time we actually have to write the DB out (e.g., after an install), and reads will still work fine.\r\n- [x] Add a message so that users will know when we are reindexing.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/13434",
+    "updated_at": "2019-12-24 09:09:50",
+    "created_at": "2019-10-25 06:22:05",
+    "closed_at": "2019-10-25 14:10:04",
+    "state": "closed",
+    "title": "bugfix: reindexing is not necessary for DB v0.9.3 to v5 upgrade",
+    "number": 13434,
+    "milestone": null,
+    "labels": [
+        "pkg-database",
+        "performance"
+    ],
+    "id": 512326712,
+    "html_url": "https://github.com/spack/spack/pull/13434",
+    "assignees": [],
+    "comments": 0
+}

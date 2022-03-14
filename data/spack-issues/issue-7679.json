@@ -1,0 +1,21 @@
+{
+    "body": "We have two compiler definitions for the same compiler install so that different sets of cxxflags can be used. Generating lmod files for packages built with the first compiler defintion fails.\r\n\r\ncompilers.yaml:\r\n\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/gcc\r\n      cxx: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/g++\r\n      f77: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/gfortran\r\n      fc: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/gfortran\r\n    spec: gcc@6.4.0\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n      cxxflags: '-std=c++17'\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/gcc\r\n      cxx: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/g++\r\n      f77: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/gfortran\r\n      fc: /home/gartung/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-6.4.0-vg3iy5rdxcj2mnnohcnn2ogioasheuos/bin/gfortran\r\n    spec: gcc@6.4.0-1\r\n    target: x86_64\r\n\r\nSession where error is reproduced.\r\n\r\n[gartung@gartung ~]$ spack -d module refresh --delete-tree -m lmod patchelf\r\n==> READ LOCK: /home/gartung/spack/opt/spack/.spack-db/lock[0:0] [Acquiring]\r\n==> READ LOCK: /home/gartung/spack/opt/spack/.spack-db/lock[0:0] [Acquired]\r\n==> READ LOCK: /home/gartung/spack/opt/spack/.spack-db/lock[0:0] [Released]\r\n==> You are about to regenerate lmod module files for:\r\n\r\n-- linux-rhel7-x86_64 / gcc@4.8.5 -------------------------------\r\nxuekuii patchelf@0.9\r\n\r\n-- linux-rhel7-x86_64 / gcc@6.4.0 -------------------------------\r\nu54e2uh patchelf@0.9\r\n\r\n-- linux-rhel7-x86_64 / gcc@6.4.0-1 -----------------------------\r\nj52vdz2 patchelf@0.9\r\n\r\n==> Do you want to proceed? [y/n] y\r\n==> Regenerating lmod module files\r\n==> \tWRITE: patchelf@0.9%gcc@4.8.5 arch=linux-rhel7-x86_64 /xuekuii [/home/gartung/spack/share/spack/lmod/linux-rhel7-x86_64/Core/patchelf/0.9-xueku.lua]\r\n==> Reading config file /home/gartung/spack/etc/spack/compilers.yaml\r\n==> \tWRITE: patchelf@0.9%gcc@6.4.0 arch=linux-rhel7-x86_64 /u54e2uh [/home/gartung/spack/share/spack/lmod/linux-rhel7-x86_64/gcc/6.4.0/patchelf/0.9-u54e2.lua]\r\n==> Warning: Could not write module file [/home/gartung/spack/share/spack/lmod/linux-rhel7-x86_64/gcc/6.4.0/patchelf/0.9-u54e2.lua]\r\n==> Warning: \t--> Compiler configuration contains entries with duplicate specification (gcc@6.4.0, linux-rhel7-x86_64) in the following files:\r\n\t/home/gartung/spack/etc/spack/compilers.yaml: 2 times <--\r\n==> \tWRITE: patchelf@0.9%gcc@6.4.0-1 arch=linux-rhel7-x86_64 /j52vdz2 [/home/gartung/spack/share/spack/lmod/linux-rhel7-x86_64/gcc/6.4.0-1/patchelf/0.9-j52vd.lua]\r\n\r\n\r\n",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/7679",
+    "updated_at": "2018-08-07 18:54:19",
+    "created_at": "2018-04-05 20:45:42",
+    "closed_at": "2018-08-07 18:54:19",
+    "state": "closed",
+    "title": "lmod generation with multiple compiler definitions using same compiler path fails for first definition",
+    "number": 7679,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 311762812,
+    "html_url": "https://github.com/spack/spack/issues/7679",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

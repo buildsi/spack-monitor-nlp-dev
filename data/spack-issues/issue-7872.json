@@ -1,0 +1,19 @@
+{
+    "body": "If you run from a non-existant directory, you get this wonderful error message upon Spack startup:\r\n\r\n```\r\n$ spack --debug env twoway-dev concretize\r\nshell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\r\nshell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\r\nshell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\r\nTraceback (most recent call last):\r\n  File \"/home2/rpfische/spack6/bin/spack\", line 85, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home2/rpfische/spack6/lib/spack/spack/main.py\", line 577, in main\r\n    return _main(command, parser, args, unknown)\r\n  File \"/home2/rpfische/spack6/lib/spack/spack/main.py\", line 460, in _main\r\n    set_working_dir()\r\n  File \"/home2/rpfische/spack6/lib/spack/spack/main.py\", line 97, in set_working_dir\r\n    os.chdir(spack.spack_prefix)\r\nAttributeError: 'module' object has no attribute 'spack_prefix'\r\n```\r\n\r\nRunning from a non-existant directory is easy to do if you are using Spack environments.  Every time you run `spack env` from within the environment directory, Spack overwrites your CWD and leaves you dangling.  To fix it, you have to run:\r\n```\r\ncd `pwd`\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7872",
+    "updated_at": "2022-03-10 09:18:45",
+    "created_at": "2018-04-23 18:58:30",
+    "closed_at": "2022-03-10 09:18:44",
+    "state": "closed",
+    "title": "Bug Running from Non-Existant Directory",
+    "number": 7872,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 316941081,
+    "html_url": "https://github.com/spack/spack/issues/7872",
+    "assignees": [],
+    "comments": 1
+}

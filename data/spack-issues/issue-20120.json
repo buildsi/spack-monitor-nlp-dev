@@ -1,0 +1,19 @@
+{
+    "body": "We are trying to install Openfoam on Intel X86-64 platform using GCC v10.2.0.\r\nThe installation \"completes\" succeessfully but many of the expected binaries (simpleFoam, pimpleFoam) do not seem to be actually built in /bin or /platforms/../bin \r\nAfter removing the \"-silent\" flag in the package.py, rerunning the command, and searching the build log: pimpleFoam does not appear in the log at all, it appears to fail before getting to the solver source files. Please see logs attached below.\r\n\r\n--> one error does exist in the log though:\r\n```\r\n/mnt/central/spack/var/spack/stage/root/spack-stage-openfoam-2006_201012-ew2n27aeolegl2sqcitowa3axfzsfg73/spack-src/wmake/scripts/wrap-lemon: line 280: 87818 Aborted                 (c\\\r\nore dumped) \"$lemon\" \"$skel\" \"$@\" $parserFlags \"$tmpFile\"\r\nRetaining intermediate: /mnt/central/spack/var/spack/stage/root/spack-stage-openfoam-2006_201012-ew2n27aeolegl2sqcitowa3axfzsfg73/spack-src/build/linux64GccDPInt32-spack/src/OpenFOAM/e\\\r\nxpressions/fields/fieldExprLemonParser.lyy\r\nmake: *** [/mnt/central/spack/var/spack/stage/root/spack-stage-openfoam-2006_201012-ew2n27aeolegl2sqcitowa3axfzsfg73/spack-src/wmake/rules/General/transform:35: /mnt/central/spack/var/\\\r\nspack/stage/root/spack-stage-openfoam-2006_201012-ew2n27aeolegl2sqcitowa3axfzsfg73/spack-src/build/linux64GccDPInt32-spack/src/OpenFOAM/expressions/fields/fieldExprLemonParser.o] Error\\\r\n 134\r\nmake: *** Waiting for unfinished jobs....\r\nGenerating manpages from OpenFOAM applications\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install openfoam@2006_201012 ^adios2@2.4.0 \r\n```\r\n(adios2@2.4.0 is chosen due to open bug  #19088)\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.0-5-3069631f37\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-cascadelake\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5601726/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5601727/spack-build-out.txt)\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n@olesenm @samouyal \r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "MichaelLaufer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20120",
+    "updated_at": "2020-12-08 21:36:28",
+    "created_at": "2020-11-26 09:19:54",
+    "closed_at": "2020-12-08 21:36:28",
+    "state": "closed",
+    "title": "Installation issue: Openfoam silently failing to build binaries",
+    "number": 20120,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 751425273,
+    "html_url": "https://github.com/spack/spack/issues/20120",
+    "assignees": [],
+    "comments": 6
+}

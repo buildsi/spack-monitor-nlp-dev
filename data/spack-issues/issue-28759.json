@@ -1,0 +1,21 @@
+{
+    "body": "Fixes a bug introduced by #27798. We previously ran:\r\n```console\r\n$ python setup.py build --mpicc=...\r\n$ python setup.py install\r\n```\r\nAfter #27798, we run `pip install`, which runs:\r\n```console\r\n$ python setup.py install --mpicc=...\r\n```\r\nAt least in older versions of mpi4py, the `--mpicc` flag is only valid for the build phase, not the install phase. In newer versions of mpi4py, the `--mpicc` flag doesn't seem to break anything, but it's also unclear if it's actually being used.\r\n\r\nIt looks like this flag was added by @TiffanyAnn in #12191, maybe she can investigate.\r\n\r\nFixes #28748",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28759",
+    "updated_at": "2022-02-04 14:03:51",
+    "created_at": "2022-02-03 17:47:45",
+    "closed_at": "2022-02-04 10:22:12",
+    "state": "closed",
+    "title": "py-mpi4py: fix install_options",
+    "number": 28759,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package",
+        "e4s"
+    ],
+    "id": 1123383293,
+    "html_url": "https://github.com/spack/spack/pull/28759",
+    "assignees": [],
+    "comments": 1
+}

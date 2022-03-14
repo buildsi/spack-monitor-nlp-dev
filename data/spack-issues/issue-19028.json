@@ -1,0 +1,23 @@
+{
+    "body": "I've got a situation where `mpich` is non-functional if\r\n1. `mpich` binary cache was created using `-r` flag to `spack buildcache create`\r\n2. `mpich` is installed from the binary cache into an `install_tree` which differs from where it was originally built\r\n\r\n**The problem seems to be tied to having cached `mpich` with `spack buildcache create -r`**\r\n\r\nI'm using:\r\n* `spack@develop` (ac7c69e62e61b0a45344690a8ede29f064f8fed5 from `2020-09-25`)\r\n* `Ubuntu 18.04` for `x86_64`\r\n* `mpich@3.2.1~wrapperrpath%gcc@7.5.0`\r\n\r\n<b>1. Build `mpich` from source, into a longer install_tree:</b>\r\n```\r\n$> spack config edit config\r\nset `config: install_tree: /super/absurdly/ridiculously/obnoxiously/long/path/for/relocation`\r\n```\r\n```\r\n$> spack install --no-cache mpich@3.2.1~wrapperrpath target=x86_64 %gcc@7.5.0\r\nOK\r\n```\r\n\r\n<b>2. Create a binary cache of `mpich` on local filesystem; use `-r` flag</b>\r\n```\r\n$> spack buildcache create -afr --key <key-id> -d <mirror-path> mpich\r\nOK\r\n```\r\n\r\n<b>3. Change the install_tree</b>\r\n```\r\n$> spack config edit config\r\ndelete the `config: install_tree:` setting\r\n```\r\n\r\n<b>4. Install `mpich` from build cache</b>\r\n```\r\n$> spack mirror add local /\r\nOK\r\n\r\n$> spack install --cache-only mpich@3.2.1~wrapperrpath target=x86_64\r\nOK\r\n```\r\n\r\n<b>5. Observe non-functional `mpich`</b>\r\n```\r\n$> spack load mpich\r\n\r\n$> mpiexec --version\r\nmpiexec: relocation error: mpiexec: symbol pthread_seta\ufffd\ufffdQ\ufffdlU version GLIBC_2.3.4 not defined in file libpthread.so.0 with link time reference\r\n\r\n$> ldd `which mpiexec.hydra`\r\nldd: exited with unknown exit code (139)\r\n```\r\n\r\nI do not see this problem if the `mpich` cache was originally created *without `-r` flag*\r\n\r\n@gartung @scottwittenburg @shahzebsiddiqui @tgamblin @becker33 @alalazo ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/19028",
+    "updated_at": "2020-10-11 17:34:15",
+    "created_at": "2020-09-28 16:22:02",
+    "closed_at": "2020-10-11 17:34:15",
+    "state": "closed",
+    "title": "mpich non-functional when relocated from build cache with relative paths",
+    "number": 19028,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "binary-packages",
+        "ecp",
+        "triage",
+        "e4s"
+    ],
+    "id": 710406930,
+    "html_url": "https://github.com/spack/spack/issues/19028",
+    "assignees": [],
+    "comments": 10
+}

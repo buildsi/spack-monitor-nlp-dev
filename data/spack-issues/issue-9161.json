@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install nektar %gcc@5.4.0 ^openmpi+pmi schedulers=slurm fabrics=verbs\r\n...\r\n>> 882     /bin/ld: CMakeFiles/Tester.dir/Metric.cpp.o: undefined reference to symbol 'pthread_condattr_setclock@@@@GLIBC_2.3.3'\r\n>> 883     /usr/lib64/libpthread.so.0: error adding symbols: DSO missing from command line\r\n>> 884     collect2: error: ld returned 1 exit status\r\n>> 885     make[2]: *** [tests/Tester] Error 1\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux mu04.pi.sjtu.edu.cn 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.3.1611 (Core)\r\n``` \r\n\r\n### Additional information\r\n\r\nIt seems that `-lpthread` flag is missing  when linking. Manually adding `-lpthread` into the command line succesfully builds the target. I wonder where I can `-lpthread` to `nektar` or `boost`.",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/9161",
+    "updated_at": "2019-12-08 11:50:10",
+    "created_at": "2018-09-02 12:23:07",
+    "closed_at": "2019-12-08 11:50:10",
+    "state": "closed",
+    "title": "Installation issue: nektar",
+    "number": 9161,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 356278135,
+    "html_url": "https://github.com/spack/spack/issues/9161",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,22 @@
+{
+    "body": "[Turns out I have two questions]\r\n\r\nI'm trying to specify a view defined in a `jenkins.yaml` file.  The view generated an error because the file `test-verify-parallel-make-check.patch` exists in many packages (w/in the copy of the package definitions).\r\n\r\n```\r\n$ spack -e ape install\r\n==> Installing environment ape\r\n==> Updating view at /tmp/moose\r\n==> Error: Package merge blocked by file: /tmp/moose/.spack/py-pip/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n$ rg test-verify-parallel-make-check.patch\r\nvar/spack/repos/builtin/packages/gettext/package.py\r\n46:    patch('test-verify-parallel-make-check.patch', when='@:0.19.8.1')\r\n$ find . -type f | grep test-verify-parallel-make-check.patch\r\n./var/spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./var/spack/environments/ape/.spack-env/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/r-packrat-0.5.0-ikls4nuocdll6xmktbx47bcv4lejbqdo/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-functools32-3.2.3-2-y3kkd72mxbnygejkuqxfsim6xf6bolup/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-mccabe-0.6.1-7zepua6vhvi4ddda2watydgckuxa4665/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-enum34-1.1.6-xzk3rpwqf73zf7i43gxe4blmwb32noah/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-pyflakes-2.1.1-7t5h4snvnzpe3fv3gssgvtqfs2csopna/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-pycodestyle-2.5.0-bfszakn7sdf33eeal4isxsayk2wsbaff/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-configparser-3.5.1-kwgdazuxwhej2tq2kev5hesxslabhxzo/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-typing-3.7.4.1-h4gnmprqmpbz3puxbc2gogq5vywywobh/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-entrypoints-0.3-nc7yiz3ixwcebikxd64d7rs3hzn2j2td/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n./opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/py-flake8-3.7.8-r52lutdyydicauzeykz5w3nwdg5q6k4m/.spack/repos/builtin/packages/gettext/test-verify-parallel-make-check.patch\r\n$ spack -e ape install\r\n==> Installing environment ape\r\n==> Updating view at /tmp/moose\r\n==> Error: [/tmp/moose] Package conflict detected:\r\n   (Linked) py-pip@19.3%gcc@8.4.0 arch=linux-centos7-skylake_avx512/npfg6rz\r\n(Specified) py-pip@19.3%gcc@8.4.0 arch=linux-centos7-skylake_avx512/ftjo63v\r\n$ find . -type f | grep test-verify-parallel-make-check.patch\r\n```\r\n\r\nMy **first question** is: what would a patch look like to fix this, what's the approach?\r\n\r\nMy **second question** is: why didn't it fail with the same error the second time I ran it (don't worry about the python error, that's me playing with views into an environment that has multiple pythons built)?",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/16248",
+    "updated_at": "2020-04-25 15:01:55",
+    "created_at": "2020-04-22 22:00:15",
+    "closed_at": "2020-04-25 15:01:54",
+    "state": "closed",
+    "title": "How do I handle files that block view instantiation and non-repeatable errors",
+    "number": 16248,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments",
+        "views",
+        "triage"
+    ],
+    "id": 605102246,
+    "html_url": "https://github.com/spack/spack/issues/16248",
+    "assignees": [],
+    "comments": 3
+}

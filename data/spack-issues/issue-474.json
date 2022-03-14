@@ -1,0 +1,17 @@
+{
+    "body": "New CMakePackage subclass of Package.  This has two advantages, without breaking backwards compatibility:\n1. Boilerplate code in CMake projects can now be eliminated (see everytrace/package.py for details on how it can be done now).\n2. The CMakeProject understands a special version 'local', to enlist Spack to help configure CMake properly when developing projects.  Consider the following example for usage, in which Spack is used to set up a build and a module, but not acutally DO the build.\n\n```\n     git clone https://github.com/citibeth/everytrace.git\n     cd everytrace\n     spack diy --skip-patch everytrace@local\n     mkdir build\n     cd build\n     /usr/bin/python ../spconfig.py ..     # Runs cmake with Spack-supplied configuration\n     make\n     make install        # Installs into spack directory\n     spack load everytrace@local   # Spack even makes a module\n```\n\nOnce you're happy with your project, you can add appropriate version() commands to your package.py, and use Spack normally with it.  To make this work, your project has to cooperate with Spack, as follows:\n\n  a) You need to use CMake (of course).\n\n  b) Your CMakeLists.txt should use the following line, which will ensure that all TRANSITIVE dependencies are added to the include path.  If you're not running with Spack, then this line will do nothing.\n       include_directories($ENV{CMAKE_TRANSITIVE_INCLUDE_PATH})\n\nchildren d2e52340\non branches efischer/develop, origin/efischer/develop\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/474",
+    "updated_at": "2016-03-08 23:04:50",
+    "created_at": "2016-03-02 04:40:22",
+    "closed_at": "2016-03-02 23:39:55",
+    "state": "closed",
+    "title": "Developer support for CMake-based Projects",
+    "number": 474,
+    "milestone": null,
+    "labels": [],
+    "id": 137771322,
+    "html_url": "https://github.com/spack/spack/pull/474",
+    "assignees": [],
+    "comments": 27
+}

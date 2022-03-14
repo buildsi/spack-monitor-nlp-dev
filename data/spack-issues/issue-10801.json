@@ -1,0 +1,19 @@
+{
+    "body": "Running \"spack load <package>\" right after \"spack install <package>\" will not work: the environment module system will not find the freshly installed package.\r\n\r\nThis can be worked around by re-sourcing the spack-env script, but I believe this is a usability papercut that spack load should be able to handle on its own.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI most recently experienced this with templight, but every other package should behave similarly. So you may want to pick another that takes less time to build :smile: \r\n\r\n```console\r\n$ spack install templight\r\n$ spack load templight\r\nLmod Warning:  MODULEPATH is undefined.\r\n\r\n\r\n\r\nLmod has detected the following error:  The following module(s) are unknown: \"templight-2019.01.09-gcc-8.2.1-hnbzriy\"\r\n\r\nPlease check the spelling or version number. Also try \"module spider ...\"\r\nIt is also possible your cache file is out-of-date; it may help to try:\r\n  $ module --ignore-cache load \"templight-2019.01.09-gcc-8.2.1-hnbzriy\"\r\n\r\nAlso make sure that all modulefiles written in TCL start with the string #%Module\r\n\r\n\r\n\r\n\r\n$ source /opt/spack/share/spack/setup-env.sh\r\n$ spack load templight\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ uname -a\r\nLinux 688948042e36 4.9.0-8-amd64 #1 SMP Debian 4.9.144-3.1 (2019-02-19) x86_64 x86_64 x86_64 GNU/Linux\r\n$ cat /etc/os-release \r\nNAME=\"openSUSE Tumbleweed\"\r\n# VERSION=\"20190301\"\r\nID=\"opensuse-tumbleweed\"\r\nID_LIKE=\"opensuse suse\"\r\nVERSION_ID=\"20190301\"\r\nPRETTY_NAME=\"openSUSE Tumbleweed\"\r\nANSI_COLOR=\"0;32\"\r\nCPE_NAME=\"cpe:/o:opensuse:tumbleweed:20190301\"\r\nBUG_REPORT_URL=\"https://bugs.opensuse.org\"\r\nHOME_URL=\"https://www.opensuse.org/\"\r\n$ zypper info lua-lmod\r\nLoading repository data...\r\nReading installed packages...\r\n\r\n\r\nInformation for package lua-lmod:\r\n---------------------------------\r\nRepository     : openSUSE-Tumbleweed-Oss      \r\nName           : lua-lmod                     \r\nVersion        : 7.8.15-1.1                   \r\nArch           : x86_64                       \r\nVendor         : openSUSE                     \r\nInstalled Size : 1.1 MiB                      \r\nInstalled      : Yes                          \r\nStatus         : up-to-date                   \r\nSource package : lua-lmod-7.8.15-1.1.src      \r\nSummary        : Lua-based Environment Modules\r\nDescription    :                              \r\n    Lmod is an Environment Module System based on Lua, Reads TCL Modules,\r\n    Supports a Software Hierarchy.\r\n```",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/10801",
+    "updated_at": "2020-02-07 10:10:18",
+    "created_at": "2019-03-05 15:48:59",
+    "closed_at": "2020-02-07 10:10:18",
+    "state": "closed",
+    "title": "Running \"spack load\" right after \"spack install\" should work",
+    "number": 10801,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 417365498,
+    "html_url": "https://github.com/spack/spack/issues/10801",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,24 @@
+{
+    "body": "It seems we have a failure on MacOS, started after we merged #7692 - see [here](https://travis-ci.org/spack/spack/jobs/381414674) for an example log. Not sure if the error is transient (i.e. due to Travis itself) or not, logging the failure here to have it on the records.\r\n\r\n### Expected Result\r\n\r\nGreen light from Travis\r\n\r\n### Actual Result\r\n\r\n```console\r\n____________________________ test_lock_checks_user _____________________________\r\ntmpdir = local('/private/var/folders/bb/n7t3rs157850byt_jfdcq9k80000gn/T/pytest-of-travis/pytest-0/test_lock_checks_user0')\r\n    def test_lock_checks_user(tmpdir):\r\n        \"\"\"Ensure lock checks work.\"\"\"\r\n        path = str(tmpdir)\r\n        uid = os.getuid()\r\n    \r\n        # self-owned, own group\r\n>       tmpdir.chown(uid, uid)\r\nlib/spack/spack/test/llnl/util/lock.py:944: \r\n...\r\n<omitted>\r\n...\r\nE           EPERM: [Operation not permitted]: chown('/private/var/folders/bb/n7t3rs157850byt_jfdcq9k80000gn/T/pytest-of-travis/pytest-0/test_lock_checks_user0', 501, 501)\r\nlib/spack/external/py/_error.py:85: EPERM\r\n======== 1 failed, 1035 passed, 76 skipped, 1 xfailed in 852.13 seconds ========\r\n```\r\n\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/8225",
+    "updated_at": "2018-06-26 12:51:03",
+    "created_at": "2018-05-21 06:34:30",
+    "closed_at": "2018-06-26 12:51:03",
+    "state": "closed",
+    "title": "Lock unit test failing on Travis MacOS builder",
+    "number": 8225,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "locking",
+        "tests",
+        "travis"
+    ],
+    "id": 324803317,
+    "html_url": "https://github.com/spack/spack/issues/8225",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

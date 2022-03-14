@@ -1,0 +1,23 @@
+{
+    "body": "With version 1.20, gdbm's return values are enums, not C ```#defines``` anymore:\r\n\r\nThe absence of them causes a hack in perl for gdbm < 1.13 to `#define`\r\none a return value added later as another retval, breaking the backend:\r\n```c\r\n  #ifndef GDBM_ITEM_NOT_FOUND\r\n  # define GDBM_ITEM_NOT_FOUND GDBM_NO_ERROR\r\n  #endif\r\n```\r\nperl@5.34.0 can apply the patches from Fedora's RPM. The older releases\r\nhave to stay at the gdbm versions they used before the update of gdbm.\r\n\r\nUpstream links:\r\nIssue: https://github.com/Perl/perl5/issues/18915\r\nPull request https://github.com/Perl/perl5/pull/18924\r\n\r\n@michaelkuhn The update of gdbm to 1.21 broke a hack in perl (shown by `spack install --test perl`), please review, thanks!",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/25819",
+    "updated_at": "2021-09-08 13:28:53",
+    "created_at": "2021-09-07 10:42:19",
+    "closed_at": "2021-09-08 13:28:53",
+    "state": "closed",
+    "title": "perl: Handle gdbm API change caused by gdbm@1.20:",
+    "number": 25819,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "patch",
+        "update-package"
+    ],
+    "id": 989846904,
+    "html_url": "https://github.com/spack/spack/pull/25819",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

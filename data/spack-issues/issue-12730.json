@@ -1,0 +1,24 @@
+{
+    "body": "Spack Environments commands fail in **horrible** ways if your `PATH` contains spaces.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ export PATH=\"/my/fake/path:/my/fake/path/with spaces:$PATH\"\r\n$ echo PATH\r\n/my/fake/path:/my/fake/path/with spaces:/Users/Adam/bin:/Users/Adam/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/Library/Frameworks/Python.framework/Versions/Current/bin:/usr/local/MacGPG2/bin:/opt/X11/bin:/usr/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/git/bin:/Users/Adam/spack/bin\r\n$ spack env activate ...\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n-bash: export: `spaces:/Users/Adam/bin:/Users/Adam/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/Library/Frameworks/Python.framework/Versions/Current/bin:/usr/local/MacGPG2/bin:/opt/X11/bin:/usr/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/git/bin:/Users/Adam/spack/bin': not a valid identifier\r\n$ echo $PATH\r\n/Users/Adam/Documents/UIUC/Research/Crops/crop_classification/.spack-env/view/bin:/my/fake/path:/my/fake/path/with\r\n$ which spack\r\n-bash: which: command not found\r\n$ spack env deactivate\r\n-bash: spack: command not found\r\n$ despacktivate\r\n-bash: spack: command not found\r\n```\r\nThis is especially troublesome on macOS, where a lot of system libraries are installed in directories containing spaces, like `/Library/Application Support/`. In this case, users do not have an option to avoid spaces in their `PATH`.\r\n\r\n@zchen105",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12730",
+    "updated_at": "2019-09-16 18:10:37",
+    "created_at": "2019-09-06 02:11:08",
+    "closed_at": "2019-09-16 18:10:37",
+    "state": "closed",
+    "title": "Spack Environments cannot handle space in PATH",
+    "number": 12730,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "shell-support",
+        "impact-medium",
+        "environments"
+    ],
+    "id": 490092227,
+    "html_url": "https://github.com/spack/spack/issues/12730",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

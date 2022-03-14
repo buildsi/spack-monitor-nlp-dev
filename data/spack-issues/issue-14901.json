@@ -1,0 +1,23 @@
+{
+    "body": "`spack install mpfr` fails pretty broadly across various versions at the moment. I noticed this when trying to build `gcc` with spack.\r\n\r\nThe traceback is below the fold:\r\n\r\n<details>\r\n\r\n```\r\n==> Installing mpfr\r\n==> Searching for binary cache of mpfr\r\n==> No binary for mpfr found: installing from source\r\n==> Warning: microarchitecture specific optimizations are not supported yet on mixed compiler toolchains [check clang@11.0.0-apple for further details]\r\n==> Fetching https://ftpmirror.gnu.org/mpfr/mpfr-4.0.2.tar.bz2\r\n####################################################################################################### 100.0%\r\n==> Fetching https://www.mpfr.org/mpfr-4.0.2/allpatches\r\n-=O=-          #      #      #       #                                                                       \r\ncurl: (28) Connection timed out after 10000 milliseconds\r\n==> Failed to fetch file from URL: https://www.mpfr.org/mpfr-4.0.2/allpatches\r\n    Curl failed with error 28\r\n==> Fetching from https://www.mpfr.org/mpfr-4.0.2/allpatches failed.\r\n==> Error: FetchError: All fetchers failed for spack-stage-w5dovhkj\r\n\r\n/Users/treddy/github_projects/spack/lib/spack/spack/package.py:1119, in do_fetch:\r\n       1116\r\n       1117        self.stage.cache_local()\r\n       1118\r\n  >>   1119        for patch in self.spec.patches:\r\n       1120            patch.fetch()\r\n       1121            if patch.cache():\r\n       1122                patch.cache().cache_local()\r\n```\r\n\r\n</details>\r\n\r\nThis is because the `mpfr` patches site/website is not always reliable.\r\n\r\nMight be worth considering a fallback like homebrew uses: https://github.com/Homebrew/legacy-homebrew/issues/12371\r\n\r\nNaturally, reproducing this issue is a function of the `mpfr` site being up or down.",
+    "user": "tylerjereddy",
+    "url": "https://api.github.com/repos/spack/spack/issues/14901",
+    "updated_at": "2021-01-16 20:24:40",
+    "created_at": "2020-02-12 02:51:58",
+    "closed_at": "2021-01-16 20:24:40",
+    "state": "closed",
+    "title": "Installation issue: mpfr",
+    "number": 14901,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "fetching",
+        "impact-low"
+    ],
+    "id": 563704565,
+    "html_url": "https://github.com/spack/spack/issues/14901",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

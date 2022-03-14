@@ -1,0 +1,20 @@
+{
+    "body": "This PR fixes an issue I (and others) have seen when running compiler bootstrapping pipelines using the `spack ci` sub-commands.  The first commit here adds a test that mimics what we do in pipelines, where the bootstrapped compiler is installed and put into a binary mirror in some stage of the pipeline, and then in a later stage, we attempt to use `install-missing-compilers: true` to have that compiler installed from the binary mirror during installation of the spec that needs it.\r\n\r\nWithout the fix in the second commit, the test in the first commit fails with the message:\r\n\r\n```console\r\nspack.installer.InstallError: Cannot proceed with b: 1 uninstalled dependency: gcc\r\n```\r\n\r\n... which corresponds to the issue I've seen in pipeline logs.",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/17536",
+    "updated_at": "2020-08-19 22:46:00",
+    "created_at": "2020-07-14 22:38:34",
+    "closed_at": "2020-07-17 18:13:37",
+    "state": "closed",
+    "title": "Bugfix/install missing compiler from buildcache",
+    "number": 17536,
+    "milestone": null,
+    "labels": [
+        "buildcache",
+        "bugfix"
+    ],
+    "id": 656939948,
+    "html_url": "https://github.com/spack/spack/pull/17536",
+    "assignees": [],
+    "comments": 7
+}

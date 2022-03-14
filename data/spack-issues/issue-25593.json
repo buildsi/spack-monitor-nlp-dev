@@ -1,0 +1,21 @@
+{
+    "body": "Bootstrapping clingo on macOS on `develop` gives errors like this:\r\n\r\n```\r\n==> Error: RuntimeError: Unable to locate python command in /System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/bin\r\n\r\n/Users/gamblin2/Workspace/spack/var/spack/repos/builtin/packages/python/package.py:662, in command:\r\n        659                return Executable(path)\r\n        660        else:\r\n        661            msg = 'Unable to locate {0} command in {1}'\r\n  >>    662            raise RuntimeError(msg.format(self.name, self.prefix.bin))\r\n```\r\n\r\nOn macOS, `python` is laid out differently. In particular, `sys.executable` is here:\r\n\r\n```console\r\nPython 2.7.16 (default, May  8 2021, 11:48:02)\r\n[GCC Apple LLVM 12.0.5 (clang-1205.0.19.59.6) [+internal-os, ptrauth-isa=deploy on darwin\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import sys\r\n>>> sys.executable\r\n'/System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python'\r\n```\r\n\r\nBased on that, you'd think that\r\n`/System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents` would be\r\nwhere you'd look for a `bin` directory, but you (and Spack) would be wrong:\r\n\r\n```console\r\n$ ls /System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/\r\nInfo.plist      MacOS/          PkgInfo         Resources/      _CodeSignature/ version.plist\r\n```\r\n\r\nYou need to look in `sys.exec_prefix`\r\n\r\n```\r\n>>> sys.exec_prefix\r\n'/System/Library/Frameworks/Python.framework/Versions/2.7'\r\n```\r\n\r\nWhich looks much more like a standard prefix, with understandable `bin`, `lib`, and `include`\r\ndirectories:\r\n\r\n```console\r\n$ ls /System/Library/Frameworks/Python.framework/Versions/2.7\r\nExtras/         Mac/            Resources/      bin/            lib/\r\nHeaders@        Python*         _CodeSignature/ include/\r\n$ ls -l /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python\r\nlrwxr-xr-x  1 root  wheel     7B Jan  1  2020 /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python@ -> python2\r\n```\r\n\r\n- [x] change `bootstrap.py` to use the `sys.exec_prefix` as the external prefix, instead of just\r\n      getting the parent directory of the executable.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/25593",
+    "updated_at": "2021-08-25 04:44:27",
+    "created_at": "2021-08-24 20:44:11",
+    "closed_at": "2021-08-25 04:44:26",
+    "state": "closed",
+    "title": "bootstrap: use `sys.exec_prefix` to set up external python correctly",
+    "number": 25593,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "external-packages",
+        "bootstrap"
+    ],
+    "id": 978471242,
+    "html_url": "https://github.com/spack/spack/pull/25593",
+    "assignees": [],
+    "comments": 2
+}

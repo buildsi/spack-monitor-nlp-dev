@@ -1,0 +1,17 @@
+{
+    "body": "```\r\n$ ./bin/spack install  py-mpi4py\r\n==> Installing py-mpi4py\r\n==> python is externally installed in /usr/bin\r\n==> openmpi is externally installed in /usr/local\r\n==> Installing py-setuptools\r\n==> python is externally installed in /usr/bin\r\n==> Using cached archive: /Users/barrysmith/Src/spack/var/spack/cache/py-setuptools/py-setuptools-25.2.0.tar.gz\r\n==> Already staged py-setuptools-25.2.0-wtwwb2ylkss2ajlglap5yjr4ynulufqu in /Users/barrysmith/Src/spack/var/spack/stage/py-setuptools-25.2.0-wtwwb2ylkss2ajlglap5yjr4ynulufqu\r\n==> No patches needed for py-setuptools\r\n==> Building py-setuptools [PythonPackage]\r\n==> Executing phase : 'build'\r\n==> Error: ProcessError: /usr/bin/bin/python: No such file or directory\r\n    Command: '/usr/bin/bin/python' 'setup.py' '--no-user-cfg' 'build'\r\n/Users/barrysmith/Src/spack/lib/spack/spack/build_systems/python.py:110, in python:\r\n     109      def python(self, *args):\r\n  >> 110          inspect.getmodule(self).python(*args)\r\n\r\nSee build log for details:\r\n  /private/var/folders/c1/ldz_dt8n2r3dtwv_chp5pfr40000gn/T/barrysmith/spack-stage/spack-stage-Q3uxMF/setuptools-25.2.0/spack-build.out\r\n~/Src/spack (develop=) arch-basic\r\n```\r\n\r\n```\r\n$ which python\r\n/usr/local/bin/python\r\n```\r\n\r\nIn my .spack/packages.yaml file I have \r\n\r\n```\r\n    python:\r\n        paths:\r\n            python@2.7.1: /usr/bin\r\n        buildable: False  \r\n```      \r\n\r\nNote it is a different python.\r\n\r\n/Users/barrysmith/Src/spack/lib/spack/spack/build_systems/python.py is using some information from the \"front end python\" (the python I am running spack with) and some information from the \"back end python\" the python that spack is installing packages for to generate an incorrect location of the python executable. \r\n\r\nGiven your complicated way of overlaping .python(args) to execute the python script I cannot figure out how to debug and fix the problem. \r\n\r\n Note that this is similar to the bug I fixed in https://github.com/LLNL/spack/pull/2173 but different and my fix only resolves the problem in that one place.\r\n\r\n",
+    "user": "BarrySmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/3163",
+    "updated_at": "2017-02-16 20:42:14",
+    "created_at": "2017-02-16 20:33:52",
+    "closed_at": "2017-02-16 20:38:47",
+    "state": "closed",
+    "title": "Installing python packages with \"non-standard\" python install",
+    "number": 3163,
+    "milestone": null,
+    "labels": [],
+    "id": 208238094,
+    "html_url": "https://github.com/spack/spack/issues/3163",
+    "assignees": [],
+    "comments": 3
+}

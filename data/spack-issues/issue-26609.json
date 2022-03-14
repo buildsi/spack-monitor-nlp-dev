@@ -1,0 +1,19 @@
+{
+    "body": "This is a blocker for #26599 where tests suddenly started failing because\n\n```\nspack.binary_distribution.binary_index\n```\n\nhas state leaking between tests.\n\nIn particular, `archive-files` which was pushed to a local mirror in one test, was later pulled during a spack install in an entirely unrelated test, which then failed, because there was no gpg signature for it. :(.\n\nAfter fixing individual tests, other failures creeped in, namely \n\n```\ntest_patchelf_is_relocatable\n```\n\nreferencing a patchelf binary from a buildcache, which did not exist anymore at the time the test was executed. I have no clue and don't want to figure out why.\n\nWhat's important is that tests shouldn't leak state, and hence the second commit of this PR resets\n\n```\nspack.binary_distribution.binary_index\n```\n\nat the end of every test, hopefully solving the issue.\n\nThis would hopefully be a temporary measure until someone takes on the project of getting rid of those great globals sprinkled around in Spack.\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26609",
+    "updated_at": "2021-10-08 21:26:06",
+    "created_at": "2021-10-08 15:46:07",
+    "closed_at": "2021-10-08 17:41:48",
+    "state": "closed",
+    "title": "Fix leaky spack.binary_distribution.binary_index in tests",
+    "number": 26609,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 1021235594,
+    "html_url": "https://github.com/spack/spack/pull/26609",
+    "assignees": [],
+    "comments": 1
+}

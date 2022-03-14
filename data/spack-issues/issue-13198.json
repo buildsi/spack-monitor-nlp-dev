@@ -1,0 +1,21 @@
+{
+    "body": "**snl-atdm-issue**\r\n\r\nOne major portability problem with Spack is that it tries to build every low-level library from scratch and often there are build errors in those libraries.  Examples include #13189 and #12143.  In my limited experience Spack (less than 100 hours of work), this appears to be the biggest portability problem with Spack. \r\n\r\n In my 20+ years of building CSE and HPC software, I have never even heard of many of these low-level libraries because they are ubiquitous and pre-installed on almost every system that I have ever worked with and the build systems I have used just find them by default automatically.\r\n\r\nThe current approach to address is to make people generate their own packages.yaml file from scratch that points to pre-installed libraries on the system.   But to do that you have to manually do the concretization of the packages you want to install and then try to recognize which of these libraries are standard ubiquitous libraries and then generate the entries for these packages yourself manually.  This is a very tedious process.\r\n\r\nEvery portable build system I have every seen for a piece of software just finds libraries like these by default.  To address this problem, I propose that a new standard variant called something like `find-on-system` be added to all of these ubiquitous low-level Spack packages.  When that variant is set, then the package.py file will try to find it installed on the system and will fail if it can't find it.  Therefore,  I could just set the global variant 'find-on-system'  in my `spack.yaml` file and then give it a go.  If some of these packages could not be found on the system, then I could add  `~find-on-system` for those packages and let Spack try to build them or I could use `yum` to install them.  I suspect this would significantly improve the portability of spack builds.  Otherwise, Spack is throwing away all of the hard work that goes into creating distributions.\r\n\r\n",
+    "user": "bartlettroscoe",
+    "url": "https://api.github.com/repos/spack/spack/issues/13198",
+    "updated_at": "2020-05-06 00:37:35",
+    "created_at": "2019-10-11 22:25:58",
+    "closed_at": "2020-05-06 00:37:35",
+    "state": "closed",
+    "title": "Add standard variant 'find-on-system' to many of the low-level ubiquitous packages to avoid Spack trying to build them",
+    "number": 13198,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "proposal",
+        "snl-atdm"
+    ],
+    "id": 506082068,
+    "html_url": "https://github.com/spack/spack/issues/13198",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Sample reproducer for one of them in centos7 docker container: `spack install py-python-dateutil %gcc@9.3.1 ^py-setuptools@57.4.0` produces output like `pkg_resources.DistributionNotFound: The 'packaging>=20.0' distribution was not found and is required by the application`.\r\n\r\nSample patch that helped in my buildout scenario--not sure if the team would normally add conditional guards for certain operating systems.\r\n\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/py-pytest-runner/package.py b/var/spack/repos/builtin/packages/py-pytest-runner/package.py\r\nindex 1221464..f0c01f1 100644\r\n--- a/var/spack/repos/builtin/packages/py-pytest-runner/package.py\r\n+++ b/var/spack/repos/builtin/packages/py-pytest-runner/package.py\r\n@@ -17,3 +17,4 @@ class PyPytestRunner(PythonPackage):\r\n \r\n     depends_on('py-setuptools', type=('build', 'run'))\r\n     depends_on('py-setuptools-scm@1.15:', type='build')\r\n+    depends_on('py-packaging@20.0:', type='build')\r\ndiff --git a/var/spack/repos/builtin/packages/py-python-dateutil/package.py b/var/spack/repos/builtin/packages/py-python-dateutil/package.py\r\nindex 50e207d..fa088a7 100644\r\n--- a/var/spack/repos/builtin/packages/py-python-dateutil/package.py\r\n+++ b/var/spack/repos/builtin/packages/py-python-dateutil/package.py\r\n@@ -25,3 +25,4 @@ class PyPythonDateutil(PythonPackage):\r\n     depends_on('py-setuptools@24.3:', type='build')\r\n     depends_on('py-setuptools-scm', type='build', when='@2.7.0:')\r\n     depends_on('py-six@1.5:', type=('build', 'run'))\r\n+    depends_on('py-packaging@20.0:', type=('build'))\r\n```",
+    "user": "tylerjereddy",
+    "url": "https://api.github.com/repos/spack/spack/issues/26998",
+    "updated_at": "2021-11-02 02:04:43",
+    "created_at": "2021-10-27 23:14:13",
+    "closed_at": "2021-11-02 02:04:43",
+    "state": "closed",
+    "title": "Installation issue: some Python packages on Centos7/RHEL7",
+    "number": 26998,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1037936057,
+    "html_url": "https://github.com/spack/spack/issues/26998",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 9
+}

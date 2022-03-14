@@ -1,0 +1,17 @@
+{
+    "body": "Mumps is broken on OSX with clang+gfortran by https://github.com/LLNL/spack/pull/1023. It manifests in a segmentation fault when trying to use Trilinos + MUMPS direct solver as a [unit test during installation of  deal.ii@8.4.1](https://github.com/LLNL/spack/blob/develop/var/spack/repos/builtin/packages/dealii/package.py#L279) which worked before. \n\nTo confirm it I took a [pre-PR version of MUMPS](https://github.com/LLNL/spack/blob/ddaba07d8297544f2587f0c31fcbd2dafa824eb3/var/spack/repos/builtin/packages/mumps/package.py), build it with current develop and my [usual patch](https://github.com/dealii/dealii/wiki/deal.II-in-Spack#mixing-gcc-and-clang-on-osx) to mix clang and fortran and it works good and does not produce a segmentation fault!\n\nMost likely it is [related to this](https://github.com/LLNL/spack/commit/9b299cb2bbe6e1e20df38c1900d6a05483c81a3f#diff-2b1c47a5b3acd753325522d1c1c65956L137), but could also be related to the big shared patch introduced in https://github.com/LLNL/spack/pull/1023.\nAlternatively, it could be related to the way [MUMPS is used in Trilinos](https://github.com/LLNL/spack/blob/develop/var/spack/repos/builtin/packages/trilinos/package.py#L221).\n\n@nrichart would you mind having a second look at your PR and see what could cause the issue?\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/1132",
+    "updated_at": "2016-07-04 17:02:33",
+    "created_at": "2016-06-28 16:02:22",
+    "closed_at": "2016-07-04 17:02:33",
+    "state": "closed",
+    "title": "Mumps is broken by PR 1023",
+    "number": 1132,
+    "milestone": null,
+    "labels": [],
+    "id": 162723608,
+    "html_url": "https://github.com/spack/spack/issues/1132",
+    "assignees": [],
+    "comments": 8
+}

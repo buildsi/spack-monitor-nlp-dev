@@ -1,0 +1,19 @@
+{
+    "body": "Per [this](https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/) post on safer bash scripts, I've been adding `set -Eeuxo pipefail` to many of my bash/zsh scripts. This caused `setup-env.sh` to fail during sourcing with an unset parameter error, namely `_sp_source_file`, because I use `zsh`. In addition, per [this](https://stackoverflow.com/questions/9901210/bash-source0-equivalent-in-zsh) SO question, the syntax for `BASH_SOURCE[0]` in `zsh` is slightly different than the existing code.\r\n\r\nThe proposed changes still look for `BASH_SOURCE[0]` first, but if it's not set, `_sp_source_file` is initialized to an empty value addressing the unset parameter error (line 217). The change on line 219 moves to the zsh syntax mentioned in the SO question referenced above.\r\n\r\nCheers,\r\nDavid",
+    "user": "paulanda",
+    "url": "https://api.github.com/repos/spack/spack/issues/11153",
+    "updated_at": "2019-04-16 19:33:03",
+    "created_at": "2019-04-10 01:16:51",
+    "closed_at": "2019-04-16 19:33:03",
+    "state": "closed",
+    "title": "Update setup-env.sh",
+    "number": 11153,
+    "milestone": null,
+    "labels": [
+        "shell-support"
+    ],
+    "id": 431260580,
+    "html_url": "https://github.com/spack/spack/pull/11153",
+    "assignees": [],
+    "comments": 0
+}

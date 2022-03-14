@@ -1,0 +1,19 @@
+{
+    "body": "+ One of the projects I support needs `trilinos+cuda`.  We have worked with the SNL trilinos team to come up with a cmake command that builds trilinos in a way that meets our needs.  I have updated spack's trilinos recipe to allow this particular configuration (the content of this PR).\r\n+ It is likely that a more complex set of variants is needed, but this first cut should provide a good starting place for other teams who need `trilinos+cuda`.\r\n+ This was tested on x86+volta and power9+volta with cuda/9.2 and cuda/10.1. When using cuda/10.1 I ran into trilinos/trilinos#4936 that required `cxxflags='-fpermissive'` to allow the build to complete.\r\n+ A lot of the new code in `trilinos/package.py` was lifted from `kokkos/package.py` (`gpu_values`, `host_values`, kokkos options).\r\n+ I needed to add the CMake option `-DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON` for `+shared` variants to avoid link warnings about non-relocatable code.\r\n+ I needed to manually install trilinos' `nvcc_wrapper` since their build system doesn't do this for us.\r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/11404",
+    "updated_at": "2020-08-22 19:07:30",
+    "created_at": "2019-05-09 14:41:41",
+    "closed_at": "2020-08-22 19:07:30",
+    "state": "closed",
+    "title": "Trilinos - Attempt to provide a +cuda variant",
+    "number": 11404,
+    "milestone": null,
+    "labels": [
+        "cuda"
+    ],
+    "id": 442273458,
+    "html_url": "https://github.com/spack/spack/pull/11404",
+    "assignees": [],
+    "comments": 17
+}

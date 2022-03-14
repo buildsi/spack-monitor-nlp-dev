@@ -1,0 +1,22 @@
+{
+    "body": "Branched from #4062. This is a collection of best-practices of partitioning containers with spack until they are mature enough for a PR.\r\n\r\n### Docker Specific\r\n\r\n- `ENV DEBIAN_FRONTEND noninteractive`\r\n- `ENV FORCE_UNSAFE_CONFIGURE 1`\r\n- adding a non-privileged (system) user for installs since some installs check for root and abort, add sudoers rights for the app\r\n\r\n### Dependencies\r\n\r\n- start from a fixed version of a docker image (tag)\r\n- start from a fixed version of spack (tag or sha)\r\n- install build tools (which are not linked) directly via package manager: cmake, editors, pkg-config, modules/lnmod/dotkit, python\r\n- GPU/CUDA: e.g. from `nvidia-cuda` images (with \"spack-external\" cuda package)\r\n\r\n### Minimal layers\r\n\r\n- concat all apt-get install targets + `&& rm -rf /var/lib/apt/lists/*`\r\n- concat all spack install calls + `&& spack clean -a`\r\n- `git clone --depth 50` or `git archive` for a *fixed* commit of `spack` (ideally: `spack bootstrap` #4062)\r\n\r\n### Environment\r\n\r\n- how to add `packages.yaml modules.yaml`, specifically for external packages\r\n- setup of spack (path, module load, ...) env, e.g. lmod in a user profile file\r\n- add user profile, e.g. to `/etc/profile.d/`\r\n\r\n### Example with CUDA\r\n\r\nPIConGPU 0.3.0 docker image with spack: https://github.com/ComputationalRadiationPhysics/picongpu/tree/dev/share/picongpu/dockerfiles\r\n\r\nMore examples: https://github.com/ax3l/dockerfiles\r\n\r\n### Related issues\r\n\r\n- Bootstrap to `/` #4062\r\n- run spack as root user #5139",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/4480",
+    "updated_at": "2017-10-15 21:27:12",
+    "created_at": "2017-06-12 11:56:21",
+    "closed_at": "2017-10-13 19:17:20",
+    "state": "closed",
+    "title": "Best Practices with Containers (Docker)",
+    "number": 4480,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "user-experience",
+        "environments",
+        "singularity"
+    ],
+    "id": 235208751,
+    "html_url": "https://github.com/spack/spack/issues/4480",
+    "assignees": [],
+    "comments": 1
+}

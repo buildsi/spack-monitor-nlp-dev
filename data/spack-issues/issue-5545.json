@@ -1,0 +1,21 @@
+{
+    "body": "This feature support to jail Spack inside a chroot (see #5193 approach 3 for details),\r\nbut without the requirements of the pull request #5489.\r\nThis allows to find potentially missing depends_on calls.\r\n\r\nIt introduces the commands:\r\n\r\n./spack isolate --build-environment path/to/jail/dir --tarball path/to/tarball\r\nTo create a jail for Spack and mount bind /dev, /sys and /proc to be available inside the jail.\r\n\r\n./spack isolate --remove-environment\r\nTo unmount the mounted /dev, /sys and /proc directories.\r\n\r\n./spack isolate --cli\r\nTo start a shell inside the jail.\r\n\r\nTo create a bootstrap environment it is possible to use an already generated tarball from OpenStack or by using mkosi. A restriction is, that the root directory of the tarball must be a directory which contains the distribution.\r\n\r\nTo generate the mount bind and chroot calls in uses namespaces.\r\nUnfortunately it does not support the separation of the PID namespace, due to the fact, that Python cannot read C defines and structs.\r\n",
+    "user": "TheTimmy",
+    "url": "https://api.github.com/repos/spack/spack/issues/5545",
+    "updated_at": "2020-03-26 14:40:54",
+    "created_at": "2017-09-29 16:21:37",
+    "closed_at": "2020-03-26 14:40:54",
+    "state": "closed",
+    "title": "Implementation to jail Spack inside a user chroot using Linux namespaces",
+    "number": 5545,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "revisit",
+        "new-command"
+    ],
+    "id": 261694591,
+    "html_url": "https://github.com/spack/spack/pull/5545",
+    "assignees": [],
+    "comments": 5
+}

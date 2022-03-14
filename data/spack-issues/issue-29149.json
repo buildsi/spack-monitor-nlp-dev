@@ -1,0 +1,20 @@
+{
+    "body": "The system compiler on RHEL7 fails to build the latest linux-uuid:\r\n```\r\nutil-linux-uuid@2.37.4%gcc@4.8.5 arch=linux-rhel7-haswell\r\n```\r\nresults in:\r\n```\r\nlibtool: compile:  /projects/spack/lib/spack/env/gcc/gcc -DHAVE_CONFIG_H -I. -include config.h -I./include -DLOCALEDIR=\\\"/projects/spack/opt/spack/gcc-4.8.5/util-linux-uuid/as7m3v4/share/locale\\\" -D_PATH_RUNSTATEDIR=\\\"/projects/spack/opt/spack/gcc-4.8.5/util-linux-uuid/as7m3v4/var/run\\\" -D_PATH_SYSCONFSTATICDIR=\\\"/projects/spack/opt/spack/gcc-4.8.5/util-linux-uuid/as7m3v4/lib\\\" -fsigned-char -fno-common -Wall -Wextra -Wimplicit-function-declaration -Wmissing-declarations -Wmissing-parameter-type -Wmissing-prototypes -Wnested-externs -Wno-missing-field-initializers -Wpointer-arith -Wredundant-decls -Wsign-compare -Wstrict-prototypes -Wtype-limits -Wuninitialized -Wunused-but-set-parameter -Wunused-but-set-variable -Wunused-parameter -Wunused-result -Wunused-variable -Werror=sequence-point -I./libuuid/src -Ilibuuid/src -g -O2 -MT libuuid/src/la-unparse.lo -MD -MP -MF libuuid/src/.deps/la-unparse.Tpo -c libuuid/src/unparse.c  -fPIC -DPIC -o libuuid/src/.libs/la-unparse.o\r\nlibuuid/src/unparse.c:42:73: error: expected ';', ',' or ')' before 'fmt'\r\n static void uuid_fmt(const uuid_t uuid, char *buf, char const *restrict fmt)\r\n```\r\n\r\nIt looks like it's assuming C99 by default so there may be a better way\r\nto handle this... but this at least works",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/29149",
+    "updated_at": "2022-02-23 14:42:57",
+    "created_at": "2022-02-22 18:08:59",
+    "closed_at": "2022-02-23 14:35:34",
+    "state": "closed",
+    "title": "util-linux-uuid: add conflict for new version and old compilers",
+    "number": 29149,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "conflicts"
+    ],
+    "id": 1147220474,
+    "html_url": "https://github.com/spack/spack/pull/29149",
+    "assignees": [],
+    "comments": 4
+}

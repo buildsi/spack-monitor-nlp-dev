@@ -1,0 +1,23 @@
+{
+    "body": "In C++ header-only libraries (#2378) one often combines two libraries that do not have a common dependency. E.g. a template metaprogramming library such as `Boost::MPL` can be used inside CUDA kernels, but boost has no dependency on CUDA.\r\n\r\nUnfortunately, there can still be downstream constrains, e.g. since headers use new or unsupported C++ keywords etc. that are not yet supported by the cuda compiler and vice versa.\r\n\r\nIs there a way to express in a package a constrain that says:\r\n\r\n    I depend on library A and B.\r\n    A needs a different version if B is used in version X.\r\n\r\n?\r\n\r\nA package could look like this:\r\n```python\r\n    depends_on(\r\n        'cuda@7.0:',\r\n        type='link'\r\n    )\r\n\r\n    depends_on(\r\n        'boost@1.56.0:',\r\n        type='link'\r\n    )\r\n    depends_on(\r\n        'boost@1.65.1:',\r\n        type='link',\r\n        when='^cuda@9:'  # this is not valid syntax yet but I would like to express that\r\n                         # btw: it is accepted syntax right now, it just does not work as expected\r\n    )\r\n```\r\n\r\nDo you have any idea how we can express such constrains?",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/6324",
+    "updated_at": "2021-11-18 19:21:17",
+    "created_at": "2017-11-15 12:53:54",
+    "closed_at": "2021-11-18 19:21:17",
+    "state": "closed",
+    "title": "Higher Dependency A if Dependency B at Version",
+    "number": 6324,
+    "milestone": null,
+    "labels": [
+        "question",
+        "dependencies",
+        "concretizer-use-case"
+    ],
+    "id": 274146202,
+    "html_url": "https://github.com/spack/spack/issues/6324",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

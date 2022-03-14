@@ -1,0 +1,24 @@
+{
+    "body": "I have a python package A that can be installed with spack; this package depends on a python package B at build time (i.e. it imports B in its setup.py script). I install B using pip, rather than spack, and provide spack with the path to B in my packages.yaml file. When I try `spack install A`, B is correctly found by spack and added to spack's database, but the installation of A fails on the \"import B\" statement: B cannot be found. This may hint at some PYTHONPATH issues during spack install. Dependencies might not be added to it.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI have tried these steps with one of my own packages as package A, and with both py-numpy and py-tensorflow as B. I believe this bug could be reproduced by, for instance, installing setuptools as B, and any package that imports setuptools in its setup.py script as A.\r\n\r\nHere is the example with py-numpy.\r\n\r\n```console\r\n$ spack install python\r\n$ spack py-pip\r\n$ spack load -r python\r\n$ spack load -r py-pip\r\n$ pip install py-numpy --user\r\n```\r\nAt this point you can call python and import numpy, you will see that it works.\r\n\r\nThen edit your packages.yaml file to add a py-numpy entry pointing to ~/.local (this is where numpy has been installed by pip because of the --user flag; though I have tried without the --user flag and the same thing happens).\r\n\r\nFinally run:\r\n```\r\nspack install B\r\n```\r\nWhere B is a package that calls `import numpy` in its setup.py script. The build will fail, and the log will show that python couldn't find the numpy package.\r\n",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/15886",
+    "updated_at": "2022-01-07 21:16:05",
+    "created_at": "2020-04-05 20:45:24",
+    "closed_at": "2022-01-07 21:16:04",
+    "state": "closed",
+    "title": "Spack cannot use pip-installed python packages at build time",
+    "number": 15886,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "external-packages",
+        "triage"
+    ],
+    "id": 594635260,
+    "html_url": "https://github.com/spack/spack/issues/15886",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 23
+}

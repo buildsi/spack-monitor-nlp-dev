@@ -1,0 +1,19 @@
+{
+    "body": "`superlu-dist@6.1.0 ^intel-mkl %gcc` picks up system lapack instead of intel-mkl\r\n\r\n@balay @gchavez2 @davydden \r\n\r\n```\r\n$ spack install superlu_dist ^intel-mkl@2019.0.117 %gcc@7.3.0\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```\r\n$ uname -a \r\nLinux xrm 3.10.0-693.5.2.el7.x86_64 #1 SMP Fri Oct 13 10:46:25 EDT 2017 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Red Hat Enterprise Linux Workstation release 7.4 (Maipo)\r\n``` \r\n\r\n### Build.out\r\n\r\n[spack-build.out](https://pastebin.com/9FcZRBjr)\r\n\r\nThe issue is specifically in these lines : \r\n```\r\n-- Using TPL_BLAS_LIBRARIES='-L/raid/home/sajid/packages/spack/opt/spack/linux-rhel7-x86_64/gcc-7.3.0/intel-mkl-2019.0.117-wzqlcijwx7odz2x5chembudo5leqpfh2/compilers_and_libraries_2019.0.117/linux/mkl/lib/intel64 -L/lib64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl'\r\n-- Looking for Fortran sgemm\r\n-- Looking for Fortran sgemm - found\r\n-- Looking for pthread.h\r\n-- Looking for pthread.h - found\r\n-- Looking for pthread_create\r\n-- Looking for pthread_create - found\r\n-- Found Threads: TRUE\r\n-- Found BLAS: /usr/lib64/libblas.so\r\n```\r\n@balay  was able to build this properly using intel compiler and intel-mkl so this might be an issue with cmake not picking up the libraries properly. \r\n\r\n",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/10173",
+    "updated_at": "2019-04-16 13:53:45",
+    "created_at": "2018-12-21 05:57:41",
+    "closed_at": "2019-04-16 13:53:45",
+    "state": "closed",
+    "title": "superlu-dist picks up system lapack instead of intel-mkl",
+    "number": 10173,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 393326909,
+    "html_url": "https://github.com/spack/spack/issues/10173",
+    "assignees": [],
+    "comments": 4
+}

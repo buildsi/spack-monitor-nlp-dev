@@ -1,0 +1,17 @@
+{
+    "body": "### Problem\r\n`BinaryCacheIndex` will pull down `index.json` files from mirrors, then create a `Database` from it in a temporary directory to list remote specs. We would like this location to be shared among Spack instances which may share mirrors. Additionally, we would like to ensure that the default location for these `Database` instances is definitely a user-writable directory.\r\n\r\nThis is step 1 of addressing #19085, for which we plan to eventually create a separate `Database` with its own TTL for \"all specs Spack has ever seen\", including the results of `spack spec` and `spack solve`.\r\n\r\n### Solution\r\n- For our fetch cache, misc cache, and binary index cache, separate public `*_cache_location()` methods (which return the cache's filesystem path) from private `_*_cache()` methods (which return the python object representing the cache).\r\n    - This allows creating caches in subdirectories of other cache directories.\r\n- If `config:binary_index_root` is unset, use a subdirectory of `config:misc_cache` (which defaults to `~/.spack/cache`).\r\n    - This ensures that the location is definitely writable by the current user.\r\n\r\n### Result\r\nAfter running `spack buildcache list`, we now find a new directory `~/.spack/cache/indices` has been created, with the following contents:\r\n```bash\r\n# mcclanahan7@turingtarpit: ~/tools/spack 18:14:30\r\n; ls ~/.spack/cache/indices\r\ntotal 48M\r\n-rwxr-xr-x 1 mcclanahan7 34309   0 Mar 23 18:13 .714ed82990_c1df2b37cf.json.lock*\r\n-rwxr-xr-x 1 mcclanahan7 34309   0 Mar 23 18:13 .contents.json.lock*\r\n-rw-r--r-- 1 mcclanahan7 34309 48M Mar 23 18:13 714ed82990_c1df2b37cf.json\r\n-rw-r--r-- 1 mcclanahan7 34309 152 Mar 23 18:13 contents.json\r\n# mcclanahan7@turingtarpit: ~/tools/spack 18:14:51\r\n; jq <~/.spack/cache/indices/714ed82990_c1df2b37cf.json | head -n10\r\n{\r\n  \"database\": {\r\n    \"installs\": {\r\n      \"fkoyyzocpyqsx26aswd63cg3leadscoy\": {\r\n        \"spec\": {\r\n          \"libpciaccess\": {\r\n            \"version\": \"0.16\",\r\n            \"arch\": {\r\n              \"platform\": \"linux\",\r\n              \"platform_os\": \"rhel8\",\r\n```",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/22500",
+    "updated_at": "2021-03-30 00:20:05",
+    "created_at": "2021-03-24 00:49:06",
+    "closed_at": "2021-03-30 00:20:05",
+    "state": "closed",
+    "title": "move the BinaryCacheIndex location into the user home dir",
+    "number": 22500,
+    "milestone": null,
+    "labels": [],
+    "id": 839240595,
+    "html_url": "https://github.com/spack/spack/pull/22500",
+    "assignees": [],
+    "comments": 12
+}

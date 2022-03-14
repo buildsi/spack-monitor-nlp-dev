@@ -1,0 +1,17 @@
+{
+    "body": "I use spack to build htop on one of my CentOS 7 systems and it works Just Fine(tm).\r\n\r\nI'm moving onto a fancier, newer CentOS 7 system and I noticed that the spack built htop doesn't have any text in the bottom half.  It doesn't seem to be a color scheme issue (e.g. background == foreground).\r\n\r\nI noticed that it's linking against the system ncurses library:\r\n\r\n```\r\n[hartzelg@lb093login spack]$ ldd opt/spack/linux-centos7-x86_64/gcc-5.4.0/htop-2.0.2-khg4zvn6noskhbmhsbysa5bmyo24u2nf/bin/htop\r\n\tlinux-vdso.so.1 =>  (0x00002aaaaaaab000)\r\n\tlibncursesw.so.5 => /lib64/libncursesw.so.5 (0x00002aaaaaabf000)\r\n\tlibtinfo.so.5 => /lib64/libtinfo.so.5 (0x00002aaaaacf7000)\r\n\tlibm.so.6 => /lib64/libm.so.6 (0x00002aaaaaf21000)\r\n\tlibc.so.6 => /lib64/libc.so.6 (0x00002aaaab224000)\r\n\tlibdl.so.2 => /lib64/libdl.so.2 (0x00002aaaab5e6000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x0000555555554000)\r\n```\r\n\r\nwhich is weird because a) the package says it depends on ncurses and b) my less-new CentOS 7 system links against the spack ncurses like it should.\r\n\r\nI ran `spack configure htop` and was trawling through the `config.log` file and noticed that when configure is probing for ncurses and looking at the spack copy it fails.\r\n\r\nHere is [a gist of the relevant part of the config.log](https://gist.github.com/hartzell/35c9ddacaf6e1944799ab9f984c35ed4).\r\n\r\nI'm [temporarily] out of ideas and am hoping that someone in Spack-land might be able to take a swing with the clue-bat.\r\n\r\nAny ideas?\r\n\r\n**Thanks!**",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3593",
+    "updated_at": "2017-04-05 21:03:12",
+    "created_at": "2017-03-28 21:01:55",
+    "closed_at": "2017-04-05 21:03:12",
+    "state": "closed",
+    "title": "Help tracking down [my system's] bug in building spack's htop",
+    "number": 3593,
+    "milestone": null,
+    "labels": [],
+    "id": 217691589,
+    "html_url": "https://github.com/spack/spack/issues/3593",
+    "assignees": [],
+    "comments": 0
+}

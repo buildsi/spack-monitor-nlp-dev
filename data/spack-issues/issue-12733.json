@@ -1,0 +1,24 @@
+{
+    "body": "Fixes #12633 \r\nFixes #13006 \r\n\r\nResolves post-merge issues in #12516, which primarily revolve around:\r\n\r\n-  replacing use of path indexing with more idiomatic python;\r\n- fixing access check when creating stage root directory and raising an OSError whenever a subdirectory cannot be accessed; \r\n- generating a warning (versus assertion error) if the user does not own a descendant of the `$user` directory; and\r\n- changing the stage directory name to prepend `spack-stage-` to directories to be purged.\r\n\r\nTODO:\r\n- [x] Add `prefixes` function to `filesystems.py`\r\n- [x] Change `_create_stage_root` to use `prefixes`\r\n- [x] Change `_create_stage_root` to check access at each (created) level\r\n- [x] Change `_create_stage_root` to display warning if subdir of `$user` not owned by user\r\n- [x] Change `_resolve_paths` to use `replace` instead of `os.path.join`\r\n- [x] Address new code coverage issues in `_create_stage_root`\r\n- [x] Address new code coverage issue in `_resolve_paths`\r\n- [x] Prepend `spack-stage-` to (unnamed) package stage directories and change stage's `purge` to remove only these directories.\r\n- [x] Remove unnecessary `yield`s from stage-related fixtures\r\n- [x] Make the spack stage variable public and drop `stage-` (from `spack-stage-`)\r\n- [x] Add function to split the prefix list (by entry) -- called `partition` -- to simplify processing in `stage.py` and the associated test\r\n- [x] Clarify purpose in `test_create_stage_root_non_uid` docstring \r\n- [x] Remove unnecessary restoration of `monkeypatch`'d `os.stat` for Python 3.5 and 3.6\r\n~- [ ] Add tests for new `_create_stage_root` warnings~\r\n- [x] Resolve issues related to dropping restoration of `monkeypatch`'d `os.stat`\r\n- [x] Replace `args[0]` with `errno` for `exc_info`\r\n- [x] Remove `can_access` check on `_create_stage_root` user path processing\r\n- [x] Change new `filesystem` `partition` function to `partition_path`\r\n- [x] Replace empty string checks\r\n- [x] Add/update `partition_path`-related comments\r\n- [x] Replace hard-coded 2 with `errno.ENOENT` in a `try-except` block\r\n- [x] Update `build_stage` configuration comments to reflect prepending `spack-stage-`\r\n- [x] Correct test `check_stage_dir_perms` prefix handling\r\n- [x] Add examples to `prefixes` docstring\r\n- [x] Simplify `prefixes` parts extraction (so more \"blunt\")\r\n- [x] Replace enumerate with range in `prefixes`\r\n- [x] Add explicit `prefixes` unit tests",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/12733",
+    "updated_at": "2019-10-22 20:52:41",
+    "created_at": "2019-09-06 03:13:13",
+    "closed_at": "2019-10-16 21:55:38",
+    "state": "closed",
+    "title": "Bugfix/Feature: Refactor #12516 stage path handling; resolve `spack clean` (#12633, #13006)",
+    "number": 12733,
+    "milestone": null,
+    "labels": [
+        "refactoring",
+        "stage",
+        "bugfix"
+    ],
+    "id": 490105299,
+    "html_url": "https://github.com/spack/spack/pull/12733",
+    "assignees": [
+        "scheibelp",
+        "tldahlgren"
+    ],
+    "comments": 16
+}

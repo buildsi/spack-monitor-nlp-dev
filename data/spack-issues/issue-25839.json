@@ -1,0 +1,22 @@
+{
+    "body": "Hi @adamjstewart, based on the review so far, I've applied the tolower() fixup of the config dict.\r\n\r\nIf you know a better way, by all means, commit yours!\r\n\r\nI guess the conversion of the True/False booleans to \"true\"/\"false\" could be made simpler, but this is what I found to work.\r\n\r\nUsing dict comprehensions (Python2.7+) would make the conversion shorter, but this way it works even with older pythons.\r\n\r\nFixes these exceptions for python2 packages:\r\n```py\r\n==> Error: KeyError: 'false'\r\nvar/spack/repos/builtin/packages/python/package.py:869, in python_lib_dir:\r\n        866            str: standard library directory\r\n        867        \"\"\"\r\n        868        if 'python_lib' in self.config_vars:\r\n  >>    869            return self.config_vars['python_lib']['false']['true']\r\n```\r\n\r\nTestcases: py-pil, py-doxypy, mozjs",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/25839",
+    "updated_at": "2021-09-09 07:25:55",
+    "created_at": "2021-09-08 14:51:45",
+    "closed_at": "2021-09-09 07:25:55",
+    "state": "closed",
+    "title": "Fix python/package.py's config_vars for python2 packages",
+    "number": 25839,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package"
+    ],
+    "id": 991228031,
+    "html_url": "https://github.com/spack/spack/pull/25839",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 9
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Spack correctly finds compilers on El Capitan\n\n```\n$ ./spack compilers\n==> Available compilers\n-- gcc ----------------------------------------------------------\ngcc@5.3.0  gcc@4.2.1\n\n-- clang --------------------------------------------------------\nclang@7.0.2-apple\n```\n\nand the `compilers.yaml` looks all right\n\n```\ncompilers:\n  darwin-x86_64:\n    clang@7.0.2-apple:\n      cc: /usr/bin/clang\n      cxx: /usr/bin/clang++\n      f77: null\n      fc: null\n    gcc@4.2.1:\n      cc: /usr/bin/gcc\n      cxx: /usr/bin/g++\n      f77: null\n      fc: null\n    gcc@5.3.0:\n      cc: null\n      cxx: null\n      f77: /usr/local/bin/gfortran\n      fc: /usr/local/bin/gfortran\n```\n\nTo use this on OS-X, one really need a way to specify the usage of \n\n```\ncc: /usr/bin/clang\ncxx: /usr/bin/clang++\n```\n\ntogether with\n\n```\nf77: /usr/local/bin/gfortran\nfc: /usr/local/bin/gfortran\n```\n\nwhen building, say, OpenMPI with fortran support. That also includes changing the installation prefix `darwin-x86_64/gcc-5.3.0/` to something like `darwin-x86_64/gcc-5.3.0-clang-7.0.2/`.\n\nAs a current workaround I guess one can edit `compilers.yaml` manually to something like\n\n```\ncompilers:\n  darwin-x86_64:\n    clang@7.0.2-apple:\n      cc: /usr/bin/clang\n      cxx: /usr/bin/clang++\n      f77: /usr/local/bin/gfortran\n      fc: /usr/local/bin/gfortran\n```\n\nand then make `clang` default.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/568",
+    "updated_at": "2019-08-02 20:31:26",
+    "created_at": "2016-03-18 10:08:58",
+    "closed_at": "2016-03-29 19:32:32",
+    "state": "closed",
+    "title": "Mix Clang and GNU Fortran on OS-X",
+    "number": 568,
+    "milestone": null,
+    "labels": [],
+    "id": 141824165,
+    "html_url": "https://github.com/spack/spack/issues/568",
+    "assignees": [],
+    "comments": 38
+}

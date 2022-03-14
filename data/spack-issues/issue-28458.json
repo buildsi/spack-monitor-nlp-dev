@@ -1,0 +1,17 @@
+{
+    "body": "Fixes a couple of build issues I noticed:\r\n\r\n1. libnetworkit requires OpenMP, but Apple Clang doesn't have OpenMP\r\n2. I broke the `py-networkit` package in #27798\r\n\r\nBefore #27798, we ran:\r\n```console\r\n$ python setup.py build --networkit-external-core\r\n$ python setup.py install ...\r\n```\r\nAfter #27798, we run `pip install .` which runs:\r\n```console\r\n$ python setup.py install --networkit-external-core ...\r\n```\r\nHowever, this flag is only valid for build, not for install. Removing this flag allows the build to succeed for me.\r\n\r\nP.S. I noticed a build issue on RHEL 8 where the libnetworkit build fails to find tlx and crashes, not sure what is going on there.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28458",
+    "updated_at": "2022-01-25 23:07:45",
+    "created_at": "2022-01-17 17:55:25",
+    "closed_at": "2022-01-25 23:07:44",
+    "state": "closed",
+    "title": "Fix build of libnetworkit/py-networkit",
+    "number": 28458,
+    "milestone": null,
+    "labels": [],
+    "id": 1106129302,
+    "html_url": "https://github.com/spack/spack/pull/28458",
+    "assignees": [],
+    "comments": 1
+}

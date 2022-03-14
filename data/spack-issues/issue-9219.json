@@ -1,0 +1,19 @@
+{
+    "body": "See https://github.com/spack/spack/issues/9166\r\nSee https://github.com/spack/spack/issues/8915\r\n\r\nThis is intended to reduce errors related to lock timeouts by making the following changes\r\n\r\n* (new 9/18) locks (those created using `spack.llnl.util.lock.Lock`) now have no timeout by default\r\n* (updated 9/18) increases the default timeout *for database locks*\r\n* (new 9/18) by default locks taken on individual packages do not have a timeout. A timeout can be added by setting `package_lock_timeout` in `config.yaml`\r\n* ~allows users to set `file_lock_timeout` in `config.yaml`~ (update 9/18, this is replaced with two separate configurable timeout parameters)\r\n* (new 9/18) users can configure the whole-database lock timeout using the `db_lock_timout` setting in `config.yaml`\r\n* (updated 9/18) Reduces the amount of spinning on the spin lock, to reduce impact in the case where NFS is overtaxed (~at the moment this simply increases the sleep time between polls, it could be smarter than that~ as of 9/18 there is a slightly-more-sophisticated backoff strategy)\r\n\r\nIt would not address implementations of NFS that do not support file locking, or detect cases where services that may be required (nfslock/statd) aren't running.\r\n\r\nUsers may want to be able to more-aggressively release locks when they know they are the only one using their Spack instance, and they encounter lock errors after a crash (e.g. a remote terminal disconnect like https://github.com/spack/spack/issues/8915#issuecomment-417728118).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/9219",
+    "updated_at": "2018-09-26 01:58:52",
+    "created_at": "2018-09-12 02:30:51",
+    "closed_at": "2018-09-26 01:58:52",
+    "state": "closed",
+    "title": "Increase and customize lock timeouts",
+    "number": 9219,
+    "milestone": null,
+    "labels": [
+        "locking"
+    ],
+    "id": 359292152,
+    "html_url": "https://github.com/spack/spack/pull/9219",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "`xsdk@develop` has an unsatisfiable version constraint\r\n\r\n### Expected Result\r\n\r\n`spack spec xsdk@develop` concretizes.\r\n\r\n### Actual Result\r\n\r\n```\r\n$ spack spec xsdk@develop\r\nInput spec\r\n--------------------------------\r\nxsdk@develop\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    hypre@develop~int64~internal-superlu\r\n        ^blas\r\n        ^lapack\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    mfem@3.3.2+examples+hypre+miniapps+mpi+petsc+sundials+superlu-dist\r\n\r\n\r\nmfem requires hypre version 2.10.0:2.13.999, but spec asked for develop\r\n```\r\nThat's because `xsdk` has\r\n```\r\ndepends_on('mfem@3.3.2+mpi+hypre+superlu-dist+petsc+sundials+examples+miniapps', when='@develop')\r\ndepends_on('hypre@develop~internal-superlu', when='@develop')\r\n```\r\nwhereas `mfem` has\r\n```\r\ndepends_on('hypre@2.10.0:2.13.999', when='@:3.3.999+mpi')\r\n```\r\nThe two are clearly conflicting.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec xsdk@develop\r\n```\r\n\r\nCan somebody from `mfem` have a look please?\r\n@goxberry @tzanio @markcmiller86 @acfisher @v-dobrev ping.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/8460",
+    "updated_at": "2018-06-13 20:45:35",
+    "created_at": "2018-06-13 14:34:20",
+    "closed_at": "2018-06-13 20:45:35",
+    "state": "closed",
+    "title": "xsdk@develop has an unsatisfiable version constraint",
+    "number": 8460,
+    "milestone": null,
+    "labels": [
+        "xSDK"
+    ],
+    "id": 332023419,
+    "html_url": "https://github.com/spack/spack/issues/8460",
+    "assignees": [],
+    "comments": 2
+}

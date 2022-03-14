@@ -1,0 +1,19 @@
+{
+    "body": "using spack compiled python+petsc4py+matplotlib:\r\n```\r\nhron@r0d0$ spack find python py-petsc4py py-matplotlib petsc\r\n\r\n-- linux-ubuntu16.04-x86_64 / gcc@7.4.0 -------------------------\r\npetsc@3.8.4  py-matplotlib@3.0.0  py-petsc4py@3.8.1  python@3.6.5\r\n```\r\nI see a strange error in linking:\r\n\r\n- working order of imports\r\n```\r\nhron@r0d0$ python\r\nPython 3.6.5 (default, Feb  9 2019, 12:35:34) \r\n[GCC 7.4.0] on linux\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import sys\r\n>>> import matplotlib.pyplot as plt\r\n>>> import petsc4py\r\n>>> petsc4py.init(sys.argv)\r\n>>> \r\n```\r\n\r\n- non-working order\r\n```\r\nhron@r0d0$ python\r\nPython 3.6.5 (default, Feb  9 2019, 12:35:34) \r\n[GCC 7.4.0] on linux\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import sys\r\n>>> import petsc4py\r\n>>> petsc4py.init(sys.argv)\r\n>>> import matplotlib.pyplot as plt\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/py-matplotlib/3.0.0/56bf2zhzyqlj2lpa/lib/python3.6/site-packages/matplotlib/pyplot.py\", line 32, in <module>\r\n    import matplotlib.colorbar\r\n  File \"/usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/py-matplotlib/3.0.0/56bf2zhzyqlj2lpa/lib/python3.6/site-packages/matplotlib/colorbar.py\", line 32, in <module>\r\n    import matplotlib.contour as contour\r\n  File \"/usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/py-matplotlib/3.0.0/56bf2zhzyqlj2lpa/lib/python3.6/site-packages/matplotlib/contour.py\", line 18, in <module>\r\n    import matplotlib.font_manager as font_manager\r\n  File \"/usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/py-matplotlib/3.0.0/56bf2zhzyqlj2lpa/lib/python3.6/site-packages/matplotlib/font_manager.py\", line 48, in <module>\r\n    from matplotlib import afm, cbook, ft2font, rcParams, get_cachedir\r\nImportError: /lib/x86_64-linux-gnu/libz.so.1: version `ZLIB_1.2.9' not found (required by /usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/libpng/1.6.34/uzwwmyb42qhkd7jr/lib/libpng16.so.16)\r\n```\r\n\r\nchecking the import error - that zlib rquired by libpng16.so.16 is not found - the linking seems to be ok?\r\n```\r\nhron@r0d0$ ldd /usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/libpng/1.6.34/uzwwmyb42qhkd7jr/lib/libpng16.so.16\r\n\tlinux-vdso.so.1 =>  (0x00007f9819e3b000)\r\n\tlibz.so.1 => /usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/zlib/1.2.11/2oxindpgtak27aeq/lib/libz.so.1 (0x00007f98197d0000)\r\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f98194c7000)\r\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f98190fd000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f9819c18000)\r\nhron@r0d0$ ldd /usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/zlib/1.2.11/2oxindpgtak27aeq/lib/libz.so.1\r\n        linux-vdso.so.1 =>  (0x00007f8af5723000)\r\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f8af4f20000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f8af5500000)\r\n```\r\n\r\nSince i don't see which part is doing something wrong - spack/python/petsc4py/matplotlib - my first try is to ask here firs if anyone have seen this problem? Or if anyone has idea how to check whats is wrong here... \r\n",
+    "user": "JaroslavHron",
+    "url": "https://api.github.com/repos/spack/spack/issues/10585",
+    "updated_at": "2019-09-28 18:39:46",
+    "created_at": "2019-02-13 14:40:55",
+    "closed_at": "2019-09-28 18:39:46",
+    "state": "closed",
+    "title": "petsc and zlib linking problem (strange import/linking problem with python + petsc4py + matplotlib)",
+    "number": 10585,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 409837204,
+    "html_url": "https://github.com/spack/spack/issues/10585",
+    "assignees": [],
+    "comments": 8
+}

@@ -1,0 +1,17 @@
+{
+    "body": "I think you can already add custom paths eg. export `PYTHONHOME` to a generated environment module using [this](http://software.llnl.gov/spack/basic_usage.html#override-package-api) method in `package.py` but it would be nice to be able to not have to modify the `package.py` file or override it with another local package.\n\nI am thinking something like this for the `modules.yaml` config:\n\n``` yaml\nmodules:\n  ...\n  jdk:\n    set_env:\n      - JAVA_HOME: $prefix\n  foo:\n    prepend_path:\n      - BAR: $prefix.lib\n    append_path:\n      - BAZ: $prefix.include\n```\n\nWhere you can reference any of the prefix attribute variables listed [here](http://software.llnl.gov/spack/packaging_guide.html#id12).\n",
+    "user": "mwilliammyers",
+    "url": "https://api.github.com/repos/spack/spack/issues/1109",
+    "updated_at": "2016-08-03 16:49:29",
+    "created_at": "2016-06-24 18:49:55",
+    "closed_at": "2016-08-03 16:49:29",
+    "state": "closed",
+    "title": "[proposal]: Add custom paths/settings to environment modules",
+    "number": 1109,
+    "milestone": null,
+    "labels": [],
+    "id": 162207962,
+    "html_url": "https://github.com/spack/spack/issues/1109",
+    "assignees": [],
+    "comments": 4
+}

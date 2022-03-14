@@ -1,0 +1,19 @@
+{
+    "body": "See: https://github.com/spack/spack/issues/8133\r\n\r\nThere are many cases where Spack's greedy concretization algorithm makes choices that result in conflicts that it cannot undo. For example (from the linked issue):\r\n\r\n```\r\n$ spack spec ecp-proxy-apps\r\nInput spec\r\n--------------------------------\r\necp-proxy-apps\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Multiple providers found for 'jpeg': ['libjpeg', 'libjpeg-turbo@1.5.90%gcc@5.4.0 arch=linux-gentoo2-x86_64']\r\n```\r\n\r\nThis is partly due to the fact that the concretizer algorithm runs in passes: each pass (a) expands known dependencies and (b) chooses variant settings (since (b) affects (a), this happens in a loop). It so happens in this case that an earlier pass chose `libjpeg-turbo` as the implementation of the `jpeg` virtual, but in a later pass found that some dependency specifically wanted the `libjpeg` implementation.\r\n\r\nThere are many incarnations of this issue. The typical first response is to give a hint to the concretizer:\r\n\r\n`spack spec ecp-proxy-apps ^libjpeg`\r\n\r\nwhich can often result in an error like the following:\r\n\r\n```\r\n==> Error: ecp-proxy-apps does not depend on libjpeg\r\n```\r\n\r\nThis is because the concretization algorithm contains an intended-to-be-useful guard which checks whether user-specified constraints actually apply to the DAG. The problem is that this guard *also* executes on every pass and doesn't account for the fact that user-specified constraints might only apply to dependencies that show up in later passes.\r\n\r\nSO... what does this PR do? It relaxes the guard and only applies it at the end, so you can do\r\n\r\n`spack speck ecp-proxy-apps ^libjpeg ^opengl`\r\n\r\nand it won't complain (because those dependencies eventually show up in the DAG).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/8162",
+    "updated_at": "2018-05-30 18:07:15",
+    "created_at": "2018-05-16 19:53:51",
+    "closed_at": "2018-05-30 18:07:14",
+    "state": "closed",
+    "title": "More-flexible user-specified dependency constraints",
+    "number": 8162,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 323763179,
+    "html_url": "https://github.com/spack/spack/pull/8162",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,17 @@
+{
+    "body": "@mathstuf:\n\n> @citibeth:\n> \n> > If position-independent code is an option for a library, it should be controlled by a variant \"+fpic\"\n> \n> I don't think this should ever be an option since it makes it incompatible with all shared libraries (including things like Python modules which have to be shared).\n\n```\n$ grep fpic `find . -name '*.py'`\n./py-numpy/package.py:    depends_on('netlib-blas+fpic', when='+blas')\n./netlib-blas/package.py:    variant('fpic', default=False, description=\"Build with -fpic compiler option\")\n./netlib-blas/package.py:        if '+fpic' in self.spec:\n./netlib-blas/package.py:            mf.filter('^OPTS.*=.*',  'OPTS = -O2 -frecursive -fpic')\n./netlib-blas/package.py:            mf.filter('^CFLAGS =.*',  'CFLAGS = -O3 -fpic')\n./trilinos/package.py:    # Everything should be compiled with -fpic\n./netlib-scalapack/package.py:    variant('fpic', default=False, description=\"Build with -fpic compiler option\")\n./netlib-scalapack/package.py:        if '+fpic' in spec:\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/511",
+    "updated_at": "2016-03-08 23:20:41",
+    "created_at": "2016-03-08 19:59:12",
+    "closed_at": "2016-03-08 23:20:41",
+    "state": "closed",
+    "title": "Remove +fpic variant from packages",
+    "number": 511,
+    "milestone": null,
+    "labels": [],
+    "id": 139378147,
+    "html_url": "https://github.com/spack/spack/issues/511",
+    "assignees": [],
+    "comments": 4
+}

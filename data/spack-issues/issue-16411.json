@@ -1,0 +1,19 @@
+{
+    "body": "The latest commit concerning arborx' package ([598c233](https://github.com/spack/spack/commit/598c233f78d23329c0cc6c7bc86b7117dca7bacd)) doesn't work:\r\n```console\r\n$ spack install arborx\r\n[...]\r\n==> 916127: arborx: Executing phase: 'cmake'\r\n==> Error: KeyError: 'No spec with name kokkos in arborx@0.8-beta2%gcc@9.3.0 [...]\r\n/home/picard/spack/var/spack/repos/builtin/packages/arborx/package.py:39, in cmake_args:\r\n         36        spec = self.spec\r\n         37\r\n         38        options = [\r\n  >>     39            '-DCMAKE_PREFIX_PATH=%s' % spec['kokkos'].prefix,\r\n         40            '-DARBORX_ENABLE_TESTS=OFF',\r\n```\r\n\r\nCan be fixed by changing `package.py` as follows:\r\n```python\r\n    options = [\r\n      '-DCMAKE_PREFIX_PATH=%s' % spec['kokkos-legacy'].prefix,\r\n```\r\n\r\nI will try to submit a PR.\r\nThanks",
+    "user": "jilpi",
+    "url": "https://api.github.com/repos/spack/spack/issues/16411",
+    "updated_at": "2020-05-01 07:31:01",
+    "created_at": "2020-05-01 05:26:48",
+    "closed_at": "2020-05-01 07:31:01",
+    "state": "closed",
+    "title": "Installation issue: arborx",
+    "number": 16411,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 610573006,
+    "html_url": "https://github.com/spack/spack/issues/16411",
+    "assignees": [],
+    "comments": 2
+}

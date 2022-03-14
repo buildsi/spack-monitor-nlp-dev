@@ -1,0 +1,21 @@
+{
+    "body": "Horrible hack for Cray modulefiles: sometimes when the module is called\r\neg \"cray-hdf5\" it defines \"CRAY_HDF5_DIR\" and also \"HDF5_DIR\". In those\r\ncases \"HDF5_DIR\" is (usually?) the one we want, despite not matching the \r\nmodulefile name. But HDF5_DIR might not be defined, in which case we want\r\nCRAY_HDF5_DIR. \r\n\r\nThis is a (rather nasty, sorry) hack to nudge module_cmd.py:get_path_from_module_contents()\r\nto choose $HDF5_DIR as the pkg_var_prefix in preference to $CRAY_HDF5_DIR.\r\nSince get_path_from_module_contents() chooses the most-frequently-used path,\r\nthis fix rigs the election by checking for HDF5_DIR twice\r\n\r\nThe motivating example was an attempt to build petsc when hdf5 was coming \r\nfrom the cray-hdf5-parallel module. With the patch, the correct hdf5 location \r\nis used.",
+    "user": "sleak-lbl",
+    "url": "https://api.github.com/repos/spack/spack/issues/14710",
+    "updated_at": "2021-02-19 09:24:29",
+    "created_at": "2020-01-31 18:44:57",
+    "closed_at": "2021-02-19 09:24:29",
+    "state": "closed",
+    "title": "fix wrong guess of path when package is from modulefile",
+    "number": 14710,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "modules",
+        "external-packages"
+    ],
+    "id": 558306665,
+    "html_url": "https://github.com/spack/spack/pull/14710",
+    "assignees": [],
+    "comments": 2
+}

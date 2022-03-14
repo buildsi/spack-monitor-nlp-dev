@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #8469.\r\n\r\nI accidentally broke our GDAL Python binding support in #8263 when I removed the `py-numpy` dependency. GDAL doesn't have great installation documentation, and `numpy` isn't listed anywhere, so it got lost in the sea of dependencies. If you dig deep enough and read the `swig/python/setup.py` file, you'll see that `numpy` is an optional dependency needed to convert GeoTIFF files read by GDAL into numpy arrays.\r\n\r\nGDAL was also installing its Python bindings directly to the `site-packages` directory of the Python installation prefix, not to the GDAL installation prefix. This is now fixed.\r\n\r\nI also added import tests. If you run `spack install --test=root gdal+python`, Spack will try to import common `osgeo` modules. Hopefully this will catch things next time someone erroneously removes `py-numpy` from the dependency list.\r\n\r\nI also removed GDAL's swig dependency. Swig is needed to generate language bindings, but these bindings are already present in the downloaded tarball, so swig is not necessary.\r\n\r\n**Note:** I encountered a couple of bugs while debugging this package. The first was #8475. For some reason, Spack was trying to apply the JasPer patch to GDAL even though I disabled JasPer support. I had to comment out the JasPer dependency to avoid this. The second was #987. Spack doesn't really support packages with multiple `extends()` directives at the moment. In order to run the import tests, I needed to comment out the `perl` dependency so that Spack could correctly detect that GDAL extends Python. I'm surprised that no one else encountered these problems.\r\n\r\n@neilflood. @michaelkuhn may also be interested in this.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8482",
+    "updated_at": "2018-06-15 15:14:54",
+    "created_at": "2018-06-14 18:39:49",
+    "closed_at": "2018-06-15 15:14:51",
+    "state": "closed",
+    "title": "Fix GDAL Python bindings and add import tests",
+    "number": 8482,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "tests"
+    ],
+    "id": 332518255,
+    "html_url": "https://github.com/spack/spack/pull/8482",
+    "assignees": [],
+    "comments": 0
+}

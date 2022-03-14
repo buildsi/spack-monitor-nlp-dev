@@ -1,0 +1,19 @@
+{
+    "body": "py-llvmlite has an issue with the dependencies.  The relevant line in package.py is\r\n```python\r\ndepends_on('llvm@6.0:', when='@0.23.0:')\r\n```\r\nNote the colon after the version number.  Spack will install anything newer than 6.0 and 7.0.0 is now available.  However, the setup.py file in py-llvmlite code insists on major version 6.  The simple solution is to just change the version in the depends_on() call to \"6.0.1\" (without the colon).  We might also want to check and see if a newer version of llvmlite exists that works with LLVM 7.x\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-llvmlite\r\n```\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/xmr/git/spack/opt/spack/linux-centos7-x86_64/gcc-8.2.0/python-3.7.0-s5za75wfhglupziwnnwnnjq6ek7nlwef/bin/python3.7' '-s' 'setup.py' '--no-user-cfg' 'build'\r\n\r\n1 error found in build log:\r\n     13        main_posix('linux', '.so')\r\n     14      File \"/tmp/xmr/spack-stage/spack-stage-hQ1bbv/llvmlite-0.23.0/ffi/build.py\",\r\n            line 105, in main_posix\r\n     15        raise RuntimeError(msg)\r\n     16    RuntimeError: Building llvmlite requires LLVM 6.0.x. Be sure to set LLVM_CONFI\r\n           G to the right executable path.\r\n     17    Read the documentation at http://llvmlite.pydata.org/ for more information abo\r\n           ut building llvmlite.\r\n     18    \r\n  >> 19    error: command '/home/xmr/git/spack/opt/spack/linux-centos7-x86_64/gcc-8.2.0/p\r\n           ython-3.7.0-s5za75wfhglupziwnnwnnjq6ek7nlwef/bin/python3.7' failed with exit s\r\n           tatus 1\r\n```\r\n\r\nNote line 16: we need LLVM 6.0.x, but the version of llvm that is installed by default is 7.0.0.\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```\r\nxmr@boo4:~$ uname -a\r\nLinux boo4 4.15.0-36-generic #39-Ubuntu SMP Mon Sep 24 16:19:09 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\nxmr@boo4:~$ lsb_release -d\r\nDescription:    Ubuntu 18.04.1 LTS\r\n``` \r\n\r\n",
+    "user": "rgmiller",
+    "url": "https://api.github.com/repos/spack/spack/issues/9667",
+    "updated_at": "2018-10-30 20:34:08",
+    "created_at": "2018-10-29 20:17:55",
+    "closed_at": "2018-10-30 20:34:08",
+    "state": "closed",
+    "title": "Installation issue: py-llvmlite",
+    "number": 9667,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 375197834,
+    "html_url": "https://github.com/spack/spack/issues/9667",
+    "assignees": [],
+    "comments": 3
+}

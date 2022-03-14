@@ -1,0 +1,21 @@
+{
+    "body": "Use a native Python package system's dependency graph rather than Spack's for python packages.\r\n\r\n### Rationale\r\n\r\nCurrently, all Python packages require explicitly defined `depends_on` inside of spack. For each version of a package, the dependencies (both names and versions) _should_ be identical to those specified in the `setup.py` script or `Pipfile`.  However, this is rarely the case because the dependencies change with each version of the script and it's hard to guarantee that the `package.py` is kept up to date.\r\n\r\nFurthermore, using a native Python package manager would enable a *much* more agile Python environment, where it's easier to install and manage new packages and new versions of packages.\r\n\r\n----\r\n\r\nAs an example of the problems with the current system: the `py-pint` package has the dependency\r\n```python\r\ndepends_on('py-setuptools', type='build')\r\n```\r\nwhereas it needs\r\n```python\r\ndepends_on('py-setuptools', type=('build', 'run'))\r\n```\r\nThe current setup results in a hard-to-debug runtime error:\r\n```console\r\n$ module load py-pint\r\n$ python -c 'import pint'\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\n  File \"/rnsdhpc/code/spack/opt/spack/darwin-highsierra-x86_64/clang-9.0.0-apple/py-pint-0.8.1-pp2zt23fpjleh2daxepjxoyypiv3uidc/lib/python3.7/site-packages/pint/__init__.py\", line 17, in <module>\r\n    import pkg_resources\r\nModuleNotFoundError: No module named 'pkg_resources'\r\n```\r\nsince it's not immediately obvious *which* spack package provides `pkg_resources`. \r\n\r\nOther python-related issues I've encountered:\r\n- `py-sphinx` fails at runtime because of an upstream `py-requests` library missing dependencies. \r\n- `py-matplotlib` fails during build because its default version is Python 3-only and that constraint wasn't mirrored in Spack's package (and even when it is, the concretization algorithm doesn't automatically select the right version when requesting `^python@2.7`)\r\n- `py-jupyter-lab` is unavailable\r\n- Fixing a dependency in a Spack Python package requires rebuilding, reinstalling, and regenerating modules for everything downstream, even though they're only run-time dependencies.\r\n\r\n### Description\r\n\r\nPython-based dependencies for packages would be treated by Spack differently from other dependencies. Instead of requiring upstream modules to load at runtime, each non-Python package would have an independent virtual environment in its install directory. Its `PYTHONPATH` would be set to that one directory during build and installation, and the Python packages' dependencies wouldn't be propagated downstream. This of course has some of the same niceties and drawbacks of `spack activate`.\r\n\r\n### Additional information\r\n\r\nSee some discussion on https://github.com/spack/spack/issues/2065 on pip and spack.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/11279",
+    "updated_at": "2020-04-30 23:15:49",
+    "created_at": "2019-04-24 17:51:19",
+    "closed_at": "2019-11-19 12:19:43",
+    "state": "closed",
+    "title": "Use Pipenv for Python package interdependencies",
+    "number": 11279,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "wontfix",
+        "python"
+    ],
+    "id": 436829259,
+    "html_url": "https://github.com/spack/spack/issues/11279",
+    "assignees": [],
+    "comments": 4
+}

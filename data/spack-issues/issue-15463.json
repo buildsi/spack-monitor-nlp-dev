@@ -1,0 +1,20 @@
+{
+    "body": "I found and fixed the following errors when building `cpprestsdk`.\r\n\r\n- [-Werror,-Wunused-lambda-capture]\r\n```\r\n  >> 147    /tmp/pytest-of-ogura/pytest-77/mock-stage0/spack-stage-cpprestsdk-2\r\n            .9.1-lgfw6z2gh2lvm25uus246cw2itmm62vb/spack-src/Release/src/uri/uri\r\n            .cpp:25:73: error: lambda capture 'this' is not used [-Werror,-Wunu\r\n            sed-lambda-capture]\r\n```\r\nI removed not used `this`.\r\nRef: https://github.com/microsoft/cpprestsdk/commit/70c1b14f39f5d47984fdd8a31fc357ebb5a37851\r\n\r\n\r\n- [-Werror,-Wdelete-non-virtual-dtor]\r\n```\r\n  >> 139    /home/ogura/karatsu/fujitsu_compilers_for_sve_20190731/fujitsu_comp\r\n            ilers_sve_own_20190731/sve_own/clang-comp/bin/../include/c++/v1/mem\r\n            ory:3656:5: error: destructor called on non-final 'pplx::details::l\r\n            inux_scheduler' that has virtual functions but non-virtual destruct\r\n            or [-Werror,-Wdelete-non-virtual-dtor]\r\n     140        __data_.second().~_Tp();\r\n     141        ^\r\n```\r\nI added virtual destructor to class.\r\nRef: https://github.com/microsoft/cpprestsdk/commit/f9f518e4ad84577eb684ad8235181e4495299af4\r\n\r\n\r\n- error: no matching function for call to 'make_shared'\r\n```\r\n  >> 169    /tmp/pytest-of-ogura/pytest-77/mock-stage0/spack-stage-cpprestsdk-2\r\n            .9.1-zbzjokez2xnzbanmtnxqd37ziqykejht/spack-src/Release/libs/websoc\r\n            ketpp/websocketpp/transport/asio/connection.hpp:425:24: error: no m\r\n            atching function for call to 'make_shared'\r\n     170                m_strand = lib::make_shared<boost::asio::strand>(\r\n     171                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n```\r\nI fixed strand.\r\nRef: https://github.com/Microsoft/cpprestsdk/commit/6b2e0480018530b616f61d5cdc786c92ba148bb7\r\n\r\nIf boost@1.70.0 or later is used, an error occured. \r\n```\r\n  >> 176    /home/ogura/noguchi/spack/opt/spack/linux-centos7-thunderx2/fj-4.0.\r\n            0/boost-1.72.0-kjyta52lqpm3fdu6ate4qghsdl5a6gvn/include/boost/asio/\r\n            impl/executor.hpp:179:22: error: no member named 'context' in 'std:\r\n            :__1::reference_wrapper<boost::asio::io_context>'\r\n     177        return executor_.context();\r\n     178               ~~~~~~~~~ ^\r\n```\r\nProbably due to the websocketpp module included in cpprestsdk.\r\n\"get_io_service\" used in websocket was removed in boost@1.70.0.\r\nSo I set the version to used to 1.69.0 or lower.\r\nRef: https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/history.html",
+    "user": "noguchi-k",
+    "url": "https://api.github.com/repos/spack/spack/issues/15463",
+    "updated_at": "2020-03-13 08:55:39",
+    "created_at": "2020-03-12 10:03:02",
+    "closed_at": "2020-03-12 21:09:07",
+    "state": "closed",
+    "title": "cpprestsdk: fix common error and, use boost@1.69.0 or lower",
+    "number": 15463,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "patch"
+    ],
+    "id": 579823397,
+    "html_url": "https://github.com/spack/spack/pull/15463",
+    "assignees": [],
+    "comments": 0
+}

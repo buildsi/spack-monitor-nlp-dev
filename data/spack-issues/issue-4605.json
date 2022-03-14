@@ -1,0 +1,17 @@
+{
+    "body": "This seems to be related to the pull request https://github.com/LLNL/spack/pull/3696 that I abandoned a few months back, but which has now come back to haunt me.\r\nIf I use the current spack setup for adios and mxml, I receive the following error when I try to link against the adios library:\r\n\r\n    ld: /home/mol/Software/spack/opt/spack/linux-opensuse42-x86_64/gcc-4.8/mxml-2.10-zxpuyumt66b7ehrlidmcax7li5ekhr6x/lib64/libmxml.a(mxml-attr.o):\r\n    relocation R_X86_64_32 against `.rodata.str1.1' can not be used when making a shared object; recompile with -fPIC\r\n    /home/mol/Software/spack/opt/spack/linux-opensuse42-x86_64/gcc-4.8/mxml-2.10-zxpuyumt66b7ehrlidmcax7li5ekhr6x/lib64/libmxml.a: error adding symbols: Bad value\r\ncollect2: error: ld returned 1 exit status\r\n\r\nInterestingly enough, the adios library is always being built as a `.a`, regardless of +shared, ~shared, whatever.\r\n\r\nIf I avoid the external mxml library for ADIOS - relying instead on adios' own internal copy - I don't see this issue.\r\nI'll post a commit and pull-request and see if someone can tell me why.",
+    "user": "olesenm",
+    "url": "https://api.github.com/repos/spack/spack/issues/4605",
+    "updated_at": "2017-06-27 11:34:52",
+    "created_at": "2017-06-26 19:01:45",
+    "closed_at": "2017-06-27 11:34:52",
+    "state": "closed",
+    "title": "BUG: mxml / adios link error",
+    "number": 4605,
+    "milestone": null,
+    "labels": [],
+    "id": 238638350,
+    "html_url": "https://github.com/spack/spack/issues/4605",
+    "assignees": [],
+    "comments": 0
+}

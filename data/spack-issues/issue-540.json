@@ -1,0 +1,17 @@
+{
+    "body": "The sample packages.yaml file given in the new concretization docs does not parse:\n\n```\n +    packages:\n+      dyninst:\n+        compiler: [gcc@4.9]\n+        variants: +debug\n+      gperftools:\n+        version: [2.2, 2.4, 2.3]\n+      all:\n+        compiler: [gcc@4.4.7, gcc@4.6:, intel, clang, pgi]\n+        providers:\n+          mpi: [mvapich, mpich, openmpi]\n```\n\nThe yaml validation complains on any \"variants:\" line.  The spec for packages.yaml (in config.py) confirms that the 'variants:' line is not (currently) legal in packages.yaml:\n\nWas it the intention to include the 'variants' feature in PR #120?  I'm hoping so, since it will be really useful for me.\n\n```\n    'packages': {\n        '$schema': 'http://json-schema.org/schema#',\n        'title': 'Spack package configuration file schema',\n        'type': 'object',\n        'additionalProperties': False,\n        'patternProperties': {\n            r'packages:?': {\n                'type': 'object',\n                'default': {},\n                'additionalProperties': False,\n                'patternProperties': {\n                    r'\\w[\\w-]*': { # package name\n                        'type': 'object',\n                        'default': {},\n                        'additionalProperties': False,\n                        'properties': {\n                            'version': {\n                                'type' : 'array',\n                                'default' : [],\n                                'items' : { 'anyOf' : [ { 'type' : 'string' },\n                                                        { 'type' : 'number'}]}}, #version strings\n                            'compiler': {\n                                'type' : 'array',\n                                'default' : [],\n                                'items' : { 'type' : 'string' } }, #compiler specs\n                            'buildable': {\n                                'type':  'boolean',\n                                'default': True,\n                             },\n                            'providers': {\n                                'type':  'object',\n                                'default': {},\n                                'additionalProperties': False,\n                                'patternProperties': {\n                                    r'\\w[\\w-]*': {\n                                        'type' : 'array',\n                                        'default' : [],\n                                        'items' : { 'type' : 'string' },},},},\n                            'paths': {\n                                'type' : 'object',\n                                'default' : {},\n                            }\n                        },},},},},}\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/540",
+    "updated_at": "2016-07-22 04:51:35",
+    "created_at": "2016-03-12 00:34:25",
+    "closed_at": "2016-07-22 04:51:35",
+    "state": "closed",
+    "title": "What happened to variants in PR #120?",
+    "number": 540,
+    "milestone": null,
+    "labels": [],
+    "id": 140326085,
+    "html_url": "https://github.com/spack/spack/issues/540",
+    "assignees": [],
+    "comments": 6
+}

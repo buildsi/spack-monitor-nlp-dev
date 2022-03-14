@@ -1,0 +1,19 @@
+{
+    "body": "This update is needed to avoid errors like:\r\n```console\r\n$ spack -d buildcache create -d ~/tmp/mirror lib\r\n[ ... ]\r\nTraceback (most recent call last):\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/binary_distribution.py\", line 1068, in _build_tarball\r\n    check_package_relocatable(workdir, spec, allow_root)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/binary_distribution.py\", line 1305, in check_package_relocatable\r\n    relocate.raise_if_not_relocatable(cur_path_names, allow_root)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/relocate.py\", line 735, in raise_if_not_relocatable\r\n    if not (allow_root or file_is_relocatable(binary)):\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/relocate.py\", line 932, in file_is_relocatable\r\n    rpaths, deps, idpath = macholib_get_paths(filename)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/relocate.py\", line 357, in macholib_get_paths\r\n    headers = macholib.MachO.MachO(cur_path).headers\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/external/macholib/MachO.py\", line 95, in __init__\r\n    self.load(fp)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/external/macholib/MachO.py\", line 110, in load\r\n    self.load_header(fh, 0, size)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/external/macholib/MachO.py\", line 148, in load_header\r\n    hdr = MachOHeader(self, fh, offset, size, magic, hdr, endian)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/external/macholib/MachO.py\", line 188, in __init__\r\n    self.load(fh)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/external/macholib/MachO.py\", line 220, in load\r\n    raise ValueError(\"Unknown load command: %d\" % (cmd_load.cmd,))\r\nValueError: Unknown load command: 2147483700\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/main.py\", line 900, in main\r\n    return _main(argv)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/main.py\", line 883, in _main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/main.py\", line 553, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/cmd/buildcache.py\", line 732, in buildcache\r\n    args.func(args)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/cmd/buildcache.py\", line 343, in create_fn\r\n    bindist.push(matches, push_url, specs_kwargs, **kwargs)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/binary_distribution.py\", line 1211, in push\r\n    _build_tarball(node, push_url, **kwargs)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/spack/binary_distribution.py\", line 1073, in _build_tarball\r\n    tty.die(e)\r\n  File \"/Users/culpo/PycharmProjects/spack/lib/spack/llnl/util/tty/__init__.py\", line 275, in die\r\n    sys.exit(1)\r\nSystemExit: 1\r\n```\r\non recent versions of macOS (e.g. `Monterey`)",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/28664",
+    "updated_at": "2022-01-28 19:01:26",
+    "created_at": "2022-01-28 14:48:26",
+    "closed_at": "2022-01-28 18:55:12",
+    "state": "closed",
+    "title": "macholib, altgraph: update vendored dependency",
+    "number": 28664,
+    "milestone": null,
+    "labels": [
+        "vendored-dependencies"
+    ],
+    "id": 1117490512,
+    "html_url": "https://github.com/spack/spack/pull/28664",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Salvaged from #12636, this PR reworks how some of the shell scripts in the docker images work.  The most visible effect of these changes are that downstream image builds now have access to a few commands implemented as shell functions, mostly for cleanly starting and stopping sshd.\r\n\r\nFor example:\r\n\r\n```Dockerfile\r\nFROM spack/centos7\r\n\r\nRUN spack install my-mpi-app \\\r\n && ssh_init \\\r\n && some-command-that-uses-mpi # needs ssh \\\r\n && ssh_clear\r\n\r\n...\r\n```",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/12685",
+    "updated_at": "2020-09-01 02:28:12",
+    "created_at": "2019-09-03 01:54:35",
+    "closed_at": "2020-09-01 02:28:08",
+    "state": "closed",
+    "title": "improve ssh handling in docker images",
+    "number": 12685,
+    "milestone": null,
+    "labels": [
+        "docker"
+    ],
+    "id": 488356720,
+    "html_url": "https://github.com/spack/spack/pull/12685",
+    "assignees": [],
+    "comments": 6
+}

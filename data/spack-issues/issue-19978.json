@@ -1,0 +1,20 @@
+{
+    "body": "This PR fixes two problems with clang/llvm's version detection. clang's version output looks like this:\r\n\r\n```\r\nclang version 11.0.0\r\nTarget: x86_64-unknown-linux-gnu\r\n```\r\n\r\nThis caused clang's version to be misdetected as:\r\n\r\n```\r\nclang@11.0.0\r\nTarget:\r\n```\r\n\r\nThis resulted in errors when trying to actually use it as a compiler.\r\n\r\nWhen using `spack external find`, we couldn't determine the compiler version, resulting in errors like this:\r\n\r\n```\r\n==> Warning: \"llvm@11.0.0+clang+lld+lldb\" has been detected on the system but will not be added to packages.yaml [reason=c compiler not found for llvm@11.0.0+clang+lld+lldb]\r\n```\r\n\r\nChanging the regex to only match until the end of the line fixes these problems.\r\n\r\nFixes: #19473",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/19978",
+    "updated_at": "2020-11-19 10:06:46",
+    "created_at": "2020-11-18 18:17:22",
+    "closed_at": "2020-11-19 10:06:46",
+    "state": "closed",
+    "title": "clang/llvm: Fix version detection",
+    "number": 19978,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "clang"
+    ],
+    "id": 745897225,
+    "html_url": "https://github.com/spack/spack/pull/19978",
+    "assignees": [],
+    "comments": 2
+}

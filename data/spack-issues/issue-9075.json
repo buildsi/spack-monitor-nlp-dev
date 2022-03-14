@@ -1,0 +1,20 @@
+{
+    "body": "There are a variety of reasons that could cause a download to fail. The most common one in my experience has either been using the wrong URL when creating a package, or using a URL that has been moved and no longer exists. Previously, the warning message only warned of internet gateway issues.\r\n\r\nWith this PR, the chance of an invalid URL is mentioned as a possibility. Also fixed the formatting of the warning message.\r\n\r\n### Before\r\n\r\n```console\r\n$ spack fetch animation\r\n==> Fetching https://github.com/yihui/animation/releases/tag/v2.5/animation-2.5.tar.gz\r\n######################################################################## 100.0%\r\n==> Warning: The contents of \r\n  the archive\r\n   look like HTML.\r\n  The checksum will likely be bad.  If it is, you can use\r\n  'spack clean <package>' to remove the bad archive, then\r\n  fix your internet gateway issue and install again.\r\n==> Error: sha256 checksum failed for /Users/Adam/spack/var/spack/stage/animation-2.5-nudyoiycwxtzdq4tgzb2loj4y6fr5jsq/animation-2.5.tar.gz\r\nExpected aab13e325ac27979b354dab8432b408c42a37ac5e73b63fc1def26062f018393 but got 1acc5431515abebba2685991f3964ce38be3ed6dee04b73d743eacc0ecd09823\r\n```\r\n\r\n### After\r\n\r\n```console\r\n$ spack fetch animation\r\n==> Fetching https://github.com/yihui/animation/releases/tag/v2.5/animation-2.5.tar.gz\r\n######################################################################## 100.0%\r\n==> Warning: The contents of the archive look like HTML. Either the URL you are trying to use does not exist or you have an internet gateway issue. You can remove the bad archive using 'spack clean <package>', then try again using the correct URL.\r\n==> Error: sha256 checksum failed for /Users/Adam/spack/var/spack/stage/animation-2.5-nudyoiycwxtzdq4tgzb2loj4y6fr5jsq/animation-2.5.tar.gz\r\nExpected aab13e325ac27979b354dab8432b408c42a37ac5e73b63fc1def26062f018393 but got 27cfe034f50222e7dc4361a5dbd14080e24e107b02dc41e19dba085ee8071139\r\n```\r\n\r\nP.S. There doesn't seem to be a way to access the package name in `FetchStrategy`, is this correct?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/9075",
+    "updated_at": "2018-09-04 12:12:51",
+    "created_at": "2018-08-22 21:00:46",
+    "closed_at": "2018-09-04 03:42:03",
+    "state": "closed",
+    "title": "Better warning message when fetching non-existent URL",
+    "number": 9075,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "error-messages"
+    ],
+    "id": 353123717,
+    "html_url": "https://github.com/spack/spack/pull/9075",
+    "assignees": [],
+    "comments": 1
+}

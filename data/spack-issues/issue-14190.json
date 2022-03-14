@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #12779.\r\n\r\nThis addresses two problems:\r\n\r\n1. Checks for deprecated specs (introduced in #12933) were repeatedly taking out read locks on the database, which can be very slow.\r\n2. `get_platform()` is pretty expensive and can be called many times in a spack invocation.\r\n\r\n- [x] put a read transaction around the deprecation check to avoid repeated locking/reading\r\n- [x] memoize `get_platform()`\r\n\r\n@ajw1980 @matz-e: does this improve things for you?",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/14190",
+    "updated_at": "2019-12-20 22:43:54",
+    "created_at": "2019-12-17 01:42:43",
+    "closed_at": "2019-12-19 00:07:30",
+    "state": "closed",
+    "title": "Improve concretization performance",
+    "number": 14190,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "platform-support",
+        "performance"
+    ],
+    "id": 538782817,
+    "html_url": "https://github.com/spack/spack/pull/14190",
+    "assignees": [],
+    "comments": 18
+}

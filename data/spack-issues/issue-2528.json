@@ -1,0 +1,17 @@
+{
+    "body": "I am using the Intel compilers and have `cflags: -gcc-name=/.../gcc/.../bin/gcc` etc, in my compilers.yaml for it to use the GCC frontend because Intel can't afford a frontend or whatever. When I build something like OpenMPI and the MPI wrappers get used by dependent packages, these flags don't propagate. Therefore my first guess is that I would like to do something like this in the OpenMPI package:\r\n\r\n```\r\n            '--with-wrapper-cflags=%s' % self.compiler.cflags,\r\n            '--with-wrapper-cxxflags=%s' % self.compiler.cxxflags,\r\n            '--with-wrapper-fcflags=%s' % self.compiler.fflags\r\n```\r\n\r\nThe problem is `self.compiler.cxxflags` doesn't exist for example. Is it possible to find the flags from the compiler configuration in the package file? Or is this a bad idea? Or should this already be happening inside Spack's compiler wrappers by default?\r\n\r\nNote: My solution may be to list the GCC module on my system instead of using flags for GCC emulation, which appears to work for getting GCC emulation in the OpenMPI wrappers, but loading the GCC module on my system each compiler invocation causes linking errors in other cases for whatever reason.",
+    "user": "jrood-nrel",
+    "url": "https://api.github.com/repos/spack/spack/issues/2528",
+    "updated_at": "2018-06-19 22:24:59",
+    "created_at": "2016-12-08 23:24:34",
+    "closed_at": "2018-06-19 22:24:59",
+    "state": "closed",
+    "title": "Propagating compiler flags into MPI wrappers",
+    "number": 2528,
+    "milestone": null,
+    "labels": [],
+    "id": 194471993,
+    "html_url": "https://github.com/spack/spack/issues/2528",
+    "assignees": [],
+    "comments": 8
+}

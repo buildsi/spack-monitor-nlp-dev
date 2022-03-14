@@ -1,0 +1,19 @@
+{
+    "body": "I'm trying to use spack to install coinhsl version 2014.1.10.  For this effort, I modified my coinhsl `package.py` to point to a tar ball with this version.  However, the command:\r\n```\r\nspack install --keep-stage -v coinhsl@2014.01.10%intel@16.0.3 cflags=\"-g -O0\" cppflags=\"-g -O0\" cxxflags=\"-g -O0\" fflags=\"-g -O0\"  arch=linux-rhel7-x86_64\r\n```\r\nfails to build because it seems like coinhsl (at least this version) cannot be built in parallel.  Since I don't have access to the latest version, can somebody let me know if this a problem with the default '2014.01.17` version as well?\r\n\r\n### Information on your system\r\nPlatform : TOSS3/TOSS (Tri-Lab Operating System Stack)\r\n\r\nRelevant configuration details:\r\ncompilers.yaml\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    spec: gcc@4.8.5\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/tce/packages/intel/intel-16.0.3/bin/icc\r\n      cxx: /usr/tce/packages/intel/intel-16.0.3/bin/icpc\r\n      f77: /usr/tce/packages/intel/intel-16.0.3/bin/ifort\r\n      fc: /usr/tce/packages/intel/intel-16.0.3/bin/ifort\r\n    flags:\r\n      cflags: -O0 -g\r\n      cxxflags: -O0 -g\r\n      cppflags: -O0 -g\r\n      fflags: -O0 -g\r\n    spec: intel@16.0.3\r\n    target: x86_64\r\n```\r\n\r\npackages.yaml:\r\n```\r\npackages:\r\n  all:\r\n    compiler: [intel, gcc, pgi, clang, xl, nag]\r\n    providers:\r\n      mpi: [mvapich2]\r\n      blas: [netlib-lapack]\r\n      lapack: [netlib-lapack]\r\n  metis:\r\n    version: [4.0.3]\r\n  netlib-lapack:\r\n    paths:\r\n      netlib-lapack@3.4.2: /usr/lib64/\r\n    buildable: False\r\n  mvapich2:\r\n    paths:\r\n      mvapich2@2.2: /usr/tce/packages/mvapich2/mvapich2-2.2-intel-16.0.3/\r\n    buildable: False\r\n  mpich:\r\n    buildable: False\r\n  openmpi:\r\n    buildable: False\r\n  intel-mpi:\r\n    buildable: False\r\n  spectrum-mpi:\r\n    buildable: False\r\n  intel-parallel-studio:\r\n    buildable: False\r\n  cmake:\r\n    paths:\r\n      cmake@3.5.2 arch=linux-rhel7-x86_64: /usr/tce/packages/cmake/cmake-3.5.2/\r\n    buildable: False\r\n  pkg-config:\r\n    paths:\r\n      pkg-config@0.27.1 arch=linux-rhel7-x86_64: /usr/bin/\r\n    buildable: False\r\n  m4:\r\n    paths:\r\n      m4@1.4.16 arch=linux-rhe17-x86_64: /usr/bin/\r\n    buildable: False\r\n```",
+    "user": "junkudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6655",
+    "updated_at": "2017-12-19 07:30:40",
+    "created_at": "2017-12-11 17:17:11",
+    "closed_at": "2017-12-19 07:30:40",
+    "state": "closed",
+    "title": "COINHSL version 2014.1.10 fails to build ",
+    "number": 6655,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 281098798,
+    "html_url": "https://github.com/spack/spack/issues/6655",
+    "assignees": [],
+    "comments": 0
+}

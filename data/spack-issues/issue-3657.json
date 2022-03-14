@@ -1,0 +1,17 @@
+{
+    "body": "When `spack list` (and maybe also other Spack commands) is run from a Spack installation that is not a Git repository, an annoying `fatal: Not a git repository` is printed:\r\n\r\n```\r\n$ spack list\r\nfatal: Not a git repository (or any of the parent directories): .git\r\n==> 1114 packages.\r\n...\r\n```\r\n\r\nThis occurs both with the latest Spack v0.10.0 release and well as current `develop`.\r\n\r\nThe problem seems to be that the check done in `git_case_consistency_check` is incorrect. It checks whether the `git` command is available, rather than checking whether Spack is being run from a Git repository.\r\n\r\nThere is a `get_git` command available in `spack.cmd.pkg` that does the correct check, but it's currently failing hard when Spack is not being run from a Git repository.\r\nSo, I've relaxed it to optionally just return `None` rather than the path to the `git` command (or whatever it is that `which` returns, doesn't matter).",
+    "user": "boegel",
+    "url": "https://api.github.com/repos/spack/spack/issues/3657",
+    "updated_at": "2017-04-03 08:49:13",
+    "created_at": "2017-04-01 10:13:08",
+    "closed_at": "2017-04-01 10:29:06",
+    "state": "closed",
+    "title": "fix annoying 'fatal: Not a git repository' error message produced by 'spack list' when Spack is not run from a Git repository",
+    "number": 3657,
+    "milestone": null,
+    "labels": [],
+    "id": 218686152,
+    "html_url": "https://github.com/spack/spack/pull/3657",
+    "assignees": [],
+    "comments": 0
+}

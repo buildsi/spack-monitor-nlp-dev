@@ -1,0 +1,19 @@
+{
+    "body": "With the fix in the pull request below, `F90` is now always set :\r\nhttps://github.com/spack/spack/pull/19818\r\n\r\nHowever, I got a following error.\r\n```\r\n  File \"/home/users/ea01/ea0114/spack/oss-job/spack/spack/opt/spack/linux-rhel8-a64fx/fj-4.2.1a/py-numpy-1.19.4-2xiwdvcjbqhbjvs6oj7gp2repg5xufpt/lib/python3.8/site-packages/numpy/distutils/ccompiler.py\", line 657, in CCompiler_get_version\r\n    version = matcher(output)\r\n  File \"/home/users/ea01/ea0114/spack/oss-job/spack/spack/opt/spack/linux-rhel8-a64fx/fj-4.2.1a/py-numpy-1.19.4-2xiwdvcjbqhbjvs6oj7gp2repg5xufpt/lib/python3.8/site-packages/numpy/distutils/fcompiler/gnu.py\", line 278, in version_match\r\n    v = self.gnu_version_match(version_string)\r\n  File \"/home/users/ea01/ea0114/spack/oss-job/spack/spack/opt/spack/linux-rhel8-a64fx/fj-4.2.1a/py-numpy-1.19.4-2xiwdvcjbqhbjvs6oj7gp2repg5xufpt/lib/python3.8/site-packages/numpy/distutils/fcompiler/gnu.py\", line 80, in gnu_version_match\r\n    raise ValueError(err + version_string)\r\nValueError: A valid Fortran version was not found in this string:\r\nfrt: warning: -dumpversion is unrecognized option.\r\nusage: frt [options] files.\r\n```\r\n\r\n`numpy` checks which compiler is currently used by the process described for each compiler.\r\n```\r\n\u30fbnumpy/distutils/fcompiler/gnu.py\r\n    executables = {\r\n        'version_cmd'  : [\"<F90>\", \"-dumpversion\"],\r\n```\r\nThis is a command to check the version written for gcc. If the environment variable `F90` is set, the command is imported as it is. For example, if you are using the Fujitsu compiler, the it uses `frt -dumpversion` to try getting the version, but an error will occur because the \"-dumpversion\" option cannot be recognized.\r\n\r\nTherefore, in the process of selecting the command to be used in the process for each compiler, I fixed to compare the command set in `F77` and `F90` and the command specified for each compiler(e.g. `possible_executables = ['gfortran', 'f95']` in gnu.py).\r\n\r\n\r\n",
+    "user": "t-karatsu",
+    "url": "https://api.github.com/repos/spack/spack/issues/21507",
+    "updated_at": "2021-02-14 18:40:35",
+    "created_at": "2021-02-05 09:52:34",
+    "closed_at": "2021-02-14 18:22:49",
+    "state": "closed",
+    "title": "py-numpy: check if execute commands are feasible.",
+    "number": 21507,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 802020121,
+    "html_url": "https://github.com/spack/spack/pull/21507",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,22 @@
+{
+    "body": "In order to create a build environment for a package with exact packet versions (especially things like CERN ROOT) I create an environment with \r\n\r\n```\r\nspack:    \r\n    specs:\r\n        - \"root@6.20.04+vmc+pythia6+pythia8+root7 cxxstd=17\"\r\n        - \"jana2@2.0.3 +root cxxstd=17\"\r\n        - \"eic-smear@1.1.1\"        \r\n        - \"ejana@master\"\r\n    concretization: together\r\n```\r\n\r\nHere 'ejana' depends on others and others depend on root and each other and having them all of one version is important. So ```concretization: together``` works well and does the job of getting consistent versions of packages during install. \r\n\r\nIf sitting in this environment I do\r\n\r\n```\r\n$ spack dev-build ejana@master\r\n```\r\n\r\nInstead of using the installed versions it tries to install default versions of root (6.18 not 6.20) and other packages and nothing works as expected (by me). \r\n\r\nIt is highly inconvenient as the only way to get a set of versions to be particular for dev-build is using its ```spec``` command line variable. If I add a bit more packages than in the above example such command becomes unbearable. \r\n\r\n```spack setup``` kind of respected ```concretization: together``` flag.\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n```\r\n* **Spack:** 0.15.3\r\n* **Python:** 3.7.7\r\n* **Platform:** linux-ubuntu18.04-zen\r\n```\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n(I run in debug mode, but there is nothing to report)",
+    "user": "DraTeots",
+    "url": "https://api.github.com/repos/spack/spack/issues/18401",
+    "updated_at": "2020-10-16 00:23:17",
+    "created_at": "2020-08-31 03:26:51",
+    "closed_at": "2020-10-16 00:23:17",
+    "state": "closed",
+    "title": "dev-build ignores environment settings",
+    "number": 18401,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "commands",
+        "environments",
+        "triage"
+    ],
+    "id": 688869819,
+    "html_url": "https://github.com/spack/spack/issues/18401",
+    "assignees": [],
+    "comments": 3
+}

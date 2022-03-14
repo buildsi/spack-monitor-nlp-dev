@@ -1,0 +1,23 @@
+{
+    "body": "There's a circular dependency where clang of llvm-amdgpu needs bitcode of rocm-device-libs, but rocm-device-libs needs llvm-amdgpu to compile.\r\n\r\nAMD has written a piece of code that special-cases spack in the way they detect the bitcode from clang, and it's flawed. See https://reviews.llvm.org/D97340.\r\n\r\nThis PR makes that part redundant by building rocm-device-libs as an LLVM external project as part of llvm-amdgpu, using spack's `resource` to pull in the the device lib sources.\r\n\r\nIt also removes `rocm-device-libs` from the deps of some packages, which I believe was redundant already before this pr.\r\n\r\nApart from that it fixes some issues in packages that slipped through review (e.g. unused `self.define_from_variant(...)`), cleans a couple things up, and adds myself as maintainer to package I frequently use.\r\n\r\nNote that this PR is on top of #23855.\r\n\r\nPing @srekolam, @arjun-raj-kuppala ",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/23859",
+    "updated_at": "2022-03-08 08:58:20",
+    "created_at": "2021-05-22 21:14:44",
+    "closed_at": "2021-06-17 09:52:33",
+    "state": "closed",
+    "title": "Break llvm-amdgpu circular dependency with rocm-device-libs",
+    "number": 23859,
+    "milestone": null,
+    "labels": [
+        "ecp",
+        "e4s",
+        "AMD"
+    ],
+    "id": 898883246,
+    "html_url": "https://github.com/spack/spack/pull/23859",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 19
+}

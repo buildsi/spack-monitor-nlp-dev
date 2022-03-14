@@ -1,0 +1,21 @@
+{
+    "body": "I know we've mentioned this elsewhere, but I don't think anyone opened up a dedicated issue for it. Let's say I have a package (`qt-creator`) that requires a C++14 compiler. Currently, I can add the following directive:\r\n```python\r\nconflicts('%gcc@:4.8', when='@4.3.0:')\r\n```\r\nNow, when I try to concretize qt-creator with an older GCC compiler, I get:\r\n```\r\n==> Error: Conflicts in concretized spec \"qt-creator@4.3.1%gcc@4.4.7 arch=linux-centos6-x86_64 /jljcmpi\"\r\n\r\nList of matching conflicts:\r\n\r\n1. \"%gcc@:4.8\" conflicts with \"qt-creator@4.3.0:\" in spec \"qt-creator@4.3.1%gcc@4.4.7 arch=linux-centos6-x86_64 ^bzip2@1.0.6%gcc@4.4.7+shared arch=linux-centos6-x86_64 ^font-util@1.3.1%gcc@4.4.7 arch=linux-centos6-x86_64 ^fontconfig@2.12.3%gcc@4.4.7 arch=linux-centos6-x86_64 ^freetype@2.7.1%gcc@4.4.7 arch=linux-centos6-x86_64 ^gettext@0.19.8.1%gcc@4.4.7+bzip2+curses+git~libunistring+libxml2+tar+xz arch=linux-centos6-x86_64 ^glib@2.53.1%gcc@4.4.7~libmount arch=linux-centos6-x86_64 ^gperf@3.0.4%gcc@4.4.7 arch=linux-centos6-x86_64 ^icu4c@58.2%gcc@4.4.7 arch=linux-centos6-x86_64 ^inputproto@2.3.2%gcc@4.4.7 arch=linux-centos6-x86_64 ^jpeg@9b%gcc@4.4.7 arch=linux-centos6-x86_64 ^kbproto@1.0.7%gcc@4.4.7 arch=linux-centos6-x86_64 ^lcms@2.8%gcc@4.4.7 arch=linux-centos6-x86_64 ^libffi@3.2.1%gcc@4.4.7 arch=linux-centos6-x86_64 ^libmng@2.0.3%gcc@4.4.7 arch=linux-centos6-x86_64 ^libpng@1.6.29%gcc@4.4.7 arch=linux-centos6-x86_64 ^libpthread-stubs@0.4%gcc@4.4.7 arch=linux-centos6-x86_64 ^libtiff@4.0.8%gcc@4.4.7 arch=linux-centos6-x86_64 ^libx11@1.6.5%gcc@4.4.7 arch=linux-centos6-x86_64 ^libxau@1.0.8%gcc@4.4.7 arch=linux-centos6-x86_64 ^libxcb@1.12%gcc@4.4.7 arch=linux-centos6-x86_64 ^libxdmcp@1.1.2%gcc@4.4.7 arch=linux-centos6-x86_64 ^libxml2@2.9.4%gcc@4.4.7~python arch=linux-centos6-x86_64 ^ncurses@6.0%gcc@4.4.7~symlinks arch=linux-centos6-x86_64 ^openssl@1.0.2k%gcc@4.4.7 arch=linux-centos6-x86_64 ^pcre@8.40%gcc@4.4.7+utf arch=linux-centos6-x86_64 ^pkg-config@0.29.2%gcc@4.4.7+internal_glib arch=linux-centos6-x86_64 ^python@2.7.13%gcc@4.4.7+shared~tk~ucs4 arch=linux-centos6-x86_64 ^qt@5.9.1%gcc@4.4.7~dbus~examples~gtk~krellpatch~mesa+opengl~phonon~webkit arch=linux-centos6-x86_64 ^readline@7.0%gcc@4.4.7 arch=linux-centos6-x86_64 ^sqlite@3.8.10.2%gcc@4.4.7 arch=linux-centos6-x86_64 ^tar@1.29%gcc@4.4.7 arch=linux-centos6-x86_64 ^util-macros@1.19.1%gcc@4.4.7 arch=linux-centos6-x86_64 ^xcb-proto@1.12%gcc@4.4.7 arch=linux-centos6-x86_64 ^xextproto@7.3.0%gcc@4.4.7 arch=linux-centos6-x86_64 ^xproto@7.0.31%gcc@4.4.7 arch=linux-centos6-x86_64 ^xtrans@1.3.5%gcc@4.4.7 arch=linux-centos6-x86_64 ^xz@5.2.3%gcc@4.4.7 arch=linux-centos6-x86_64 ^zlib@1.2.11%gcc@4.4.7+pic+shared arch=linux-centos6-x86_64\"\r\n```\r\nThis error message isn't exactly helpful. It would be nice if we could do something like:\r\n```python\r\nconflicts('%gcc@:4.8', when='@4.3.0:', msg='Qt Creator 4.3.0+ requires a C++14 compiler')\r\n```\r\nThis would make the error message much more helpful.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4965",
+    "updated_at": "2017-08-21 16:20:08",
+    "created_at": "2017-08-03 20:56:55",
+    "closed_at": "2017-08-21 16:20:08",
+    "state": "closed",
+    "title": "Want to be able to print specific message for conflicts()",
+    "number": 4965,
+    "milestone": null,
+    "labels": [
+        "directives"
+    ],
+    "id": 247833124,
+    "html_url": "https://github.com/spack/spack/issues/4965",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

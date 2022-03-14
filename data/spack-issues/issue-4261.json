@@ -1,0 +1,23 @@
+{
+    "body": "In #4256, I added a package for OpenBabel. After installation, I ran `ldd -r` on the libraries and found that they were linking to the wrong `libstdc++` library:\r\n```\r\n$ ldd -r libopenbabel.so\r\nlibopenbabel.so: /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required by libopenbabel.so)\r\n...\r\nlibstdc++.so.6 => /usr/lib64/libstdc++.so.6 (0x00002b47e587d000)\r\n```\r\nBy adding the GCC compiler to my `LD_LIBRARY_PATH`, I was able to resolve this problem. I tried making the following change in `compilers.yaml` to do this automatically:\r\n```yaml\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths:\r\n    - /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/lib64\r\n    flags: {}\r\n    modules: []\r\n    operating_system: centos6\r\n    paths:\r\n      cc: /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/gcc\r\n      cxx: /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/g++\r\n      f77: /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/gfortran\r\n      fc: /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/gfortran\r\n    spec: gcc@6.1.0\r\n    target: x86_64\r\n```\r\nbut it appears that `extra_rpaths` isn't working. I reinstalled Open Babel but it still links to the system `libstdc++` instead of the one in `$GCC_ROOT/lib64`. Adding it manually to `LD_LIBRARY_PATH` works:\r\n```\r\n$ ldd -r /blues/gpfs/home/ajstewart/spack/opt/spack/linux-centos6-x86_64/gcc-6.1.0/openbabel-2.4.1-xqe2leslpleij3g7u4dpje7joxcdydjh/lib/libopenbabel.so\r\n...\r\n\tlibstdc++.so.6 => /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/lib64/libstdc++.so.6 (0x00002b4b18855000)\r\n```\r\n@scheibelp?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4261",
+    "updated_at": "2022-02-15 17:47:30",
+    "created_at": "2017-05-16 15:21:09",
+    "closed_at": "2022-02-15 17:47:30",
+    "state": "closed",
+    "title": "extra_rpaths in compilers.yaml not working",
+    "number": 4261,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers",
+        "rpath"
+    ],
+    "id": 229072064,
+    "html_url": "https://github.com/spack/spack/issues/4261",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 19
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Per recommendations, in #2067, the system lapack/blas are marked as external packages:\r\n\r\n```\r\n$ cat packages.yaml\r\npackages:\r\n  all:\r\n    providers:\r\n      blas: netlib-lapack\r\n      lapack: netlib-lapack\r\n  netlib-lapack:\r\n    paths: \r\n      netlib-lapack@system: /usr\r\n    version: [system]\r\n    buildable: False\r\n```\r\n\r\nNow, in some package file I have:\r\n\r\n```\r\n$ cat package.py\r\n...\r\n   blas_libs = spec['blas'].libs.joined(';')\r\n```\r\n\r\nThe call to `spec['blas'].libs` eventually makes its way to [`find`](https://github.com/spack/spack/blob/develop/lib/spack/llnl/util/filesystem.py#L1392) which calls [`_find_recursive`](https://github.com/spack/spack/blob/develop/lib/spack/llnl/util/filesystem.py#L881).  `_find_recursive` walks the entire `root` directory, which in this case is `/usr`.    For systems that have an enormous number of files/directories in the root directory this call can take an excessive amount of time.  In one test I ran, this call talk in excess of 30 minutes (at which point I stopped the installation).\r\n\r\nClearly, it should not take tens of minutes to find the `blas` libraries!\r\n\r\nPerhaps some kind of `hint` keyword can be propagated down to `_find_recursive` so that `find_libraries` searches only `/usr/lib/` and `/usr/lib64` (in this example)",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/11929",
+    "updated_at": "2019-07-13 00:46:47",
+    "created_at": "2019-07-04 08:01:33",
+    "closed_at": "2019-07-13 00:46:47",
+    "state": "closed",
+    "title": "Excessive library search times",
+    "number": 11929,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 464122862,
+    "html_url": "https://github.com/spack/spack/issues/11929",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

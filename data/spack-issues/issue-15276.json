@@ -1,0 +1,19 @@
+{
+    "body": "qe-6.5 fails to detect MKL for FFT if BLAS_LIBS is set due to\r\nan unfortunate upsteam change in their autoconf/configure:\r\n- qe-6.5/install/m4/x_ac_qe_blas.m4 only sets 'have_blas'\r\n  but no 'have_mkl' if BLAS_LIBS is set (which seems to be o.k.)\r\n- however, qe-6.5/install/m4/x_ac_qe_fft.m4 in 6.5 unfortunately\r\n  relies on x_ac_qe_blas.m4 to detect MKL and set 'have_mkl'\r\n- qe-5.4 up to 6.4.1 had a different logic and worked fine with\r\n  BLAS_LIBS being set\r\nHowever, MKL is correctly picked up by qe-6.5 for BLAS and FFT if\r\nMKLROOT is set (which SPACK does automatically for ^intel-mkl).\r\nThus, do not set BLAS_LIBS when compiling qe-6.5 with intel-mkl.\r\n\r\n@naromero77 / @alalazo:\r\nThis PR has been split off from #15242 for separating distinct parts and easier merging.",
+    "user": "tz-rrze",
+    "url": "https://api.github.com/repos/spack/spack/issues/15276",
+    "updated_at": "2020-03-01 16:08:34",
+    "created_at": "2020-02-29 16:09:17",
+    "closed_at": "2020-03-01 16:08:34",
+    "state": "closed",
+    "title": "Quantum-Espresso: qe-6.5 fails to detect MKL for FFT",
+    "number": 15276,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 573323660,
+    "html_url": "https://github.com/spack/spack/pull/15276",
+    "assignees": [],
+    "comments": 0
+}

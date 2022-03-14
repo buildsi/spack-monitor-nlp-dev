@@ -1,0 +1,19 @@
+{
+    "body": "Currently, the temporary directory of bazel is hardcoded to `/tmp`. If you are building on a system with low disk space on root, this can prevent you from building (and so it did for me). In my opinion, it is cleaner to let `tempfile.mkdtemp` decide on an appropriate file location instead of hardcoding `/tmp`. This allows users to define other partitions that are better fitted for compiling large projects.\r\n\r\nFrom the documentation of `tempfile.mkdtemp` ([link](https://docs.python.org/3/library/tempfile.html#tempfile.mkstemp)):\r\n> If dir is not None, the file will be created in that directory; otherwise, a default directory is used. The default directory is chosen from a platform-dependent list, but **the user of the application can control the directory location by setting the TMPDIR, TEMP or TMP environment variables.** There is thus no guarantee that the generated filename will have any nice properties, such as not requiring quoting when passed to external commands via os.popen().\r\n\r\nRelated to  #20212",
+    "user": "abrandenb",
+    "url": "https://api.github.com/repos/spack/spack/issues/22250",
+    "updated_at": "2021-03-22 15:06:06",
+    "created_at": "2021-03-11 17:30:44",
+    "closed_at": "2021-03-22 15:06:06",
+    "state": "closed",
+    "title": "py-tensorflow: remove bazel restriction to /tmp",
+    "number": 22250,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 829363964,
+    "html_url": "https://github.com/spack/spack/pull/22250",
+    "assignees": [],
+    "comments": 8
+}

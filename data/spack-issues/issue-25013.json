@@ -1,0 +1,19 @@
+{
+    "body": "When attempting to build metis using %nvhpc the compilation fails due to various minor compilation warnings (e.g. unused\r\nvariables, etc), which get promoted to errors because of the  compilation -Werror flag.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install metis@5.1.0%nvhpc\r\n...\r\n\"/tmp/spackswinst/spack-stage/spack-stage-metis-5.1.0-3y4wrhkglwd5ekzn2qxtqchhudb4of2c/spack-src/GKlib/fs.c\", line 190: error: variable \"endptr\" was set but never used\r\n    char *endptr, *tmp;\r\n          ^\r\n\r\n1 error detected in the compilation of \"/tmp/spackswinst/spack-stage/spack-stage-metis-\r\n```\r\nThe above is only the first such instance of such an error encountered in the compilation of metis; I found about a dozen files have these and similar errors ( e.g.\r\n* variable \"foo\" was set but never used\r\n* variable \"foo\" was declared but never referenced\r\n* statement is unreachable\r\n* enumerated type mixed with another type\r\n)\r\n\r\n### Information on your system\r\n\r\n```console\r\n$spack debug report\r\n* **Spack:** 0.16.1-2429-f5e6c32495\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-x86_64\r\n* **Concretizer:** original\r\n```\r\n\r\nMy nvhpc is is @21.5, setup as an external package in Spack, and the compiler definition in Spack adds the flag\r\n'--noswitcherror' to cflags, cxxflags, and fcflags (to reduce the number of failed packages due to nvhpc not recognizing flags gcc and icc recognize).\r\n\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6856540/spack-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6856541/spack-build-env.txt)\r\n\r\nNo maintainers for metis\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x ] I have uploaded the build log and environment files\r\n- [ x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/25013",
+    "updated_at": "2021-07-21 19:24:52",
+    "created_at": "2021-07-21 14:37:40",
+    "closed_at": "2021-07-21 19:24:51",
+    "state": "closed",
+    "title": "Installation issue: metis - metis not building with %nvhpc",
+    "number": 25013,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 949789163,
+    "html_url": "https://github.com/spack/spack/issues/25013",
+    "assignees": [],
+    "comments": 0
+}

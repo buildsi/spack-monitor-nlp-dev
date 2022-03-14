@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nSpack cannot delete a building directory while removing garbage (i.e. **spack gc -y**). This bug only pops up while spack is building an image. Probably, there is a bug in the spack image.  \r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cat ./spack.yaml\r\nspack:\r\n  specs:\r\n  - eigen@3.3.7\r\n  - openblas@0.3.9\r\n  - libxsmm@1.15\r\n  - cmake@3.16.0\r\n\r\n  container:\r\n    format: docker\r\n\r\n    base:\r\n      image: \"ubuntu:18.04\"\r\n      spack: develop\r\n\r\n    strip: true\r\n\r\n    os_packages:\r\n      - cxxtest\r\n      - python3\r\n      - make\r\n\r\n$ spack containerize > Dockerfile\r\n$ docker build --tag mycontainer:latest .\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n==> Restricting the garbage collection to the \"/opt/spack-environment\" environment\r\n==> Error: Could not remove prefix /opt/software/linux-ubuntu18.04-skylake/gcc-7.5.0/pkgconf-1.6.3-uhvjvnwuzaug3giyrmwky6ylaqkvmrud for pkgconf@1.6.3%gcc@7.5.0 arch=linux-ubuntu18.04-skylake/uhvjvnw : [Errno 39] Directory not empty: 'man5'\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n```console\r\n$ spack version\r\n0.14.1-332-d3c1a4c\r\n$ docker --version\r\nDocker version 19.03.5, build 633a0ea838\r\n$ lsb_release -a\r\nNo LSB modules are available.\r\nDistributor ID:\tUbuntu\r\nDescription:\tUbuntu 16.04.6 LTS\r\nRelease:\t16.04\r\nCodename:\txenial\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "ravil-mobile",
+    "url": "https://api.github.com/repos/spack/spack/issues/16668",
+    "updated_at": "2020-08-29 20:30:38",
+    "created_at": "2020-05-15 18:24:43",
+    "closed_at": "2020-08-29 20:30:38",
+    "state": "closed",
+    "title": "a bug while building a docker container with spack ",
+    "number": 16668,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 619158532,
+    "html_url": "https://github.com/spack/spack/issues/16668",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "There is no `--with-icc` configure option starting version 3.8.0: https://github.com/python/cpython/commit/98929b545e86e7c7296c912d8f34e8e8d3fd6439.\r\n\r\nFor older versions that have the option, setting it without an argument sets the values of `CC` and `CXX` to `icc` and `icpc`, respectively: https://github.com/python/cpython/blob/117830de332c8dfbd9a437c0968e16e11aa7e6a1/configure.ac#L586-L587. These values are then stored in the `sysconfigdata`, which leads to extensions being built with the compilers in the `PATH`, instead of the compilers that Python was built with.\r\n\r\nBasically, with this PR we get the same behaviour for `intel` as we already have for `gcc`.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/21134",
+    "updated_at": "2021-01-18 18:44:23",
+    "created_at": "2021-01-18 16:29:42",
+    "closed_at": "2021-01-18 18:44:23",
+    "state": "closed",
+    "title": "python: improve building with Intel",
+    "number": 21134,
+    "milestone": null,
+    "labels": [
+        "python",
+        "intel"
+    ],
+    "id": 788403240,
+    "html_url": "https://github.com/spack/spack/pull/21134",
+    "assignees": [],
+    "comments": 0
+}

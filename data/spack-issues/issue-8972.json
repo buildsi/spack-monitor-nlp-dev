@@ -1,0 +1,19 @@
+{
+    "body": "See: https://github.com/spack/spack/issues/8852\r\n\r\nSpecifically, https://github.com/spack/spack/issues/8852#issuecomment-411261877 mentions that no binutils libraries appear in Spack compiler wrapper invocations (i.e. in the log written when using the `-d` option), and `spack install gcc+binutils` only succeeds on my RHEL7 system when I update the dependency type of binutils.\r\n\r\n`gcc -m64 -Xlinker --verbose` outputs the Spack-build binutils loader as desired.\r\n\r\nMy interpretation is that this means that adding `-L`/`-I` entries to binutils lib & include directories interferes with the `gcc` compilation somehow, but I don't know exactly how; I think that would be worthwhile. As of now building `gcc+binutils` appears to be generally unsuccessful: https://github.com/spack/spack/issues/8852#issuecomment-409560587.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/8972",
+    "updated_at": "2018-08-27 15:28:11",
+    "created_at": "2018-08-13 19:50:25",
+    "closed_at": "2018-08-27 15:28:11",
+    "state": "closed",
+    "title": "set dependency type of gcc's binutils dependency to 'run'",
+    "number": 8972,
+    "milestone": null,
+    "labels": [
+        "gcc"
+    ],
+    "id": 350168615,
+    "html_url": "https://github.com/spack/spack/pull/8972",
+    "assignees": [],
+    "comments": 2
+}

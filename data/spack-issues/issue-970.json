@@ -1,0 +1,17 @@
+{
+    "body": "When I install the OpenMPI package on Stampede (TACC), it doesn't detect that Infiniband is present. When I pass the `+verbs` option, then the configure stage fails, since OpenMPI doesn't correctly auto-detect the location of the libraries.\n\nI can run `which(ibv_devices)` to find the location of this utility (`/opt/ofed`), and pass `--with-verbs=/opt/ofed` to OpenMPI, and this seems to work.\n\nHow should I build this into OpenMPI? Options are:\n- do this in the OpenMPI package, changing how `+verbs` is interpreted, or even changing its default value\n- add a new option `+verbs-autodetect` that does this\n- look at an environment variable `VERBS_DIR` that the caller has to set\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/970",
+    "updated_at": "2016-05-27 16:01:44",
+    "created_at": "2016-05-18 15:43:13",
+    "closed_at": "2016-05-27 16:01:44",
+    "state": "closed",
+    "title": "Want to pass `--with-verbs=DIR` to OpenMPI",
+    "number": 970,
+    "milestone": null,
+    "labels": [],
+    "id": 155535415,
+    "html_url": "https://github.com/spack/spack/issues/970",
+    "assignees": [],
+    "comments": 8
+}

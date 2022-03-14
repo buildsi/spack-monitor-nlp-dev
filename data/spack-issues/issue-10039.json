@@ -1,0 +1,19 @@
+{
+    "body": "Fixed issue #7372 with building fftw@2\r\n\r\nAdded patch method which renames config.h in the fftw subdir of the source tree.  fftw 2.1.5 appears to ship with a copy of this file with all defines commented out.  This gets read by the #include directives instead of the version in the build directory with the correct defines.  As a result, many C preprocessor macros left undefined, including F77_FUNC_ which causes the bulk of fttwf77.c to be skipped due to an #ifdef, so fftw_reverse_int_array et al not included in library.\r\n\r\nAlso fixed some inconsistencies with the handling of quad and long_double in specs between the configure method and the build, check, and install methods.",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/10039",
+    "updated_at": "2019-01-31 03:18:11",
+    "created_at": "2018-12-06 17:38:18",
+    "closed_at": "2019-01-31 03:18:11",
+    "state": "closed",
+    "title": "fftw: fix issue #7372/rename config.h in source tree",
+    "number": 10039,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 388322492,
+    "html_url": "https://github.com/spack/spack/pull/10039",
+    "assignees": [],
+    "comments": 0
+}

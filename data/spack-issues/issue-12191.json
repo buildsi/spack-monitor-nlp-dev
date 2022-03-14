@@ -1,0 +1,20 @@
+{
+    "body": "py-mpi4py fails to build on NERSC Cori when using Cray-MPICH with the error:\r\n\r\n```\r\n  >> 140    /global/gscratch1/sd/tconnors/spack-stage/spack-stage-zJSOhu/src/_configtest.c:6: undefined refere\r\n            nce to `MPI_Init'\r\n  >> 141    /usr/bin/ld: /global/gscratch1/sd/tconnors/spack-stage/spack-stage-zJSOhu/src/_configtest.c:7: und\r\n            efined reference to `MPI_Finalize'\r\n  >> 142    collect2: error: ld returned 1 exit status\r\n     143    failure.\r\n     144    removing: _configtest.c _configtest.o\r\n  >> 145    error: Cannot link MPI programs. Check your configuration!!\r\n```\r\nHowever, it is able to build fine if using Spack built OpenMPI.\r\n\r\nAfter checking the mpi4py documentation, it appears there is a build argument that needs to be added:\r\n\r\n> If mpicc is not in your search path or the compiler wrapper has a different name, you can run the build command specifying its location:\r\n> \r\n> `$ python setup.py build --mpicc=/where/you/have/mpicc`\r\n\r\nAfter adding this build argument into the package.py, it was able to be successfully installed.",
+    "user": "TiffanyAnn",
+    "url": "https://api.github.com/repos/spack/spack/issues/12191",
+    "updated_at": "2019-08-03 00:09:38",
+    "created_at": "2019-07-30 04:44:44",
+    "closed_at": "2019-08-03 00:09:38",
+    "state": "closed",
+    "title": "py-mpi4py: Added build argument for mpicc path",
+    "number": 12191,
+    "milestone": null,
+    "labels": [
+        "python",
+        "mpi"
+    ],
+    "id": 474369607,
+    "html_url": "https://github.com/spack/spack/pull/12191",
+    "assignees": [],
+    "comments": 0
+}

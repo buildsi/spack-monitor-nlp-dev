@@ -1,0 +1,17 @@
+{
+    "body": "I would like to install the dealii package version 8.3.0 linked with the trilinos package version 12.4.2. I'm on a virtual machine (VirtualBox) running LinuxMint 18. Spack version is 0.10.0. Standard compiler is GCC 5.4.0.\r\n\r\nWhen I type `spack spec dealii@8.3.0^trilinos@12.4.2` then spack complains that \"Error: dealii does not depend on trilinos\". I then compile Trilinos first running `spack install trilinos@12.4.2` which fails as well. In the compiler log I find \r\n\"[...] Trilinos-trilinos-release-12-4-2/packages/amesos2/src/Amesos2_Superludist.cpp:92:27: error: duplicate explicit instantiation of \u2018class Amesos2::Superludist<Tpetra::CrsMatrix<double, int, int>, Tpetra::MultiVector<double, int, int> >\u2019 [-fpermissive] [...]\". But I guess that is a Trilinos problem, not a Spack one.\r\n\r\nI manage to compile Trilinos with the command `spack install trilinos@12.4.2~superlu-dist`. I then find the associated hash key with `spack find --long trilinos@12.4.2`, in my case it is \"sttp4e7\". If I then try to execute `spack spec dealii@8.3.0^/sttp4e7`, then Spack sais \"Error: dealii does not depend on hypre, hwloc, glm, hdf5, trilinos, netlib-scalapack, libpciaccess, openmpi, netcdf, mumps, matio, boost, or parmetis\".\r\n",
+    "user": "futuretristan",
+    "url": "https://api.github.com/repos/spack/spack/issues/3001",
+    "updated_at": "2017-03-27 08:32:17",
+    "created_at": "2017-02-02 08:58:32",
+    "closed_at": "2017-02-02 09:12:52",
+    "state": "closed",
+    "title": "installation of dealii with specified trilinos version fails",
+    "number": 3001,
+    "milestone": null,
+    "labels": [],
+    "id": 204815050,
+    "html_url": "https://github.com/spack/spack/issues/3001",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I tried to create a spec matrix for testing variants of a package and excluding some incompatible variant combinations. Unfortunately, it did not work.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI created a ```spec.yaml``` file in a new directory\r\n\r\n```\r\nspack:\r\n  # add package specs to the `specs` list\r\n  specs:\r\n    - matrix:\r\n       - [mstk]\r\n       - [+parallel]\r\n       - [partitioner=none, partitoner=all, partitioner=zoltan, partitioner=metis]\r\n      exclude:\r\n       - '+parallel partitioner=none'\r\n  view: False\r\n```\r\nand ran\r\n```spack concretize -f```\r\n\r\n### Error Message\r\n\r\nI was expecting the following options to be concretized\r\n```\r\nmstk+parallel partitioner=all\r\nmstk+parallel partitioner=zoltan\r\nmstk+parallel partitioner=metis\r\n```\r\nInstead, spack did not exclude the ```+parallel partitioner=none``` option and tried to concretize it which naturally resulted in a conflict and an error\r\n\r\n### Information on your system\r\n* **Spack:** 0.14.2-1252-2fa5a05dc\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-skylake\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "raovgarimella",
+    "url": "https://api.github.com/repos/spack/spack/issues/16841",
+    "updated_at": "2020-06-04 07:02:57",
+    "created_at": "2020-05-28 01:21:30",
+    "closed_at": "2020-06-02 09:02:29",
+    "state": "closed",
+    "title": "\"exclude\" semantic bug with non-boolean variants in spec matrices",
+    "number": 16841,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 626142512,
+    "html_url": "https://github.com/spack/spack/issues/16841",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 2
+}

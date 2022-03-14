@@ -1,0 +1,20 @@
+{
+    "body": "Use `list` rather than `set` when getting specs from YAML file (`spec.yaml`)\r\n\r\n**Context**\r\n\r\nCurrently there seems to be cases where two specs, with different `dag`-hashes, share the same internal hash - returned by `hash(spec)`. This produces some problems when installing from binaries and using the hash to specify the package to be installed, example:\r\n\r\n```\r\nspack  buildcache install /123456789\r\n```\r\n\r\nLet's say there are two YAML files with the same name, version and compiler but different hashes such as:\r\n\r\n```\r\nlinux-centos7-x86_64-gcc-6.2.0-packageA-1.0-987654321-spec.yaml\r\nlinux-centos7-x86_64-gcc-6.2.0-packageA-1.0-123456789-spec.yaml\r\n```\r\n\r\nI don't fully understand how this is even possible, but there are cases where the `specs` produced out of these two YAML files can have the same internal `hash`. \r\n\r\nAs a consequence, using a `set` in the implementation of `get_specs` will consider only one of the two `specs` with the same internal hash but different dag-hash, thus leading to a problem when the user tries to install the excluded `spec`.\r\n\r\nThis could be also solved by implementing a `__hash__` method in `Spec` (which would call to `dag_hash()` in order to use the same hash employed to concretize the spec), however [this commit](https://github.com/spack/spack/commit/3ab56a188e83054420d9004be1c6d07276c91375) warns not to use such implementation due to inefficient side-effects.\r\n\r\nI have tried to implement this `__hash__` method and it certainly slows down the performance of the `spack spec` command, although not as much as before:\r\n\r\nWith `__hash__` implemented on `Spec`\r\n\r\n```\r\ntime spack spec dealii\r\n\r\nreal\t0m9.371s\r\nuser\t0m6.975s\r\nsys\t0m0.316s\r\n```\r\n\r\nWithout:\r\n\r\n```\r\nreal\t0m7.244s\r\nuser\t0m6.911s\r\nsys\t0m0.316s\r\n```\r\n\r\nThe impact might be bigger on other packages so I would just use a `list` here rather than adding a `hash` method to the `Spec` class. \r\n\r\n@tgamblin @gartung \r\n ",
+    "user": "JavierCVilla",
+    "url": "https://api.github.com/repos/spack/spack/issues/9600",
+    "updated_at": "2019-02-15 19:33:50",
+    "created_at": "2018-10-22 13:06:24",
+    "closed_at": "2019-02-15 19:33:50",
+    "state": "closed",
+    "title": "Fix bug getting specs from build caches",
+    "number": 9600,
+    "milestone": null,
+    "labels": [
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 372513262,
+    "html_url": "https://github.com/spack/spack/pull/9600",
+    "assignees": [],
+    "comments": 2
+}

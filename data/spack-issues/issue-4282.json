@@ -1,0 +1,20 @@
+{
+    "body": "I can install and activate the `py-pip` package for `python@2.7.13`.  It fails for `python@3.6.0`. \r\n\r\nI've seen #2065, which discusses why it is not included (in spite of the wisdom from the benevelent dictator community included in [PEP 453](https://www.python.org/dev/peps/pep-0453/)).\r\n\r\nI don't see any obvious reason why Spack's own `py-pip` package shouldn't work.\r\n\r\nHere's what happens when I try:\r\n\r\n```\r\nhartzelg@blah:spack ((b630c067...))$ (module purge; spack install -v py-pip ^python@3.6.0)\r\n==> python is already installed in /scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/python-3.6.0-xzcafuxqdimdwtxgm7v3cgqvip3ul4dt\r\n==> py-setuptools is already installed in /scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/py-setuptools-34.4.1-6y7yqukbhnckktpgjyym2fgxh4s2xzpe\r\n==> Installing py-pip\r\n==> Using cached archive: /scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/var/spack/cache/py-pip/py-pip-9.0.1.tar.gz\r\n==> Already staged py-pip-9.0.1-xpjyixym6o2qx6hav6s7aghupkb2xyvd in /scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/var/spack/stage/py-pip-9.0.1-xpjyixym6o2qx6hav6s7aghupkb2xyvd\r\n==> Already patched py-pip\r\n==> Building py-pip [PythonPackage]\r\n==> Executing phase : 'build'\r\n==> '/scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/python-3.6.0-xzcafuxqdimdwtxgm7v3cgqvip3ul4dt/bin/python3.6' 'setup.py' '--no-user-cfg' 'build'\r\nTraceback (most recent call last):\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/python-3.6.0-xzcafuxqdimdwtxgm7v3cgqvip3ul4dt/bin/python3.6' 'setup.py' '--no-user-cfg' 'build'\r\n/scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/lib/spack/spack/build_systems/python.py:129, in python:\r\n     128      def python(self, *args, **kwargs):\r\n  >> 129          inspect.getmodule(self).python(*args, **kwargs)\r\n\r\nSee build log for details:\r\n  /tmp/hartzelg/spack-stage/spack-stage-7il761/pip-9.0.1/spack-build.out\r\nhartzelg@blah:spack ((b630c067...))$ cat /tmp/hartzelg/spack-stage/spack-stage-7il761/pip-9.0.1/spack-build.out\r\n==> '/scratch/hartzelg/spack-cime-doh-working-dir/workspace/doh-daily-build/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/python-3.6.0-xzcafuxqdimdwtxgm7v3cgqvip3ul4dt/bin/python3.6' 'setup.py' '--no-user-cfg' 'build'\r\nTraceback (most recent call last):\r\nhartzelg@blah:spack ((b630c067...))$\r\n```\r\n\r\nMy normal trick would be to try to get a better error message, but trying to `spack env ... bash` blows up.  The git-completion thing is something I have in my prompt (trying to be cool...), but it seems like something upstream is exploding.\r\n\r\n```\r\nhartzelg@blah:pip-9.0.1$ spack env py-pip^python@3.6.0 bash\r\nImportError: No module named site\r\nImportError: No module named site\r\nbash: /share/git-completion.bash: No such file or directory\r\nImportError: No module named site\r\nbash: /share/git-prompt.sh: No such file or directory\r\nbash: __git_ps1: command not found\r\n[hartzelg@blah pip-9.0.1]$ which python\r\n/usr/bin/python\r\nbash: __git_ps1: command not found\r\n```\r\n\r\nShould this work?\r\n\r\nIs it obvious what's going wrong?\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4282",
+    "updated_at": "2017-05-23 17:37:05",
+    "created_at": "2017-05-17 23:00:35",
+    "closed_at": "2017-05-23 17:37:05",
+    "state": "closed",
+    "title": "Spack's py-pip does not install for python@3.6.0",
+    "number": 4282,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible"
+    ],
+    "id": 229510832,
+    "html_url": "https://github.com/spack/spack/issues/4282",
+    "assignees": [],
+    "comments": 14
+}

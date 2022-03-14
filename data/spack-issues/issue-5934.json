@@ -1,0 +1,21 @@
+{
+    "body": "Fixes the duplicate boost patch issue initially reported in #5325 and discussed further in #5341.\r\nThese are the steps I had taken to address the issue:\r\n - I launched two isolated docker environments: one running Ubuntu 16.04 + GCC 5.4.0, and the other running Fedora 26 + GCC 7.2.1.  For details, see my Docker PR, #5871.\r\n - I installed boost without specifying any additional options: `$ spack install boost`.  Installation succeeded in both environments.\r\n - To reproduce the issue, I proceeded to install version `1.55.0`: `$ spack install boost@1.55.0`.  Installation failed in the Ubuntu environment, which is expected since it is running a version of GCC for which the duplicate patches were set to be applied.\r\n - I made the changes contained in this PR, with the guidance of @scheibelp.\r\n - After the changes were made, I tried building version `1.55.0` of boost, again.  The build succeeded in both environments.\r\n - I then confirmed that the single `call_once_variadic` patch is not applied in the Fedora environment, since the GCC it uses should be too new for it.",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/5934",
+    "updated_at": "2017-10-25 19:54:56",
+    "created_at": "2017-10-24 21:38:16",
+    "closed_at": "2017-10-25 19:00:51",
+    "state": "closed",
+    "title": "Fix issue where a duplicate patch is being applied to boost",
+    "number": 5934,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 268194918,
+    "html_url": "https://github.com/spack/spack/pull/5934",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

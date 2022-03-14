@@ -1,0 +1,23 @@
+{
+    "body": "This PR adds a new subcommand, `container`, to generate container specification files.\r\n\r\nI am sure this PR is incomplete.  The objective is primarily to start a discussion about the usefulness of adding a container spec generation feature and the proposed implementation.\r\n\r\nIt uses HPC Container Maker (https://github.com/NVIDIA/hpc-container-maker) to generate either Dockerfiles or Singularity definition files based on the user selection.  HPCCM must be installed to use this capability (`pip install hpccm`).  \r\n\r\nExamples:\r\n```\r\n$ spack container --help\r\n$ spack container gromacs\r\n$ spack container --baseimage ubuntu:16.04 gromacs\r\n$ spack container --format singularity gromacs\r\n```\r\n\r\nThe container unwinds the DAG to build the dependencies in separate steps.  The reason for this is twofold.  \r\n\r\n1. The individual layers can be cached and re-used.  Consider building containers for both `gromacs@2019` and `gromacs@2018.2`.  Thanks to the container build cache, the second build will go much faster since only the final gromacs build step differs.\r\n\r\n2. If a layer fails (e.g., a download times out), then the build can be restarted from the last cached layer rather than having to restart from scratch, again saving considerable time.\r\n\r\nThis can be modified by the `--depth` option.  Set `--depth=0` to disable this capability.\r\n\r\nWhen generating Dockerfiles, multi-stage builds can be enabled by setting `--multi-stage`.  Currently this does not do much, but in the future if the runtime dependencies can be separated from the build dependencies, then this could be enhanced to produce significantly smaller container images.",
+    "user": "samcmill",
+    "url": "https://api.github.com/repos/spack/spack/issues/10952",
+    "updated_at": "2020-08-19 13:25:35",
+    "created_at": "2019-03-21 00:32:25",
+    "closed_at": "2020-08-19 13:25:35",
+    "state": "closed",
+    "title": "Add container sub-command to generate container spec files",
+    "number": 10952,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "revisit",
+        "containers"
+    ],
+    "id": 423530180,
+    "html_url": "https://github.com/spack/spack/pull/10952",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 17
+}

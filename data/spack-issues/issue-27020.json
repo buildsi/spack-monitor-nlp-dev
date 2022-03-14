@@ -1,0 +1,20 @@
+{
+    "body": "`PMIx` support (via variant) was added to this OpenMPI spackage in commit 98466f9b120, 2021-10-01; looks like `PMIx` has been present within the project since `openmpi@2`.  A dependency on `libevent` was listed in that commit, however it is only effectively applied to `openmpi@4:`  This MR fixes up the OpenMPI versions in between.  If this MR is _not_ applied, the build fails like this, e.g., when I attempt to build `openmpi@3.1.6`:\r\n\r\n> 1 error found in build log:\r\n>      1765    --- MCA component pmix:ext2x (m4 configuration macro)\r\n>      1766    checking for MCA component pmix:ext2x compile mode... static\r\n>      1767    checking if external component is version 2.x... yes\r\n>      1768    configure: WARNING: EXTERNAL PMIX SUPPORT REQUIRES USE OF EXTERNAL LIBEVENT\r\n>      1769    configure: WARNING: LIBRARY. THIS LIBRARY MUST POINT TO THE SAME ONE USED\r\n>      1770    configure: WARNING: TO BUILD PMIX OR ELSE UNPREDICTABLE BEHAVIOR MAY RESULT\r\n>      1771    configure: error: PLEASE CORRECT THE CONFIGURE COMMAND LINE AND REBUILD\r\n\r\nThis occurs because `libevent` is a direct spack dependency of `pmix` whereas this version _hole_ in the OpenMPI spackage permits its configuration to pick up the system `libevent`, thereby crashing the configure due to version skew.",
+    "user": "DarylGrunau",
+    "url": "https://api.github.com/repos/spack/spack/issues/27020",
+    "updated_at": "2021-10-28 21:34:55",
+    "created_at": "2021-10-28 16:22:17",
+    "closed_at": "2021-10-28 21:19:19",
+    "state": "closed",
+    "title": "depend on libevent when +pmix",
+    "number": 27020,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1038706218,
+    "html_url": "https://github.com/spack/spack/pull/27020",
+    "assignees": [],
+    "comments": 3
+}

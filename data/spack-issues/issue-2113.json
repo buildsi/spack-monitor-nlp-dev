@@ -1,0 +1,17 @@
+{
+    "body": "Our system administrator hit a bug today:\n\n```\n==> Staging archive: /calculate/spack/var/spack/stage/gmp-6.1.1-uq52e2ngj75qjzhuvlfk7ssvbeicaduj/gmp-6.1.1.tar.bz2\n==> Created stage in /calculate/spack/var/spack/stage/gmp-6.1.1-uq52e2ngj75qjzhuvlfk7ssvbeicaduj\n==> No patches needed for gmp\n==> Building gmp [AutotoolsPackage]\n==> Executing phase : 'autoreconf'\n==> Executing phase : 'configure'\nTraceback (most recent call last):\n File \"./spack\", line 202, in <module>\n   main()\n File \"./spack\", line 179, in main\n   return_val = command(parser, args)\n File \"/calculate/spack/lib/spack/spack/cmd/install.py\", line 117, in install\n   package.do_install(**kwargs)\n File \"/calculate/spack/lib/spack/spack/package.py\", line 1183, in do_install\n   dirty=dirty)\n File \"/calculate/spack/lib/spack/spack/package.py\", line 1183, in do_install\n   dirty=dirty)\n File \"/calculate/spack/lib/spack/spack/package.py\", line 1183, in do_install\n   dirty=dirty)\n File \"/calculate/spack/lib/spack/spack/package.py\", line 1183, in do_install\n   dirty=dirty)\n File \"/calculate/spack/lib/spack/spack/package.py\", line 1268, in do_install\n   spack.build_environment.fork(self, build_process, dirty=dirty)\n File \"/calculate/spack/lib/spack/spack/build_environment.py\", line 542, in fork\n   raise exception\nNameError: global name 'spec' is not defined\n\n--------------------------------\ngmp: package.py has the content:\n--------------------------------\nfrom spack import *\n\n\nclass Gmp(AutotoolsPackage):\n   \"\"\"GMP is a free library for arbitrary precision arithmetic,\n      operating on signed integers, rational numbers, and\n      floating-point numbers.\"\"\"\n   homepage = \"https://gmplib.org\"\n   url = \"https://gmplib.org/download/gmp/gmp-6.0.0a.tar.bz2\"\n\n   version('6.1.1',  '4c175f86e11eb32d8bf9872ca3a8e11d')\n   version('6.1.0',  '86ee6e54ebfc4a90b643a65e402c4048')\n   version('6.0.0a', 'b7ff2d88cae7f8085bd5006096eed470')\n   version('6.0.0',  '6ef5869ae735db9995619135bd856b84')\n\n   depends_on('m4', type='build')\n\n   def configure_args(self):\n       args = ['--enable-cxx']\n       # We need this flag if we want all the following checks to pass.\n       if spec.compiler.name == 'intel':\n           args.append('CXXFLAGS=-no-ftz')\n\n       return args\n~\n```\n\nFrom a quick glance it looks like a bug.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2113",
+    "updated_at": "2016-10-25 15:04:28",
+    "created_at": "2016-10-25 10:21:34",
+    "closed_at": "2016-10-25 14:08:52",
+    "state": "closed",
+    "title": "a bug in GMP package",
+    "number": 2113,
+    "milestone": null,
+    "labels": [],
+    "id": 185076391,
+    "html_url": "https://github.com/spack/spack/issues/2113",
+    "assignees": [],
+    "comments": 7
+}

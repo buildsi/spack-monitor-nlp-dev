@@ -1,0 +1,28 @@
+{
+    "body": "### Motivation\r\n\r\nPython's build system has rapidly changed over the years. Previously, all Python packages were built using:\r\n```console\r\n$ python setup.py build\r\n$ python setup.py install --root=...\r\n```\r\nHowever, there are several issues with this:\r\n\r\n* Direct invocation of `setup.py` is now [deprecated](https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html)\r\n* The introduction of `pyproject.toml` and `setup.cfg` means that some packages may not come with a `setup.py` script at all\r\n* We don't yet have good support for alternatives to setuptools like poetry/flit\r\n* Setuptools will automatically download missing dependencies, leading to packages that may not work on air-gapped systems\r\n* Does not support pre-compiled wheels (needed for proprietary software)\r\n\r\n### Implementation\r\n\r\nThis PR updates our `PythonPackage` build system to use pip to install packages instead of `setup.py`. This is non-trivial, since packages like pip/wheel/setuptools require pip/wheel/setuptools to build and install. Specifically, this PR includes:\r\n\r\n- [x] Bootstrap frontend tools (pip/build/installer)\r\n- [x] Bootstrap backend tools (setuptools/poetry/flit)\r\n- [x] Update `PythonPackage` to use pip instead of `setup.py`\r\n- [x] Use `PythonPackage` for installing pre-compiled wheels\r\n- [x] Use `PythonPackage` for packages without a `setup.py` file\r\n- [x] Handle packages with custom `setup.py` files properly\r\n- [x] Remove all references to `setup_py` and `setup.py`\r\n- [x] Remove all references to the `PythonPackage` build phase\r\n- [x] Remove all custom phases in Python packages\r\n- [x] Replace all `<phase>_args` functions with `(install|global)_options`\r\n- [x] Get the basic packages used in GitLab CI building\r\n- [x] Get a much larger selection of packages building (~300)\r\n- [x] Update `spack create`\r\n- [x] Update `PythonPackage` documentation\r\n\r\n### External references\r\n\r\nhttps://discuss.python.org/t/bootstrapping-a-specific-version-of-pip/12306\r\nhttps://discuss.python.org/t/list-dependencies-of-a-package/12341\r\nhttps://discuss.python.org/t/understanding-site-packages-directories/12959\r\nhttps://github.com/pypa/setuptools/discussions/2813",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/27798",
+    "updated_at": "2022-02-26 16:04:03",
+    "created_at": "2021-12-04 19:34:56",
+    "closed_at": "2022-01-14 18:37:57",
+    "state": "closed",
+    "title": "PythonPackage: install packages with pip",
+    "number": 27798,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "python",
+        "dependencies",
+        "resources",
+        "update-package",
+        "conflicts",
+        "build-systems",
+        "extends"
+    ],
+    "id": 1071279771,
+    "html_url": "https://github.com/spack/spack/pull/27798",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 83
+}

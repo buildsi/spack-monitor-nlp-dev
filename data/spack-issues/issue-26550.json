@@ -1,0 +1,21 @@
+{
+    "body": "### Summary\r\n\r\nIn https://github.com/spack/spack/pull/26399 we got better errors for bootstrapping issues, but the error messages for failing downloads from the build cache are still really poor.\r\n\r\nTake for instance https://github.com/spack/spack/issues/26542, the error message is:\r\n\r\n```\r\n==> Error: cannot bootstrap the \"clingo\" Python module from spec \"clingo-bootstrap@spack+python %gcc target=x86_64\" due to the following failures:\r\n    'github-actions' raised RuntimeError: could not populate the binary index\r\n    'spack-install' raised ConflictsInSpecError: Conflicts in concretized spec \"clingo-bootstrap@spack%gcc@4.9.3~docs~ipo+python~static_libstdcpp build_type=Release arch=linux-rhel7-x86_64/cvmqzep\"\r\n```\r\n\r\n> could not populate the binary index\r\n\r\nIt does not show you *why* it failed. It means you have no ssl certificates installed, the server is not reachable, etc etc.\r\n\r\nInstead, people take away from the error message they should upgrade their compiler and build from sources? That's clearly not the best solution...\r\n\r\nIt'd be great if the error message\r\n\r\n> could not populate the binary index\r\n\r\nwas replaced with the *actual* error \"Could not download from X because SSL certificate could not be verified, could not use mirror Y because server unreachable, ...\"\r\n\r\n### Description\r\n\r\n@scottwittenburg I've assigned you since you seem to be most knowledgeable about this particular part of Spack, in particular here:\r\n\r\nhttps://github.com/spack/spack/blob/199bd9f8f893fd95cd0b11f38265a79c9aa68850/lib/spack/spack/binary_distribution.py#L368-L373\r\n\r\nwe are just disregarding the errors.\r\n\r\nCan you maybe make it such that the actual failures are retrievable and presentable to the user if *all* methods of fetching failed, so we can get better bootstrapping errors?",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26550",
+    "updated_at": "2021-10-12 20:11:08",
+    "created_at": "2021-10-06 11:05:21",
+    "closed_at": "2021-10-12 20:11:08",
+    "state": "closed",
+    "title": "Better error handling when fetching from buildcache",
+    "number": 26550,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1018065743,
+    "html_url": "https://github.com/spack/spack/issues/26550",
+    "assignees": [
+        "scottwittenburg"
+    ],
+    "comments": 1
+}

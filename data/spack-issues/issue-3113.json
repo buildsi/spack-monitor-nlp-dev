@@ -1,0 +1,19 @@
+{
+    "body": "In order to download from `https://` websites, Spack needs a working `curl`, with a new-enough OpenSSL.  That is not the case on some systems; in that case, Spack must install `curl` itself:\r\n```\r\ncurl@7.52.1%clang@7.3.0-apple arch=darwin-elcapitan-x86_64 \r\n    ^openssl@1.1.0d%clang@7.3.0-apple arch=darwin-elcapitan-x86_64 \r\n        ^perl@5.24.1%clang@7.3.0-apple+cpanm arch=darwin-elcapitan-x86_64 \r\n        ^zlib@1.2.10%clang@7.3.0-apple+pic+shared arch=darwin-elcapitan-x86_64 \r\n```\r\nThe problem would appear if any of those packages requires SSL to download --- then, Spack would be unable to bootstrap a working `curl` if it didn't already have one.  This PR adds comments that discourage authors from changing these four packages to `https://`.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3113",
+    "updated_at": "2017-02-17 19:52:08",
+    "created_at": "2017-02-10 03:32:19",
+    "closed_at": "2017-02-17 19:52:08",
+    "state": "closed",
+    "title": "Keep Curl Bootstrap Working With http://",
+    "number": 3113,
+    "milestone": null,
+    "labels": [
+        "ready"
+    ],
+    "id": 206699446,
+    "html_url": "https://github.com/spack/spack/pull/3113",
+    "assignees": [],
+    "comments": 1
+}

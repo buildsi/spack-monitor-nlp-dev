@@ -1,0 +1,19 @@
+{
+    "body": "Please let me know if I am using this feature incorrectly and how to go about debugging the error below.\r\n\r\nI would like to use an externally provided installation of cmake when building metis. I edited `packages.yaml` to register cmake by using the `modules` syntax:\r\n\r\n```\r\npackages:\r\n  cmake:\r\n    version: [3.9.0]\r\n    modules:\r\n      cmake@3.9.0: cmake/3.9.0\r\n    buildable: False\r\n```\r\n\r\nSpack sees the external package for cmake and parses the yaml file without error:\r\n\r\n```\r\n% spack spec metis\r\n...\r\nConcretized\r\n--------------------------------\r\nmetis@5.1.0%intel@17.0.1~debug~gdb~int64~real64+shared arch=linux-rhel7-x86_64 \r\n    ^cmake@3.9.0%intel@17.0.1~doc+ncurses+openssl+ownlibs~qt arch=linux-rhel7-x86_64 \r\n```\r\n\r\nBut when I try to install `metis`, spack crashes with this cryptic error:\r\n\r\n```\r\n% spack install metis\r\n==> cmake@3.9.0 : has external module in cmake/3.9.0\r\n==> cmake@3.9.0 : is actually installed in None\r\n==> cmake@3.9.0 : generating module file\r\n==> Error: 'NoneType' object has no attribute 'startswith'\r\n```\r\n\r\nAm I using the `modules:` section incorrectly? How do I go about debugging this error?\r\n\r\nFWIW - the `cmake/3.9.0` module is available and cmake exists at the path listed.\r\n\r\n```\r\n% module show cmake/3.9.0\r\n-------------------------------------------------------------------------------------------------------------------------------------------------\r\n   /usr/projects/hpcsoft/toss3/modulefiles/snow/friendly-testing/cmake/3.9.0:\r\n-------------------------------------------------------------------------------------------------------------------------------------------------\r\nconflict(\"cmake\")\r\nwhatis(\"CMAKE 3.9.0 \")\r\nsetenv(\"_MODULES_CMAKE\",\"cmake/3.9.0\")\r\nsetenv(\"CMAKE_DIR\",\"/usr/projects/hpcsoft/toss3/common/cmake/3.9.0\")\r\nprepend_path(\"PATH\",\"/usr/projects/hpcsoft/toss3/common/cmake/3.9.0/bin\")\r\nhelp([[ CMAKE 3.9.0\r\n]])\r\n```\r\n\r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/5141",
+    "updated_at": "2017-09-16 20:26:30",
+    "created_at": "2017-08-17 14:52:52",
+    "closed_at": "2017-09-16 20:26:30",
+    "state": "closed",
+    "title": "External package setup via modules not working?",
+    "number": 5141,
+    "milestone": null,
+    "labels": [
+        "external-packages"
+    ],
+    "id": 250971362,
+    "html_url": "https://github.com/spack/spack/issues/5141",
+    "assignees": [],
+    "comments": 2
+}

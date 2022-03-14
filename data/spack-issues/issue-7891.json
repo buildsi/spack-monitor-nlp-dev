@@ -1,0 +1,20 @@
+{
+    "body": "## Please note that everything still works, as list_url is used to find the old versions. I have not checked to see if all r packages have list_url specified, however\r\n\r\nRelated: #2951\r\n\r\ncran.r-project.org places latest versions of things in a different directory than archived versions. For example:\r\n\r\nr-bh 1.65.0-1 used to be located at https://cran.r-project.org/src/contrib/BH_1.65.0-1.tar.gz, but it is now located at https://cran.r-project.org/src/contrib/Archive/BH/\r\n\r\nThe current version, r-bh 1.66.0-1, is only located in https://cran.r-project.org/src/contrib/ and not https://cran.r-project.org/src/contrib/Archive/BH/\r\n\r\nThis affects (at least) the following packages:\r\nr-backports\r\nr-checkmate\r\nr-digest\r\nr-lazyeval\r\nr-mass\r\nr-stringi\r\nr-stringr\r\nr-reshape2\r\nr-viridislite\r\nr-tibble\r\nr-xml\r\nr-httpuv\r\nr-testthat\r\nr-bh\r\nr-plogr\r\nr-bindrcpp\r\nr-dbi\r\nr-hexbin\r\n\r\n---\r\n\r\nInstead of separate package.py files for everything listed in cran.r-project.org, would it be possible to integrate with their distribution system directly? By this, I mean:\r\n`spack install r-a`\r\nwould look for https://cran.r-project.org/src/contrib/a_.*.tar.gz for the most recent version and https://cran.r-project.org/src/contrib/Archive/a for older versions and (somehow) automatically pull out dependencies\r\n\r\nIf that direct use of https://cran.r-project.org/src/contrib/ isn't what you want in spack, could you instead write a script to periodically crawl it and generate package.py files for everything there?\r\n\r\nThanks",
+    "user": "mcneish1",
+    "url": "https://api.github.com/repos/spack/spack/issues/7891",
+    "updated_at": "2018-04-30 17:39:03",
+    "created_at": "2018-04-25 00:39:21",
+    "closed_at": "2018-04-30 17:39:02",
+    "state": "closed",
+    "title": "Many r packages are out of date",
+    "number": 7891,
+    "milestone": null,
+    "labels": [
+        "R",
+        "fetching"
+    ],
+    "id": 317441857,
+    "html_url": "https://github.com/spack/spack/issues/7891",
+    "assignees": [],
+    "comments": 1
+}

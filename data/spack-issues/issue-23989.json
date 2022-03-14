@@ -1,0 +1,20 @@
+{
+    "body": "On 5.9 on macOS the multimedia option causes build errors; on other platforms and versions it should probably be assumed inoperative anyway.\r\n\r\n---\r\n\r\nBuild with ~opengl %apple-clang@10:\r\n```\r\nUndefined symbols for architecture x86_64:\r\n  \"AVFVideoRendererControl::staticMetaObject\", referenced from:\r\n      AVFMediaPlayerService::releaseControl(QMediaControl*) in avfmediaplayerservice.o\r\n  \"AVFVideoRendererControl::AVFVideoRendererControl(QObject*)\", referenced from:\r\n      AVFMediaPlayerService::requestControl(char const*) in avfmediaplayerservice.o\r\nld: symbol(s) not found for architecture x86_64\r\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\r\nmake[5]: *** [../../../../plugins/mediaservice/libqavfmediaplayer.dylib] Error 1\r\n```\r\n\r\n---\r\n\r\nQt 5.9 multimedia might be entirely broken period on clang@12:\r\n```\r\navfvideowindowcontrol.mm:203:14: error: cannot initialize a variable of type 'CALayer *' with an rvalue of type 'NSInteger' (aka 'long')\r\n    CALayer *nativeLayer = [m_nativeView layer];\r\n             ^             ~~~~~~~~~~~~~~~~~~~~\r\n3 warnings and 1 error generated.\r\nmake[5]: *** [.obj/avfvideowindowcontrol.o] Error 1\r\nmake[5]: *** Waiting for unfinished jobs....\r\n```",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/23989",
+    "updated_at": "2021-05-29 19:14:04",
+    "created_at": "2021-05-28 12:32:22",
+    "closed_at": "2021-05-29 18:53:25",
+    "state": "closed",
+    "title": "qt: skip multimedia when ~opengl",
+    "number": 23989,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "qt"
+    ],
+    "id": 905320476,
+    "html_url": "https://github.com/spack/spack/pull/23989",
+    "assignees": [],
+    "comments": 2
+}

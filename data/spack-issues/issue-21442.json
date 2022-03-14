@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #17966\r\n\r\nThis PR adds several context managers to the current API of Spack. These context managers may be used to swap part of the current configuration within the context. For instance:\r\n```python\r\nwith spack.repo.use_repositories(*paths_to_repos) as repo_path:\r\n    pass\r\n```\r\ncan be used to swap the repositories that are hooked into Spack for the duration of the context. Context managers are currently provided for:\r\n- [x] Package repositories\r\n- [x] Configuration scopes\r\n- [x] Store\r\n- [x] Platform   \r\n\r\nand others may be added as needed.\r\n\r\nThese context managers are used in this PR to resolve a longstanding issue with our testing framework, which was modifying global variables in `conftest.py` to avoid later failures. Now these modifications are done in fixtures and can be undone during tests, if need be, by nested context managers.\r\n\r\nAnother use of these context managers is in #20207 (or derived PRs) to fix a few aspects of the configuration for bootstrapping Spack, regardless of the use case under consideration. This permits, for instance, to use a bootstrapped clingo to run unit tests (where a mock \"test\" platform is substituted to the host platform) or to bootstrap clingo a single time when trying to concretize environments defining a custom store location.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/21442",
+    "updated_at": "2021-02-11 08:09:14",
+    "created_at": "2021-02-02 13:48:33",
+    "closed_at": "2021-02-11 00:50:10",
+    "state": "closed",
+    "title": "Add context managers to swap parts of Spack in code",
+    "number": 21442,
+    "milestone": null,
+    "labels": [
+        "refactoring",
+        "tests"
+    ],
+    "id": 799297705,
+    "html_url": "https://github.com/spack/spack/pull/21442",
+    "assignees": [],
+    "comments": 1
+}

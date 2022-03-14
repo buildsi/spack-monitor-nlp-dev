@@ -1,0 +1,20 @@
+{
+    "body": "* add a subparser\r\n  * to manually specify the spack.yaml from which to\r\n    create the container recipe (-f)\r\n  * to provide a filename to write the recipe to. Useful\r\n    if other output appears on the terminal (e.g. warnings)\r\n\r\nThe commit message describes it. Basically I was a bit annoyed that I couldn't just trigger the recipe building, but had to either `cd` into the environment directory or `spack env activate` the environment in order to containerize. This PR adds two options to the `spack containerize` command:\r\n- `-f specfile` where specfile is a path/to/spack.yaml of the environment you want to containerize\r\n- `-r recipefile` where recipefile is a path/to/recipe where the container recipe should be printed to. This frees up the console to do reporting.\r\n\r\nI think this is a bit of a quality-of-life improvement for the containerize command and makes its behaviour a bit more obvious. The price is a bit more complicated logic in the parsing. On the plus side the error message in case of not finding a `spack.yaml` should be a bit more informative now. I'm not attached to any of the variable names, and maybe `specfile` should be something different. But I'm not up to date with the naming scheme for the whole environment related files, so suggestions are welcome.",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/15271",
+    "updated_at": "2021-02-19 09:30:01",
+    "created_at": "2020-02-28 22:09:16",
+    "closed_at": "2021-02-19 09:30:01",
+    "state": "closed",
+    "title": "Improve containerize - add input/output selection",
+    "number": 15271,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "containers"
+    ],
+    "id": 573031851,
+    "html_url": "https://github.com/spack/spack/pull/15271",
+    "assignees": [],
+    "comments": 2
+}

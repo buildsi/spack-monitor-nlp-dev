@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$  spack -d install mpfr@3.1.6%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n...\r\n==> [2019-03-29-18:14:57.758883] Fetching https://ftpmirror.gnu.org/mpfr/mpfr-3.1.6.tar.bz2\r\n==> [2019-03-29-18:14:57.760868] '/lus/theta-fs0/software/spack/spack-dev/opt/spack/linux-sles12-x86_64/gcc-8.2.0/curl-7.63.0-opkc7zt2rni7tnzcmfpmgzttnz52jej5/bin/curl' '-C' '-' '-o' '/lus/theta-fs0/software/spack/spack-dev/var/spack/stage/mpfr-3.1.6-7zzllbnbfcdqtgylvfo\u25024wi4sqz262eyz/mpfr-3.1.6.tar.bz2.part' '-f' '-D' '-' '-L' 'https://ftpmirror.gnu.org/mpfr/mpfr-3.1.6.tar.bz2' '-#' \r\ncurl: (35) error:1408F10B:SSL routines:ssl3_get_record:wrong version number\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a                                                                   \r\nLinux thetalogin4 4.4.162-94.72-default #1 SMP Mon Nov 12 18:57:45 UTC 2018 (9de753f) x86_64 x86_64 x86_64 GNU/LinuxLinux nuvolari 4.15.0-29-generic #31-Ubuntu SMP Tue Jul 17 15:39:52 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\nspack@thetalogin4:~/spack-dev> lsb-release -d                                          \r\nDescription:    SUSE Linux Enterprise Server 12 SP3\r\n``` \r\n\r\n### Additional information\r\n\r\nI installed the latest curl and openssl:\r\n\r\n```console\r\nspack@thetalogin4:~/spack-dev> which curl                                                \r\n/lus/theta-fs0/software/spack/spack-dev/opt/spack/linux-sles12-x86_64/gcc-8.2.0/curl-7.63.0-opkc7zt2rni7tnzcmfpmgzttnz52jej5/bin/curl\r\nspack@thetalogin4:~/spack-dev> curl --version                                           \r\ncurl 7.63.0 (x86_64-pc-linux-gnu) libcurl/7.63.0 OpenSSL/1.1.1b zlib/1.2.11 \r\n```\r\n\r\nAll the deps built fine:\r\n\r\n```console\r\n$ spack spec --install-status mpfr@3.1.6%gcc@8.2.0 arch=linux-sles12-x86_64\r\nInput spec\r\n--------------------------------\r\n -   mpfr@3.1.6%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n\r\nConcretized\r\n--------------------------------\r\n -   mpfr@3.1.6%gcc@8.2.0 patches=66a5d58364113a21405fc53f4a48f4e8 arch=linux-sles12-x86_64 \r\n[+]      ^gmp@6.1.2%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n[+]          ^autoconf@2.69%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n[+]              ^m4@1.4.18%gcc@8.2.0 patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e,fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8 +sigsegv arch=linux-sles12-x86_64 \r\n[+]                  ^libsigsegv@2.11%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n[+]              ^perl@5.26.2%gcc@8.2.0+cpanm patches=0eac10ed90aeb0459ad8851f88081d439a4e41978e586ec743069e8b059370ac +shared+threads arch=linux-sles12-x86_64 \r\n[+]                  ^gdbm@1.18.1%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n[+]                      ^readline@7.0%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n[+]                          ^ncurses@6.1%gcc@8.2.0~symlinks~termlib arch=linux-sles12-x86_64 \r\n[+]                              ^pkg-config@0.29.2%gcc@8.2.0+internal_glib arch=linux-sles12-x86_64 \r\n[+]          ^automake@1.16.1%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n[+]          ^libtool@2.4.6%gcc@8.2.0 arch=linux-sles12-x86_64 \r\n```\r\n\r\nNo logs available as it couldn't download the tarball. FWIW, I can download the tarball by hand. \r\n\r\nContext:\r\n\r\nI'm trying to use gcc/8.2.0 to build gcc/8.3.0. It stalled at mpfr so I'm trying to build it explicitly. ",
+    "user": "frankwillmore",
+    "url": "https://api.github.com/repos/spack/spack/issues/11062",
+    "updated_at": "2019-04-08 16:40:13",
+    "created_at": "2019-03-29 18:53:41",
+    "closed_at": "2019-04-08 16:40:13",
+    "state": "closed",
+    "title": "Installation issue: mpfr-3.1.6",
+    "number": 11062,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "fetching"
+    ],
+    "id": 427133055,
+    "html_url": "https://github.com/spack/spack/issues/11062",
+    "assignees": [],
+    "comments": 2
+}

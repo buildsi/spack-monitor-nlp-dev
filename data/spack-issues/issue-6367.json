@@ -1,0 +1,17 @@
+{
+    "body": "This attempts to address one of the complaints at https://github.com/spack/spack/issues/5996#issuecomment-339799172:\r\n\r\n> Repo currently caches package instances by Spec, and those Package instances have a Spec. This is unnecessary and causes confusion. I think I thought that we'd need to cache instances after loading package classes, but really just caching the classes is fine.\r\n\r\nWith this update, `Repo`'s package cache is removed and `Specs` cache the package reference themselves. One consequence is that `Specs` which compare as equal will store separate instances of a `Package` class (not doing this creates issues for https://github.com/spack/spack/pull/4595#issuecomment-345117252).\r\n\r\nThere were several references to `Spec.package` that could be replaced with `Spec.package_class` without any additional modifications. There are still a couple remaining references to `Spec.package` in `Spec` that would require adding functionality before replacing (e.g. calling `Package.provides` and `Package.installed`).\r\n\r\nNote this makes it difficult to mock fetchers for tests which invokes code that reconstructs specs. `test_packaging` was one example of this where the updates caused a failure (in that case the error was avoided by not making an unnecessary call).\r\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/6367",
+    "updated_at": "2018-01-29 00:58:09",
+    "created_at": "2017-11-18 02:50:55",
+    "closed_at": "2018-01-29 00:58:09",
+    "state": "closed",
+    "title": "Remove Package instance caching in Repo",
+    "number": 6367,
+    "milestone": null,
+    "labels": [],
+    "id": 275047423,
+    "html_url": "https://github.com/spack/spack/pull/6367",
+    "assignees": [],
+    "comments": 2
+}

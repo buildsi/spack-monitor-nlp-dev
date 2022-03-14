@@ -1,0 +1,20 @@
+{
+    "body": "Fujitsu C compiler fail to recognize loop with two `goto` and cause Segmentation fault.\r\nSo I patched `goto` to `while(true)` and `break`.\r\n\r\n>  iter:\r\n    ...\r\n write:\r\n    ...\r\n    if (offset == End_offset) {\r\n        /* The iteration has converged.  Write the result. */\r\n        if (writer.strm == &poss) {\r\n            writer.strm = s;\r\n            goto write;\r\n        }\r\n    } else {\r\n        /* No convergence yet. */\r\n        End_offset = offset;\r\n        goto iter;\r\n    }\r\n    ...\r\n    return 0;\r\n\r\nThis is compiler specific problem. I reported this error to compiler development team.",
+    "user": "ketsubouchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/18345",
+    "updated_at": "2020-08-28 09:52:28",
+    "created_at": "2020-08-28 06:04:02",
+    "closed_at": "2020-08-28 09:52:12",
+    "state": "closed",
+    "title": "ghostscript: delete goto",
+    "number": 18345,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "update-package"
+    ],
+    "id": 687753036,
+    "html_url": "https://github.com/spack/spack/pull/18345",
+    "assignees": [],
+    "comments": 0
+}

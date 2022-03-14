@@ -1,0 +1,17 @@
+{
+    "body": "(EDIT: this is better resolved by https://github.com/spack/spack/pull/17732/files although it summarizes the issue, so I've added a close tag to that PR and this will be automatically closed when that is merged)\r\n\r\nSee also: https://github.com/spack/spack/pull/17738\r\n\r\nFrom https://git-scm.com/docs/git-diff\r\n\r\n> `git diff [<options>] <commit>...<commit> [--] [<path>\u2026\u200b]`\r\n> `This form is to view the changes on the branch containing and up to the second <commit>, starting at a common ancestor of both <commit>. \"git diff A...B\" is equivalent to \"git diff $(git merge-base A B) B\". You can omit any one of <commit>, which has the same effect as using HEAD instead.`\r\n\r\n`spack.cmd.flake8.changed_files` runs \r\n\r\n`'/usr/local/bin/git' 'diff' '--name-only' '--diff-filter=ACMR' 'develop...'`\r\n\r\nWhich (from the linked documentation) will involve calling `git merge-base develop...HEAD`\r\n\r\nHowever, the commands which set up the git repository result in a detached head with no discernable merge-base, e.g. from  https://github.com/spack/spack/pull/17733/checks?check_run_id=920605207:\r\n\r\n```\r\ngit init test1\r\ngit remote add origin https://github.com/spack/spack\r\ngit -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +893837c02773b007384c0de343baa43223cda865:refs/remotes/pull/17733/merge\r\ngit checkout --progress --force refs/remotes/pull/17733/merge\r\n```\r\n\r\nFor some reason, Git versions before 2.28.0 on Mac OS (and including that on Ubuntu) tolerate the fact that `git merge-base develop...HEAD` returns nothing. However, 2.28.0 on Mac OS rejects `git diff develop...HEAD` with:\r\n\r\n`fatal: HEAD...develop: no merge base`\r\n\r\nTo resolve this, the PR uses the `git diff` format which compares two arbitrary commits, for example: `git diff develop`\r\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/17754",
+    "updated_at": "2020-07-29 18:23:36",
+    "created_at": "2020-07-28 22:39:04",
+    "closed_at": "2020-07-29 18:23:36",
+    "state": "closed",
+    "title": "Detecting changed files: don't use version range for detached commit",
+    "number": 17754,
+    "milestone": null,
+    "labels": [],
+    "id": 667426616,
+    "html_url": "https://github.com/spack/spack/pull/17754",
+    "assignees": [],
+    "comments": 3
+}

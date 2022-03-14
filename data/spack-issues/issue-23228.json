@@ -1,0 +1,23 @@
+{
+    "body": "On conventional Linux systems, loading a Spack package will add it's library path to LD_LIBRARY_PATH.\r\n\r\nThis does not happen on Cray systems, however.  This makes it difficult for library developers to document how to use their libraries at run time because the behavior is inconsistent across platforms.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n# NOTE: This problem is not peculiar to the libunwind package; I am just using it as an example because it builds quickly\r\n#             and has no additional dependencies to satisfy.\r\nspack install libunwind\r\nspack load  -r libunwind\r\nenv |grep LIB |grep unwind\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n# On a laptop, the last command listed above displays the following or similar:\r\n$ env |grep LIB |grep unwind\r\nLD_LIBRARY_PATH=/home/carns/working/src/spack/opt/spack/linux-ubuntu20.10-skylake/gcc-10.2.0/libunwind-1.5.0-enb3aln2cmueqdz6tuvdxkvj7trmrddl/lib\r\n\r\n# On a Cray system such as Cori (NERSC) or Theta (ALCF) the desired library is not in LD_LIBRARY_PATH\r\n$ env |grep LIB |grep unwind\r\n$\r\n```\r\n\r\nThe core problem is that external (i.e. non-spack, and could use cmake, autotools, gnu make, or any other build system) applications that link against our library packages do not have a consistent way to determine runtime library paths once the application has been built.\r\n\r\n### Information on your system\r\n\r\nAn example packages.yaml as used on Theta can be found at https://github.com/mochi-hpc-experiments/mochi-tests/blob/main/perf-regression/theta/packages.yaml\r\n\r\n### Additional information\r\n\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n@frankwillmore @roblatham00 ",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/23228",
+    "updated_at": "2021-10-21 18:46:18",
+    "created_at": "2021-04-23 18:36:22",
+    "closed_at": "2021-10-21 18:46:18",
+    "state": "closed",
+    "title": "LD_LIBRARY_PATH (or equivalent) is not set on Cray platforms",
+    "number": 23228,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "ecp",
+        "triage",
+        "alcf"
+    ],
+    "id": 866344408,
+    "html_url": "https://github.com/spack/spack/issues/23228",
+    "assignees": [],
+    "comments": 3
+}

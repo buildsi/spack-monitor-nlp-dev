@@ -1,0 +1,17 @@
+{
+    "body": "This commit overhauls the libMesh package script in a number of ways:\r\n1. We now inherit from AutotoolsPackage.\r\n2. libMesh contains about a dozen third-party dependencies that can only be provided by the copy bundled with libMesh. This patch enumerates all such bundled dependencies and disables all of them by default.\r\n3. libMesh supports compilation with external installations of boost, eigen, hdf5, slepc, and tbb; this patch adds all of them to package.py.\r\n4. libMesh will look for a few system executables (xz, bzip, gdb) by default. This is now disabled.\r\n5. libMesh will now used a copy of perl installed by spack instead of trying to find the system copy.\r\n6. Compilation with non-system MPI installations requires an additional flag (--with-mpi=); this has been added.\r\n\r\nI am still not sure what the best behavior for handling the bundled dependencies is; I believe it is best to disable all of them by default to avoid linkage problems with packages that depend on libMesh but the version on `develop` presently leaves them alone (which implicitly activates them).",
+    "user": "drwells",
+    "url": "https://api.github.com/repos/spack/spack/issues/9642",
+    "updated_at": "2018-10-29 18:50:48",
+    "created_at": "2018-10-25 18:07:51",
+    "closed_at": "2018-10-29 18:50:44",
+    "state": "closed",
+    "title": "Expand the libMesh dependency list.",
+    "number": 9642,
+    "milestone": null,
+    "labels": [],
+    "id": 374066654,
+    "html_url": "https://github.com/spack/spack/pull/9642",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Why doesn't anyone support non-GCC compilers? :sob: \n\nTrying to build NetCDF with PGI. NetCDF depends_on OpenSSL, which is crashing during the build. See [spack-build-original.txt](https://github.com/LLNL/spack/files/180034/spack-build-original.txt). Going off of the error messages, I tried adding:\n\n``` python\nfilter_file(r'-Wall', '', 'Makefile')\nmake(\"depend\")\n```\n\nbut no luck. See [spack-build-Wall.txt](https://github.com/LLNL/spack/files/180035/spack-build-Wall.txt).\n\nAny thoughts? This seems to be a recurring problem. I am able to build OpenSSL outside of Spack, but I think that's only because they hard code it to use GCC. When I replace `CC=gcc` with `CC=pgcc` I get the same problems.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/573",
+    "updated_at": "2016-03-24 21:25:43",
+    "created_at": "2016-03-18 16:39:03",
+    "closed_at": "2016-03-22 15:58:09",
+    "state": "closed",
+    "title": "Problems building OpenSSL with PGI",
+    "number": 573,
+    "milestone": null,
+    "labels": [],
+    "id": 141918570,
+    "html_url": "https://github.com/spack/spack/issues/573",
+    "assignees": [],
+    "comments": 7
+}

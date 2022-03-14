@@ -1,0 +1,17 @@
+{
+    "body": "I'm working on a package (cask) that depends_on('emacs').  I have emacs installed w/out X:\n\n```\n[throgg@spack-central spack]$ spack find -v emacs\n==> 1 installed packages.\n-- linux-centos7-x86_64 / gcc@5.4.0 -----------------------------\nemacs@24.5~X~gtkplus\n```\n\nCask ends up wanting emacs _with_ X, which won't work (stripped remote access machine).\n\n```\n[throgg@spack-central spack]$ spack spec cask\nInput spec\n------------------------------\n  cask\n\nNormalized\n------------------------------\n  cask\n      ^emacs\n          ^ncurses\n\nConcretized\n------------------------------\n  cask@0.7.4%gcc@5.4.0 arch=linux-centos7-x86_64\n      ^emacs@24.5%gcc@5.4.0+X~gtkplus arch=linux-centos7-x86_64\n          ^giflib@5.1.4%gcc@5.4.0 arch=linux-centos7-x86_64\n          ^libpng@1.6.16%gcc@5.4.0 arch=linux-centos7-x86_64\n              ^zlib@1.2.8%gcc@5.4.0 arch=linux-centos7-x86_64\n          ^libtiff@4.0.3%gcc@5.4.0 arch=linux-centos7-x86_64\n              ^jpeg@9b%gcc@5.4.0 arch=linux-centos7-x86_64\n              ^xz@5.2.2%gcc@5.4.0 arch=linux-centos7-x86_64\n          ^libxpm@3.5.11%gcc@5.4.0 arch=linux-centos7-x86_64\n          ^ncurses@6.0%gcc@5.4.0 arch=linux-centos7-x86_64\n```\n\nI think that this is because the X variant in the emacs package defaults to `True`.\n\nI expected a dependency on a package w/out a variant spec to essentially wildcard that variant when it was concretized.\n\nIs there a way to specify a dependency w/out regard to variants?  I don't see any mention in [the dependencies section of the packaging guide](http://software.llnl.gov/spack/packaging_guide.html#dependencies).\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/1362",
+    "updated_at": "2016-07-25 17:13:51",
+    "created_at": "2016-07-25 16:40:40",
+    "closed_at": "2016-07-25 17:13:51",
+    "state": "closed",
+    "title": "Question: How to use depends_on w/out caring about variants.",
+    "number": 1362,
+    "milestone": null,
+    "labels": [],
+    "id": 167411462,
+    "html_url": "https://github.com/spack/spack/issues/1362",
+    "assignees": [],
+    "comments": 2
+}

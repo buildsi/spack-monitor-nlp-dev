@@ -1,0 +1,21 @@
+{
+    "body": "\r\nSummary\r\n\r\nAfter a spack build of openspeedshop, I load the openspeedshop module file.   When I execute openspeedshop's \"openss -cli\" command.   I get python errors.   If I load the python module, then when I execute the \"openss -cli\" command, all is well.\r\n\r\nI had thought that just loading the openspeedshop module would be enough for it to function properly.\r\nMaybe that is not the expected result, so I'm posting the issue to see what is expected.\r\n\r\nMaybe the openspeedshop spec file is supposed to add something to the module file to fix the python dependency.  I'm not sure what that would be.  It looks like spack python it accessing the system python.\r\n\r\nHere is the scenario:\r\n\r\n```\r\nmodules/linux-sles12-x86_64> module load openspeedshop-2.3.1-gcc-4.8-t34et3a\r\nmodules/linux-sles12-x86_64> openss -cli\r\nTraceback (most recent call last):\r\n  File \"init.py\", line 27, in <module>\r\n  File \"/usr/projects/packages/openspeedshop/jegsgi/generic_spack/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/python-2.7.14-buxkxinpr2nlrvl5us2zmds54zbpwpx3/lib/python2.7/shutil.py\", line 12, in <module>\r\n    import collections\r\n  File \"/usr/projects/packages/openspeedshop/jegsgi/generic_spack/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/python-2.7.14-buxkxinpr2nlrvl5us2zmds54zbpwpx3/lib/python2.7/collections.py\", line 20, in <module>\r\n    from _collections import deque, defaultdict\r\nImportError: /usr/lib/python2.7/lib-dynload/_collections.so: wrong ELF class: ELFCLASS32\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\nWelcome to OpenSpeedShop 2.3.1\r\nopenss>>NameError: name 'myparse' is not defined\r\n```\r\n\r\nIf I load the python module, then openspeedshop functions as expected.\r\n\r\nmodules/linux-sles12-x86_64> module load python-2.7.14-gcc-4.8-buxkxin\r\nmodules/linux-sles12-x86_64> openss -cli\r\nopenss>>Welcome to OpenSpeedShop 2.3.1\r\nopenss>>help\r\n\r\nOpen|SpeedShop is a performance tool brought\r\nto you by The Krell Institute and sponsors.\r\n \r\n\r\n\r\n### Expected Result\r\n\r\nWhat you expected\r\n\r\nI had thought that just loading the openspeedshop module would be enough for it to function properly.\r\nMaybe that is not the expected result, that is why I'm asking.\r\nMaybe the openspeedshop spec file is supposed to add something to the module file to fix the python dependency.  I'm not sure what that would be.  It looks like spack python it accessing the system python.\r\n\r\n### Actual Result\r\n\r\nWhat happened instead\r\n\r\nI had to load the python module that was used as part of the openspeedshop build.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\nI used this command to build:\r\n\r\n$ spack install openspeedshop +cbtf+mpich %gcc@4.8\r\n\r\n```\r\n\r\n### Information on your system\r\n```\r\nThis includes: \r\n1. which platform you are using\r\n\r\nlinux-sles12-x86_64/gcc-4.8> uname -a\r\nLinux tt-fey1 4.4.114-94.11-default #1 SMP Thu Feb 1 19:28:26 UTC 2018 (4309ff9) x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\nlinux-sles12-x86_64/gcc-4.8> cat ~/.spack/linux/packages.yaml \r\npackages:\r\n   all:\r\n      providers:\r\n         pkgconfig: [pkg-config]\r\n   mpich:\r\n      buildable: False\r\n      paths:\r\n         mpich@7.6.2%gcc@4.8 arch=cray-CNL-haswell: /opt/cray/pe/mpt/7.7.0/gni/mpich-gnu/5.1\r\n\r\n```\r\n",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/7678",
+    "updated_at": "2019-12-17 10:33:33",
+    "created_at": "2018-04-05 20:21:26",
+    "closed_at": "2019-12-17 10:33:33",
+    "state": "closed",
+    "title": "Question about module generation involving the openspeedshop and python packages ",
+    "number": 7678,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 311755394,
+    "html_url": "https://github.com/spack/spack/issues/7678",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

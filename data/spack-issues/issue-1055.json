@@ -1,0 +1,17 @@
+{
+    "body": "I ran into situations when spack was unexpectedly reinstalling packages. It turns out to be due to generating different hashes depending on whether an indirect dependency is listed explicitly or not. Consider the following spec for R (I picked a version I did not have installed):\n\n```\nConcretized\n------------------------------\n  R@3.2.2%gcc@6.1.0~external-lapack arch=linux-x86_64\n      ^bzip2@1.0.6%gcc@6.1.0 arch=linux-x86_64\n      ^cairo@1.14.0%gcc@6.1.0 arch=linux-x86_64\n          ^fontconfig@2.11.1%gcc@6.1.0 arch=linux-x86_64\n              ^freetype@2.5.3%gcc@6.1.0 arch=linux-x86_64\n                  ^libpng@1.6.16%gcc@6.1.0 arch=linux-x86_64\n                      ^zlib@1.2.8%gcc@6.1.0 arch=linux-x86_64\n              ^libxml2@2.9.2%gcc@6.1.0~python arch=linux-x86_64\n                  ^xz@5.2.2%gcc@6.1.0 arch=linux-x86_64\n          ^glib@2.42.1%gcc@6.1.0 arch=linux-x86_64\n              ^libffi@3.2.1%gcc@6.1.0 arch=linux-x86_64\n              ^pkg-config@0.28%gcc@6.1.0 arch=linux-x86_64\n          ^pixman@0.32.6%gcc@6.1.0 arch=linux-x86_64\n      ^curl@7.47.1%gcc@6.1.0 arch=linux-x86_64\n          ^openssl@1.0.2h%gcc@6.1.0 arch=linux-x86_64\n      ^icu@54.1%gcc@6.1.0 arch=linux-x86_64\n      ^jdk@8u66-linux-x64%gcc@6.1.0 arch=linux-x86_64\n      ^jpeg@9b%gcc@6.1.0 arch=linux-x86_64\n      ^libtiff@4.0.3%gcc@6.1.0 arch=linux-x86_64\n      ^ncurses@6.0%gcc@6.1.0 arch=linux-x86_64\n      ^pango@1.36.8%gcc@6.1.0 arch=linux-x86_64\n          ^harfbuzz@0.9.37%gcc@6.1.0 arch=linux-x86_64\n      ^pcre@8.38%gcc@6.1.0+utf arch=linux-x86_64\n      ^readline@6.3%gcc@6.1.0 arch=linux-x86_64\n      ^tcl@8.6.5%gcc@6.1.0 arch=linux-x86_64\n      ^tk@8.6.3%gcc@6.1.0 arch=linux-x86_64\n```\n\nThe R package.py file has `depends_on('zlib')` explicitly although it is an indirect dependency pulled in elsewhere. I suppose there is a question about whether all dependencies should be explicit or not but the fact is that indirect dependencies are not always listed explicitly. So, as a test, comment out the `depends_on('zlib')` entry and recalculate the DAG. As expected, the DAG is exactly the same whether the indirect dependency is listed explicitly or not. However, a different hash is generated when the indirect dependency is explicit versus not. This causes another install to be generated for the package.\n\nThat seems like a bug in that the same DAG should always yield the same hash. After all, the package gets installed with the same set of dependencies whether indirect dependencies are listed or not.\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/1055",
+    "updated_at": "2016-08-11 00:09:25",
+    "created_at": "2016-06-14 16:21:15",
+    "closed_at": "2016-08-11 00:09:25",
+    "state": "closed",
+    "title": "The hash changes when indirect dependency is modified",
+    "number": 1055,
+    "milestone": null,
+    "labels": [],
+    "id": 160224453,
+    "html_url": "https://github.com/spack/spack/issues/1055",
+    "assignees": [],
+    "comments": 13
+}

@@ -1,0 +1,28 @@
+{
+    "body": "## Silo\r\n\r\nBefore this, `silo+hdf5` concretized to 1.10.7 or sometimes 1.8.15. Now I've verified it works for the following configurations:\r\n```\r\nsilo@4.10.2 patches=7b5a1dc,952d3c9\r\n^   hdf5@1.10.7 api=default\r\n\r\nsilo@4.10.2 patches=7b5a1dc,952d3c9,eb2a3a0\r\n^   hdf5@1.10.8 api=v18\r\n\r\nsilo@4.10.2 patches=7b5a1dc,952d3c9,eb2a3a0\r\n^   hdf5@1.12.1 api=v110\r\n\r\nsilo@4.11-bsd patches=eb2a3a0\r\n^   hdf5@1.12.1 api=v110\r\n\r\nsilo@4.11-bsd patches=eb2a3a0\r\n^   hdf5@1.10.8 api=default\r\n\r\nsilo@4.11-bsd patches=eb2a3a0\r\n^   hdf5@1.12.1 api=default\r\n```\r\n\r\nand verified that the following fail:\r\n```\r\nsilo@4.10.2 ^hdf5@1.12.1 api=default\r\nsilo@4.11 ^hdf5 api=v18\r\nsilo@4.11-bsd ^hdf5@1.13.0 api=v12\r\nsilo@4.11-bsd ^hdf5@1.13.0 api=default\r\n```\r\n\r\nand have updated the constraints to match. Hdf5 no longer has to be downgraded to work with Silo.\r\n\r\nI also found a configuration error and marked a conflict in HDF5 because my environment (silo, hdf5+fortran+cxx+shared) tried to install `1.8.15 +fortran+shared`.\r\n\r\n## E4S\r\n\r\nPresumably due to the Silo conflict , E4S explicitly specified 1.10.7 rather than allowing the concretizer to choose 1.10.8 (or whatever)\r\n\r\n## Conduit\r\n\r\nThe `hdf5_compat` variant looks like a hack for getting the old concretizer to work: `+hdf5_compat` can be expressed as `^hdf5@1.8` and it will work with clingo. Other packages had to explicitly disable it.\r\n\r\n## LBANN\r\n\r\nThis package marked \"conflicts\" in conduit which are actually preferences (disabling the default fortran/parmetis options -- which should perhaps be off by default then?)",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/29132",
+    "updated_at": "2022-03-11 20:59:37",
+    "created_at": "2022-02-22 15:51:29",
+    "closed_at": "2022-03-08 18:15:11",
+    "state": "closed",
+    "title": "Fix overconstrained HDF5 variants",
+    "number": 29132,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "patch",
+        "update-package",
+        "conflicts",
+        "e4s",
+        "gitlab",
+        "fixed-by-new-concretizer"
+    ],
+    "id": 1147078322,
+    "html_url": "https://github.com/spack/spack/pull/29132",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 15
+}

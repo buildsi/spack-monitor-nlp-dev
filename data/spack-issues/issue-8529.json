@@ -1,0 +1,21 @@
+{
+    "body": "I am trying to add the mshadow package (which is a dependency of mxnet) to an older spack installation. When compiling mshadow, it results in the following error\r\n\r\n```\r\n==> Error: AttributeError: 'str' object has no attribute 'mshadow'\r\n/cluster/apps/spack/var/spack/repos/hpc/packages/mshadow/package.py:40, in install:\r\n     39       def install(self, spec, prefix):\r\n  >> 40           install_tree('mshadow', prefix.include.mshadow)\r\n     41           install_tree('make', prefix.make)\r\n```\r\n\r\nI tried to find some information about install_tree in the spack documentation, but I did not understand what the function is used for.\r\n\r\nIn https://github.com/spack/spack/pull/3579/commits/abcefd545d781a7306f0a914853b683920bf529e @adamjstewart wrote a comment:\r\n\r\n> You can use prefix.include.mshadow and prefix.make now, no need for join_path.\r\n\r\nI am sorry for bothering you with this issue, but I would like to ask you how the install_tree commands\r\n\r\n```\r\ninstall_tree('mshadow', prefix.include.mshadow)\r\ninstall_tree('make', prefix.make)\r\n```\r\n\r\ncan be replaced with join_path to make the package work with an older spack installation.",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/8529",
+    "updated_at": "2018-06-21 05:30:18",
+    "created_at": "2018-06-20 14:25:50",
+    "closed_at": "2018-06-21 05:30:18",
+    "state": "closed",
+    "title": "Is there any documentation about install_tree ?",
+    "number": 8529,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 334103699,
+    "html_url": "https://github.com/spack/spack/issues/8529",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 2
+}

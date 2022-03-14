@@ -1,0 +1,19 @@
+{
+    "body": "```\r\n> spack compiler info gcc@7.3.0\r\ngcc@7.3.0:\r\n        paths:\r\n                cc = cc\r\n                cxx = CC\r\n                f77 = ftn\r\n                fc = ftn\r\n        modules  = ['PrgEnv-gnu', 'gcc/7.3.0']\r\n        operating system  = cnl6\r\ngcc@7.3.0:\r\n        paths:\r\n                cc = cc\r\n                cxx = CC\r\n                f77 = ftn\r\n                fc = ftn\r\n        modules  = ['PrgEnv-gnu', 'gcc/7.3.0']\r\n        operating system  = CNL\r\n```\r\nI am using dirty because some libraries don't seem to get set properly in my build. Investigated in a different issue. All dependencies were eventually talked into installing.\r\n```\r\n>spack install  --dirty r %gcc@7.3.0\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/gpfs/mira-home/lpesce/SPACK/spack/var/spack/stage/r-3.5.0-epygoabxmv2thnc57pkt6bkxnlln433y/R-3.5.0/configure' '--prefix=/home/lpesce/SPACK/spack/cray-cnl6-mic_knl/gcc-7.3.0/r-3.5.0-epygoabxmv2thnc57pkt6bkxnlln433y' '--libdir=/home/lpesce/SPACK/spack/cray-cnl6-mic_knl/gcc-7.3.0/r-3.5.0-epygoabxmv2thnc57pkt6bkxnlln433y/rlib' '--enable-R-shlib' '--enable-BLAS-shlib' '--enable-R-framework=no' '--with-tcl-config=/home/lpesce/SPACK/spack/cray-cnl6-mic_knl/gcc-7.3.0/tcl-8.6.8-ilolq2lm43bmsda3oaecih3cgdvbv4t4/lib/tclConfig.sh' '--with-tk-config=/home/lpesce/SPACK/spack/cray-cnl6-mic_knl/gcc-7.3.0/tk-8.6.8-anwztuq2v6ytzkuxcwaphzybkiepba34/lib/tkConfig.sh' '--without-x'\r\n\r\n1 error found in build log:\r\n     315    checking for dummy main to link with Fortran 77 libraries... none\r\n     316    checking for Fortran 77 name-mangling scheme... lower case, underscore, no extra underscore\r\n     317    checking whether /gpfs/mira-home/lpesce/SPACK/spack/lib/spack/env/gcc/gfortran appends underscores to external names... yes\r\n     318    checking whether /gpfs/mira-home/lpesce/SPACK/spack/lib/spack/env/gcc/gfortran appends extra underscores to external names... no\r\n     319    checking whether mixed C/Fortran code can be run... yes\r\n     320    checking whether /gpfs/mira-home/lpesce/SPACK/spack/lib/spack/env/gcc/gfortran and /gpfs/mira-home/lpesce/SPACK/spack/lib/spack/env/gcc/gcc agree on int and double... configure: WARNING: /gpfs/mira-home/lpesce/SPACK/spack/lib/spack/env/gcc/gfortran and /gpfs/mira-home/lpesce/SPACK/spack/lib/spack/env/gcc/gcc disagree on int and double\r\n  >> 321    configure: error: Maybe change CFLAGS or FFLAGS?\r\n```\r\nThis is an old issue in installations of R that I did not see in a while. I am testing the config of R outside spack, I will comment more as I get those tests in\r\n\r\n\r\n> On Jun 1, 2018, at 10:43 PM, Mario Melara <notifications@github.com> wrote:\r\n> \r\n> #7345 <https://github.com/spack/spack/pull/7345> is the PR. I'm lacking tests since I need to figure out a good way to test a mock modules system.\r\n> \r\n> \u2014\r\n> You are receiving this because you authored the thread.\r\n> Reply to this email directly, view it on GitHub <https://github.com/spack/spack/issues/8334#issuecomment-394055205>, or mute the thread <https://github.com/notifications/unsubscribe-auth/ATRs9BMK5VJ5tKzRgvDABoQTsPS4Cr-fks5t4gn2gaJpZM4UVRpC>.\r\n> \r\n\r\n",
+    "user": "llpesce",
+    "url": "https://api.github.com/repos/spack/spack/issues/8402",
+    "updated_at": "2019-12-17 13:35:13",
+    "created_at": "2018-06-06 14:07:46",
+    "closed_at": "2019-12-17 13:35:12",
+    "state": "closed",
+    "title": "R 3.5.0 % gcc@7.3.0 on KNL XC40:: gcc and gfortran disagree on int and double",
+    "number": 8402,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 329884030,
+    "html_url": "https://github.com/spack/spack/issues/8402",
+    "assignees": [],
+    "comments": 8
+}

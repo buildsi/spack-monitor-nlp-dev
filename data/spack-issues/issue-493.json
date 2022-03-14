@@ -1,0 +1,17 @@
+{
+    "body": "I was having trouble installing HDF4 with PGI compilers. If you take a look at [this discussion](https://www.pgroup.com/userforum/viewtopic.php?t=4908&sid=e708d3ac9bc70eb92687f12f35c1dd40) you'll see the exact problem that was occurring for me. The HDF4 configure script only accepts the `F77` environment variable, not `FC`. But somehow, some F90 code slipped in there, and HDF4 cannot be compiled with a purely F77 Fortran compiler. The suggestion posted by PGI is to use the `pgfortran` compiler, which compiles both F77 and F90 code.\n\nIf you take a look at the latest [PGI Installation Guide](https://www.pgroup.com/doc/pgiinstall.pdf) you'll see that PGI actually recommends using `pgc++`, and `pgfortran` instead of the older `pgCC`, `pgf77`, and `pgf90` compilers. Older versions of PGI don't seem to have `pgCC`, so I left it in the list of `cxx_names` for backwards compatibility.\n\nThe last stumbling block left is auto-detection. When I run:\n\n``` bash\nspack compiler add /path/to/compiler\n```\n\nit still finds `pgCC`, `pgf77`, and `pgf90`. Is `spack compiler add` not setup to prefer the first executable it finds in `cxx_names`, `f77_names`, and `fc_names`?\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/493",
+    "updated_at": "2016-03-08 18:10:08",
+    "created_at": "2016-03-04 17:39:06",
+    "closed_at": "2016-03-05 22:19:15",
+    "state": "closed",
+    "title": "Modifications to get PGI working",
+    "number": 493,
+    "milestone": null,
+    "labels": [],
+    "id": 138536314,
+    "html_url": "https://github.com/spack/spack/pull/493",
+    "assignees": [],
+    "comments": 2
+}

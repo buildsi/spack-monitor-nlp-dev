@@ -1,0 +1,17 @@
+{
+    "body": "With this package, users will be able to install and use PGI compilers with ease. They will still have to download the file manually since you need to create an account and login. But the build is automated, and Spack walks you through the license setup. Spack can locate the package in two ways: it will find the file if it is in the user's current directory and it will find it if it is in a mirror.\n\nSee #553 for a previous conversation regarding the installation of licensed software.\n\nRemaining potential problems to tackle:\n1. ~~Currently the installation hangs at `spack.editor(license_path)`. It installs the software properly and writes to license.dat, but doesn't open an editor like `spack create` does. Guess that's what I get for trying to be fancy. Also, `tty.msg()` prints to `spack-build.out`. Is there a way to get it to print to STDOUT?~~\n2. Technically, PGI depends on the Linux Standard Base (lsb). We don't have it installed here and PGI builds fine, but the installation raises a warning when it is not present. Another warning message is raised when GCC can't find a 32-bit C library. I'm not sure how easy it would be to write a package for lsb since it seems to be dependent on the architecture.\n3. There is no single PGI compiler source code. PGI offers many compilers, including C/C++/Fortran, CUDA, and Visual Fortran. Downloads are further divided into 64-bit/32-bit and Linux/OS X/Windows. Luckily they all seem to have the same installation process? But they will all have different checksums and filenames. For example, the checksum I added is for PGI Accelerator Fortran/C/C++ Server, 64-bit, Linux, Full. The downloaded file was named `pgilinux-2016-163-x86_64.tar.gz`. I think it's safe to require users to rename this file to `pgi-16.3.tar.gz`, but they will have to install with `--no-checksum` unless we can find a way to add a list of checksums for a single version.\n4. PGI refers to the version as 16.3, but when Spack extracts the version with `pgcc -V`, it gets 16.3-0. I believe PGI numbers updates with the dash number. Should we add this to the version I used? Should we remove this from Spack's PGI version regex?\n5. I would like the `+network` variant to be enabled on Linux by default. But network installations don't work on OS X. The `+single` variant should be enabled by default on Darwin instead.\n6. Should we even provide the variants to allow users to build NVIDIA, AMD, JRE, and MPI?\n7. Minor annoyance, but is there a way to preserve the empty line in the package description? Or is there a better place to put the note about downloading the file?\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/558",
+    "updated_at": "2016-05-12 00:17:51",
+    "created_at": "2016-03-16 19:22:18",
+    "closed_at": "2016-05-12 00:17:47",
+    "state": "closed",
+    "title": "Add Licensed Software Support",
+    "number": 558,
+    "milestone": null,
+    "labels": [],
+    "id": 141375537,
+    "html_url": "https://github.com/spack/spack/pull/558",
+    "assignees": [],
+    "comments": 29
+}

@@ -1,0 +1,19 @@
+{
+    "body": "In general it seems to be working very well.  Notes:\r\n\r\n1. `python3` is definitively broken.  They have a weird [`cmake` + `setup.py`](https://github.com/mariusmuja/flann/blob/e02f66f9663a2bdf49162a9543a459a29a9cd869/src/python/CMakeLists.txt#L7-L12) thing going on.\r\n    - Not sure if `extends('python')` is correct.  The `site-packages` directory is always empty.\r\n    - `python2` works. Something [about this does that](https://github.com/mariusmuja/flann/blob/77d3fbead67f2dc031ef9206cc952a9c55d9566d/src/python/pyflann/flann_ctypes.py#L149-L193)\r\n2. Defaults are `+mpi` and `+hdf5` under the assumption that if anybody actually wants this library directly, they likely will want it for these purposes.  The tests are all using these features.\r\n    - `+openmp` for same reasons.\r\n3. Untested variants: `matlab`, didn't try and combine every possible variant either.\r\n4. Not sure about the `type` for the `py-numpy` dependency.  That's only needed for when somebody uses the `python` bindings, not the library itself.\r\n5. What is the `spack` default `cmake` build type?\r\n\r\n    ```diff\r\n    +        # Default is RelWithDebugInfo\r\n    +        args.append(\"-DCMAKE_BUILD_TYPE:STRING=Release\")\r\n    ```",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/3966",
+    "updated_at": "2017-05-12 00:29:18",
+    "created_at": "2017-04-24 00:27:59",
+    "closed_at": "2017-05-12 00:03:24",
+    "state": "closed",
+    "title": "Flann package",
+    "number": 3966,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 223679336,
+    "html_url": "https://github.com/spack/spack/pull/3966",
+    "assignees": [],
+    "comments": 10
+}

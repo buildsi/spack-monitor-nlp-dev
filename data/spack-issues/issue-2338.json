@@ -1,0 +1,21 @@
+{
+    "body": "* hypre@2.10.1 works fine (I'll use this for now).\r\n* hypre@2.11.1~internal-superlu also works fine.\r\n* I'm use external packages for:\r\n  * intel/16.0.3\r\n  * openmpi/1.10.3\r\n  * mkl/11.3.3.210\r\n* Using 'develop' branch: 85a05681ccd60be4c367bca323e0f45024f0c7f2\r\n* I'm not sure if this is a spack issue or a hypre issue.\r\n\r\n```\r\n$ spack spec hypre\r\nInput spec\r\n--------------------------------\r\nhypre\r\n\r\nNormalized\r\n--------------------------------\r\nhypre\r\n    ^blas\r\n    ^lapack\r\n    ^mpi\r\n\r\nConcretized\r\n--------------------------------\r\nhypre@2.11.1%intel@16.0.3+internal-superlu+shared arch=linux-rhel7-x86_64\r\n    ^mkl@11.3.3.210%intel@16.0.3~ilp64~openmp+shared arch=linux-rhel7-x86_64\r\n    ^openmpi@1.10.3%intel@16.0.3~mxm~pmi~psm~psm2~slurm~sqlite3~thread_multiple~tm+verbs+vt arch=linux-rhel7-x86_64\r\n```\r\n\r\n```\r\n$ spack install hypre\r\n==> Installing hypre\r\n==> mkl is externally installed in /usr/projects/hpcsoft/toss3/common/intel-clusterstudio/2016.3.067/compilers_and_libraries_2016.3.210/linux/mkl\r\n==> openmpi is externally installed in /usr/projects/hpcsoft/toss3/snow/openmpi/1.10.3-intel-16.0.3\r\n==> Using cached archive: /yellow/usr/projects/draco/vendors/spack.sn.20161114/var/spack/cache/hypre/hypre-2.11.1.tar.gz\r\n==> Staging archive: /yellow/usr/projects/draco/vendors/spack.sn.20161114/var/spack/stage/hypre-2.11.1-oqd452gn6j74dbbpyuye5sefujy4whkh/hypre-2.11.1.tar.gz\r\n==> Created stage in /yellow/usr/projects/draco/vendors/spack.sn.20161114/var/spack/stage/hypre-2.11.1-oqd452gn6j74dbbpyuye5sefujy4whkh\r\n==> No patches needed for hypre\r\n==> Building hypre [Package]\r\n==> Executing phase : 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n...\r\nSee build log for details:\r\n  /tmp/kellyt/spack-stage/spack-stage-qYaSgC/hypre-2.11.1/spack-build.out\r\n```\r\n\r\n[spack-build.out](https://github.com/LLNL/spack/files/592628/spack-build.out.txt)\r\n\r\npackages.yaml:\r\n```\r\npackages:\r\n  mkl:\r\n    compiler: [intel@16.0.3]\r\n    paths:\r\n      mkl@11.3.3.210%intel@16.0.3 arch=linux-rhel7-x86_64: /usr/projects/hpcsoft/toss3/common/intel-clusterstudio/2016.3.067/compilers_and_libraries_2016.3.210/linux/mkl\r\n    buildable: False\r\n  openmpi:\r\n    version: [1.10.3]\r\n    paths:\r\n      openmpi@1.10.3%intel@16.0.3 arch=linux-rhel7-x86_64: /usr/projects/hpcsoft/toss3/snow/openmpi/1.10.3-intel-16.0.3\r\n      openmpi@1.10.3%gcc@5.3.0 arch=linux-rhel7-x86_64: /usr/projects/hpcsoft/toss3/snow/openmpi/1.10.3-gcc-5.3.0\r\n    buildable: False\r\n  all:\r\n    compiler: [intel@16.0.3]\r\n    providers:\r\n      mpi: [openmpi@1.10.3]\r\n      blas: [mkl@11.3.3.210]\r\n      lapack: [mkl@11.3.3.210]\r\n```\r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/2338",
+    "updated_at": "2016-11-15 20:07:04",
+    "created_at": "2016-11-15 16:47:35",
+    "closed_at": "2016-11-15 20:07:04",
+    "state": "closed",
+    "title": "hypre@2.11.1 fails to build with %intel@16.0.3",
+    "number": 2338,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "new-package",
+        "intel"
+    ],
+    "id": 189445118,
+    "html_url": "https://github.com/spack/spack/issues/2338",
+    "assignees": [],
+    "comments": 3
+}

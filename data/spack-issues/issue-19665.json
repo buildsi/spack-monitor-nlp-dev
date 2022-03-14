@@ -1,0 +1,20 @@
+{
+    "body": "Ping @scottwittenburg. After #19209 my CI script constantly uploads all binaries, even if they were downloaded from the same binary cache. My CI scripts ends with:\r\n\r\n```\r\nspack buildcache check --rebuild-on-error --mirror-url s3://spack -s /[some_hash]\r\n\r\nif [ $? -eq 1 ]; then\r\n    spack buildcache create -af --mirror-url s3://spack --only=package /[some_hash]\r\nfi\r\n```\r\n\r\nand currently it always uploads everything, saying \r\n\r\n```\r\n==> Rebuilding [spec]/[some_hash], reason: full_hash was missing from remote spec.yaml\r\n```\r\n\r\nI've reran the CI job a couple times, and it will always download binaries from cache, build nothing from sources, and subsequently push everything redundantly to the binary cache again.\r\n\r\nIndeed when downloading the spec.yaml files I don't see any `full_hash` entries.\r\n\r\nWhen the user does not require a full hash match, I would expect `buildcache check` to ignore missing `full_hash`es on the remote.\r\n\r\n---\r\n\r\nEdit, I'll just try to add `--require-full-hash-match` to my CI-script and the problem should be gone.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/19665",
+    "updated_at": "2020-12-01 17:52:15",
+    "created_at": "2020-11-01 22:57:57",
+    "closed_at": "2020-12-01 17:52:15",
+    "state": "closed",
+    "title": "Packages in binary cache do not have full_hash even after re-upload.",
+    "number": 19665,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 734082202,
+    "html_url": "https://github.com/spack/spack/issues/19665",
+    "assignees": [],
+    "comments": 6
+}

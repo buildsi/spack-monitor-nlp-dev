@@ -1,0 +1,19 @@
+{
+    "body": "New functions `deprioritize_system_paths()` and `prune_duplicate_paths()` have been added to `util/environment.py` with tests, and functionality to use them from `EnvironmentModifications` has been added, along with tests. In addition, all functions in `util/environment.py` have tests in `test/util/environment.py` and one now-redundant test in `test/environment.py` has been removed in favor of an equivalent test in the more appropriate `test/util/environment.py`.\r\n\r\nThe new functions are particularly useful in recipes using `PATH`-like variables where entries in `packages.yaml` might cause issues by putting (_e.g._) `/usr/include` ahead of paths from specific spack-installed packages.\r\n\r\n`deprioritize_system_paths(name)` will move identified system paths to the end of the `name` `PATH`-like variable (preserving the original relative order of same), while `prune_duplicate_paths(name)` will remove the second and subsequent mentions of any given path.\r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/8476",
+    "updated_at": "2019-08-12 13:26:04",
+    "created_at": "2018-06-14 16:26:33",
+    "closed_at": "2019-05-07 02:29:19",
+    "state": "closed",
+    "title": "New environment manipulation functions for system path deprioritization and duplicate removal.",
+    "number": 8476,
+    "milestone": null,
+    "labels": [
+        "build-environment"
+    ],
+    "id": 332475495,
+    "html_url": "https://github.com/spack/spack/pull/8476",
+    "assignees": [],
+    "comments": 10
+}

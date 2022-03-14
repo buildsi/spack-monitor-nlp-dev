@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #18664\r\n\r\nI have applied as several commits, as I am not 100% sure of the proper fix\r\n\r\n1) install to proper subdirs (this should match qbox online docs, and fix issues with broken\r\nsymlinks in install prefix)\r\n2) place the qb exectutable into bin subdir. This seems to also fix issue with PATH not being set.\r\n3) Add a patch to change shebangs for python scripts to use python from user's PATH.\r\n4) Add run dependencies on python2 and gnuplot (for utilities)\r\n\r\nIn particular, I am unsure about (4) --- I am not a qbox user, but from the online docs, etc. it seems like the main user interaction is with the qb command, and I believe pyhon2 and gnuplot are _only_ required for the utility scripts.  Is that a sufficient requirement for a spack runtime dependency --- I would use \"recommends\" or \"suggests\" dependencies if available, but  spack does not have such (at least to my knowledge).  \r\n\r\nAlso, I do not know how to have spack add the utils subdir to the PATH environmental module in modulefiles, so that is currently missing\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/18665",
+    "updated_at": "2020-10-12 17:15:11",
+    "created_at": "2020-09-14 16:22:11",
+    "closed_at": "2020-09-15 14:54:27",
+    "state": "closed",
+    "title": "Qbox minor issues 18664",
+    "number": 18665,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 701246435,
+    "html_url": "https://github.com/spack/spack/pull/18665",
+    "assignees": [],
+    "comments": 4
+}

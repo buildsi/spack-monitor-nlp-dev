@@ -1,0 +1,26 @@
+{
+    "body": "### Steps to reproduce the issue\n\nHi,\r\n\r\nI got a new macOS Mini (aarch64 with BigSur).\r\n\r\nI am trying to bootstrap Spack on it. After installing Xcode, the following compilers are found:\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    spec: apple-clang@12.0.5\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: null\r\n      fc: null\r\n    flags: {}\r\n    operating_system: bigsur\r\n    target: aarch64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\nSo I need a GFortran or similar to get OpenMPI installed for basic HPC developer stacks.\r\n\r\nRunning `spack install gcc`fails with:\r\n```\r\n==> Installing gcc-11.2.0-nkmjtouovrvhwal6ced5jnivv73vfru5\r\n==> No binary for gcc-11.2.0-nkmjtouovrvhwal6ced5jnivv73vfru5 found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/d0/d08edc536b54c372a1010ff6619dd274c0f1603aa49212ba20f7aa2cda36fa8b.tar.xz\r\n==> Applied patch /Users/axel/src/spack/var/spack/repos/builtin/packages/gcc/darwin/gcc-7.1.0-headerpad.patch\r\n==> Ran patch() for gcc\r\n==> gcc: Executing phase: 'autoreconf'\r\n==> gcc: Executing phase: 'configure'\r\n==> gcc: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8' 'V=1'\r\n\r\n3 errors found in build log:\r\n     3704    checking for F_SETLKW... yes\r\n     3705    checking for O_CLOEXEC... yes\r\n     3706    checking for AF_UNIX... yes\r\n     3707    checking for AF_INET6... yes\r\n     3708    checking if mkdir takes one argument... no\r\n     3709    *** Configuration aarch64-apple-darwin20.6.0 not supported\r\n  >> 3710    make[2]: *** [configure-stage1-gcc] Error 1\r\n  >> 3711    make[1]: *** [stage1-bubble] Error 2\r\n  >> 3712    make: *** [all] Error 2\r\n\r\nSee build log for details:\r\n  /var/folders/wy/w22w0mkx67711r3m3t98_g7m0000gn/T/axel/spack-stage/spack-stage-gcc-11.2.0-nkmjtouovrvhwal6ced5jnivv73vfru5/spack-build-out.txt\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3-4507-32b5669e8d\r\n* **Python:** 3.9.7\r\n* **Platform:** darwin-bigsur-m1\r\n* **Concretizer:** cling\n\n### Additional information\n\n* [spack-build-01-autoreconf-out.txt](https://github.com/spack/spack/files/7247823/spack-build-01-autoreconf-out.txt)\r\n* [spack-build-02-configure-out.txt](https://github.com/spack/spack/files/7247824/spack-build-02-configure-out.txt)\r\n* [spack-build-03-build-out.txt](https://github.com/spack/spack/files/7247825/spack-build-03-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/7247826/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/7247827/spack-build-out.txt)\r\n* [spack-configure-args.txt](https://github.com/spack/spack/files/7247828/spack-configure-args.txt)\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/26317",
+    "updated_at": "2021-10-16 00:58:30",
+    "created_at": "2021-09-28 23:31:15",
+    "closed_at": "2021-10-15 16:30:10",
+    "state": "closed",
+    "title": "Installation issue: GCC on BigSur aarch64",
+    "number": 26317,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "gcc",
+        "arm"
+    ],
+    "id": 1010307611,
+    "html_url": "https://github.com/spack/spack/issues/26317",
+    "assignees": [
+        "michaelkuhn",
+        "alalazo",
+        "adamjstewart"
+    ],
+    "comments": 8
+}

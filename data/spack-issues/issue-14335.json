@@ -1,0 +1,24 @@
+{
+    "body": "The dependencies are not getting mirrored properly in spack environments.\r\n```console\r\n$ spack mirror create --dependencies --directory /nfs/install/spack/argon_mirror/ --all\r\n==> Adding package braker@2.1.4 to mirror\r\n==> Adding package mono@5.18.0.240 to mirror\r\n==> Adding package intel-xed@2019.03.01 to mirror\r\n==> Adding package emacs@26.3 to mirror\r\n==> Adding package sox@14.4.2 to mirror\r\n==> Adding package texlive@20190410 to mirror\r\n==> Adding package hpl@2.3 to mirror\r\n==> Adding package openmpi@3.1.5 to mirror\r\n==> Adding package cp2k@6.1 to mirror\r\n==> Adding package quantum-espresso@6.5 to mirror\r\n==> Adding package quantum-espresso@6.5 to mirror\r\n==> Adding package cudnn@7.6.5.32-10.1-linux-x64 to mirror\r\n==> Adding package beast1@1.10.4 to mirror\r\n==> Adding package gpu-burn@1.0 to mirror\r\n==> Adding package openmpi@3.1.5 to mirror\r\n==> Adding package openmpi@3.1.5 to mirror\r\n==> Successfully updated mirror in file:///nfs/install/spack/argon_mirror\r\n  Archive stats:\r\n    16   already present\r\n    0    added\r\n    0    failed to fetch.\r\n```\r\nThose are just the root specs.\r\n\r\nIf I replace `--all` with the list of root specs then the dependency mirroring works. For instance,\r\n```console\r\n$ spack mirror create --dependencies --directory /nfs/install/spack/argon_mirror/ $(spack find -u | grep %)\r\n==> Adding package texinfo@6.5 to mirror\r\n==> Adding package libpciaccess@0.13.5 to mirror\r\n==> Adding package bdftopcf@1.0.5 to mirror\r\n...\r\n==> Adding package inputproto@2.3.2 to mirror\r\n==> Adding package tar@1.32 to mirror\r\n==> Adding package gettext@0.20.1 to mirror\r\n==> Successfully updated mirror in file:///nfs/install/spack/argon_mirror\r\n  Archive stats:\r\n    264  already present\r\n    0    added\r\n    0    failed to fetch.\r\n```",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14335",
+    "updated_at": "2020-09-08 22:17:32",
+    "created_at": "2019-12-31 19:53:36",
+    "closed_at": "2020-09-08 22:17:32",
+    "state": "closed",
+    "title": "dependencies not being added to mirror in spack environments",
+    "number": 14335,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "dependencies",
+        "mirrors",
+        "environments"
+    ],
+    "id": 544259538,
+    "html_url": "https://github.com/spack/spack/issues/14335",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

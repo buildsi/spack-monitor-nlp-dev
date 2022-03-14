@@ -1,0 +1,20 @@
+{
+    "body": "Spack REALLY needs to start considering already installed packages when resolving dependencies. Here is an example of what I want to do:\n\n``` bash\nspack install szip\nspack install hdf +szip\nspack install hdf5 +szip\nspack install netcdf -mpi +hdf4\nspack install netcdf-fortran\n```\n\nThe netcdf installation reinstalls hdf~szip and hdf5~szip and links to those instead. The netcdf-fortran installation reinstalls netcdf+mpi~hdf4. To get what I actually want, I have to use:\n\n``` bash\nspack install szip\nspack install hdf +szip\nspack install hdf5 +szip\nspack install netcdf -mpi +hdf4 ^hdf+szip ^hdf5+szip\nspack install netcdf-fortran ^netcdf~mpi+hdf4 ^hdf+szip ^hdf5+szip\n```\n\nThis starts to get ridiculous very fast. If I want to build a parallel version of netcdf, I would have to tack on `^openmpi+tm+psm` to hdf5, netcdf, and netcdf-fortran.\n\nI would like Spack to choose already installed packages if they satisfy the \"Normalized\" requirements. If someone wants to build with something other than the default, they can explicitly declare this and Spack will rebuild them.\n\nThis issue has already been brought up in #311 and #577 but nothing has been done about it. I wanted to make a new Issue to simplify the discussion and to bring it back to the surface.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/646",
+    "updated_at": "2018-07-26 14:23:33",
+    "created_at": "2016-03-25 17:29:34",
+    "closed_at": "2018-07-26 14:23:26",
+    "state": "closed",
+    "title": "Less strict dependency resolution",
+    "number": 646,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "concretization"
+    ],
+    "id": 143548119,
+    "html_url": "https://github.com/spack/spack/issues/646",
+    "assignees": [],
+    "comments": 3
+}

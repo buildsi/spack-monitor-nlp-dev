@@ -1,0 +1,20 @@
+{
+    "body": "When looking into what `hipcc` does, I found it adds `-Wl,--rpath=some/path`. Note the two dashes in `--rpath`. GCC is fine with this, but the Spack compiler wrapper is only looking for `-rpath`.\r\n\r\nFor example, this works:\r\n\r\n```console\r\n$ cat foo.c \r\n#include <stdio.h>\r\nvoid foo(void) { puts(\"hi\"); }\r\n$ cat main.c \r\nextern void foo(void);\r\nint main(void){ foo();return 0; }\r\n$ gcc -c foo.c main.c\r\n$ gcc -shared -o libfoo.so foo.o \r\n$ gcc -o main main.o -L. -lfoo -Wl,--rpath='$ORIGIN'\r\n$ ./main \r\nhi\r\n```\r\n\r\nThis PR makes the Spack compiler wrapper handle `--rpath` too. It rewrites arguments as follows now:\r\n\r\nBefore:\r\n\r\n```console\r\n$ gcc some.o file.o -Wl,--rpath -Wl,/some/path\r\n/usr/bin/gcc\r\n-march=znver2\r\n-mtune=znver2\r\n-Wl,--disable-new-dtags\r\nsome.o\r\nfile.o\r\n-Wl,--rpath\r\n-Wl,/some/path\r\n$ gcc some.o file.o -Wl,--rpath=/some/path\r\n/usr/bin/gcc\r\n-march=znver2\r\n-mtune=znver2\r\n-Wl,--disable-new-dtags\r\nsome.o\r\nfile.o\r\n-Wl,--rpath=/some/path\r\n$ gcc some.o file.o -Wl,--rpath,/some/path\r\n/usr/bin/gcc\r\n-march=znver2\r\n-mtune=znver2\r\n-Wl,--disable-new-dtags\r\nsome.o\r\nfile.o\r\n```\r\n\r\nAfter:\r\n\r\n```console\r\n$ gcc some.o file.o -Wl,--rpath -Wl,/some/path\r\n/usr/bin/gcc\r\n-march=znver2\r\n-mtune=znver2\r\n-Wl,--disable-new-dtags\r\n-Wl,-rpath,/some/path\r\nsome.o\r\nfile.o\r\n$ gcc some.o file.o -Wl,--rpath=/some/path\r\n/usr/bin/gcc\r\n-march=znver2\r\n-mtune=znver2\r\n-Wl,--disable-new-dtags\r\n-Wl,-rpath,/some/path\r\nsome.o\r\nfile.o\r\n$ gcc some.o file.o -Wl,--rpath,/some/path\r\n/usr/bin/gcc\r\n-march=znver2\r\n-mtune=znver2\r\n-Wl,--disable-new-dtags\r\n-Wl,-rpath,/some/path\r\nsome.o\r\nfile.o\r\n```\r\n\r\nSame for `-Xlinker`.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18473",
+    "updated_at": "2020-12-04 17:29:56",
+    "created_at": "2020-09-02 23:30:01",
+    "closed_at": "2020-12-04 17:29:56",
+    "state": "closed",
+    "title": "Also allow --rpath as rpath linker flags",
+    "number": 18473,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "rpath"
+    ],
+    "id": 691504060,
+    "html_url": "https://github.com/spack/spack/pull/18473",
+    "assignees": [],
+    "comments": 4
+}

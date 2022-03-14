@@ -1,0 +1,21 @@
+{
+    "body": "\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install libxml2@2.9.8%gcc@7.3.1~python arch=linux-fedora27-x86_64\r\n\r\n==> libiconv is already installed in /home/revaz/App/spack/spack/opt/spack/linux-fedora27-x86_64/gcc-7.3.1/libiconv-1.15-sxr2kx6zy26lcb372pdweqbkkagqkvjq\r\n==> pkgconf is already installed in /home/revaz/App/spack/spack/opt/spack/linux-fedora27-x86_64/gcc-7.3.1/pkgconf-1.5.4-4aizsfkmlzwv5zoaatvcmgv27mwk46ea\r\n==> xz is already installed in /home/revaz/App/spack/spack/opt/spack/linux-fedora27-x86_64/gcc-7.3.1/xz-5.2.4-svwh2bcvx3l2pvf2chcu4mfhqy2vblnu\r\n==> zlib is already installed in /home/revaz/App/spack/spack/opt/spack/linux-fedora27-x86_64/gcc-7.3.1/zlib-1.2.11-y5oiya3aolzfqr475pqosgwe4eeqpqta\r\n==> Installing libxml2\r\n==> Searching for binary cache of libxml2\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for libxml2 found: installing from source\r\n==> Fetching http://xmlsoft.org/sources/libxml2-2.9.8.tar.gz\r\n######################################################################## 100.0%\r\n==> Fetching http://www.w3.org/XML/Test/xmlts20080827.tar.gz\r\n######################################################################## 100.0%\r\n==> Error: ChecksumError: sha256 checksum failed for /home/revaz/App/spack/spack/var/spack/stage/resource-xmlts-qie7atwzz5ndo7ksvjd6kepkxfglqkte/xmlts20080827.tar.gz\r\n    Expected 96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7 but got 9b2c865aba66c6429ca301a7ef048d7eca2cdb7a9106184416710853c7b37d0d\r\n\r\n/home/revaz/App/spack/spack/lib/spack/spack/package.py:920, in do_fetch:\r\n        917        self.stage.fetch(mirror_only)\r\n        918        self._fetch_time = time.time() - start_time\r\n        919\r\n  >>    920        if checksum and self.version in self.versions:\r\n        921            self.stage.check()\r\n        922\r\n        923        self.stage.cache_local()\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\ndon't think its relevant here.\r\n\r\n### Additional information\r\n\r\nIf I change the checksum \r\n```\r\n96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7\r\n```\r\nby \r\n```\r\n9b2c865aba66c6429ca301a7ef048d7eca2cdb7a9106184416710853c7b37d0d\r\n```\r\nin\r\n```\r\nlibxml2/package.py\r\n```\r\nit works ! But I'm not sure its a good idea.\r\nBy the way, curiously, the file \r\n```\r\n/home/revaz/App/spack/spack/var/spack/stage/resource-xmlts-qie7atwzz5ndo7ksvjd6kepkxfglqkte/xmlts20080827.tar.gz\r\n```\r\nis different than \r\n```\r\nhttp://www.w3.org/XML/Test/xmlts20080827.tar.gz\r\n```\r\n...",
+    "user": "yrevaz",
+    "url": "https://api.github.com/repos/spack/spack/issues/10203",
+    "updated_at": "2019-01-07 14:41:53",
+    "created_at": "2018-12-26 20:28:04",
+    "closed_at": "2019-01-07 14:41:53",
+    "state": "closed",
+    "title": "xmlts20080827.tar.gz ChecksumError",
+    "number": 10203,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible",
+        "checksum"
+    ],
+    "id": 394236157,
+    "html_url": "https://github.com/spack/spack/issues/10203",
+    "assignees": [],
+    "comments": 2
+}

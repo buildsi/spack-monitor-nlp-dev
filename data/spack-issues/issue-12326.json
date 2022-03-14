@@ -1,0 +1,19 @@
+{
+    "body": "@alalazo we are having some problems with `spack compiler find` on a system with `/usr/lib64/ccache` in the path. The latter is preferred by Spack, even though the first entry in `$PATH` points to the correct location.\r\n\r\nReading through the code, [here](https://github.com/spack/spack/compare/develop...matz-e:compiler-finding?expand=1#diff-2704f79904cd8e67b76094c779924b79L599) we only take the first element, and don't override it later on. Dropping the `reversed` restores the priority as given in `$PATH`, which I think was the orginal intend?",
+    "user": "matz-e",
+    "url": "https://api.github.com/repos/spack/spack/issues/12326",
+    "updated_at": "2020-08-21 11:11:15",
+    "created_at": "2019-08-08 14:35:03",
+    "closed_at": "2020-08-20 09:35:35",
+    "state": "closed",
+    "title": "compiler finding: preserve PATH precedence.",
+    "number": 12326,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 478510919,
+    "html_url": "https://github.com/spack/spack/pull/12326",
+    "assignees": [],
+    "comments": 2
+}

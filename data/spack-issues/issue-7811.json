@@ -1,0 +1,19 @@
+{
+    "body": "+ I am unable to build `suite-sparse@5.2.0` with `clang@6.0.0`.  The build fails with the error:\r\n\r\n```\r\n     2397    [ 99%] Linking C executable wildtype_demo\r\n     2398    make[4]: Leaving directory\r\n  `/tmp/spack-stage/spack-stage-w0XYhK/SuiteSparse/GraphBLAS/build'\r\n  >> 2399    libgraphblas.so.2.0.1: undefined reference to `__fpclassify'\r\n  >> 2400    clang-6.0: error: linker command failed with exit code 1 (use -v to see invocation)\r\n  >> 2401    make[4]: *** [wildtype_demo] Error 1\r\n```\r\n\r\n+ This error appears because libgraphblas.so requires `-lm`, but that link dependency is not explicitly listed in `GraphBLAS\\CMakeLists.txt.`\r\n+ A patch file is provided to add this dependency.  The patch is only applied when the compiler is `%clang`.",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/7811",
+    "updated_at": "2019-04-02 21:28:26",
+    "created_at": "2018-04-18 16:48:20",
+    "closed_at": "2018-04-19 13:59:56",
+    "state": "closed",
+    "title": "Suite-sparse: provide patch to fix builts with clang@6.0.0.",
+    "number": 7811,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 315560009,
+    "html_url": "https://github.com/spack/spack/pull/7811",
+    "assignees": [],
+    "comments": 5
+}

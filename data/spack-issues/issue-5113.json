@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #5066\r\n\r\nThis PR improves the error message for unsatisfiable specs by showing in tree format both the spec that cannot satisfy the constraint and the spec that asked for that constraint. After that follows a readable (?) error message.\r\n\r\n---\r\n\r\nThe new error message for the example in #5066 is:\r\n```hconsole\r\n$ spack spec  mfem@3.2~debug+examples+hypre+lapack~mpfr+mpi+netcdf~openmp+petsc+suite-sparse+sundials+superlu-dist~threadsafe %gcc\r\nInput spec\r\n--------------------------------\r\nmfem@3.2%gcc~debug+examples+hypre+lapack~mpfr+mpi+netcdf~openmp+petsc+suite-sparse+sundials+superlu-dist~threadsafe\r\n\r\nNormalized\r\n--------------------------------\r\nmfem@3.2%gcc~debug+examples+hypre+lapack~mpfr+mpi+netcdf~openmp+petsc+suite-sparse+sundials+superlu-dist~threadsafe\r\n    ^blas\r\n    ^cmake@2.8:\r\n    ^hdf5\r\n        ^zlib@1.2.5:\r\n    ^hypre@develop~internal-superlu\r\n        ^lapack\r\n        ^mpi\r\n    ^metis@5:\r\n    ^netcdf\r\n        ^m4\r\n    ^parmetis\r\n    ^petsc@develop\r\n        ^python@2.6:2.8\r\n            ^bzip2\r\n            ^ncurses\r\n                ^pkg-config\r\n            ^openssl\r\n            ^readline\r\n            ^sqlite\r\n        ^sowing\r\n    ^suite-sparse\r\n    ^sundials@2.7:+hypre\r\n    ^superlu-dist\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    superlu-dist@5.1.3%gcc@4.8~int64 arch=linux-ubuntu14-x86_64 \r\n        ^metis@5.1.0%gcc@4.8~debug~gdb~int64~real64+shared arch=linux-ubuntu14-x86_64 \r\n            ^cmake@3.9.0%gcc@4.8~doc+ncurses+openssl+ownlibs~qt arch=linux-ubuntu14-x86_64 \r\n                ^ncurses@6.0%gcc@4.8~symlinks arch=linux-ubuntu14-x86_64 \r\n                    ^pkg-config@0.29.2%gcc@4.8+internal_glib arch=linux-ubuntu14-x86_64 \r\n                ^openssl@1.0.2k%gcc@4.8 arch=linux-ubuntu14-x86_64 \r\n                    ^zlib@1.2.11%gcc@4.8+pic+shared arch=linux-ubuntu14-x86_64 \r\n        ^openblas@0.2.20%gcc@4.8~openmp+pic+shared arch=linux-ubuntu14-x86_64 \r\n        ^openmpi@2.1.1%gcc@4.8~cuda fabrics= ~java schedulers= ~sqlite3~thread_multiple+vt arch=linux-ubuntu14-x86_64 \r\n            ^hwloc\r\n        ^parmetis@4.0.3%gcc@4.8~debug~gdb+shared arch=linux-ubuntu14-x86_64 \r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    petsc@develop%gcc@4.8+boost~complex~debug+double+hdf5+hypre~int64+metis+mpi~mumps+shared+superlu-dist~trilinos arch=linux-ubuntu14-x86_64 \r\n        ^hypre@develop%gcc@4.8~int64~internal-superlu+shared arch=linux-ubuntu14-x86_64 \r\n            ^openblas@0.2.20%gcc@4.8~openmp+pic+shared arch=linux-ubuntu14-x86_64 \r\n            ^openmpi@2.1.1%gcc@4.8~cuda fabrics= ~java schedulers= ~sqlite3~thread_multiple+vt arch=linux-ubuntu14-x86_64 \r\n                ^hwloc\r\n                    ^pkg-config@0.29.2%gcc@4.8+internal_glib arch=linux-ubuntu14-x86_64 \r\n        ^sowing@1.1.23-p1%gcc@4.8 arch=linux-ubuntu14-x86_64 \r\n\r\n\r\npetsc requires superlu-dist version develop, but spec asked for 5.1.3\r\n```",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/5113",
+    "updated_at": "2017-08-17 06:26:19",
+    "created_at": "2017-08-15 20:33:08",
+    "closed_at": "2017-08-17 06:26:05",
+    "state": "closed",
+    "title": "Improved error message for unsatisfiable specs",
+    "number": 5113,
+    "milestone": null,
+    "labels": [
+        "ready"
+    ],
+    "id": 250429608,
+    "html_url": "https://github.com/spack/spack/pull/5113",
+    "assignees": [],
+    "comments": 1
+}

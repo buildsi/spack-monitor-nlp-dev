@@ -1,0 +1,17 @@
+{
+    "body": "Added the checksum for versions 4.1.2 and 4.2.0\r\n\r\nThe `parallel` variant  did the exact same behavior as the `mpi` variant, but they had different default values than each other.  Both variants set the value of `-DCGNS_ENABLE_PARALLEL`, so it was unclear which variant was \"winning\" and could definitely result in a non-intuitive build.   Did a grep of the spack packages and none of them where using the `parallel` variant to control the cgns options.  Retained the `mpi` variant as that one is being used by multiple packages.\r\n\r\nOne issue that remains to be solved is that the default integer size has changed from 32-bit to 64-bit for the 4.2.0 release.  This is controlled by the `int64` variant which currently defaults to `OFF`.  There should maybe be some thought about changing the default to match the default of the current release, or maybe having a version-specific default...  For now, left the behavior as it has been for previous versions.",
+    "user": "gsjaardema",
+    "url": "https://api.github.com/repos/spack/spack/issues/23481",
+    "updated_at": "2021-05-07 12:14:56",
+    "created_at": "2021-05-06 22:00:18",
+    "closed_at": "2021-05-07 12:14:56",
+    "state": "closed",
+    "title": "CGNS: New versions; remove conflicting variant",
+    "number": 23481,
+    "milestone": null,
+    "labels": [],
+    "id": 878095233,
+    "html_url": "https://github.com/spack/spack/pull/23481",
+    "assignees": [],
+    "comments": 0
+}

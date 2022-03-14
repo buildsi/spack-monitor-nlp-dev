@@ -1,0 +1,23 @@
+{
+    "body": "$ ./spack install --dirty xsdk@develop+skiptrilinos\n==> Installing xsdk\n==> Installing petsc\n==> Installing hypre\n==> openmpi is already installed in /scratch/bsmith/spack/opt/spack/linux-Ubuntu12-x86_64/intel-16.0.3/openmpi-2.0.1-lryxkhida6aihfig3jorzoossiwkccdk\n==> Installing openblas\n==> Trying to fetch from file:///scratch/bsmith/spack/var/spack/cache/openblas/openblas-0.2.19.tar.gz\n###### ################################################################## 100.0%\n\n==> Staging archive: /scratch/bsmith/spack/var/spack/stage/openblas-0.2.19-opuuybyhyzuqhxyyz5jfttiwpkzuw2e7/v0.2.19.tar.gz\n==> Created stage in /scratch/bsmith/spack/var/spack/stage/openblas-0.2.19-opuuybyhyzuqhxyyz5jfttiwpkzuw2e7\n==> Applied patch make.patch\n==> Building openblas\nTerminated\n\n```\n  NOTE I put a control c here and kill the build because I did not want it to make openblas, this is   what caused the Terminated\n```\n\n/sandbox/bsmith/spack/bin (barry/develop _>) \n$ ./spack install --dirty xsdk@develop+skiptrilinos\n==> Installing xsdk\n==> Installing petsc\n==> Installing hypre\n==> openmpi is already installed in /scratch/bsmith/spack/opt/spack/linux-Ubuntu12-x86_64/intel-16.0.3/openmpi-2.0.1-lryxkhida6aihfig3jorzoossiwkccdk\n==> openblas is already installed in /scratch/bsmith/spack/opt/spack/linux-Ubuntu12-x86_64/intel-16.0.3/openblas-0.2.19-opuuybyhyzuqhxyyz5jfttiwpkzuw2e7\nTraceback (most recent call last):\n  File \"./spack\", line 202, in <module>\n    main()\n  File \"./spack\", line 179, in main\n    return_val = command(parser, args)\n  File \"/scratch/bsmith/spack/lib/spack/spack/cmd/install.py\", line 118, in install\n    package.do_install(__kwargs)\n  File \"/scratch/bsmith/spack/lib/spack/spack/package.py\", line 1004, in do_install\n    dirty=dirty)\n  File \"/scratch/bsmith/spack/lib/spack/spack/package.py\", line 1004, in do_install\n    dirty=dirty)\n  File \"/scratch/bsmith/spack/lib/spack/spack/package.py\", line 1004, in do_install\n    dirty=dirty)\n  File \"/scratch/bsmith/spack/lib/spack/spack/package.py\", line 983, in do_install\n    rec = spack.installed_db.get_record(self.spec)\n  File \"/scratch/bsmith/spack/lib/spack/spack/database.py\", line 79, in converter\n    return function(self, spec_like, *args, *_kwargs)\n  File \"/scratch/bsmith/spack/lib/spack/spack/database.py\", line 527, in get_record\n    key = self._get_matching_spec_key(spec, **kwargs)\n  File \"/scratch/bsmith/spack/lib/spack/spack/database.py\", line 522, in _get_matching_spec_key\n    raise KeyError(\"No such spec in database! %s\" % spec)\nKeyError: 'No such spec in database! openblas@0.2.19%intel@16.0.3+fpic~openmp+shared arch=linux-Ubuntu12-x86_64'\n/sandbox/bsmith/spack/bin (barry/develop *>) \n\nSo spack seems to believe openblas was installed based on just the fact it STARTED to install openblas, not that it was successfully installed. Then of course trouble because it wasn't installed.\n",
+    "user": "BarrySmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/2066",
+    "updated_at": "2016-10-25 18:41:37",
+    "created_at": "2016-10-21 05:07:17",
+    "closed_at": "2016-10-25 18:41:37",
+    "state": "closed",
+    "title": "Spack thinks something is installed that was killed long before the install completed.",
+    "number": 2066,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "pkg-database",
+        "xSDK"
+    ],
+    "id": 184400212,
+    "html_url": "https://github.com/spack/spack/issues/2066",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

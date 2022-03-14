@@ -1,0 +1,20 @@
+{
+    "body": "Using version v0.8.17-4042-g50fcade (50fcade) I encountered the following failure when trying to install gcc in a stock Amazon Linux instance.\n\n```\n$ git clone https://github.com/LLNL/spack.git\nCloning into 'spack'...\nremote: Counting objects: 43408, done.\nremote: Compressing objects: 100% (90/90), done.\nremote: Total 43408 (delta 26), reused 2 (delta 2), pack-reused 43303\nReceiving objects: 100% (43408/43408), 10.38 MiB | 12.81 MiB/s, done.\nResolving deltas: 100% (21313/21313), done.\nChecking connectivity... done.\n\n$ cd spack/\n$ ./bin/spack install gcc\n==> Installing gcc\n==> Installing gmp\n==> Installing m4\n==> Installing libsigsegv\n==> Trying to fetch from file:///home/ec2-user/spack/var/spack/cache/libsigsegv/libsigsegv-2.10.tar.gz\ncurl: (37) Couldn't open file /home/ec2-user/spack/var/spack/cache/libsigsegv/libsigsegv-2.10.tar.gz\n==> Fetching from file:///home/ec2-user/spack/var/spack/cache/libsigsegv/libsigsegv-2.10.tar.gz failed.\n==> Trying to fetch from ftp://ftp.gnu.org/gnu/libsigsegv/libsigsegv-2.10.tar.gz\n######################################################################## 100.0%\n==> Staging archive: /home/ec2-user/spack/var/spack/stage/libsigsegv-2.10-4ztqjpi2ehos3tf54udul4czzkykpiej/libsigsegv-2.10.tar.gz\n==> Created stage in /home/ec2-user/spack/var/spack/stage/libsigsegv-2.10-4ztqjpi2ehos3tf54udul4czzkykpiej\n==> No patches needed for libsigsegv\n==> Building libsigsegv\n==> Successfully installed libsigsegv\n  Fetch: 4.78s.  Build: 6.31s.  Total: 11.10s.\n[+] /home/ec2-user/spack/opt/spack/linux--x86_64/gcc-4.8.3/libsigsegv-2.10-4ztqjpi2ehos3tf54udul4czzkykpiej\nTraceback (most recent call last):\n  File \"./bin/spack\", line 192, in <module>\n    main()\n  File \"./bin/spack\", line 169, in main\n    return_val = command(parser, args)\n  File \"/home/ec2-user/spack/lib/spack/spack/cmd/install.py\", line 92, in install\n    explicit=True)\n  File \"/home/ec2-user/spack/lib/spack/spack/package.py\", line 934, in do_install\n    dirty=dirty)\n  File \"/home/ec2-user/spack/lib/spack/spack/package.py\", line 1085, in do_install_dependencies\n    dep.package.do_install(**kwargs)\n  File \"/home/ec2-user/spack/lib/spack/spack/package.py\", line 934, in do_install\n    dirty=dirty)\n  File \"/home/ec2-user/spack/lib/spack/spack/package.py\", line 1085, in do_install_dependencies\n    dep.package.do_install(**kwargs)\n  File \"/home/ec2-user/spack/lib/spack/spack/package.py\", line 934, in do_install\n    dirty=dirty)\n  File \"/home/ec2-user/spack/lib/spack/spack/package.py\", line 1085, in do_install_dependencies\n    dep.package.do_install(**kwargs)\n  File \"/home/ec2-user/spack/lib/spack/spack/package.py\", line 1057, in do_install\n    self.spec, spack.install_layout, explicit=explicit)\n  File \"/home/ec2-user/spack/lib/spack/spack/database.py\", line 78, in converter\n    return function(self, spec_like, *args, **kwargs)\n  File \"/home/ec2-user/spack/lib/spack/spack/database.py\", line 512, in add\n    self._add(spec, directory_layout, explicit=explicit)\n  File \"/home/ec2-user/spack/lib/spack/spack/database.py\", line 475, in _add\n    except DirectoryLayoutError as e:\nNameError: global name 'DirectoryLayoutError' is not defined\n```\n",
+    "user": "behlendorf",
+    "url": "https://api.github.com/repos/spack/spack/issues/1893",
+    "updated_at": "2016-10-04 17:01:37",
+    "created_at": "2016-10-03 23:39:08",
+    "closed_at": "2016-10-04 08:50:10",
+    "state": "closed",
+    "title": "spack install gcc fails",
+    "number": 1893,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build-error"
+    ],
+    "id": 180774033,
+    "html_url": "https://github.com/spack/spack/issues/1893",
+    "assignees": [],
+    "comments": 2
+}

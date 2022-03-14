@@ -1,0 +1,22 @@
+{
+    "body": "This fixes a few simple things to make `spack buildcache list` ~30-35% faster.  On my mac, it takes 19s to list https://cache.e4s.io (which has 27k specs or so in the index) without this, and 12-13s with it.  \r\n\r\nThe optimizations are:\r\n- [x] Avoid expensive parsing in `Spec.from_node_dict()`.  It was calling `Spec(name)`, when it could just call `Spec()` and set the name.\r\n- [x] Avoid redundant marks when `_mark_concrete()` is called from `Database.read_from_file()`.  `_mark_concrete()` traverses the whole spec, but we don't need to do that in `Database` b/c we know we'll hit all the nodes just iterating over the DB itself.  Introduce `_mark_root_concrete()` and use that instead.\r\n- [x] In Python 2, we had to traverse all JSON  structures and convert `unicode` to strings, but we don't have to do that in Python 3.  Make the `spack_json._strify` a no-op in Python 3.\r\n- [x] Precompile some regular expressions in `version.py`\r\n- [x] don't construct a date object for every database query.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/21615",
+    "updated_at": "2021-02-11 14:30:59",
+    "created_at": "2021-02-11 06:38:26",
+    "closed_at": "2021-02-11 14:30:58",
+    "state": "closed",
+    "title": "Speed up `spack buildcache list`",
+    "number": 21615,
+    "milestone": null,
+    "labels": [
+        "performance",
+        "buildcache",
+        "ecp",
+        "e4s"
+    ],
+    "id": 806121061,
+    "html_url": "https://github.com/spack/spack/pull/21615",
+    "assignees": [],
+    "comments": 1
+}

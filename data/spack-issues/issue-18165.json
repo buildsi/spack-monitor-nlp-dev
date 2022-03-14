@@ -1,0 +1,19 @@
+{
+    "body": "This is a change in default behavior for these routines, but better\r\nmatches the mental model for an environment taking precedence over\r\nthe user's default packages.yaml file.\r\n\r\nWhen I'm setting up a new user environment, I'd like to keep a record of what things I've pulled in from the system environment. Both `spack compiler find` and `spack external find` modify things in my user directory, but if I have an environment active then I'd like those changes reflected in my environment.\r\n\r\nThe code to do this was mostly already there. From what I could put together by reading the code and talking to @becker33, `write_section()` for `SingleFileConfig` was untested and many of the internals of `spack.config` were coded before environments were created.  \r\n\r\nThis is a minor cleanup in code quality that none-the-less has a huge impact on the default behavior of `spack external find`, `spack compiler find` and any other routine that relies on `default_modify_scope()` .  The change better reflects the mental model that environments take higher precedence compared to user configurations.\r\n\r\n",
+    "user": "rblake-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/18165",
+    "updated_at": "2020-09-05 08:12:27",
+    "created_at": "2020-08-18 23:44:44",
+    "closed_at": "2020-09-05 08:12:27",
+    "state": "closed",
+    "title": "Make spack environment configurations writable from spack external and spack compiler find",
+    "number": 18165,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 681415026,
+    "html_url": "https://github.com/spack/spack/pull/18165",
+    "assignees": [],
+    "comments": 1
+}

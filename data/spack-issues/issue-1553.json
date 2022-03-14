@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #1552. This was causing errors like:\n\n```\n$ spack spec netcdf ^hdf5@1.8.16\nInput spec\n------------------------------\n  netcdf\n      ^hdf5\n\nNormalized\n------------------------------\n==> Error: netcdf does not depend on hdf5\n```\n\nand\n\n```\n$ spack spec netcdf+mpi ^mvapich2\nInput spec\n------------------------------\n  netcdf+mpi\n      ^mvapich2\n\nNormalized\n------------------------------\n==> Error: netcdf does not depend on mvapich2\n```\n\nHere's my understanding of the problem. @tgamblin can correct me if I'm wrong. During normalization, variants are ignored unless explicitly stated. So `netcdf+mpi ^hdf5` and `netcdf~mpi ^hdf5` work but `netcdf ^hdf5` doesn't. Also, versions are ignored during normalization unless explicitly stated. So `netcdf@4.4.1+mpi ^mvapich2` and `netcdf@4.4.0+mpi ^mvapich2` work but `netcdf+mpi ^mvapich2` doesn't. This solution spreads all of the constraints out so that they do not interfere. Obviously dependency resolution is a little bit broken if mpi defaults to true but netcdf doesn't depend on mpi, but that's another issue that's been well documented.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1553",
+    "updated_at": "2017-07-07 21:51:54",
+    "created_at": "2016-08-17 18:16:43",
+    "closed_at": "2016-09-08 18:58:46",
+    "state": "closed",
+    "title": "Fix NetCDF/HDF5 dependency resolution problems",
+    "number": 1553,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 171725155,
+    "html_url": "https://github.com/spack/spack/pull/1553",
+    "assignees": [],
+    "comments": 26
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Spack compiler detection does a pretty good job of finding compiler executables, but there are still configuration issues with certain vendor compilers.  Specifically, users have to add `extra_rpaths` to their compiler entries in `compilers.yaml`, especially for vendor compilers and newer `gcc`/`clang` where the `libstdc++` version is not the same as the system.\r\n\r\nSpack should be able to autodetect the necessary compiler runtime paths so that it can add correct `RPATHs` to executables.  This task will add this feature.\r\n\r\n- [x] Improve compiler detection so that each compiler can tell Spack how to detect its runtime paths.  Basic functionality can be implemented generically in the `Compiler` class and specialized when needed. (#7153)\r\n\r\n- [x] Update the Spack build (`build_environment.py`) so that RPATHs for compiler runtime paths are added automatically via Spack's compiler wrappers. (#7411)\r\n\r\n- [x] show that intel compilers no longer need manually configured `extra_rpaths`\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/7115",
+    "updated_at": "2019-08-24 13:21:46",
+    "created_at": "2018-01-30 09:19:45",
+    "closed_at": "2019-08-24 13:21:46",
+    "state": "closed",
+    "title": "Improve Spack's detection of compiler run paths",
+    "number": 7115,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "task"
+    ],
+    "id": 292706585,
+    "html_url": "https://github.com/spack/spack/issues/7115",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

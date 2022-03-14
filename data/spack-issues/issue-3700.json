@@ -1,0 +1,20 @@
+{
+    "body": "Blocks building of ADIOS on my system (gcc 4.8.5 linux-opensuse42-x86_64) with this traceback:\r\n\r\n    /home/mol/Software/spack/lib/spack/spack/build_systems/autotools.py:266, in configure:\r\n     258      def configure(self, spec, prefix):\r\n     259          \"\"\"Runs configure with the arguments specified in\r\n     260          :py:meth:`~.AutotoolsPackage.configure_args`\r\n     261          and an appropriately set prefix.\r\n     262          \"\"\"\r\n     263          options = ['--prefix={0}'.format(prefix)] + self.configure_args()\r\n     264  \r\n     265          with working_dir(self.build_directory, create=True):\r\n    >> 266              inspect.getmodule(self).configure(*options)\r\n\r\nAnd the log\r\n\r\n     ==> '/home/mol/Software/spack/var/spack/stage/mxml-2.10-zxpuyumt66b7ehrlidmcax7li5ekhr6x/mxml-2.10/configure' '--prefix=/home/mol/Software/spack/opt/spack/linux-opensuse42-x86_64/gcc-4.8/mxml-2.10-zxpuyumt66b7ehrlidmcax7li5ekhr6x' '--disable-shared' 'CFLAGS=-static'\r\n    configure: loading site script /usr/share/site/x86_64-unknown-linux-gnu\r\n    checking for gcc... /home/mol/Software/spack/lib/spack/env/gcc/gcc\r\n    checking whether the C compiler works... no\r\n\r\nRemoving the `CFLAGS=-static` entry (from configure_args) solves the problem, but since I don't know why it was there in the first place, I'm not touching it.",
+    "user": "olesenm",
+    "url": "https://api.github.com/repos/spack/spack/issues/3700",
+    "updated_at": "2017-04-07 18:06:10",
+    "created_at": "2017-04-05 11:43:20",
+    "closed_at": "2017-04-07 18:06:10",
+    "state": "closed",
+    "title": "cannot build mxml",
+    "number": 3700,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "new-package"
+    ],
+    "id": 219555084,
+    "html_url": "https://github.com/spack/spack/issues/3700",
+    "assignees": [],
+    "comments": 1
+}

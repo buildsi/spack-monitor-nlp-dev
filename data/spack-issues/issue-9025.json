@@ -1,0 +1,20 @@
+{
+    "body": "Say `suite-sparse@5.2.0:` needs `gcc@4.9:`. \r\nWe can of course add it as a conflict\r\n```\r\nconflicts('%gcc@:4.8.99', when='5.2.0:')\r\n```\r\nthis, however, does not help downstream packages because they won't concretize unless you [add](https://github.com/spack/spack/pull/9026)\r\n```\r\ndepends_on('suite-sparse')\r\ndepends_on('suite-sparse@:5.1.0', when='%gcc@:4.8.99')\r\n```\r\nIMO it's a wrong place to fix the problem and we should not need to do this in every downstream package.\r\n\r\nMaybe `conflicts` should be somehow smarter and make concretizer choose a version before `5.2.0:` in this case. \r\n\r\nOr one can think of `preferable` to be dependent on compiler version (by default it's the latest stable but for older `gcc` take 5.1.0). \r\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/9025",
+    "updated_at": "2020-11-17 18:04:16",
+    "created_at": "2018-08-20 14:12:14",
+    "closed_at": "2020-11-17 18:04:16",
+    "state": "closed",
+    "title": "extend conflicts to be able to affect concretizer if a different version will do",
+    "number": 9025,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "concretization"
+    ],
+    "id": 352153530,
+    "html_url": "https://github.com/spack/spack/issues/9025",
+    "assignees": [],
+    "comments": 1
+}

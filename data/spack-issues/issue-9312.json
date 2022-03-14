@@ -1,0 +1,17 @@
+{
+    "body": "I believe that in \r\n\r\nhttps://github.com/spack/spack/blob/2656ed63eb488b6450829fb1abd8fd4a08ad0f35/lib/spack/spack/build_systems/intel.py#L763\r\n\r\n`threading_engine_libs = self.openmp_libs()`\r\n\r\nshould be\r\n\r\n`threading_engine_libs = self.openmp_libs`\r\n\r\nas at https://github.com/spack/spack/blob/2656ed63eb488b6450829fb1abd8fd4a08ad0f35/lib/spack/spack/build_systems/intel.py#L674 it is defined as a property.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install cblas ^intel-mkl threads=openmp\r\n```\r\n\r\n### Error Message\r\n```console\r\nwscullin@flubber:/sp/spack> spack install cblas ^intel-mkl threads=openmp\r\n==> intel-mkl@2018.2.199 : externally installed in /opt/intel/compilers_and_libraries_2018.2.199/linux/mkl\r\n==> intel-mkl@2018.2.199 : already registered in DB\r\n==> Installing cblas\r\n==> Fetching file:///sp/projects/datascience/soft/builds/spack/mirror/cblas/cblas-2015-06-06.tgz\r\ncurl: (37) Couldn't open file /sp/projects/datascience/soft/builds/spack/mirror/cblas/cblas-2015-06-06.tgz\r\n==> Fetching from file:///sp/projects/datascience/soft/builds/spack/mirror/cblas/cblas-2015-06-06.tgz failed.\r\n==> Fetching http://www.netlib.org/blas/blast-forum/cblas.tgz\r\n######################################################################## 100.0%\r\n==> Staging archive: /sp/spack/var/spack/stage/cblas-2015-06-06-puaogaktnjzkrdcq6uxl3q5d7cvmwyxx/cblas.tgz\r\n==> Created stage in /sp/spack/var/spack/stage/cblas-2015-06-06-puaogaktnjzkrdcq6uxl3q5d7cvmwyxx\r\n==> Error: TypeError: 'LibraryList' object is not callable\r\n\r\n/sp/spack/lib/spack/spack/build_systems/intel.py:762, in blas_libs:\r\n        759            if '%intel' in self.spec:\r\n        760                mkl_threading = 'libmkl_intel_thread'\r\n        761            elif '%gcc' in self.spec:\r\n  >>    762                mkl_threading = 'libmkl_gnu_thread'\r\n        763            threading_engine_libs = self.openmp_libs()\r\n        764        elif self.spec.satisfies('threads=tbb'):\r\n        765            mkl_threading = 'libmkl_tbb_thread'\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\n\r\nI can do this under develop on several systems. Pull request forthcoming.",
+    "user": "wscullin",
+    "url": "https://api.github.com/repos/spack/spack/issues/9312",
+    "updated_at": "2018-11-23 20:24:47",
+    "created_at": "2018-09-21 19:44:42",
+    "closed_at": "2018-11-23 20:24:47",
+    "state": "closed",
+    "title": "Syntax error in lib/spack/spack/build_systems/intel.py",
+    "number": 9312,
+    "milestone": null,
+    "labels": [],
+    "id": 362750775,
+    "html_url": "https://github.com/spack/spack/issues/9312",
+    "assignees": [],
+    "comments": 2
+}

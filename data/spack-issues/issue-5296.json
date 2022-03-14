@@ -1,0 +1,21 @@
+{
+    "body": "Refactored version of PR #4730. May still need some tweaks:\r\n\r\n### How to handle srun on LC machines?\r\n\r\nThis is the current code:\r\n\r\n```bash\r\n        with working_dir(self.build_directory):\r\n            if not srun:\r\n                # standard installation on dev machine\r\n                make('install-core')\r\n                with working_dir('tools'):\r\n                    make('install')\r\n            else:\r\n                # parallel installation on LC\r\n                srun('-ppdebug', 'make', '-j16', 'install-core')\r\n                with working_dir('tools'):\r\n                    srun('-ppdebug', 'make', '-j16', 'install')\r\n```\r\n\r\nNeed to account for this spack install commandline:\r\n\r\n```\r\n$ TMPDIR=\"/nfs/tmp2/${USER}\" spack -v install rose@0.9.9.0 +mvapich2_backend\r\n```\r\n\r\nSpecifically, what's the best practice on these lines:\r\n\r\n```\r\n+                srun('-ppdebug', 'make', '-j16', 'install-core')\r\n...\r\n+                    srun('-ppdebug', 'make', '-j16', 'install')\r\n```",
+    "user": "justintoo",
+    "url": "https://api.github.com/repos/spack/spack/issues/5296",
+    "updated_at": "2019-12-04 20:51:46",
+    "created_at": "2017-09-06 23:54:37",
+    "closed_at": "2019-12-04 20:51:46",
+    "state": "closed",
+    "title": "Update to ROSE v0.9.9.0",
+    "number": 5296,
+    "milestone": null,
+    "labels": [
+        "up-for-grabs",
+        "help wanted",
+        "update-package"
+    ],
+    "id": 255775350,
+    "html_url": "https://github.com/spack/spack/pull/5296",
+    "assignees": [],
+    "comments": 31
+}

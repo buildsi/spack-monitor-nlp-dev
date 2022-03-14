@@ -1,0 +1,22 @@
+{
+    "body": "This PR adds the py-youtube-dl program. In addition, there are a couple\r\nof dependency packages that needed to be updated.\r\n\r\n* ffmpeg\r\nThis is needed by py-youtube-dl. However, the spack ffmpeg recipe does\r\nnot include a lot of options, specifically, a dependency on openssl for\r\nworking with the https protocol.\r\n\r\n- Added updated version.\r\n- Added variants for the different licensing options.\r\n- Added \"meta\" variants for X and drawtext. These turn on/off several\r\n  options.\r\n- Set variants and dependencies for many options. The defaults are based\r\n  on the configuration settings in ffmpeg.\r\n- Set dependencies that were missing or that will likely get pulled in\r\n  from the system.\r\n\r\n* libxml2\r\nThe ffmpeg+libxml2 variant initially failed to build. The issue is that\r\nlibxml2 sets the headers property to\r\n\r\ninclude_dir = self.spec.prefix.include.libxml2\r\n\r\nThe ffmpeg configure looks for prefix.include and fills in the rest.\r\nThis could probably be patched in ffmpeg but the headers property in the\r\nlibxml2 recipe is not consistent with the environment module or the\r\npkgconfig file, both of which set the headers path to prefix.include.\r\nThis PR sets the libxml2 headers property to\r\n\r\ninclude_dir = self.spec.prefix.include\r\n\r\nA spot check of a few libxml2 dependents did not rreveal any problems\r\nwith this change.",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/15978",
+    "updated_at": "2020-04-16 18:49:44",
+    "created_at": "2020-04-09 21:13:34",
+    "closed_at": "2020-04-12 18:50:50",
+    "state": "closed",
+    "title": "new package: py-youtube-dl + fixes for dependencies",
+    "number": 15978,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "new-package",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 597556445,
+    "html_url": "https://github.com/spack/spack/pull/15978",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,23 @@
+{
+    "body": "With both perl@5.34.0 and perl@5.32.1 the build fails on `macos-bigsur-skylake %apple-clang@12.0.5` and `%apple-clang@13.0.0`:\r\n```\r\n2 errors found in build log:\r\n     579013    /private/var/folders/fy/x2xtwh1n7fn0_0q2kk29xkv9vvmbqb/T/s3j/spack-stage/spack-stage-perl-5.34.0-tpha2u52qfwaraidpzzbf6u4dbqg7dk5/spack-src/cpan/\r\n               Math-BigInt-FastCalc/../../miniperl \"-I../../lib\" -MExtUtils::Command::MM -e 'cp_nonempty' -- FastCalc.bs ../../lib/auto/Math/BigInt/FastCalc/Fas\r\n               tCalc.bs 644\r\n     579014\r\n     579015    \tEverything is up to date. Type '/Applications/Xcode.app/Contents/Developer/usr/bin/make test' to run test suite.\r\n     579016    DYLD_LIBRARY_PATH=/private/var/folders/fy/x2xtwh1n7fn0_0q2kk29xkv9vvmbqb/T/s3j/spack-stage/spack-stage-perl-5.34.0-tpha2u52qfwaraidpzzbf6u4dbqg7d\r\n               k5/spack-src  ./perl -Ilib -I. installperl --destdir=\r\n     579017    WARNING: You've never run 'make test' or some tests failed! (Installing anyway.)\r\n     579018      /rnsdhpc/code/spack/opt/spack/apple-clang/perl/tpha2u5/bin/perl5.34.0\r\n  >> 579019    install_name_tool: error: sh -c '/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -sdk /Applications/Xcode.app/Contents/Developer/Pl\r\n               atforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -find install_name_tool 2> /dev/null' failed with exit code 256: (null) (errno=Invalid argument\r\n               )\r\n     579020    xcode-select: Failed to locate 'install_name_tool', requesting installation of command line developer tools.\r\n     579021    Cannot update /rnsdhpc/code/spack/opt/spack/apple-clang/perl/tpha2u5/bin/perl5.34.0 dependency paths\r\n  >> 579022    make: *** [install-all] Error 72\r\n```\r\n\r\nThe system pops up a dialog box requesting an install of the command line tools -- installing them does nothing.\r\n\r\nThis is due to SYSTEM_VERSION_COMPAT being set when it should *not* be. I verified that the fix works on `perl@5.34.0`. I'm not sure in what circumstances the original failure took place that caused #21375 to be needed.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/26290",
+    "updated_at": "2021-12-29 13:43:41",
+    "created_at": "2021-09-28 00:14:31",
+    "closed_at": "2021-12-21 21:22:36",
+    "state": "closed",
+    "title": "perl: fix macOS build",
+    "number": 26290,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "update-package"
+    ],
+    "id": 1008861850,
+    "html_url": "https://github.com/spack/spack/pull/26290",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 14
+}

@@ -1,0 +1,20 @@
+{
+    "body": "- This PR concerns the intel-mkl, intel-parallel-studio packages and packages depending on them that may be affected\r\n\r\n- The variants do not change the composition of the intel-mkl and intel-parallel-sudio packages. They are only there to denote various components/features of the package which are bundled in the installation regardless of the value of the variant. Dependent packages have started using the variants to distinguish between variants that should really belong to them. This has the unfortunate consequence that often unnecessary fetching/installation steps are performed of Intel MKL/Parallel Studio causing increased disk consumption and wasting time.\r\n\r\n- [TODO] Most variants for intel-parallel-studio can be removed if the corresponding `conflict` clauses are propagated to depending packages and the version information in `when=` is made explicit there. At the moment, these variants appear to serve as a convenient alias to the version information in the `when=` statement. If that is the intended behaviour and frequent installations is not an issue, I will rescind the PR.\r\n\r\n- The following packages depend on Intel MKL and Intel Parallel Studio\r\n  but do not need to be modified:\r\n    \r\n    namd\r\n    py-numpy\r\n    petsc\r\n    sirius\r\n    plasma\r\n    ghost\r\n    py-torch\r\n    dftfe\r\n    hpl\r\n    slate\r\n    intel-mkl-dnn\r\n    kaldi\r\n    abyss\r\n    gaudi\r\n    intel-mpi\r\n    esmf\r\n    sirius\r\n    converge\r\n    exabayes\r\n    r-rmpi\r\n    intel\r\n\r\n- The following dependent packages may need further work: \r\n    \r\n    suite-sparse\r\n    qmcpack\r\n    dealii \r\n\r\n    Appropriate variants may need to be introduced.",
+    "user": "teonnik",
+    "url": "https://api.github.com/repos/spack/spack/issues/15567",
+    "updated_at": "2021-06-11 15:00:26",
+    "created_at": "2020-03-19 10:47:26",
+    "closed_at": "2021-06-11 15:00:26",
+    "state": "closed",
+    "title": "Remove some Intel MKL/Parallel Studio variants",
+    "number": 15567,
+    "milestone": null,
+    "labels": [
+        "intel",
+        "don't-merge-yet"
+    ],
+    "id": 584321622,
+    "html_url": "https://github.com/spack/spack/pull/15567",
+    "assignees": [],
+    "comments": 3
+}

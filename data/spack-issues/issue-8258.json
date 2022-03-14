@@ -1,0 +1,21 @@
+{
+    "body": "Whenever I attempt to specify `fflags`, `cflags`, or `cxxflags` in a spec, I get the following error message from Python: `Error: 'module' object has no attribute 'compiler'`.  I have not tried `cppflags`, `ldflags`, or `ldlibs`.  This feature was also working as of last week.\r\n\r\n### Expected Result\r\n\r\nSpecifying `fflags`, `cflags`, or `cxxflags` as part of a spec would be accepted by Spack and passed onto individual package build scripts.\r\n\r\n### Actual Result\r\n\r\nReceived error message `Error: 'module' object has no attribute 'compiler'` and Spack processing terminated.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install --test=root boost%xl_r cflags=\"gnu++11\"\r\n$ spack spec boost%xl_r cflags=\"gnu++11\"\r\n```\r\n\r\n### Information on your system\r\n\r\n 1. RHEL 7.4 on POWER9\r\n 2. Spack cloned from upstream `develop`\r\n 3. Custom `compilers.yaml`, `packages.yaml`\r\n\r\n`compilers.yaml`:\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    spec: gcc@4.8.5\r\n    target: ppc64le\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n      fflags: -qzerosize\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/bin/xlc\r\n      cxx: /usr/bin/xlC\r\n      f77: /usr/bin/xlf\r\n      fc: /usr/bin/xlf95\r\n    spec: xl@16.1\r\n    target: ppc64le\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n      fflags: -qzerosize\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/bin/xlc_r\r\n      cxx: /usr/bin/xlc++_r\r\n      f77: /usr/bin/xlf_r\r\n      fc: /usr/bin/xlf90_r\r\n    spec: xl_r@16.1\r\n    target: ppc64le\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /pgi/linuxpower/17.10/bin/pgcc\r\n      cxx: /pgi/linuxpower/17.10/bin/pgc++\r\n      f77: /pgi/linuxpower/17.10/bin/pgfortran\r\n      fc: /pgi/linuxpower/17.10/bin/pgfortran\r\n    spec: pgi@17.10\r\n    target: ppc64le\r\n- compiler:\r\n   environment: {}\r\n   extra_rpaths: []\r\n   flags: {}\r\n   modules: []\r\n   operating_system: rhel7\r\n   paths:\r\n     cc: /opt/clang-coral/bin/clang\r\n     cxx: /opt/clang-coral/bin/clang++\r\n     f77: xlf_r\r\n     fc: xlf_r\r\n   spec: clang@3.8.0\r\n   target: ppc64le\r\n```\r\n`packages.yaml`:\r\n```\r\npackages:\r\n  spectrum-mpi:\r\n    paths: \r\n        spectrum-mpi@10.02.00 arch=linux-rhel7-ppc64le: /opt/ibm/spectrum_mpi\r\n    version: [10.02.00]\r\n    buildable: false\r\n  essl:\r\n    paths:\r\n        essl@6.1 arch=linux-rhel7-ppc64le: /opt/ibmmath/essl/6.1\r\n    version: [6.1]\r\n    buildable: false\r\n  all:\r\n    providers:\r\n      mpi: [spectrum-mpi]\r\n```",
+    "user": "djfitzgerald",
+    "url": "https://api.github.com/repos/spack/spack/issues/8258",
+    "updated_at": "2018-05-24 18:00:14",
+    "created_at": "2018-05-23 19:11:29",
+    "closed_at": "2018-05-24 18:00:14",
+    "state": "closed",
+    "title": "Unable to specify cflags, cxxflags, or fflags in a spec",
+    "number": 8258,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 325837166,
+    "html_url": "https://github.com/spack/spack/issues/8258",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

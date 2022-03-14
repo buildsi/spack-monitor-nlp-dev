@@ -1,0 +1,19 @@
+{
+    "body": "\r\nI think yesterday's commit #14783 broke the checksums for the recent\r\nintel-tbb versions.\r\n\r\nThe commit added:\r\n\r\n```\r\n  version('2020.1', sha256='48d51c63b16787af54e1ee4aaf30042087f20564b4eecf9a032d5568bc2f0bf8')\r\n  version('2020.0', sha256='8eed2377ac62e6ac10af5a8303ce861e4525ffe491a061b48e8fe094fc741ce9')\r\n  version('2019.9', sha256='15652f5328cf00c576f065e5cd3eaf3317422fe82afb67a9bcec0dc065bd2abe')\r\n```\r\n\r\nBut when I wget the tar files directly, I get a different sha256sum.\r\n\r\n```\r\n72cffaeac3b50b117c4e2279f9162308d35873b3e744aff5a088beff6f65c9af  2020_U1.tar.gz\r\ndb80f4f7abb95c2d08fe64abdc0a9250903e4c725f1c667ac517450de426023a  2020.tar.gz\r\n15652f5328cf00c576f065e5cd3eaf3317422fe82afb67a9bcec0dc065bd2abe  2019_U9.tar.gz\r\n```\r\n\r\nSo, 2019_U9 is correct, but the 2020 and 2020_U1 are not.\r\n\r\nAlso, the name of the 2020 tar file is `2020.tar.gz`, not\r\n`2020_U0.tar.gz`.\r\n\r\nI would just submit a PR to fix this, but this was part of a larger\r\ncommit that \"updated\" the versions of several intel packages.  I don't\r\nuse the other ones (just tbb), so I don't know if those sha hashes\r\nneed fixing or not.\r\n\r\n```\r\nM       var/spack/repos/builtin/packages/intel-daal/package.py\r\nM       var/spack/repos/builtin/packages/intel-ipp/package.py\r\nM       var/spack/repos/builtin/packages/intel-mkl-dnn/package.py\r\nM       var/spack/repos/builtin/packages/intel-mkl/package.py\r\nM       var/spack/repos/builtin/packages/intel-mpi/package.py\r\nM       var/spack/repos/builtin/packages/intel-parallel-studio/package.py\r\nM       var/spack/repos/builtin/packages/intel-pin/package.py\r\nM       var/spack/repos/builtin/packages/intel-tbb/package.py\r\n```\r\n\r\nCould someone check this and see who has the right sha256sum?\r\nAnd check the other packages.\r\n\r\nThanks.\r\n\r\n@robert-mijakovic ",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/14850",
+    "updated_at": "2020-02-16 19:07:41",
+    "created_at": "2020-02-07 20:41:04",
+    "closed_at": "2020-02-09 20:26:39",
+    "state": "closed",
+    "title": "incorrect intel-tbb sha256sums from #14783 ",
+    "number": 14850,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 561860646,
+    "html_url": "https://github.com/spack/spack/issues/14850",
+    "assignees": [],
+    "comments": 5
+}

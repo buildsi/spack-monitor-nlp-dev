@@ -1,0 +1,17 @@
+{
+    "body": "This PR updates environments so that by default they are created with views. Currently my goal is to show how it works and get agreement on it. There are still tests etc. which are needed to complete it.\r\n\r\n```\r\nspack env create e1 #by default this will maintain a view in the directory Spack maintains for the env\r\nspack env create e1 --with-view=/abs/path/to/anywhere\r\nspack env create e1 --without-view\r\n```\r\n\r\nThe `manifest.yaml` file now looks like:\r\n\r\n```\r\nspack:\r\n  specs:\r\n  - python\r\n  view: true #or false, or a string\r\n```\r\n\r\nExisting environments will not automatically maintain views. I propose adding the following command to manipulate whether an env maintains a view (these commands aren't yet available):\r\n\r\n~`spack env view --enable #by default create the view`~\r\n~`spack env view --enable /abs/path/to/anywhere`~\r\n~`spack env view --disable`~\r\n~`spack env view --show #show where the view is maintained`~\r\n\r\n(EDIT 4/8/19) The commands for managing a view for an environment have been added and have a slightly different syntax:\r\n\r\n```\r\nspack env view enable\r\nspack env view envable /abs/path/to/anywhere\r\nspack env view disable\r\n```\r\n\r\nViews are automatically updated when specs are installed to an environment. A view only maintains one copy of any package. An environment may refer to a package multiple times, in particular if it appears as a dependency. This PR establishes a prioritization for which environment specs are added to views: a spec has higher priority if it was concretized first. This does not necessarily exactly match the order in which specs were added, for example, given `X->Z` and `Y->Z'`:\r\n\r\n```\r\nspack env activate e1\r\nspack add X\r\nspack install Y #immediately concretizes and installs Y and Z'\r\nspack install #concretizes X and Z\r\n```\r\n\r\nIn this case `Z'` will be favored over `Z`. \r\n\r\nSpecs in the environment must be concrete and installed to be added to the view, so there is another minor ordering effect: by default the view maintained for the environment ignores file conflicts between packages. If packages are not installed in order, and there are file conflicts, then the version chosen depends on the order.\r\n\r\nBoth ordering issues are avoided if `spack install`/`spack add` and `spack install <spec>` are not mixed.\r\n\r\n(UPDATE 4/8/19) When activated, if an environment includes a view, this view will be added to `PATH`, `CPATH`, and other shell variables to expose the Spack environment in the user's shell.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/10017",
+    "updated_at": "2019-04-10 23:00:13",
+    "created_at": "2018-12-05 00:24:45",
+    "closed_at": "2019-04-10 23:00:12",
+    "state": "closed",
+    "title": "Maintain a view for an environment",
+    "number": 10017,
+    "milestone": null,
+    "labels": [],
+    "id": 387539170,
+    "html_url": "https://github.com/spack/spack/pull/10017",
+    "assignees": [],
+    "comments": 22
+}

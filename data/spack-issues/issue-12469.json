@@ -1,0 +1,19 @@
+{
+    "body": "This is probably targeted for @glennpj or others with better awareness of `-ax<vectorization>` for auto dispatch.\r\n\r\nIs there a way to disable `-ax<option>` while building tools like Valgrind, after setting building Intel compilers with `auto_dispatch=COMMON_AVX512`?\r\n\r\nMy workaround is to remove the added lines to the matching `{icpc,icc,ifort}.cfg` files.\r\n\r\n### Steps to reproduce the issue\r\n\r\nAn example spec looks something like this where I really have `intel` in place of `intel-parallel-studio`\r\n\r\n```\r\nvalgrind@3.15.0 %intel@18.0.5 ^mvapich2@2.3.1\r\n```\r\n\r\nThis is consistent across Intel 18 and 19 latest compilers, where in my case I had `-axCOMMON-AVX512` appended to the aforementioned `cfg` files.\r\n\r\n### Error Message\r\n\r\n```\r\n  >> 5870    /usr/local/pace-apps/temp/spack/var/0.12/stage/kmanalo3/spack-stag\r\n             e/spack-stage-fBlVLy/spack-src/coregrind/m_wordfm.c:706: undefined\r\n              reference to `__intel_cpu_feature_indicator'\r\n  >> 5871    /usr/local/pace-apps/temp/spack/var/0.12/stage/kmanalo3/spack-stag\r\n             e/spack-stage-fBlVLy/spack-src/coregrind/m_wordfm.c:706: undefined\r\n              reference to `__intel_cpu_feature_indicator'\r\n  >> 5872    /usr/local/pace-apps/temp/spack/var/0.12/stage/kmanalo3/spack-stag\r\n             e/spack-stage-fBlVLy/spack-src/coregrind/m_wordfm.c:706: undefined\r\n              reference to `__intel_cpu_features_init'\r\n```\r\n\r\nThese are typical errors.\r\n\r\n### Information on your system\r\n\r\n`linux_x86_64`\r\nCascade Lake systems\r\nRHEL7.6\r\n",
+    "user": "kmanalo",
+    "url": "https://api.github.com/repos/spack/spack/issues/12469",
+    "updated_at": "2020-02-15 00:29:21",
+    "created_at": "2019-08-19 01:17:03",
+    "closed_at": "2020-02-15 00:29:21",
+    "state": "closed",
+    "title": "Installation of Valgrind +MPI with Intel Using Auto Dispatch Variant",
+    "number": 12469,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 482063561,
+    "html_url": "https://github.com/spack/spack/issues/12469",
+    "assignees": [],
+    "comments": 2
+}

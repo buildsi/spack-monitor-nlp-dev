@@ -1,0 +1,20 @@
+{
+    "body": "Running spack test on SL7 fails in test/stage.py\r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\nspack test \r\n```\r\n\r\n### Error Message\r\n```\r\nplatform linux2 -- Python 2.7.5, pytest-3.2.5, py-1.4.34, pluggy-0.4.0\r\nrootdir: /build/test/spack/lib/spack/spack/test, inifile: pytest.ini\r\ncollected 2297 items                                                                                                                                                                   \r\n...\r\nstage.py .................................F........\r\n...\r\n_______________________________________________________________________ TestStage.test_get_stage_root_in_spack ________________________________________________________________________\r\n\r\nself = <spack.test.stage.TestStage object at 0x7fa2f83497d0>, clear_stage_root = None\r\n\r\n    def test_get_stage_root_in_spack(self, clear_stage_root):\r\n        \"\"\"Ensure an instance path is an accessible build stage path.\"\"\"\r\n        base = canonicalize_path(os.path.join('$spack', '.spack-test-stage'))\r\n        mkdirp(base)\r\n        test_path = tempfile.mkdtemp(dir=base)\r\n    \r\n        try:\r\n            with spack.config.override('config:build_stage',  test_path):\r\n                path = spack.stage.get_stage_root()\r\n    \r\n                assert 'spack' in path.split(os.path.sep)\r\n    \r\n                # Make sure cached stage path value was changed appropriately\r\n>               assert spack.stage._stage_root == test_path\r\nE               AssertionError: assert '/build/test/...vrUg5/gartung' == '/build/test/s...age/tmpmvrUg5'\r\nE                 - /build/test/spack/.spack-test-stage/tmpmvrUg5/gartung\r\nE                 ?                                              --------\r\nE                 + /build/test/spack/.spack-test-stage/tmpmvrUg5\r\n\r\nstage.py:836: AssertionError\r\n================================================================================ 2217 tests deselected ================================================================================\r\n=========================================================== 1 failed, 73 passed, 2 skipped, 2217 deselected in 9.22 seconds ===========================================================\r\n```\r\n\r\n### Information on your system\r\n```\r\n uname -a\r\nLinux gartung.fnal.gov 3.10.0-957.10.1.el7.x86_64 #1 SMP Tue Mar 12 16:11:28 CDT 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n[gartung@gartung spack]$ cat /etc/*release\r\nNAME=\"Scientific Linux\"\r\nVERSION=\"7.7 (Nitrogen)\"\r\nID=\"scientific\"\r\nID_LIKE=\"rhel centos fedora\"\r\nVERSION_ID=\"7.7\"\r\nPRETTY_NAME=\"Scientific Linux 7.7 (Nitrogen)\"\r\nANSI_COLOR=\"0;31\"\r\nCPE_NAME=\"cpe:/o:scientificlinux:scientificlinux:7.7:GA\"\r\nHOME_URL=\"http://www.scientificlinux.org//\"\r\nBUG_REPORT_URL=\"mailto:scientific-linux-devel@listserv.fnal.gov\"\r\n\r\nREDHAT_BUGZILLA_PRODUCT=\"Scientific Linux 7\"\r\nREDHAT_BUGZILLA_PRODUCT_VERSION=7.7\r\nREDHAT_SUPPORT_PRODUCT=\"Scientific Linux\"\r\nREDHAT_SUPPORT_PRODUCT_VERSION=\"7.7\"\r\nScientific Linux release 7.7 (Nitrogen)\r\nScientific Linux release 7.7 (Nitrogen)\r\nScientific Linux release 7.7 (Nitrogen)\r\n```\r\n",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/14009",
+    "updated_at": "2019-12-06 04:57:05",
+    "created_at": "2019-12-06 03:25:56",
+    "closed_at": "2019-12-06 04:57:05",
+    "state": "closed",
+    "title": "spack test fails in test/stage.py ",
+    "number": 14009,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests"
+    ],
+    "id": 533723351,
+    "html_url": "https://github.com/spack/spack/issues/14009",
+    "assignees": [],
+    "comments": 2
+}

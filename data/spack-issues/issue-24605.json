@@ -1,0 +1,21 @@
+{
+    "body": "Disable perl's detection of system bzip2 and zlib and force it to\r\nbuild its own, internal copies.  Otherwise, modules on some systems\r\nconfuse perl's detection and break the build.\r\n\r\n----------\r\n\r\nNormally, perl builds its own, internal copies of bzip2 and zlib.\r\nHowever, it will try to use a system version of these libraries if\r\nsome environ variables are set.\r\n\r\nFor example, in cpan/Compress-Raw-Bzip2/Makefile.PL, perl searches for\r\nan external bzip2 with:\r\n\r\n```\r\nmy $BUILD_BZIP2 = defined($ENV{BUILD_BZIP2}) ? $ENV{BUILD_BZIP2} : 1;\r\nmy $BZIP2_LIB = defined($ENV{BZIP2_LIB}) ? $ENV{BZIP2_LIB} : 'bzip2-src';\r\nmy $BZIP2_INCLUDE = defined($ENV{BZIP2_INCLUDE}) ? $ENV{BZIP2_INCLUDE} : '.';\r\n```\r\n\r\nHowever, on some systems (eg, stria at Sandia Natl Labs), the bzip2\r\nmodule sets a bunch of environ variables that confuse perl's detection\r\nand end up breaking the build.  The module sets: INCLUDE, LIBRARY_PATH,\r\nBZIP2_DIR, BZIP2_BIN, BZIP2_INC, BZIP2_LIB, all pointing to the\r\nmodule's version.\r\n\r\nThe build fails with:\r\n\r\n```\r\n     1537    cc  -shared -O2 -L/home/mwkrent/hpc_home/perl/install/linux-rhel7-aarch64/gcc-7.2.0/gdbm-1.19-o6o4vyy\r\n             6u5zcl7x2wg4gbm5mzttnfifl/lib -fstack-protector-strong  Bzip2.o blocksort.o bzlib.o compress.o crctab\r\n             le.o decompress.o huffman.o randtable.o   -o ../../lib/auto/Compress/Raw/Bzip2/Bzip2.so  \\\r\n     1538          \\\r\n     1539    \r\n  >> 1540    gcc: error: blocksort.o: No such file or directory\r\n  >> 1541    gcc: error: bzlib.o: No such file or directory\r\n  >> 1542    gcc: error: compress.o: No such file or directory\r\n  >> 1543    gcc: error: crctable.o: No such file or directory\r\n  >> 1544    gcc: error: decompress.o: No such file or directory\r\n  >> 1545    gcc: error: huffman.o: No such file or directory\r\n  >> 1546    gcc: error: randtable.o: No such file or directory\r\n  >> 1547    make[1]: *** [../../lib/auto/Compress/Raw/Bzip2/Bzip2.so] Error 1\r\n```\r\n\r\nThe way it fails is that configure determines that there is a system\r\nbzip2 available, so it does NOT build its own, but then the Makefile\r\ndies because nothing was built.  So, there may be something broken in\r\nperl's build system because it seems like the left hand doesn't know\r\nwhat the right hand is doing.\r\n\r\nAnyway, the simple solution is to set the BUILD_BZIP2, BUILD_ZLIB, etc\r\nenviron vars to tell perl to always build its own copies.\r\n\r\nNote: bzip2 and zlib are not under active development, and perl\r\nalready has the latest versions.  So, there is no point in building\r\nthem with spack.  That would just add unnecessary dependencies.\r\n\r\n----------\r\n\r\nHere's how you can see the failure on any linux system.\r\n\r\nUse spack to build a module for bzip2.  Set or add to these environ\r\nvariables to point to the include or lib dirs for bzip2.\r\n\r\n```\r\nINCLUDE, LIBRARY_PATH, BZIP2_INC, BZIP2_LIB\r\n```\r\n\r\nThen, you should see the same failure as above.\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/24605",
+    "updated_at": "2021-07-07 03:57:17",
+    "created_at": "2021-06-29 23:24:05",
+    "closed_at": "2021-07-07 03:57:17",
+    "state": "closed",
+    "title": "perl: force perl to build its own versions of bzip2 and zlib",
+    "number": 24605,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 933175891,
+    "html_url": "https://github.com/spack/spack/pull/24605",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

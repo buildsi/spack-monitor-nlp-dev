@@ -1,0 +1,20 @@
+{
+    "body": "We need to extract a lot of information from Python's build system in order to support Python packages. This information is drastically different based on Python version, OS, architecture, and how Python was built (apt, yum, conda, spack, etc.). Python may have shared libraries, static libraries, framework libraries, or no libraries. To get this information, we query `distutils.sysconfig`. However, if we are cross-compiling Python, it may not run at all, and even if not, not all these keys are always set. \r\n\r\nThis PR adds default values to `config_vars` in case any or all of these keys are missing. This means that we can always assume these keys exist, although they may not always be correct. An alternative would be to continue to add try-except statements around all access points, but I think this is a better solution.\r\n\r\nFixes #28274 @benpm",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28290",
+    "updated_at": "2022-01-10 18:00:08",
+    "created_at": "2022-01-06 22:10:39",
+    "closed_at": "2022-01-10 18:00:07",
+    "state": "closed",
+    "title": "Python: set default config_vars",
+    "number": 28290,
+    "milestone": null,
+    "labels": [
+        "python",
+        "update-package"
+    ],
+    "id": 1095738270,
+    "html_url": "https://github.com/spack/spack/pull/28290",
+    "assignees": [],
+    "comments": 2
+}

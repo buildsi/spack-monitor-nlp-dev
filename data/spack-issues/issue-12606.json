@@ -1,0 +1,22 @@
+{
+    "body": "When you `spack -e <myenv> install one-package`, in some ways the environment \"forgets\" what else was installed in it.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\nspack -e myenv install\r\nspack -e myenv env loads -r    # Produces a loads file in the env directory with many entries\r\nspack -e myenv install xz\r\nspack -e myenv env loads -r    # Produces very short loads file\r\n```\r\n\r\nLater on, I made it \"remember\" with:\r\n```\r\nspack -e myenv install\r\n```\r\n(which installed nothing, but did go over everything again.  For some reason it re-concretized too, even though I did not ask it to).\r\n\r\nAfter that, I got `spack env loads` files with many extra/repeated entries.",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/12606",
+    "updated_at": "2022-03-10 16:07:52",
+    "created_at": "2019-08-27 19:50:22",
+    "closed_at": "2022-03-10 16:07:52",
+    "state": "closed",
+    "title": "Spack Environment Forgets what was in it",
+    "number": 12606,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "unreproducible"
+    ],
+    "id": 486001335,
+    "html_url": "https://github.com/spack/spack/issues/12606",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

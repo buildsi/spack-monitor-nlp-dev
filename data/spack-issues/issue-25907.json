@@ -1,0 +1,17 @@
+{
+    "body": "I have problem compiling kokkos.\r\n\r\n```\r\n==> kokkos: Executing phase: 'cmake'\r\n==> Error: KeyError: 'm1'\r\n\r\n/Users/praveen/Applications/spack/var/spack/repos/builtin/packages/kokkos/package.py:253, in cmake_args:\r\n        250                    kokkos_arch_name = self.spack_cuda_arch_map[cuda_arch]\r\n        251                    spack_microarches.append(kokkos_arch_name)\r\n        252\r\n  >>    253        kokkos_microarch_name = self.spack_micro_arch_map[spec.target.name]\r\n        254        if kokkos_microarch_name:\r\n        255            spack_microarches.append(kokkos_microarch_name)\r\n        256\r\n```\r\n\r\nThe problem seems simple.\r\n\r\nThe problem is `spec.target.name` is identified as `m1` which is not present in `spack_micro_arch_map`. If I change line 253 to\r\n\r\n```\r\n253        kokkos_microarch_name = self.spack_micro_arch_map[\"aarch64\"]\r\n```\r\n\r\nit compiles fine. @jciesko  @jjwilke @janciesko ",
+    "user": "cpraveen",
+    "url": "https://api.github.com/repos/spack/spack/issues/25907",
+    "updated_at": "2021-09-13 17:07:15",
+    "created_at": "2021-09-13 02:57:04",
+    "closed_at": "2021-09-13 17:07:15",
+    "state": "closed",
+    "title": "kokkos fails to install on apple m1",
+    "number": 25907,
+    "milestone": null,
+    "labels": [],
+    "id": 994392607,
+    "html_url": "https://github.com/spack/spack/issues/25907",
+    "assignees": [],
+    "comments": 0
+}

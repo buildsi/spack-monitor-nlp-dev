@@ -1,0 +1,21 @@
+{
+    "body": "closes #26361\r\n\r\nFor the past few releases, spack is [not populating CPATH anymore](https://github.com/spack/spack/commit/e3f97b37e64d4de70baf8e58fcd747b021d8f2f9). This means that cling is not picking up headers and we get warnings such as \r\n```\r\nError in cling::AutoLoadingVisitor::InsertIntoAutoLoadingState:\r\n   Missing FileEntry for DDRec/ISurface.h\r\n   requested to autoload type dd4hep::rec::ISurface\r\n```\r\n\r\nDownstream packages ([gaudi](https://github.com/spack/spack/blob/1aa7758dbb572aa0f92efe1e1f61b2df37aae2e5/var/spack/repos/builtin/packages/gaudi/package.py#L116)) have started to include changes to `ROOT_INCLUDE_DIR` in their `package.py` files. Instead of propagating this to all downstream packages, this PR tries to address the issue at the source.\r\n\r\nPossible negative consequences:\r\n- I could imagine that this introduces new symbol or include file name collisions in environments that include multiple ROOT-dependent packages that do not use proper include directories or guard symbols in namespaces (such as a generic `include/IO.h` in `genfit`). It's hard to guard for this, though...",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/26379",
+    "updated_at": "2021-10-20 07:15:15",
+    "created_at": "2021-09-30 15:10:51",
+    "closed_at": "2021-10-20 07:15:15",
+    "state": "closed",
+    "title": "[root] ROOT_INCLUDE_PATH: prepend dependent_spec.prefix.include",
+    "number": 26379,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1012301632,
+    "html_url": "https://github.com/spack/spack/pull/26379",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

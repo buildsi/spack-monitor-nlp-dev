@@ -1,0 +1,20 @@
+{
+    "body": "@alalazo \r\n\r\nA number of packages have restrictions beyond what the concretizer can check for in the specs.  Currently, those restrictions generally go in `install()`, and do not get run until the user tries to install a package.  For example, #3119 \r\n\r\nThis proposal is to create a new phase in all package superclasses (including `Package`) call `spec`.  This phase will be run either:\r\n\r\n1. After concretization in `spack spec`, `spack install`, etc --- allowing the user to know that this combination won't compile, *berfore* install is attempted.\r\n\r\n2. During concretization, allowing the concretizer the possibility to pick something else that *will* work.\r\n\r\nI understand that (2) would be a bit harder.  But (1) should be simple, and yield immediate benefit over what we have now.  (For example... if I say `spack install myproject`, Spack could spend a lot of time installing prerequisites before it comes back to me and tells me my spec won't install.  This proposal would solve that issue).\r\n\r\nThoughts?\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3123",
+    "updated_at": "2017-02-10 18:50:58",
+    "created_at": "2017-02-10 17:36:47",
+    "closed_at": "2017-02-10 18:36:19",
+    "state": "closed",
+    "title": "Spec Build Phase",
+    "number": 3123,
+    "milestone": null,
+    "labels": [
+        "duplicate",
+        "proposal"
+    ],
+    "id": 206858717,
+    "html_url": "https://github.com/spack/spack/issues/3123",
+    "assignees": [],
+    "comments": 8
+}

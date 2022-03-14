@@ -1,0 +1,19 @@
+{
+    "body": "Hi ROOT recipe maintainers,\r\n@chissg  @HadrienG2 @drbenmorgan \r\nAs far as I can tell, turning off the `rpath` variant actually has no effect (due to spack setting the relevant compiler options?). Here is the log of me looking at the `readelf` output of a root binary from spack `+rpath`, from spack `~rpath` and from the lcg releases: https://gist.github.com/vvolkl/e95b58bbfb0d0dc9b54ef31dc4013df5 -- the RPATH entry is the same for both spack installations, but missing in the external installation.\r\n\r\n This is not a problem in itself, but it makes it tricky to use an external installation of root in `packages.yaml` - dependent packages that try to generate dictionaries will typically fail with linker errors. I tried to work around it in the PODIO recipe: https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/podio/package.py#L47 (at the time not really knowing what was the exact issue) but I think it would be better if the ROOT recipe handled this correctly.\r\n\r\nMy proposal in this PR is to use the `~rpath` variant to set up the environment for possible external installations that really do not have a working rpath set up -- so I can add \r\n\r\n```\r\n  root:\r\n    buildable: false\r\n    paths:\r\n      root ~rpath: /cvmfs/sft.cern.ch/lcg/releases/LCG_97_FCC_2/ROOT/v6.20.04/x86_64-centos7-gcc8-opt\r\n```\r\nin a `packages.yaml`.\r\n",
+    "user": "vvolkl",
+    "url": "https://api.github.com/repos/spack/spack/issues/16899",
+    "updated_at": "2020-06-16 07:03:59",
+    "created_at": "2020-06-01 21:11:42",
+    "closed_at": "2020-06-16 06:31:41",
+    "state": "closed",
+    "title": "Set ROOT environment correctly when ~rpath",
+    "number": 16899,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 628728980,
+    "html_url": "https://github.com/spack/spack/pull/16899",
+    "assignees": [],
+    "comments": 0
+}

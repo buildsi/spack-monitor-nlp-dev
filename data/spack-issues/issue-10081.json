@@ -1,0 +1,20 @@
+{
+    "body": "The sys_ustat.h.patch to file sanitizer_platform_limits_posix.cc from\r\nPR #10046 does not apply cleanly to gcc 4.8 or 4.9 (or earlier).\r\n\r\nGCC up to 4.8.x either don't have libsanitizer or else don't include\r\nustat.h in sanitizer_platform_limits_posix.cc.\r\n\r\nGCC 4.9.x includes ustat.h, but needs a slightly different patch.\r\n\r\nThe patch applies to GCC 5.x up to 6.4, and 7.x up to 7.3 and also\r\n8.1.0.\r\n\r\nThe patch is already included in the tar files for gcc 6.5.0, 7.4.0\r\nand 8.2.0.\r\n\r\n----------\r\n\r\nIt's quite the matrix for what versions of gcc will compile other\r\nversions of gcc.  For example, I was able to use 4.4.7 to compile\r\n4.8.5, but using 7.3.1 to compile the same 4.8.5 falls over.  Blech.\r\nBut that's a problem for another day.",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/10081",
+    "updated_at": "2018-12-12 04:54:13",
+    "created_at": "2018-12-11 23:08:53",
+    "closed_at": "2018-12-12 04:54:13",
+    "state": "closed",
+    "title": "gcc: fix sys_ustat.h patch for gcc 4.8 and 4.9",
+    "number": 10081,
+    "milestone": null,
+    "labels": [
+        "gcc",
+        "patch"
+    ],
+    "id": 389993975,
+    "html_url": "https://github.com/spack/spack/pull/10081",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,17 @@
+{
+    "body": "\u2026 to build.\r\n\r\nbazel uses gcc's -MF option to write dependencies to a\r\nfile. Post-compilation, bazel reads this file and makes some\r\ndeterminations.\r\n\r\n\"Since gcc is given only relative paths on the command line,\r\n non-system include paths here should never be absolute. If they\r\n are, it's probably due to a non-hermetic #include, & we should stop\r\n the build with an error.\"\r\n\r\nSpack directly injects absolute paths, which appear in this file and\r\ncause bazel to fail the build despite the fact that compilation\r\nsucceeded.\r\n\r\nThis patch disables this failure mode by default, and allows for it\r\nto be turned back on by using the '~nodepfail' variant.",
+    "user": "aweits",
+    "url": "https://api.github.com/repos/spack/spack/issues/17013",
+    "updated_at": "2021-02-12 13:21:58",
+    "created_at": "2020-06-08 18:53:48",
+    "closed_at": "2020-06-12 20:25:35",
+    "state": "closed",
+    "title": "bazel: patch to allow py-tensorflow (and likely other bazel packages)\u2026",
+    "number": 17013,
+    "milestone": null,
+    "labels": [],
+    "id": 634855661,
+    "html_url": "https://github.com/spack/spack/pull/17013",
+    "assignees": [],
+    "comments": 5
+}

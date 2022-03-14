@@ -1,0 +1,20 @@
+{
+    "body": "See #1975, #1979, and #1983 for the long, bloody history of this conflict.\r\n\r\nI took a look through all of the non-numeric versions currently in Spack. Here are the most common names:\r\n```\r\n 180 develop\r\n  63 master\r\n   8 xsdk-0.2.0\r\n   3 head\r\n   2 xsdk-0.3.0\r\n   2 git (secretly the master branch)\r\n```\r\nThere's a problem here. Aside from the 180 `develop` versions, all of these other versions are being sorted incorrectly. Currently, all non-numeric versions (aside from `develop` which gets special treatment) are considered to be older than all numeric versions. But does this actually make sense? Why would someone add a version control branch to Spack if it wasn't being kept up-to-date? \r\n\r\nI'm sick of telling people to rename the version to `develop` even though it's the `master` branch. What if someone wants to add both `develop` and `master`? Do we tell them to expect concretization bugs with `master` and that there's nothing we can do about it?\r\n\r\nIn #8262, @bvanessen mentioned that he frequently uses `@local` during development with `spack setup`. Other people use `@system` for external packages. Currently, these versions are being sorted incorrectly.\r\n\r\nI have two proposals that could be used to solve this dilemma:\r\n\r\n## 1. Sort all non-numeric versions higher than numeric versions\r\n\r\nI propose that we sort non-numeric versions higher than numeric versions. We would still install the newest numeric version by default, so there would be no change on the user-side. The only difference is that something like `depends_on('foo@1.2:')` would consider `master` or `head` to be newer than version 1.2.\r\n\r\nThis proposal doesn't suffer from the problems mentioned in the aforementioned PRs, where there were complaints about having too much special logic.\r\n\r\n## 2. Add special cases for `master` and friends\r\n\r\nI first proposed this [here](https://github.com/spack/spack/issues/1975#issuecomment-252652273), but we could have other aliases to `develop` that form a hierarchy like so:\r\n\r\n| Tier | Version |\r\n| --- | --- |\r\n| Tier 1 | develop/dev/latest |\r\n| Tier 2 | master/head/trunk |\r\n| Tier 3 | numeric versions |\r\n| Tier 4 | non-numeric versions not listed above |\r\n\r\nThis proposal has the added benefit that Spack would understand that `develop` is newer than `master`. It would also keep us safe from weird unexpected versions that aren't actually new, but from what I've seen these are rare enough to ignore. We could add additional aliases as we encounter them.\r\n\r\n_Precedes to reopen can of worms_\r\n\r\n@davydden @tgamblin ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8421",
+    "updated_at": "2020-08-21 18:25:52",
+    "created_at": "2018-06-07 14:35:00",
+    "closed_at": "2020-08-21 18:25:15",
+    "state": "closed",
+    "title": "Sort non-numeric versions higher than numeric versions",
+    "number": 8421,
+    "milestone": null,
+    "labels": [
+        "discussion",
+        "versions"
+    ],
+    "id": 330301114,
+    "html_url": "https://github.com/spack/spack/issues/8421",
+    "assignees": [],
+    "comments": 13
+}

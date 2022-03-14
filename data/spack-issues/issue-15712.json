@@ -1,0 +1,20 @@
+{
+    "body": "@psychocoderHPC This commit https://github.com/spack/spack/commit/9c10b80591fec2cf391c97f8f53040c3429dbdec#diff-25617eab209908525fc69e80febde144\r\n\r\nbroke support for the Intel 19.0 compiler.\r\n\r\nCUDA 10.2.89 does in fact work with the Intel 19.0 compiler.\r\nhttps://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html\r\n\r\nIntel 19.0 compiler support started with CUDA 10.1.x\r\nhttps://docs.nvidia.com/cuda/archive/10.1/cuda-installation-guide-linux/index.html \r\n\r\nThe conflicts statement are inclusive with the arguments which at times makes it difficult to express the CUDA conflicts. But basically this line:\r\nhttps://github.com/spack/spack/blob/develop/lib/spack/spack/build_systems/cuda.py#L143\r\n\r\nsay Intel Compiler 19.0 does not work with the CUDA 10.2.89.\r\n\r\nOne easy fix is to change the line to:\r\n```\r\nconflicts('%intel@19.0:', when='+cuda ^cuda@:10.0.130')\r\n```\r\n\r\nor even less verbose:\r\n```\r\nconflicts('%intel@19.0:', when='+cuda ^cuda@:10.0')\r\n```\r\nhttps://docs.nvidia.com/cuda/archive/10.0/cuda-installation-guide-linux/index.html",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/15712",
+    "updated_at": "2020-03-30 21:57:20",
+    "created_at": "2020-03-27 14:42:28",
+    "closed_at": "2020-03-30 21:24:05",
+    "state": "closed",
+    "title": "cuda@10.2.89 conflicts for Intel 19.0 are incorrect",
+    "number": 15712,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cuda"
+    ],
+    "id": 589182011,
+    "html_url": "https://github.com/spack/spack/issues/15712",
+    "assignees": [],
+    "comments": 8
+}

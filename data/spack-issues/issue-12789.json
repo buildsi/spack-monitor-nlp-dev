@@ -1,0 +1,20 @@
+{
+    "body": "@becker33 @tgamblin @adamjstewart\r\n\r\nFixes https://github.com/spack/spack/issues/12709\r\n\r\nhttps://github.com/spack/spack/pull/7153 (merged August 24) started including more implicit RPATHs, specifically those associated with the compiler used to build a package; this also brought in unwanted RPATHs so this PR aims to filter them out. This includes the following changes:\r\n\r\n* Spack now starts with the set of link directories reported by the compiler, and selects only the subset of directories which contain libraries that are expected to be important for running programs built with that compiler.\r\n* Compilers can now implement a function `rpaths_to_include_for_compiler` which identifies the paths that need to be included. The utility function `paths_containing_libs` is provided to select a subset of paths which contain specified libraries (so Compiler classes can identify libraries that are specific to them).\r\n* UPDATE `implicit_rpaths` is now a per-compiler boolean configuration variable that can be set to `False` to disable all compiler library RPATHing (if it is causing trouble, which `spack build-env` can help detect). Any prior setting of `implicit_rpaths` in `compilers.yaml` will be removed. ~`implicit_rpaths` is no longer a config entry in `compilers.yaml`: this entry is ignored if set, and it will be removed whenever Spack updates `compilers.yaml`. Implicit RPATHs are now determined dynamically at build time.~\r\n\r\nTODOs:\r\n\r\n- [x] (new: 9/11) allow user to disable insertion of compiler lib dirs as RPATHs by setting `implicit_rpaths: False` in `compilers.yaml`\r\n- [x] update link_paths tests (which currently only supply paths: they'll need to actually create files that Spack now looks for)\r\n- [x] Look for important compiler libraries for Cray/cce (currently Arm, Clang, Gcc, Intel, and PGI are handled)\r\n- [ ] (I propose doing this in a later PR) when searching for link directories, the compiler should be invoked with the same flags that are used at build time (this apparently is an issue for Intel in particular)\r\n- [ ] (I propose doing this in a later PR) which paths qualify as system paths depends on the system. Right now the calculation is Linux-specific. ",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/12789",
+    "updated_at": "2019-09-17 22:45:22",
+    "created_at": "2019-09-11 00:47:38",
+    "closed_at": "2019-09-17 22:45:22",
+    "state": "closed",
+    "title": "implicit rpaths filtering",
+    "number": 12789,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "rpath"
+    ],
+    "id": 491961276,
+    "html_url": "https://github.com/spack/spack/pull/12789",
+    "assignees": [],
+    "comments": 10
+}

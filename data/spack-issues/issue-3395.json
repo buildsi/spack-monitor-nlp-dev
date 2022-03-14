@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #2807.\r\n\r\nI am cleaning up the concretizer, and part of that is cleaning up `package_prefs` and the use of `cmp`/`__cmp__` on `Specs`.  It turns out this is also something we need for Python 3.\r\n\r\nSo I went ahead and did all the easy stuff to get spack to work in Python 3.  I'm still working on the refactoring parts.  \r\n\r\nCurrently, Spack will run if invoked with `python3`, but it'll fail when it hits the first `sorted(..., cmp=...)` call.  I think there should be relatively few major issues getting Python3 to work after that is resolved, and we'll have easier code to port for the new concretizer.\r\n\r\n- [x] remove version guard in `bin/spack`\r\n- [x] update YAML version in externals\r\n- [x] port `ordereddict_backport`\r\n- [x] vendor [`six`](https://pypi.python.org/pypi/six) to aid with porting\r\n- [x] Fix StringIO, print, except as, octals, izip calls, xrange, etc.\r\n- [x] use `six.string_types` instead of `basestring`\r\n- [x] use `six.iteritems`\r\n- [x] Remove assumptions about `ascii` in the code base\r\n- [x] Fix packages that have moved (`urllib`, etc.)\r\n- [x] Fix UTF-8 issues with `proc.communicate` in `Executable`\r\n- [x] Remove use of `cmp` in the code\r\n- [x] Try to use `str` nearly everywhere in the spack code; avoid `unicode` objects in 2.x, but handle utf-8 gracefully in Python 3.\r\n- [x] Refactor and simplify handling of deptypes in the concretizer\r\n- [x] Fix #2807: ordering issues with merging providers & vdeps in concretization.\r\n- [x] Fix minimum version checking (add `pyqver3`)\r\n- [x] Clean up a number of spec tests to NOT depend on DB ordering\r\n- [x] Add Python3 to Travis testing\r\n\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/3395",
+    "updated_at": "2017-11-28 08:34:26",
+    "created_at": "2017-03-09 19:08:18",
+    "closed_at": "2017-03-31 20:40:42",
+    "state": "closed",
+    "title": "Python3 support",
+    "number": 3395,
+    "milestone": null,
+    "labels": [
+        "python",
+        "concretization"
+    ],
+    "id": 213134552,
+    "html_url": "https://github.com/spack/spack/pull/3395",
+    "assignees": [],
+    "comments": 3
+}

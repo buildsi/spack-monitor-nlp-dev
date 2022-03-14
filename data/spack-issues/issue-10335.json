@@ -1,0 +1,22 @@
+{
+    "body": "Makes every Python dependency optional. Also adds post-installation import tests.\r\n\r\n### Rationale\r\n\r\nThere are 2 kinds of Spack + Python users. \r\n\r\nThe first kind actually uses the Spack-installed Python library as their main Python program. They install additional modules and write/run complex Python programs (like Spack). This type of user probably wants a fairly full-featured Python installation.\r\n\r\nThe second kind simply uses Python as a build dependency for some of their C/C++/Fortran libraries. They don't necessarily need a full-featured Python installation, and may choose to disable some of the many dependencies to decrease the size of their DAG. With this PR, they now have the option of disabling all optional Python dependencies.\r\n\r\nWe should think about which of these libraries we want to be on by default. Currently, all of the `default=True` modules successfully build on macOS, while all of the `default=False` modules are the ones I couldn't get working.\r\n\r\n### Testing\r\n\r\n#### Local laptop running macOS 10.14.2 Mojave built with Clang 10.0.0\r\n\r\n- [x] `python@2.7.15` with all optional modules disabled\r\n- [x] `python@3.7.2` with all optional modules disabled\r\n- [x] `python@2.7.15` with only `nis`, `tkinter`, and `uuid` disabled\r\n- [x] `python@3.7.2` with only `nis`, `tkinter`, and `uuid` disabled\r\n\r\n#### Remote server running CentOS 7 built with GCC 7.1.0 (without `ssh -Y`)\r\n\r\n- [x] `python@2.7.15` with all optional modules disabled\r\n- [x] `python@3.7.2` with all optional modules disabled\r\n- [x] `python@2.7.15` with all optional modules enabled\r\n- [x] `python@3.7.2` with all optional modules enabled\r\n\r\n#### Remote server running Cray CNL5 (Blue Waters) built with GCC 7.3.0 (with `ssh -Y`)\r\n\r\n- [x] `python@2.7.15` with all optional modules disabled\r\n- [x] `python@3.7.2` with all optional modules disabled\r\n- [x] `python@2.7.15` with all optional modules enabled\r\n- [x] `python@3.7.2` with all optional modules enabled\r\n\r\nInspired by #10325, #10330 (@citibeth) and #10336 (@paul-hammant)\r\n\r\nFixes #3269",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/10335",
+    "updated_at": "2019-02-23 18:36:30",
+    "created_at": "2019-01-13 00:18:25",
+    "closed_at": "2019-02-23 18:36:26",
+    "state": "closed",
+    "title": "Python: optional dependencies and post-installation tests",
+    "number": 10335,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "python",
+        "dependencies",
+        "tests"
+    ],
+    "id": 398605465,
+    "html_url": "https://github.com/spack/spack/pull/10335",
+    "assignees": [],
+    "comments": 8
+}

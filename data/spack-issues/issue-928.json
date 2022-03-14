@@ -1,0 +1,17 @@
+{
+    "body": "This command\n\n```\nspack install -j1 -v cactusext +funhpc +simulationio %gcc@6.1.0-spack\n```\n\nleads to this error from Spack:\n\n```\n==> Error: Multiple providers found for 'mpi': ['openmpi%gcc@6.1.0-spack~pmi+verbs', 'openmpi@1.10.2%gcc@6.1.0-spack~pmi~psm~tm+verbs=linux-x86_64^hwloc@1.11.3%gcc@6.1.0-spack=linux-x86_64^libpciaccess@0.13.4%gcc@6.1.0-spack=linux-x86_64^libsigsegv@2.10%gcc@6.1.0-spack=linux-x86_64^libtool@2.4.6%gcc@6.1.0-spack=linux-x86_64^m4@1.4.17%gcc@6.1.0-spack+sigsegv=linux-x86_64']\n```\n\nAfter adding some line breaks, this becomes\n\n```\nopenmpi%gcc@6.1.0-spack~pmi+verbs\n\nopenmpi@1.10.2%gcc@6.1.0-spack~pmi~psm~tm+verbs=linux-x86_64\n    ^hwloc@1.11.3%gcc@6.1.0-spack=linux-x86_64\n    ^libpciaccess@0.13.4%gcc@6.1.0-spack=linux-x86_64\n    ^libsigsegv@2.10%gcc@6.1.0-spack=linux-x86_64\n    ^libtool@2.4.6%gcc@6.1.0-spack=linux-x86_64\n    ^m4@1.4.17%gcc@6.1.0-spack+sigsegv=linux-x86_64\n```\n\nI see that the first (essentially `openmpi +verbs`) is what I specify, and the second is what one obtains naturally after adding all dependencies, versions, and architectures. I don't see where the conflict comes from.\n\nHow do I debug this? I realize this involves some packages of mine that are only available in my branch of Spack (see https://github.com/eschnett/spack/tree/eschnett/cactusext). Is there a particular routine to look at, or some debug output that would trace Spack's dependency resolution mechanism?\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/928",
+    "updated_at": "2016-05-17 19:50:18",
+    "created_at": "2016-05-10 15:40:14",
+    "closed_at": "2016-05-17 19:50:18",
+    "state": "closed",
+    "title": "Weird dependency resolution error",
+    "number": 928,
+    "milestone": null,
+    "labels": [],
+    "id": 154038923,
+    "html_url": "https://github.com/spack/spack/issues/928",
+    "assignees": [],
+    "comments": 31
+}

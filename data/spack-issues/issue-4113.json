@@ -1,0 +1,20 @@
+{
+    "body": "@alalazo I'm trying to add a mulit-valued variant to a package:\r\n```python\r\nvariant('ssl', default='openssl', values=('gnutls', 'openssl'),             \r\n        description='Specify SSL backend')\r\n```\r\nand dependencies:\r\n```python\r\ndepends_on('gnutls',  when='ssl=gnutls')                                    \r\ndepends_on('openssl', when='ssl=openssl')\r\n```\r\nbut when I run `spack spec`:\r\n```\r\n$ spack spec wget\r\nInput spec\r\n--------------------------------\r\nwget\r\n\r\nNormalized\r\n--------------------------------\r\nwget\r\n    ^perl@5.12.0:\r\n        ^gdbm\r\n    ^pkg-config@0.9.0:\r\n\r\nConcretized\r\n--------------------------------\r\nwget@1.19.1%gcc@6.2.1~libpsl~pcre ssl=openssl +zlib arch=linux-fedora25-x86_64 \r\n    ^perl@5.24.1%gcc@6.2.1+cpanm arch=linux-fedora25-x86_64 \r\n        ^gdbm@1.13%gcc@6.2.1 arch=linux-fedora25-x86_64 \r\n    ^pkg-config@0.29.2%gcc@6.2.1+internal_glib arch=linux-fedora25-x86_64 \r\n    ^zlib@1.2.11%gcc@6.2.1+pic+shared arch=linux-fedora25-x86_64 \r\n```\r\nit doesn't depend on `openssl`. Do I have the `when` syntax wrong?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4113",
+    "updated_at": "2017-05-04 18:01:03",
+    "created_at": "2017-05-03 17:25:36",
+    "closed_at": "2017-05-04 18:01:03",
+    "state": "closed",
+    "title": "Mutli-valued variants and dependencies",
+    "number": 4113,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "variants"
+    ],
+    "id": 226058052,
+    "html_url": "https://github.com/spack/spack/issues/4113",
+    "assignees": [],
+    "comments": 2
+}

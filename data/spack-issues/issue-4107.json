@@ -1,0 +1,22 @@
+{
+    "body": "on a fresh spack ae9a9e019a73cb951d4d2a2585ac71a53f351c81 I suddenly see the following issue:\r\n```\r\n$ spack install dealii@develop%gcc@5.4.0 ^openblas\r\n==> Error: Multiple providers found for 'blas': ['intel-parallel-studio@professional.2017.2%gcc@5.4.0~all+daal~ilp64+ipp+mkl+mpi~newdtags~openmp+rpath+shared+tools arch=linux-ubuntu16-x86_64', 'openblas@0.2.19%gcc@5.4.0~openmp+pic+shared arch=linux-ubuntu16-x86_64']\r\n```\r\nYes, there are multiple providers for `blas`, but I don't understand why is it a problem now... Note that the problem is there even though there is `^openblas`.\r\n\r\np.s. this is without any `packages.yaml` file, only `compilers.yaml`\r\n\r\n---\r\n\r\n**TLDR**: currently a workaround is to specify both `mpi` and `lapack` providers, that is do\r\n```\r\nspack install dealii@develop%gcc@5.4.0+mpi ^openmpi ^openblas\r\n```\r\n---\r\nMWE of the problem to be added to the unit tests is https://github.com/LLNL/spack/issues/4107#issuecomment-298889480\r\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/4107",
+    "updated_at": "2022-03-02 14:56:30",
+    "created_at": "2017-05-03 09:53:23",
+    "closed_at": "2022-03-02 14:56:30",
+    "state": "closed",
+    "title": "Multiple providers found for blas",
+    "number": 4107,
+    "milestone": "v0.11.0",
+    "labels": [
+        "bug",
+        "concretization"
+    ],
+    "id": 225934172,
+    "html_url": "https://github.com/spack/spack/issues/4107",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 39
+}

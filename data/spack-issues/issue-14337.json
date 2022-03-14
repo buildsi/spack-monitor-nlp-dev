@@ -1,0 +1,20 @@
+{
+    "body": "I am not sure if there is a way to make variants optional or conditional but that would be nice to have for the CudaPackage class. That class provides conflicts management for cuda and compilers, which makes it very useful to include. However, it also includes two variants, `cuda` and `cuda_arch` that are not necessarily needed for all cuda enabled packages. For instance, a package that requires CUDA can use CudaPackage to take advantage of the compiler conflicts statements. However, if the package requires CUDA then the `cuda` variant does not make sense. That leads to needing another conflict statement in the package itself. See the `gpu-burn` package for an example.\r\n```\r\nclass GpuBurn(MakefilePackage, CudaPackage):\r\n...\r\n    # This package uses CudaPackage to pick up the cuda_arch variant. A side\r\n    # effect is that it also picks up the cuda variant, but cuda is required\r\n    # for gpu-burn so is not really a variant.\r\n    variant('cuda', 'True', description='Use CUDA; must be true')\r\n\r\n    conflicts('~cuda', msg='gpu-burn requires cuda')\r\n...\r\n```\r\nIn the above case, the compiler conflicts statements and the `cpu_arch` variant are needed but not the `cuda` variant. ",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14337",
+    "updated_at": "2021-11-22 12:54:20",
+    "created_at": "2019-12-31 21:30:40",
+    "closed_at": "2021-11-22 12:54:20",
+    "state": "closed",
+    "title": "make variants in CudaPackage optional",
+    "number": 14337,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "cuda"
+    ],
+    "id": 544274265,
+    "html_url": "https://github.com/spack/spack/issues/14337",
+    "assignees": [],
+    "comments": 1
+}

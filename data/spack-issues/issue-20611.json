@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\nAny of the above result in the same error:\r\n```console\r\n$ spack spec -I libyogrt\r\n$ spack spec -I scr # SCR depends on libyogrt\r\n$ spack spec -I axom # axom depends on SCR\r\n$ spack spec -I macsio # macsio depends on SCR\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\nConcretized\r\n--------------------------------\r\n==> Error: invalid values for variant \"scheduler\" in package \"libyogrt\": ['lsf']\r\n```\r\n\r\nI imagine this is because https://github.com/spack/spack/blob/c22141f444861abeaee297a3d92696e9ae94a509/var/spack/repos/builtin/packages/libyogrt/package.py#L39\r\n\r\nreferences an invalid value of the 'scheduler` variant:\r\nhttps://github.com/spack/spack/blob/c22141f444861abeaee297a3d92696e9ae94a509/var/spack/repos/builtin/packages/libyogrt/package.py#L36\r\n\r\nAdding `lsf` to the possible values for `scheduler` fixes the issue, but I am not sure that this fix is correct.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-power9le\r\n* **Concretizer:** clingo\r\n\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "joshessman-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/20611",
+    "updated_at": "2021-01-12 23:11:51",
+    "created_at": "2020-12-29 21:19:33",
+    "closed_at": "2021-01-12 23:11:51",
+    "state": "closed",
+    "title": "Unable to concretize with Clingo when libyogrt is part of dependency tree",
+    "number": 20611,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low"
+    ],
+    "id": 776091989,
+    "html_url": "https://github.com/spack/spack/issues/20611",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

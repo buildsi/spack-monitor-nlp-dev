@@ -1,0 +1,19 @@
+{
+    "body": "The standalone libuuid package only has an old 1.0.3 version. It looks like libuuid is now provided by util-linux (https://github.com/karelzak/util-linux). There is at least one package (psm) that should change its dependency from libuuid to util-linux to fix. Others currently depend on libuuid too:\r\n\r\nbash-4.2$ grep libuuid -nr var/spack/repos/builtin/packages/*/package.py | grep depends_on\r\nvar/spack/repos/builtin/packages/cdo/package.py:68:    depends_on('libuuid')\r\nvar/spack/repos/builtin/packages/czmq/package.py:22:    depends_on(\"libuuid\")\r\nvar/spack/repos/builtin/packages/davix/package.py:22:    depends_on('libuuid')\r\nvar/spack/repos/builtin/packages/dia/package.py:24:    depends_on('libuuid')\r\nvar/spack/repos/builtin/packages/flux-sched/package.py:33:    depends_on(\"libuuid\")\r\nvar/spack/repos/builtin/packages/gaudi/package.py:30:    depends_on('libuuid')\r\nvar/spack/repos/builtin/packages/psm/package.py:21:    depends_on('libuuid')\r\nvar/spack/repos/builtin/packages/python/package.py:119:    depends_on('libuuid', when='+uuid')\r\nvar/spack/repos/builtin/packages/task/package.py:19:    depends_on('libuuid')\r\nvar/spack/repos/builtin/packages/taskd/package.py:17:    depends_on('libuuid')\r\nvar/spack/repos/builtin/packages/xeus/package.py:32:    depends_on('libuuid')\r\n\r\nAny suggestions on the best path forward for updating libuuid/util-linux? Should be make util-linux a provider of libuuid?\r\n\r\nNote that I created #10811 to fix the build of util-linux itself.",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/10812",
+    "updated_at": "2020-12-29 16:12:27",
+    "created_at": "2019-03-05 22:28:18",
+    "closed_at": "2020-12-29 16:12:27",
+    "state": "closed",
+    "title": "util-linux provides libuuid",
+    "number": 10812,
+    "milestone": null,
+    "labels": [
+        "virtual-dependencies"
+    ],
+    "id": 417531385,
+    "html_url": "https://github.com/spack/spack/issues/10812",
+    "assignees": [],
+    "comments": 5
+}

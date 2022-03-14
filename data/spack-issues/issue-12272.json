@@ -1,0 +1,17 @@
+{
+    "body": "Resolves #11932.\r\n\r\nMove the PIC flags from CFLAGS on the configure line to the spack\r\ncompiler wrapper for ncurses.  The problem with the configure line for\r\nautotools is that specifying CFLAGS sets the entire flags, thus\r\ndeleting the flags that configure would add itself.\r\n\r\nBy default, if CFLAGS is unspecified, then configure picks a sensible\r\ndefault of `-g -O2`.  But adding `-fPIC` erases these and it ends up\r\nbuilding unoptimized.\r\n\r\n----------\r\n\r\nThis patch is a simple and safe way of fixing the problem of building\r\nncurses unoptimized.  But this brings up two larger issues that affect\r\nautotools in general.\r\n\r\n(1) Autotools was designed to pass compiler flags via CFLAGS and\r\nCXXFLAGS on the configure line.  You can either set these yourself, or\r\nelse leave them unspecified and then configure selects sensible\r\ndefaults, normally `-g -O2`.\r\n\r\nThe problem is that if you specify **any** flag, then configure uses\r\nthose as the entire flags.  This erases the `-O2` flag and builds the\r\npackage unoptimized, unless you add it yourself.  You have to do\r\nthings like setting `CFLAGS='-fPIC -g -O2'` to keep `-O2`.\r\n\r\nCmake has an easier time of this because every cmake package has a\r\n`build_type` variant which is orthogonal to the opt flags.\r\n\r\n(2) The `--with-shared` and `--with-cxx-shared` options tell configure\r\nto build shared libraries and libtool already adds the PIC flag.\r\n(Run `spack -d install` and you see that `-fPIC` is added twice.)\r\n\r\nSo, adding `-fPIC` should not be necessary at all, and certainly\r\nthat's true for the latest ncurses and GNU.  But there are reports\r\n#3135 that libtool has trouble with the PGI compiler, at least for\r\nolder libtool.\r\n\r\nI suspect that whatever problems there were have long since been\r\nfixed.  Either that or libtool is fundamentally broken for PGI, which\r\nI find hard to believe.\r\n\r\nThis deserves further study, but we'll keep the `-fPIC` for now.  The\r\nlast thing I want to do is break someone else's use case.",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/12272",
+    "updated_at": "2019-08-07 03:21:26",
+    "created_at": "2019-08-04 18:26:04",
+    "closed_at": "2019-08-07 03:21:26",
+    "state": "closed",
+    "title": "ncurses: fix pic and opt flags",
+    "number": 12272,
+    "milestone": null,
+    "labels": [],
+    "id": 476580430,
+    "html_url": "https://github.com/spack/spack/pull/12272",
+    "assignees": [],
+    "comments": 0
+}

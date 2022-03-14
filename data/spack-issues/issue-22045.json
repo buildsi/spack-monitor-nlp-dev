@@ -1,0 +1,17 @@
+{
+    "body": "Solves an issue where `spack env create [name] [path]` followed by `spack -e [name] install` fails when there are relative paths in `develop:spec:path`.\n\nThe problem is caused by spack relocating the spack.yaml file to `<spack>/var/environments/<name>/spack.yaml`.\n\nThis PR expands the relative paths to their normalized absolute path after reading the spack.yaml file.\n\nAlso fixes an issue for anonymous environments where relative paths ended up properly expanded in the `dev_path` variant of specs, but they were not normalized, leading to variants like `myspec dev_path=/path/to/env/dir/../sources`.\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22045",
+    "updated_at": "2021-03-15 21:13:07",
+    "created_at": "2021-03-02 16:11:09",
+    "closed_at": "2021-03-15 20:38:36",
+    "state": "closed",
+    "title": "Expand relative dev paths in environment files",
+    "number": 22045,
+    "milestone": null,
+    "labels": [],
+    "id": 820163902,
+    "html_url": "https://github.com/spack/spack/pull/22045",
+    "assignees": [],
+    "comments": 4
+}

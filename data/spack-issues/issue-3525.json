@@ -1,0 +1,20 @@
+{
+    "body": "I failed to bootstrap `pkg-config` with `pgi@16.10`.  The error says \"PGC-F-0249-#error --  Your platform/compiler is missing constructor support (glib-init.c: 284)\". Shall I submit a bug report to `pkg-config`?\r\n\r\n\r\n```\r\n$ spack purge; spack clean pkg-config; spack install pkg-config %pgi@16.10\r\n==> Installing pkg-config\r\n==> Using cached archive: /tmp/rpm/spack_source_cache/pkg-config/pkg-config-0.29.1.tar.gz\r\n==> Already staged pkg-config-0.29.1-acbcjyz6mwiu7fnleuuatbxolunoszhl in /home/rpm/spack/var/spack/stage/pkg-config-0.29.1-acbcjyz6mwiu7fnleuuatbxolunoszhl\r\n==> Already patched pkg-config\r\n==> Building pkg-config [Package]\r\n==> Executing phase : 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make'\r\n/home/rpm/spack/var/spack/repos/builtin/packages/pkg-config/package.py:63, in install:\r\n     53       def install(self, spec, prefix):\r\n     54           args = [\"--prefix={0}\".format(prefix),\r\n     55                   \"--enable-shared\"]\r\n     56           if \"+internal_glib\" in spec:\r\n     57               # There's a bootstrapping problem here;\r\n     58               # glib uses pkg-config as well, so break\r\n     59               # the cycle by using the internal glib.\r\n     60               args.append(\"--with-internal-glib\")\r\n     61           configure(*args)\r\n     62\r\n  >> 63           make()\r\n     64           make(\"install\")\r\n\r\nSee build log for details:\r\n  /tmp/rpm/spack_stage/spack-stage/spack-stage-w24BST/pkg-config-0.29.1/spack-build.out\r\n```",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/3525",
+    "updated_at": "2020-08-25 09:33:37",
+    "created_at": "2017-03-23 14:07:00",
+    "closed_at": "2020-08-25 09:33:37",
+    "state": "closed",
+    "title": "Failed to bootstrap pkg-config with pgi compiler",
+    "number": 3525,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "pgi"
+    ],
+    "id": 216439094,
+    "html_url": "https://github.com/spack/spack/issues/3525",
+    "assignees": [],
+    "comments": 18
+}

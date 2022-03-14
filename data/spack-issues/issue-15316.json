@@ -1,0 +1,19 @@
+{
+    "body": "Finish cleaning up the libunwind version numbers.  The 2018.10.12\r\nsnapshot number didn't fit well with spack's ordering (my bad), and\r\n1.4-rc1 is a near identical replacement.\r\n\r\nAdd a version for the 1.4-stable branch.\r\n\r\nAdd a variant for zlib compressed symbol tables (develop branch only).\r\n\r\nAdjust packages caliper and hpctoolkit to adapt to the changes.\r\n\r\nAdd myself as maintainer.\r\n\r\n----------\r\n\r\nI grep'ed the package.py files and only caliper and hpctoolkit\r\nmentioned 2018.10.12, so no other package should be affected.\r\n\r\n@daboehme This is the (tiny) change to the caliper recipe that I told\r\nyou about last week.\r\n\r\nFor libunwind, 'stable' is at the low end of the spack ordering,\r\nalthough based on the git repo, it should go 1.4 < stable < develop.\r\n\r\nThis is mildly inconvenient in some places.  For example, in\r\nhpctoolkit, I have to say `depends_on('libunwind@1.4:,stable')`\r\ninstead of the more natural `depends_on('libunwind@1.4:')`.\r\n\r\nWould it make sense to add 'stable' as a special, high-order version\r\nname like develop and master?\r\n\r\nOr, could we add support for a per-package way of adjusting the\r\nordering?\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/15316",
+    "updated_at": "2020-03-06 14:49:48",
+    "created_at": "2020-03-04 05:42:08",
+    "closed_at": "2020-03-06 14:49:47",
+    "state": "closed",
+    "title": "libunwind: remove version 2018.10.12, add stable branch",
+    "number": 15316,
+    "milestone": null,
+    "labels": [
+        "new-version"
+    ],
+    "id": 575151806,
+    "html_url": "https://github.com/spack/spack/pull/15316",
+    "assignees": [],
+    "comments": 6
+}

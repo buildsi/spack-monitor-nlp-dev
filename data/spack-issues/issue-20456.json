@@ -1,0 +1,22 @@
+{
+    "body": "Building `py-greenlet@0.14.3` fails using `spack@develop` (c5b4a667d3e8d44efe5395c33a5c57ec66dc5056 from `Thu Dec 17 16:56:39 2020 -0500`).\r\n\r\nI believe this is due to a fairly recent change (post ~ 2020-12-14)\r\n\r\nSystem info:\r\n* `Ubuntu 18.04` for `ppc64le`\r\n* `GCC 7.5.0`\r\n* Docker container image: `ecpe4s/ubuntu18.04-runner-ppc64le:2020-12-01`\r\n\r\nConcrete spec: [py-greenlet-5gtlvi.yml.txt](https://github.com/spack/spack/files/5712651/py-greenlet-5gtlvi.yml.txt)\r\nBuild log: [py-greenlet-build-out.txt](https://github.com/spack/spack/files/5712667/py-greenlet-build-out.txt)\r\n\r\n```\r\n$> spack install -f ./py-greenlet-5gtlvi.yml\r\n...\r\n==> Installing py-greenlet-0.4.13-6qd3bhzb723ij5pzq5pj46fnowefblhq\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/0f/0fef83d43bf87a5196c91e73cb9772f945a4caaff91242766c5916d1dd1381e4.tar.gz\r\n############################################################################################################################################################ 100.0%\r\n==> py-greenlet: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/opt/spack/opt/spack/linux-ubuntu18.04-ppc64le/gcc-7.5.0/python-3.8.6-ywxntapm3srwjfo4yd5s3gdu76d3w3nm/bin/python3.8' '-s' 'setup.py' '--no-user-cfg' 'build'\r\n\r\n3 errors found in build log:\r\n     6     creating build\r\n     7     creating build/temp.linux-ppc64le-3.8\r\n     8     /opt/spack/lib/spack/env/gcc/gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -fPIC -I/opt/spack/opt/spack/linux-ubuntu18.04-p\r\n           pc64le/gcc-7.5.0/python-3.8.6-ywxntapm3srwjfo4yd5s3gdu76d3w3nm/include/python3.8 -c greenlet.c -o build/temp.linux-ppc64le-3.8/greenlet.o -fno-tree-dom\r\n           inator-opts\r\n     9     In file included from slp_platformselect.h:16:0,\r\n     10                     from greenlet.c:328:\r\n     11    platform/switch_ppc64_linux.h: In function 'slp_switch':\r\n  >> 12    platform/switch_ppc64_linux.h:72:5: error: PIC register clobbered by 'r2' in 'asm'\r\n     13         __asm__ volatile (\"\" : : : REGS_TO_SAVE);\r\n     14         ^~~~~~~\r\n  >> 15    platform/switch_ppc64_linux.h:85:5: error: PIC register clobbered by 'r2' in 'asm'\r\n     16         __asm__ volatile (\"\" : : : REGS_TO_SAVE);\r\n     17         ^~~~~~~\r\n  >> 18    error: command '/opt/spack/lib/spack/env/gcc/gcc' failed with exit status 1\r\n\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-py-greenlet-0.4.13-6qd3bhzb723ij5pzq5pj46fnowefblhq/spack-build-out.txt\r\n```\r\n\r\n@adamjstewart @becker33\r\n\r\nAny ideas?\r\n\r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/20456",
+    "updated_at": "2020-12-18 03:38:44",
+    "created_at": "2020-12-17 23:23:09",
+    "closed_at": "2020-12-18 03:38:44",
+    "state": "closed",
+    "title": "py-greenlet@0.4.13 build fails on power arch: platform/switch_ppc64_linux.h",
+    "number": 20456,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "power",
+        "ecp",
+        "e4s"
+    ],
+    "id": 770447516,
+    "html_url": "https://github.com/spack/spack/issues/20456",
+    "assignees": [],
+    "comments": 4
+}

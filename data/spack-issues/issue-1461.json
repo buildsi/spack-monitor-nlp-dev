@@ -1,0 +1,17 @@
+{
+    "body": "Since #1156 was merged, I haven't been able to build `pkg-config` due to patching failures.  Specifically, the `g_date_strftime.patch` patch fails to patch a section of the `glib/glib/gdate.c` file.  I've included the contents of the error file output by `patch` below:\n\n```\n--- glib/glib/gdate.c\n+++ glib/glib/gdate.c\n@@ -2439,6 +2439,9 @@\n  *\n  * Returns: number of characters written to the buffer, or 0 the buffer was too small\n  */\n+#pragma GCC diagnostic push\n+#pragma GCC diagnostic ignored \"-Wformat-nonliteral\"\n+\n gsize\n g_date_strftime (gchar       *s,\n                  gsize        slen,\n```\n\n@adamjstewart: Do you have any idea what could be causing this problem?  I created a tentative fix [here](https://github.com/xjrc/spack/commit/23ba2dfbb9ad549a16052b0be5d914dbcd15614c) that circumvents the problem by only applying this patch when GCC@6.1 is used, but it doesn't seem complete to me because this issue seems to be wholly related to patching and not at all to which compiler is used.  If you have any suggestions, I'd be happy to implement and test them out.\n",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/1461",
+    "updated_at": "2016-08-07 22:53:25",
+    "created_at": "2016-08-05 20:05:41",
+    "closed_at": "2016-08-07 22:53:25",
+    "state": "closed",
+    "title": "Package Bug : Latest pkg-config Patch Fails",
+    "number": 1461,
+    "milestone": null,
+    "labels": [],
+    "id": 169685810,
+    "html_url": "https://github.com/spack/spack/issues/1461",
+    "assignees": [],
+    "comments": 2
+}

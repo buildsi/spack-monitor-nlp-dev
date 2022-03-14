@@ -1,0 +1,19 @@
+{
+    "body": "This function returns a string, unless it can't find a suitable one, in which case it returns `None`. But other code using it expects a string, and does operations like `rpaths = ';'.join(spack.build_environment.get_rpaths(pkg))`. `join` requires a sequence of strings, so if a package has no relevant rpath, we get a runtime exception\r\n\r\nReturning an empty string instead of `None` bypasses the problem. More generally, I think it is more robust for methods to either return a valid object of a given type, or raise an exception - returning `None` some-of-the-time requires every call to the method to be guarded with a check of the return value\r\n\r\nThis PR replaces the None return with an empty string, for this one routine",
+    "user": "sleak-lbl",
+    "url": "https://api.github.com/repos/spack/spack/issues/12438",
+    "updated_at": "2020-08-20 09:41:38",
+    "created_at": "2019-08-15 22:36:28",
+    "closed_at": "2020-08-20 09:41:37",
+    "state": "closed",
+    "title": "Only ever return a string from get_path_from_module_contents",
+    "number": 12438,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 481367142,
+    "html_url": "https://github.com/spack/spack/pull/12438",
+    "assignees": [],
+    "comments": 1
+}

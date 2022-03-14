@@ -1,0 +1,19 @@
+{
+    "body": "See: https://github.com/spack/spack/issues/13604\r\nSee: https://github.com/spack/spack/pull/13925\r\n\r\nAdd an --exclude-file option to 'spack mirror create' which allows a user to specify a file of specs to exclude when creating a mirror. this is anticipated to be useful especially when using the '--all' option.\r\n\r\nThe option can be used as follows:\r\n\r\n```\r\nspack mirror create --exclude-file path/to/mirror-exclude-specs.txt ...\r\n```\r\n\r\nWhere the exclude file looks like\r\n\r\n```\r\npy-torch\r\nrna-seqc\r\n```\r\n\r\n#13604 points out there are cases where `spack mirror create --all` stalls because of packages that require interaction or otherwise hang. #13881 adds a connection timeout for URL fetchers, which handles a subset of these cases. ~#13925 adds a universal process timeout that is available for all fetch actions, which is intended as a catch-all solution, but requires additional work and special-case handling of git resources (which are the most common non-URL resources).~\r\n\r\n~This also adds a file to `share/spack/cmd-config/mirror-exclude-specs.txt`~\r\n\r\n~This file is added because it is anticipated that users will commonly need to filter the same set of packages. This is not added as config because modifying the mirror configuration to support blacklisting would require significant adjustments, and also because this option should only be required while #13925 is incomplete.~\r\n\r\nNew updates (as of May 28):\r\n\r\n* When mirroring all specs for an environment, include dependency specs (fixes https://github.com/spack/spack/issues/16808). This does not require specifying `--dependencies`\r\n* You can now specify `--versions-per-spec` when using the `--all` option. For example `spack mirror create --all --versions-per-spec 1` would download the latest version of every package.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/14154",
+    "updated_at": "2020-06-04 00:43:52",
+    "created_at": "2019-12-13 20:40:00",
+    "closed_at": "2020-06-04 00:43:52",
+    "state": "closed",
+    "title": "Mirrors: add option to exclude packages from \"mirror create\"",
+    "number": 14154,
+    "milestone": null,
+    "labels": [
+        "mirrors"
+    ],
+    "id": 537768328,
+    "html_url": "https://github.com/spack/spack/pull/14154",
+    "assignees": [],
+    "comments": 1
+}

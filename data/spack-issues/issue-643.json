@@ -1,0 +1,19 @@
+{
+    "body": "It think Spack profiles is what you need here.  They have been considered but not yet implemented.  Here is @tgamblin's description:\n\n> Just a thought FYI: one thing we are thinking very strongly of implementing is a \"profile\" capability, which would work kind of like virtualenv or conda environments, but for anything, not just python packages. It would likely look sort of like the existing python support in Spack, where you can activate/deactivate packages and they are symlinked into a common prefix (in the current Python case, that is the interpreter prefix).\n> You could do something like:\n> \n> ```\n> spack profile create mystack # creates a profile called `mystack` in a directory somewhere\n> spack profile add <spec> # installs <spec> if needed, then links it into mystack\n> spack profile remove <spec> # unlinks <spec> from mystack\n> ```\n> \n> ... etc ...\n> spack profile activate # add mystack/bin to $PATH, add mystack to CMAKE_PREFIX_PATH, etc.\n> This would make it easy to create and save environments and stacks of packages for different teams, and to get them in/out of your environment. I would likely also want to version the profiles. This feature is in package managers like nix and guix. Another nice feature is that it would allow external apps to RPATH the profile directory (or a symlink to it, to allow transactional updates), but you could do seamless upgrades of packages linked into the profile by removing them and adding a new version. \n\nWould this suit your needs? \n\nI think that comes very close\u2026 if one could a) version that and b) pre-define the profile in a file. In our use case this one is strongly connected to the bundle feature discussed below.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/643",
+    "updated_at": "2018-04-13 07:52:33",
+    "created_at": "2016-03-25 17:01:46",
+    "closed_at": "2018-04-13 07:52:33",
+    "state": "closed",
+    "title": "Spack Profiles",
+    "number": 643,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 143542135,
+    "html_url": "https://github.com/spack/spack/issues/643",
+    "assignees": [],
+    "comments": 2
+}

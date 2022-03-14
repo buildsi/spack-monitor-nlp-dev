@@ -1,0 +1,21 @@
+{
+    "body": "Now that we have the `hip` package in Spack, we might see some new packages start using this compiler. I've been meaning to wrap hipMAGMA, and there's been some effort to make PyTorch support AMD GPU's too.\r\n\r\nPackages already using `hipcc` include [rocfft](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/rocfft/package.py#L37) and [rocblas](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/rocblas/package.py#L48)\r\n\r\nThere's a couple issues:\r\n\r\n1. `hipcc` is a compiler wrapper around AMD's fork of clang (the `llvm-amdgpu` package in Spack); this means packages using `hipcc` will not be using Spack's compiler wrappers. That means no standard include flags, linker flags or arch optimization flags.\r\n\r\n2. Packages compiled with `hipcc` will look like they were installed with e.g. `%gcc` in their spec, whereas they were in fact built with clang from `llvm-amdgpu`.\r\n\r\nProblem 1 was solved in https://github.com/spack/spack/pull/17271 by copying over the `clang++` compiler wrapper from spack's sources into the hip installation directory, but it seems very hacky.\r\n\r\nWould there be a better approach to deal with this?",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18463",
+    "updated_at": "2021-02-25 12:09:27",
+    "created_at": "2020-09-02 13:10:02",
+    "closed_at": "2021-02-25 12:09:27",
+    "state": "closed",
+    "title": "Dealing with `hipcc` / AMD's clang fork",
+    "number": 18463,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "triage"
+    ],
+    "id": 691008533,
+    "html_url": "https://github.com/spack/spack/issues/18463",
+    "assignees": [],
+    "comments": 1
+}

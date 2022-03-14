@@ -1,0 +1,25 @@
+{
+    "body": "Practically every `AutotoolsPackage`, when built from git, will have to\r\nrun `autoreconf` to generate the `configure` script and other files.\r\n\r\nBefore calling `autoreconf`, `AutotoolsPackage.autoreconf()` checks\r\nthat `autoconf, automake` and `libtool` are installed,\r\nas these are needed for `autoreconf` to succeed.\r\n\r\nIn the past, many `package.py` files were written without this check\r\npresent or working. As result many just have 'depends_on('libtool'),\r\nbit miss it for `autoconf` and `automake`.\r\n\r\nAlso at the moment, that check is not working, as can be seen in #26005\r\n\r\n1st:\r\n\r\nFix this check which didn't stop the code in #26005 by checking if the `autotools` packages are in `specs._dependencies`, not just in `specs`.\r\n\r\n2nd:\r\n\r\nWith this fix, each package with version master or develop need to have these depends present to build for `@master` or `@develop`\r\n```\r\n    depends_on('autoconf', when='@master,develop')\r\n    depends_on('automake', when='@master,develop')\r\n    depends_on('libtool',  when='@master,develop')\r\n```\r\nIn order to not have to update each relevant package.py, this commit\r\nalso makes adding these depends automatic for all AutotoolsPackages.\r\n\r\nOf course it should excempt m4, autoconf, automake and libtool from\r\nthis to not add dependencies which they don't need to their graph,\r\na dependency on the package itself is also impossible.\r\n\r\nTo allow for this, the depends_on() gets an optional skip-argument for\r\nwhich `AutotoolsPackage` passes `['autoconf','automake','libtool']`\r\n\r\nFor convenience, it's spec argument is also extended to take a list of\r\nspecs, which allows many packages which always require `autoreconf` to\r\nadd this to their `package.py` instead:\r\n\r\n    `depends_on(AutotoolsPackage.autoreconf_depends, type='build')`",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26079",
+    "updated_at": "2021-09-26 08:23:50",
+    "created_at": "2021-09-20 23:03:02",
+    "closed_at": "2021-09-26 08:23:50",
+    "state": "closed",
+    "title": "autotools.py: add automatic depends on autotools when='@master,develop'",
+    "number": 26079,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "directives",
+        "utilities",
+        "build-systems"
+    ],
+    "id": 1001532274,
+    "html_url": "https://github.com/spack/spack/pull/26079",
+    "assignees": [
+        "haampie",
+        "alalazo"
+    ],
+    "comments": 3
+}

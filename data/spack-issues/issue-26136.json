@@ -1,0 +1,26 @@
+{
+    "body": "Fixes #22938 \r\n\r\nThis PR adds a `spack tags` command to output package tags or (available) packages with those tags.  It also ensures each package is listed in the tag cache ONLY ONCE per tag.\r\n\r\n```\r\n$ spack tags --help\r\nusage: spack tags [-hia] [tag [tag ...]]\r\n\r\nShow package tags and associated packages\r\n\r\npositional arguments:\r\n  tag              show packages with the specified tag\r\n\r\noptional arguments:\r\n  -h, --help       show this help message and exit\r\n  -i, --installed  show information for installed packages only\r\n  -a, --all        show packages for all available tags\r\n\r\nTags from known packages will be used if no tags are provided on the command\r\nline. If tags are provided, packages with at least one will be reported.\r\n\r\nYou are not allowed to provide tags and use '--all' at the same time.\r\n\r\n\r\n$ spack tags\r\n30 available package tags:\r\n    amr            finite-elements  hpc            radiuss\r\n    build-tools    flow             hydrodynamics  simulations\r\n    cfd            fluid            i/o            solver\r\n    e4s            gibbs sampler    key4hep        spectral-elements\r\n    ecp            gibbs-sampler    mcmc           storage\r\n    ecp-apps       hep              navier-stokes  trace-tools\r\n    ecp-proxy-app  heps             neutrino\r\n    fem            high-order       proxy-app\r\n\r\n\r\n$ spack tags -a\r\namr:\r\n    mfem\r\n\r\nbuild-tools:\r\n    autoconf  cmake  gawk   libtool  pkg-config\r\n    automake  flex   gmake  m4       pkgconf\r\n\r\n[..snip..]\r\n\r\ntrace-tools:\r\n    uftrace\r\n\r\n$ spack tags -is\r\namr:\r\n    No installed packages\r\n\r\nbuild-tools:\r\n    autoconf  automake  cmake  flex  libtool  m4  pkg-config  pkgconf\r\n\r\n[..snip..]\r\n\r\ntrace-tools:\r\n    No installed packages\r\n\r\n\r\n$ spack tags ecp ecp-apps ecp-proxy-app\r\necp:\r\n    amr-wind          er       lammps     nekrs      qmcpack  shuffile\r\n    axl               exawind  latte      nektools   rankstr  spath\r\n    chombo            filo     nalu-wind  nwchem     redset   veloc\r\n    ecp-data-vis-sdk  kvtree   nek5000    parsplice  rmgdft\r\n\r\necp-apps:\r\n    amr-wind  exawind  latte      nek5000  nektools  parsplice  rmgdft\r\n    chombo    lammps   nalu-wind  nekrs    nwchem    qmcpack\r\n\r\necp-proxy-app:\r\n    amg                ember      macsio   miniqmc   nekbone     swfft\r\n    candle-benchmarks  examinimd  miniamr  minitri   picsarlite  thornado-mini\r\n    ecp-proxy-apps     laghos     minife   minivite  sw4lite     xsbench\r\n\r\n\r\n$ spack tags -i radiuss ecp\r\necp:\r\n    No installed packages\r\n\r\nradiuss:\r\n    blt  hypre  raja  umpire  zfp\r\n```\r\n\r\nTODO\r\n- [x] Add an option to limit reported tags to those of installed packages\r\n- [x] Rename `spack.tag_index` to `spack.tag`\r\n- [x] Move `spack.cmd.tag` functions into `spack.tag`\r\n- [x] Remove `-t` option from `spack list`\r\n- [x] Replace spaces embedded in tags with a hyphen\r\n\r\n~Deferring addressing package tags with embedded spaces to a separate PR.  Do not appear to be able to use standard mechanisms for including them on the `spack tags` command line but `spack tags` will show them.~",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/26136",
+    "updated_at": "2021-11-01 23:07:53",
+    "created_at": "2021-09-22 03:53:34",
+    "closed_at": "2021-11-01 20:40:30",
+    "state": "closed",
+    "title": "feature: new tags command",
+    "number": 26136,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "environments",
+        "update-package",
+        "new-command"
+    ],
+    "id": 1003746083,
+    "html_url": "https://github.com/spack/spack/pull/26136",
+    "assignees": [
+        "alalazo",
+        "RikkiButler20"
+    ],
+    "comments": 12
+}

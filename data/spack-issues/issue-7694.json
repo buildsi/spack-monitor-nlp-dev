@@ -1,0 +1,23 @@
+{
+    "body": "When you run `spack spec` on a package with patches, it displays full length patch hashes.\r\n\r\n### Before\r\n```console\r\n$ spack spec gcc\r\n...\r\ngcc@8.2.0%clang@9.0.0-apple~binutils languages=c,c++,fortran patches=ecc5ac43951b34cbc5db15f585b4e704c42e2e487f9ed4c24fadef3f3857930b ~piclibs~strip arch=darwin-highsierra-x86_64 \r\n    ^gmp@6.1.2%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n        ^autoconf@2.69%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n            ^m4@1.4.18%clang@9.0.0-apple patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e +sigsegv arch=darwin-highsierra-x86_64 \r\n...\r\n```\r\nThese patch hashes aren't particularly useful, as you can't specify which patches to use on the command line anyway. I propose the following changes.\r\n\r\n### After\r\n\r\nBy default, no hashes are shown:\r\n```console\r\n$ spack spec gcc\r\n...\r\ngcc@8.2.0%clang@9.0.0-apple~binutils languages=c,c++,fortran ~piclibs~strip arch=darwin-highsierra-x86_64 \r\n    ^gmp@6.1.2%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n        ^autoconf@2.69%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n            ^m4@1.4.18%clang@9.0.0-apple +sigsegv arch=darwin-highsierra-x86_64 \r\n...\r\n```\r\nWhen `--long` is supplied, short hash prefixes are displayed:\r\n```console\r\n$ spack spec --long gcc\r\n...\r\nmbr7sk2  gcc@8.2.0%clang@9.0.0-apple~binutils languages=c,c++,fortran patches=ecc5ac4 ~piclibs~strip arch=darwin-highsierra-x86_64 \r\nvvoefua      ^gmp@6.1.2%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n74niupl          ^autoconf@2.69%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\nc5q6jjk              ^m4@1.4.18%clang@9.0.0-apple patches=3877ab5,c0a408f +sigsegv arch=darwin-highsierra-x86_64 \r\n```\r\nWhen `--very-long` is chosen, the full hashes are shown:\r\n```console\r\n$ spack spec --very-long gcc\r\n...\r\nmbr7sk2tsbqktrjnuq75kdi6vq7obegy  gcc@8.2.0%clang@9.0.0-apple~binutils languages=c,c++,fortran patches=ecc5ac43951b34cbc5db15f585b4e704c42e2e487f9ed4c24fadef3f3857930b ~piclibs~strip arch=darwin-highsierra-x86_64 \r\nvvoefuai3hzh7eughdxbihgqsnpvizsn      ^gmp@6.1.2%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n74niuplengavsakhoomvp3lzw7epwosc          ^autoconf@2.69%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\nc5q6jjkr7uwa3si5rh7y56uf4jvzwg7r              ^m4@1.4.18%clang@9.0.0-apple patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e +sigsegv arch=darwin-highsierra-x86_64 \r\n...\r\n```\r\nEDIT: edited to provide clarity as to what I'm looking for\r\n\r\n@scottwittenburg ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/7694",
+    "updated_at": "2022-02-17 10:17:55",
+    "created_at": "2018-04-08 14:04:45",
+    "closed_at": "2022-02-17 10:17:55",
+    "state": "closed",
+    "title": "Use short hashes for patches",
+    "number": 7694,
+    "milestone": null,
+    "labels": [
+        "hashes",
+        "specs",
+        "commands",
+        "UI",
+        "patch"
+    ],
+    "id": 312308475,
+    "html_url": "https://github.com/spack/spack/issues/7694",
+    "assignees": [],
+    "comments": 3
+}

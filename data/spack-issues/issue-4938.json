@@ -1,0 +1,19 @@
+{
+    "body": "I needed to make a few changes to the `openfoam-com` and `openfoam-org` packages to get them to build on the Cray platform with the system `cray-mpich` library.\r\n\r\nThe platform is detected as \"cray\", but it can be treated as \"linux64\".  Also fix a few typos with the ppc strings.\r\n\r\nThe MPI library needs to be linked with `-lmpich` instead of `-lmpi`.\r\n\r\nOpenFOAM has a weird `#include` of ptscotch inside an `extern \"C\"` block, which messes with the MPI C++ bindings.  `MPICH_IGNORE_CXX_SEEK` was already defined, but that's not good enough.  `MPICH_SKIP_MPICXX` works fine, though.",
+    "user": "YtterbiJum",
+    "url": "https://api.github.com/repos/spack/spack/issues/4938",
+    "updated_at": "2019-02-12 12:11:46",
+    "created_at": "2017-07-31 23:14:38",
+    "closed_at": "2019-02-12 12:11:45",
+    "state": "closed",
+    "title": "Compile OpenFOAM on Cray platform",
+    "number": 4938,
+    "milestone": null,
+    "labels": [
+        "cray"
+    ],
+    "id": 246911254,
+    "html_url": "https://github.com/spack/spack/pull/4938",
+    "assignees": [],
+    "comments": 7
+}

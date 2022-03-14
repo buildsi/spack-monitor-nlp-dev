@@ -1,0 +1,19 @@
+{
+    "body": "Fixes removal of **SPACK_ENV_PATH** from **PATH** in the presence of trailing slashes in the elements of PATH.\r\n\r\nFrom the commit message:\r\n\r\n>    The compiler wrapper has to ensure that it is not called nested like\r\n    it would happen when gcc's collect2 uses PATH to call the linker ld,\r\n    or else the compilation fails.\r\n>\r\n>    To prevent nested calls, the compiler wrapper removes the elements\r\n    of SPACK_ENV_PATH from PATH.\r\n>\r\n>    Sadly, the autotest framework appends a slash to each element\r\n    of PATH when adding AUTOTEST_PATH to the PATH for the tests,\r\n    and some tests like those of GNU bison run cc inside the test.\r\n>    \r\n>    Thus, ensure that PATH cleanup works even with trailing slashes.\r\n>    \r\n>    This fixes the autotest suite of bison, compiling hundreds of\r\n    bison-generated test cases in a autotest-generated testsuite.\r\n    \r\n    Co-authored-by: Harmen Stoppels <harmenstoppels@gmail.com>",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/25733",
+    "updated_at": "2021-09-08 10:43:06",
+    "created_at": "2021-09-01 14:30:59",
+    "closed_at": "2021-09-08 10:09:08",
+    "state": "closed",
+    "title": "lib/spack/env/cc: tolerate trailing / in elements of $PATH",
+    "number": 25733,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 985228777,
+    "html_url": "https://github.com/spack/spack/pull/25733",
+    "assignees": [],
+    "comments": 0
+}

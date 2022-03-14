@@ -1,0 +1,25 @@
+{
+    "body": "Closes #11919.\r\nCloses #11951.\r\nCloses #13057.\r\nCloses #12892.\r\nCloses #26341.\r\nCloses #23760.\r\nCloses #23596.\r\nCloses #25547.\r\nCloses #26833.\r\n\r\nShort story:\r\n\r\n> Spack now provides three environment variables that allow you to override or opt out of configuration locations:\r\n> \r\n> * ``SPACK_USER_CONFIG_PATH``: Override the path to use for the ``user`` (``~/.spack``) scope.\r\n> * ``SPACK_SYSTEM_CONFIG_PATH``: Override the path to use for the ``system`` (``/etc/spack``) scope.\r\n> * ``SPACK_DISABLE_LOCAL_CONFIG``: set this environment variable to a non-empty value to completely disable **both** the system and user configuration directories. Spack will only consider its own defaults and ``site`` configuration locations.\r\n> \r\n> And one that allows you to move the default cache location:\r\n> \r\n> * ``SPACK_USER_CACHE_PATH``: Override the default path to use for user data (misc_cache, tests, reports, etc.)\r\n> \r\n> With these settings, if you want to isolate Spack in a CI environment, you can do this:\r\n> \r\n>     export SPACK_DISABLE_LOCAL_CONFIG=true\r\n>     export SPACK_USER_CACHE_PATH=/tmp/spack\r\n\r\nThis PR is the effective minimal and hopefully least controversial changeset to\r\naddress common complaints voiced many times on Slack and Github about\r\nhard-coded config paths in Spack without a way to opt out.\r\n\r\nPinging @trws, @healther, @tjfulle, @jw500, @sleak-lbl, @bartlettroscoe, @dremerb,\r\n@huqy, @eugeneswalker, @mathstuf, @mpbelhorn, @mamelara, @marcmengel who\r\nall contributed to issues and prs addressing something along these lines.\r\n\r\nIt makes it possible for the user to change the default location of\r\nthe user config `~/.spack` and system config `/etc/spack` folders.\r\n\r\nThis is a stop-gap approach until we have figured out how to deal with\r\nthe system and user config scopes more generally, as there are plans to\r\npotentially / eventually get rid of them.\r\n\r\nWhy make this change?\r\n\r\n**User config**\r\n\r\nSpack is a bit of a pain when you have:\r\n\r\n- a shared $HOME folder across different systems.\r\n- multiple Spack versions on the same system.\r\n\r\n**System config**\r\n\r\n- On shared systems with a versioned programming environment / toolkit,\r\n  system administrators want to provide config for each version (e.g.\r\n  21.09, 21.10) of the programming environment, and the user Spack\r\n  instance should be able to pick this up without a steep learning\r\n  curve.\r\n- On shared systems the user should be able to opt out of the\r\n  hard-coded config scope in /etc/spack, since it may be incompatible with their\r\n  particular instance. Currently Spack can only opt out of all config\r\n  scopes through overrides with `\"config:\":`, `\"packages:\":`, but that\r\n  also drops the defaults config, which would have to be repeated, which\r\n  is undesirable, especially the lengthy packages.yaml.\r\n\r\nAn example use case is: having config in this folder:\r\n\r\n```\r\n/path/to/programming/environment/{version}/{compilers,packages}.yaml\r\n```\r\n\r\nand have `module load spack-system-config` set the variable\r\n\r\n```\r\nSPACK_SYSTEM_CONFIG_PATH=/path/to/programming/environment/{version}\r\n```\r\n\r\nwhere the user no longer has to worry about what `{version}` they are\r\non.\r\n\r\n**Continuous integration**\r\n\r\nFinally, there is the use case of continuous integration, which may\r\nclone an arbitrary Spack version, which optimally should not pick up\r\nsystem or user config from the previous run (like may happen in\r\nclassical bare metal non-containerized filesystem stateful\r\njenkins pipelines). In fact this is very similar to how spack itself\r\ntries to avoid picking up system dependencies during builds...\r\n\r\n**But environments solve this?**\r\n\r\n- You could do `include`s in environment files to get similar behavior\r\n  to the spack_system_config_path example, but environments\r\n  1) require you to list paths to individual config files, not directories;\r\n  2) fail if the listed config file does not exist.\r\n- They allow you to override config scopes, but this is generally too\r\n  rigorous, as it requires you to repeat the default config, in\r\n  particular packages.yaml, and just defies the point of layered config.\r\n\r\n\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26735",
+    "updated_at": "2021-10-28 18:14:22",
+    "created_at": "2021-10-14 12:55:54",
+    "closed_at": "2021-10-27 01:08:28",
+    "state": "closed",
+    "title": "config: Overrides for system and user scopes",
+    "number": 26735,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "documentation",
+        "defaults",
+        "tests",
+        "utilities"
+    ],
+    "id": 1026364594,
+    "html_url": "https://github.com/spack/spack/pull/26735",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 59
+}

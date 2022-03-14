@@ -1,0 +1,22 @@
+{
+    "body": "Specifing external package in packages.yaml for specific `os` seems to be inconsistent somehow.\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.0\r\n```\r\n\r\n### Steps to reproduce the issue\r\nFor heterogenous cluster (part is ubuntu16 other part ubuntu18) we have in packages.yaml\r\n```\r\n  slurm:\r\n    paths:\r\n      slurm@17.11 os=ubuntu18.04 : /opt/slurm/17.11.u18\r\n      slurm@17.11 os=ubuntu16.04 : /opt/slurm/17.11.u16\r\n    version: [17.11]\r\n    buildable: False\r\n```\r\n\r\n```console\r\n$ spack arch\r\nlinux-ubuntu18.04-skylake_avx512\r\n\r\n$ spack install -v slurm\r\n==> slurm@17.11 : externally installed in /opt/slurm/17.11.u16\r\n==> slurm@17.11 : already registered in DB\r\n\r\n$ spack install -v slurm arch=linux-ubuntu18.04-skylake_avx512\r\n==> slurm@17.11 : externally installed in /opt/slurm/17.11.u18\r\n==> slurm@17.11 : already registered in DB\r\n```\r\n\r\ninstalling it as dependency it seems to pick the wrong one, for example\r\n```console\r\n$ spack install -v py-mpi4py\r\n==> Warning: Missing a source id for slurm@17.11\r\n[+] /usr/work/clusterbuild/pkg/Installs/linux-ubuntu18.04-skylake_avx512/gcc7.4.0/libsigsegv/2.12/bpuylljhki6fwjib\r\n[+] /usr/work/clusterbuild/pkg/Installs/linux-ubuntu18.04-skylake_avx512/gcc7.4.0/pkg-config/0.29.2/wxvd3lsbhreatn2g\r\n[+] /usr/work/clusterbuild/pkg/Installs/linux-ubuntu18.04-skylake_avx512/gcc7.4.0/util-macros/1.19.1/zi422lmibbf53v7o\r\n[+] /usr/work/clusterbuild/pkg/Installs/linux-ubuntu18.04-skylake_avx512/gcc7.4.0/libiconv/1.16/ajkkpczfc3ijoubp\r\n[+] /usr/work/clusterbuild/pkg/Installs/linux-ubuntu18.04-skylake_avx512/gcc7.4.0/xz/5.2.4/hla46hjrwymcu54g\r\n[+] /usr/work/clusterbuild/pkg/Installs/linux-ubuntu18.04-skylake_avx512/gcc7.4.0/zlib/1.2.11/x66fs6ohfo7s33yq\r\n==> slurm@17.11 : externally installed in /opt/slurm/17.11.u16\r\n==> slurm@17.11 : already registered in DB\r\n[+] /opt/slurm/17.11\r\n.....\r\n```\r\n",
+    "user": "JaroslavHron",
+    "url": "https://api.github.com/repos/spack/spack/issues/15464",
+    "updated_at": "2020-07-08 20:23:01",
+    "created_at": "2020-03-12 12:18:02",
+    "closed_at": "2020-07-08 20:23:01",
+    "state": "closed",
+    "title": "os variant for external package in packages.yaml is ignored sometimes",
+    "number": 15464,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 579899305,
+    "html_url": "https://github.com/spack/spack/issues/15464",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

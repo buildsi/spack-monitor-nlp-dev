@@ -1,0 +1,19 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/12343.\r\n\r\nThis commit removes redundant calls to `libtoolize` and `aclocal`.\r\n\r\nSome configurations, such as a Spack user using macOS with a\r\nHomebrew-installed `libtool` added to their `packages.yaml`, have\r\n`autoreconf` and GNU libtoolize installed as `glibtoolize`, but not\r\n`libtoolize`. While Spack installations of `libtool` built from source\r\nwould install `glibtoolize` and symlink `libtoolize` to `glibtoolize`,\r\nan external installation of GNU libtoolize as `glibtoolize` will not\r\nhave such a symlink, and thus the call `m.libtoolize()` will throw an\r\nerror because `libtoolize` does not exist at the path referenced by\r\n`m.libtoolize()` (i.e.,\r\n`self.spec['libtool'].prefix.bin.join('libtoolize')).\r\n\r\nHowever, on these same systems, `autoreconf` runs correctly, and calls\r\n`glibtoolize` instead of `libtoolize`, when appropriate. Thus,\r\nremoving the call to `libtoolize` should resolve the error mentioned\r\nabove.\r\n\r\nThe redundant call to `aclocal` is also removed in this commit because\r\nthe maintainers of GNU Automake state that \"`aclocal` is expected to\r\ndisappear\" and suggest that downstream users never call `aclocal`\r\ndirectly -- rather, they suggest calling `autoreconf` instead. (see https://www.gnu.org/software/automake/manual/automake.html#Future-of-aclocal)",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/12344",
+    "updated_at": "2019-08-28 09:18:59",
+    "created_at": "2019-08-08 22:26:42",
+    "closed_at": "2019-08-28 01:03:57",
+    "state": "closed",
+    "title": "AutotoolsPackage: remove redundant libtoolize call",
+    "number": 12344,
+    "milestone": null,
+    "labels": [
+        "autotools"
+    ],
+    "id": 478714709,
+    "html_url": "https://github.com/spack/spack/pull/12344",
+    "assignees": [],
+    "comments": 3
+}

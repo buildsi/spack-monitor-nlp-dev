@@ -1,0 +1,19 @@
+{
+    "body": "The recipe for `py-grpcio` specifically looks for `self.spec[dep].libs.directories` and `self.spec[dep].headers.directories` entries for all dependencies, but these are not guaranteed to be present, for example in the case that the system openssl is used and only a prefix is specified:\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\ncat <<EOF > ~/.spack/packages.yaml\r\npackages:\r\n  openssl:\r\n    externals:\r\n    - spec: openssl@1.1.1c\r\n      prefix: /usr\r\nEOF\r\n\r\n$ spack install py-grpcio\r\n\r\n==> Installing py-grpcio\r\n==> No binary for py-grpcio found: installing from source\r\n==> Error: IndexError: list index out of range\r\n\r\n/home/phil/repos/spack/var/spack/repos/builtin/packages/py-grpcio/package.py:40, in setup_build_environment:\r\n         37\r\n         38        for dep in self.spec.dependencies(deptype='link'):\r\n         39            query = self.spec[dep.name]\r\n  >>     40            env.prepend_path('LIBRARY_PATH', query.libs.directories[0])\r\n         41            env.prepend_path('CPATH', query.headers.directories[0])\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4-1886-9d5f4f9c6\r\n* **Python:** 3.8.6\r\n* **Platform:** linux-gentoo2-zen2\r\n\r\n### Additional information\r\n\r\nNo build output as recipe fails too early.\r\n\r\nNo maintainers listed.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "ptooley",
+    "url": "https://api.github.com/repos/spack/spack/issues/19859",
+    "updated_at": "2020-11-12 20:45:46",
+    "created_at": "2020-11-11 10:28:05",
+    "closed_at": "2020-11-12 20:45:46",
+    "state": "closed",
+    "title": "Installation issue: py-grpcio recipe fails with system ssl",
+    "number": 19859,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 740653707,
+    "html_url": "https://github.com/spack/spack/issues/19859",
+    "assignees": [],
+    "comments": 5
+}

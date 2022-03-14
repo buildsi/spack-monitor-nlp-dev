@@ -1,0 +1,19 @@
+{
+    "body": "On the latest commit (9a6a19d464f31d301fb333c5110042f9ead5d501), installing `ack` modifies its install file in the `_source-cache`.\r\n\r\n## Steps to reproduce:\r\n\r\nIn a clean git repository:\r\n```console\r\n$ spack fetch -D ack\r\n[...]\r\n\r\n$ head -n 1 var/spack/cache/_source-cache/archive/fd/fd0617585b88517a3d41d3d206c1dc38058c57b90dfd88c278049a41aeb5be38\r\n#!/usr/bin/env perl\r\n\r\n$ spack install ack\r\n[...]\r\n\r\n$ head -n 1 var/spack/cache/_source-cache/archive/fd/fd0617585b88517a3d41d3d206c1dc38058c57b90dfd88c278049a41aeb5be38\r\n#!/path/to/local/repo/of/spack/opt/spack/linux-archrolling-skylake/gcc-9.2.0/perl-5.30.0-glhysleiayklpn7q76zpgc3grihti4j6/bin/perl\r\n```\r\n\r\nI do not know if there are other packages where this is an issue. We use a static download cache for fresh spack installations and `ack` was the first package to suddenly fail  to install (after moving from [this commit](https://github.com/electronicvisions/spack/tree/sandbox/breitwieser/upstream_merge_base_7) to [that](https://github.com/electronicvisions/spack/tree/sandbox/breitwieser/upstream_merge_base_8)). I verified that the issue persists in `develop` until [now](https://github.com/spack/spack/commit/9a6a19d464f31d301fb333c5110042f9ead5d501).\r\n\r\nI suspect that is related to the reorganization of the download cache in 4af448724f4f933b5306c4cdd2f7522d64dc8719.",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/13824",
+    "updated_at": "2019-11-24 23:33:50",
+    "created_at": "2019-11-21 17:55:19",
+    "closed_at": "2019-11-24 23:33:50",
+    "state": "closed",
+    "title": "Installing package (ack) modifies files in _source-cache",
+    "number": 13824,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 526751289,
+    "html_url": "https://github.com/spack/spack/issues/13824",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Currently, regardless of a spec being concrete or not, we validate its variants in `spec_clauses` (part of `SpackSolverSetup`).  \r\n\r\nThis PR skips the check if the spec is concrete.\r\n\r\nThe reason we want to do this is so that the solver setup class (really, `spec_clauses`) can be used for cases when we just want the logic statements / facts (is that what they are called?) and we don't need to re-validate an already concrete spec.  We can't change existing concrete specs, and we have to be able to handle them *even if they violate constraints in the current spack*.  This happens in practice if we are doing the validation for a spec produced by a different spack install.\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/22272",
+    "updated_at": "2021-03-14 19:07:06",
+    "created_at": "2021-03-13 04:15:23",
+    "closed_at": "2021-03-14 19:00:16",
+    "state": "closed",
+    "title": "do not validate variants of concrete specs in solver setup",
+    "number": 22272,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "specs"
+    ],
+    "id": 830801149,
+    "html_url": "https://github.com/spack/spack/pull/22272",
+    "assignees": [],
+    "comments": 3
+}

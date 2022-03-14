@@ -1,0 +1,22 @@
+{
+    "body": "Fix `spack load` with extended packet specifications that include spaces.\r\nSolved by using perfect parameter forwarding via temporary array.\r\n\r\nTo be consistent with the current used shell features in `setup-env.sh` this PR is **not** compatible with the `dash` shell (there are no arrays in `dash`). PR #4048 is adding `dash` compatibility. To be `dash` shell compatible the usage of the temporary array `_sp_spec` must be removed and `\"${_sp_spec[@]}\"` must be substituted with `\"$@\"`.\r\n\r\n# example\r\n```\r\n$ spack install zlib\r\n$ spack install zlib cppflags='-O3 -march=native'\r\n$ spack install zlib cppflags='-O2 -march=native'\r\n\r\n$ spack find -d -L -f zlib\r\n==> 3 installed packages.\r\n-- linux-linuxmint18-x86_64 / gcc@5.4.0 -------------------------\r\nk5hg4kkxiutkfl6n53ogz5wnlbdrsdtf    zlib@1.2.11%gcc\r\n\r\nmse2fyzdxciszdhiqi4b5kl6fxkps3fh    zlib@1.2.11%gcc cppflags=\"-O2 -march=native\"\r\n\r\nvrnvj2fikcbxqxrymctnlpmud7wbuahk    zlib@1.2.11%gcc cppflags=\"-O3 -march=native\"\r\n\r\n$ spack load zlib cppflags='-O3 -march=native'\r\n==> Error: Unexpected token\r\n['zlib', 'cppflags=-O3', '-march=native']\r\n```",
+    "user": "psychocoderHPC",
+    "url": "https://api.github.com/repos/spack/spack/issues/7747",
+    "updated_at": "2018-04-25 07:39:11",
+    "created_at": "2018-04-13 08:33:26",
+    "closed_at": "2018-04-24 20:43:33",
+    "state": "closed",
+    "title": "environment shell: fix `spack load`",
+    "number": 7747,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "commands",
+        "shell-support",
+        "environments"
+    ],
+    "id": 314015987,
+    "html_url": "https://github.com/spack/spack/pull/7747",
+    "assignees": [],
+    "comments": 3
+}

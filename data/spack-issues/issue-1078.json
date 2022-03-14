@@ -1,0 +1,17 @@
+{
+    "body": "Previously, py-pillow linked to the system libraries instead of the Spack-built libraries. This PR fixes that.\n\nNote that this solution is actually [recommended by the developers](https://pillow.readthedocs.io/en/latest/installation.html#external-libraries):\n\n> If the prerequisites are installed in the standard library locations for your machine (e.g. `/usr` or `/usr/local`), no additional configuration should be required. If they are installed in a non-standard location, you may need to configure setuptools to use those locations by editing `setup.py` or `setup.cfg`, or by adding environment variables on the command line:\n> \n> `$ CFLAGS=\"-I/usr/pkg/include\" pip install pillow`\n\nI actually tried using environment variables but to no avail. Hacking `setup.py` is also the [solution that Homebrew uses](https://github.com/Homebrew/homebrew-python/blob/master/pillow.rb).\n\n@citibeth: You were the last person to edit py-pillow. Can you confirm that this solution works for you?\n\nNote that I'm still having trouble getting it to link to Tcl/Tk. Any solutions are welcome.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1078",
+    "updated_at": "2016-06-22 08:11:25",
+    "created_at": "2016-06-17 23:17:17",
+    "closed_at": "2016-06-22 08:11:25",
+    "state": "closed",
+    "title": "Allow py-pillow to link to Spack-built libraries",
+    "number": 1078,
+    "milestone": null,
+    "labels": [],
+    "id": 160991598,
+    "html_url": "https://github.com/spack/spack/pull/1078",
+    "assignees": [],
+    "comments": 22
+}

@@ -1,0 +1,19 @@
+{
+    "body": "openfoam & openfoam-org do not build correctly with gcc@9: because\r\nit raises an error for -Wdeprecated-copy. This commit fixes that.\r\n\r\nAlso fixes an issue with building openfoam-org as flex is needed\r\nafter the build has finished.\r\n\r\nFix is done by modifying `cWARN`- and `c++WARN`-flags in `c`-and `c++`-files in `wmake/rules/*Gcc*`-folders. From version 1906 onwards openfoam uses the folder `wmake/rules/Generic/Gcc` instead. The logic in the patch looks for both places for files to adapt.\r\n\r\nUnfortunately this does not fix the issue for versions older than openfoam@1812 or openfoam-org@6. For those versions there are plenty of other compilation issues due to gcc's stricter standards.\r\n\r\nMore info on -Wdeprecated-copy can be found in [gcc's bugzilla](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58407). This issue is was previously mentioned in #13995 .",
+    "user": "simo-tuomisto",
+    "url": "https://api.github.com/repos/spack/spack/issues/14424",
+    "updated_at": "2020-08-31 10:02:24",
+    "created_at": "2020-01-08 12:36:59",
+    "closed_at": "2020-08-24 07:18:27",
+    "state": "closed",
+    "title": "openfoam & openfoam-org: Fixing GCC 9 compilation errors.",
+    "number": 14424,
+    "milestone": null,
+    "labels": [
+        "gcc"
+    ],
+    "id": 546834563,
+    "html_url": "https://github.com/spack/spack/pull/14424",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Intended to address https://github.com/LLNL/spack/issues/1476 by providing more information when compiler concretization fails. In such cases this PR adds some analysis:\r\n\r\n* ~~if no compilers are available at all, this suggests that ```spack compiler find``` needs to be run (Spack cannot find any compilers in typical search paths and nothing has been added to the configuration)~~ EDIT Spack actually attempts to search default paths implicitly if it initially cannot find any compilers so running ```spack compiler find``` by itself is not likely to address the issue in this case\r\n* if no compilers are available for the spec's arch, it is possible there has been an OS update. In this case Spack prints out the architectures for which compilers have been defined\r\n* if some compilers are available for the spec's arch then presumably a combination has been chosen which isn't supported (or is new, in which case the user must add it to the configuration).\r\n\r\nStill some additional work to do, at which point I'll rebase. Anticipating having this done by the end of 3/14.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/3410",
+    "updated_at": "2017-03-17 04:08:14",
+    "created_at": "2017-03-11 03:55:50",
+    "closed_at": "2017-03-17 04:08:14",
+    "state": "closed",
+    "title": "Better missing compiler info",
+    "number": 3410,
+    "milestone": null,
+    "labels": [],
+    "id": 213503131,
+    "html_url": "https://github.com/spack/spack/pull/3410",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,21 @@
+{
+    "body": "In spack 0.10.0, option `-r` requires an absolute repos path if an url is given.  For example, with 'cbc' repository:\r\n```sh\r\n$ ls -l cbc/repo.yaml\r\n-rw-r--r-- 1 henrik cbc 24 Jan 22 11:36 cbc/repo.yaml\r\n```\r\nusing relative path `./cbc/`, gives an error if URL is provided:\r\n```sh\r\n$ spack create -r ./cbc/ https://github.com/bedops/bedops/releases/download/v2.4.20/bedops_linux_x86_64-v2.4.20.v2.tar.bz\r\n==> This looks like a URL for bedops-linux-x86-64\r\n==> Found 1 version of bedops-linux-x86-64:\r\n  \r\n  2.4.20  https://github.com/bedops/bedops/releases/download/v2.4.20/bedops_linux_x86_64-v2.4.20.v2.tar.bz2\r\n\r\nHow many would you like to checksum? (default is 1, q to abort) \r\n==> Downloading...\r\n==> Fetching https://github.com/bedops/bedops/releases/download/v2.4.20/bedops_linux_x86_64-v2.4.20.v2.tar.bz2\r\n######################################################################## 100.0%\r\n==> Checksummed 1 version of bedops-linux-x86-64\r\n==> Warning: Unable to detect a build system. Using a generic package template.\r\n==> Created template for bedops-linux-x86-64 package\r\n==> Error: No repo.yaml found in './cbc/'\r\n```\r\nwhereas it does work if the URL is _not_ provided:\r\n```sh\r\n$ spack create -r ./cbc/                                                                                               \r\n==> Created template for example package\r\n==> Created package file: /cbc/GitHub/sysadm-cluster/cbc/shared/apps/spack-repositories/cbc/packages/example/package.pyx86_64-v2.4.20.v2.tar.bz\r\n```\r\nor if the absolute path is given:\r\n```sh\r\nspack create -r $(pwd)/cbc/ https://github.com/bedops/bedops/releases/download/v2.4.20/bedops_linux_x86_64-v2.4.20.v2.tar.bz2\r\n==> This looks like a URL for bedops-linux-x86-64\r\n==> Found 1 version of bedops-linux-x86-64:\r\n  \r\n  2.4.20  https://github.com/bedops/bedops/releases/download/v2.4.20/bedops_linux_x86_64-v2.4.20.v2.tar.bz2\r\n\r\nHow many would you like to checksum? (default is 1, q to abort) \r\n==> Downloading...\r\n==> Fetching https://github.com/bedops/bedops/releases/download/v2.4.20/bedops_linux_x86_64-v2.4.20.v2.tar.bz2\r\n######################################################################## 100.0%\r\n==> Checksummed 1 version of bedops-linux-x86-64\r\n==> Warning: Unable to detect a build system. Using a generic package template.\r\n==> Created template for bedops-linux-x86-64 package\r\n==> Created package file: /home/henrik/apps/spack-repositories/cbc/packages/bedops-linux-x86-64/package.py\r\n```\r\n\r\nMy guess is that the working directory is changed when that check for `repo.yaml` is made.\r\n\r\n\r\nAlso, it is not clear from `spack create --help` that `-r` takes a path; I was first trying with the name of repo `namespace` (as given by `repo.yaml`), cf. `spack repo list` => (name, abs-path).",
+    "user": "HenrikBengtsson",
+    "url": "https://api.github.com/repos/spack/spack/issues/2918",
+    "updated_at": "2020-08-23 22:32:40",
+    "created_at": "2017-01-24 04:19:53",
+    "closed_at": "2020-08-23 22:32:39",
+    "state": "closed",
+    "title": "spack create -r <repos> <url>: absolute path is required if <url> is specified",
+    "number": 2918,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 202721269,
+    "html_url": "https://github.com/spack/spack/issues/2918",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

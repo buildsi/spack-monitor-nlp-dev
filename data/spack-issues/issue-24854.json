@@ -1,0 +1,20 @@
+{
+    "body": "Add `x-pie-executable` to the list of files requiring relocation when installing from cache.\r\n\r\nUbuntu 21.04 ships with `file@5.39` and returns `application/x-pie-executable` as the MIME type for some files which were identified as `application/x-sharedlib` in earlier versions of `file`.\r\n\r\n```\r\n$> file --version\r\nfile-5.39\r\n\r\n$> file -b -h --mime-type $(spack location -i pkgconf)/bin/pkgconf\r\napplication/x-pie-executable\r\n```\r\n\r\n```\r\n$> spack load file@5.38\r\nfile-5.38\r\n\r\n$> file -b -h --mime-type $(spack location -i pkgconf)/bin/pkgconf\r\napplication/x-sharedlib\r\n```\r\n\r\n@scottwittenburg @becker33 @gartung ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/24854",
+    "updated_at": "2021-07-13 14:53:36",
+    "created_at": "2021-07-13 12:48:02",
+    "closed_at": "2021-07-13 14:53:36",
+    "state": "closed",
+    "title": "binary_distribution: relocate x-pie-executable files",
+    "number": 24854,
+    "milestone": null,
+    "labels": [
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 943322324,
+    "html_url": "https://github.com/spack/spack/pull/24854",
+    "assignees": [],
+    "comments": 0
+}

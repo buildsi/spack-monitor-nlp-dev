@@ -1,0 +1,20 @@
+{
+    "body": "### Problem\r\n\r\nFixes #20123, subsumes #20218.\r\n\r\n**Note:** this PR does **not** attempt to address the problem of actually making spack build clingo on demand in such environments. We will rely on #20207 for that.\r\n\r\n### Solution\r\n- Require `clingo+python` to depend on `python+shared` (this was already necessary, but was working because the `python` package defaults to `+shared`).\r\n  - #20116 fixes this.\r\n- Pull in the changes from #20139 and #20218.\r\n- Add support for building clingo on python 2.6.\r\n- **TODO** Add a test for installation in the centos6 test shard.\r\n\r\n### Result\r\n1. A bootstrap mechanism is created for `clingo` to bootstrap itself in python 2.6-only environments.\r\n2. Spack is able to avoid sneakily modifying the user's running python version (so no python code breaks because spack installed its own interpreter).\r\n3. This is tested in CI!",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20159",
+    "updated_at": "2021-10-25 17:54:00",
+    "created_at": "2020-11-29 12:17:19",
+    "closed_at": "2021-10-25 17:54:00",
+    "state": "closed",
+    "title": "clean up how spack builds clingo",
+    "number": 20159,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "bootstrap"
+    ],
+    "id": 752903718,
+    "html_url": "https://github.com/spack/spack/pull/20159",
+    "assignees": [],
+    "comments": 3
+}

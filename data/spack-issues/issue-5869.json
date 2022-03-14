@@ -1,0 +1,17 @@
+{
+    "body": "Configuring `libxcb` currently fails with the following error:\r\n\r\n```\r\nconfigure: error: Package requirements (pthread-stubs xau >= 0.99.2) were not met:\r\n\r\nPackage 'xproto', required by 'xau', not found\r\n\r\nConsider adjusting the PKG_CONFIG_PATH environment variable if you\r\ninstalled software in a non-standard prefix.\r\n\r\nAlternatively, you may set the environment variables NEEDED_CFLAGS\r\nand NEEDED_LIBS to avoid the need to call pkg-config.\r\nSee the pkg-config man page for more details.\r\n```\r\n\r\nIn other words, `xproto` is needed at the configure stage of `libxcb`, even though it's not a direct dependency, but a dependency of a dependency (`libxau`).\r\n\r\nLeaving aside the philosophical issue whether a configure script checking for a dependency's dependency is something that should be done at all, from Spack's point of view, I think the cleanest solution is just to include `xproto` as a direct dependency of `libxcb`:\r\n\r\nhttps://github.com/dlukes/spack/commit/ad88ba0c3006c512aedf6fb5f181c91585eeb97e\r\n\r\nWhich it effectively currently is anyway, because of the configure script :)",
+    "user": "dlukes",
+    "url": "https://api.github.com/repos/spack/spack/issues/5869",
+    "updated_at": "2017-10-25 08:49:52",
+    "created_at": "2017-10-23 14:18:48",
+    "closed_at": "2017-10-25 08:49:52",
+    "state": "closed",
+    "title": "configuring libxcb fails: xproto not found",
+    "number": 5869,
+    "milestone": null,
+    "labels": [],
+    "id": 267686279,
+    "html_url": "https://github.com/spack/spack/issues/5869",
+    "assignees": [],
+    "comments": 2
+}

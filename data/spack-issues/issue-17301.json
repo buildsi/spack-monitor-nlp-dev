@@ -1,0 +1,21 @@
+{
+    "body": "Using `spack@develop` (commit id d71fdc9719f716347bb4d61e26e00368466f3aa4) on NERSC Cori Login node:\r\n\r\n```\r\n$> spack install zlib%gcc@8.3.0 arch=cray-cnl7-haswell\r\n...\r\n==> Error: Failed to install zlib due to ChildError: CompilerAccessError: Compiler 'gcc@8.3.0' has executables that are missing or are not executable: ['cc', 'CC', 'ftn', 'ftn']\r\n/global/u1/l/lpeyrala/spack-greg-test/lib/spack/spack/build_environment.py:854, in child_process:\r\n        851            tb_string = traceback.format_exc()\r\n        852\r\n        853            # build up some context from the offending package so we can\r\n  >>    854            # show that, too.\r\n        855            package_context = get_package_context(tb)\r\n        856\r\n        857            build_log = None\r\n\r\nTraceback (most recent call last):\r\n  File \"/global/u1/l/lpeyrala/spack-greg-test/lib/spack/spack/build_environment.py\", line 837, in child_process\r\n    setup_package(pkg, dirty=dirty)\r\n  File \"/global/u1/l/lpeyrala/spack-greg-test/lib/spack/spack/build_environment.py\", line 712, in setup_package\r\n    set_compiler_environment_variables(pkg, build_env)\r\n  File \"/global/u1/l/lpeyrala/spack-greg-test/lib/spack/spack/build_environment.py\", line 202, in set_compiler_environment_variables\r\n    compiler.verify_executables()\r\n  File \"/global/u1/l/lpeyrala/spack-greg-test/lib/spack/spack/compiler.py\", line 304, in verify_executables\r\n    raise CompilerAccessError(self, missing)\r\nspack.compiler.CompilerAccessError: Compiler 'gcc@8.3.0' has executables that are missing or are not executable: ['cc', 'CC', 'ftn', 'ftn']\r\n```\r\n\r\nSame error when trying with `%gcc@9.2.0`.\r\n\r\nHere is the spack-created compilers.yaml entry for gcc@8.3.0:\r\n```\r\n- compiler:\r\n    spec: gcc@8.3.0\r\n    paths:\r\n      cc: cc\r\n      cxx: CC\r\n      f77: ftn\r\n      fc: ftn\r\n    flags: {}\r\n    operating_system: cnl7\r\n    target: any\r\n    modules:\r\n    - PrgEnv-gnu\r\n    - gcc/8.3.0\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\n@becker33 ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/17301",
+    "updated_at": "2020-12-02 12:00:08",
+    "created_at": "2020-06-29 21:21:47",
+    "closed_at": "2020-06-30 01:26:47",
+    "state": "closed",
+    "title": "Cray: CompilerAccessError: cc CC ftn not executable",
+    "number": 17301,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 647679193,
+    "html_url": "https://github.com/spack/spack/issues/17301",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,23 @@
+{
+    "body": "I was  relocating packages to an install path longer than the one used to create the buildcache, and saw the Error below. But I remembered that `patchelf` should actually be capable of growing the rpath in binaries, so I tried commenting out the exception, and installed and used a few packages, all without any issues.\r\n\r\nThis raises the question, is this error really justified? If not, removing this constraint would really improve  the usefulness of buildcaches.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n# use spack installation in /short/path on machine a \r\n$ spack install gcc\r\n$ spack buildcache create -u -a gcc\r\n# use spack installation in /looooooong/path on machine b\r\n$ spack buildcache install -u gcc\r\n\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> Installing buildcache for spec gcc@8.3.0%gcc@4.8.5~binutils languages=c,c++,fortran ~nvptx patches=49341f7807b12a89750c010a20707598f83121da9829150d4049ed3a1a140564,dc1ca240b7fb70112ae6cc47cd86925adf78d29ed9d0c26b0c51d52e40ceca0e ~piclibs~strip arch=linux-centos7-haswell\r\n==> Error: New path longer than old path: binary text replacement not possible.\r\nThe new path /home/gitlab-runner/paaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaading/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/gcc-8.3.0-zvioj2ws7j3tm4k2ns72menfduhukqty is longer than the old path /home/vavolkl/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/gcc-8.3.0-zvioj2ws7j3tm4k2ns72menfduhukqty.\r\nText replacement in binaries will not work.\r\nCreate buildcache from an install path longer than new path.\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.2-1039-f32d561\r\n* **Python:** 3.7.7\r\n* **Platform:** linux-centos7-haswell\r\n\r\n\r\n\r\n",
+    "user": "vvolkl",
+    "url": "https://api.github.com/repos/spack/spack/issues/16564",
+    "updated_at": "2020-05-12 11:28:25",
+    "created_at": "2020-05-11 08:56:45",
+    "closed_at": "2020-05-11 21:43:55",
+    "state": "closed",
+    "title": "Relocation: false BinaryTextReplaceError",
+    "number": 16564,
+    "milestone": null,
+    "labels": [
+        "buildcache"
+    ],
+    "id": 615710353,
+    "html_url": "https://github.com/spack/spack/issues/16564",
+    "assignees": [
+        "alalazo",
+        "gartung",
+        "becker33"
+    ],
+    "comments": 6
+}

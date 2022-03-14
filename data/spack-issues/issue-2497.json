@@ -1,0 +1,17 @@
+{
+    "body": "I have a script that's a variation on something @eschnett posted to the mailing list a while back.\r\n\r\nIt starts off like so (and goes on to install a bunch of things):\r\n\r\n```\r\n# Compiler\r\nspack install gcc@5.4.0\r\n\r\n# This might not do what you want if there's already\r\n# a 5.4.0 on the system....\r\n# Now all of the things will be built with %gcc@5.4.0\r\nspack compiler add --scope site $(spack location -i gcc@5.4.0)\r\n\r\n# R things\r\nspack install R@3.3.1\r\nspack install r-devtools@1.11.1\r\nspack install r-shiny@0.13.2\r\nspack install r-xml@3.98-1\r\n\r\n# python things\r\nspack install python@2.7.12\r\nspack install py-flake8@3.0.4\r\n# what other packages to we want to install?\r\n```\r\n\r\nI got everything to install, fixing failures along the way, then did a `spack uninstall -a` and removed \"my\" compiler from etc/spack/compilers.yaml.\r\n\r\nI ran the script again, it built gcc and was building R prerequisites when it did this:\r\n\r\n```\r\n[...]\r\n==> libxdmcp is already installed in /rss/spack-20161204/opt/spack/linux-centos7-x86_64/gcc-5.4.0/libxdmcp-1.1.2-re4fnifnbn3e5zozapczsykq2mukuupa\r\n==> pkg-config is already installed in /rss/spack-20161204/opt/spack/linux-centos7-x86_64/gcc-5.4.0/pkg-config-0.29.1-ld3i7xv7jtacp7nt7k3aimjleiiuhpdg\r\n==> python is already installed in /rss/spack-20161204/opt/spack/linux-centos7-x86_64/gcc-5.4.0/python-2.7.12-o6wssu2gjvn7j7ahz4qxwpxghzdp7qas\r\n    **kwargs\r\n  File \"/rss/spack-20161204/lib/spack/spack/package.py\", line 1203, in do_install\r\n    **kwargs\r\n  File \"/rss/spack-20161204/lib/spack/spack/package.py\", line 1203, in do_install\r\n    **kwargs\r\n  File \"/rss/spack-20161204/lib/spack/spack/package.py\", line 1175, in do_install\r\n    rec = spack.store.db.get_record(self.spec)\r\n  File \"/rss/spack-20161204/lib/spack/spack/database.py\", line 81, in converter\r\n    return function(self, spec_like, *args, **kwargs)\r\n  File \"/rss/spack-20161204/lib/spack/spack/database.py\", line 554, in get_record\r\n    key = self._get_matching_spec_key(spec, **kwargs)\r\n  File \"/rss/spack-20161204/lib/spack/spack/database.py\", line 549, in _get_matching_spec_key\r\n    raise KeyError(\"No such spec in database! %s\" % spec)\r\nKeyError: 'No such spec in database! python@2.7.12%gcc@5.4.0~tk~ucs4 arch=linux-centos7-x86_64^bzip2@1.0.6%gcc@5.4.0 arch=linux-centos7-x86_64^ncurses@6.0%gcc@5.4.0 arch=linux-centos7-x86_64^openssl@1.0.2j%gcc@5.4.0 arch=linux-centos7-x86_64^readline@6.3%gcc@5.4.0 arch=linux-centos7-x86_64^sqlite@3.8.5%gcc@5.4.0 arch=linux-centos7-x86_64^zlib@1.2.8%gcc@5.4.0+pic arch=linux-centos7-x86_64'\r\n```\r\n\r\nI'm not sure what to make of it.\r\n\r\nI can keep it around for a bit and poke it with a stick if folks have questions.\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2497",
+    "updated_at": "2016-12-26 19:29:03",
+    "created_at": "2016-12-06 21:49:30",
+    "closed_at": "2016-12-26 19:29:03",
+    "state": "closed",
+    "title": "Install, uninstall, reinstall dies",
+    "number": 2497,
+    "milestone": null,
+    "labels": [],
+    "id": 193895049,
+    "html_url": "https://github.com/spack/spack/issues/2497",
+    "assignees": [],
+    "comments": 1
+}

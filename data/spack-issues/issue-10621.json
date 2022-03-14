@@ -1,0 +1,17 @@
+{
+    "body": "The `_libs_default_handler` implicitly assumes that a library package called `(lib)?Something` will always produce a library called `libSomething`. This is not always the case, here are some counter examples:\r\n\r\n- `gettext` (produces several `libgettextSomething`s and a `libintl`, but not `libgettext`)\r\n- `intel-Something` (produces `libSomething`, without the intel prefix)\r\n- X11 packages (though that one could be fixed with a case-insensitive search)\r\n\r\nCurrently, the result is that these libraries will not be correctly added to the RPATH, leading to problems like #10617 . One possibility is to override libs() for every such package, but that gets tedious quickly. As an alternative, this PR proposes to have the default libs handler try harder and enumerate every library in the package's Spack prefix instead.\r\n\r\nI am quite convinced that this is a decent heuristic for library packages that are build using Spack, as the prefix will be specific to that package. But am not sure if this heuristic works or can be made to work for external packages where many libraries can end up sharing a common prefix. Extra review on this specific point would be most welcome.\r\n\r\nSee also #10617 for prior discussion.",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/10621",
+    "updated_at": "2019-12-20 09:40:15",
+    "created_at": "2019-02-15 15:22:52",
+    "closed_at": "2019-10-16 15:51:07",
+    "state": "closed",
+    "title": "Catch-all fallback for libs detection",
+    "number": 10621,
+    "milestone": null,
+    "labels": [],
+    "id": 410816828,
+    "html_url": "https://github.com/spack/spack/pull/10621",
+    "assignees": [],
+    "comments": 27
+}

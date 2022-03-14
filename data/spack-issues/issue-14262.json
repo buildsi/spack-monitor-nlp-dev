@@ -1,0 +1,23 @@
+{
+    "body": "@gartung @scottwittenburg \r\n\r\nI've built packages for a binary cache in this source context \r\n```\r\nSPACK_ROOT=/spack\r\ninstall_tree=/super/long/obnoxiously/outrageously/absurdly/long/spack/install/path/for/relocation\r\n```\r\n\r\nAnd I'm trying to install these cached binaries into this target context\r\n```\r\nSPACK_ROOT=/tmp/tmp.hI5JOBMHP4/spack\r\ninstall_tree=/super/absurdly/ridiculously/obnoxiously/long/path/for/relocation\r\n```\r\n\r\nBut text relocation is not working as expected. For instance, installing a cached binary of autoconf built in the source context into the target context results in the first line of the `autoreconf` script looking like this:\r\n```\r\n#!/bin/bash /tmp/tmp.hI5JOBMHP4/tmp/tmp.hI5JOBMHP4/spack/bin/sbang\r\n```\r\n\r\n... which is obviously non-functional.\r\n\r\nTracing the behavior `relocate_text()` from lines 601-611 of `relocate.py`:\r\n```\r\ndef relocate_text(path_names, oldpath, newpath, oldprefix, newprefix):\r\n    \"\"\"\r\n    Replace old path with new path in text files\r\n    including the path the the spack sbang script.\r\n    \"\"\"\r\n    sbangre = '#!/bin/bash %s/bin/sbang' % oldprefix\r\n    sbangnew = '#!/bin/bash %s/bin/sbang' % newprefix\r\n    for path_name in path_names:\r\n        replace_prefix_text(path_name, oldpath, newpath) # 1 below\r\n        replace_prefix_text(path_name, sbangre, sbangnew) # 2 below\r\n        replace_prefix_text(path_name, oldprefix, newprefix) # 3 below\r\n```\r\n\r\nshows the following sequence of substitutions causing the bungled text in the first line of `autoreconf` script:\r\n```\r\n1. \r\noldpath = /super/long/obnoxiously/outrageously/absurdly/long/spack/install/path/for/relocation\r\nnewpath = /super/absurdly/ridiculously/obnoxiously/long/path/for/relocation\r\ndata, pre-sub = #!/bin/bash /spack/bin/sbang\\n#! /super/long/obnoxiously/...\r\ndata, post-sub = #!/bin/bash /spack/bin/sbang\\n#! /super/absurdly/ridiculously...\r\n\r\n2.\r\nsbangre = #!/bin/bash /spack/bin/sbang\r\nsbangnew = #!/bin/bash /tmp/tmp.hI5JOBMHP4/spack/bin/sbang\r\ndata, pre-sub = #!/bin/bash /spack/bin/sbang ...\r\ndata, post-sub = '#!/bin/bash /tmp/tmp.hI5JOBMHP4/spack/bin/sbang ...\r\n\r\n3.\r\noldprefix = /spack\r\nnewprefix = /tmp/tmp.hI5JOBMHP4/spack\r\ndata, pre-sub = #!/bin/bash /tmp/tmp.hI5JOBMHP4/spack/bin/sbang\r\ndata, post-sub = #!/bin/bash /tmp/tmp.hI5JOBMHP4/tmp/tmp.hI5JOBMHP4/spack/bin/sbang\r\n```\r\n\r\nI am not very good with regular expressions but perhaps there is a way to adapt `relocate_text()` to  accommodate this type of scenario, where source and destination context are as described above?",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/14262",
+    "updated_at": "2021-03-03 15:50:16",
+    "created_at": "2019-12-21 07:09:41",
+    "closed_at": "2021-03-03 15:50:16",
+    "state": "closed",
+    "title": "installing from binary cache: relocate_text mangles text",
+    "number": 14262,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "buildcache",
+        "ecp",
+        "e4s",
+        "sbang"
+    ],
+    "id": 541294656,
+    "html_url": "https://github.com/spack/spack/issues/14262",
+    "assignees": [],
+    "comments": 11
+}

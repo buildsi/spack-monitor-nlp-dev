@@ -1,0 +1,19 @@
+{
+    "body": "follow up to https://github.com/spack/spack/pull/10817\r\n\r\nstrangely enough `qt` could not pick up dependencies, i.e. \r\n```\r\nChecking for DoubleConversion... \r\nTrying source 0 (type inline) of library doubleconversion ...\r\nNone of [libdouble-conversion.dylib libdouble-conversion.tbd libdouble-conversion.a] found in [] and global paths.\r\n  => source produced no result.\r\ntest config.qtbase_corelib.libraries.doubleconversion FAILED\r\n```\r\nand as a result\r\n```\r\nERROR: Feature 'system-doubleconversion' was enabled, but the pre-condition 'features.doubleconversion && libs.doubleconversion' failed.\r\n```\r\n\r\nSimilarly \r\n```\r\nERROR: Feature 'system-pcre2' was enabled, but the pre-condition 'libs.pcre2' failed.\r\n\r\nERROR: Feature 'openssl-linked' was enabled, but the pre-condition '!features.securetransport && libs.openssl' failed.\r\n\r\nERROR: Feature 'system-harfbuzz' was enabled, but the pre-condition 'features.harfbuzz && libs.harfbuzz' failed.\r\n\r\nERROR: Feature 'system-jpeg' was enabled, but the pre-condition 'features.jpeg && libs.libjpeg' failed.\r\n\r\nERROR: Feature 'system-png' was enabled, but the pre-condition 'features.png && libs.libpng' failed.\r\n```\r\n\r\nNote that `jpeg` and `png` deps were not modified in https://github.com/spack/spack/pull/10817, so I am not sure if the issue was introduced in that PR.\r\n\r\nWith this, I can configure `qt` on `macOS Mojave 10.14.4`. Building now...\r\n\r\n@michaelkuhn FYI.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/11172",
+    "updated_at": "2019-10-06 05:29:12",
+    "created_at": "2019-04-11 18:23:40",
+    "closed_at": "2019-10-06 02:13:39",
+    "state": "closed",
+    "title": "qt: help pick up dependencies",
+    "number": 11172,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 432171424,
+    "html_url": "https://github.com/spack/spack/pull/11172",
+    "assignees": [],
+    "comments": 8
+}

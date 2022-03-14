@@ -1,0 +1,21 @@
+{
+    "body": "I just noticed that \"all\" of my automagically generated Lmod modulefiles set LD_LIBRARY_PATH to `prefix().lib`.\r\n\r\nThis surprised me.  The section of the spack docs on transitive-dependencies [extol the virtues of the RPATH approach](http://spack.readthedocs.io/en/latest/workflows.html#transitive-dependencies) and it's one of the things that attracts me to Spack.\r\n\r\nOf the three problematic cases that section discusses, it seems that only 2) & 3) require providing a `LD_LIBRARY_PATH` (and arguably that's a bug) and I'd expect that to be rare.\r\n\r\nI know that I can add `LD_LIBRARY_PATH`  to the `environment_blacklist` in the `modules.yaml` file, but I wonder how many surprises are lurking down that road.\r\n\r\nWould it be better to *not* automagically set `LD_LIBRARY_PATH` and force packages that require it (e.g. Python extensions) to explicitly provide it?\r\n\r\n---\r\n\r\nFWIW, I ran into this when I was trying to understand why UGE was telling me that it was stripping LD_LIBRARY_PATH from my `qsub -V`-ed job but that it appeared to be set anyway....",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3926",
+    "updated_at": "2017-04-21 00:29:32",
+    "created_at": "2017-04-20 20:40:15",
+    "closed_at": "2017-04-20 20:54:24",
+    "state": "closed",
+    "title": "When do packages need to set LD_LIBRARY_PATH/when is RPATH sufficient?",
+    "number": 3926,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "rpath",
+        "linking"
+    ],
+    "id": 223193053,
+    "html_url": "https://github.com/spack/spack/issues/3926",
+    "assignees": [],
+    "comments": 5
+}

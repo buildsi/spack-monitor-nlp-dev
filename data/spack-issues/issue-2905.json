@@ -1,0 +1,17 @@
+{
+    "body": "When I tried installing `intel-parallel-studio@professional.2017.1 +all`, it crashed during `check_variants` and told me that I cannot use `+all` without specifying `+mpi`. There are two problems with that:\r\n\r\n1. The professional edition does not provide `+mpi`, so installing `+mpi` would be misleading\r\n2. What's the point of an `+all` variant that doesn't work unless you manually activate everything else by hand?\r\n\r\nThe main reason I use `+all` is because the default behavior is broken (see https://github.com/LLNL/spack/pull/2151#issue-185754092).\r\n\r\nHonestly, why don't we just remove all of the variants and always install everything? I can't think of a reason someone would want to install the parallel studio suite but not install mkl, for example. We could provide MPI when `@cluster`. It would also prevent bugs like installing `@cluster+all~mpi`, which technically doesn't provide MPI even though it gets installed.\r\n\r\n@lee218llnl ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2905",
+    "updated_at": "2017-01-26 04:41:10",
+    "created_at": "2017-01-23 17:41:36",
+    "closed_at": "2017-01-26 04:41:10",
+    "state": "closed",
+    "title": "Remove intel-parallel-studio +all checks",
+    "number": 2905,
+    "milestone": null,
+    "labels": [],
+    "id": 202602149,
+    "html_url": "https://github.com/spack/spack/pull/2905",
+    "assignees": [],
+    "comments": 2
+}

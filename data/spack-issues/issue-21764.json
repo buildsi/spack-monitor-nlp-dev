@@ -1,0 +1,20 @@
+{
+    "body": "I ran `spack env create testbed` in a new directory, then ran `spack env activate testbed` immediately after. I had already configured my fish shell to source the proper setup-env script, and restarted it. Everything else (`spack external find`, `spack install ctre`) has been working fine up until this point.\r\n\r\n### Steps to reproduce the issue\r\n\r\nIn fish:\r\n```console\r\n$ spack env create newEnv\r\n$ spack env activate newEnv\r\n```\r\n\r\n### Error Message\r\n```console\r\ntest: Expected a combining operator like '-a' at index 2\r\n\r\nStandard input (line 256):\r\n    if test -z \"$_a\" or test -z \"$_b\"\r\n       ^\r\nin function 'match_flag' with arguments 'testbed -h'\r\nin function 'check_env_activate_flags' with arguments 'testbed'\r\nin function 'spack_runner' with arguments 'env activate testbed'\r\n        called on line 579 of file ~/Repos/spack/share/spack/setup-env.fish\r\nin function 'spack' with arguments 'env activate testbed'\r\n\r\n(Type 'help test' for related documentation)\r\n\r\n<<< Truncated as this error appears in other places of the script >>>\r\n```\r\n```console\r\n$ spack --debug --stacktrace <command>\r\n<<< Snipped error output >>>\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2021-02-18-12:38:36.475826] Imported env from built-in commands\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2021-02-18-12:38:36.479973] Imported env from built-in commands\r\nlib/spack/spack/config.py:894 ==> [2021-02-18-12:38:36.482445] Reading config file /home/me/Repos/spack/etc/spack/defaults/config.yaml\r\nlib/spack/spack/environment.py:135 ==> [2021-02-18-12:38:36.509928] Using environmennt 'testbed'\r\nlib/spack/spack/config.py:894 ==> [2021-02-18-12:38:36.512028] Reading config file /home/me/Repos/spack/var/spack/environments/testbed/spack.yaml\r\nlib/spack/spack/database.py:363 ==> [2021-02-18-12:38:36.514656] DATABASE LOCK TIMEOUT: 3s\r\nlib/spack/spack/database.py:367 ==> [2021-02-18-12:38:36.514836] PACKAGE LOCK TIMEOUT: No timeout\r\nlib/spack/spack/config.py:894 ==> [2021-02-18-12:38:36.516137] Reading config file /home/me/Repos/spack/etc/spack/defaults/modules.yaml\r\nlib/spack/spack/config.py:894 ==> [2021-02-18-12:38:36.529787] Reading config file /home/me/Repos/spack/etc/spack/defaults/linux/modules.yaml\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-1341-8e3ac8577f\r\n* **Python:** 3.9.1\r\n* **Platform:** linux-voidrolling-zen\r\n* **Concretizer:** original\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\nThe issue can be easily demonstrated in the Fish shell without Spack.\r\n\r\n```\r\n\u00bb\u00bb\u00bb if test -z \"$a\" or test -z \"$b\"\r\n        echo yes\r\n    end\r\ntest: Expected a combining operator like '-a' at index 2\r\n\r\n(Type 'help test' for related documentation)\r\n```\r\n I am using Fish version 3.1.2 on Void Linux.",
+    "user": "larkwiot",
+    "url": "https://api.github.com/repos/spack/spack/issues/21764",
+    "updated_at": "2021-02-19 18:11:45",
+    "created_at": "2021-02-18 17:42:21",
+    "closed_at": "2021-02-19 18:11:45",
+    "state": "closed",
+    "title": "Activating New Environment does not Work in Fish Shell",
+    "number": 21764,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 811320424,
+    "html_url": "https://github.com/spack/spack/issues/21764",
+    "assignees": [],
+    "comments": 4
+}

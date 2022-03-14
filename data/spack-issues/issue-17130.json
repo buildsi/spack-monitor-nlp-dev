@@ -1,0 +1,19 @@
+{
+    "body": "Hello, I am trying to install gcc 3.8.5 and it dails at the moment of compiling `pkgconf` complaining about the `config.guess` script:\r\n\r\n     $ spack install gcc@4.8.5\r\n\r\nI get:\r\n\r\n     ...\r\n     .../spack/lib/spack/spack/build_systems/autotools.py:154, in \r\n     do_patch_config_guess:\r\n               151                return\r\n               152            except Exception as e:\r\n               153                tty.debug(e)\r\n         >>    154\r\n               155        raise RuntimeError('Failed to find suitable config.guess')\r\n      ...\r\n\r\nThe `spack-build-out.txt` says:\r\n\r\n     ==> 47811: pkgconf: Executing phase: 'autoreconf'\r\n     ==> [2020-06-17-09:37:54.996860, 47818] FileNotFoundError: [Errno 2] No such file or directory: 'config.guess': 'config.guess'\r\n\r\nIn the directory `/tmp/.../spack-stage/spack-stage-pkgconf-1.7.3-wzqfkxjzvw2b4soe2pkpoyhqwi6c3bkk/spack-src` the script `config.guess` is present.\r\n\r\nNow if I try to install `pkgconf@1.7.3`:\r\n\r\n     $ spack install pkgconf@1.7.3\r\n \r\nI have another message at the beginning:\r\n\r\n    sh: 0: getcwd() failed: No such file or directory\r\n \r\nand after I get the same message as before:\r\n   \r\n     ...\r\n     ==> 47811: pkgconf: Executing phase: 'autoreconf'\r\n     ==> Error: RuntimeError: Failed to find suitable config.guess\r\n\r\n     ...\r\n     .../spack/lib/spack/spack/build_systems/autotools.py:154, in \r\n     do_patch_config_guess:\r\n               151                return\r\n               152            except Exception as e:\r\n               153                tty.debug(e)\r\n         >>    154\r\n               155        raise RuntimeError('Failed to find suitable config.guess')\r\n        ...\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n* **Spack:** 0.14.2-1442-e28561241\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-aarch64\r\n* **Maintainers:** @michaelkuhn\r\n\r\n",
+    "user": "gagiuntoli",
+    "url": "https://api.github.com/repos/spack/spack/issues/17130",
+    "updated_at": "2020-06-29 15:08:23",
+    "created_at": "2020-06-17 07:53:56",
+    "closed_at": "2020-06-29 15:08:23",
+    "state": "closed",
+    "title": "Installation issue: gcc@4.8.5 Failed to find suitable config.guess in Arm machine",
+    "number": 17130,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 640223396,
+    "html_url": "https://github.com/spack/spack/issues/17130",
+    "assignees": [],
+    "comments": 4
+}

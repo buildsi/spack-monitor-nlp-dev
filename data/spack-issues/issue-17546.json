@@ -1,0 +1,23 @@
+{
+    "body": "This PR adds support for and use of multiple levels of debug messages to help reduce normal and debug output verbosity.  You can now use multiple `-d` and or `--debug` options on the command line to indicate increasing levels of verbosity.  \r\n\r\nAt this point three (3) debugs (as `-ddd` or any combination of three `-d` and or `--debug`), is the most detailed and is currently reserved for detailed lock log messages.  This change along with moving locking debug messages to the next level of verbosity allows us to address complaints about excessive locking messages.\r\n\r\n~Additional changes to output include:~\r\n\r\n- ~Messages considered 'excessive' (for installs) should be output at the `basic` (1) level.~\r\n- ~Existing debug messages are generally output at the `standard` (2) level.~\r\n- ~Process ids are also removed from regular (2) and basic (1) debug output.~\r\n- ~Locking messages only output using the `detailed` (3) debug level.~\r\n\r\n\r\nTODO:\r\n\r\n- [x] Add the new debug levels with `standard` being the default for existing debug messages\r\n- [x] Only add the PID to the timestamp if at the `standard` debug level\r\n- [x] Add Spack command line options `-dd`, `-ddd`, and `-dddd`\r\n- [x] Change locking messages to only be shown at the `detailed` level\r\n- [x] Switch install output messages to debugging to reduce verbosity\r\n- [x] Remove (redundant?) curl stderr output\r\n- [x] Update tests\r\n- [x] Use `argparse`'s count to track number of debugs to indicate verbosity\r\n- [x] Merge basic and regular debug messages into one, making it the lowest debug level\r\n- [x] Eliminate internal textual variables for debug levels\r\n- [x] Combine lock logging methods",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/17546",
+    "updated_at": "2020-07-23 07:49:58",
+    "created_at": "2020-07-15 18:04:23",
+    "closed_at": "2020-07-23 07:49:58",
+    "state": "closed",
+    "title": "Reduce output verbosity with debug levels",
+    "number": 17546,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "stage",
+        "build"
+    ],
+    "id": 657548337,
+    "html_url": "https://github.com/spack/spack/pull/17546",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 16
+}

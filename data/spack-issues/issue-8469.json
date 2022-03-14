@@ -1,0 +1,22 @@
+{
+    "body": "Since the changes to the gdal/package.py on May 26, it builds without the capacity to use numpy arrays in the Python bindings.  \r\n\r\nIn the previous version of the gdal/package.py, it had an explicit build and run dependency on py-numpy, but this is now missing. I suspect that it is necessary. \r\n\r\nWhen I add this back in to gdal/package.py as follows, the problem disappears again. (I added the when='+python', which was not in the original)\r\n\r\n`depends_on('py-numpy', type=('build', 'run'), when='+python')`\r\n\r\nI suspect that the lack of 'build' dependency is the main flaw. When GDAL is building, it thinks that numpy is not available, and quietly builds the numpy-free parts of the Python bindings. \r\n\r\n### Expected Result\r\n\r\nGDAL Python bindings should be able to use ReadAsArray() to read raster data into a numpy array.\r\n\r\n### Actual Result\r\n\r\nIf built with +python, the resulting python bindings produce an error when reading raster data with ReadAsArray().\r\n\r\nThis is true even if py-numpy is already installed and available in the environment. \r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gdal+python\r\n$ module load gdal-2.3.0-gcc-6-python2-rsfov4z\r\n$ python\r\n>>> from osgeo import gdal\r\n>>> ds = gdal.Open('image.tif')\r\n>>> b = ds.GetRasterBand(1)\r\n>>> a = b.ReadAsArray()\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/scratch/rsc7/floodn/spackInstall2/opt/spack/linux-sles12-x86_64/gcc-6/gdal-2.3.0-mqthuimmblu3uqd2uicgoh7bwjyxq3xf/lib/python2.7/site-packages/osgeo/gdal.py\", line 2605, in ReadAsArray\r\n    import gdalnumeric\r\n  File \"/scratch/rsc7/floodn/spackInstall2/opt/spack/linux-sles12-x86_64/gcc-6/gdal-2.3.0-mqthuimmblu3uqd2uicgoh7bwjyxq3xf/lib/python2.7/site-packages/osgeo/gdalnumeric.py\", line 1, in <module>\r\n    from osgeo.gdal_array import *\r\n  File \"/scratch/rsc7/floodn/spackInstall2/opt/spack/linux-sles12-x86_64/gcc-6/gdal-2.3.0-mqthuimmblu3uqd2uicgoh7bwjyxq3xf/lib/python2.7/site-packages/osgeo/gdal_array.py\", line 28, in <module>\r\n    _gdal_array = swig_import_helper()\r\n  File \"/scratch/rsc7/floodn/spackInstall2/opt/spack/linux-sles12-x86_64/gcc-6/gdal-2.3.0-mqthuimmblu3uqd2uicgoh7bwjyxq3xf/lib/python2.7/site-packages/osgeo/gdal_array.py\", line 20, in swig_import_helper\r\n    import _gdal_array\r\nImportError: No module named _gdal_array\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\nRunning on linux-sles12-x86_64, with OS-installed gcc-6. \r\n",
+    "user": "neilflood",
+    "url": "https://api.github.com/repos/spack/spack/issues/8469",
+    "updated_at": "2018-06-15 15:14:51",
+    "created_at": "2018-06-14 03:39:35",
+    "closed_at": "2018-06-15 15:14:51",
+    "state": "closed",
+    "title": "GDAL should have dependency on py-numpy when building with +python",
+    "number": 8469,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies"
+    ],
+    "id": 332240936,
+    "html_url": "https://github.com/spack/spack/issues/8469",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 3
+}

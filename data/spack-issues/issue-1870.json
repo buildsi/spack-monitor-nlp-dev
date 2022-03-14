@@ -1,0 +1,20 @@
+{
+    "body": "Spack is intended to work only with Python2 at this time.  That is fine.  However, users occasionally run with Python3 by accident, which produces strange error messages:\n\n```\n$ python3 `which spack`\nTraceback (most recent call last):\n  File \"/home2/rpfische/spack2/bin/spack\", line 52, in <module>\n    import nose\n  File \"/home2/rpfische/spack2/lib/spack/external/nose/__init__.py\", line 1, in <module>\n    from nose.core import collector, main, run, run_exit, runmodule\n  File \"/home2/rpfische/spack2/lib/spack/external/nose/core.py\", line 153\n    print \"%s version %s\" % (os.path.basename(sys.argv[0]), __version__)\n                        ^\nSyntaxError: invalid syntax\n```\n\nSpack needs to check Python version at the beginning of the `spack` script, and exit gracefully with an appropriate error message if it detects Python3.  Otherwise, it wastes users' time when they see this error.\n\nThis issue will become increasingly important as newer Linuxes (Ubuntu) ship with Python3 by default.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1870",
+    "updated_at": "2016-09-28 16:37:34",
+    "created_at": "2016-09-28 14:50:11",
+    "closed_at": "2016-09-28 16:37:34",
+    "state": "closed",
+    "title": "Spack Needs to Check Python Version",
+    "number": 1870,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "feature"
+    ],
+    "id": 179795511,
+    "html_url": "https://github.com/spack/spack/issues/1870",
+    "assignees": [],
+    "comments": 5
+}

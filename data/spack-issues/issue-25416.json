@@ -1,0 +1,24 @@
+{
+    "body": "### Steps to reproduce the issue\n\n`rocsolver@4.3.0` build fails using:\r\n* `spack@develop` (b008d2b1fe03273156b37bab4f388bc738aaddb2 from `Thu Aug 12 22:37:56 2021 +0800`)\r\n* Ubuntu 20.04, GCC 9.3.0\r\n* Ubuntu 18.04, GCC 7.5.0\r\n* RHEL 7, GCC 9.3.0\r\n* RHEL 8, GCC 8.4.1\r\n\r\nConcrete spec: [rocsolver.spec.yaml.txt](https://github.com/spack/spack/files/6983175/rocsolver.spec.yaml.txt)\r\n\r\nReproduced here using Docker container image `ecpe4s/ubuntu20.04-runner-x86_64:2021-07-01`\r\n```\r\n$> spack mirror add E4S https://cache.e4s.io\r\n$> spack buildcache keys -it\r\nOK\r\n\r\n$> spack install --cache-only --include-build-deps --only dependencies -f ./rocsolver.spec.yaml\r\nOK\r\n\r\n$> spack install --no-cache -f ./rocsolver.spec.yaml\r\n...\r\n==> Installing rocsolver-4.3.0-rt7xrwdpvapar7hbxebnwtrzfxcwp4lf\r\n==> Warning: Suspicious requests to set or unset 'CXX' found\r\n==> Warning: \t    \tenv.set('CXX', os.path.join(link_dir, compiler.link_paths['cxx'])) at /spack/lib/spack/spack/build_environment.py:252\r\n==> Warning: \t--->\tunknown context at unknown file:unknown line\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/63/63cc88dd285c0fe01ec2394321ec3b4e1e59bb98ce05b06e4b4d8fadcf1ff028.tar.gz\r\n==> No patches needed for rocsolver\r\n==> rocsolver: Executing phase: 'cmake'\r\n==> rocsolver: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j12'\r\n\r\n3 errors found in build log:\r\n     274    crtbegin.c:(.text.__do_init+0x34): relocation truncated to fit: R_X\r\n            86_64_PC32 against `.eh_frame'\r\n     275    /spack-software/__spack_path_placeholder__/__spack_path_placeholder\r\n            __/__spack_path_placeholder__/__spack_path_placeholder__/__sp/linux\r\n            -ubuntu20.04-x86_64/gcc-9.3.0/llvm-amdgpu-4.3.0-4xy4in54xmi4bzcorop\r\n            yafmwlo3b7vcg/lib/clang/13.0.0/lib/linux/clang_rt.crtbegin-x86_64.o\r\n            : in function `__do_fini':\r\n     276    crtbegin.c:(.text.__do_fini+0xb): relocation truncated to fit: R_X8\r\n            6_64_PC32 against `.bss.__finalized.1741'\r\n     277    crtbegin.c:(.text.__do_fini+0x19): relocation truncated to fit: R_X\r\n            86_64_PC32 against `.bss.__finalized.1741'\r\n     278    crtbegin.c:(.text.__do_fini+0x21): additional relocation overflows \r\n            omitted from the output\r\n     279    ld: failed to convert GOTPCREL relocation; relink with --no-relax\r\n  >> 280    clang-13: error: linker command failed with exit code 1 (use -v to \r\n            see invocation)\r\n  >> 281    make[2]: *** [library/src/CMakeFiles/rocsolver.dir/build.make:1766:\r\n             library/src/librocsolver.so.0.1] Error 1\r\n     282    make[2]: Leaving directory '/tmp/root/spack-stage/spack-stage-rocso\r\n            lver-4.3.0-rt7xrwdpvapar7hbxebnwtrzfxcwp4lf/spack-build-rt7xrwd'\r\n  >> 283    make[1]: *** [CMakeFiles/Makefile2:134: library/src/CMakeFiles/rocs\r\n            olver.dir/all] Error 2\r\n     284    make[1]: Leaving directory '/tmp/root/spack-stage/spack-stage-rocso\r\n            lver-4.3.0-rt7xrwdpvapar7hbxebnwtrzfxcwp4lf/spack-build-rt7xrwd'\r\n     285    make: *** [Makefile:159: all] Error 2\r\n```\r\n\n\n### Information on your system\n\n* **Spack:** 0.13.3-9117-d2694d0119\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-cascadelake\r\n* **Concretizer:** original\n\n### Additional information\n\nBuild log: [rocsolver-spack-build-02-build-out.txt](https://github.com/spack/spack/files/6983397/rocsolver-spack-build-02-build-out.txt)\r\nCMake output: [rocsolver-spack-build-01-cmake-out.txt](https://github.com/spack/spack/files/6983394/rocsolver-spack-build-01-cmake-out.txt)\r\nConfigure log: [rocsolver-spack-configure-args.txt](https://github.com/spack/spack/files/6983393/rocsolver-spack-configure-args.txt)\r\n\r\n\r\n@arjun-raj-kuppala @haampie @srekolam\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/25416",
+    "updated_at": "2021-08-16 17:06:15",
+    "created_at": "2021-08-13 15:15:16",
+    "closed_at": "2021-08-16 17:06:15",
+    "state": "closed",
+    "title": "rocsolver 4.3.0 build fails: ld: failed to convert GOTPCREL relocatio",
+    "number": 25416,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "e4s",
+        "AMD",
+        "ROCm/hip"
+    ],
+    "id": 970491656,
+    "html_url": "https://github.com/spack/spack/issues/25416",
+    "assignees": [
+        "srekolam"
+    ],
+    "comments": 4
+}

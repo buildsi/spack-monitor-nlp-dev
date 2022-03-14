@@ -1,0 +1,17 @@
+{
+    "body": "When running `spack create` for any zip file, Spack crashes with the following error message:\n\n```\n$ spack create https://github.com/PCMSolver/pcmsolver/archive/v1.1.2.zip\n==> This looks like a URL for pcmsolver version 1.1.2\n==> Creating template for package pcmsolver\n==> Downloading...\n==> Trying to fetch from https://github.com/PCMSolver/pcmsolver/archive/v1.1.2.zip\n######################################################################## 100.0%\n/bin/tar: This does not look like a tar archive\n/bin/tar: Skipping to next header\n/bin/tar: Exiting with failure status due to previous errors\n==> Something failed on https://github.com/PCMSolver/pcmsolver/archive/v1.1.2.zip, skipping.\n    (Command exited with status 2:\n    '/bin/tar' '--exclude=*/*/*' '-tf' '/blues/gpfs/home/software/spack/var/spack/stage/spack-stage-wLtGOe/v1.1.2.zip')\n==> Error: Could not fetch any tarballs for pcmsolver\n```\n\nThe problem is that it uses tar to peek inside of the file and list its contents in order to deduce the build system. I wrote a fix for this in #994. Just wanted to spread awareness until it gets merged.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1016",
+    "updated_at": "2016-06-21 18:06:54",
+    "created_at": "2016-06-03 16:07:47",
+    "closed_at": "2016-06-21 18:06:54",
+    "state": "closed",
+    "title": "spack create crashes for .zip files",
+    "number": 1016,
+    "milestone": null,
+    "labels": [],
+    "id": 158401549,
+    "html_url": "https://github.com/spack/spack/issues/1016",
+    "assignees": [],
+    "comments": 1
+}

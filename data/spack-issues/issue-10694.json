@@ -1,0 +1,23 @@
+{
+    "body": "I couldn't get it down to a more minimal example:\r\n\r\nAdding a new package\r\n```\r\nclass Somepackage(Package):                                                                                                                                                    \r\n    homepage = \"http://www.example.com\"                                                                                                                                        \r\n    url      = \"somepackage\"                                                                                                                                                   \r\n\r\n     version('1.2.3', '0123456789abcdef0123456789abcdef')                                                                                                                       \r\n\r\n     depends_on('py-idna@2.5:2.9.99', type=('build', 'run'), when='@0.21.0:')                                                                                                   \r\n     depends_on('py-idna@2.5:2.5.99', type=('build', 'run'), when='@0.16.5:') \r\n```\r\nand doing\r\n```\r\nspack spec somepackage\r\n```\r\n\r\nresults in the following output\r\n```\r\n$ spack spec somepackage\r\nInput spec\r\n--------------------------------\r\nsomepackage\r\n\r\nConcretized\r\n--------------------------------\r\n```\r\n\r\nand a fully utilised CPU, but nothing more. `strace` on the process shows a recursion with accesses only to `lib/spack/spack/compilers/*.pyc`. Looking at the program under a debugger it never gets out of of the concretisation loop at `lib/spack/spack/spec.py:l1790`. That was the point at which I gave up and empirically fixed my problem by providing an upper limit to the when-clause in the second dependency.\r\n\r\n\r\nUnfortunately I couldn't reproduce this phenomenon with a simpler dependency than `py-idna`, but it seems that the when clauses have to be mutually exclusive in order to guarantee a well-behaved concretisation process.\r\n\r\n@scheibelp @tgamblin how's the new concretiser coming along? :)\r\n\r\nedit: cc @obreitwi ",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/10694",
+    "updated_at": "2022-03-10 10:53:24",
+    "created_at": "2019-02-25 11:19:14",
+    "closed_at": "2022-03-10 10:53:24",
+    "state": "closed",
+    "title": "Another infinite loop during concretisation",
+    "number": 10694,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "fixed-by-new-concretizer"
+    ],
+    "id": 414055654,
+    "html_url": "https://github.com/spack/spack/issues/10694",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

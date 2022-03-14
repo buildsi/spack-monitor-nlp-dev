@@ -1,0 +1,20 @@
+{
+    "body": "When rebuilding my software stack on Catalina I encountered the following build error on Catalina\r\n```\r\n==> Installing openmpi\r\n==> Searching for binary cache of openmpi\r\n==> No binary for openmpi found: installing from source\r\n==> Fetching http://www.open-mpi.org/software/ompi/v3.1/downloads/openmpi-3.1.4.tar.bz2\r\n##################################################################################################################################################################################################### 100.0%##################################################################################################################################################################################################### 100.0%##################################################################################################################################################################################################### 100.0%\r\n==> Staging archive: /var/folders/1q/jxx1cgcx3l13d153s6_c1zc00000gn/T/healther/spack-stage/openmpi-3.1.4-qecenftbojb2tzv6zrtsz64nzenb4h2x/openmpi-3.1.4.tar.bz2\r\ndyld: Library not loaded: @rpath/libbz2.1.dylib\r\n  Referenced from: /Users/healther/Documents/git.nosync/spack/var/spack/environments/mypython/.spack-env/view/bin/bzip2\r\n  Reason: image not found\r\n/Users/healther/Documents/git.nosync/spack/var/spack/environments/mypython/.spack-env/view/bin/tar: Child died with signal 6\r\n/Users/healther/Documents/git.nosync/spack/var/spack/environments/mypython/.spack-env/view/bin/tar: Error is not recoverable: exiting now\r\n==> Error: ProcessError: Command exited with status 2:\r\n    '/Users/healther/Documents/git.nosync/spack/var/spack/environments/mypython/.spack-env/view/bin/tar' '-xf' '/var/folders/1q/jxx1cgcx3l13d153s6_c1zc00000gn/T/healther/spack-stage/openmpi-3.1.4-qecenftbojb2tzv6zrtsz64nzenb4h2x/openmpi-3.1.4.tar.bz2'\r\n```\r\n\r\nThe problem originates in the `bzip2` binary installed by spack. Calling it even without arguments leads to\r\n```\r\n% /Users/healther/Documents/git.nosync/spack/opt/spack/darwin-catalina-broadwell/clang-11.0.0-apple/bzip2-1.0.8-fodftvdvnzr3fcj3cuwqhidrq3dnggb6/bin/bzip2\r\n\r\ndyld: Library not loaded: @rpath/libbz2.1.dylib\r\n  Referenced from: /Users/healther/Documents/git.nosync/spack/opt/spack/darwin-catalina-broadwell/clang-11.0.0-apple/bzip2-1.0.8-fodftvdvnzr3fcj3cuwqhidrq3dnggb6/bin/bzip2\r\n  Reason: image not found\r\nzsh: abort\r\n```\r\n\r\nReproduction should be possible by doing `spack install bzip2` and calling the installed binary on any OSX Catalina system.\r\n\r\n@adamjstewart I assume you also rebuild your software stack but somehow avoided that error (or did I miss an issue?)",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/13245",
+    "updated_at": "2019-10-24 20:33:43",
+    "created_at": "2019-10-17 07:16:36",
+    "closed_at": "2019-10-24 20:33:43",
+    "state": "closed",
+    "title": "rpath error on Catalina, symptom: bzip2 doesn't work",
+    "number": 13245,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 508283618,
+    "html_url": "https://github.com/spack/spack/issues/13245",
+    "assignees": [],
+    "comments": 26
+}

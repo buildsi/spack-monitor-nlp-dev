@@ -1,0 +1,17 @@
+{
+    "body": "`not` has a higher precedence than `and`, which caused this check to always return `False`.\r\n\r\nThis is pretty easy to reproduce: Change `~/.spack/*/compilers.yaml` to contain some invalid paths and try to install some package. Without this PR, the package will most likely fail with something like this:\r\n```\r\nconfigure: error: C compiler cannot create executables\r\n```\r\nWith this PR, Spack will check beforehand:\r\n```\r\n==> Error: '/usr/bin/gcc123' is not a valid path for compiler 'gcc@9.2.1'on operating system 'fedora31'.\r\nPlease use 'spack compiler' to diagnose and fix the problem.\r\n```",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/9845",
+    "updated_at": "2020-06-26 02:05:13",
+    "created_at": "2018-11-14 07:56:10",
+    "closed_at": "2020-06-26 02:05:12",
+    "state": "closed",
+    "title": "compiler: fix _verify_executables",
+    "number": 9845,
+    "milestone": null,
+    "labels": [],
+    "id": 380576503,
+    "html_url": "https://github.com/spack/spack/pull/9845",
+    "assignees": [],
+    "comments": 7
+}

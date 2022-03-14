@@ -1,0 +1,22 @@
+{
+    "body": "\r\n### Summary\r\n\r\nI have multiple versions of hdf5 install, and I would like to create a view with just one of them.  Specifying the hash is the recommended way according to the documentation, but it does not seem to work.\r\n\r\n### Expected Result\r\n\r\n I expect one of these options create a view:\r\nShort hash:\r\n```\r\nspack view --verbose  symlink myview /fuqfcbe\r\nspack view --verbose  symlink myview ^/fuqfcbe\r\n```\r\n\r\nFull hash:\r\n```\r\nspack view --verbose symlink myview /fuqfcbeakt2ecpn23xe3vcpimohc2gxe\r\nspack view --verbose symlink myview ^/fuqfcbeakt2ecpn23xe3vcpimohc2gxe\r\n```\r\n\r\n### Actual Result\r\n\r\nAll permutations give the same result:\r\n```\r\n> spack view --verbose symlink myview ^/fuqfcbeakt2ecpn23xe3vcpimohc2gxe\r\n==> Error: ^/fuqfcbeakt2ecpn23xe3vcpimohc2gxe matches multiple packages.\r\n  Matching packages:\r\n    hyfdeo5 binutils@2.29.1%clang@9.0.0-apple arch=darwin-sierra-x86_64\r\n    uxdgzdu bison@3.0.4%clang@9.0.0-apple arch=darwin-sierra-x86_64\r\n    5vyj7l5 bison@3.0.4%clang@9.0.0-apple arch=darwin-sierra-x86_64\r\n    ...\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nAny multiple versions of a package should work.  For me, I have 3 versions of hdf5 with the one I want to install being chosen because it has mpich.  `hdf5^mpich` did not work for me either.\r\n\r\n```\r\n> spack find --long hdf5\r\n==> 4 installed packages.\r\n-- darwin-sierra-x86_64 / clang@9.0.0-apple ---------------------\r\ncdpvfjh hdf5@1.10.0-patch1  fuqfcbe hdf5@1.10.1  nfpaht4 hdf5@1.10.1  52sviwf hdf5@1.10.1\r\n```\r\n### System info\r\n\r\n 1.  Darwin (MacOS 10.12.6)\r\n 2. My version of spack is latest git develop branch.\r\n",
+    "user": "kruger",
+    "url": "https://api.github.com/repos/spack/spack/issues/7548",
+    "updated_at": "2018-04-05 07:14:43",
+    "created_at": "2018-03-21 19:50:10",
+    "closed_at": "2018-04-04 17:40:57",
+    "state": "closed",
+    "title": "Cannot specify hash with spack view",
+    "number": 7548,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "hashes"
+    ],
+    "id": 307393986,
+    "html_url": "https://github.com/spack/spack/issues/7548",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

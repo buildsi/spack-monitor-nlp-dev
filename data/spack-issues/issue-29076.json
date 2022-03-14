@@ -1,0 +1,21 @@
+{
+    "body": "In https://github.com/spack/spack/pull/28439 a couple of lines with still valid conflicts has been removed.\r\n\r\nFrom https://github.com/spack/spack/pull/28439#issuecomment-1015448823 it seems that something changed from https://github.com/spack/spack/pull/25054#issuecomment-885543526. For instance, picking the line about CUDA 11.4.0 the two sources above says:\r\n\r\n```\r\n11.4.0-devel-ubuntu18.04/host_config.h:#error -- unsupported clang version! clang version must be less than 13 and greater than 3.2\r\n11.4.0-devel-ubuntu18.04/host_config.h:#error -- unsupported GNU version! gcc versions later than 11 are not supported!\r\n```\r\n\r\nso \"supported CLANG < 13 and GCC <= 11\", while the other one says\r\n\r\n```\r\n11.4.0  #error -- unsupported clang version! clang version must be less than 12 and greater than 3.2\r\n11.4.0  #error -- unsupported GNU version! gcc versions later than 10 are not supported!\r\n```\r\n\r\nso \"supported CLANG < 12 and GCC <= 10\".\r\n\r\nAnyhow, from actual evidence I had (thanks @msimberg for pointing that out), at least for CUDA 11.2.0 and GCC 11 the conflicts is still there.\r\n\r\nFor this reason, after coordinating with @haampie, I start this PR by adding back the old conflicts for both GCC and CLANG, waiting for updates about the correct version of CUDA to use (is it 11.4.0 or do we have to use the older 11.3.1?).\r\n\r\nThanks for the support @haampie.",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/29076",
+    "updated_at": "2022-02-21 19:58:45",
+    "created_at": "2022-02-18 16:08:46",
+    "closed_at": "2022-02-21 19:28:56",
+    "state": "closed",
+    "title": "Add back CUDA conflicts for GCC and Clang + Add CUDA 11.4.3 and 11.4.4",
+    "number": 29076,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "conflicts",
+        "build-systems"
+    ],
+    "id": 1143330459,
+    "html_url": "https://github.com/spack/spack/pull/29076",
+    "assignees": [],
+    "comments": 3
+}

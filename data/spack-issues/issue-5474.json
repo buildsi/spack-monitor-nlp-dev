@@ -1,0 +1,20 @@
+{
+    "body": "closes #2884 \r\ncloses #4684 \r\n\r\nThis PR restricts the token that can be expanded in the module file naming scheme and in the name of an environment variable to just `PACKAGE`, `VERSION`, `COMPILER`, `COMPILERNAME`, `COMPILERVER` and  `ARCHITECTURE` (as discussed in #2884). It does so extending `Spec.format` with an optional parameter that contains a list of transformation functions (one for each token, the default being the identity function).\r\n\r\nThis new mechanism is then exploited to solve #4684. This PR changes the behavior for the expansion of tokens in environment variable names so that it respects the case sensitivity of the literal parts (token expanded in that context are still made uppercase).\r\n\r\n### PR in action\r\n\r\nWith a `modules.yaml` that looks like:\r\n```yaml\r\nmodules:\r\n  tcl:\r\n    naming_scheme: '${PACKAGE}/${VERSION}-${COMPILERNAME}-${COMPILERVER}-${OPTIONS}'\r\n```\r\nwhere `OPTIONS` is an invalid token, we get a warning and the module file is not written:\r\n```console\r\n$ spack install libszip\r\n==> Installing libszip\r\n==> Using cached archive: /home/mculpo/PycharmProjects/spack/var/spack/cache/libszip/libszip-2.1.1.tar.gz\r\n==> Staging archive: /home/mculpo/PycharmProjects/spack/var/spack/stage/libszip-2.1.1-bg2wewqg2rfxg4rypj7u2lfvmhnxcug5/szip-2.1.1.tar.gz\r\n==> Created stage in /home/mculpo/PycharmProjects/spack/var/spack/stage/libszip-2.1.1-bg2wewqg2rfxg4rypj7u2lfvmhnxcug5\r\n==> No patches needed for libszip\r\n==> Building libszip [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Warning: cannot perform the requested write operation on module files [token OPTIONS cannot be part of the module naming scheme]\r\n==> Successfully installed libszip\r\n  Fetch: 0.01s.  Build: 5.58s.  Total: 5.59s.\r\n[+] /home/mculpo/PycharmProjects/spack/opt/spack/linux-ubuntu14.04-x86_64/gcc-7.2.0/libszip-2.1.1-bg2wewqg2rfxg4rypj7u2lfvmhnxcug5\r\n```\r\nThe same holds true for:\r\n```console\r\n$ spack module refresh -m tcl libszip\r\n==> You are about to regenerate tcl module files for:\r\n\r\n-- linux-ubuntu14.04-x86_64 / gcc@4.8 ---------------------------\r\nqabk3nm libszip@2.1.1\r\n\r\n-- linux-ubuntu14.04-x86_64 / gcc@7.2.0 -------------------------\r\nbg2wewq libszip@2.1.1\r\n\r\n==> Do you want to proceed? [y/n] y\r\n==> Error: token OPTIONS cannot be part of the module naming scheme\r\n```\r\n\r\n---\r\n\r\nThere are a few lines of comments in the commit messages, so in case we should rebase and merge this (instead of squashing it)?\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/5474",
+    "updated_at": "2017-10-05 04:10:19",
+    "created_at": "2017-09-26 06:24:30",
+    "closed_at": "2017-10-05 01:14:07",
+    "state": "closed",
+    "title": "module files: restricted token expansion + case sensitivity",
+    "number": 5474,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 260504746,
+    "html_url": "https://github.com/spack/spack/pull/5474",
+    "assignees": [],
+    "comments": 3
+}

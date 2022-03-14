@@ -1,0 +1,19 @@
+{
+    "body": "I tried to install `llvm`, but spack tries to install it as `flang-driver` (one of the resources of the `llvm` package).  A similar thing happens with `fenics`, being installed as `ffc`.  I haven't yet noticed any problems that result from this -- `clang` as provided by `llvm@8.0.0` seems to work fine when used via `spack load` in simple tests.  [I wrote a comment on the PR](https://github.com/spack/spack/pull/11568#issuecomment-501849962) that seems to have introduced it, and I'm copying some of that text inline here:\r\n\r\nTrying to install either package (suggest using `--fake` to speed things up if you want to test this) will show `llvm` installing as `flang-driver` and `fenics` installing as `ffc`.  I've tested this out on a Mac laptop, in a Fedora 30 docker container and on a CentOS 7 machine.  `git bisect` led me to 87e6cb9f7 being the commit that changed this.\r\n\r\nIt seems that in both cases, if you load the package via `Repo.get` in a spack python shell, the `Package.name` path introduced in #11568 is not touched.  The only thing I can see in common between the two package definitions is that they use resources dicts that have keys that match the incorrect name.  I don't think any other packages are affected (tested by comparing `name` and `_name` across all packages in the builtin repo).\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\nEither command below should reproduce with a fresh spack clone\r\n\r\n```console\r\n$ spack install llvm\r\n$ spack install fenics\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\nI'm not sure if it's considered an error, really.  The relevant output from `spack install llvm` looks something like this:\r\n\r\n```console\r\n==> Installing flang-driver\r\n==> Searching for binary cache of flang-driver\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for flang-driver found: installing from source\r\n==> Building flang-driver [CMakePackage]\r\n==> Successfully installed flang-driver\r\n```\r\n\r\n### Information on your system\r\n\r\nTested on:\r\n- Fedora 30 docker image with python = 2.7.16 and python3 = 3.7.3\r\n- CentOS7 with python = 2.7.15 and python3 = 3.4.9\r\n- MacOS Mojave python = 2.7.10 and python3 = 3.7.3\r\n\r\nmost recently at d21bec996",
+    "user": "dmringo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11789",
+    "updated_at": "2019-06-28 13:59:20",
+    "created_at": "2019-06-19 16:41:14",
+    "closed_at": "2019-06-28 13:59:20",
+    "state": "closed",
+    "title": "llvm and fenics packages are named incorrectly by `spack install`",
+    "number": 11789,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 458115785,
+    "html_url": "https://github.com/spack/spack/issues/11789",
+    "assignees": [],
+    "comments": 1
+}

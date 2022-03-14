@@ -1,0 +1,27 @@
+{
+    "body": "This PR permits to specify the `url` and `ref` of the Spack instance used in a container recipe simply by expanding the YAML schema as outlined in #20442:\r\n```yaml\r\ncontainer:\r\n  images:\r\n    os: amazonlinux:2\r\n    spack:\r\n      ref: develop\r\n      resolve_sha: true\r\n```\r\nThe `resolve_sha` option, if true, verifies the `ref` by cloning the Spack repository in a temporary directory and transforming any tag or branch name to a commit sha. When this new ability is leveraged an additional \"bootstrap\" stage is added, which builds an image with Spack setup and ready to install software. The Spack repository to be used can be customized with the `url` keyword under `spack`.\r\n\r\nModifications:\r\n- [x] Permit to pin the version of Spack, either by branch or tag or sha\r\n- [x] Added a few new OSes (centos:8, amazonlinux:2, ubuntu:20.04, alpine:3, cuda:11.2.1)\r\n- [x] Permit to print the bootstrap image as a standalone\r\n- [x] Add documentation on the new part of the schema\r\n- [x] Add unit tests for different use cases",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/21910",
+    "updated_at": "2021-10-25 20:29:05",
+    "created_at": "2021-02-24 14:35:46",
+    "closed_at": "2021-10-25 20:09:28",
+    "state": "closed",
+    "title": "containerize: pin the Spack version used in a container",
+    "number": 21910,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "documentation",
+        "tests",
+        "commands",
+        "containers",
+        "docker",
+        "utilities"
+    ],
+    "id": 815537098,
+    "html_url": "https://github.com/spack/spack/pull/21910",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 25
+}

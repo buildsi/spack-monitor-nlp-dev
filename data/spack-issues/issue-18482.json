@@ -1,0 +1,23 @@
+{
+    "body": "Fixes  #18530.\r\n\r\nThe logic in `config.py` merges lists correctly so that list elements from higher-precedence config files come first, but the way we merge `dict` elements reverses the precedence.\r\n\r\nSince `mirrors.yaml` relies on `OrderedDict` for precedence, this bug causes mirrors in lower-precedence config scopes to be checked before higher-precedence scopes.\r\n\r\nWe should probably convert `mirrors.yaml` to use a list at some point, but in the meantime here's a fix for `OrderedDict`.\r\n\r\n- [x] ensuring that keys are ordered correctly in `OrderedDict` by re-inserting keys from the destination `dict` after adding the keys from the source `dict`.\r\n    \r\n- [x] also simplify the logic in `merge_yaml` by always reinserting common keys -- this preserves mark information without all the special cases, and makes it simpler to preserve insertion order.\r\n\r\nAssuming a default spack configuration, if we run this:\r\n\r\n```console\r\n$ spack mirror add foo https://bar.com\r\n```\r\n\r\nResults before this change:\r\n\r\n```console\r\n$ spack config blame mirrors\r\n---                                                          mirrors:\r\n/Users/gamblin2/src/spack/etc/spack/defaults/mirrors.yaml:2    spack-public: https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/\r\n/Users/gamblin2/.spack/mirrors.yaml:2                          foo: https://bar.com\r\n```\r\n\r\nResults after (foo on top):\r\n\r\n```console\r\n$ spack config blame mirrors\r\n---                                                          mirrors:\r\n/Users/gamblin2/.spack/mirrors.yaml:2                          foo: https://bar.com\r\n/Users/gamblin2/src/spack/etc/spack/defaults/mirrors.yaml:2    spack-public: https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/\r\n```",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/18482",
+    "updated_at": "2020-10-27 14:56:11",
+    "created_at": "2020-09-03 08:20:09",
+    "closed_at": "2020-10-24 23:48:05",
+    "state": "closed",
+    "title": "bugfix: fix config merge order for OrderdDicts",
+    "number": 18482,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "mirrors",
+        "bugfix"
+    ],
+    "id": 691754152,
+    "html_url": "https://github.com/spack/spack/pull/18482",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

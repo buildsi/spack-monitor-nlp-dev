@@ -1,0 +1,21 @@
+{
+    "body": "Spack does not preserve dict ordering when loading configurations from a file.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cat << EOF > ~/.spack/mirrors.yaml\r\nmirrors:\r\n  first: http://1\r\n  second: http://2\r\n  third: http://3\r\nEOF\r\n\r\n$ spack mirror list\r\n```\r\n\r\nExpected output:\r\n```\r\nfirst: http://1\r\nsecond: http://2\r\nthird: http://3\r\n```\r\n\r\nObserved output (incorrect order):\r\n```\r\nsecond: http://2\r\nthird: http://3\r\nfirst: http://1\r\n```\r\n\r\nNote that someone testing this case might observe a different ordering, possibly the expected ordering.  The heart of this issue is that the ordering does not seem to be guaranteed.\r\n\r\n```console\r\n$ spack -d --stacktrace mirror list\r\n```\r\n```\r\nlib/spack/spack/config.py:706 ==> [2019-11-01-19:19:21.680016] Reading config file /opt/spack/etc/spack/defaults/modules.yaml\r\nlib/spack/spack/config.py:706 ==> [2019-11-01-19:19:21.716634] Reading config file /opt/spack/etc/spack/defaults/linux/modules.yaml\r\nlib/spack/spack/config.py:706 ==> [2019-11-01-19:19:21.740597] Reading config file /root/.spack/modules.yaml\r\nlib/spack/spack/config.py:706 ==> [2019-11-01-19:19:21.765068] Reading config file /opt/spack/etc/spack/defaults/config.yaml\r\nlib/spack/spack/cmd/__init__.py:102 ==> [2019-11-01-19:19:21.809276] Imported mirror from built-in commands\r\nlib/spack/spack/cmd/__init__.py:102 ==> [2019-11-01-19:19:21.816516] Imported mirror from built-in commands\r\nlib/spack/spack/config.py:706 ==> [2019-11-01-19:19:21.897826] Reading config file /root/.spack/mirrors.yaml\r\nsecond    http://2\r\nthird     http://3\r\nfirst     http://1\r\n```\r\n\r\nThis output observed while running the Spack `centos7` docker image on Docker for Mac.",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/13541",
+    "updated_at": "2019-11-01 21:02:09",
+    "created_at": "2019-11-01 19:22:39",
+    "closed_at": "2019-11-01 21:02:09",
+    "state": "closed",
+    "title": "Dict ordering not preserved when loading config.",
+    "number": 13541,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 516302473,
+    "html_url": "https://github.com/spack/spack/issues/13541",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

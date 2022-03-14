@@ -1,0 +1,19 @@
+{
+    "body": "* Add version 0.5.14\r\n* Add variant to allow setting the localstatedir: See below\r\n* Add bzip2 dependency\r\n* Add myself to maintainers (I just think, I can care for this package)\r\n\r\nAbout localstatedir:\r\n\r\nmunge has a server and a client.\r\nThey communicate via unix domain sockets.\r\nThis socket is in PREFIX/var.\r\nThis package provides the client, the server, and development part (headers, libraries).\r\n\r\nLet's assume one has the server part installed as a system package.  This generally is a good idea, so that the server gets started during boot. This means, that the socket is in the system's `/var`.\r\n\r\nIf one now wants to use the client part (library!) via spack, one has a problem: spack's munge looks in SPACK-PACKAGE-PREFIX/var for the socket.\r\n\r\nThere needs to be a way to let the spack installed package use the system's socket.\r\n\r\nSo add a variant to override the path during build: `localstatedir=/var`.",
+    "user": "ChristianTackeGSI",
+    "url": "https://api.github.com/repos/spack/spack/issues/15307",
+    "updated_at": "2020-03-06 16:54:50",
+    "created_at": "2020-03-03 18:20:24",
+    "closed_at": "2020-03-06 14:03:21",
+    "state": "closed",
+    "title": "munge: new version, local state path, misc",
+    "number": 15307,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 574853673,
+    "html_url": "https://github.com/spack/spack/pull/15307",
+    "assignees": [],
+    "comments": 0
+}

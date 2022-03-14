@@ -1,0 +1,19 @@
+{
+    "body": "I am working on a makefile package that calls two scripts that generate files before creating the executable.  These files are generated in the stage, but the executable target does not see them.  Setting parallel to False does not fix the issue.  Does anyone know why this is happening?  I have worked around the issue by calling the scripts seperately in build:\r\n\r\n``` python\r\n   def build(self, spec, prefix):\r\n        with working_dir('miniXyce_ref'):\r\n            # Call Script Targets First to Generate Needed Files\r\n\r\n            make('generate_info')\r\n            make('common_files')\r\n            make(*self.build_targets)\r\n```\r\n\r\nHere are the Makefile Targets:\r\n\r\n```\r\nall:common_files generate_info miniXyce.x\r\n\r\nminiXyce.x:common_files $(MAIN_OBJ) $(OBJS) $(UTIL_OBJS) $(OPTIONAL_OBJS) *.hpp generate_info\r\n        $(INSTRUMENT) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(MAIN_OBJ) $(OBJS) $(UTIL_OBJS) $(OPTIONAL_OBJS) -o miniXyce.x $(LDFLAGS) $(OPTIONAL_LIBS) $(LIBS)\r\n\r\ncommon_files:\r\n        ./get_common_files\r\n\r\ngenerate_info:\r\n        ./generate_info_header \"$(CXX)\" \"$(CXXFLAGS)\" \"miniXyce\" \"MINIXYCE\"```",
+    "user": "homerdin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4758",
+    "updated_at": "2017-07-29 01:32:19",
+    "created_at": "2017-07-13 18:37:02",
+    "closed_at": "2017-07-29 01:32:19",
+    "state": "closed",
+    "title": "Makefile with file generating scripts",
+    "number": 4758,
+    "milestone": null,
+    "labels": [
+        "makefile"
+    ],
+    "id": 242792390,
+    "html_url": "https://github.com/spack/spack/issues/4758",
+    "assignees": [],
+    "comments": 1
+}

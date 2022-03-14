@@ -1,0 +1,17 @@
+{
+    "body": "I see this error after pulling recent changes today:\r\n```\r\n$ spack fetch openssl\r\nTraceback (most recent call last):\r\n  File \"/Users/eschnett/src/spack/bin/spack\", line 212, in <module>\r\n    main(sys.argv)\r\n  File \"/Users/eschnett/src/spack/bin/spack\", line 208, in main\r\n    _main(args, unknown)\r\n  File \"/Users/eschnett/src/spack/bin/spack\", line 174, in _main\r\n    return_val = command(parser, args)\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/cmd/fetch.py\", line 55, in fetch\r\n    specs = spack.cmd.parse_specs(args.packages, concretize=True)\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/cmd/__init__.py\", line 114, in parse_specs\r\n    spec.concretize()  # implies normalize\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/spec.py\", line 1525, in concretize\r\n    self._expand_virtual_packages(),\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/spec.py\", line 1442, in _expand_virtual_packages\r\n    spec)\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/concretize.py\", line 121, in choose_virtual_or_external\r\n    candidates = self._valid_virtuals_and_externals(spec)\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/concretize.py\", line 80, in _valid_virtuals_and_externals\r\n    if is_spec_buildable(cspec):\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/package_prefs.py\", line 260, in is_spec_buildable\r\n    allpkgs = get_packages_config()\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/package_prefs.py\", line 40, in get_packages_config\r\n    if spack.repo.is_virtual(pkg_name)]\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/repository.py\", line 350, in is_virtual\r\n    return pkg_name in self.provider_index\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/repository.py\", line 235, in provider_index\r\n    self._provider_index.merge(repo.provider_index)\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/repository.py\", line 659, in provider_index\r\n    self._update_provider_index()\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/repository.py\", line 653, in _update_provider_index\r\n    self._provider_index.to_yaml(new)\r\n  File \"/Users/eschnett/src/spack/lib/spack/llnl/util/lock.py\", line 312, in __exit__\r\n    if self._as.__exit__(type, value, traceback):\r\n  File \"/Users/eschnett/src/spack/lib/spack/spack/file_cache.py\", line 154, in __exit__\r\n    raise value\r\nAttributeError: package\r\n```\r\n\r\nThis happens with local packages added; a vanilla checkout works fine. I assume there might be an error in a local package definition.\r\n\r\nUnfortunately, a `print` or `tty.warn` in `repository.py`'s `_update_provider_index` does not make it to the screen, as if the `with spack.misc_cache.write_transaction` there ate up all screen output.\r\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/2975",
+    "updated_at": "2017-02-01 04:50:10",
+    "created_at": "2017-02-01 04:42:26",
+    "closed_at": "2017-02-01 04:50:10",
+    "state": "closed",
+    "title": "Error with `spack fetch`",
+    "number": 2975,
+    "milestone": null,
+    "labels": [],
+    "id": 204496176,
+    "html_url": "https://github.com/spack/spack/issues/2975",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,24 @@
+{
+    "body": "A common use-case for Spack Environments is to ship a `spack.yaml` file with your software specifying a list of dependencies. If something like `mpi` is a dependency, you need a way to list it, even if you don't care which specific MPI implementation is used. This is currently not possible.\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Create a `spack.yaml` file like:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - mpi\r\n  concretization: together\r\n```\r\n2. Attempt to concretize/install the environment\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack --debug install\r\n...\r\nTraceback (most recent call last):\r\n  File \"/home/t-astewart/spack/bin/spack\", line 77, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home/t-astewart/spack/lib/spack/spack/main.py\", line 776, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/home/t-astewart/spack/lib/spack/spack/main.py\", line 498, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/home/t-astewart/spack/lib/spack/spack/cmd/install.py\", line 338, in install\r\n    concretized_specs = env.concretize(tests=tests)\r\n  File \"/home/t-astewart/spack/lib/spack/spack/environment.py\", line 1209, in concretize\r\n    return self._concretize_together(tests=tests)\r\n  File \"/home/t-astewart/spack/lib/spack/spack/environment.py\", line 1248, in _concretize_together\r\n    concrete_specs = spack.concretize.concretize_specs_together(\r\n  File \"/home/t-astewart/spack/lib/spack/spack/concretize.py\", line 729, in concretize_specs_together\r\n    return _concretize_specs_together_new(*abstract_specs, **kwargs)\r\n  File \"/home/t-astewart/spack/lib/spack/spack/concretize.py\", line 741, in _concretize_specs_together_new\r\n    return [answer[s.name].copy() for s in abstract_specs]\r\n  File \"/home/t-astewart/spack/lib/spack/spack/concretize.py\", line 741, in <listcomp>\r\n    return [answer[s.name].copy() for s in abstract_specs]\r\nKeyError: 'mpi'\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.8.17-20562-54b9fe219b\r\n* **Python:** 3.8.1\r\n* **Platform:** linux-ubuntu18.04-haswell\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/24148",
+    "updated_at": "2021-06-08 17:04:50",
+    "created_at": "2021-06-04 19:12:38",
+    "closed_at": "2021-06-08 17:04:50",
+    "state": "closed",
+    "title": "Virtual dependencies not supported in Environments",
+    "number": 24148,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "virtual-dependencies",
+        "impact-low",
+        "environments"
+    ],
+    "id": 911769782,
+    "html_url": "https://github.com/spack/spack/issues/24148",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

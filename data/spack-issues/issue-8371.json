@@ -1,0 +1,19 @@
+{
+    "body": "### Expected Result\r\n\r\nSuccessful install\r\n\r\n### Actual Result\r\n\r\nlibxau can't find xproto installed by spack\r\n\r\n```\r\n[sajid@xrmlite spack]$ spack install libxau  %intel@18.0.3\r\n==> pkgconf is already installed in /home/sajid/packages/spack/opt/spack/linux-centos7-x86_64/intel-18.0.3/pkgconf-1.4.2-qpzehzoxsht2egj2qaenif3l4tue7koa\r\n==> util-macros is already installed in /home/sajid/packages/spack/opt/spack/linux-centos7-x86_64/intel-18.0.3/util-macros-1.19.1-mcpc6iksxiwi524dnk62ir3v4iobcqiu\r\n==> xproto is already installed in /home/sajid/packages/spack/opt/spack/linux-centos7-x86_64/intel-18.0.3/xproto-7.0.31-6hcwzhe5do4c3mg7wg4kub4laf2un6mj\r\n==> Installing libxau\r\n==> Using cached archive: /home/sajid/packages/spack/var/spack/cache/libxau/libxau-1.0.8.tar.gz\r\n==> Staging archive: /home/sajid/packages/spack/var/spack/stage/libxau-1.0.8-p5ow55z3f3ckzsppuoshkfdqfebcawlm/libXau-1.0.8.tar.gz\r\n==> Created stage in /home/sajid/packages/spack/var/spack/stage/libxau-1.0.8-p5ow55z3f3ckzsppuoshkfdqfebcawlm\r\n==> No patches needed for libxau\r\n==> Building libxau [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/sajid/packages/spack/var/spack/stage/libxau-1.0.8-p5ow55z3f3ckzsppuoshkfdqfebcawlm/libXau-1.0.8/configure' '--prefix=/home/sajid/packages/spack/opt/spack/linux-centos7-x86_64/intel-18.0.3/libxau-1.0.8-p5ow55z3f3ckzsppuoshkfdqfebcawlm'\r\n\r\n1 error found in build log:\r\n     124    Perhaps you should add the directory containing `xorg-macros.pc'\r\n     125    to the PKG_CONFIG_PATH environment variable\r\n     126    Package 'xorg-macros', required by 'virtual:world', not found\r\n     127    checking whether make supports nested variables... (cached) yes\r\n     128    checking whether ln -s works... yes\r\n     129    checking for pathconf... yes\r\n  >> 130    checking for XAU... configure: error: Package requirements (xproto) were not met:\r\n     131\r\n     132    Package 'xproto', required by 'virtual:world', not found\r\n     133\r\n     134    Consider adjusting the PKG_CONFIG_PATH environment variable if you\r\n     135    installed software in a non-standard prefix.\r\n     136\r\n\r\nSee build log for details:\r\n  /home/sajid/packages/spack/var/spack/stage/libxau-1.0.8-p5ow55z3f3ckzsppuoshkfdqfebcawlm/libXau-1.0.8/spack-build.out\r\n```\r\nThe pacakge.py for libxau does have xproto though : \r\n```\r\n    depends_on('xproto', type=('build', 'link'))\r\n    depends_on('pkgconfig', type='build')\r\n    depends_on('util-macros', type='build')\r\n```\r\n\r\n[spack-build.out](https://pastebin.com/x46EVMf3)\r\n\r\n### Information on your system\r\n\r\n 1. linux-centos7-x86_64, intel@18.0.3",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/8371",
+    "updated_at": "2018-06-05 21:07:36",
+    "created_at": "2018-06-04 21:14:47",
+    "closed_at": "2018-06-05 20:58:39",
+    "state": "closed",
+    "title": "libxau doesn't find xproto even if spack finds it",
+    "number": 8371,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 329219669,
+    "html_url": "https://github.com/spack/spack/issues/8371",
+    "assignees": [],
+    "comments": 10
+}

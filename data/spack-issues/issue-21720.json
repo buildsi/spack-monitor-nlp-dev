@@ -1,0 +1,27 @@
+{
+    "body": "### Problem\r\n\r\nSeveral places across the repo do `if sys.version_info < ...` checks to determine what to import. This can be error-prone and hard to follow.\r\n\r\nAdditionally, @trws suggested looking into the use of `six.raise_from()` where possible to preserve exception traceback.\r\n\r\n### Solution\r\n- Create a file `lib/spack/spack/util/compat.py` to centralize `if sys.version_info ...` checks across the spack codebase.\r\n- Create another file `.../py2.py` to centralize logic relating to py2/3 compat that is not simply `if sys.version_info` imports.\r\n- Use `six.raise_from()` in several places where it could preserve additional chained exception traceback in python 3.\r\n\r\n### Result\r\nThis change reduces a boilerplate `if sys.version_info....:` check into a single clean import statement.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/21720",
+    "updated_at": "2022-01-21 20:32:52",
+    "created_at": "2021-02-17 07:23:39",
+    "closed_at": "2022-01-21 20:32:52",
+    "state": "closed",
+    "title": "introduce `llnl.util.compat` to centralize python version-specific imports",
+    "number": 21720,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "tests",
+        "commands",
+        "environments",
+        "directives",
+        "flake8",
+        "binary-packages",
+        "utilities",
+        "vendored-dependencies"
+    ],
+    "id": 809931223,
+    "html_url": "https://github.com/spack/spack/pull/21720",
+    "assignees": [],
+    "comments": 14
+}

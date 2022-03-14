@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install m4\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n```\r\n$ spack/bin/spack debug report\r\n* **Spack:** 0.16.0\r\n* **Python:** 3.4.3\r\n* **Platform:** linux-ubuntu14.04-broadwell\r\n* **Concretizer:** original\r\n\r\n$ cat packages.yaml \r\npackages:\r\n  all:\r\n    compiler: [gcc@8.4.0]\r\n```\r\n\r\n### Additional information\r\n\r\nI wonder if this might be related to #10493.  Possibly, like that issue, my spack is on an NAS filesystem. (The staging dir, on `/tmp`, is local, however.)  Like that issue, the traceback upon keyboard interrupt shows that Spack was stuck in `log.py`:\r\n\r\n```console\r\n==> Installing m4-1.4.18-vlt4klqmalwgnszby63obyudnhfrop3e\r\n==> No binary for m4-1.4.18-vlt4klqmalwgnszby63obyudnhfrop3e found: installing from source\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/ab/ab2633921a5cd38e48797bf5521ad259bdc4b979078034a3b790d7fec5493fab.tar.gz\r\n######################################################################## 100.0%\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/fc/fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8\r\n######################################################################## 100.0%\r\n==> m4: Executing phase: 'autoreconf'\r\n==> m4: Executing phase: 'configure'\r\n==> Error: Exception occurred in writer daemon!\r\nTraceback (most recent call last):\r\n==> Error: Failed to install m4 due to KeyboardInterrupt: \r\n  File \"/foobar/home/osolberg/spack3/spacktree/spack/lib/spack/llnl/util/tty/log.py\", line 763, in _writer_daemon\r\n    line = _retry(in_pipe.readline)()\r\n  File \"/foobar/home/osolberg/spack3/spacktree/spack/lib/spack/llnl/util/tty/log.py\", line 825, in wrapped\r\n    return function(*args, **kwargs)\r\nKeyboardInterrupt\r\n\r\n==> Error: Keyboard interrupt.\r\n```\r\n\r\nIt will hang at `==> m4: Executing phase: 'configure'` for hours, days, as long as I let it.\r\n\r\nAfter killing, if I retry again, it might or might not work.  Seems to hang about 50% of the time.\r\n\r\nIf I do a `spack build-env m4 bash` and cd to the staging/src dir, and then do a `./configure` -- it succeeds **every** time, and only takes about 45 seconds.\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers  **(I have not, b/c I don't think this is an issue with the package build, per se)**\r\n- [ ] I have uploaded the build log and environment files **(ibid, and also b/c there are path names I would have to obfuscate)**\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\nFYI @hartzell ",
+    "user": "odoublewen",
+    "url": "https://api.github.com/repos/spack/spack/issues/20217",
+    "updated_at": "2020-12-05 20:22:40",
+    "created_at": "2020-12-02 20:22:43",
+    "closed_at": "2020-12-05 20:19:25",
+    "state": "closed",
+    "title": "install of m4 hangs during configure",
+    "number": 20217,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 755584362,
+    "html_url": "https://github.com/spack/spack/issues/20217",
+    "assignees": [],
+    "comments": 3
+}

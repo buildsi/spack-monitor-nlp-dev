@@ -1,0 +1,23 @@
+{
+    "body": "It would seem that the Spack cmake/package.py file is set up to build a **no optimized** version of CMake by default.  I noticed this a few months ago when we were almost going to try to use the Spack-installed env but then noticed this that the Spack-installed cmake was about 2.5x slower than correctly built CMake.  Here are the configure times for the Primary Tested Trilinos suite on my super fast Linux machine:\r\n\r\nInstall Method | CMake version | Runtime\r\n-- | -- | --\r\nSEMS | 3.12.2 | 2m30.498s\r\nTriBITS | 3.11.1 | 2m29.507s\r\nSpack | 3.14.5 | 7m47.042s\r\n\r\nUntil we can fix this, CMake as installed by spack is unusable for SNL ATDM :-(\r\n\r\nThe proper way to build an optimized CMake is shown in:\r\n\r\n* https://github.com/TriBITSPub/TriBITS/blob/master/tribits/devtools_install/install-cmake.py#L172\r\n\r\nand that shows how to do a fast parallel configure too.\r\n\r\n\r\n\r\n",
+    "user": "bartlettroscoe",
+    "url": "https://api.github.com/repos/spack/spack/issues/14408",
+    "updated_at": "2020-01-09 19:49:08",
+    "created_at": "2020-01-07 00:47:12",
+    "closed_at": "2020-01-08 18:17:54",
+    "state": "closed",
+    "title": "Spack is building a non-optimized CMake?",
+    "number": 14408,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cmake",
+        "snl-atdm"
+    ],
+    "id": 546015504,
+    "html_url": "https://github.com/spack/spack/issues/14408",
+    "assignees": [
+        "chuckatkins"
+    ],
+    "comments": 5
+}

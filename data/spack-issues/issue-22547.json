@@ -1,0 +1,23 @@
+{
+    "body": "This error has been reported by @bvanessen If the ASP-based solver is used to concretize a Spack environment, external packages that are declared in the environment scope are not taken into account (while scopes outside the environment instead are).\r\n\r\n### Steps to reproduce the issue\r\n\r\nUsing the following `spack.yaml`:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - openjpeg\r\n  config:\r\n    concretizer: clingo\r\n  view: false\r\n  packages:\r\n    cmake:\r\n      externals:\r\n      - spec: cmake@3.19.5\r\n        prefix: /usr\r\n```\r\nand ensuring that there is no external cmake declared in any other scope, one obtains:\r\n```console\r\n$ spack -e . concretize -f\r\n==> Concretized openjpeg\r\n -   atepy7l  openjpeg@2.3.1%gcc@10.1.0~ipo build_type=RelWithDebInfo arch=linux-ubuntu18.04-broadwell\r\n -   to7mk5p      ^cmake@3.19.7%gcc@10.1.0~doc+ncurses+openssl+ownlibs~qt build_type=Release patches=b48396c0e4f61756248156b6cebe9bc0d7a22228639b47b5aa77c9330588ce88 arch=linux-ubuntu18.04-broadwell\r\n -   m73bzjn          ^ncurses@6.2%gcc@10.1.0~symlinks+termlib arch=linux-ubuntu18.04-broadwell\r\n -   kzr452j              ^pkgconf@1.7.3%gcc@10.1.0 arch=linux-ubuntu18.04-broadwell\r\n -   7wm24a6          ^openssl@1.1.1j%gcc@10.1.0~docs+systemcerts arch=linux-ubuntu18.04-broadwell\r\n -   rdmotez              ^perl@5.32.1%gcc@10.1.0+cpanm+shared+threads arch=linux-ubuntu18.04-broadwell\r\n -   6madour                  ^berkeley-db@18.1.40%gcc@10.1.0~docs patches=b231fcc4d5cff05e5c3a4814f6a5af0e9a966428dc2176540d2c05aff41de522 arch=linux-ubuntu18.04-broadwell\r\n -   6p234pa                  ^gdbm@1.19%gcc@10.1.0 arch=linux-ubuntu18.04-broadwell\r\n -   nsh6fwm                      ^readline@8.0%gcc@10.1.0 arch=linux-ubuntu18.04-broadwell\r\n -   kepdmuv              ^zlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n```\r\nwhere externals are not taken into account. When the externals are declared outside of the environment, using their own `packages.yaml`:\r\n```yaml\r\npackages:\r\n  cmake:\r\n    externals:\r\n    - spec: cmake@3.19.5\r\n      prefix: /usr\r\n```\r\nthen they are suddenly taken into account:\r\n```console\r\n$ spack -C . -e . concretize -f\r\n==> Concretized openjpeg\r\n -   atepy7l  openjpeg@2.3.1%gcc@10.1.0~ipo build_type=RelWithDebInfo arch=linux-ubuntu18.04-broadwell\r\n -   jtt4geb      ^cmake@3.19.5%gcc@10.1.0~doc+ncurses+openssl+ownlibs~qt build_type=Release patches=b48396c0e4f61756248156b6cebe9bc0d7a22228639b47b5aa77c9330588ce88 arch=linux-ubuntu18.04-broadwell\r\n -   kepdmuv      ^zlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n```\r\n\r\n### Error Message\r\n\r\nNo error message, just the unexpected behavior described above.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.1-1888-f5b9f86bdb\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/22547",
+    "updated_at": "2021-03-26 07:16:11",
+    "created_at": "2021-03-25 16:41:45",
+    "closed_at": "2021-03-26 07:16:11",
+    "state": "closed",
+    "title": "ASP-based solver: external packages in environment scope are not considered during solve",
+    "number": 22547,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "external-packages",
+        "impact-high",
+        "environments"
+    ],
+    "id": 841113366,
+    "html_url": "https://github.com/spack/spack/issues/22547",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nI wanted to update `py-setuptools-rust` to the newest version and ran into something that might be a bug regarding the chosen download path.\r\n\r\nI updated the package to use pypi as default but wanted to keep the existing checksum for the old package (to avoid breaking anything), so my `package.py` looks like this:\r\n\r\n```python\r\nfrom spack import *\r\n\r\n\r\nclass PySetuptoolsRust(PythonPackage):\r\n    \"\"\"Setuptools rust extension plugin.\"\"\"\r\n\r\n    homepage = \"https://github.com/PyO3/setuptools-rust\"\r\n    pypi = \"setuptools-rust/setuptools-rust-0.12.1.tar.gz\"\r\n\r\n    version('0.12.1', sha256='647009e924f0ae439c7f3e0141a184a69ad247ecb9044c511dabde232d3d570e')\r\n    version('0.10.6', sha256='1446d3985e4aaf4cc679fda8a48a73ac1390b627c8ae1bebe7d9e08bb3b33769',\r\n            url=\"https://github.com/PyO3/setuptools-rust/archive/v0.10.6.tar.gz\")\r\n\r\n    depends_on('python@3.6:', when='@0.12:', type=('build', 'run'))\r\n    depends_on('py-setuptools@46.1:', when='@0.12:', type='build')\r\n    depends_on('py-setuptools', when='@:0.11', type='build')\r\n    depends_on('py-semantic-version@2.6.0:', type=('build', 'run'))\r\n    depends_on('py-toml@0.9.0:', type=('build', 'run'))\r\n    depends_on('rust', type='run')\r\n```\r\n\r\nWhen running `spack checksum py-setuptools-rust` for the latest package, spack still uses the github url\r\n```\r\n==> How many would you like to checksum? (default is 1, q to abort)  \r\n==> Fetching https://github.com/PyO3/setuptools-rust/archive/refs/tags/v0.12.1.tar.gz\r\n```\r\n\r\nWheras if I remove `url=....` from version 0.10.6, version 0.12.1 is correctly fetched from pypi. But this means that 0.10.6 is broken since it does not exist there (and if so the checksum would be wrong).\r\n```\r\n==> How many would you like to checksum? (default is 1, q to abort)\r\n==> Fetching https://files.pythonhosted.org/packages/12/22/6ba3031e7cbd6eb002e13ffc7397e136df95813b6a2bd71ece52a8f89613/setuptools-rust-0.12.1.tar.gz#sha256=647009e924f0ae439c7f3e0141a184a69ad247ecb9044c511dabde232d3d570e\r\n```\r\n\r\nI thought the download mechanism works like this:\r\n1. try the default url (here pypi)\r\n2. if a version specific url is defined use this one instead only for that version\r\n\r\nDo I understand something wrong here or is this a bug?\r\n\r\n\r\nA workaround is to define `url_for_version` in this case but I still wanted to report the behaviour\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.13.4-8544-c8868f1922\r\n* **Python:** 3.5.3\r\n* **Platform:** linux-debian9-piledriver\r\n* **Concretizer:** clingo\r\n\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/24668",
+    "updated_at": "2021-09-13 08:08:01",
+    "created_at": "2021-07-02 12:40:54",
+    "closed_at": "2021-09-13 08:08:01",
+    "state": "closed",
+    "title": "spack checksum prefers version-specific url over global url",
+    "number": 24668,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "fetching",
+        "versions",
+        "triage"
+    ],
+    "id": 935733417,
+    "html_url": "https://github.com/spack/spack/issues/24668",
+    "assignees": [],
+    "comments": 1
+}

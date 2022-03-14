@@ -1,0 +1,17 @@
+{
+    "body": "I added a routine to the HDF5 install script that checks the installed library. This is not the self-check that HDF5 itself can perform as part of its build; rather, this tests whether Spack installed the library in such a way that its customers (other packages etc.) find a self-consistent and usable HDF5 library.\n\nIn particular, this routine builds and runs a small C program that uses the HDF5 library, thus checking include, library, and run time path settings. It also checks the version numbers, both via preprocessor constants (from include headers) and via function calls (from the library found at run time), and compares these to the expected version numbers. A mismatch leads to an error.\n\nI think such a system is generically useful for many packages. I'm suggesting to add this to HDF5 as a test balloon, and if it works, it can be cleaned up, made part of Spack, and generally be used for many other packages as well.\n\nAs a side node, I think packages could define environment variables that define the list of library names that should be used to link against a library; in this case, HDF5 could define e.g. the equivalent of `HDF5_LIBS='-lhdf5'` or similar. This is just a note, this is not implemented here.\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/812",
+    "updated_at": "2016-05-11 19:44:00",
+    "created_at": "2016-04-20 20:38:25",
+    "closed_at": "2016-05-10 08:34:10",
+    "state": "closed",
+    "title": "Check the installed HDF5 library for consistency",
+    "number": 812,
+    "milestone": null,
+    "labels": [],
+    "id": 149879844,
+    "html_url": "https://github.com/spack/spack/pull/812",
+    "assignees": [],
+    "comments": 13
+}

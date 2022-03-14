@@ -1,0 +1,20 @@
+{
+    "body": "The FFTW3 API is supported by Intel's MKL and IBM's ESSL (not sure about AMCL). There may be other vendor libraries that support the FFTW3 API. Similar to BLAS, LAPACK, and MPI being providers, I propose that `fftw3` also be a provider. I am less sure of support for the FFTW2 interface, since its really old and there are fewer vendor libraries that support it... but there may old FFTW2 wrappers that I am not aware of.\r\n\r\n### Rationale\r\n\r\nPerformance critical applications will not want to make use of a plain vanilla FFTW3 install if they can get substantially greater performance from a vendor optimization library.\r\n\r\n### Description\r\n\r\nI think we need to make FFTW3 a provider. Perhaps this is over engineering, since my guess is that over 90% of the use case involve intel-mkl. Probably the same thing can be accomplished by just specifying that `intel-mkl` as a dependency instead of `fftw` as a dependency.\r\n\r\n\r\n### Additional information\r\n\r\nThe impact of providing `fftw3` as a provider is mainly to science codes that require FFTW. Right now the main vendor that supports FFTW3 transparently (i.e. without extra build options or jumping through hoops) is Intel.",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/9384",
+    "updated_at": "2018-11-27 19:44:10",
+    "created_at": "2018-09-28 21:02:43",
+    "closed_at": "2018-11-27 19:44:10",
+    "state": "closed",
+    "title": "FFTW2/FFTW3 providers",
+    "number": 9384,
+    "milestone": null,
+    "labels": [
+        "virtual-dependencies",
+        "proposal"
+    ],
+    "id": 365039656,
+    "html_url": "https://github.com/spack/spack/issues/9384",
+    "assignees": [],
+    "comments": 2
+}

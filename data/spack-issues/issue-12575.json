@@ -1,0 +1,20 @@
+{
+    "body": "Currently, the python `add_files_to_view` method attempts to get the real path from the prefix to a file using `os.path.realpath`. However, that only works if the prefix itself is not under a symlink. If the prefix itself is under a symlink, the entire `merge_map` is created relative to that link.\r\n\r\nBy computing `os.path.realpath` of both the file and the python prefix, we can use `os.path.relpath` to compute the real relative path from the python prefix to the file, and prepend that with the python prefix to get the value we should expect in our `merge_map`.\r\n\r\nTested with `python@3.7` in a stack with a managed view. Spack could not link Python into the view without this change, and now can.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/12575",
+    "updated_at": "2019-10-25 06:48:31",
+    "created_at": "2019-08-25 23:48:32",
+    "closed_at": "2019-10-24 21:27:22",
+    "state": "closed",
+    "title": "Views: fix python in views when python prefix is under a symlink",
+    "number": 12575,
+    "milestone": null,
+    "labels": [
+        "python",
+        "views"
+    ],
+    "id": 484990567,
+    "html_url": "https://github.com/spack/spack/pull/12575",
+    "assignees": [],
+    "comments": 0
+}

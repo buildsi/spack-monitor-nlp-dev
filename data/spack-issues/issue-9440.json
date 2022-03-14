@@ -1,0 +1,20 @@
+{
+    "body": "* Add `-w/--without-dependencies` to suppress dependency resolution.\r\n\r\n* Add `-j/--jobs` to install/create several package from/to buildcache in parallel (defaults to 1).\r\n\r\n* Applied some flake8-fixes\r\n\r\n* Added (and compressed) tests\r\n\r\n### Reasoning:\r\nThe current buildcache implementation lacks the ability to install packages/create tarballs en bulk:\r\n\r\n* Dependencies are *always* checked for and included\r\n* the package index is updated after EVERY installed package instead of   once after everything is installed\r\n\r\nIn order to reduce build time of our spack-based singularity container we want to pre-compute all hashes to be installed from buildcache in advance (i.e. we do not want spack to perform additional checks) and we want this installation to be possible with more than one core (decompressing is cpu-intensive and therefore not completely IO-bound).\r\n\r\nThe same goes for creating tarballs that are put into the buildcache after container creation.\r\n\r\nHence this commit introduces these two possibilities.\r\n\r\nBy default the behavior remains the same, i.e. spack fails after encountering its first error. When using several cores we gather all occurred errors and print them afterwards.\r\n\r\nIn theory parallelization could also be achieved by using tools such as `xargs` and spawning multiple python processes, but I think it would be nicer to have this possibility out of the box in spack (in the same way as you can install packages with multiple cores).\r\n\r\n_Note:_ We [already use](https://github.com/electronicvisions/spack/commit/837974be138a08dab3e712734d1866a28dcc1f3) the proposed modifications without problems. I only got around to porting the modifications to the current `develop`-branch now and added some tests while I was at it.",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/9440",
+    "updated_at": "2020-08-19 09:28:23",
+    "created_at": "2018-10-04 17:42:02",
+    "closed_at": "2020-08-19 09:26:57",
+    "state": "closed",
+    "title": "Add multiprocessing to buildcache command",
+    "number": 9440,
+    "milestone": null,
+    "labels": [
+        "buildcache",
+        "blocked"
+    ],
+    "id": 366898014,
+    "html_url": "https://github.com/spack/spack/pull/9440",
+    "assignees": [],
+    "comments": 14
+}

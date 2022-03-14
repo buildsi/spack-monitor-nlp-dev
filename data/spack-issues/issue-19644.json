@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install mumps@5.2.0%gcc@8.4.0 +complex+double+float~int64+metis+mpi+parmetis+ptscotch+scotch+shared\r\n```\r\n\r\nThe installation \"succeeds\", but I find that there are issues with the resulting libraries.\r\nE.g., libcmumps.so has undefined smybols (e.g.  mumps_size_c_) which are defined in libmumps_commons.so, but an ldd of libcmumps.so does not show a dependency on libmumps_common.so, e.g.\r\n```console\r\n> cd `spack location -i mumps`/lib\r\n> nm -a libcmumps.so | grep mumps_size_c_\r\n                 U mumps_size_c_\r\n> nm -a libmumps_commons.so | grep mumps_size_c_\r\n0000000000043b12 T mumps_size_c_\r\n> ldd libcmumps.so | grep mumps\r\n\tlibptesmumps.so => .../scotch-6.0.8-.../lib/libptesmumps.so ...\r\n```\r\n\r\nThis occurs for all of the lib[cdsz]mumps.so libraries.   The situation is even worse when trying to install mumps~mpi, as then the libraries have an added dependency on libmpiseq.so (apparently a \"fake\" MPI library MUMPS provides for use in sequential code).\r\n\r\nThese missing dependencies are causing issues when I am trying to write recipes for python modules depending on MUMPS --- the dynamic loads fail due to missing symbols.  Although it might be possible to work around some of this, it does not seem to be a good solution.  A dependent package should not need to check if MUMPS was compiled w or w/out mpi and then alter whether to load additional MUMPS libraries.\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```consolespack debug report\r\n* **Spack:** 0.14.2\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-ivybridge\r\n```\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\nNot including spack-build.env.out or spack-build-log.out because package builds.\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\nNo maintainers found\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/19644",
+    "updated_at": "2020-12-28 22:33:56",
+    "created_at": "2020-10-31 21:48:28",
+    "closed_at": "2020-12-28 22:33:56",
+    "state": "closed",
+    "title": "Installation issue: mumps+shared (dependency issues in generated libraries)",
+    "number": 19644,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 733813359,
+    "html_url": "https://github.com/spack/spack/issues/19644",
+    "assignees": [],
+    "comments": 1
+}

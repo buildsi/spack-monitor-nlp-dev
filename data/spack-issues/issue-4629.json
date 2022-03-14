@@ -1,0 +1,21 @@
+{
+    "body": "When building conduit, the build fails at the linking stage due to missing MPI routines.\r\n\r\nI can hack around it by changing line 266 of conduit's package.py from\r\n```python\r\ncfg.write(cmake_cache_entry(\"MPI_CXX_COMPILER\", spec['mpi'].mpicc))\r\n```\r\nto\r\n```python\r\ncfg.write(cmake_cache_entry(\"MPI_CXX_COMPILER\", spec['mpi'].mpicxx))\r\n```\r\nFrom package.py, it looks like it was set to 'mpicc' for a good reason:\r\n```python\r\n            # we use `mpicc` as `MPI_CXX_COMPILER` b/c we don't want to\r\n            # introduce linking deps to the MPI C++ libs (we aren't using\r\n            # C++ features of MPI) -- this happens with some versions of\r\n            # OpenMPI\r\n            cfg.write(cmake_cache_entry(\"MPI_CXX_COMPILER\", spec['mpi'].mpicc))\r\n```\r\n\r\nBuild failure was observed on Ubuntu 16.04.",
+    "user": "benjaminjeliot",
+    "url": "https://api.github.com/repos/spack/spack/issues/4629",
+    "updated_at": "2017-09-25 18:25:41",
+    "created_at": "2017-06-28 15:17:27",
+    "closed_at": "2017-09-25 18:25:41",
+    "state": "closed",
+    "title": "Conduit build fails to link due to missing MPI libraries",
+    "number": 4629,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 239199831,
+    "html_url": "https://github.com/spack/spack/issues/4629",
+    "assignees": [
+        "cyrush"
+    ],
+    "comments": 3
+}

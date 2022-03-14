@@ -1,0 +1,17 @@
+{
+    "body": "WIP (undecided items at bottom)\n\nThere are two sensible defaults for building boost libraries: build all of them or build none of them. Previously the Spack boost package took the first approach. This PR changes to building no libraries by default. One motivation is to support building boost with exotic compilers where all libraries may not successfully compile (but those the user happens to require do).\n\nThe user can specify which libraries they need using variants (e.g. +iostreams to compile the boost iostreams library). If no libraries are specified then a header-only install is performed (no compilation, just copy header files to prefix). The consequence of this change is that packages which specify a dependency on boost may now fail (until they are updated to specify exactly which boost libraries they need compiled).\n\nAlso:\n- bzip2 and zlib are always specified as dependencies when iostreams is compiled (and iostreams is always built with compression support): before this could be controlled with the +compression variant. Keeping the compression flag would result in distinct variant combinations with identical installations (in particular ~iostreams~compression and ~iostreams+compression). Although if there are cases where iostreams needs to be built without compression then that should be re-integrated regardless.\n- The executable on the user-config.jam toolset line is set to Spack's cc script. Before, without this, the desired toolset was used but Spack deferred to the boost build system to choose the compiler version.\n- The user may now specify whether to build shared libraries (static libraries are always built) and whether to build libraries with/out multi-threading support (default is to only build with multi-threading support).\n\nRemaining items to address:\n- I'm curious whether you have opinions on the implementation of threading support. As of now it should probably raise an exception if the user specifies ~singlethreaded~multithreaded. \n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/336",
+    "updated_at": "2016-01-22 22:09:42",
+    "created_at": "2016-01-12 00:19:43",
+    "closed_at": "2016-01-22 22:09:19",
+    "state": "closed",
+    "title": "additive compilation of boost libraries",
+    "number": 336,
+    "milestone": null,
+    "labels": [],
+    "id": 126068908,
+    "html_url": "https://github.com/spack/spack/pull/336",
+    "assignees": [],
+    "comments": 16
+}

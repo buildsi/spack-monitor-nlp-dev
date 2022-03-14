@@ -1,0 +1,17 @@
+{
+    "body": "After commit b9ec69dce15c69ba11f6d637614399b3a3a470e5 I am getting an error when listing MKL as an external package. My configuration was working previously.\r\n\r\nMy packages.yaml:\r\n```\r\npackages:\r\n  mkl:\r\n    paths:\r\n      mkl@16.2.181%intel@16.0.2 arch=linux-centos6-x86_64: /.../intel/16.0/compilers_and_libraries_2016.2.181/linux/mkl\r\n      mkl@16.2.181%intel@16.0.2 arch=linux-rhel6-x86_64: /.../intel/16.0/compilers_and_libraries_2016.2.181/linux/mkl\r\n      mkl@16.2.181%gcc@5.2.0 arch=linux-centos6-x86_64: /.../intel/16.0/compilers_and_libraries_2016.2.181/linux/mkl\r\n      mkl@16.2.181%gcc@5.2.0 arch=linux-rhel6-x86_64: /.../intel/16.0/compilers_and_libraries_2016.2.181/linux/mkl\r\n    buildable: False\r\n  all:\r\n    compiler: [gcc@5.2.0, intel@16.0.2]\r\n    providers:\r\n      mpi: [openmpi]\r\n      blas: [mkl]\r\n      lapack: [mkl]\r\n```\r\n\r\nWhen trying to install anything I get an error:\r\n```\r\n[jrood@computer ~]$ spack install zlib\r\n==> Error: packages.yaml entries cannot be virtual packages:\r\n  in \"/home/user/spack/etc/spack/packages.yaml\", line 2, column 3: mkl\r\n```\r\n\r\nDoes this mean Spack thinks MKL is virtual, when it is actually a concrete package?",
+    "user": "jrood-nrel",
+    "url": "https://api.github.com/repos/spack/spack/issues/2736",
+    "updated_at": "2017-01-06 21:43:17",
+    "created_at": "2017-01-04 18:16:39",
+    "closed_at": "2017-01-06 21:43:17",
+    "state": "closed",
+    "title": "MKL is not virtual dependency",
+    "number": 2736,
+    "milestone": null,
+    "labels": [],
+    "id": 198774683,
+    "html_url": "https://github.com/spack/spack/issues/2736",
+    "assignees": [],
+    "comments": 16
+}

@@ -1,0 +1,19 @@
+{
+    "body": "This adds a package for Illumina's bcl2fastq2.  \r\n\r\nA couple of things might stand out:\r\n\r\n1. It looks like a CMakePackage, but it's not really.  They have a configure script and using it is a sign of wisdom.\r\n1. It wraps the standard `self.stage.expand_archive` so that it can unpack the gzipped tarball that is inside the zip file that Illumina distributes (thanks @alalazo in #4206).\r\n2. It pins down some very precise versions of things.  Illumina is blunt in their requirements and they actually have vendored copies of these things that their build process will use unless you make it very, very happy.  I'm open to other folk exploring the space of versions that may or may not work but this works for me.  I'm also not sure what's going to happen if/when they make a newer release available.\r\n3. One of those requirements is for an older version of libxslt.  They build their vendor'ed copy w/out crypto support.  Our existing libxslt package builds with crypto support and I could not figure out how to convince their cmake infrastructure to link against our libgcrypt package (plus, it seems like that package doesn't build static versions).  The cleaner way forward seemed to be to add a variant for crypto support.\r\n\r\nOther than those things, it works.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4234",
+    "updated_at": "2017-05-18 14:17:28",
+    "created_at": "2017-05-12 17:50:17",
+    "closed_at": "2017-05-18 01:57:23",
+    "state": "closed",
+    "title": "Package for bcl2fastq2 (updates libxslt)",
+    "number": 4234,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 228362421,
+    "html_url": "https://github.com/spack/spack/pull/4234",
+    "assignees": [],
+    "comments": 23
+}

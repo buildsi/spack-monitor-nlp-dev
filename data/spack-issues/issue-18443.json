@@ -1,0 +1,21 @@
+{
+    "body": "Set GOPATH in build environment to avoid creating files in the user's\r\ndefault GOPATH (e.g. ~/go).\r\n* This should fix https://github.com/spack/spack/issues/16916\r\n\r\n```shell\r\n$ spack install hugo\r\n...\r\n[+] /spack/spack/opt/spack/linux-debian10-haswell/gcc-8.3.0/hugo-0.74.3-6tuuviroruqzvlomvpaxaiitosu4e4t2\r\n$  ls $GOPATH\r\nbin  src\r\n```\r\n\r\n* Note, I saw the `self.stage.path` also being used in Singularity so it seemed like a good solution.\r\n\r\nSupport for external find.\r\n\r\n```shell\r\n$ spack external find hugo\r\n==> The following specs have been detected on this system and added to /Users/pbryant/.spack/packages.yaml\r\nhugo@0.74.3\r\n$ cat ~/.spack/packages.yaml\r\npackages:\r\n  ...\r\n  hugo:\r\n    externals:\r\n    - spec: hugo@0.74.3\r\n      prefix: /Users/pbryant/go\r\n```\r\n\r\n* Added latest releease 0.74.3.",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/18443",
+    "updated_at": "2020-09-02 15:03:58",
+    "created_at": "2020-09-01 13:49:52",
+    "closed_at": "2020-09-02 15:03:57",
+    "state": "closed",
+    "title": "Updated Hugo package",
+    "number": 18443,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "external-packages",
+        "go"
+    ],
+    "id": 690160383,
+    "html_url": "https://github.com/spack/spack/pull/18443",
+    "assignees": [],
+    "comments": 0
+}

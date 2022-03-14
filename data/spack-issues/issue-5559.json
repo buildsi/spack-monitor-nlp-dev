@@ -1,0 +1,17 @@
+{
+    "body": "I'm currently trying to create a package with Python bindings, so I'm trying to figure out how the extension mechanism is supposed to work. To this end, I installed `py-six` as an \"officially supported\" package that extends Python (i.e. one that does the right thing\u2122 from Spack's point of view), but after inspecting the result, I'm still a bit confused...\r\n\r\nThe documentation for the `spack.extends` directive says the following:\r\n\r\n> Same as depends_on, but dependency is symlinked into parent prefix.\r\n>\r\n> This is for Python and other language modules where the module needs to be installed into the prefix of the Python installation. Spack handles this by installing modules into their own prefix, but allowing ONE module version to be symlinked into a parent Python install at a time.\r\n\r\nRe: first paragraph -- the \"parent prefix\" is the prefix where the extending package is installed? Why should the dependency (the extendee, in this case Python) be symlinked into it? At any rate, at least with `py-six`, this symlinking doesn't happen:\r\n\r\n```sh\r\n$\u00a0tree /.../py-six-1.10.0-to3f3pygxpkyp6nfpjyt53xwyzzan3cn\r\n/.../py-six-1.10.0-to3f3pygxpkyp6nfpjyt53xwyzzan3cn\r\n\u2514\u2500\u2500 lib\r\n    \u2514\u2500\u2500 python2.7\r\n        \u2514\u2500\u2500 site-packages\r\n            \u251c\u2500\u2500 six-1.10.0-py2.7.egg-info\r\n            \u251c\u2500\u2500 six.py\r\n            \u2514\u2500\u2500 six.pyc\r\n\r\n3 directories, 3 files\r\n```\r\n\r\nRe: second paragraph -- this makes sense, but in my case, the symlink to `py-six` in the Python prefix doesn't get created:\r\n\r\n```sh\r\n$ find -L /.../python-2.7.14-qrvnbamzojaggitp2skibui3qikuzgsu -name six.py\r\n# nothing\r\n```\r\n\r\nSo I still need to put the `py-six` prefix on `PYTHONPATH` in order to be able to use it.\r\n\r\nEverything clicks into place once I create a view which includes Python and the extending package (using hardlinks, because with symlinks, `sys.path` would contain the dereferenced paths into the relevant directories in the Python prefix instead of the paths in the view):\r\n\r\n```sh\r\n$ spack view hardlink test 'python@2.7.14%gcc@6.4.0' py-six\r\n$ find test -name six.py\r\ntest/lib/python2.7/site-packages/six.py\r\n$ ./test/bin/python\r\nPython 2.7.14 (default, Sep 26 2017, 20:03:32)\r\n[GCC 6.4.0] on linux2\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import six\r\n>>>\r\n```\r\n\r\nIs this the way extensions are supposed to work? Or am I missing something? If this is the way, the docstring of the `spack.extends` directive could use a little bit of clarification :)",
+    "user": "dlukes",
+    "url": "https://api.github.com/repos/spack/spack/issues/5559",
+    "updated_at": "2017-11-23 20:06:32",
+    "created_at": "2017-09-30 10:15:22",
+    "closed_at": "2017-11-23 20:06:32",
+    "state": "closed",
+    "title": "`spack.extends` best/intended practices",
+    "number": 5559,
+    "milestone": null,
+    "labels": [],
+    "id": 261834631,
+    "html_url": "https://github.com/spack/spack/issues/5559",
+    "assignees": [],
+    "comments": 3
+}

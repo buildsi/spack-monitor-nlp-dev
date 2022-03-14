@@ -1,0 +1,19 @@
+{
+    "body": "I encountered the following situation trying to build netlib-lapack with a new compiler definition and using cmake built w/gcc.\r\n\r\nI first build cmake with gcc by itself.  Such build can be used with any other package that uses cmake.  I then go and build netlib-lapack with xl_r and specify ^cmake%gcc as a dependency.  Instead of using the existing cmake build, spack builds cmake again. I see the following when I try to remove cmake:\r\n\r\n```\r\n$ spack uninstall cmake\r\n==> Error: cmake matches multiple packages:\r\n\r\n-- linux-rhel7-ppc64le / gcc@4.8.5 ------------------------------\r\nyz4andp cmake@3.7.2%gcc~doc+ncurses+openssl+ownlibs~qt\r\n\r\ngvispho cmake@3.7.2%gcc fflags=\"-qzerosize\" ~doc+ncurses+openssl+ownlibs~qt\r\n\r\n\r\n==> Error: You can either:\r\n    a) Use a more specific spec, or\r\n    b) use spack uninstall -a to uninstall ALL matching specs.\r\n\r\n```\r\nThe fflags=\"qzerosize\" come from the xl_r compiler.\r\n\r\nWhy does spack wants to build another cmake with the gcc compiler and labels it with the compiler flags from another compiler that has nothing to do w/gcc?  How can I enforce spack to use the cmake version I built the first time when I did target build (as opposed to dependency build)?\r\n\r\nThanks for helping.",
+    "user": "serbanmaerean",
+    "url": "https://api.github.com/repos/spack/spack/issues/2927",
+    "updated_at": "2017-11-22 14:22:20",
+    "created_at": "2017-01-24 21:03:09",
+    "closed_at": "2017-11-22 14:22:20",
+    "state": "closed",
+    "title": "Cross-compiler polution in dependency check",
+    "number": 2927,
+    "milestone": null,
+    "labels": [
+        "duplicate"
+    ],
+    "id": 202939250,
+    "html_url": "https://github.com/spack/spack/issues/2927",
+    "assignees": [],
+    "comments": 2
+}

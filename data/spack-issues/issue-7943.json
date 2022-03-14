@@ -1,0 +1,17 @@
+{
+    "body": "Summary\r\n\r\n### Expected result:\r\n\r\n`$ spack install curl`\r\n\r\ninstalls a working installation of curl.\r\n\r\n### What happened instead:\r\n\r\n```$ spack install curl leads to a very early error:\r\n\r\n==> Executing phase: 'configure'\r\n==> Error: AttributeError: 'Curl' object has no attribute 'satisfies'\r\nAttributeError: AttributeError: 'Curl' object has no attribute 'satisfies'\r\n/cfs/home/swadm/spack/var/spack/repos/builtin/packages/curl/package.py:78, in configure_args:\r\n1             spec = self.spec\r\n2     \r\n3             args = ['--with-zlib={0}'.format(spec['zlib'].prefix)]\r\n>>> 4             if self.satisfies('+darwinssl'):\r\n5                 args.append('--with-darwinssl')\r\n6             else:\r\n7                 args.append('--with-ssl={0}'.format(spec['openssl'].prefix))\r\n\r\nSee build log for details:\r\n  /cfs/home/swadm/spack/var/spack/stage/curl-7.59.0-uoqifrmsrxjm6s5ur2zlvsua3rcmlxal/curl-7.59.0/spack-build.out\r\n```\r\nThe file spack-build.out only contains the lines:\r\n```\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Clone current spack repo\r\n2. Try a spack install curl\r\n\r\n### How to make it work again (just a workaround)\r\n\r\nWhen I use the little older package.py file which ends with curl version 7.56.0, the installation works. The package.py file changed recently and now it seems to be broken in my system.\r\n\r\n### Information on your system\r\n\r\nCentOS 7, gcc 7.3.0\r\n",
+    "user": "phxyz12",
+    "url": "https://api.github.com/repos/spack/spack/issues/7943",
+    "updated_at": "2018-04-30 12:41:37",
+    "created_at": "2018-04-30 12:22:42",
+    "closed_at": "2018-04-30 12:41:37",
+    "state": "closed",
+    "title": "Failed to build curl on CentOS 7",
+    "number": 7943,
+    "milestone": null,
+    "labels": [],
+    "id": 318871756,
+    "html_url": "https://github.com/spack/spack/issues/7943",
+    "assignees": [],
+    "comments": 2
+}

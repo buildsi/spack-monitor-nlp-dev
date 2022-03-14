@@ -1,0 +1,20 @@
+{
+    "body": "A change to version 2.71 of autoconf means that calling `autoreconf` will try to call `gtkdocize` when a project's autom4te macros contain `GTK_DOC_CHECK`, *even when docs aren't being built at configure time*. This currently causes `cairo` to fail to build:\r\n```\r\n==> cairo: Executing phase: 'autoreconf'\r\n==> [2021-05-27-13:14:41.253237] '/bin/sh' './autogen.sh'\r\n*** No GTK-Doc found, documentation won't be generated ***\r\nautoreconf: export WARNINGS=\r\nautoreconf: Entering directory '.'\r\nautoreconf: configure.ac: not using Gettext\r\nautoreconf: running: aclocal -I build ${ACLOCAL_FLAGS}\r\nautoreconf: configure.ac: tracing\r\nautoreconf: running: glibtoolize --copy\r\nautoreconf: configure.ac: not using Intltool\r\nautoreconf: running: gtkdocize --copy\r\nCan't exec \"gtkdocize\": No such file or directory at /usr/local/Cellar/autoconf/2.71/share/autoconf/Autom4te/FileUtils.pm line 293.\r\nautoreconf: error: gtkdocize failed with exit status: 2\r\n```\r\n\r\nPossible solutions:\r\n- adding `gtk-doc` dependency on packages that require autoreconfiguring (bad; it's a heavy dependency if it's not used)\r\n- preferring autotools 2.70 and hope this \"feature\" gets reverted upstream? because [other people are complaining about it too](https://twitter.com/ariadneconill/status/1397200137429135365)\r\n- trying to hack around the problem by exporting `GTKDOCIZE=echo` if the package doesn't explicitly depend on gtk-doc\r\n\r\nThe solution I have set up for the last case is:\r\n```python\r\n    def setup_dependent_build_environment(self, env, dependent_spec):\r\n        if (self.spec.satisfies('@2.71:')\r\n            and not dependent_spec.satisfies('^gtk-doc')):\r\n            # If an autoconf script calls GTK_DOC_CHECK, newer\r\n            # versions of autoreconf try to call `gtkdocize --copy`, which\r\n            # would require an extra dependency on `gtk-doc`, even if\r\n            # documentation is disabled at configure time.\r\n            env.set('GTKDOCIZE', 'echo')\r\n```\r\nbut unfortunately it doesn't work in the particular case of `cairo` because its `autogen.sh` script clears `GTKDOCIZE` if there's no `gtkdocize` in the path. \u2639\ufe0f ",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/23964",
+    "updated_at": "2021-06-09 23:10:13",
+    "created_at": "2021-05-27 17:40:13",
+    "closed_at": "2021-06-09 23:10:13",
+    "state": "closed",
+    "title": "Autoconf 2.71 tries to call gtkdocize",
+    "number": 23964,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "autotools"
+    ],
+    "id": 904024076,
+    "html_url": "https://github.com/spack/spack/issues/23964",
+    "assignees": [],
+    "comments": 0
+}

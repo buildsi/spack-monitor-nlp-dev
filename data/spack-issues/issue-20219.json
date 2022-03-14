@@ -1,0 +1,20 @@
+{
+    "body": "### Problem\r\n\r\nWe are currently investigating whether z3 can be used instead of clingo for the new concretizer (from #19501). That work is on https://github.com/spack/spack/tree/z3-concretizer -- it doesn't work yet. If we *do* use z3, some changes will be necessary to support building with python 2.6.\r\n\r\n*This diff is on top of #20218, see https://github.com/spack/spack/compare/py26-bootstrap...z3-bootstrap-2.6?expand=1 for the diff on top of that change.*\r\n\r\n### Solution\r\n\r\n- Add several patches to remove `'{}'.format(...)` calls, which must be converted to `'{0}'.format(...)` for python 2.6.\r\n\r\n### Result\r\n\r\n- z3 *should* be bootstrappable in an environment with only python 2.6 and a C++ compiler. However, this PR should be closed if we find that it is infeasible to use z3 for the new concretizer.\r\n\r\n### TODO\r\n- [ ] **Demonstrate a working z3 implementation of the ASP concretizer from #19501.**",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20219",
+    "updated_at": "2021-11-20 04:41:25",
+    "created_at": "2020-12-02 21:30:23",
+    "closed_at": "2021-11-20 04:41:25",
+    "state": "closed",
+    "title": "add patches to bootstrap z3 with python 2.6",
+    "number": 20219,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "bootstrap"
+    ],
+    "id": 755624208,
+    "html_url": "https://github.com/spack/spack/pull/20219",
+    "assignees": [],
+    "comments": 1
+}

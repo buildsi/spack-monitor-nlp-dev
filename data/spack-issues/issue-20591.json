@@ -1,0 +1,20 @@
+{
+    "body": "squashfs build fails with gcc-10.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install -v squashfs%gcc@10.2.0\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nread_fs.o:(.bss+0x0): multiple definition of `fwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c90): first defined here\r\nread_fs.o:(.bss+0x8): multiple definition of `bwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c98): first defined here\r\naction.o:(.bss+0x0): multiple definition of `fwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c90): first defined here\r\naction.o:(.bss+0x8): multiple definition of `bwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c98): first defined here\r\nsort.o:(.bss+0x100000): multiple definition of `fwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c90): first defined here\r\nsort.o:(.bss+0x100008): multiple definition of `bwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c98): first defined here\r\ninfo.o:(.bss+0x10): multiple definition of `bwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c98): first defined here\r\ninfo.o:(.bss+0x8): multiple definition of `fwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c90): first defined here\r\nrestore.o:(.bss+0x0): multiple definition of `fwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c90): first defined here\r\nrestore.o:(.bss+0x8): multiple definition of `bwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c98): first defined here\r\nprocess_fragments.o:(.bss+0x0): multiple definition of `fwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c90): first defined here\r\nprocess_fragments.o:(.bss+0x8): multiple definition of `bwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c98): first defined here\r\nxattr.o:(.bss+0x8): multiple definition of `fwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c90): first defined here\r\nxattr.o:(.bss+0x10): multiple definition of `bwriter_buffer'\r\nmksquashfs.o:(.bss+0x400c98): first defined here\r\ncollect2: error: ld returned 1 exit status\r\nmake: *** [Makefile:284: mksquashfs] Error 1\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' 'GZIP_SUPPORT=1' 'LZ4_SUPPORT=0' 'LZO_SUPPORT=0' 'XZ_SUPPORT=0' 'ZSTD_SUPPORT=0' 'COMP_DEFAULT=gzip'\r\n\r\n1 error found in build log:\r\n     44    process_fragments.o:(.bss+0x8): multiple definition of `bwriter_buff\r\n           er'\r\n     45    mksquashfs.o:(.bss+0x400c98): first defined here\r\n     46    xattr.o:(.bss+0x8): multiple definition of `fwriter_buffer'\r\n     47    mksquashfs.o:(.bss+0x400c90): first defined here\r\n     48    xattr.o:(.bss+0x10): multiple definition of `bwriter_buffer'\r\n     49    mksquashfs.o:(.bss+0x400c98): first defined here\r\n  >> 50    collect2: error: ld returned 1 exit status\r\n     51    make: *** [Makefile:284: mksquashfs] Error 1\r\n\r\nSee build log for details:\r\n  /tmp/jgwohlbier/spack-stage/spack-stage-squashfs-4.4-lnv4oczs6ifitp4thn5urgw4yq5vhwev/spack-build-out.txt\r\n```\r\n\r\n### Information on your system\r\n```\r\nspack debug  report\r\n* **Spack:** 0.16.0-373-aff2a3a8e\r\n* **Python:** 3.8.3\r\n* **Platform:** linux-rhel8-cascadelake\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "wohlbier",
+    "url": "https://api.github.com/repos/spack/spack/issues/20591",
+    "updated_at": "2020-12-29 07:46:00",
+    "created_at": "2020-12-28 22:44:52",
+    "closed_at": "2020-12-29 07:46:00",
+    "state": "closed",
+    "title": "squashfs build fails with gcc-10",
+    "number": 20591,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 775615568,
+    "html_url": "https://github.com/spack/spack/issues/20591",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Openmpi depends on `libxml2` via the `hwloc` package:\r\n```\r\n$ spack spec openmpi@2.1.1%intel@17.0.1\r\nInput spec\r\n--------------------------------\r\nopenmpi@2.1.1%intel@17.0.1\r\n\r\nNormalized\r\n--------------------------------\r\nopenmpi@2.1.1%intel@17.0.1\r\n    ^hwloc\r\n        ^pkg-config\r\n\r\nConcretized\r\n--------------------------------\r\nopenmpi@2.1.1%intel@17.0.1~cuda fabrics= ~java schedulers= ~sqlite3~thread_multiple+vt arch=linux-fedora25-x86_64 \r\n    ^hwloc@1.11.7%intel@17.0.1~cuda+libxml2+pci arch=linux-fedora25-x86_64 \r\n        ^libpciaccess@0.13.5%intel@17.0.1 arch=linux-fedora25-x86_64 \r\n            ^libtool@2.4.6%intel@17.0.1 arch=linux-fedora25-x86_64 \r\n                ^m4@1.4.18%intel@17.0.1 patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00 +sigsegv arch=linux-fedora25-x86_64 \r\n                    ^libsigsegv@2.11%intel@17.0.1 arch=linux-fedora25-x86_64 \r\n            ^pkg-config@0.29.2%intel@17.0.1+internal_glib arch=linux-fedora25-x86_64 \r\n            ^util-macros@1.19.1%intel@17.0.1 arch=linux-fedora25-x86_64 \r\n        ^libxml2@2.9.4%intel@17.0.1~python arch=linux-fedora25-x86_64 \r\n            ^xz@5.2.3%intel@17.0.1 arch=linux-fedora25-x86_64 \r\n            ^zlib@1.2.11%intel@17.0.1+pic+shared arch=linux-fedora25-x86_64 \r\n```\r\nBut `libxml2` can't be specified using the ^ operator:\r\n```\r\n$ spack spec openmpi@2.1.1%intel@17.0.1 ^libxml2\r\nInput spec\r\n--------------------------------\r\nopenmpi@2.1.1%intel@17.0.1\r\n    ^libxml2\r\n\r\nNormalized\r\n--------------------------------\r\n==> Error: openmpi does not depend on libxml2\r\n```\r\nHow can I tell spack to change something in how `libxml2` is built?",
+    "user": "certik",
+    "url": "https://api.github.com/repos/spack/spack/issues/5707",
+    "updated_at": "2018-06-06 18:40:43",
+    "created_at": "2017-10-11 22:05:39",
+    "closed_at": "2018-06-06 18:40:42",
+    "state": "closed",
+    "title": "The ^ does not work for nested dependencies",
+    "number": 5707,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 264751424,
+    "html_url": "https://github.com/spack/spack/issues/5707",
+    "assignees": [],
+    "comments": 18
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Also switches from GitHub to an official release tarball that already contains the `configure` script. This means that all of the Autotools dependencies are no longer necessary. I was having trouble running autoreconf:\r\n```\r\n2 errors found in build log:\r\n     11    libtoolize: linking file 'm4/libtool.m4'\r\n     12    libtoolize: linking file 'm4/ltoptions.m4'\r\n     13    libtoolize: linking file 'm4/ltsugar.m4'\r\n     14    libtoolize: linking file 'm4/ltversion.m4'\r\n     15    libtoolize: linking file 'm4/lt~obsolete.m4'\r\n     16    ==> '/mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/automake-1.16.1-naycnhp73c3qdhtlwjwb5nksmbl3mcdd/bin/aclocal'\r\n  >> 17    configure.ac:44: error: must install xorg-macros 1.16 or later before running autoconf/autogen\r\n     18    configure.ac:44: the top level\r\n     19    autom4te: /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/m4-1.4.18-h44epmk6ya5djlx55s7kbbx44tl26ttr/bin/m4 failed with e\r\n           xit status: 1\r\n  >> 20    aclocal: error: echo failed with exit status: 1\r\n```\r\nThis PR fixes that. Also adds a missing dependency on `libxcb`.\r\n\r\n### Before\r\n\r\n```\r\n1 error found in build log:\r\n     150    checking whether the linker accepts -Wl,--version-script=\"/mnt/a/u/sciteam/stewart1/spack/var/spack/stage/libxkbcommon-0.8.2-zljeyykh62n2qjefzu2v\r\n            52lqktil7fhn/libxkbcommon-0.8.2/xkbcommon.map\"... no\r\n     151    Package xkeyboard-config was not found in the pkg-config search path.\r\n     152    Perhaps you should add the directory containing `xkeyboard-config.pc'\r\n     153    to the PKG_CONFIG_PATH environment variable\r\n     154    No package 'xkeyboard-config' found\r\n     155    checking for XCB_XKB... no\r\n  >> 156    configure: error: xkbcommon-x11 requires xcb-xkb >= 1.10 which was not found. You can disable X11 support with --disable-x11.\r\n```\r\n\r\n### After\r\n```\r\n$ ldd -r ~/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/libxkbcommon-0.8.2-s6nebbmmsrpztggshoniypytusadycay/lib/libxkbcommon-x11.so\r\n\tlinux-vdso.so.1 =>  (0x00002aaaaaaab000)\r\n\tlibxkbcommon.so.0 => /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/libxkbcommon-0.8.2-s6nebbmmsrpztggshoniypytusadycay/lib/libxkbcommon.so.0 (0x00002aaaaacb6000)\r\n\tlibxcb-xkb.so.1 => /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/libxcb-1.13-sq3kf5ciich35zupj6gzbrfydeoowcv3/lib/libxcb-xkb.so.1 (0x00002aaaaaef5000)\r\n\tlibxcb.so.1 => /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/libxcb-1.13-sq3kf5ciich35zupj6gzbrfydeoowcv3/lib/libxcb.so.1 (0x00002aaaab114000)\r\n\tlibXau.so.6 => /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/libxau-1.0.8-lvi5jkfa2o2e4zj6gzrxrs4j65gflewj/lib/libXau.so.6 (0x00002aaaab33a000)\r\n\tlibXdmcp.so.6 => /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/libxdmcp-1.1.2-7himptjvbwcqej32qgrxlamssvzteiny/lib/libXdmcp.so.6 (0x00002aaaab53f000)\r\n\tlibbsd.so.0 => /mnt/a/u/sciteam/stewart1/spack/opt/spack/cray-cnl5-interlagos/gcc-7.3.0/libbsd-0.9.1-a5womix7sgzat5etdlaoabpne7o5l3cl/lib/libbsd.so.0 (0x00002aaaab745000)\r\n\tlibrca.so.0 => /opt/cray/rca/default/lib64/librca.so.0 (0x00002aaaab9f3000)\r\n\tlibc.so.6 => /lib64/libc.so.6 (0x00002aaaabbf8000)\r\n\tlibpthread.so.0 => /lib64/libpthread.so.0 (0x00002aaaabf74000)\r\n\tlibrt.so.1 => /lib64/librt.so.1 (0x00002aaaac192000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x0000555555554000)\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/10134",
+    "updated_at": "2018-12-18 01:28:03",
+    "created_at": "2018-12-18 00:38:04",
+    "closed_at": "2018-12-18 01:27:59",
+    "state": "closed",
+    "title": "Add latest version of libxkbcommon",
+    "number": 10134,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies"
+    ],
+    "id": 391948456,
+    "html_url": "https://github.com/spack/spack/pull/10134",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,17 @@
+{
+    "body": "This PR makes it so `spack ci generate` allows `--output-file <file>` to accept <file> wo/ a preceding path.\r\n\r\nThis PR makes it possible to do this:\r\n```\r\n$> spack ci generate --output-file pipeline.yml\r\n```\r\n\r\nWhere right now, using `spack@develop` (commit 1602b7a56192c23fb7fc110a1c8a17ec0837bdd3), this is what happens if you were to try it:\r\n\r\n```\r\n$> cat spack.yaml\r\nspack:\r\n  view: false\r\n  specs:\r\n  - python\r\n  gitlab-ci:\r\n    mappings:\r\n      - match: ['target=x86_64']\r\n        runner-attributes:\r\n          image: ecpe4s/ubuntu18.04-spack:0.14.2\r\n          tags:\r\n          - x86_64\r\n\r\n$> ls\r\nspack.yaml\r\n\r\n$> spack -d ci generate pipeline.yml\r\n==> [2020-06-26-08:43:09.975585, 67678] Imported gpg from built-in commands\r\n==> [2020-06-26-08:43:09.979875, 67678] Imported gpg from built-in commands\r\n==> [2020-06-26-08:43:09.981589, 67678] Imported compiler from built-in commands\r\n==> [2020-06-26-08:43:09.984692, 67678] Imported compiler from built-in commands\r\n==> [2020-06-26-08:43:09.984958, 67678] Imported ci from built-in commands\r\n==> [2020-06-26-08:43:09.986329, 67678] Imported ci from built-in commands\r\n==> [2020-06-26-08:43:09.987350, 67678] Reading config file /Users/walker/test-env/spack.yaml\r\nTraceback (most recent call last):\r\n  File \"/Users/walker/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/walker/spack/lib/spack/spack/main.py\", line 761, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/walker/spack/lib/spack/spack/main.py\", line 489, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/walker/spack/lib/spack/spack/cmd/ci.py\", line 394, in ci\r\n    args.func(args)\r\n  File \"/Users/walker/spack/lib/spack/spack/cmd/ci.py\", line 96, in ci_generate\r\n    os.makedirs(gen_ci_dir)\r\n  File \"/Users/walker/miniconda3/lib/python3.7/os.py\", line 223, in makedirs\r\n    mkdir(name, mode)\r\nFileNotFoundError: [Errno 2] No such file or directory: ''\r\n\r\n$> spack ci generate --output-file ./pipeline.yml\r\n... OK\r\n\r\n$> ls\r\nspack.yaml pipeline.yml\r\n```\r\n\r\n@scottwittenburg ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/17275",
+    "updated_at": "2020-06-26 18:18:31",
+    "created_at": "2020-06-26 15:48:39",
+    "closed_at": "2020-06-26 18:18:30",
+    "state": "closed",
+    "title": "allow `spack ci generate` to accept `--output-file <file>` where file has no preceding path",
+    "number": 17275,
+    "milestone": null,
+    "labels": [],
+    "id": 646353117,
+    "html_url": "https://github.com/spack/spack/pull/17275",
+    "assignees": [],
+    "comments": 0
+}

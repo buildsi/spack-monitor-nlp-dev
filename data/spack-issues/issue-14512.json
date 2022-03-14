@@ -1,0 +1,19 @@
+{
+    "body": "When working with an activate environment only run/link dependencies are shown when listing installed packages.\r\n\r\n### Steps to reproduce the issue\r\n\r\nThough I originally noticed this issue when installing `llvm` it can be much easier to reproduce with several small packages.  Using a newly created environment:\r\n\r\n```console\r\n$ spack env status\r\n==> Using spack.yaml in current directory: /var/tmp/spack-paul/var/spack/environments/test-find\r\n$ spack install bzip2\r\n...\r\n$ spack find\r\n==> In environment test-find\r\n==> Root specs\r\nbzip2\r\n\r\n==> 1 installed package\r\n-- linux-centos7-haswell / gcc@9.1.0 ----------------------------\r\nbzip2@1.0.8\r\n$ spack install libxml2\r\n...\r\n$ spack find\r\n==> In environment test-find\r\n==> Root specs\r\nbzip2   libxml2\r\n\r\n==> 5 installed packages\r\n-- linux-centos7-haswell / gcc@9.1.0 ----------------------------\r\nbzip2@1.0.8  libiconv@1.16  libxml2@2.9.9  xz@5.2.4  zlib@1.2.11\r\n```\r\n\r\nIn the case of `bzip2` there is only a single build dependency, `diffutils`. And with `libxml2` the only build (only) dependency is `pkgconfig` which does no appear. It should be noted that in both cases all dependencies where accounted for in the spec and installed.\r\n\r\n### Information on your system\r\n\r\nWhen testing I did a `git clone` and use the most recent commit (e7add79cba27b161eb54b86d6212623c9069ef70).\r\n\r\n[spack.lock.zip](https://github.com/spack/spack/files/4064014/spack.lock.zip)\r\n\r\n\r\n",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/14512",
+    "updated_at": "2020-02-05 14:23:53",
+    "created_at": "2020-01-15 09:25:20",
+    "closed_at": "2020-02-05 14:23:53",
+    "state": "closed",
+    "title": "Build dependencies are not listed as installed packages in environments",
+    "number": 14512,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 550064169,
+    "html_url": "https://github.com/spack/spack/issues/14512",
+    "assignees": [],
+    "comments": 2
+}

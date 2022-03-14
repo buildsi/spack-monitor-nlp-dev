@@ -1,0 +1,24 @@
+{
+    "body": "This allow one to have two packages that depend on say `llvm targets=NVPTX` and\n`llvm targets=AMDGPU` which Spack would merge into `targets=NVPTX,AMDGPU`.\n\nThe default is `targets=auto`, which corresponds with\n`LLVM_TARGETS_TO_BUILD=all`, and gives a reasonable user experience when just\nrunning `spack install llvm+clang`.\n\nWith this change, Spack will always add LLVM's host arch as an enabled target,\nso even if you don't specify `targets=X86`, if your Spack target arch is say\n`znver2`, it will add `X86` to `LLVM_TARGETS_TO_BUILD`. This is mostly so that\nthe user doesn't have to do the mapping from spack -> LLVM target, and can just\ndepend on the \"special\" targets.\n\n\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27735",
+    "updated_at": "2022-01-06 09:12:27",
+    "created_at": "2021-12-01 10:45:54",
+    "closed_at": "2022-01-05 21:11:05",
+    "state": "closed",
+    "title": "llvm: make targets a multivalued variant",
+    "number": 27735,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "conflicts",
+        "gitlab"
+    ],
+    "id": 1068247383,
+    "html_url": "https://github.com/spack/spack/pull/27735",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 10
+}

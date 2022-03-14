@@ -1,0 +1,17 @@
+{
+    "body": "I would like to define spec in `compilers.yaml` with `non-numeric` version as: \r\n\r\n```\r\ncompilers:\r\n- compiler:\r\n    modules: [bg-xl]\r\n    operating_system: cnk\r\n    paths:\r\n      cc: /opt/ibmcmp/vacpp/bg/12.1/bin/bgxlc\r\n      cxx: /opt/ibmcmp/vacpp/bg/12.1/bin/bgxlc++\r\n      f77: /opt/ibmcmp/xlf/bg/14.1/bin/xlf\r\n      fc: /opt/ibmcmp/xlf/bg/14.1/bin/xlf2008\r\n    spec: xl@12.1\r\n- compiler:\r\n    modules: [bg-xl]\r\n    operating_system: cnk\r\n    paths:\r\n      cc: /opt/ibmcmp/vacpp/bg/12.1/bin/bgxlc_r\r\n      cxx: /opt/ibmcmp/vacpp/bg/12.1/bin/bgxlc++_r\r\n      f77: /opt/ibmcmp/xlf/bg/14.1/bin/xlf_r\r\n      fc: /opt/ibmcmp/xlf/bg/14.1/bin/xlf2008_r\r\n    spec: xl@12.1.r\r\n```\r\n\r\n`spack compilers` show versions correctly :\r\n\r\n```\r\nspack compilers\r\n==> Available compilers\r\n-- xl -----------------------------------------------------------\r\nxl@12.1.r  xl@12.1\r\n```\r\n\r\nI can spec/install package with `xl@12.1.r`:\r\n```\r\nspack spec mod2c %xl@12.1.r\r\nInput spec\r\n--------------------------------\r\nmod2c%xl@12.1.r\r\n\r\nNormalized\r\n--------------------------------\r\nmod2c%xl@12.1.r\r\n    ^cmake@2.8.12:\r\n\r\nConcretized\r\n--------------------------------\r\nmod2c@develop%xl@12.1.r arch=bgq-cnk-ppc64\r\n    ^cmake@2.8.12%xl@12.1.r~doc+ncurses+openssl+ownlibs~qt arch=bgq-cnk-ppc64\r\n```\r\n\r\nBut `xl@12.1` gives below error:\r\n\r\n```\r\nspack spec mod2c %xl@12.1\r\nInput spec\r\n--------------------------------\r\nmod2c%xl@12.1\r\n\r\nNormalized\r\n--------------------------------\r\nmod2c%xl@12.1\r\n    ^cmake@2.8.12:\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Multiple compilers satisfy spec xl@12.1\r\n```\r\n\r\nIs this bug or invalid `compilers.yaml` ?",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2866",
+    "updated_at": "2017-01-18 19:33:30",
+    "created_at": "2017-01-18 19:21:43",
+    "closed_at": "2017-01-18 19:33:30",
+    "state": "closed",
+    "title": "Non-numeric spec version in compilers.yaml and Multiple compilers error",
+    "number": 2866,
+    "milestone": null,
+    "labels": [],
+    "id": 201667452,
+    "html_url": "https://github.com/spack/spack/issues/2866",
+    "assignees": [],
+    "comments": 2
+}

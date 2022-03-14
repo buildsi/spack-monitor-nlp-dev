@@ -1,0 +1,25 @@
+{
+    "body": "snl-atdm-issue\r\n\r\nWhile trying to use `spack install` on a rhel6 machine with haswell processors, spack correctly identifies the `-march` option as `core-avx2` but the default gcc version on rhel6 (gcc-4.4.7) does not recognize that as a valid `-march` option\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cat /etc/redhat-release\r\nRed Hat Enterprise Linux Workstation release 6.9 (Santiago)\r\n\r\n$ which g++\r\n/usr/bin/g++\r\n\r\n$ g++ --version\r\ng++ (GCC) 4.4.7 20120313 (Red Hat 4.4.7-18)\r\nCopyright (C) 2010 Free Software Foundation, Inc.\r\nThis is free software; see the source for copying conditions.  There is NO\r\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\r\n\r\n$ g++ -o hello hello.cpp -march=core-avx2\r\nhello.cpp:1: error: bad value (core-avx2) for -march= switch\r\nhello.cpp:1: error: bad value (core-avx2) for -mtune= switch\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nchecking for a BSD-compatible install... /usr/bin/install -c\r\nchecking whether build environment is sane... yes\r\nchecking for a thread-safe mkdir -p... /bin/mkdir -p\r\nchecking for gawk... gawk\r\nchecking whether make sets $(MAKE)... yes\r\nchecking whether make supports nested variables... yes\r\nchecking for gcc... /home/rabartl/Spack.base3/atdm-spack/spack/lib/spack/env/gcc/gcc\r\nchecking whether the C compiler works... no\r\nconfigure: error: in `/tmp/rabartl/spack-stage/spack-stage-libsigsegv-2.12-4wg47p4nrbuzpsovsxhbypwtbcu25k4t/spack-src':\r\nconfigure: error: C compiler cannot create executables\r\nSee `config.log' for more details\r\n...\r\n```\r\nconfig.log shows:\r\n```\r\nconfigure:3283: checking whether the C compiler works\r\nconfigure:3305: /home/rabartl/Spack.base3/atdm-spack/spack/lib/spack/env/gcc/gcc    conftest.c  >&5\r\nconftest.c:1: error: bad value (core-avx2) for -march= switch\r\nconftest.c:1: error: bad value (core-avx2) for -mtune= switch\r\n```\r\n\r\n### Information on your system\r\n\r\n* Red Hat Enterprise Linux Workstation release 6.9 (Santiago)\r\n* with Intel(R) Xeon(R) CPU E5-2667 v4 @ 3.20GHz (Haswell)\r\n\r\n\r\n",
+    "user": "fryeguy52",
+    "url": "https://api.github.com/repos/spack/spack/issues/13361",
+    "updated_at": "2019-12-02 22:26:11",
+    "created_at": "2019-10-21 18:43:45",
+    "closed_at": "2019-12-02 22:26:10",
+    "state": "closed",
+    "title": "Spack trying to use `-march` options not recognized by default compiler",
+    "number": 13361,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "platform-support",
+        "microarchitectures",
+        "snl-atdm"
+    ],
+    "id": 510199141,
+    "html_url": "https://github.com/spack/spack/issues/13361",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 41
+}

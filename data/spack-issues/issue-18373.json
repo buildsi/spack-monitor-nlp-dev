@@ -1,0 +1,19 @@
+{
+    "body": "Add standard `ipo` variant to CMakePackage.\r\n\r\n### Rationale\r\nCMake exposes the `CMAKE_INTERPROCEDURAL_OPTIMIZATION` variable to enable IPO/LTO on all targets in a project. Similar to the standard `build_type` variant for CMake, Spack should have a standard `ipo` variant (defaulting to `False`) that enables `CMAKE_INTERPROCEDURAL_OPTIMIZATION`.\r\n\r\n### Description\r\n```python\r\n# lib/spack/spack/build_systems/cmake.py\r\nvariant('ipo', default=False, description='CMake interprocedural optimization')\r\n\r\ndef _std_args(pkg):\r\n    ...\r\n    try:\r\n        ipo = pkg.spec.variants['ipo'].value\r\n    except KeyError:\r\n        ipo = False\r\n\r\n    args = [\r\n        '-G', generator,\r\n        define('CMAKE_INSTALL_PREFIX', pkg.prefix),\r\n        define('CMAKE_BUILD_TYPE', build_type),\r\n        define_from_variant('CMAKE_INTERPROCEDURAL_OPTIMIZATION', ipo),\r\n    ]\r\n```\r\n\r\n### Additional information\r\nSpack 0.15.4-710-125191931\r\n\r\n### General information\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "omor1",
+    "url": "https://api.github.com/repos/spack/spack/issues/18373",
+    "updated_at": "2020-10-21 09:09:46",
+    "created_at": "2020-08-29 02:06:35",
+    "closed_at": "2020-10-21 09:09:46",
+    "state": "closed",
+    "title": "Standardized CMake Interprocedural Optimization Variant",
+    "number": 18373,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 688437548,
+    "html_url": "https://github.com/spack/spack/issues/18373",
+    "assignees": [],
+    "comments": 0
+}

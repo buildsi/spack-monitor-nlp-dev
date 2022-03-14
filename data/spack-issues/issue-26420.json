@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\n$ spack solve zlib\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-power9le\n\n### Additional information\n\n@alalazo \r\n[clingo-bootstrap-error.txt](https://github.com/spack/spack/files/7270917/clingo-bootstrap-error.txt)\r\n\r\nI just cleared out the cache to test the solution, so hopefully this output from `spack -d solve zlib` will be enough. If not, I will go back to a clean slate and rebuild the bootstrap phase.\r\n\r\nIt looks like the bootstrap clingo installation assumes that the static version of libstdc++ exists by adding the option `-static-libstdc++`. See here: https://github.com/spack/spack/blob/314f5fdb974260c31e84245513756f5ca67b06f6/var/spack/repos/builtin/packages/clingo-bootstrap/package.py#L63\r\n\r\nMy system doesn't have static libstdc++ installed, so static linking was causing an issue. The build error on my system was resolved by removing the `-static-libstdc++` and `-static-libgcc` flags.\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "jacobmerson",
+    "url": "https://api.github.com/repos/spack/spack/issues/26420",
+    "updated_at": "2021-10-03 04:23:09",
+    "created_at": "2021-10-02 05:46:15",
+    "closed_at": "2021-10-02 12:53:25",
+    "state": "closed",
+    "title": "Installation issue: clingo-bootsrap",
+    "number": 26420,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1013934019,
+    "html_url": "https://github.com/spack/spack/issues/26420",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

@@ -1,0 +1,21 @@
+{
+    "body": "# The Issue\r\n\r\nWhile trying to compile `py-matplotlib` on a Big Sur Mac with Apple Clang, got a bunch of errors of the kind :\r\n\r\n```\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/cmath:646:17: error:\r\n      no template named 'numeric_limits'\r\n``` \r\n\r\nAfter some investigation, turns out the core of the problem is that the build environment has a CommandLineTool include path in SPACK_INCLUDE_DIRS (`/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include`) while the SDK in use is the Xcode one (`/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk`)\r\n\r\n```\r\n~$ xcrun --show-sdk-path\r\n/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk\r\n~$ xcode-select -p\r\n/Applications/Xcode.app/Contents/Developer\r\n``` \r\n\r\n```\r\n~$ spack debug report\r\n* **Spack:** 0.16.0-951-3893ce8f71\r\n* **Python:** 3.8.2\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** original\r\n```\r\n\r\n```\r\n~$ clang --version\r\nApple clang version 12.0.0 (clang-1200.0.32.28)\r\nTarget: x86_64-apple-darwin20.2.0\r\nThread model: posix\r\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\r\n```\r\n\r\n# A (the?) solution\r\n\r\nIn Spack `etc/spack/defaults/darwin/packages.yaml` the `apple-libuuid` is specified as : \r\n\r\n```\r\napple-libuuid:\r\n    buildable: false\r\n    externals:\r\n    # Apple bundles libuuid in libsystem_c version 1353.100.2,\r\n    # although the version number used here isn't critical\r\n    - spec: apple-libuuid@1353.100.2\r\n      prefix: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr\r\n```\r\n\r\nChanging the `prefix` part to : \r\n\r\n```\r\n      prefix: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk\r\n```\r\n\r\nhas solved the issue in my case.\r\n",
+    "user": "aphecetche",
+    "url": "https://api.github.com/repos/spack/spack/issues/21265",
+    "updated_at": "2021-02-04 20:01:41",
+    "created_at": "2021-01-25 19:56:06",
+    "closed_at": "2021-02-04 20:01:41",
+    "state": "closed",
+    "title": "Installation issue: default Darwin packages.yaml apple-libuuid prefix causing issues",
+    "number": 21265,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "external-packages"
+    ],
+    "id": 793680944,
+    "html_url": "https://github.com/spack/spack/issues/21265",
+    "assignees": [],
+    "comments": 1
+}

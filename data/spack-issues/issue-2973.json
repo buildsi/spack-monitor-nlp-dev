@@ -1,0 +1,17 @@
+{
+    "body": "I've been testing some static builds on Edison and Cori and came across this error:\r\n`/usr/bin/ld: attempted static link of dynamic object /opt/gcc/6.1.0/snos/lib/../lib64/libgfortran.so`\r\nThe error message comes from building abinit. \r\n\r\nOn Cray machines, we set CRAYPE_LINK_TYPE=dynamic. This is to standardize Cray's environment. After some investigating, I found the culprit for this error:\r\n` -Wl,-rpath=/opt/cray/gcc-libs`\r\nSame happens with intel:\r\n`-Wl,-rpath=/opt/intel/composer_xe_2015/compiler/lib/intel64`\r\n\r\nThese get placed in Cray's compiler wrapper whenever the link type is set to dynamic.\r\n\r\nA solution off the top of my head is changing CRAYPE_LINK_TYPE=static for static variants, but not sure if this is an elegant solution since this means each package will have a `setup_environment` method to manipulate the link type environment variable. Wondering if anyone has any insight on this. \r\n\r\nPinging other Cray people:\r\n@robertdfrench \r\n@mpbelhorn \r\n@KineticTheory \r\n\r\n\r\n",
+    "user": "mamelara",
+    "url": "https://api.github.com/repos/spack/spack/issues/2973",
+    "updated_at": "2017-02-06 18:45:43",
+    "created_at": "2017-01-31 23:37:05",
+    "closed_at": "2017-02-06 18:45:43",
+    "state": "closed",
+    "title": "static link of dynamic object with fortran libs on Cray",
+    "number": 2973,
+    "milestone": null,
+    "labels": [],
+    "id": 204456555,
+    "html_url": "https://github.com/spack/spack/issues/2973",
+    "assignees": [],
+    "comments": 1
+}

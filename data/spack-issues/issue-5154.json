@@ -1,0 +1,19 @@
+{
+    "body": "Hi \r\n\r\nspack/var/spack/repos/builtin/packages/silo/package.py:66, in install:\r\n```\r\n     49       def install(self, spec, prefix):\r\n     50           config_args = [\r\n     51               '--enable-fortran' if '+fortran' in spec else '--disable-fortran',\r\n     52               '--enable-silex' if '+silex' in spec else '--disable-silex',\r\n     53               '--enable-shared' if '+shared' in spec else '--disable-shared',\r\n     54           ]\r\n     55\r\n     56           if '+silex' in spec:\r\n     57               config_args.append('--with-Qt-dir=%s' % spec['qt'].prefix)\r\n     58\r\n     59           configure(\r\n     60               '--prefix=%s' % prefix,\r\n     61               '--with-hdf5=%s,%s' % (spec['hdf5'].prefix.include,\r\n     62                                      spec['hdf5'].prefix.lib),\r\n     63               '--with-zlib=%s,%s' % (spec['zlib'].prefix.include,\r\n     64                                      spec['zlib'].prefix.lib),\r\n     65               '--enable-install-lite-headers',\r\n  >> 66               *config_args)\r\n     67\r\n     68           make()\r\n     69           make('install')\r\n\r\nSee build log for details:\r\n```\r\n\r\n```\r\nchecking for Qt... yes:\r\n    QT_CXXFLAGS=-I/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/include -I/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/include/Qt -I/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/include/QtCore -I/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/include/QtGui\r\n    QT_DIR=/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3\r\n    QT_LIBS=-L/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/lib -lQt5AccessibilitySupport  -lSM -lICE  -lX11 -lXext -lXmu -lXt -lXi\r\n    QT_UIC=/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/bin/uic\r\n    QT_MOC=/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/bin/moc\r\n    QT_LRELEASE=/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/bin/lrelease\r\n    QT_LUPDATE=/home1/user1/spack/opt/spack/linux-sles12-x86_64/gcc-4.8/qt-5.9.1-wny6h2r47ctzrum7j6iuns3mern7q4m3/bin/lupdate\r\nchecking correct functioning of Qt installation... failure\r\nconfigure: error: Failed to find matching components of a complete\r\n```\r\n\r\nAny help would be appreciated.\r\n\r\nThank You,\r\n                 Manish\r\n",
+    "user": "manish2479",
+    "url": "https://api.github.com/repos/spack/spack/issues/5154",
+    "updated_at": "2020-02-23 16:45:20",
+    "created_at": "2017-08-18 02:36:45",
+    "closed_at": "2020-02-23 16:45:20",
+    "state": "closed",
+    "title": "Installing Silo is having issues with QT",
+    "number": 5154,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 251123804,
+    "html_url": "https://github.com/spack/spack/issues/5154",
+    "assignees": [],
+    "comments": 9
+}

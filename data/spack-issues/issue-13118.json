@@ -1,0 +1,19 @@
+{
+    "body": "@certik @alalazo \r\n\r\nThe error occurs on Ubuntu 18.04 TLS.\r\n\r\nJust do:\r\n`spack install f18%gcc`\r\n\r\nAt the very end, you get this error:\r\n```\r\n==> Executing phase: 'install'\r\n==> Error: FileNotFoundError: [Errno 2] No such file or directory: 'spack-build/tools/f18/bin/f18'\r\n\r\n/nfs/gce/projects/naromero-workspace/spack/var/spack/repos/builtin/packages/f18/package.py:23, in install:\r\n         21    def install(self, spec, prefix):\r\n         22        mkdirp(prefix.bin)\r\n  >>     23        install(\"spack-build/tools/f18/bin/f18\", prefix.bin)\r\n\r\nSee build log for details:\r\n  /scratch/naromero/tmp/spack-stage/f18-develop-2phe4xzmxxvbladdut5yrmw4ic6btf5j/spack-build-out.txt\r\n```\r\n\r\nSo `f18` is build correctly, but the install command gives an error. This is because the bin subdirectory does not exist in the Spack *target* subdirectory.\r\n\r\nAs an example, I used the `install_tree` command for one of my Spack packages:\r\nhttps://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/qmcpack/package.py#L347",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/13118",
+    "updated_at": "2019-10-11 02:52:29",
+    "created_at": "2019-10-10 04:45:31",
+    "closed_at": "2019-10-11 02:52:29",
+    "state": "closed",
+    "title": "F18 install method fails",
+    "number": 13118,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 505031045,
+    "html_url": "https://github.com/spack/spack/issues/13118",
+    "assignees": [],
+    "comments": 1
+}

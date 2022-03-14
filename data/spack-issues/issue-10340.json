@@ -1,0 +1,19 @@
+{
+    "body": "#7574 removed the `mpirun`/`mpiexec` executable when OpenMPI is built with slurm support. I suggest restoring them for a few reasons:\r\n\r\n1.  Calling `mpirun` after `salloc`/`sbatch` is a documented practice on OpenMPI website. See https://www.open-mpi.org/faq/?category=slurm. People might follow the instruction and get surprised -- either not find `mpirun` , or an incorrect version like `/usr/bin/mpirun` is called. Indeed this is how I find this issue.\r\n2. Directly using `mpirun` is useful for fine-tuning the MCA parameter, e.g. force TCP and turn off IB & Vader by `mpirun --mca btl tcp,self`. Useful for debugging sometimes :) . With`srun` it can still be done by setting `OMPI_MCA_<param_name>`, but a bit inconvenient (https://www.open-mpi.org/faq/?category=tuning#setting-mca-params). Using `orterun` feels exotic for most users.\r\n3. In certain cases `mpirun` can have better performance than `srun` (though probably rare with `srun --mpi=pmix`). See https://www.mail-archive.com/users@lists.open-mpi.org/msg31874.html\r\n\r\nJust a small suggestion :)  In any case, I really appreciate #7574 (and #8427) -- OpenMPI + slurm works quite well so far!",
+    "user": "JiaweiZhuang",
+    "url": "https://api.github.com/repos/spack/spack/issues/10340",
+    "updated_at": "2020-11-02 23:19:46",
+    "created_at": "2019-01-14 17:21:59",
+    "closed_at": "2019-01-15 18:01:24",
+    "state": "closed",
+    "title": "Do not remove mpirun when OpenMPI is built with Slurm",
+    "number": 10340,
+    "milestone": null,
+    "labels": [
+        "mpi"
+    ],
+    "id": 398991581,
+    "html_url": "https://github.com/spack/spack/pull/10340",
+    "assignees": [],
+    "comments": 12
+}

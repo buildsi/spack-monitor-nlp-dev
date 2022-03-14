@@ -1,0 +1,22 @@
+{
+    "body": "Using `spack@develop` (77fc458d2964490c83863d667df10b9a740ce05e from `Sun Nov 1 01:05:13 2020 +0100`)\r\n\r\nCan't install `netlib-scalapack` ([netlib-scalapack.spec.yaml.txt](https://github.com/spack/spack/files/5470201/netlib-scalapack.spec.yaml.txt)) on:\r\n* `Ubuntu 18.04`\r\n* `ppc64le`\r\n\r\n```\r\n$> spack install -f ./netlib-scalapack.spec.yaml\r\n...\r\n==> Installing netlib-scalapack\r\n==> No binary for netlib-scalapack found: installing from source\r\n==> Using cached archive: /opt/spack/var/spack/cache/_source-cache/archive/61/61d9216cf81d246944720cfce96255878a3f85dec13b9351f1fa0fd6768220a6.tgz\r\nReversed (or previously applied) patch detected!  Assume -R? [n] <HIT ENTER | 'n' | 'y'>\r\nApply anyway? [n] <HIT ENTER | 'n' | 'y'>\r\n\r\n5 out of 5 hunks ignored -- saving rejects to file PBLAS/SRC/pdamax_.c.rej\r\nReversed (or previously applied) patch detected!  Assume -R? [n]\r\n...\r\ngoes on indefinitely\r\n...\r\nCtrl+C\r\n\r\n==> Error: Keyboard interrupt.\r\n```\r\n\r\nBehavior is exactly the same on first fetch:\r\n```\r\n$> spack install -f ./netlib-scalapack.spec.yaml\r\n...\r\n==> Installing netlib-scalapack\r\n==> No binary for netlib-scalapack found: installing from source\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/61/61d9216cf81d246944720cfce96255878a3f85dec13b9351f1fa0fd6768220a6.tgz\r\n################################################################################################################################################################################## 100.0%\r\nReversed (or previously applied) patch detected!  Assume -R? [n]\r\n.....\r\n```\r\n\r\nOffending commit looks to be:\r\nhttps://github.com/spack/spack/commit/51a9473bf867af3e5f8f024d124c71b5b03384a0#diff-4adf527004d5d4cf80265f7ee109f54d6ca3b75431bdd216f237dcc526c3c8cc\r\n\r\nThis is kind of a big problem as it breaks ability of E4S to build all packages that depend on `netlib-scalapack` in automated builds, which include at least:\r\n1. `strumpack`\r\n2. `trilinos`\r\n3. `omega-h`\r\n4. `slate`\r\n\r\n@vkallesh @adamjstewart @t-karatsu @becker33 @scottwittenburg \r\n\r\n\r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/19650",
+    "updated_at": "2020-11-01 23:15:05",
+    "created_at": "2020-11-01 04:48:06",
+    "closed_at": "2020-11-01 23:15:05",
+    "state": "closed",
+    "title": "netlib-scalapack: reversed (or previously applied) patch detected",
+    "number": 19650,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "ecp",
+        "triage",
+        "e4s"
+    ],
+    "id": 733867895,
+    "html_url": "https://github.com/spack/spack/issues/19650",
+    "assignees": [],
+    "comments": 1
+}

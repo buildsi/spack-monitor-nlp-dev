@@ -1,0 +1,20 @@
+{
+    "body": "I just installed Monterey and was surprised to see that spack identified my system as \"10.16\" (the \"compatibility\" version for macOS 11). This is because the old anaconda3 python being used by spack was clearly built some time ago and its `platform.mac_ver()` was reporting the build rather than current system.\r\n\r\nI've changed the macos version detection heuristic to prefer the builtin `sw_vers` command, which will reliably return the operating system version.\r\n\r\nAs an override to *that* mechanism I'm letting spack use the `MACOSX_DEPLOYMENT_TARGET` environment variable, which is designed to specify the targeted OS and so makes perfect sense here:\r\n```console\r\n$ MACOSX_DEPLOYMENT_TARGET=10.14 spack arch\r\ndarwin-mojave-skylake\r\n$ MACOSX_DEPLOYMENT_TARGET=10.15 spack arch\r\ndarwin-catalina-skylake\r\n$ MACOSX_DEPLOYMENT_TARGET=11 spack arch\r\ndarwin-bigsur-skylake\r\n$ MACOSX_DEPLOYMENT_TARGET=12 spack arch\r\ndarwin-monterey-skylake\r\n```\r\n\r\nThis change is orthogonal to #28948.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/28991",
+    "updated_at": "2022-02-21 12:30:21",
+    "created_at": "2022-02-16 01:42:05",
+    "closed_at": "2022-02-18 03:50:42",
+    "state": "closed",
+    "title": "darwin: robust macos version detection",
+    "number": 28991,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "architecture"
+    ],
+    "id": 1139422472,
+    "html_url": "https://github.com/spack/spack/pull/28991",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,21 @@
+{
+    "body": "I noticed that `curl` needed to  `depends_on('libssh2')` but it depended on `openssl` instead.  So I added the dependency.  This is where the fun begins. `spack spec curl` works.  But `spack spec netcdf` yields an infinite recursion.  Why?\r\n\r\nBecause `curl` -> `libssh2` -> `cmake [build]` -> `curl`\r\n\r\nSo how will you get this built if you can't put `libssh2`, `cmake` or both in your `packages.yaml`? This is a hard problem.... Maybe build dependencies need to be treated a bit differently; notice that `libssh2` only depends on a really old version of CMake.  You should be able to tell Spack that you have that old version.  And then it could be used, when appropriate, to satisfy build dependencies.\r\n\r\nThe reality is that software is self-bootstrapping, and therefore breaks our DAG dependency model.  If we lose all C-compiler executables on all machines, we won't be able to build anything.  Our circular dependencies need to turn into spiral dependencies.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2321",
+    "updated_at": "2016-11-13 15:47:52",
+    "created_at": "2016-11-12 18:27:56",
+    "closed_at": "2016-11-13 05:34:40",
+    "state": "closed",
+    "title": "Fun with Circular Dependencies!",
+    "number": 2321,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "discussion",
+        "revisit"
+    ],
+    "id": 188926697,
+    "html_url": "https://github.com/spack/spack/issues/2321",
+    "assignees": [],
+    "comments": 4
+}

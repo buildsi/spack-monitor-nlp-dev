@@ -1,0 +1,17 @@
+{
+    "body": "In the case of a package built with a dependency satisfied by a local install (ie. opengl):\r\nin etc/spack/packages.yaml:\r\n```\r\npackages:\r\n  all:\r\n  opengl:\r\n    paths:\r\n       opengl@4.5.0: /usr\r\n       buildable: False\r\n```\r\n\r\nattempting to create a binary package will fail quietly, with a package extrapolation error thrown:\r\n\r\n```\r\ncoltrane (SPACKIT/spack):spack buildcache create -d ./mirrors -u testit2\r\n==> creating binary cache file for package testit2@master%gcc@4.8.5 arch=linux-centos7-ivybridge \r\n==> Warning: Missing a source id for testit2@master\r\n==> Warning: Can't extrapolate a URL for version 4.5.0 because package opengl defines no URLs\r\ncoltrane (SPACKIT/spack):ls -alg mirrors/\r\ntotal 4\r\ndrwxrwxr-x.  2 aweits    6 Jan  2 13:07 .\r\ndrwxrwxr-x. 11 aweits 4096 Jan  2 13:07 ..\r\n```\r\nafter this patch:\r\n\r\n```\r\ncoltrane (SPACKIT/spack):spack buildcache create -d ./mirrors -u testit2\r\n==> creating binary cache file for package testit2@master%gcc@4.8.5 arch=linux-centos7-ivybridge \r\n==> Warning: Missing a source id for testit2@master\r\n==> Warning: Missing a source id for opengl@4.5.0\r\ncoltrane (SPACKIT/spack):ls -lag mirrors/\r\ntotal 8\r\ndrwxrwxr-x.  3 aweits   24 Jan  2 13:09 .\r\ndrwxrwxr-x. 11 aweits 4096 Jan  2 13:07 ..\r\ndrwxrwxr-x.  3 aweits 4096 Jan  2 13:09 build_cache\r\n```",
+    "user": "aweits",
+    "url": "https://api.github.com/repos/spack/spack/issues/14351",
+    "updated_at": "2021-02-12 13:59:29",
+    "created_at": "2020-01-02 18:59:55",
+    "closed_at": "2020-01-02 23:43:33",
+    "state": "closed",
+    "title": "Fix so that a package extrapolation error won't quietly prevent binary packages from being written",
+    "number": 14351,
+    "milestone": null,
+    "labels": [],
+    "id": 544702844,
+    "html_url": "https://github.com/spack/spack/pull/14351",
+    "assignees": [],
+    "comments": 1
+}

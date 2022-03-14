@@ -1,0 +1,19 @@
+{
+    "body": "Some \"concrete\" versions on the command line, e.g. `qt@5` are really meant to satisfy some actual concrete version from a package. We should only assume the user is introducing a new, unknown version on the CLI if we, well, don't know of any version that satisfies the user's request.  So, if we know about `5.11.1` and `5.11.3` and they ask for `5.11.2`, we'd ask the solver to consider `5.11.2` as a solution.  If they just ask for `5`, though, `5.11.1` or `5.11.3` are fine solutions, as they satisfy `@5`, so use them.\r\n\r\n~~This is how the old concretizer behaved -- the new one was erroneously assuming that we needed to consider *every* CLI version on its own.~~ This is sadly new behavior, so it needs to be added to the next version (0.18.0).\r\n\r\n- [x] fix version logic in `asp.py`\r\n- [x] test",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/28620",
+    "updated_at": "2022-02-22 00:27:44",
+    "created_at": "2022-01-26 23:08:41",
+    "closed_at": "2022-02-21 19:46:38",
+    "state": "closed",
+    "title": "bugfix: Not all concrete versions on the CLI should be considered real",
+    "number": 28620,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 1115589780,
+    "html_url": "https://github.com/spack/spack/pull/28620",
+    "assignees": [],
+    "comments": 11
+}

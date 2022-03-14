@@ -1,0 +1,21 @@
+{
+    "body": "If you want to report a build error for some package, or a bug in core please use the following template as a guideline:\r\n\r\n-----\r\n\r\nSummary\r\n\r\nThe usual `source share/spack/setup-env.sh` fails on Blue Waters (a Cray system). \r\n\r\n### Expected Result\r\n\r\nProvide a working `spack`\r\n\r\n### Actual Result\r\n\r\nI see an error:\r\n```\r\n$ source share/spack/setup-env.sh\r\n==> Warning: Could not detect module function from bash. Trying to detect modulecmd from `which`\r\nIf '_sp_sys_type=cray-CNL-interlagos' is not a typo you can run the following command to lookup the package that contains the binary:\r\n    command-not-found _sp_sys_type=cray-CNL-interlagos\r\nbash: _sp_sys_type=cray-CNL-interlagos: command not found\r\n```\r\n\r\nThe warning is actually harmless (I checked); it appears because there is a custom `module` function that wraps a `moduleraw` function, and Spack cannot parse this. Spack does find `modulecmd` just fine, so this works.\r\n\r\nHowever, the Bash error points at a severe problem. Spack sets the module path incorrectly, leading to a broken module system. On a Cray, this is fatal for Spack.\r\n\r\nThe value of `_assignment_command` is\r\n```\r\n_sp_sys_type=cray-CNL-interlagos _sp_dotkit_root=/mnt/a/u/sciteam/eschnett/src/spack/share/spack/dotkit _sp_tcl_root=/mnt/a/u/sciteam/eschnett/src/spack/share/spack/modules\r\n```\r\nwhich looks correct. However, for some reason, the respective call to `eval` fails. I do not understand why -- calling `eval` with this argument manually on the command line works fine.\r\n\r\nThis is\r\n```\r\n$ echo $BASH_VERSION\r\n3.2.51(1)-release\r\n```\r\n\r\n### Information on your system\r\n\r\nPlatform:\r\n```\r\n$ uname -a\r\nLinux h2ologin1 3.0.101-0.47.106.8-default #1 SMP Wed Oct 11 18:58:12 UTC 2017 (4355936) x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\n(a Cray system)\r\n-----\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/6954",
+    "updated_at": "2019-09-04 14:45:57",
+    "created_at": "2018-01-16 22:10:14",
+    "closed_at": "2019-09-04 14:45:57",
+    "state": "closed",
+    "title": "Startup problem on Blue Waters (Cray)",
+    "number": 6954,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "modules",
+        "shell-support"
+    ],
+    "id": 289073458,
+    "html_url": "https://github.com/spack/spack/issues/6954",
+    "assignees": [],
+    "comments": 3
+}

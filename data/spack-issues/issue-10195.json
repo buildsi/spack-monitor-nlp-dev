@@ -1,0 +1,21 @@
+{
+    "body": "In #10148, I added an import test for `libxml2`'s Python library. I also changed `extends('python')` to `extends('python+shared')`, as the unit tests crashed when `python~shared` was used.\r\n\r\nI just tried reinstalling the package with the tests and found out that the tests no longer pass. It turns out that when `python` checks whether or not to set `PYTHONPATH`, it doesn't think `libxml2` extends `python`. Apparently `extends` can't handle variants.\r\n\r\nI see two possible solutions:\r\n\r\n1. `extends` does not support variants. This should be enforced by preventing variants in the `extends` directive.\r\n2. `extends` does support variants. The check in `python` package that tries to tell whether or not a package extends it should work properly.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/10195",
+    "updated_at": "2022-02-09 22:44:04",
+    "created_at": "2018-12-24 23:46:53",
+    "closed_at": "2022-02-09 22:44:04",
+    "state": "closed",
+    "title": "extends does not support variants",
+    "number": 10195,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "extensions",
+        "variants"
+    ],
+    "id": 393938930,
+    "html_url": "https://github.com/spack/spack/issues/10195",
+    "assignees": [],
+    "comments": 1
+}

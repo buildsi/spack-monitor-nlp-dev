@@ -1,0 +1,23 @@
+{
+    "body": "When in a spack environment running the `spack configure ...` step does not stop after configure but continues into the build stage. The expected behavior is observed when not in a spack environment. Other build phases, `fetch`, `stage`, and `patch`, work as expected.\r\n\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env create myenv2\r\n$ spack env activate myenv2\r\n$ spack configure openmpi\r\n...\r\n\r\n\r\n```\r\n\r\n### Error Message\r\n```\r\n==> Checking dependencies for openmpi\r\n...\r\n==> Installing openmpi\r\n==> Searching for binary cache of openmpi\r\n...\r\n==> No binary for openmpi found: installing from source\r\n==> Using cached archive: /opt/packages/gpjohnsn/spack/var/spack/cache/openmpi/openmpi-3.1.4.tar.bz2\r\n==> Staging archive: /opt/packages/gpjohnsn/spack/var/spack/stage/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht/openmpi-3.1.4.tar.bz2\r\n==> Created stage in /opt/packages/gpjohnsn/spack/var/spack/stage/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht\r\n==> No patches needed for openmpi\r\n==> Building openmpi [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Successfully installed openmpi\r\n  Fetch: 0.02s.  Build: 7m 27.11s.  Total: 7m 27.13s.\r\n[+] /opt/packages/gpjohnsn/opt/spack/linux-centos7-x86_64/gcc-8.3.0/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht\r\n==> Updating view at /opt/packages/gpjohnsn/spack/var/spack/environments/myenv2/.spack-env/view\r\n==> openmpi is already installed in /opt/packages/gpjohnsn/opt/spack/linux-centos7-x86_64/gcc-8.3.0/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht\r\n==> Updating view at /opt/packages/gpjohnsn/spack/var/spack/environments/myenv2/.spack-env/view\r\n==> openmpi is already installed in /opt/packages/gpjohnsn/opt/spack/linux-centos7-x86_64/gcc-8.3.0/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht\r\n==> Updating view at /opt/packages/gpjohnsn/spack/var/spack/environments/myenv2/.spack-env/view\r\n==> openmpi is already installed in /opt/packages/gpjohnsn/opt/spack/linux-centos7-x86_64/gcc-8.3.0/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht\r\n==> openmpi@3.1.4 : marking the package explicit\r\n==> Updating view at /opt/packages/gpjohnsn/spack/var/spack/environments/myenv2/.spack-env/view\r\n...\r\n\r\n```\r\nThe installation is not quite right though as an uninstall will fail. Everything works fine when not in a spack environment.\r\n```\r\n==> Installing openmpi\r\n==> Searching for binary cache of openmpi\r\n==> Finding buildcaches in /opt/packages/gpjohnsn/spack-mirror-2019-05-04/build_cache\r\n==> No binary for openmpi found: installing from source\r\n==> Using cached archive: /opt/packages/gpjohnsn/spack/var/spack/cache/openmpi/openmpi-3.1.4.tar.bz2\r\n==> Staging archive: /opt/packages/gpjohnsn/spack/var/spack/stage/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht/openmpi-3.1.4.tar.bz2\r\n==> Created stage in /opt/packages/gpjohnsn/spack/var/spack/stage/openmpi-3.1.4-gwwywehlxr3myemyzy2h2tcfygeqzuht\r\n==> No patches needed for openmpi\r\n==> Building openmpi [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Stopping at 'configure' phase\r\n```\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/11429",
+    "updated_at": "2020-01-14 20:49:09",
+    "created_at": "2019-05-12 02:04:39",
+    "closed_at": "2020-01-14 20:49:09",
+    "state": "closed",
+    "title": "spack configure not stopping after configure step when in a spack environment",
+    "number": 11429,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments",
+        "triage"
+    ],
+    "id": 443055099,
+    "html_url": "https://github.com/spack/spack/issues/11429",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 1
+}

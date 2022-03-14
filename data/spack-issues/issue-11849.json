@@ -1,0 +1,20 @@
+{
+    "body": "This addresses two issue found when trying to build boost with XL as:\r\n```\r\n$ spack install boost@1.69 %xl\r\n```\r\nbzip2 issues:\r\n- xl does not support `-fpic`. `-fPIC` is supported.\r\n- nvcc does not support absolute paths to shared objects. Requires `-L. -l:<lib>` syntax.\r\n\r\nboost issues:\r\n- boost.thread uses decltype and therefore requires the c++11 standard. Modern xlC versions seem not to default to C++11.\r\n\r\nThis is my first contribution to spack, so I would appreciate any suggestions to improve it. Thanks!",
+    "user": "jdahm",
+    "url": "https://api.github.com/repos/spack/spack/issues/11849",
+    "updated_at": "2020-05-01 19:47:37",
+    "created_at": "2019-06-25 22:54:09",
+    "closed_at": "2020-05-01 19:47:36",
+    "state": "closed",
+    "title": "boost: Fix build with XL/nvcc",
+    "number": 11849,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "xl"
+    ],
+    "id": 460681556,
+    "html_url": "https://github.com/spack/spack/pull/11849",
+    "assignees": [],
+    "comments": 6
+}

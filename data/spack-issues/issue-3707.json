@@ -1,0 +1,19 @@
+{
+    "body": "I've been building the *shiny-server* package in a spack tree located at a convenient location (that happens to have a short path).\r\n\r\nWhen I updated my Jenkins build to include *shiny-server*, the job failed while building *shiny-server* with this error (while cleaning up in part of the shiny server's built in node server):\r\n\r\n```\r\nmake[4]: execvp: printf: Argument list too long\r\n```\r\n\r\nI scratched my head a bit and remembered that I had configured Spack to always stage \"in-tree\", like so:\r\n\r\n```yaml\r\n  # The build stage can be purged with `spack purge --stage`.\r\n  build_stage:\r\n    - $spack/var/spack/stage\r\n```\r\n\r\nIt occurred to me that `/tmp` is a much shorter path than where Jenkins' workspace lives and so I changed it (back to) to this:\r\n\r\n```yaml\r\n  # The build stage can be purged with `spack purge --stage`.\r\n  build_stage:\r\n    - $tempdir\r\n    - $spack/var/spack/stage\r\n```\r\n\r\nThat build is running, but I noticed (and now remember) that Spack is still building in `.../var/spack/stage/yada/yada/yada` but that that is a link to `/tmp/username/spack-stage`.\r\n\r\nI predict that when the job tries to build the shiny-server package it's going to blow up again.\r\n\r\n**Is there any way to avoid the symlink and simply use the specified directory path?**\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3707",
+    "updated_at": "2017-04-05 18:30:34",
+    "created_at": "2017-04-05 16:37:15",
+    "closed_at": "2017-04-05 18:30:34",
+    "state": "closed",
+    "title": "Is there a way to actually stage a build in /tmp (without the symlink)?",
+    "number": 3707,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 219644143,
+    "html_url": "https://github.com/spack/spack/issues/3707",
+    "assignees": [],
+    "comments": 1
+}

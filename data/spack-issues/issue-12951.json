@@ -1,0 +1,23 @@
+{
+    "body": "In the current origin/develop version of spack (presently e6cae97), I cannot figure out how to specify multiple cflags on the command line.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec coreutils cflags=\"-g -fno-omit-frame-pointer\"\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nInput spec\r\n--------------------------------\r\ncoreutils cflags=\"-g\" ~fno-omit-frame-pointer\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Package coreutils has no variant fno-omit-frame-pointer!\r\n```\r\n\r\nIf I check out revision a940ff34d and run the same command, then it works as expected:\r\n\r\n```console\r\nInput spec\r\n--------------------------------\r\ncoreutils cflags=\"-g -fno-omit-frame-pointer\" \r\n\r\nConcretized\r\n--------------------------------\r\ncoreutils@8.29%gcc@8.3.0 cflags=\"-g -fno-omit-frame-pointer\"  arch=linux-ubuntu19.04-x86_64\r\n```\r\n\r\nIt appears as though the argument encapsulated with quotation marks are being split when they were not before.  Is there a different way to escape or group things like this now?\r\n\r\n### Information on your system\r\n\r\nUbuntu 19.04\r\n\r\nI don't believe the packages.yaml or package I am installing matters.  I just use coreutils as an example because it is simple in terms of dependencies.\r\n\r\n\r\n",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/12951",
+    "updated_at": "2019-11-01 10:38:11",
+    "created_at": "2019-09-26 00:33:34",
+    "closed_at": "2019-11-01 10:38:11",
+    "state": "closed",
+    "title": "cannot specify multiple cflags on the command line",
+    "number": 12951,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs"
+    ],
+    "id": 498587391,
+    "html_url": "https://github.com/spack/spack/issues/12951",
+    "assignees": [
+        "alalazo",
+        "becker33"
+    ],
+    "comments": 4
+}

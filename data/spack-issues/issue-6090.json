@@ -1,0 +1,17 @@
+{
+    "body": "I tried to install intel-tbb on an old Intel x86-64 cluster at Rice.\r\nThe build fails with:\r\n\r\n% spack  install  intel-tbb\r\n...\r\n     21    /work/hpc/krentel/work/spack-repo/lib/spack/env/gcc/g++ -o scheduler.o -c -MMD -DTBB_USE_DEBUG -DDO_ITT_NOTIFY -g -O0 -DUSE_PTHREAD -m64 -mrtm  -fPIC  -D__TBB_BUILD=1 -Wall -Wno-parentheses -Wno-non-virtual-dtor    -I../../src -I../../src/rml/include -I../../include ../../src/tbb/scheduler.cpp\r\n     22    /tmp/cchPyt9b.s: Assembler messages:\r\n  >> 23    /tmp/cchPyt9b.s:672: Error: no such instruction: `xtest'\r\n  >> 24    /tmp/cchPyt9b.s:691: Error: no such instruction: `xend'\r\n\r\nThe problem is that xtest and xend are transactional memory\r\ninstructions and either the machine or the compiler don't understand\r\ntransactional memory.\r\n\r\n/proc/cpuinfo reports:\r\n\r\nprocessor\t: 11\r\nvendor_id\t: GenuineIntel\r\ncpu family\t: 6\r\nmodel\t\t: 44\r\nmodel name\t: Intel(R) Xeon(R) CPU     X5660  @ 2.80GHz\r\nstepping\t: 2\r\nmicrocode\t: 16\r\ncpu MHz\t\t: 2800.047\r\ncache size\t: 12288 KB\r\n...\r\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology nonstop_tsc aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 popcnt aes lahf_lm arat epb dtherm tpr_shadow vnmi flexpriority ept vpid\r\n\r\nLooking inside the tbb source, we see in include/tbb/tbb_config.h:\r\n\r\n#define __TBB_TSX_AVAILABLE  ((__TBB_x86_32 || __TBB_x86_64) && !__TBB_DEFINE_MIC)\r\n\r\nSo, the real problem is that Intel thinks that all 64-bit x86 machines\r\n(except Xeon Phi/MIC) have transactional memory, and that's not true.\r\n\r\nOne solution would be to patch the #define to 0, but that would\r\ndisable all transactional memory.\r\n\r\nI guess a more spack-ish solution would be to add a 'transactional-memory'\r\nvariant to intel-tbb and conditionally apply a patch, or otherwise set\r\n__TBB_TSX_AVAILABLE to 0.\r\n\r\nBut what I really want is a better way to auto test if the given\r\nmachine (or host machine in a cross compile) supports some feature, in\r\nthis case transactional memory.  I'll open a separate issue for that.\r\n\r\nThanks,\r\n\r\n--Mark\r\n\r\nP.S. I did search for intel-tbb, but I didn't find anything related to\r\ntransactional memory.\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/6090",
+    "updated_at": "2018-07-26 06:14:17",
+    "created_at": "2017-11-01 22:31:20",
+    "closed_at": "2018-07-26 06:14:17",
+    "state": "closed",
+    "title": "intel-tbb broken if no transactional memory",
+    "number": 6090,
+    "milestone": null,
+    "labels": [],
+    "id": 270474406,
+    "html_url": "https://github.com/spack/spack/issues/6090",
+    "assignees": [],
+    "comments": 0
+}

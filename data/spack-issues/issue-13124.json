@@ -1,0 +1,19 @@
+{
+    "body": "The update #12889 changed `fftw+float+double` to `fftw precision=float,double`, which makes downstream packages request the wrong variant.  Assuming all downstream packages need to be changed, there should be some explanation of what happened.\r\n\r\nInstead, spack crashes with the cryptic error \"KeyError: 'double'\" or \"KeyError: 'float'\".\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec accfft\r\n```\r\n\r\n### Error Message\r\n```console\r\nInput spec\r\n--------------------------------\r\naccfft\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: 'float'\r\n```\r\n\r\nThe key error itself comes from **spack/variants.py: substitute_abstract_variants()**\r\n```python\r\n    for name, v in spec.variants.items():  # [('double', BoolValuedVariant('double', True)), ('openmp', BoolValuedVariant('openmp', True)), ('float', BoolValuedVariant('float', True)), ('mpi', BoolValuedVariant('mpi', False))]\r\n        if name in spack.directives.reserved_names:\r\n            continue\r\n        pkg_variant = spec.package_class.variants[name]  # *** KeyError: 'double'\r\n        new_variant = pkg_variant.make_variant(v._original_value)\r\n        pkg_variant.validate_or_raise(new_variant, spec.package_class)\r\n        spec.variants.substitute(new_variant)\r\n```\r\nhere,\r\n```python\r\n\r\nspec.package_class.variants = {\r\n  'openmp': <spack.variant.Variant object at 0x7f526dfdd190>,\r\n  'pfft_patches': <spack.variant.Variant object at 0x7f526dfdd150>,\r\n  'precision': <spack.variant.Variant object at 0x7f526dfdd210>,\r\n  'mpi': <spack.variant.Variant object at 0x7f526dfdd1d0>\r\n  }\r\n```\r\n\r\nI think the right solution is to make the error message more readable so that future package problems can be tracked down. The line `pkg_variant = spec.package_class.variants[name]` should have a try-except clause or the magic inside `repo.py: get_pkg_class(self, pkg_name)` should make variants a proper VariantMap, which can then override __getitem__. ",
+    "user": "frobnitzem",
+    "url": "https://api.github.com/repos/spack/spack/issues/13124",
+    "updated_at": "2019-12-10 19:21:46",
+    "created_at": "2019-10-10 18:43:02",
+    "closed_at": "2019-12-10 19:21:46",
+    "state": "closed",
+    "title": "Cryptic Errors on Invalid Dependency Options",
+    "number": 13124,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 505444273,
+    "html_url": "https://github.com/spack/spack/issues/13124",
+    "assignees": [],
+    "comments": 0
+}

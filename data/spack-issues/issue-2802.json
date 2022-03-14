@@ -1,0 +1,17 @@
+{
+    "body": "I'm attempting to install vtk-7.0.0.  The `patch('gcc.patch')` step always fails - even when run by hand:\r\n\r\n```\r\n% patch -s -p 1 -i $SPACK_ROOT/var/spack/repos/builtin/packages/vtk/gcc.patch\r\n1 out of 1 hunk FAILED -- saving rejects to file CMake/GenerateExportHeader.cmake.rej\r\n\r\n% more CMake/GenerateExportHeader.cmake.rej \r\n--- CMake/GenerateExportHeader.cmake\r\n+++ CMake/GenerateExportHeader.cmake\r\n@@ -166,6 +166,7 @@\r\n     execute_process(COMMAND ${CMAKE_C_COMPILER} --version\r\n       OUTPUT_VARIABLE _gcc_version_info\r\n       ERROR_VARIABLE _gcc_version_info)\r\n+    string (REPLACE \";\" \"\" _gcc_version_info \"${_gcc_version_info}\")\r\n     string(REGEX MATCH \"[345]\\\\.[0-9]\\\\.[0-9]\"\r\n       _gcc_version \"${_gcc_version_info}\")\r\n     # gcc on mac just reports: \"gcc (GCC) 3.3 20030304 ...\" without the\r\n```\r\n\r\nCommenting out the `patch` command from `vtk/package.py` appears to fix the problem.  I'm assuming the patch is needed for some platform or vtk version, but not for gcc@5.3.0 on RHEL6. Maybe someone more knowledgeable can provide some feedback and a bug fix.",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/2802",
+    "updated_at": "2017-03-17 14:19:45",
+    "created_at": "2017-01-10 23:28:17",
+    "closed_at": "2017-03-17 14:19:45",
+    "state": "closed",
+    "title": "vtk/package.py patch fails",
+    "number": 2802,
+    "milestone": null,
+    "labels": [],
+    "id": 199963076,
+    "html_url": "https://github.com/spack/spack/issues/2802",
+    "assignees": [],
+    "comments": 1
+}

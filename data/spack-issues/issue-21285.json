@@ -1,0 +1,19 @@
+{
+    "body": "catalyst do_stage function call failed with python and python3 false as default.\r\nsome catalyst dependent packages depend on python3 and the PYTHONHOME is set to the home of the python installed by spack, so that the system python will not work.\r\n\r\nI add the follow codes in do_stage function and it works.\r\n        if '+python3' not in self.spec and '+python' not in self.spec:\r\n            os.unsetenv('PYTHONHOME')\r\n\r\nThank you!\r\n\r\n### Steps to reproduce the issue\r\n$ spack install --keep-stage -v catalyst\r\n==> Using cached archive: /opt/spack/var/spack/cache/_source-cache/archive/5b/5b49cb96ab78eee0427e25200530ac892f9a3da7725109ce1790f8010cb5b377.tar.xz\r\nPYTHONHOME: /opt/spack/opt/spack/linux-centos8-aarch64/gcc-8.3.1/python-3.8.7-cqhe3nxn2rekw7d3krdmchavjhikbhsx\r\nFatal Python error: Py_Initialize: Unable to get the locale encoding\r\nModuleNotFoundError: No module named 'encodings'\r\n\r\nCurrent thread 0x0000ffffb69e5840 (most recent call first):\r\n==> Error: CalledProcessError: Command '['/usr/libexec/platform-python3.6', '/opt/spack-stage/root/spack-stage-catalyst-5.6.0-jr7rokcvszquh73hdqtfaljfuqiyjwc3/spack-src/Catalyst/catalyze.py', '-r', '/opt/spack-stage/root/spack-stage-catalyst-5.6.0-jr7rokcvszquh73hdqtfaljfuqiyjwc3/spack-src', '-o', '/opt/spack-stage/root/spack-stage-catalyst-5.6.0-jr7rokcvszquh73hdqtfaljfuqiyjwc3/spack-src/Catalyst-v5.6.0', '-i', '/opt/spack-stage/root/spack-stage-catalyst-5.6.0-jr7rokcvszquh73hdqtfaljfuqiyjwc3/spack-src/Catalyst/Editions/Base', '-i', '/opt/spack-stage/root/spack-stage-catalyst-5.6.0-jr7rokcvszquh73hdqtfaljfuqiyjwc3/spack-src/Catalyst/Editions/Essentials', '-i', '/opt/spack-stage/root/spack-stage-catalyst-5.6.0-jr7rokcvszquh73hdqtfaljfuqiyjwc3/spack-src/Catalyst/Editions/Extras', '-i', '/opt/spack-stage/root/spack-stage-catalyst-5.6.0-jr7rokcvszquh73hdqtfaljfuqiyjwc3/spack-src/Catalyst/Editions/Rendering-Base']' died with <Signals.SIGABRT: 6>.\r\n\r\n/opt/spack/var/spack/repos/builtin/packages/catalyst/package.py:152, in do_stage:\r\n        149\r\n        150        if not os.path.isdir(catalyst_source_dir):\r\n        151            os.mkdir(catalyst_source_dir)\r\n        152            subprocess.check_call(command)\r\n        153            tty.msg(\"Generated catalyst source in %s\" % self.stage.source_path)\r\n        154        else:\r\n        155            tty.msg(\"Already generated %s in %s\" % (self.name,\r\n\r\n\r\n### Information on your system\r\nCentOS-8.2.2004-aarch64\r\n\r\n @chuckatkins @danlipsa\r\n",
+    "user": "arm7star",
+    "url": "https://api.github.com/repos/spack/spack/issues/21285",
+    "updated_at": "2021-03-12 07:29:34",
+    "created_at": "2021-01-26 09:31:38",
+    "closed_at": "2021-03-12 07:29:34",
+    "state": "closed",
+    "title": "Installation issue: catalyst",
+    "number": 21285,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 794076632,
+    "html_url": "https://github.com/spack/spack/issues/21285",
+    "assignees": [],
+    "comments": 0
+}

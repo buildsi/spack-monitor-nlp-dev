@@ -1,0 +1,17 @@
+{
+    "body": "Is this `@system` version even necessary? As far as I know, system installations are handled through packages.yaml. Leaving it in caused this problem:\n\n```\n$ spack info openssl\nPackage:    openssl\nHomepage:   http://www.openssl.org\n\nSafe versions:  \nTraceback (most recent call last):\n  File \"/soft/spack-0.9.1/bin/spack\", line 184, in <module>\n    main()\n  File \"/soft/spack-0.9.1/bin/spack\", line 161, in main\n    return_val = command(parser, args)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/cmd/info.py\", line 114, in info\n    print_text_info(pkg)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/cmd/info.py\", line 62, in print_text_info\n    f = fs.for_package_version(pkg, v)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/fetch_strategy.py\", line 831, in for_package_version\n    attrs['url'] = pkg.url_for_version(version)\n  File \"/blues/gpfs/home/software/spack-0.9.1/var/spack/repos/builtin/packages/openssl/package.py\", line 55, in url_for_version\n    return super(Openssl, self).url_for_version(self.version)\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 430, in version\n    raise ValueError(\"Can only get of package with concrete version.\")\nValueError: Can only get of package with concrete version.\n```\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1503",
+    "updated_at": "2016-09-20 17:17:51",
+    "created_at": "2016-08-11 21:55:44",
+    "closed_at": "2016-09-20 17:17:51",
+    "state": "closed",
+    "title": "Remove url_for_version as it breaks spack info",
+    "number": 1503,
+    "milestone": null,
+    "labels": [],
+    "id": 170756966,
+    "html_url": "https://github.com/spack/spack/pull/1503",
+    "assignees": [],
+    "comments": 20
+}

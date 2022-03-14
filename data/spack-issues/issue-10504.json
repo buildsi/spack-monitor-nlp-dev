@@ -1,0 +1,17 @@
+{
+    "body": "When built with tests, yaml-cpp vendors gtest. gtest (at least how it is built within yaml-cpp) does not properly understand clang's libc++, and includes `cxxabi.h` headers that are only for use with libstdc++.\r\n\r\nThis PR does not fix the issue of yaml-cpp vendoring a test dependency. It merely presents a `tests` variant for yaml-cpp and expresses the conflict between that variant and `cxxflags=-stdlib=libc++`.\r\n\r\nBecause `cxxflags=-stdlib=libc++` is not satisfied by `cxxflags=-stdlib=libc++ -O3` or any other spec that includes the problem flag along with others, I've added handling in the flag handler to catch those situations and throw an error. It's not as good as a conflict, but it's a workaround until we think of something better.\r\n\r\nThis will allow users to build yaml-cpp with libc++, as long as they don't require the tests, and it presents usable, if not ideal, error handling.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/10504",
+    "updated_at": "2019-10-23 06:36:45",
+    "created_at": "2019-02-04 18:58:34",
+    "closed_at": "2019-06-26 21:29:09",
+    "state": "closed",
+    "title": "Make yaml-cpp build with libc++",
+    "number": 10504,
+    "milestone": null,
+    "labels": [],
+    "id": 406470867,
+    "html_url": "https://github.com/spack/spack/pull/10504",
+    "assignees": [],
+    "comments": 0
+}

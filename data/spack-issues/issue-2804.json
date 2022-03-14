@@ -1,0 +1,20 @@
+{
+    "body": "I have a PYTHONSTARTUP file that prints some stuff to screen when I start python. Unlike \"python -c expr\", the command \"spack-python -c expr\" will run the PYTHONSTARTUP file.  I think the implementation is [here](https://github.com/LLNL/spack/blob/develop/lib/spack/spack/cmd/python.py#L50-L54). This behavior causes all the python commands in setup-env.sh to break silently and leaves me unable to \"spack load\" anything.  Brief illustration:\r\n\r\n```bash\r\n$ export PYTHONSTARTUP='/tmp/psu' && rm -f $PYTHONSTARTUP\r\n$ sum=$(spack-python -c 'print 1+1') && echo $sum\r\n2\r\n$ echo \"print 'fubar'\" > $PYTHONSTARTUP\r\n$ sum=$(python -c 'print 1+1') && echo $sum\r\n2\r\n$ sum=$(spack-python -c 'print 1+1') && echo $sum\r\nfubar 2\r\n```",
+    "user": "bhawkins",
+    "url": "https://api.github.com/repos/spack/spack/issues/2804",
+    "updated_at": "2020-08-23 22:29:41",
+    "created_at": "2017-01-11 01:19:15",
+    "closed_at": "2020-08-23 22:29:41",
+    "state": "closed",
+    "title": "PYTHONSTARTUP breaks setup-env.sh",
+    "number": 2804,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 199979095,
+    "html_url": "https://github.com/spack/spack/issues/2804",
+    "assignees": [],
+    "comments": 2
+}

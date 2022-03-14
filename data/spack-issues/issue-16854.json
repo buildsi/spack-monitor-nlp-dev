@@ -1,0 +1,23 @@
+{
+    "body": "This pull request fixes a bug that was causing older `swig` versions (e.g. `@2.0.2`) to fail on newer platforms (e.g. `linux-rhel7-power9le`) due to having outdated [`config.{guess|sub}` files](https://www.gnu.org/software/gettext/manual/html_node/config_002eguess.html). I've verified that the `swig@2.0.2` *and `swig@4.0.1` variants (edit)* compile in the `clang%9.0.0 arch=linux-rhel7-power9le` build environment.\r\n\r\nThe changes in this PR present a short-term solution to a potentially long-term problem. In specific, the hard-coded copies of `config.{guess|sub}` included solve the build problems at this point in time, but conceivably these files will too become outdated as new architectures are introduced. Ultimately, it may be best to manage these files like Spack currently does for source archives (e.g. provide a URL and a checksum), but it's unclear to me how this would look for a version-independent package resource. For the time being, updating the files on an as-needed basis may be sufficient.",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/16854",
+    "updated_at": "2020-06-22 15:44:30",
+    "created_at": "2020-05-28 22:52:50",
+    "closed_at": "2020-06-22 15:44:30",
+    "state": "closed",
+    "title": "swig: fix older builds on newer platforms by updating config files",
+    "number": 16854,
+    "milestone": null,
+    "labels": [
+        "autotools",
+        "update-package",
+        "bugfix"
+    ],
+    "id": 626866482,
+    "html_url": "https://github.com/spack/spack/pull/16854",
+    "assignees": [
+        "xjrc"
+    ],
+    "comments": 6
+}

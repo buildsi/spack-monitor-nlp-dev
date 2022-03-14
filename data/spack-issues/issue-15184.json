@@ -1,0 +1,21 @@
+{
+    "body": "SuiteSparse fails to install with version 5.6.0, version 5.3.0 still works haven't tried 5.4.0 etc.\r\n\r\nThis looks like it is because the `INSTALL` config option is being set during build but the SuiteSparse README recommends only doing that during install\r\n\r\nRelevant README lines\r\n\r\n```\r\n  When compiling the libraries, do NOT use the INSTALL=... options for\r\n  installing. Just do:\r\n  \r\n      make\r\n\r\n.....\r\nNow you can install the libraries, if you wish, in a location other than\r\n  SuiteSparse/lib, SuiteSparse/include, and SuiteSparse/share/doc, using\r\n  'make install INSTALL=...'\r\n\r\n````\r\n\r\nThis probably succeeds on some machines if SuiteSparse libraries like amd are found in the default library path\r\n\r\n\r\n\r\n---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install suite-sparse # version 5.6.0\r\n\r\n/home/wortiz/spack/lib/spack/env/gcc/gcc -O3 -fPIC -fno-common -fexceptions   -O3 -fexceptions -fPIC  -I../../include -o amd_simple amd_simple.c -L/home/wortiz/spack/opt/spack/linux-ubuntu18.04-haswell/gcc-9.2.1/suite-sparse-5.6.0-mbzgajdyrup6nqxdvqjrpintl5ja5ld7/lib -L../../lib -lamd -lsuitesparseconfig -lm -lrt -Wl,-rpath=/home/wortiz/spack/opt/spack/linux-ubuntu18.04-haswell/gcc-9.2.1/suite-sparse-5.6.0-mbzgajdyrup6nqxdvqjrpintl5ja5ld7/lib\r\n./amd_simple > my_amd_simple.out\r\n./amd_simple: error while loading shared libraries: libamd.so.2: cannot open shared object file: No such file or directory\r\nMakefile:45: recipe for target 'amd_simple' failed\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n",
+    "user": "wortiz",
+    "url": "https://api.github.com/repos/spack/spack/issues/15184",
+    "updated_at": "2020-03-04 19:16:43",
+    "created_at": "2020-02-24 15:37:30",
+    "closed_at": "2020-03-04 19:16:43",
+    "state": "closed",
+    "title": "Installation issue: suite-sparse",
+    "number": 15184,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 569938416,
+    "html_url": "https://github.com/spack/spack/issues/15184",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

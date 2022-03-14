@@ -1,0 +1,20 @@
+{
+    "body": "glib requires python3 to compile. The glib package does replacements to use python, which doesn't work if the spack python3 was installed with ~pythoncmd.\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16'\r\n\r\n5 errors found in build log:\r\n     1098      GEN      stamp-testmarshal.h\r\n     1099    'import site' failed; use -v for traceback\r\n     1100      File \"../../gobject/glib-genmarshal\", line 97\r\n     1101        'g_cclosure_marshal_VOID__VOID',\r\n     1102                                       ^\r\n     1103    SyntaxError: invalid syntax\r\n  >> 1104    make[4]: *** [stamp-testmarshal.h] Error 1\r\n     1105    make[4]: Leaving directory `/tmp/andy.wettstein/spack-stage/spack-\r\n             stage-vrRci5/spack-src/tests/gobject'\r\n  >> 1106    make[3]: *** [all-recursive] Error 1\r\n     1107    make[3]: Leaving directory `/tmp/andy.wettstein/spack-stage/spack-\r\n             stage-vrRci5/spack-src/tests'\r\n  >> 1108    make[2]: *** [all] Error 2\r\n     1109    make[2]: Leaving directory `/tmp/andy.wettstein/spack-stage/spack-\r\n             stage-vrRci5/spack-src/tests'\r\n  >> 1110    make[1]: *** [all-recursive] Error 1\r\n     1111    make[1]: Leaving directory `/tmp/andy.wettstein/spack-stage/spack-\r\n             stage-vrRci5/spack-src'\r\n  >> 1112    make: *** [all] Error 2\r\n```\r\n\r\nI did this, but maybe there is something better:\r\n```\r\ndiff --git a/var/spack/repos/builtin/packages/glib/package.py b/var/spack/repos/builtin/packages/glib/package.py\r\nindex 0414c0619..f0c536376 100644\r\n--- a/var/spack/repos/builtin/packages/glib/package.py\r\n+++ b/var/spack/repos/builtin/packages/glib/package.py\r\n@@ -100,7 +100,7 @@ class Glib(AutotoolsPackage):\r\n         files = ['gobject/glib-genmarshal.in', 'gobject/glib-mkenums.in']\r\n \r\n         filter_file('^#!/usr/bin/env @PYTHON@',\r\n-                    '#!/usr/bin/env python',\r\n+                    '#!/usr/bin/env python3',\r\n                     *files)\r\n \r\n     @run_before('configure')\r\n@@ -119,7 +119,7 @@ class Glib(AutotoolsPackage):\r\n             copy(dtrace, dtrace_copy)\r\n             filter_file(\r\n                 '^#!/usr/bin/python',\r\n-                '#!/usr/bin/env python',\r\n+                '#!/usr/bin/env python3',\r\n                 dtrace_copy\r\n             )\r\n \r\n@@ -136,7 +136,8 @@ class Glib(AutotoolsPackage):\r\n         # to rebuild files as filter_file updates the timestamps)\r\n         if self.spec.satisfies('@2.53.4:'):\r\n             pattern = '^#!/usr/bin/env python'\r\n-            repl = '#!{0}'.format(self.spec['python'].command.path)\r\n+            #repl = '#!{0}'.format(self.spec['python'].command.path)\r\n+            repl = '^#!/usr/bin/env python3'\r\n             files = ['glib-genmarshal', 'glib-mkenums']\r\n         else:\r\n             pattern = '^#! /usr/bin/perl'\r\n```",
+    "user": "ajw1980",
+    "url": "https://api.github.com/repos/spack/spack/issues/12418",
+    "updated_at": "2019-10-23 14:30:47",
+    "created_at": "2019-08-14 18:19:29",
+    "closed_at": "2019-10-23 14:30:47",
+    "state": "closed",
+    "title": "glib doesn't build with python ~pythoncmd",
+    "number": 12418,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "python3"
+    ],
+    "id": 480820051,
+    "html_url": "https://github.com/spack/spack/issues/12418",
+    "assignees": [],
+    "comments": 6
+}

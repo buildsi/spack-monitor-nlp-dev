@@ -1,0 +1,22 @@
+{
+    "body": "What method do I implement in `package.py` to add an environment definition to a generated module?  `intel-tbb` needs to be setting `TBBROOT`.  I don't understand [the docs](http://spack.readthedocs.io/en/latest/module_file_support.html#override-api-calls-in-package-py) and which one to submit in a PR.  It just says\r\n\r\n> In both cases you need to fill `run_env` with the desired list of environment modifications.\r\n\r\nin terms of what the difference is.\r\n\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/intel-tbb/package.py b/var/spack/repos/builtin/packages/intel-tbb/package.py\r\nindex f4ed13f..5b3ab15 100644\r\n--- a/var/spack/repos/builtin/packages/intel-tbb/package.py\r\n+++ b/var/spack/repos/builtin/packages/intel-tbb/package.py\r\n@@ -76,6 +76,14 @@ class IntelTbb(Package):\r\n                     else:\r\n                         of.write(l)\r\n \r\n+    # Make sure generated modules are setting TBBROOT (expected by other Intel\r\n+    # tools and typical FindTBB.cmake.\r\n+    def setup_environment(self, spack_env, run_env):\r\n+        run_env.set('TBBROOT', self.prefix)\r\n+\r\n+    def setup_dependent_environment(self, spack_env, run_env, dependent_spec):\r\n+        run_env.set('TBBROOT', self.prefix)\r\n+\r\n     def install(self, spec, prefix):\r\n         if spec.satisfies('%gcc@6.1:') and spec.satisfies('@:4.4.3'):\r\n             raise InstallError('Only TBB 4.4.4 and above build with GCC 6.1!')\r\n```\r\n\r\nIs it always set both?  My understanding is the `setup_`**`dependent`**`_environment` is for dependent specs, so in this particular case it likely should be there (or at least would not hurt), but what is the difference?  I guess in terms of the documentation, what is the difference between \"module generation\" and \"dependent module generation\"?",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/6825",
+    "updated_at": "2018-01-10 12:39:42",
+    "created_at": "2018-01-04 09:28:31",
+    "closed_at": "2018-01-10 12:39:15",
+    "state": "closed",
+    "title": "Module generation: difference between `setup_environment` and `setup_dependent_environment`?",
+    "number": 6825,
+    "milestone": null,
+    "labels": [
+        "question",
+        "modules"
+    ],
+    "id": 285925733,
+    "html_url": "https://github.com/spack/spack/issues/6825",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

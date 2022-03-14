@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack -d install -j1 qt@5.12.4 ^font-util fonts=encodings\r\n/cvmfs/sft.cern.ch/lcg/releases/gcc/8.3.0-cebb0/x86_64-centos7/include/c++/8.3.0/cmath:45:15: fatal error: math.h: No such file or directory\r\n```\r\n(the `fonts=` specification is due to #12547).\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux 453207a49b28 3.10.0-1062.4.3.el7.x86_64 #1 SMP Wed Nov 13 23:58:53 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.7.1908 (Core) \r\n``` \r\ncompilers.yaml and packages.yaml: https://gist.github.com/iarspider/7a9a7685e9c93fb214b608bb85bf9f19\r\n\r\nThe issue is triggered by taking packages (in my case - `libjpeg` and `openssl`) from system. This adds `-I /usr/include` to the list of flags passed to `gcc`. But Qt automatically adds `-isystem /usr/include`. As far as I can tell after long googling, this messes up order of include dirs and, as a result, `#include_next` preprocessor instruction.\r\n\r\n### Additional information\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/3960932/spack-build-out.txt)\r\n[spack-cc-qt-jqmsy5g.in.log](https://github.com/spack/spack/files/3960933/spack-cc-qt-jqmsy5g.in.log)\r\n[spack-cc-qt-jqmsy5g.out.log](https://github.com/spack/spack/files/3960934/spack-cc-qt-jqmsy5g.out.log)\r\n",
+    "user": "iarspider",
+    "url": "https://api.github.com/repos/spack/spack/issues/14148",
+    "updated_at": "2020-01-28 20:15:31",
+    "created_at": "2019-12-13 13:17:09",
+    "closed_at": "2020-01-28 20:15:31",
+    "state": "closed",
+    "title": "Installation issue: qt@5.12.4",
+    "number": 14148,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 537545104,
+    "html_url": "https://github.com/spack/spack/issues/14148",
+    "assignees": [],
+    "comments": 0
+}

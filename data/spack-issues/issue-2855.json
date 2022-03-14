@@ -1,0 +1,20 @@
+{
+    "body": "This is a continuation of https://github.com/LLNL/spack/issues/1874.\r\nIn a nutshell: macOS Sierra lowered the maximum total size of load commands for shared libraries. In Spack land, the size of those commands are mostly due to the full paths which are recorded in the install names of dependent shared libraries. An example of the load command is\r\n```\r\nLoad command 150\r\n          cmd LC_LOAD_DYLIB\r\n      cmdsize 168\r\n         name /Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/p4est-1.1-kup7uhxn4wk4nlsxxrmy52kx7xsmopfq/lib/libp4est-1.1.dylib (offset 24)\r\n   time stamp 2 Thu Jan  1 01:00:02 1970\r\n      current version 0.0.0\r\ncompatibility version 0.0.0\r\n```\r\n\r\nWith this change, the two packages  (`trilinos` and `oce`) are now using `@rpath`. Consequently those load commands for any package (like `dealii`) which links in other libraries from `trilinos` and `oce` become\r\n```\r\nLoad command 149\r\n          cmd LC_LOAD_DYLIB\r\n      cmdsize 56\r\n         name @rpath/lib/libTKXSBase.11.dylib (offset 24)\r\n   time stamp 2 Thu Jan  1 01:00:02 1970\r\n      current version 11.0.0\r\ncompatibility version 11.0.0\r\n```\r\nwhich is roughly 1/3 of the size.  Of course, there is a load command for each `rpath`, i.e. \r\n```\r\n          cmd LC_RPATH\r\n      cmdsize 136\r\n         path /Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/oce-0.18-cjpsyzsypwwzajwjbbrhnvp5suahrdf5/lib (offset 12)\r\n```\r\nbut savings come from the fact that both `trilinos` and `oce` have huge number of libs (`277` and `108`, respectively, reported from `ls -F | wc -l`).\r\n\r\nEnd results is that one does not hit the limit of load commands anymore when running executables:\r\n```\r\ndyld: Library not loaded: /Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/dealii-develop-cdqavnwshvx6lrmvqjogz64ukkghj2ui/lib/libdeal_II.g.8.5.0-pre.dylib\r\n  Referenced from: /Users/davydden/Desktop/work/C++/my_executable\r\n  Reason: no suitable image found.  Did find:\r\n\t/Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/dealii-develop-cdqavnwshvx6lrmvqjogz64ukkghj2ui/lib/libdeal_II.g.8.5.0-pre.dylib: malformed mach-o: load commands size (35112) > 32768\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2855",
+    "updated_at": "2017-05-28 20:55:36",
+    "created_at": "2017-01-18 00:47:10",
+    "closed_at": "2017-01-23 21:59:17",
+    "state": "closed",
+    "title": "oce & trilinos: force rpath on Sierra to avoid issues with load commands size",
+    "number": 2855,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "cmake"
+    ],
+    "id": 201448545,
+    "html_url": "https://github.com/spack/spack/pull/2855",
+    "assignees": [],
+    "comments": 6
+}

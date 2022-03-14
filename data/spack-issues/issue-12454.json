@@ -1,0 +1,22 @@
+{
+    "body": "Unlike the compiler binary name search logic, the `setup_environment` in GCC's package assumes the compiler names are *exactly* `gcc`, `g++`, etc. In many external installations (Homebrew, Macports) the installation includes only *suffixed* versions such as `gcc-9`.\r\n\r\nThis patch uses the GCC compiler search suffixes to actually locate the correct filenames for the installed compilers, allowing the Spack-generated module file to have useful definitions of CC, CXX, etc.\r\n\r\nIt also allows for the possibility that the user's external installation of GCC is compiled without Fortran support, in which case the `FC` environment variables are not defined.\r\n\r\n@tmdelellis",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12454",
+    "updated_at": "2019-10-06 11:09:13",
+    "created_at": "2019-08-17 15:39:06",
+    "closed_at": "2019-09-30 18:02:33",
+    "state": "closed",
+    "title": "Fix GCC environment variables for external installations",
+    "number": 12454,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "modules",
+        "build-environment",
+        "gcc"
+    ],
+    "id": 481898541,
+    "html_url": "https://github.com/spack/spack/pull/12454",
+    "assignees": [],
+    "comments": 10
+}

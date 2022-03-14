@@ -1,0 +1,23 @@
+{
+    "body": "This fixes some bugs with dependency patching discovered by @scottwittenburg, and it makes the patch system a more robust.  The previous logic for getting patches from a `Spec` assumed that all dependents were still in the DAG.  If you extracted a sub-DAG like this:\r\n\r\n```python\r\ndealii = Spec('dealii').concretized()\r\nboost_yaml = dealii['boost'].to_yaml()\r\nboost = Spec.from_yaml(boost_yaml)\r\nboost.package.do_install()\r\n```\r\n\r\nAnd then attempted to build the `boost` spec, you'd find that `dealii`'s patches on `boost` would not be applied properly, because Spack couldn't find them anymore.  The prior logic assumed that `dealii` was concretized and built immediately, that `dealii` was an ancestor of `boost` in the DAG, and that `dealii.patches()` was called sometime before `dealii['boost']` was built.\r\n\r\nThis is bad, because it means we can't reliably write out a sub-DAG and farm it out to another node (or GitLab runner) to build.\r\n\r\nTo fix this, we're adding a patch index, much like the existing virtual provider index and tag index.  This means we can look up patches by `sha256` even if they're in the DAG, so builds like the one above will work.\r\n\r\nSince we now have 3 different repo indexes, this PR also reworks them so they're all part of a `RepoIndex` that generates all indices at once.  This is good, because each index requires us to read in all the packages, which takes the bulk of the time (~10s on my macbook), and building and writing the indexes takes essentially no time.  Doing them all at once avoids multiple read-ins.  This also consolidates the index-building code a bit so that maybe we can parallelize it in a future PR (which would eliminate the latency).\r\n\r\nTo enable better debugging of `Specs` that have patches on them, this PR also adds a new `spack resource` command for looking up artifacts (like downloads, resources, and patches) by hash.  Right now it just handles patches, but eventually it will handle tarballs and other things with checksums in packages.  It lets you see what the `sha256`'s on your spec mean:\r\n\r\n```console\r\n$ spack resource show b37164\r\nb37164268f34f7133cbc9a4066ae98fda08adf51e1172223f6a969909216870f\r\n    path:       /Users/gamblin2/src/spack/var/spack/repos/builtin/packages/dealii/boost_1.68.0.patch\r\n    applies to: builtin.boost\r\n    patched by: builtin.dealii\r\n```\r\n\r\nOr, if you just want to see all the patches:\r\n\r\n```console\r\n$ spack resource list | head\r\n333e111ed39f7452f904590b47b996812590b8818f1c51ad68407dc05a1b18b0\r\n    url:        https://src.fedoraproject.org/rpms/tcsh/raw/8a6066c901fb4fc75013dd488ba958387f00c74d/f/tcsh-6.20.00-004-do-not-use-old-pointer-tricks.patch\r\n    applies to: builtin.tcsh\r\nf994ac84634f2f833a7a4d3179c5bf9a06f14349ef67aacba39d08837ffab004\r\n    path:       /Users/gamblin2/src/spack/var/spack/repos/builtin/packages/boost/python_jam_pre156.patch\r\n    applies to: builtin.boost\r\nc9cfecb1f7a623418590cf4e00ae7d308d1c3faeb15046c2e5090e38221da7cd\r\n    path:       /Users/gamblin2/src/spack/var/spack/repos/builtin/packages/snappy/link_gtest.patch\r\n    applies to: builtin.snappy\r\n...\r\n```\r\n\r\nLike the other repo caches, you can blow away the patch cache with `spack clean -m`.\r\n\r\n- [x] Fix bugs with building packages with dependency patches from read-in specs\r\n- [x] Change the way patches are looked up at build time (global cache instead of per-package cache)\r\n- [x] Refactor logic for various repository caches (tags, providers, patches) to use a single `RepoIndex` class and a number of `Indexer` objects.\r\n- [x] Add `spack resource` command for dealing with downloadable resources like tarballs from `version()` and `resource()` and patches.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/10192",
+    "updated_at": "2019-01-12 09:16:39",
+    "created_at": "2018-12-24 22:15:47",
+    "closed_at": "2018-12-30 08:19:10",
+    "state": "closed",
+    "title": "patches: add a patch cache, allow patches to be looked up by sha256",
+    "number": 10192,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "build-environment",
+        "refactoring",
+        "commands",
+        "patch"
+    ],
+    "id": 393934342,
+    "html_url": "https://github.com/spack/spack/pull/10192",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,21 @@
+{
+    "body": "I was trying to add a package for [pyCGNS](https://pycgns.github.io/index.html).\r\n\r\nHowever, my `package.py` given below does not build with Spack and the output from `setup.py` states that Python cannot import its dependencies `qtpy` and `numpy`.\r\n```python\r\n==> Executing phase: 'build'\r\n==> '/opt/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-8/python-3.6.5-35lnfnmcextwomefc5kemft53rouy2kc/bin/python3.6' '-s' 'setup.py' '--no-user-cfg' 'build'\r\n# ----------------------------------------------------------------------\r\n# ----- pyCGNS v5.0 install\r\n# ----------------------------------------------------------------------\r\n# create new pyCGNSconfig.py file\r\n# using Cython v0.28.3\r\n# ***** SKIP NAV: qtpy not found\r\n# ***** SKIP NAV/VTK: no vtk python module\r\n#  **** FATAL cannot import numpy\r\n```\r\n\r\nOn the other hand, a manual build with all dependencies loaded from and activated in Spack builds fine.\r\n\r\nFor the manual build I used the following dependencies from Spack.\r\n```shell\r\n$ spack extensions python\r\n==> python@3.6.5%gcc@8+dbm~optimizations patches=123082ab3483ded78e86d7c809e98a804b3465b4683c96bd79a2fd799f572244 +pic+pythoncmd+shared~tk~ucs4 arch=linux-ubuntu18.04-x86_64 /35lnfnm\r\n...\r\n==> 6 currently activated:\r\n-- linux-ubuntu18.04-x86_64 / gcc@8 -----------------------------\r\npy-cython@0.28.3  py-numpy@1.14.3  py-pyqt@5.10.1  py-qtpy@1.2.1  py-setuptools@39.2.0  py-sip@4.19.12\r\n```\r\n```shell\r\n$ spack find -v hdf5\r\n...\r\nhdf5@1.10.1~cxx~debug~fortran+hl~mpi+pic+shared+szip+threadsafe\r\n\r\n$ spack find -v qt@5.10.0\r\n...\r\nqt@5.10.0+dbus~examples~gtk~krellpatch+opengl patches=7f34d48d2faaa108dc3fcc47187af1ccd1d37ee0f931b42597b820f03a99864c,c52f72dac7fdff5a296467536cc9ea024d78f94b49903286395f53fd0eb66e5e +phonon~webkit\r\n```\r\n\r\nMy version of Spack is:\r\n```shell\r\n$ git describe --dirty\r\nv0.8.17-8899-g458256731-dirty\r\n```\r\nChanges were only made to `py-pyqt`, `qt` and `py-sip` to supply Qt5. My `packages.yaml` looks like:\r\n```yaml\r\npackages:\r\n    python:\r\n        version: [3.6.5]\r\n    qt:\r\n        variants: +opengl\r\n    py-pyqt:\r\n        version: [5.10.1]\r\n    opengl:\r\n        paths:\r\n            opengl@4.5.0: /opt/opengl/\r\n        buildable: False\r\n```\r\n\r\nImporting `numpy` in `package.py` and writing the version of `numpy` works fine as well.\r\n\r\nOnly `setuptools` does not find the Python modules from within the Spack build.\r\n\r\n---\r\n\r\n```python\r\nfrom spack import *\r\n\r\nclass PyCgns(PythonPackage):\r\n    \"\"\"pyCGNS is a set of Python modules about the CFD General Notation System\r\n    standard, the standard of the CFD data representation. The user documentation\r\n    is available online, it contains the releases, the installation requirements\r\n    and process, the usage docs and the reference docs.\"\"\"\r\n\r\n    homepage = \"http://pycgns.github.io/\"\r\n\r\n    version('patch_vtc', git='https://github.com/bassenj/pyCGNS.git', branch='patch_vtc')\r\n    version('master', git='https://github.com/pyCGNS/pyCGNS.git')\r\n\r\n    # Required dependencies\r\n    depends_on('hdf5@1.10.1%gcc~cxx~debug~fortran+hl~mpi+pic+shared+szip+threadsafe', type=('build', 'run'))\r\n\r\n    # Python module dependencies\r\n    depends_on('python@3.6.5', type=('build', 'run'))\r\n    depends_on('py-setuptools^python@3.6.5', type='build')\r\n    depends_on('py-numpy^python@3.6.5', type=('build', 'run'))\r\n    depends_on('py-cython^python@3.6.5', type='build')\r\n    depends_on('py-qtpy^python@3.6.5',type=('build', 'run'))\r\n```\r\n",
+    "user": "bassenj",
+    "url": "https://api.github.com/repos/spack/spack/issues/8977",
+    "updated_at": "2018-10-23 18:41:14",
+    "created_at": "2018-08-14 15:34:55",
+    "closed_at": "2018-08-15 13:32:42",
+    "state": "closed",
+    "title": "Python build with setuptools does not find specified dependencies",
+    "number": 8977,
+    "milestone": null,
+    "labels": [
+        "new-package",
+        "python",
+        "dependencies"
+    ],
+    "id": 350483033,
+    "html_url": "https://github.com/spack/spack/issues/8977",
+    "assignees": [],
+    "comments": 4
+}

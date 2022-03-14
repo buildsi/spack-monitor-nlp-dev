@@ -1,0 +1,21 @@
+{
+    "body": "QT library cannot be found when building `octave` with `+qt`, which leads to unavailability of GUI in Octave.\r\n\r\n### Expected Result\r\n\r\nQT library is found during `configue` of Octave then it is built with qt-based GUI support.\r\n\r\n### Actual Result\r\n\r\n`configure` reports QT is not found, thus it proceeds to build octave without GUI support.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install --keep-stage octave+qt+gnuplot@4.2.1 %gcc@5.4.0 ^openblas threads=openmp\r\n$ grep 'QT\\|GUI' spack-build.out\r\nconfigure: defining OCTGUI_DLL_DEFS to be \r\nchecking Qt version 5... checking for QT... no\r\nchecking Qt version 4... checking for QT... no\r\nconfigure: WARNING: Qt libraries not found; disabling Qt GUI\r\n  Build Octave Qt GUI:                no\r\nconfigure: WARNING: Qt libraries not found; disabling Qt GUI\r\n```\r\n[spack-build.txt](https://github.com/spack/spack/files/1484716/spack-build.txt)\r\n\r\n\r\n### Information on your system\r\n\r\nI am using on CentOS 7.3 without qt-relative customization on `packages.yaml`.",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/6368",
+    "updated_at": "2017-11-24 08:40:49",
+    "created_at": "2017-11-18 15:27:35",
+    "closed_at": "2017-11-24 08:40:49",
+    "state": "closed",
+    "title": "QT not found when building octave+qt",
+    "number": 6368,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "pkg-config",
+        "good first issue"
+    ],
+    "id": 275086636,
+    "html_url": "https://github.com/spack/spack/issues/6368",
+    "assignees": [],
+    "comments": 2
+}

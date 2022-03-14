@@ -1,0 +1,22 @@
+{
+    "body": "Updated commit:\r\n```py\r\nrivet: Fix of build and tests on Ubuntu 18.04 w/ version bump\r\n\r\nWhen using Ubuntu's gcc-8.4.0 on Ubuntu 18.04 to compile rivet-3.1.3,\r\ncompilation errors related to UnstableParticles(), \"UFS\" show up.\r\n\r\nCompilation with this compiler is fixed in rivet-3.1.4, adding it.\r\n\r\nAdding type='link' to the depends on 'hepmc' and 'hepmc' fixes\r\nthe tests to find libHepMC.so.4 in `spack install --tests=all`\r\n\r\nCo-authored-by: Valentin Volkl <valentin.volkl@cern.ch>\r\n```\r\n\r\nUse of LD_LIBRARY_PATH for the tests is replaced by:\r\n\r\n@vvolkl :+1: :100: :1st_place_medal: Thanks! This did it! I do not know what the effect of 'run' is in detail, kept it just to be safe:\r\n```diff\r\n-    depends_on('hepmc',  type=('build', 'run'), when='hepmc=2')\r\n-    depends_on('hepmc3', type=('build', 'run'), when='hepmc=3')\r\n+    depends_on('hepmc',  type=('build', 'link', 'run'), when='hepmc=2')\r\n+    depends_on('hepmc3', type=('build', 'link', 'run'), when='hepmc=3')\r\n```\r\nPushed and ready for review!",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26152",
+    "updated_at": "2021-09-26 08:29:09",
+    "created_at": "2021-09-22 13:23:47",
+    "closed_at": "2021-09-26 08:29:09",
+    "state": "closed",
+    "title": "rivet: Fix of build and tests on Ubuntu 18.04 using version bump",
+    "number": 26152,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package"
+    ],
+    "id": 1004295184,
+    "html_url": "https://github.com/spack/spack/pull/26152",
+    "assignees": [
+        "vvolkl"
+    ],
+    "comments": 2
+}

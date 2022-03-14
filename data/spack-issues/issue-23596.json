@@ -1,0 +1,19 @@
+{
+    "body": "Allow a per-system configuration scope in a location that doesn't require root access\r\n\r\n### Rationale\r\n\r\nAt our site the third-party-software support staff do not have root access to systems and therefore cannot easily write to `/etc`.\r\n\r\nWe prefer to use a single spack instance (on the shared filesystem) for all users and systems, rather than maintaining multiple spack instances. However, different systems have different compilers and external packages. \r\n\r\nSpack does sort-of support this, via the \"system\" configuration scope, however unlike other configuration scopes, this is in a location requiring root access. Asking our sysadmin team to update OS images and ansible scripts for each modification to `compilers.yaml` and `packages.yaml` isn't really practical for us.\r\n\r\n### Description\r\n\r\nAlternatives are:\r\n - it is easy to patch architecture.py to check an environment variable and adjust the platform name accordingly, and then use the platform settings in the site scope for system-specific configuration. But this is inelegant (conflates platform with system) and probably unsustainable.\r\n- We can make environments for each system, but then the user needs to activate the relevant environment each time, and while in the environment \"spack find\" doesn't find upstream installed packages. It is also messy if the user wants to create a new environment, they won't automatically get the system-specific compilers and external packages\r\n\r\nAn alternative, or configurable, location for system-specific configuration, would solve this\r\n\r\n### Additional information\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n        We are using spack/0.16.1, with some local and cherry-picked patches to solve other problems\r\n\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n       #4427 describes a related goal, but is using platform-os-arch as a proxy for system (and is not constrained by a lack of root access)\r\n",
+    "user": "sleak-lbl",
+    "url": "https://api.github.com/repos/spack/spack/issues/23596",
+    "updated_at": "2021-10-27 01:08:27",
+    "created_at": "2021-05-12 17:56:03",
+    "closed_at": "2021-10-27 01:08:27",
+    "state": "closed",
+    "title": "system configuration scope that does not require root access",
+    "number": 23596,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 890347060,
+    "html_url": "https://github.com/spack/spack/issues/23596",
+    "assignees": [],
+    "comments": 2
+}

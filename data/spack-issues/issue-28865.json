@@ -1,0 +1,24 @@
+{
+    "body": "Fixes\r\n```\r\n\u0015In file included from qiosurfacegraphicsbuffer.mm:40:\r\n./qiosurfacegraphicsbuffer.h:54:32: error: unknown type name 'CGColorSpaceRef'; did you mean 'QColorSpace'?\r\n    void setColorSpace(QCFType<CGColorSpaceRef> colorSpace);\r\n                               ^~~~~~~~~~~~~~~\r\n                               QColorSpace\r\n../../../../include/QtCore/../../src/corelib/kernel/qmetatype.h:2090:1: note: 'QColorSpace' declared here\r\nQT_FOR_EACH_STATIC_GUI_CLASS(QT_FORWARD_DECLARE_STATIC_TYPES_ITER)\r\n^\r\n../../../../include/QtCore/../../src/corelib/kernel/qmetatype.h:178:24: note: expanded from macro 'QT_FOR_EACH_STATIC_GUI_CLASS'\r\n    F(QColorSpace, 87, QColorSpace) \\\r\n                       ^\r\n```\r\nsee https://github.com/microsoft/vcpkg/issues/21055 .\r\n\r\nThis is a problem with the \"macOS 12 SDK\" being included with Xcode 13.2, rather than a problem with buildint on monterey. Using apple-clang@13 is a better match than `os=monterey` since this actually fails on bigsur as well.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/28865",
+    "updated_at": "2022-02-11 08:31:41",
+    "created_at": "2022-02-10 16:00:42",
+    "closed_at": "2022-02-11 08:31:37",
+    "state": "closed",
+    "title": "qt: patch version 5 with XCode 13.2",
+    "number": 28865,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "patch",
+        "update-package",
+        "qt"
+    ],
+    "id": 1130372640,
+    "html_url": "https://github.com/spack/spack/pull/28865",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,20 @@
+{
+    "body": "In preparation for pushing Spack docker images in support of the Release and PR testing milestone, I observed that there was still a lot of duplication among the Dockerfiles for the various flavors of Linux, and there were still a lot of area for improvement.  This PR tries to cut duplication down as much as possible, and in a way that tries to be as maintainable as possible.\r\n\r\nI've consolidated all the Dockerfiles into a single one.  It works using a shell script that wraps the script provided to docker during builds.  The script masks out subsets of the provided commands based on embedded annotations and forwards the result to `/bin/bash` for execution.  Using this script as the Dockerfile's `SHELL`, we are able to fully specify which commands to run in which Linux variants, and minimize duplication by providing commands common to multiple variants only once.\r\n\r\nThe reduction in duplication was so considerable that there was very little reason to continue requiring the use of `docker-compose`.  So, it was removed and replaced with shell scripts that make building predefined configurations with just plain docker very straightforward.\r\n\r\nFor example, to use the predefined configuration for ubuntu (based on bionic).\r\n\r\n```Bash\r\ncd share/spack/docker\r\nsource config/ubuntu.bash\r\n./build-image.sh\r\n# ... build ...\r\n./run-image.sh --version # run \"spack --version\" inside the container\r\n./run-image.sh # no arguments -- run an interactive shell session (with local tree mounted)\r\n./push-image.sh # push to dockerhub (need permission to push to spack org)\r\n```\r\nIn addition to making our docker offerings much simpler and more maintainable, this PR also cuts the guess work for building and publishing new versions down practically to zero.  Just source a config (or make your own), build, and push.  To support other variants of linux, just update the Dockerfile with the commands for your variant.",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/9329",
+    "updated_at": "2018-10-31 18:07:35",
+    "created_at": "2018-09-25 00:36:09",
+    "closed_at": "2018-10-26 17:15:06",
+    "state": "closed",
+    "title": "Unite Dockerfiles - add build/run/push scripts",
+    "number": 9329,
+    "milestone": null,
+    "labels": [
+        "containers",
+        "docker"
+    ],
+    "id": 363368751,
+    "html_url": "https://github.com/spack/spack/pull/9329",
+    "assignees": [],
+    "comments": 5
+}

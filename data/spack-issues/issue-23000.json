@@ -1,0 +1,17 @@
+{
+    "body": "In debug mode, processes taking an exclusive lock write out their node name to the lock file. We were using `getfqdn()` for this, but it seems to produce inconsistent results when used from within some github actions containers.\r\n\r\nWe get this error because getfqdn() seems to return a short name in one place and a fully qualified name in another:\r\n\r\n```\r\n  File \"/home/runner/work/spack/spack/lib/spack/spack/test/llnl/util/lock.py\", line 1211, in p1\r\n    assert lock.host == self.host\r\nAssertionError: assert 'fv-az290-764....cloudapp.net' == 'fv-az290-764'\r\n  - fv-az290-764.internal.cloudapp.net\r\n  + fv-az290-764\r\n!!!!!!!!!!!!!!!!!!!! Interrupted: stopping after 1 failures !!!!!!!!!!!!!!!!!!!!\r\n== 1 failed, 2547 passed, 7 skipped, 22 xfailed, 2 xpassed in 1238.67 seconds ==\r\n```\r\n\r\nThis seems to stem from https://bugs.python.org/issue5004.\r\n\r\nWe don't really need to get a fully qualified hostname for debugging, so use `gethostname()` because its results are more consistent. This seems to fix the issue.\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/23000",
+    "updated_at": "2021-04-15 07:01:41",
+    "created_at": "2021-04-14 23:53:22",
+    "closed_at": "2021-04-15 07:01:41",
+    "state": "closed",
+    "title": "Use `gethostname()` instead of `getfqdn()` for lock debug mode",
+    "number": 23000,
+    "milestone": null,
+    "labels": [],
+    "id": 858349226,
+    "html_url": "https://github.com/spack/spack/pull/23000",
+    "assignees": [],
+    "comments": 0
+}

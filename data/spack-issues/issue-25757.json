@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n@michaelkuhn\r\n```\r\n(base) [myoder96@sh03-04n63 /scratch/users/myoder96/spack_dev/zen2a] (job 32689036) $ spack --config-scope=config_cees/ --config-scope=config_intel@2021.3.0 install -j8 dealii %intel@2021.3.0 target=zen2\r\n==> Warning: Intel's compilers may or may not optimize to the same degree for non-Intel microprocessors for optimizations that are not unique to Intel microprocessors\r\n==> Error: Conflicts in concretized spec \"dealii@9.3.0%intel@2021.3.0+adol-c+arborx+arpack+assimp~cuda~doc+examples+ginkgo+gmsh+gsl+hdf5~int64~ipo+metis+mpi+muparser~nanoflann~netcdf+oce~optflags+p4est+petsc~python+scalapack+simplex+slepc+sundials+symengine+threads+trilinos build_type=Release cuda_arch=none cxxstd=default arch=linux-centos7-zen2/efw2jhh\"\r\nList of matching conflicts for spec:\r\n\r\n    freetype@2.11.0%intel@2021.3.0 arch=linux-centos7-zen2\r\n        ^bzip2@1.0.8%intel@2021.3.0~debug~pic+shared arch=linux-centos7-zen2\r\n            ^diffutils@3.7%intel@2021.3.0 arch=linux-centos7-zen2\r\n                ^libiconv@1.16%intel@2021.3.0 libs=shared,static arch=linux-centos7-zen2\r\n        ^libpng@1.6.37%intel@2021.3.0 arch=linux-centos7-zen2\r\n            ^zlib@1.2.11%intel@2021.3.0+optimize+pic+shared arch=linux-centos7-zen2\r\n        ^pkg-config@0.29.2%intel@2021.3.0+internal_glib arch=linux-centos7-zen2\r\n\r\n1. \"%intel\" conflicts with \"freetype@2.8:\" [freetype-2.8 and above cannot be built with icc (does not support __builtin_shuffle)]\r\n```\r\n\r\nThe `--config-spec=` mostly contain `package.yaml` information. Without getting into too much detail, I typically start with the most recent versions of packages and walk them back until they work. I've see a couple of these \"will not compile with `%intel` errors.\r\n\r\nDebug report:\r\n\r\n```\r\n(base) [myoder96@sh03-04n63 /scratch/users/myoder96/spack_dev/zen2a] (job 32689036) $ spack debug report\r\n* **Spack:** 0.16.2-4111-7adacf9\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-centos7-zen2\r\n* **Concretizer:** original\r\n(base) [myoder96@sh03-04n63 /scratch/users/myoder96/spack_dev/zen2a] (job 32689036) $ \r\n```\n\n### Information on your system\n\nSystem is:\r\nStanford's Sherlock HPC\r\nCentOS-7.x\r\n\r\nbuilding an intel based SW stack.\n\n### Additional information\n\n[Archive.zip](https://github.com/spack/spack/files/7100024/Archive.zip)\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "markyoder",
+    "url": "https://api.github.com/repos/spack/spack/issues/25757",
+    "updated_at": "2022-01-14 21:50:58",
+    "created_at": "2021-09-02 15:22:05",
+    "closed_at": "2021-12-08 08:04:34",
+    "state": "closed",
+    "title": "Installation issue: freetype@2.8 ",
+    "number": 25757,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 986871918,
+    "html_url": "https://github.com/spack/spack/issues/25757",
+    "assignees": [],
+    "comments": 4
+}

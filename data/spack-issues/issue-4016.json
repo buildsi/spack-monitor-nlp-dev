@@ -1,0 +1,21 @@
+{
+    "body": "I'm on Ubuntu still trying to install Ipopt with clang. I found out that when building with clang, Spack's compilation of Ipopt finishes without error, but no shared library is produced, just a static one. When build with gcc, a shared library is obtained, as expected.\r\n\r\nI went into spack's Ipopt stage and had a look at Ipopts configure output. Indeed, I found the following lines there\r\n```\r\nchecking whether the /home/home.calcaholic/ad08uzis/spack/lib/spack/env/clang/clang++ linker (link -m elf_x86_64) supports shared libraries... yes\r\n[...]\r\nchecking if libtool supports shared libraries... no\r\nchecking whether to build shared libraries... no\r\n```\r\n\r\nWhen calling the configure script again but without spack's build environment and instead giving the compilers directly by adding `CXX=clang++ CC=clang F77=gfortran`, then the output reads\r\n```\r\nchecking whether the clang++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes\r\n[...]\r\nchecking if libtool supports shared libraries... yes\r\nchecking whether to build shared libraries... yes\r\n```\r\n\r\nWhen then compiling Ipopt, the shared library is build.",
+    "user": "futuretristan",
+    "url": "https://api.github.com/repos/spack/spack/issues/4016",
+    "updated_at": "2017-11-23 15:34:57",
+    "created_at": "2017-04-27 14:33:22",
+    "closed_at": "2017-11-23 15:34:57",
+    "state": "closed",
+    "title": "Ipopt clang spack compiler wrapper does not support shared libraries",
+    "number": 4016,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error",
+        "unreproducible"
+    ],
+    "id": 224803649,
+    "html_url": "https://github.com/spack/spack/issues/4016",
+    "assignees": [],
+    "comments": 1
+}

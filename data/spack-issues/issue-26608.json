@@ -1,0 +1,23 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/26544 and https://github.com/spack/spack/issues/26552 by adding a post-install step on macOS for autotools-based and package-based packages. The fixup will:\r\n- Replace hard-coded `$prefix/foo.dylib` paths with `@rpath/foo.dylib` if and only if `$prefix` is in the library's list of rpaths\r\n- Replace `$spack_root/$other/bar.dylib` with `@rpath/bar.dylib` and add `$spack_root/$other` to the rpath list\r\n- Remove duplicate rpath entries due to duplication between libtool and spack's compiler wrapper\r\n\r\nI used the following script to successfully fix up a number of affected (already installed) libraries:\r\n```python\r\n#!/usr/bin/env spack-python\r\n\r\nimport spack.store\r\nfrom spack.relocate import fixup_macos_rpaths\r\n\r\ndef needs_fixup(spec):\r\n    if spec.external or spec.virtual:\r\n        return False\r\n    return True\r\n\r\ndef fixup(specs):\r\n    for spec in specs:\r\n        fixup_macos_rpaths(spec)\r\n        break\r\n\r\ndef main():\r\n    specs = [s for s in spack.store.db.query() if needs_fixup(s)]\r\n    fixup(specs)\r\n\r\nif __name__ == '__main__':\r\n    main()\r\n```\r\n\r\nOf course, libraries that link *against* the previously broken ones are unaffected since they may still contain hard-coded library IDs. But newly installed binaries from here out will *not*.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/26608",
+    "updated_at": "2021-10-18 17:37:56",
+    "created_at": "2021-10-08 15:44:47",
+    "closed_at": "2021-10-18 17:34:17",
+    "state": "closed",
+    "title": "Make macOS installed libraries more relocatable",
+    "number": 26608,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "rpath",
+        "tests",
+        "update-package",
+        "build-systems"
+    ],
+    "id": 1021234489,
+    "html_url": "https://github.com/spack/spack/pull/26608",
+    "assignees": [],
+    "comments": 4
+}

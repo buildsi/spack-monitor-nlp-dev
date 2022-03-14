@@ -1,0 +1,17 @@
+{
+    "body": "I'm trying to create a package for a project with custom Makefiles. In the project's Makefiles, the order of includes is important, as the project has files that are meant to override files in the other includes. I have created a project that mimics this behavior at https://github.com/ledif/cpp-spack-order.\r\n\r\nFor example, the project uses Boost as a dependency and includes files in `extern/include/boost/` that are meant to take precedence over files in the main Boost library. The way this is handled in the custom Makefile is placing the includes for the custom files first:\r\n\r\n```\r\n$(CXX) -std=c++11 -I./extern/include -I./tools/libstdc++/4.9.3/ -I$BOOST_ROOT/include main.cpp -o main\r\n```\r\n\r\nIn this way, the project's custom files will be included first instead of the original Boost files.\r\n\r\nHowever, looking at spack's compiler wrapper `cc`, it appears that all includes from dependencies are prepended:\r\n```bash\r\n# Read spack dependencies from the path environment variable\r\nIFS=':' read -ra deps <<< \"$SPACK_DEPENDENCIES\"\r\nfor dep in \"${deps[@]}\"; do\r\n    # Prepend include directories\r\n    if [[ -d $dep/include ]]; then\r\n        if [[ $mode == cpp || $mode == cc || $mode == as || $mode == ccld ]]; then\r\n            args=(\"-I$dep/include\" \"${args[@]}\")\r\n        fi\r\n    fi \r\n```\r\nIs there a way to customize this behavior to place all dependencies' includes at the end instead of the beginning? If not, is there a standard way to address this problem?\r\n\r\n#2374 also seems to mention a similar issue.",
+    "user": "ledif",
+    "url": "https://api.github.com/repos/spack/spack/issues/4115",
+    "updated_at": "2017-11-23 13:14:18",
+    "created_at": "2017-05-03 20:42:41",
+    "closed_at": "2017-11-23 13:14:18",
+    "state": "closed",
+    "title": "Include order customization",
+    "number": 4115,
+    "milestone": null,
+    "labels": [],
+    "id": 226108651,
+    "html_url": "https://github.com/spack/spack/issues/4115",
+    "assignees": [],
+    "comments": 7
+}

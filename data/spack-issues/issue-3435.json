@@ -1,0 +1,21 @@
+{
+    "body": "I tried to build `zlib %pgi@16` in Spack, but failed with the message `pgcc-Error-Unknown switch: -include` . I find nowhere in zlib's package that `-include` flag is introduced.  It works if I build zlib against PGI without spack.\r\n\r\n```\r\n$ spack purge; spack clean zlib; spack install zlib %pgi@16\r\n==> Installing zlib\r\n==> Using cached archive: /tmp/rpm/spack_source_cache/zlib/zlib-1.2.11.tar.gz\r\n==> Staging archive: /home/rpm/spack/var/spack/stage/zlib-1.2.11-47ulrkqewycl2ai7ms4phqjunqcalk7w/zlib-1.2.11.tar.gz\r\n==> Created stage in /home/rpm/spack/var/spack/stage/zlib-1.2.11-47ulrkqewycl2ai7ms4phqjunqcalk7w\r\n==> Ran patch() for zlib\r\n==> Building zlib [AutotoolsPackage]\r\n==> Executing phase : 'autoreconf'\r\n==> Executing phase : 'configure'\r\n==> Executing phase : 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j32'\r\n/home/rpm/spack/lib/spack/spack/build_systems/autotools.py:275, in build:\r\n     270      def build(self, spec, prefix):\r\n     271          \"\"\"Makes the build targets specified by\r\n     272          :py:attr:``~.AutotoolsPackage.build_targets``\r\n     273          \"\"\"\r\n     274          with working_dir(self.build_directory):\r\n  >> 275              inspect.getmodule(self).make(*self.build_targets)\r\n\r\nSee build log for details:\r\n  /tmp/rpm/pytest-of-rpm/pytest-4/test_fetch0/tmp/spack-stage/spack-stage-8aqJBR/zlib-1.2.11/spack-build.out\r\n\r\n$ less /tmp/rpm/pytest-of-rpm/pytest-4/test_fetch0/tmp/spack-stage/spack-stage-8aqJBR/zlib-1.2.11/spack-build.out\r\n...\r\n/home/rpm/spack/lib/spack/env/pgi/pgcc -fpic -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -include zconf.h -DPIC -c -o objs/gzlib.o /home/rpm/spack/var/spack/stage/zlib-1.2.11\r\n-47ulrkqewycl2ai7ms4phqjunqcalk7w/zlib-1.2.11/gzlib.c\r\npgcc-Error-Unknown switch: -include\r\npgcc-Error-Unknown switch: -include\r\nmake: *** [crc32.o] Error 1\r\nmake: *** Waiting for unfinished jobs....\r\n...\r\n```\r\n\r\nHowever, zlib works well with PGI and no `-include zconf.h` flag is introduce during manual installation.\r\n\r\n```\r\n$ cd /tmp\r\n$ tar -xf /home/rpm/spack/var/spack/stage/zlib-1.2.11-47ulrkqewycl2ai7ms4phqjunqcalk7w/zlib-1.2.11.tar.gz\r\n$ cd zlib-1.2.11\r\n$ module purge; module load pgi\r\n$ ./configure && make\r\nChecking for shared library support...\r\nBuilding shared library libz.so.1.2.11 with pgcc.\r\nChecking for size_t... Yes.\r\nChecking for off64_t... Yes.\r\nChecking for fseeko... Yes.\r\nChecking for strerror... Yes.\r\nChecking for unistd.h... Yes.\r\nChecking for stdarg.h... Yes.\r\nChecking whether to use vs[n]printf() or s[n]printf()... using vs[n]printf().\r\nChecking for vsnprintf() in stdio.h... Yes.\r\nChecking for return value of vsnprintf()... Yes.\r\nChecking for attribute(visibility) support... Yes.\r\npgcc -O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -I. -c -o example.o test/example.c\r\n...\r\npgcc -O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -o minigzip64 minigzip64.o -L. libz.a\r\n```",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/3435",
+    "updated_at": "2017-03-14 14:43:56",
+    "created_at": "2017-03-14 10:32:18",
+    "closed_at": "2017-03-14 14:43:56",
+    "state": "closed",
+    "title": "Failed to build `zlib %pgi@16` due to `pgcc-Error-Unknown switch: -include`",
+    "number": 3435,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 214028820,
+    "html_url": "https://github.com/spack/spack/issues/3435",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "The changes in this pull request add the `+webkit` variant to the `qt` package, which is a boolean variant that determines whether or not `qt` builds with the optional [webkit module](http://doc.qt.io/qt-4.8/demos.html#webkit).  The majority of these changes were made in order to satisfy the new style guidelines; the only crucial changes are the added package dependencies (specifically, `flex`, `bison`, `icu4c`, `gperf`, and `fontconfig`).  I was able to build and link against installed variants `qt@4.8.6+webkit` and `qt@5.5.1+webkit` on RedHat6 when compiling with GCC 4.7.2, and I also verified that `qt@4.8.6~webkit` still builds properly.\n\nSince I performed my tests on a machine that was previously configured to install `qt`, I suspect that I've missed a number of dependencies with these changes.  I tried using `ldd` on all of the output libraries/binaries to see what I missed and I've attached [a text list containing the relevant results](https://github.com/LLNL/spack/files/402729/qt-deps.txt).  If any of these dependencies seem like they shouldn't be handled by system libraries, please let me know and I'll add them as extra dependencies.\n",
+    "user": "xjrc",
+    "url": "https://api.github.com/repos/spack/spack/issues/1455",
+    "updated_at": "2016-10-21 21:13:56",
+    "created_at": "2016-08-04 21:26:30",
+    "closed_at": "2016-10-21 21:13:56",
+    "state": "closed",
+    "title": "Update Package : Qt (Add 'WebKit' Support)",
+    "number": 1455,
+    "milestone": null,
+    "labels": [
+        "new-package",
+        "ready"
+    ],
+    "id": 169477515,
+    "html_url": "https://github.com/spack/spack/pull/1455",
+    "assignees": [],
+    "comments": 14
+}

@@ -1,0 +1,21 @@
+{
+    "body": "I've been using Spack for over 6 months now, and it has made my life way easier. But there is still one nagging problem that I can't get past. Hashes and the need for constant reinstalls. They're great for ensuring you get exactly what you want, but they make using Spack in production a nightmare.\n\nEvery time a new version of some random library is added, Spack reinstalls that library and everything that depends on it instead of just using the old one.\n\nEvery time a new Python variant is added, Spack reinstalls Python and all of my Python packages.\n\nWhen dependency types were merged, Spack reinstalled everything built with CMake, M4, Automake, Autoconf, Libtool, Flex, Bison, etc.\n\nWhen namespaces and newarch support were merged, Spack essentially believed that I had nothing installed and reinstalled everything I asked for. I can't link to any previously installed packages. Worse yet, whenever I try to uninstall, activate, or deactivate something, Python tells me that there are multiple packages installed and I need to be more specific (see #1178). Of course, when you have dozens of identical packages installed and the only difference is that some were installed before newarch support was merged and some after, it isn't actually possible to be more specific. I can't even uninstall any of these older packages with Spack, I have to do it manually because Spack isn't backwards compatible enough to locate the old packages. `spack find` no longer gives me the right path because it drops the \"linux-x86_64\".\n\nThe easy solution here is to reinstall everything from scratch every time a major change is made to how Spack handles hashes. But this just isn't feasible when using Spack in production. At this point I have close to 500 packages installed. If I try to uninstall and reinstall all of these, I would get hundreds of tickets from users asking why their software no longer runs. Hell, I don't even know what exact specs I used to install them, or what the default variants were at the time.\n\nEven a Spack command that automatically reinstalled every package wouldn't be of much help. We don't use Modules, we use a different system called SoftEnv which Spack doesn't support. If I reinstalled everything, the installation directories would change since they contain the hash. I would then have to manually edit my SoftEnv system to point to the new hashes.\n\nOf course, a large percentage of these 500 packages are duplicates of each other. These duplicates are slowing Spack down to a grinding halt. It can take me over a couple minutes to uninstall or activate a single package. Python packages in particular are bad.\n\nI started using Spack to make my life easier, not to make it more tedious. If I'm going to continue using Spack, I shouldn't have to keep reinstalling everything every couple of months.\n\nSo this issue is an attempt to open up a conversation about how we can make Spack more flexible and backwards compatible. How do others handle this problem? Is there any way we can prevent it?\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1325",
+    "updated_at": "2020-08-21 18:07:42",
+    "created_at": "2016-07-20 21:52:28",
+    "closed_at": "2020-08-21 18:07:42",
+    "state": "closed",
+    "title": "How to deal with changing hashes and reinstalls",
+    "number": 1325,
+    "milestone": null,
+    "labels": [
+        "hashes",
+        "specs",
+        "discussion"
+    ],
+    "id": 166691022,
+    "html_url": "https://github.com/spack/spack/issues/1325",
+    "assignees": [],
+    "comments": 48
+}

@@ -1,0 +1,17 @@
+{
+    "body": "\u2026ecutable\n\nOn MacOS, brew installs /usr/local/bin/python but the Python prefix is not /usr/local/bin\nUse the python command sys.exec to get the correct directory, instead of the ad hoc self.prefix\npreviously used\n\nThis was a bear to debug; been driving me nuts since I started using spack.\nSince spack passes PYTHONHOME down to package builds in the environment\nit was passing PYTHONHOME of /usr/local/bin to the PETSc build that uses Python so\nthe PETSc Python ./configure errored immediately with\n\nImportError: No module named site\n\nsince python could find no python modules\n\nFunded-by: IDEAS\nProject: IDEAS/xSDK\nTime:  6 hours\n",
+    "user": "BarrySmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/2173",
+    "updated_at": "2016-10-31 00:13:16",
+    "created_at": "2016-10-29 22:46:13",
+    "closed_at": "2016-10-31 00:13:16",
+    "state": "closed",
+    "title": "python: PYTHONHOME may not be the same as the prefix of the python ex\u2026",
+    "number": 2173,
+    "milestone": null,
+    "labels": [],
+    "id": 186105413,
+    "html_url": "https://github.com/spack/spack/pull/2173",
+    "assignees": [],
+    "comments": 15
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Currently the `find` function and hence `find_libraries` as well as `find_system_libraries` raise an `OSError` if the `root` path of their search does not exist. In my opinion it makes more sense to return an empty dictionary instead.\r\n\r\nNote, that this probably affects many packages which use `find`, `find_libraries` or variants thereof. I initially encountered the error while installing `armadillo` on an Ubuntu 14.04 machine, where arpack is placed in a `lib` subfolder and not `lib64` as the `armadillo` Spack package expects it.\r\n\r\nI fix that issue in the second commit. My point is, that this requires the extra explicit check whether the returned `LibraryList` is not empty. I am not really happy about this boilerplate, so please point me in a proper direction if you have a better idea how to fix this issue without potentially silently breaking the installation process of other packages.",
+    "user": "mfherbst",
+    "url": "https://api.github.com/repos/spack/spack/issues/5777",
+    "updated_at": "2017-10-16 11:47:10",
+    "created_at": "2017-10-16 07:43:25",
+    "closed_at": "2017-10-16 10:57:02",
+    "state": "closed",
+    "title": "armadillo: use libs to provide arpack and superlu libraries",
+    "number": 5777,
+    "milestone": null,
+    "labels": [],
+    "id": 265674190,
+    "html_url": "https://github.com/spack/spack/pull/5777",
+    "assignees": [],
+    "comments": 4
+}

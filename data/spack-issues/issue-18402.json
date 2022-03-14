@@ -1,0 +1,17 @@
+{
+    "body": "Fix for #12547 which points out that the `font-util` resource `font-bh-ttf` fails to obtain write access for the fontconfig directory `/etc/fonts` on certain systems (e.g. centos7). This bugfix adds `--with-fc-confdir` to the `configure` arguments for all font resources, as suggested by @hainest.\r\n\r\nOnly one font currently supports this flag, but all fonts accept the option without effect. If we wanted to be stricter, we could check whether `XORG_FONT_FC_CONFDIR` is in `configure.ac` and only use `--with-fc-confdir` on those fonts that support the flag, but that seemed like much work for no different behavior. The risk with this current approach is that 1) a font could implement `--with-fc-confdir` to mean something different than the fontconfig directory (low risk), or 2) `configure` could start to throw an error on invalid flags (low risk). Both of these would only happen in a new version: 1 would sneak through, but 2 would likely be caught in testing for that new version.",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/18402",
+    "updated_at": "2020-08-31 06:33:24",
+    "created_at": "2020-08-31 04:45:26",
+    "closed_at": "2020-08-31 06:33:24",
+    "state": "closed",
+    "title": "[font-util] fix #12547 for font-bh-ttf with --with-fc-confdir",
+    "number": 18402,
+    "milestone": null,
+    "labels": [],
+    "id": 688892763,
+    "html_url": "https://github.com/spack/spack/pull/18402",
+    "assignees": [],
+    "comments": 1
+}

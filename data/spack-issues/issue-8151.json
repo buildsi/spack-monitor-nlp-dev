@@ -1,0 +1,20 @@
+{
+    "body": "Summary\r\n----------\r\n\r\nThe `tcl` installation is buggy.  This causes its dependencies (eg `tk`) to find system header files, instead of those from `tcl`.  The bug was masked on newer Linuxes that come with a newer TCL.\r\n\r\nDetails\r\n-------\r\n\r\n`tcl` provides a file called `spec['tcl']/lib/tclConfig.sh`, which is used by its dependencies (eg `tk`) to determine where TCL is installed, to set compiler flags, etc.  All entries in this file should point to the Spack-installed location.\r\n\r\nUnfortunately, SOME of the entires point to the Spack stage where TCL was built:\r\n\r\n```\r\n~> grep stage /gpfsm/dnb53/rpfische/spack6/opt/spack/linux-suse_linux11-x86_64/gcc-5.3.0/tcl-8.6.8-covlee52wjqcu77f766wp45nvrxvyqfl/lib/tclConfig.sh \r\nTCL_BUILD_LIB_SPEC='-L/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-dQSx7_/tcl8.6.8/unix -ltcl8.6'\r\nTCL_SRC_DIR='/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-dQSx7_/tcl8.6.8'\r\nTCL_BUILD_STUB_LIB_SPEC='-L/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-dQSx7_/tcl8.6.8/unix -ltclstub8.6'\r\nTCL_BUILD_STUB_LIB_PATH='/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-dQSx7_/tcl8.6.8/unix/libtclstub8.6.a'\r\n```\r\n\r\nWhen building `tk`, this results in a build that does NOT access the TCL installation; instead, it points to (now defunct) stage directories, and the `tk` build instead picks up whatever system-supplied TCL header files are lying around.  Here is part of a sample GCC command line issued when trying to build `tk`:\r\n\r\n```\r\n/usr/local/other/SLES11.3/gcc/5.3.0/bin/gcc\r\n-c -O2 -pipe -Wall -fPIC\r\n-DBUILD_tk\r\n-I/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-CW8UJ5/tk8.6.8/unix/../unix\r\n-I/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-CW8UJ5/tk8.6.8/unix/../generic\r\n-I/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-CW8UJ5/tk8.6.8/unix/../bitmaps\r\n-I/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-dQSx7_/tcl8.6.8/generic\r\n-I/gpfsm/dnb53/rpfische/tmp/spack-stage/spack-stage-dQSx7_/tcl8.6.8/unix\r\n```\r\n\r\nOne way or another, the `tclConfig.sh` file needs to contain ONLY install directories, no stage directories.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/8151",
+    "updated_at": "2018-08-01 02:36:06",
+    "created_at": "2018-05-16 02:41:07",
+    "closed_at": "2018-08-01 02:36:06",
+    "state": "closed",
+    "title": "Spack stage directory written into TCL install files",
+    "number": 8151,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "update-package"
+    ],
+    "id": 323449330,
+    "html_url": "https://github.com/spack/spack/issues/8151",
+    "assignees": [],
+    "comments": 2
+}

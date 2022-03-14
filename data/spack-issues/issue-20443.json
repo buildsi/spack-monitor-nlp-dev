@@ -1,0 +1,17 @@
+{
+    "body": "#20161 broke the `freeglut` build on Linux because the `libs` property of the virtual `gl` package, which the reworked `freeglut` package uses, was not correctly provided by the `mesa` package.\r\n\r\nInvestigating this further revealed that the `libs` property could actually not be provided by the `mesa` package in the exact way that the `freeglut` package expects, because Mesa provides several libraries of which `libGL` is just one example, whereas `freeglut` expects the first entry of the virtual `gl` package's `libs` list to be `libGL`.\r\n\r\nThe solution to this problem that is proposed by the `mesa` package is to have multiple `libs` property: a `gl_libs` property, a `glx_libs` property, etc. So I implemented support for that in the dummy `opengl` package and asked `freeglut` to use that.\r\n\r\nNow I'm waiting for my new `freeglut` build to see whether this actually works.",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/20443",
+    "updated_at": "2020-12-18 07:36:14",
+    "created_at": "2020-12-17 14:03:35",
+    "closed_at": "2020-12-18 07:36:07",
+    "state": "closed",
+    "title": "WIP: [freeglut] [mesa] [opengl] Fix the freeglut build on Linux",
+    "number": 20443,
+    "milestone": null,
+    "labels": [],
+    "id": 770068766,
+    "html_url": "https://github.com/spack/spack/pull/20443",
+    "assignees": [],
+    "comments": 9
+}

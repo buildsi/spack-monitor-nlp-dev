@@ -1,0 +1,22 @@
+{
+    "body": "This PR will add a new spack command, \"diff\" that will take two specs, and then use the spack.solver.asp.SpackSolverSetup to generate lists of facts about each (e.g., nodes, variants, etc.) and then take a set difference between the two to show the user the differences. The use case for this is whenever a user has a disambiguate situation and cannot remember how two different installs are different. The command can also output `--json` in the case of a more analysis type use case where we want to save complete data with all diffs and the intersection. However, the command is really more intended for a command line use case, and we likely will have an analyzer more suited to saving data. A quick example from the added docs here:\r\n\r\n```bash\r\n$ spack diff /efzjziy /sl7m27m\r\n==> diff(zlib@1.2.11/efzjziy, zlib@1.2.11/sl7m27m)\r\nVARIANT_SET\r\n  zlib optimize bool(False)\r\n==> diff(zlib@1.2.11/sl7m27m, zlib@1.2.11/efzjziy)\r\nVARIANT_SET\r\n  zlib optimize bool(True)\r\n```\r\n\r\nThis \"diff\" command is one of two additions that will help users to understand how packages can change over time. The use cases are the following:\r\n\r\n - **This PR**: \"I want to know right now how these specs are different in the command interface\"\r\n - **Diff analyzer**: I want to calculate a bunch of differences to export for analysis or visualization\"\r\n\r\nThe similarity between the two will be the data structure (generated here with `--json` - this data structure is what will also be one of the few generated for an analyzer that I'll add that is specifically to compare specs over time. It can be plugged into interfaces like the one that I'm prototyping now: \r\n\r\nSince the analyzer needs the analyzer work from the spack-monitor PR, I'm undecided if I'll wait for that, or add the analyzer in a separate PR from spack monitor (if spack monitor isn't going to be merged for a while). \r\n\r\n### Update 3/15\r\nThe example now shows just using the hash, and we print one attribute per line.\r\n\r\n```bash\r\n$ spack diff /efzjziy /sl7m27m\r\n==> diff(zlib@1.2.11/efzjziy, zlib@1.2.11/sl7m27m)\r\nVARIANT_SET\r\nzlib optimize bool(False)\r\n==> diff(zlib@1.2.11/sl7m27m, zlib@1.2.11/efzjziy)\r\nVARIANT_SET\r\nzlib optimize bool(True)\r\n```\r\n\r\n### Update 3/18\r\n\r\nAdded spacing so the titles are different from content below them:\r\n\r\n```bash\r\n$ spack diff /efzjziy /sl7m27m\r\n==> diff(zlib@1.2.11/efzjziy, zlib@1.2.11/sl7m27m)\r\nVARIANT_SET\r\n  zlib optimize bool(False)\r\n==> diff(zlib@1.2.11/sl7m27m, zlib@1.2.11/efzjziy)\r\nVARIANT_SET\r\n  zlib optimize bool(True)\r\n```\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/22283",
+    "updated_at": "2021-08-31 19:41:58",
+    "created_at": "2021-03-14 04:43:44",
+    "closed_at": "2021-07-30 07:08:38",
+    "state": "closed",
+    "title": "adding spack diff command",
+    "number": 22283,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "specs",
+        "tests",
+        "new-command"
+    ],
+    "id": 831063891,
+    "html_url": "https://github.com/spack/spack/pull/22283",
+    "assignees": [],
+    "comments": 26
+}

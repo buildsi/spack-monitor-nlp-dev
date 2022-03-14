@@ -1,0 +1,19 @@
+{
+    "body": "I was training one of my users to use `spack` and think I found a documentation bug.  I was explaining to my user about changing variants of dependencies, because that was a necessary step to get their package running.\r\n\r\nBut in the home page https://spack.io under the section \"Customize dependencies\" the `libdwarf` package has no `debug` variant to enable.  In fact, `libdwarf` has no variants at all that can be changed.  \r\n\r\n1. The \"Customize dependencies\" example should be replaced with a valid example.\r\n2. It might be nice if the example can be rolled into the section above it on \r\n\"Custom versions & configurations\" so that it doesn't break the flow of reading?  For example one could tack on something like:\r\n\r\n```bash\r\n# Link with specific versions of openmpi and hwloc\r\n$ spack install hdf5@1.10.1 ^openmpi +cuda fabrics=auto ^hwloc +gl\r\n```\r\n\r\nIf you like I can submit a PR for the above change, but I can't find know where the source code for the https://spack.io home page is located.  I'm not seeing it easily in the main repo and don't know what magic you use to create it; as far as I can tell, the home page rendering is not tied into Travis CI?\r\n\r\n### Steps to reproduce the issue\r\n\r\nVisit https://spack.io/ and scroll down to \"Customize dependencies\" to show the `libdarf` example.  Try to explain variants with `spack find ...` but Variants is None.\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack info libdwarf\r\n--snip--\r\nVariants:\r\n    None\r\n--snip--\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack arch\r\nlinux-rhel6-x86_64\r\n```\r\n\r\nI posted this question on the `#general` channel on Slack and [advised by Todd Gamblin](https://spackpm.slack.com/archives/C5W7NKZJT/p1564556618131500) to open an issue.",
+    "user": "omsai",
+    "url": "https://api.github.com/repos/spack/spack/issues/12245",
+    "updated_at": "2019-08-02 16:50:24",
+    "created_at": "2019-08-02 16:39:12",
+    "closed_at": "2019-08-02 16:50:24",
+    "state": "closed",
+    "title": "Customize dependencies example on the home page is no longer valid",
+    "number": 12245,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 476265700,
+    "html_url": "https://github.com/spack/spack/issues/12245",
+    "assignees": [],
+    "comments": 1
+}

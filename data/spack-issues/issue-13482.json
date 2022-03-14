@@ -1,0 +1,25 @@
+{
+    "body": "As a user I would like a warning to be either printed to screen or logged somewhere in debug mode when targets are downgraded by Spack so that I can spot deviations from the preferences expressed in e.g. configuration files more easily\r\n\r\n### Rationale\r\n\r\nFollowing a discussion happened on public Spack's slack in the #general channel. A `spack.yaml` file like the following:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - mvapich2 fabrics=mrail\r\n  packages:\r\n    openssl:\r\n      buildable: false\r\n      paths:\r\n        openssl@1.0.2: /usr\r\n    all:\r\n      target: [skylake-avx512]\r\n  concretization: together\r\n```\r\nwas causing all the specs to concretize as `x86_64`. This is because there's a typo in the preferred target that contains a dash where it should have an underscore i.e. `skylake_avx512`. \r\n\r\nWhat was happening is that Spack was falling back to a safe target after having tried to use a \"non-existing\" preference. Being a typo the error was hard to spot and probably it would have been much easier to debug if Spack prompted a visible warning about its decision to downgrade the target.\r\n\r\n### Description\r\n\r\nMake it such that Spack prompts a warning when it decides to downgrade targets. The warning should be as informative as possible on where and why this decision was taken.\r\n\r\n\r\n### Additional information\r\nNo additional information",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/13482",
+    "updated_at": "2019-11-01 10:36:28",
+    "created_at": "2019-10-29 11:27:52",
+    "closed_at": "2019-11-01 10:36:28",
+    "state": "closed",
+    "title": "Print or log a warning when downgrading targets",
+    "number": 13482,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "platform-support",
+        "error-messages",
+        "user-experience",
+        "microarchitectures"
+    ],
+    "id": 513852951,
+    "html_url": "https://github.com/spack/spack/issues/13482",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Related to #4480, where running as root during partitioning is common.\r\n\r\nNew versions of some autotools configure scripts (imho rightfully) abort if they are called as super-user (root). The only way to still go on is by exporting `FORCE_UNSAFE_CONFIGURE=1`.\r\n\r\nShall we maybe add such an bypass to `spack` itself so (root) users are not disturbed? Maybe add an explicit switch? Did you encounter similar problems with other build systems?\r\n\r\nAs an example, compile `tar`:\r\n```bash\r\n$ sudo spack install -v tar\r\n# ...\r\nchecking whether mknod can create fifo without root privileges... configure: error: in `/tmp/root/spack-stage/spack-stage-2ELK8S/tar-1.29':\r\nconfigure: error: you should not run configure as root (set FORCE_UNSAFE_CONFIGURE=1 in environment to bypass this check)\r\nSee `config.log' for more details\r\n==> Executing phase : 'configure'\r\n```\r\n\r\nThis makes docker and singularity image setups a bit more cumbersome, since one has to add a special `spack` user to partition the images. (See my spack-powered \u2728 images in https://github.com/ax3l/dockerfiles)\r\n\r\nExample for docker:\r\n```\r\n# ...\r\n\r\n# Add non-privileged, but system docker user with sudo rights\r\nRUN        groupadd -r spack -g 901 && \\\r\n           useradd -u 901 -r -m -g spack spack && \\\r\n           echo \"spack ALL=(root) NOPASSWD:ALL\" > /etc/sudoers.d/spack && \\\r\n           chmod 0440 /etc/sudoers.d/spack\r\n# this is also the user that executes all commands below\r\nUSER       spack\r\nWORKDIR    $HOME\r\n\r\n# ...\r\n```\r\n\r\nccing @adamjstewart ",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/5139",
+    "updated_at": "2017-11-24 08:18:27",
+    "created_at": "2017-08-17 13:40:45",
+    "closed_at": "2017-11-24 08:18:27",
+    "state": "closed",
+    "title": "Configure as root user",
+    "number": 5139,
+    "milestone": null,
+    "labels": [
+        "question",
+        "environments"
+    ],
+    "id": 250947587,
+    "html_url": "https://github.com/spack/spack/issues/5139",
+    "assignees": [],
+    "comments": 3
+}

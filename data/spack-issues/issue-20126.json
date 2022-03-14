@@ -1,0 +1,23 @@
+{
+    "body": "When trying to specify the target of a spec to something that is not an ancestor of the host, the new concretizer fails with an unsat core.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack arch\r\nlinux-ubuntu18.04-broadwell\r\n\r\n$ spack solve zlib target=x86_64\r\n==> Best of 0 answers.\r\n==> Optimization: [0, 0, -3, 0, 0, 1, 0, 0, -1, 8]\r\nzlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64\r\n\r\n$ spack solve zlib target=icelake\r\n==> The following constraints are unsatisfiable:\r\n  compiler(\"clang\")\r\n  compiler(\"gcc\")\r\n  default_compiler_preference(\"clang\",\"3.9.1\",13)\r\n  default_compiler_preference(\"clang\",\"4.0.1\",12)\r\n  default_compiler_preference(\"clang\",\"5.0.1\",11)\r\n  default_compiler_preference(\"clang\",\"6.0.1\",10)\r\n  default_compiler_preference(\"clang\",\"7.0.0\",9)\r\n  default_compiler_preference(\"clang\",\"8.0.0\",8)\r\n  default_compiler_preference(\"clang\",\"9.0.0\",7)\r\n  default_compiler_preference(\"gcc\",\"10.1.0\",0)\r\n  default_compiler_preference(\"gcc\",\"4.8\",6)\r\n  default_compiler_preference(\"gcc\",\"5.5.0\",5)\r\n  default_compiler_preference(\"gcc\",\"6.5.0\",4)\r\n  default_compiler_preference(\"gcc\",\"7.5.0\",3)\r\n  default_compiler_preference(\"gcc\",\"8.4.0\",2)\r\n  default_compiler_preference(\"gcc\",\"9.3.0\",1)\r\n  node_target_set(\"zlib\",\"icelake\")\r\n  root(\"zlib\")\r\n==> Error: Unsatisfiable spec.\r\n```\r\n\r\n### Error Message\r\n\r\nSpack reports the unsat cores above.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-70-44665cb4e6\r\n* **Python:** 3.8.6\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n* **Concretizer:** clingo\r\n\r\n\r\n### Additional information\r\n\r\nThis is due to this line in `asp.py`:\r\n\r\nhttps://github.com/spack/spack/blob/44665cb4e6e3a92f8b97d9612224ef52dce396df/lib/spack/spack/solver/asp.py#L1272\r\n\r\nThe issue can be solved by using:\r\n```python\r\ncompatible_targets = [t for t in archspec.cpu.TARGETS.values() if t.family.name == uarch.family.name]\r\n```\r\nbut that increases the time it takes to concretize the spec by a fair amount.\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/20126",
+    "updated_at": "2021-09-17 13:26:32",
+    "created_at": "2020-11-26 16:32:49",
+    "closed_at": "2021-09-17 13:26:32",
+    "state": "closed",
+    "title": "The ASP-based concretizer cannot solve for targets which are not ancestors of the host",
+    "number": 20126,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low"
+    ],
+    "id": 751717477,
+    "html_url": "https://github.com/spack/spack/issues/20126",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

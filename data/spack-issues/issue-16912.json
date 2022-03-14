@@ -1,0 +1,19 @@
+{
+    "body": "The mpich package does not build with gcc 10. gcc 10 enforces the Fortran standard, which reports argument mismatches for certain MPI calls. This issue is well known; see e.g. <https://gcc.gnu.org/gcc-10/porting_to.html> and <https://lists.mpich.org/pipermail/discuss/2020-January/005863.html>. The work-around is to add `-fallow-argument-mismatch` to `FCFLAGS` when building mpich, and presumably also when using mpich with a Fortran compiler.\r\n\r\nHow do I set this up in the `package.py`?\r\n\r\nSo, I've tried adding `'FCFLAGS=-fallow-argument-mismatch'` to the configure arguments, and this indeed makes mpich build. I'm not familiar with how to insert this into the proper Spack mechanisms.",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/16912",
+    "updated_at": "2020-06-03 00:19:59",
+    "created_at": "2020-06-03 00:19:21",
+    "closed_at": "2020-06-03 00:19:59",
+    "state": "closed",
+    "title": "Installation issue: mpich does not build with gcc 10",
+    "number": 16912,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 629599412,
+    "html_url": "https://github.com/spack/spack/issues/16912",
+    "assignees": [],
+    "comments": 0
+}

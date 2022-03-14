@@ -1,0 +1,19 @@
+{
+    "body": "I have a build machine setup with gcc 7 which is not able to extract tar.xz packages. \r\n```\r\n==> Staging archive: /var/build/paul/spack/var/spack/stage/gettext-0.19.8.1-4z3teabaygcrw6a6faq5baer2m3hilqd/gettext-0.19.8.1.tar.xz\r\nxz: error while loading shared libraries: liblzma.so.5: cannot open shared object file: No such file or directory\r\n/var/build/paul/spack/opt/spack/linux-scientificcernslc6-x86_64/gcc-7.3.0/tar-1.30-uhlna6sdc77pjcjhqc2er7dcfav6wkqm/bin/tar: Child returned status 127\r\n/var/build/paul/spack/opt/spack/linux-scientificcernslc6-x86_64/gcc-7.3.0/tar-1.30-uhlna6sdc77pjcjhqc2er7dcfav6wkqm/bin/tar: Error is not recoverable: exiting now\r\n==> Error: ProcessError: Command exited with status 2:\r\n    '/var/build/paul/spack/opt/spack/linux-scientificcernslc6-x86_64/gcc-7.3.0/tar-1.30-uhlna6sdc77pjcjhqc2er7dcfav6wkqm/bin/tar' '-xf' '/var/build/paul/spack/var/spack/stage/gettext-0.19.8.1-4z3teabaygcrw6a6faq5baer2m3hilqd/gettext-0.19.8.1.tar.xz'\r\n==> Error: [Errno 2] No such file or directory: '/var/build/paul/spack/var/spack/stage/gettext-0.19.8.1-4z3teabaygcrw6a6faq5baer2m3hilqd/spack-expanded-archive/spack-build.out'\r\n```\r\nxz is externally installed in a remote file system.\r\nFor some reason spack is unable to extract the xz archive because it fails to load the liblzma library which is inside the xz installation directory. If I manually use tar -xf to extract the archive there are no problems. Similarly, if I manually add /path/to/xz/lib to LD_LIBRARY_PATH inside compilers.yaml spack extracts the archive with no problem.\r\n\r\nThis issue seems similar to https://github.com/spack/spack/issues/315 and the only fix that I have been able to find is to switch to the gz format (https://github.com/spack/spack/pull/316).  Is it possible to submit a PR for this and switch the archive type to gz for the gettext package?",
+    "user": "paul-chelarescu",
+    "url": "https://api.github.com/repos/spack/spack/issues/8829",
+    "updated_at": "2020-01-15 07:38:55",
+    "created_at": "2018-07-30 13:49:43",
+    "closed_at": "2020-01-15 07:38:55",
+    "state": "closed",
+    "title": "Cannot build tar.xz packages",
+    "number": 8829,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 345766178,
+    "html_url": "https://github.com/spack/spack/issues/8829",
+    "assignees": [],
+    "comments": 4
+}

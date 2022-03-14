@@ -1,0 +1,21 @@
+{
+    "body": "When I try and install Ipopt on OSX 10.11.6 with clang via `spack install ipopt`, then the build fails with the messages\r\n`ld: -rpath can only be used when creating a dynamic final linked image`\r\n`clang: error: linker command failed with exit code 1 (use -v to see invocation)`\r\n\r\nThe corresponding section in my compilers.yaml looks like this\r\ncompilers:\r\n```\r\n\\- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: elcapitan\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /opt/local/bin/gfortran-mp-5\r\n      fc: /opt/local/bin/gfortran-mp-5\r\n    spec: clang@8.0.0-apple\r\n    target: x86_6\r\n```\r\n\r\nIf I compile Ipopt manually and independent of spack, everything works fine with the following configure line `../configure F77=gfortran-mp-5 --prefix=\"/Users/StTrSchl/libs/ipopt/lib/Ipopt-3.12.5-clang\"`. Hard to say what's different to the Spack approach, as I don't know anything about the environment variables Spack sets for the build.",
+    "user": "futuretristan",
+    "url": "https://api.github.com/repos/spack/spack/issues/3903",
+    "updated_at": "2017-05-01 02:16:28",
+    "created_at": "2017-04-19 11:24:20",
+    "closed_at": "2017-05-01 02:16:28",
+    "state": "closed",
+    "title": "Ipopt fails to build on OSX with clang",
+    "number": 3903,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "compilers"
+    ],
+    "id": 222705412,
+    "html_url": "https://github.com/spack/spack/issues/3903",
+    "assignees": [],
+    "comments": 12
+}

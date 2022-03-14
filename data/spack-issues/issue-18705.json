@@ -1,0 +1,19 @@
+{
+    "body": "1. add 4.11\r\nAdd `version()` 4.11\r\n\r\n2. configure patch\r\nModify patch for `configure`  is updated to support both 4.10 and 4.11.\r\nSee also #17918.\r\n\r\n`configure`@4.10\r\n> case \"$arch,$system\" in #(\r\n...\r\n  amd64,*|arm,*|arm64,*|i386,*) : \r\n    default_as=\"${toolpref}as\" // OK\r\n    case $ocaml_cv_cc_vendor in #(\r\n      clang-*) : // %fj comes here\r\n        default_aspp=\"${toolpref}clang -c -Wno-trigraphs\" ;; #( // Patch this line\r\n      *) :\r\n        default_aspp=\"${toolpref}gcc -c\" ;;\r\n    esac ;; #(\r\n\r\n`configure`@4.11\r\n> case \"$arch,$system\" in #(\r\n...\r\n  amd64,*|arm,*|arm64,*|i386,*|riscv,*) :\r\n    case $ocaml_cv_cc_vendor in #(\r\n      clang-*) :// %fj comes here\r\n        default_as=\"${toolpref}clang -c -Wno-trigraphs\" // Patch this line\r\n        default_aspp=\"${toolpref}clang -c -Wno-trigraphs\" ;; #( // Patch this line\r\n      *) :\r\n        default_as=\"${toolpref}as\" \r\n        default_aspp=\"${toolpref}gcc -c\" ;;\r\n    esac ;; #(\r\n",
+    "user": "ketsubouchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/18705",
+    "updated_at": "2020-09-18 15:02:51",
+    "created_at": "2020-09-17 00:36:10",
+    "closed_at": "2020-09-18 15:02:51",
+    "state": "closed",
+    "title": "ocaml: support 4.11",
+    "number": 18705,
+    "milestone": null,
+    "labels": [
+        "new-version"
+    ],
+    "id": 703179092,
+    "html_url": "https://github.com/spack/spack/pull/18705",
+    "assignees": [],
+    "comments": 0
+}

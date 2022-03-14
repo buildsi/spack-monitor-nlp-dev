@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\n$> spack install namd@2.14 interface=python ^python@3.8.12\r\n[...]\r\nAdding file obj/Parser.o...\r\nOpenMP support enabled\r\ncharmc> ----------- Module dependency search ------------\r\ncharmc> ----------- Module dependency search complete ------------\r\ncharmc> All libraries are: -L/cvmfs/hpcsw.umd.edu/spack-software/2021.11.29/linux-rhel8-zen2/gcc-9.4.0/charmpp-6.10.2-h2v6pcv7wm2kdh6c4qojowtb7n7kn5bz/bin/../lib -lmoduleCkLoop -lmoduleCkMulticast -lpthread -lckmain -lck -lmemory-default -lthreads-default -lconv-machine -lconv-core -ltmgr -lconv-util -lconv-partition -lhwloc_embedded -lm -lcudart -lmemory-default -lthreads-default -lldb-rand -lconv-ldb -lpthread -lckqt -lckqt -ldl -ltcl8.6 -ldl -lpthread -lcrypt -lintl -lpthread -ldl -lutil -lm -lm -lfftw3f -lm -lmoduleCkMulticast -lmoduleCkLoop -lmoduleNDMeshStreamer -lmodulecompletion -lmpi -lz -lm /cvmfs/hpcsw.umd.edu/spack-software/2021.11.29/linux-rhel8-zen2/gcc-9.4.0/charmpp-6.10.2-h2v6pcv7wm2kdh6c4qojowtb7n7kn5bz/bin/../lib/conv-static.o\r\nAdding registration for module CkMulticast\r\nAdding registration for module CkLoop\r\ncharmc: Executing g++ -DCMK_GFORTRAN -DCMK_GFORTRAN  [...] -o moduleinit4141582.o\r\ncharmc: Executing g++ -rdynamic -DMPICH_SKIP_MPICXX -DOMPI_SKIP_MPICXX [...]  -o namd2\r\nbj/ScriptTcl.o: In function `PyInit_namd()':\r\nScriptTcl.C:(.text+0xaf): undefined reference to `PyModule_Create2'\r\nobj/ScriptTcl.o: In function `PyInit_tcl()':\r\nScriptTcl.C:(.text+0xef): undefined reference to `PyModule_Create2'\r\n[...]\r\n```\r\nBasically a large number of Python functions are not being found, which is due to the -lpython flag being missing in the compilation (sorry --- such is elided in the long compilation lines above, but visible in attached files).\r\n\r\nDelving further, it appears to be a problem with the namd build system and a change in python-config command with python@3.8.  Namd uses python-config to configure the compilation flags when building with python.  Basically, starting with python@3.8 the\r\npython-config --libs (and --ldflags) commands no longer include -lpython or equivalent unless the additional flag --embed is given.\r\n\r\nI have notified the namd developers, but plan to add a small patch to the namd config file to add the --embed flag when building namd@2.14 with python@3.8.\r\n\r\n\n\n### Information on your system\n\n``console\r\n$ spack debug report\r\n* **Spack:** 0.17.0-319-5dce4d79bd\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n```\n\n### Additional information\n\n[spack-build-out.txt](https://github.com/spack/spack/files/7803061/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7803062/spack-build-env.txt)\r\n\r\nNo maintainers for namd found\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/28213",
+    "updated_at": "2022-01-04 08:04:46",
+    "created_at": "2022-01-03 16:59:01",
+    "closed_at": "2022-01-04 08:04:46",
+    "state": "closed",
+    "title": "Installation issue: namd",
+    "number": 28213,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1092667383,
+    "html_url": "https://github.com/spack/spack/issues/28213",
+    "assignees": [],
+    "comments": 0
+}

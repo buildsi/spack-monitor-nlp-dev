@@ -1,0 +1,17 @@
+{
+    "body": "This PR contains fixes that I found necessary to install and use esmf on several platforms.\r\n\r\nWhen using spack to build fortran programs that depend on esmf modules, the esmf `.mod` files are not found unless they are installed in the `include` directory of the esmf package (https://github.com/spack/spack/commit/bd816fe05ebf04c11f0b122dac5e25788c08aac0).\r\n\r\nOn Cray XC40 platforms, esmf needs a nudge (https://github.com/spack/spack/commit/1a5e0c10f03c6605b0f8bcbae786f537c0edc364) to use the mpi configuration instead of mpiuni (i.e. single process).\r\n\r\nOn OSX platforms, esmf executables attempt to load the esmf libraries from the build directory, which is removed after installation. Special linker commands are needed to create libraries that are loaded via rpath instead of their absolute path at link-time (https://github.com/spack/spack/commit/8520f8c006da383a69bb838b9792865eb032c6c4).\r\n\r\nWhen building with mpich, linking of executables failed because mpich3 uses separate Fortran and C libraries (unlike mpich2). The esmf release notes suggest a workaround, which is implemented in https://github.com/spack/spack/commit/c4587870e4be008642cc571655dac7ec2d21506d.\r\n",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/6768",
+    "updated_at": "2018-01-07 01:47:50",
+    "created_at": "2017-12-24 05:19:20",
+    "closed_at": "2018-01-03 01:43:56",
+    "state": "closed",
+    "title": "Esmf fixes for Cray, OSX and mpich",
+    "number": 6768,
+    "milestone": null,
+    "labels": [],
+    "id": 284343602,
+    "html_url": "https://github.com/spack/spack/pull/6768",
+    "assignees": [],
+    "comments": 0
+}

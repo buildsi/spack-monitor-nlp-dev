@@ -1,0 +1,20 @@
+{
+    "body": "Extracts error messages from the implementation of `buildcache.py` and moves them to the exception itself. Otherwise, using `spack install --use-cache` may hit an exception without reporting any error message. Example:\r\n\r\n```\r\nspack install --use-cache python\r\n```\r\n\r\nIt tries to install python from binaries, if no gpg key was used it raises a `NoVerificationException` and the user just getsan error message without description: `==> Error: `\r\n\r\nThis PR avoids to handle these exceptions also when using `--use-cache` during the `install` command and makes them consistent with the rest of exceptions.\r\n\r\n@gartung",
+    "user": "JavierCVilla",
+    "url": "https://api.github.com/repos/spack/spack/issues/6344",
+    "updated_at": "2019-01-15 10:51:46",
+    "created_at": "2017-11-17 08:47:48",
+    "closed_at": "2019-01-15 10:51:46",
+    "state": "closed",
+    "title": "Binary_distribution error messages managed by the exceptions that raise them",
+    "number": 6344,
+    "milestone": null,
+    "labels": [
+        "error-messages",
+        "buildcache"
+    ],
+    "id": 274791729,
+    "html_url": "https://github.com/spack/spack/pull/6344",
+    "assignees": [],
+    "comments": 3
+}

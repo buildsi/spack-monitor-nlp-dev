@@ -1,0 +1,24 @@
+{
+    "body": "This PR introduces support for the lmod and dotkit module systems. This completes setup-env.sh's support for all three module systems. Towards this end, the following had to be done:\r\n\r\n- A new subcommand `getraw` was added to the `config` command. This allows the user to query spack's configuration from the command line. This also includes the ability to find the lengths of lists using the `LEN` special keyword and use integers to access list elements by index. This was necessary to help `setup-env.sh` figure out which module systems where enabled, and more importantly, which were at the top of the list to establish whether `environemnt-modules` or `lmod` have priority for definition of the `module` function.\r\n- The `dotkit` package was created.\r\n- `setup-env.sh` logic was updated in order to more seamlessly handle the multiple module systems. First an array is filled with the enabled module systems, Then `module` or `use` is defined depending on which module systems are enabled and whether these functions are already defined.\r\n- `spack bootstrap` logic was changed slightly to only install a module system's package if it is enabled.\r\n- `spack module` logic was changed to set the default module type to that at the top of the modules enabled list. This means users no longer have to specify `-m` for the majority of cases.\r\n- `spack module loads` dotkit usage command was corrected.\r\n- Two tests depending on `tcl` modules being enabled have been given skip statements if `tcl` is not enabled. This prevents test failures when the user has disabled `tcl`.\r\n- Documentation was updated detailing these new features. I do not believe that this documentation is totally complete, and I'm currently looking for outside opinions on it.\r\n\r\nThis PR depends on #5904 to be merged for `lmod` to build properly on at least some systems.",
+    "user": "krafczyk",
+    "url": "https://api.github.com/repos/spack/spack/issues/5955",
+    "updated_at": "2019-02-12 12:23:55",
+    "created_at": "2017-10-25 17:04:39",
+    "closed_at": "2019-02-12 12:23:55",
+    "state": "closed",
+    "title": "setup-env.sh support for lmod and dotkit",
+    "number": 5955,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "new-package",
+        "modules",
+        "shell-support"
+    ],
+    "id": 268476033,
+    "html_url": "https://github.com/spack/spack/pull/5955",
+    "assignees": [
+        "krafczyk"
+    ],
+    "comments": 4
+}

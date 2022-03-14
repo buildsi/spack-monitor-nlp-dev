@@ -1,0 +1,17 @@
+{
+    "body": "This is known issue.  See\r\nhttps://software.intel.com/en-us/forums/intel-fortran-compiler-for-linux-and-mac-os-x/topic/747951.\r\n\r\nWithout this patch, hdf5 fails to build with Intel 18 due to the error:\r\n\r\n```\r\n    PPFC     H5f90global.lo\r\nlibtool: compile:\r\n    /usr/projects/hpcsoft/toss3/snow/openmpi/2.1.2-intel-18.0.1/bin/mpif90\r\n    -I. -I../../src -O3 -I../../src -I../../fortran/src -fPIC -c H5f90global.F90\r\n    -fPIC -o .libs/H5f90global.o\r\n/yellow/usr/projects/user_contrib/spack.20170926/lib/spack/env/intel/ifort: line\r\n    358:\r\n    /yellow/users/kellyt/spack-cc-hdf5@1.10.1%intel@18.0.1+cxx~debug+fortran+mpi+pic+shared~szip~threadsafe\r\n    arch=linux-rhel7-x86_64 /v3lut6o.in.log: No such file or directory\r\n/yellow/usr/projects/user_contrib/spack.20170926/lib/spack/env/intel/ifort: line\r\n    359:\r\n    /yellow/users/kellyt/spack-cc-hdf5@1.10.1%intel@18.0.1+cxx~debug+fortran+mpi+pic+shared~szip~threadsafe\r\n    arch=linux-rhel7-x86_64 /v3lut6o.out.log: No such file or directory\r\nH5f90global.F90(145): error #7615: Multiple objects from the same EQUIVALENCE\r\n    set may not appear in a COMMON block.   [H5T_NATIVE_INTEGER_KIND]\r\n  EQUIVALENCE (predef_types(2), H5T_NATIVE_INTEGER_KIND(2))\r\n--------------------------------^\r\nH5f90global.F90(146): error #7615: Multiple objects from the same EQUIVALENCE\r\n    set may not appear in a COMMON block.   [H5T_NATIVE_INTEGER_KIND]\r\n  EQUIVALENCE (predef_types(3), H5T_NATIVE_INTEGER_KIND(3))\r\n--------------------------------^\r\nH5f90global.F90(147): error #7615: Multiple objects from the same EQUIVALENCE\r\n    set may not appear in a COMMON block.   [H5T_NATIVE_INTEGER_KIND]\r\n  EQUIVALENCE (predef_types(4), H5T_NATIVE_INTEGER_KIND(4))\r\n--------------------------------^\r\nH5f90global.F90(148): error #7615: Multiple objects from the same EQUIVALENCE\r\n    set may not appear in a COMMON block.   [H5T_NATIVE_INTEGER_KIND]\r\n  EQUIVALENCE (predef_types(5), H5T_NATIVE_INTEGER_KIND(5))\r\n--------------------------------^\r\ncompilation aborted for H5f90global.F90 (code 1)\r\nmake[3]: *** [H5f90global.lo] Error 1\r\n```\r\n\r\n@junghans This patch was tested on snow/grizzly with intel/18.0.1.",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/6583",
+    "updated_at": "2018-01-06 21:13:32",
+    "created_at": "2017-12-05 22:06:27",
+    "closed_at": "2017-12-08 08:55:06",
+    "state": "closed",
+    "title": "Provide a patch to allow hdf5@1.10.1 to build with intel/18.0.1.",
+    "number": 6583,
+    "milestone": null,
+    "labels": [],
+    "id": 279548261,
+    "html_url": "https://github.com/spack/spack/pull/6583",
+    "assignees": [],
+    "comments": 2
+}

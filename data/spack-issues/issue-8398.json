@@ -1,0 +1,23 @@
+{
+    "body": "The missing version in `spectrum-mpi` causes issues with MPI packages and tests.\r\n\r\nAs soon as one adds a `depends_on('anything_really', type='test')` to a package that also `depends_on('mpi')` the install with tests fails.\r\n\r\n### Expected Result\r\n\r\n```bash\r\nspack install --test=root package\r\n```\r\nshould start installing.\r\n\r\n### Actual Result\r\n\r\n```bash\r\n$ spack install --test=root package\r\n==> Error: There are no valid versions for spectrum-mpi that match ':'\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n- take a package that depends on MPI, say `mpileaks`\r\n- add a `test` dependency\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/mpileaks/package.py b/var/spack/repos/builtin/packages/mpileaks/package.py\r\nindex 33c617205..28bf5f247 100644\r\n--- a/var/spack/repos/builtin/packages/mpileaks/package.py\r\n+++ b/var/spack/repos/builtin/packages/mpileaks/package.py\r\n@@ -37,6 +37,7 @@ class Mpileaks(Package):\r\n     depends_on(\"mpi\")\r\n     depends_on(\"adept-utils\")\r\n     depends_on(\"callpath\")\r\n+    depends_on(\"vim\", type=\"test\")\r\n \r\n     def install(self, spec, prefix):\r\n         configure(\"--prefix=\" + prefix,\r\n```\r\n- run `spack install --test=root mpileaks`\r\n\r\n### Information on your system\r\n\r\nSpack `develop` as of 80564fae5df952eb8544272e178d283bac0c0f57 on Debian 9.4 with Python 3.6.4",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/8398",
+    "updated_at": "2018-06-06 14:11:38",
+    "created_at": "2018-06-06 09:02:13",
+    "closed_at": "2018-06-06 14:10:06",
+    "state": "closed",
+    "title": "spectrum-mpi & depends_on type 'test'",
+    "number": 8398,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "unreproducible",
+        "concretization",
+        "tests",
+        "mpi"
+    ],
+    "id": 329778045,
+    "html_url": "https://github.com/spack/spack/issues/8398",
+    "assignees": [],
+    "comments": 2
+}

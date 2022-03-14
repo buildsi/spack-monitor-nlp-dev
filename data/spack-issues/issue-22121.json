@@ -1,0 +1,17 @@
+{
+    "body": "Fix that adds a simple workaround for the issue explained in https://github.com/spack/spack/issues/22118\r\n\r\nWhen we have this structure:\r\n\r\n```\r\na <-- build -- b <-- link -- c\r\na <-- link -- c\r\n```\r\n\r\nAnd we run `spack graph --deptype=link a` it fails with spack believing there are cycles.\r\n\r\nBut the issue is that topo sorts does not drop `b` as a parent of `c` (as in, c.dependents() contains b still) even though it is a build dep of `a`.\r\n\r\nThis PR adds the above example as a test and basically just adds a filter to the parent function in topological_sort to skip non-`deptype`-parents.\r\n\r\nThis fixes the problem found when adding openssh as a 'run' dep to openmpi: https://github.com/spack/spack/pull/22115\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22121",
+    "updated_at": "2021-03-31 16:58:31",
+    "created_at": "2021-03-05 21:08:37",
+    "closed_at": "2021-03-09 00:47:00",
+    "state": "closed",
+    "title": "Fix graph when deptypes are filtered",
+    "number": 22121,
+    "milestone": null,
+    "labels": [],
+    "id": 823418469,
+    "html_url": "https://github.com/spack/spack/pull/22121",
+    "assignees": [],
+    "comments": 1
+}

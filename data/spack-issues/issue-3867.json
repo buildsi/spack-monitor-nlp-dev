@@ -1,0 +1,19 @@
+{
+    "body": "Some of my vim builds end up with the symbolic links emplaced for `view` *et al.*, but others don't.  All of these are driven by the same script.\r\n\r\n**TL;DR** \r\n\r\n1. Do other folks see this?\r\n2. Is there perhaps a problem with running the vim build in parallel?\r\n\r\n```\r\n/blah/spack/v0.0.4/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin:\r\ntotal 2560\r\nlrwxrwxrwx 1 hartzelg users       3 Apr  3 12:44 ex -> vim\r\nlrwxrwxrwx 1 hartzelg users       3 Apr  3 12:44 rview -> vim\r\nlrwxrwxrwx 1 hartzelg users       3 Apr  3 12:44 rvim -> vim\r\nlrwxrwxrwx 1 hartzelg users       3 Apr  3 12:44 view -> vim\r\n-rwxr-xr-x 1 hartzelg users 2235632 Apr  3 12:44 vim\r\nlrwxrwxrwx 1 hartzelg users       3 Apr  3 12:44 vimdiff -> vim\r\n-rwxr-xr-x 1 hartzelg users    2099 Apr  3 12:44 vimtutor\r\n-rwxr-xr-x 1 hartzelg users   18864 Apr  3 12:44 xxd\r\n\r\n/blah/spack/v0.0.5/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin:\r\ntotal 2560\r\n-rwxr-xr-x 1 hartzelg users 2235632 Apr  5 23:31 vim\r\n-rwxr-xr-x 1 hartzelg users    2099 Apr  5 23:31 vimtutor\r\n-rwxr-xr-x 1 hartzelg users   18864 Apr  5 23:31 xxd\r\n\r\n/blah/spack/v0.0.6/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin:\r\ntotal 2560\r\nlrwxrwxrwx 1 hartzelg users       3 Apr 12 11:04 rview -> vim\r\nlrwxrwxrwx 1 hartzelg users       3 Apr 12 11:04 rvim -> vim\r\n-rwxr-xr-x 1 hartzelg users 2235632 Apr 12 11:04 vim\r\nlrwxrwxrwx 1 hartzelg users       3 Apr 12 11:04 vimdiff -> vim\r\n-rwxr-xr-x 1 hartzelg users    2099 Apr 12 11:04 vimtutor\r\n-rwxr-xr-x 1 hartzelg users   18864 Apr 12 11:04 xxd\r\n\r\n/blah/spack/v0.0.7/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin:\r\ntotal 2560\r\n-rwxr-xr-x 1 hartzelg users 2235632 Apr 13 19:44 vim\r\n-rwxr-xr-x 1 hartzelg users    2099 Apr 13 19:44 vimtutor\r\n-rwxr-xr-x 1 hartzelg users   18864 Apr 13 19:44 xxd\r\n\r\n/blah/spack/v0.0.8/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin:\r\ntotal 2560\r\n-rwxr-xr-x 1 hartzelg users 2235632 Apr 15 20:05 vim\r\n-rwxr-xr-x 1 hartzelg users    2099 Apr 15 20:05 vimtutor\r\n-rwxr-xr-x 1 hartzelg users   18864 Apr 15 20:05 xxd\r\n```\r\nPaging through `.../vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/.spack/build.out` I see that it created the links without any complaints, but in the middle it creates the `.../bin` directory.\r\n\r\n```\r\ncd /blah/spack/v0.0.8/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin; ln -s vim view\r\ncd /blah/spack/v0.0.8/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin; ln -s vim rvim\r\nmkdir /blah/spack/v0.0.8/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin\r\ncd /blah/spack/v0.0.8/opt/spack/linux-centos7-x86_64/gcc-5.4.0/vim-8.0.0454-zngph6kn2ucnfgrcc3x2sl235q7pjdyn/bin; ln -s vim rview\r\n```\r\n\r\nMakes me wonder if something is racing....",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3867",
+    "updated_at": "2017-04-19 01:46:10",
+    "created_at": "2017-04-17 18:24:50",
+    "closed_at": "2017-04-19 01:46:10",
+    "state": "closed",
+    "title": "Missing symlinks for view et al. for package vim",
+    "number": 3867,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 222193182,
+    "html_url": "https://github.com/spack/spack/issues/3867",
+    "assignees": [],
+    "comments": 4
+}

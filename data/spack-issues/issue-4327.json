@@ -1,0 +1,20 @@
+{
+    "body": "I'm working with the following setup: I have a frontend, which has access to the general internet but I'm trying to build on an airgapped cluster which has only access to a local file system.\r\n\r\nIn order to install stuff on the cluster, I'm doing a\r\n```\r\nspack fetch -dependencies py-entrypoints\r\n```\r\nto put the sources on the local file system and the doing (essentially a slurm ```srun```)\r\n```\r\ncluster spack install -v py-entrypoints\r\n```\r\nthe latter fails with a failed fetch of ```configparser@3.5```\r\n\r\nIntroducing \r\n```\r\ndepends_on('py-configparser@3.5:', when='^python@2.7', type=('build', 'run'))\r\n```\r\nfor ```py-entrypoints``` leads to\r\n```\r\nFile \"/wang/environment/software/jessie/spack/split_test/lib/spack/spack/spec.py\", line 1316, in dag_hash\r\n    self.to_node_dict(), default_flow_style=True, width=maxint)\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/spack/spec.py\", line 1357, in to_node_\r\ndict\r\n    ) for name, dspec in sorted(deps.items())\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/spack/spec.py\", line 1316, in dag_hash\r\n    self.to_node_dict(), default_flow_style=True, width=maxint)\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/spack/spec.py\", line 1357, in to_node_\r\ndict\r\n    ) for name, dspec in sorted(deps.items())\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/spack/spec.py\", line 1316, in dag_hash\r\n    self.to_node_dict(), default_flow_style=True, width=maxint)\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/spack/spec.py\", line 1331, in to_node_\r\ndict\r\n    d.update(self.versions.to_dict())\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/spack/version.py\", line 651, in to_dic\r\nt\r\n    ('version', str(self[0]))\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/external/ordereddict_backport.py\", lin\r\ne 45, in __init__\r\n    self.__update(*args, **kwds)\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/external/ordereddict_backport.py\", lin\r\ne 172, in update\r\n    self[key] = value\r\n  File \"/wang/environment/software/jessie/spack/split_test/lib/spack/external/ordereddict_backport.py\", lin\r\ne 55, in __setitem__\r\n    dict_setitem(self, key, value)\r\nRuntimeError: maximum recursion depth exceeded while calling a Python object\r\n```\r\n",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/4327",
+    "updated_at": "2017-05-25 14:49:01",
+    "created_at": "2017-05-23 17:49:19",
+    "closed_at": "2017-05-25 14:49:01",
+    "state": "closed",
+    "title": "Cannot install py-entrypoints on an airgapped system",
+    "number": 4327,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies"
+    ],
+    "id": 230791593,
+    "html_url": "https://github.com/spack/spack/issues/4327",
+    "assignees": [],
+    "comments": 2
+}

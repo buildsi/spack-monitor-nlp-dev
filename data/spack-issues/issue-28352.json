@@ -1,0 +1,21 @@
+{
+    "body": "With this PR, lmod files use `depends_on`, which replaces the custom `load(...)` logic, and allows lmod to do reference counting and such.\r\n\r\n```\r\n-- -*- lua -*-\r\n-- Module file created by spack (https://github.com/spack/spack) on 2022-01-11 14:03:46.430132\r\n--\r\n-- zstd@1.5.0%gcc@10.3.0+programs arch=linux-ubuntu20.04-zen2/tlmj57a\r\n--\r\n\r\nwhatis([[Name : zstd]])\r\nwhatis([[Version : 1.5.0]])\r\nwhatis([[Target : zen2]])\r\nwhatis([[Short description : Zstandard, or zstd as short version, is a fast lossless compression algorithm, targeting real-time compression scenarios at zlib-level and better compression ratios.]])\r\n\r\nhelp([[Zstandard, or zstd as short version, is a fast lossless compression\r\nalgorithm, targeting real-time compression scenarios at zlib-level and\r\nbetter compression ratios.]])\r\n\r\n\r\ndepends_on(\"lz4/1.9.3-pzu3c7r\")\r\ndepends_on(\"lzma/4.32.7-7bq33x6\")\r\ndepends_on(\"zlib/1.2.11-f55qopc\")\r\n\r\nprepend_path(\"LD_LIBRARY_PATH\", \"/tmp/tmp.V86PETebaK/store/linux-ubuntu20.04-zen2/gcc-10.3.0/zstd-1.5.0-tlmj57aayg3yw7gi6gy7grb3wwvpwcb2/lib\", \":\")\r\nprepend_path(\"PATH\", \"/tmp/tmp.V86PETebaK/store/linux-ubuntu20.04-zen2/gcc-10.3.0/zstd-1.5.0-tlmj57aayg3yw7gi6gy7grb3wwvpwcb2/bin\", \":\")\r\nprepend_path(\"MANPATH\", \"/tmp/tmp.V86PETebaK/store/linux-ubuntu20.04-zen2/gcc-10.3.0/zstd-1.5.0-tlmj57aayg3yw7gi6gy7grb3wwvpwcb2/share/man\", \":\")\r\nprepend_path(\"PKG_CONFIG_PATH\", \"/tmp/tmp.V86PETebaK/store/linux-ubuntu20.04-zen2/gcc-10.3.0/zstd-1.5.0-tlmj57aayg3yw7gi6gy7grb3wwvpwcb2/lib/pkgconfig\", \":\")\r\nprepend_path(\"CMAKE_PREFIX_PATH\", \"/tmp/tmp.V86PETebaK/store/linux-ubuntu20.04-zen2/gcc-10.3.0/zstd-1.5.0-tlmj57aayg3yw7gi6gy7grb3wwvpwcb2/\", \":\")\r\n```\r\n\r\nNotice that the order in paths are modified depends on the order of traversal, and it seems lmod traverses immediately when it sees `depends_on`. That is, with the above we do indeed post-order iteration of the dag as expected.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/28352",
+    "updated_at": "2022-01-12 13:29:22",
+    "created_at": "2022-01-11 13:13:15",
+    "closed_at": "2022-01-12 13:29:22",
+    "state": "closed",
+    "title": "Use depends_on over load in lmod",
+    "number": 28352,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 1099136327,
+    "html_url": "https://github.com/spack/spack/pull/28352",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

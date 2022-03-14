@@ -1,0 +1,17 @@
+{
+    "body": "Packages that depend on the virtual package `rpc` often expect to find `rpc.h` in `$prefix/include/rpc`. But the `libtirpc` package installs the headers one level deeper in `$prefix/include/tirpc/rpc`. An example of a package that breaks is `hdf+external-xdr`.\r\n\r\nTo avoid this, we add `$prefix/include/tirpc` in the search path for dependent packages. This should not break any existing packages, since `$prefix/include` will still be in search path.\r\n\r\nI was debating whether to use CPATH or CFLAGS and decided to use the former. \r\n\r\nThe patch has been tested on CentOS8 with Spack-0.16.1",
+    "user": "amaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/22590",
+    "updated_at": "2021-05-17 14:18:03",
+    "created_at": "2021-03-27 01:14:03",
+    "closed_at": "2021-05-17 14:18:03",
+    "state": "closed",
+    "title": "Add additional header search path for libtirpc/rpc package",
+    "number": 22590,
+    "milestone": null,
+    "labels": [],
+    "id": 842382533,
+    "html_url": "https://github.com/spack/spack/pull/22590",
+    "assignees": [],
+    "comments": 3
+}

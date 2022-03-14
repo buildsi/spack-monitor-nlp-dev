@@ -1,0 +1,17 @@
+{
+    "body": "I'm now seeing intermittent problems building MVAPICH2 with Intel. I'll try:\n\n```\nspack install mvapich2 %intel +mrail\n```\n\nand it will crash during `make`. Then I'll run:\n\n```\nspack install hdf5@1.10.0 %intel +szip -cxx +mpi ^mvapich2+mrail\n```\n\nand MVAPICH2 will install without any trouble.\n\nIn addition, I'm unable to build parallel-netcdf with Intel and OpenMPI. Here are the `spack-build.out` and `config.log` files:\n\n```\nspack install parallel-netcdf %intel ^openmpi+tm+verbs\n```\n\n[spack-build.out](https://github.com/LLNL/spack/files/284643/spack-build.txt)\n[config.log](https://github.com/LLNL/spack/files/284644/config.txt)\n\n```\nspack install parallel-netcdf %intel ^openmpi+tm+psm\n```\n\n[spack-build.out](https://github.com/LLNL/spack/files/284645/spack-build.txt)\n[config.log](https://github.com/LLNL/spack/files/284646/config.txt)\n\n@lee218llnl Any idea what's going on here? I removed all extraneous MPI installations from my paths and am using only the single `-Xlinker` line in my icc.cfg/icpc.cfg/ifort.cfg.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/991",
+    "updated_at": "2021-01-01 10:05:02",
+    "created_at": "2016-05-26 14:54:27",
+    "closed_at": "2016-06-27 05:36:45",
+    "state": "closed",
+    "title": "Problems building MVAPICH2 and Parallel NetCDF with Intel",
+    "number": 991,
+    "milestone": null,
+    "labels": [],
+    "id": 157003273,
+    "html_url": "https://github.com/spack/spack/issues/991",
+    "assignees": [],
+    "comments": 13
+}

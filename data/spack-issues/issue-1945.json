@@ -1,0 +1,19 @@
+{
+    "body": "This PR is designed to fix 2 bugs in our readthedocs documentation:\n\nThe [Package List](http://spack.readthedocs.io/en/latest/package_list.html) isn't being rebuilt anymore. Specifically, if you look at the package for [PGI](http://spack.readthedocs.io/en/latest/package_list.html#pgi), you'll notice that it doesn't reflect the changes that were made in #1901.\n\nThe [Command Index](http://spack.readthedocs.io/en/latest/command_index.html) isn't being rebuilt anymore. #1678 was supposed to fix the Command Index by removing things like `spack edit -force` and `spack mirror add` by making their tags more specific. The tags were changed in the rest of the documentation, but since `command_index.rst` isn't being refreshed, it didn't get the memo. Now all of the links are broken.\n\nSo what caused this problem? I noticed a bug where if you ran `make` twice in a row, it would cause warning messages with Sphinx (see #1741). @tgamblin attempted to resolve these warnings in #1902 by not rebuilding some of the cached files. Unfortunately, the if-statements he added to not rebuild `package_list.rst` and `command_index.rst` had some unintended consequences. According to the [readthedocs documentation](http://read-the-docs.readthedocs.io/en/latest/builds.html#understanding-what-s-going-on):\n\n> The first step of the process is that we check out your code from the repository you have given us. If the code is already checked out, we update the copy to the branch that you have specified in your projects configuration.\n\nSo the problem is that readthedocs isn't starting from a fresh clone every time. Since it was reusing the old .rst files, `conf.py` told it not to rebuild them.\n\nThe solution was to remove the conditional if-statements added in #1902. Surprisingly, this doesn't seem to reintroduce the problem documented in #1741. Perhaps the other changes in #1902 were enough to prevent the problem on their own.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1945",
+    "updated_at": "2016-10-06 20:00:56",
+    "created_at": "2016-10-06 17:52:46",
+    "closed_at": "2016-10-06 19:50:49",
+    "state": "closed",
+    "title": "Fix bugs preventing readthedocs from rebuilding the documentation",
+    "number": 1945,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 181482646,
+    "html_url": "https://github.com/spack/spack/pull/1945",
+    "assignees": [],
+    "comments": 2
+}

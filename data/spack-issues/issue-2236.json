@@ -1,0 +1,17 @@
+{
+    "body": "When `curl` has an SSL certificate verification problem (mine was exit code `60` in this specific case), the output is slightly confusing. It prints out\r\n\r\n```\r\ncurl: (60) SSL certificate problem: unable to get local issuer certificate\r\nMore details here: https://curl.haxx.se/docs/sslcerts.html\r\n\r\ncurl performs SSL certificate verification...\r\n ...\r\nIf this HTTPS server uses a...\r\n ...\r\nIf you'd like to turn off curl's verification of the certificate, use\r\n the -k (or --insecure) option.\r\n```\r\n\r\nFor some reason I thought this entire message was coming from `curl`, but only the first two lines were.  The rest is output by `spack`.  It should have been obvious, but I pulled out the man page of `curl` first and found `-K` and thought it was a typo, rather than me being stupid.\r\n\r\nI'm suggesting making the final output message a little more explicit\r\n\r\n```\r\nIf you'd like to turn off curl's verification of the certificate, use\r\n the -k (or --insecure) option.\r\n```\r\n\r\nchanges to\r\n\r\n```\r\nIf you'd like to turn off curl's verification of the certificate, call\r\n spack with the -k (or --insecure) option.\r\n```\r\n\r\nAKA \"If you'd like to turn off curl's verification of the certificate, ~use~[call spack with] the -k (or --insecure) option.\"\r\n\r\nI'm probably the only person who has done this, and it didn't take long to figure it out, but I thought it may save somebody 5 minutes one day ;)",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/2236",
+    "updated_at": "2016-11-03 20:32:31",
+    "created_at": "2016-11-03 20:11:49",
+    "closed_at": "2016-11-03 20:30:07",
+    "state": "closed",
+    "title": "[Suggestion] [Low Priority] Change output of suggestion to use -k / --insecure for added clarity",
+    "number": 2236,
+    "milestone": null,
+    "labels": [],
+    "id": 187177126,
+    "html_url": "https://github.com/spack/spack/issues/2236",
+    "assignees": [],
+    "comments": 3
+}

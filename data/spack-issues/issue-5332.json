@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #5281.\r\n@obreitwi @ax3l @alalazo @scheibelp @healther \r\n\r\n- [x] Fixes bugs where concretization would fail due to an erroneously cached\r\n  _concrete attribute.\r\n\r\n- [x] Ripped out a bunch of code in spec.py that isn't needed/valid anymore:\r\n  - The various concrete() methods on different types of Specs would\r\n    attempt to statically compute whether the Spec was concrete.\r\n  - This dates back to when DAGs were simpler and there were no optional\r\n    dependencies.  It's actually NOT possible to compute statically\r\n    whether a Spec is concrete now.  The ONLY way you know is if it goes\r\n    through concretization and is marked concrete once that completes.\r\n  - This commit removes all simple concreteness checks and relies only on\r\n    the _concrete attribute.  This should make thinking about\r\n    concreteness simpler.\r\n\r\n- [x] Fixed a couple places where Specs need to be marked concrete explicitly.\r\n  - Specs read from files and Specs that are destructively copied from\r\n    concrete Specs now need to be marked concrete explicitly.\r\n  - These spots may previously have \"worked\", but they were brittle and\r\n    should be explcitly marked anyway.\r\n\r\n- [x] Fixed bug - `_dup()` and `_dup_deps()` that would lose cached \r\n   concreteness of dependencies.\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/5332",
+    "updated_at": "2017-09-14 08:01:10",
+    "created_at": "2017-09-11 19:00:26",
+    "closed_at": "2017-09-12 00:13:22",
+    "state": "closed",
+    "title": "clean up concreteness detection",
+    "number": 5332,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "specs",
+        "dependencies"
+    ],
+    "id": 256808100,
+    "html_url": "https://github.com/spack/spack/pull/5332",
+    "assignees": [],
+    "comments": 5
+}

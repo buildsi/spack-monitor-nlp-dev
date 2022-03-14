@@ -1,0 +1,21 @@
+{
+    "body": "@tgamblin It seems the fact that Spack uses its wrappers around the actual compilers instead of around the MPI compiler wrappers, causes difficulties on Apples. On Apple, unlike linux, when building a shared library all dependencies need to to be resolved. This means for libraries that use MPI that all MPI calls need to be resolved. But since Spack passes t the native compilers down to the package configure/cmake, as opposed to the MPI compilers, in many cases, the MPI libraries are never passed to the shared library linker so the package cannot properly build its shared shared library. I've attached an example with a  Trilinos shared library \n\n[spack-build.out.txt](https://github.com/LLNL/spack/files/557486/spack-build.out.txt)\n\nIf I understand things correctly either spack needs to instead pass the MPI compiler wrappers as compiler names to the subpackpage buildsystems (which is what PETSc does) or pass down to the subpackages the appropriate MPI libraries so they can do the shared memory builds including links to those libraries.  Based on our experience with PETSc the second approach is  very MPI specific and fragile which is why we adopted the \"use the MPI compiler wrappers as the compilers approach\". I believe that spack should just adopt the \"MPI compiler wrappers are the compilers approach\" but I'm fine with using the true compilers approach so long as you can get it to consistently work properly on Apple systems.\n",
+    "user": "BarrySmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/2159",
+    "updated_at": "2016-10-29 19:26:22",
+    "created_at": "2016-10-28 03:10:04",
+    "closed_at": "2016-10-29 19:26:22",
+    "state": "closed",
+    "title": "Spack using spack compiler wrappers of compilers instead of MPI compiler wrappers problematic on Apple",
+    "number": 2159,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "xSDK"
+    ],
+    "id": 185828917,
+    "html_url": "https://github.com/spack/spack/issues/2159",
+    "assignees": [],
+    "comments": 3
+}

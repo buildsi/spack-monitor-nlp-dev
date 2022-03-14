@@ -1,0 +1,22 @@
+{
+    "body": "Reading the docs, I would assume that `master`, `releases/v0.11.2` and tag `v0.11.2` should point to the very same commit.\r\n\r\nHowever \r\n```\r\n$ git for-each-ref --format='%(refname:strip=2) %09 %(objectname:short)' refs/heads/master refs/heads/releases/v0.11.2 refs/tags/v0.11.2 | column -t\r\nmaster            041aa143d\r\nreleases/v0.11.2  e905f8cf8\r\nv0.11.2           8913c3465\r\n```\r\nWhile the differences between 041aa143d  and e905f8cf8 are trivial\r\n```\r\ngit diff --stat 041aa143d e905f8cf8\r\n .travis.yml | 1 -\r\n 1 file changed, 1 deletion(-)\r\n```\r\n8913c3465 (tag v0.11.2) is substantially different form the other two:\r\n```\r\n$ git diff --shortstat 8913c3465 e905f8cf8\r\n 1033 files changed, 6262 insertions(+), 24101 deletions(-)\r\n$ git diff --dirstat 8913c3465 e905f8cf8\r\n  11.2% lib/spack/external/_pytest/\r\n  34.1% lib/spack/external/jinja2/\r\n   4.9% lib/spack/spack/\r\n   3.8% lib/spack/\r\n   3.7% var/spack/repos/builtin/packages/openfoam-com/\r\n  41.5% var/spack/repos/builtin/packages/\r\n```\r\nIs tag v0.12.2 pointing to the wrong commit?\r\n\r\nThe same problem does not occur for tags v0.10.0, v0.11.0, v0.11.1 which point at the same commit of the respective releases branch.\r\nMore explicitly:\r\n```\r\n$ git diff --shortstat v0.11.1 origin/releases/v0.11.1\r\n```\r\ngives no differences, while:\r\n```\r\n$ git diff --shortstat v0.11.2 origin/releases/v0.11.2\r\n 1033 files changed, 6262 insertions(+), 24101 deletions(-)\r\n```",
+    "user": "miccoli",
+    "url": "https://api.github.com/repos/spack/spack/issues/7292",
+    "updated_at": "2019-07-05 19:40:21",
+    "created_at": "2018-02-20 23:51:03",
+    "closed_at": "2019-07-05 19:40:20",
+    "state": "closed",
+    "title": "Is release v0.11.2 mistagged?",
+    "number": 7292,
+    "milestone": null,
+    "labels": [
+        "question",
+        "releases"
+    ],
+    "id": 298792656,
+    "html_url": "https://github.com/spack/spack/issues/7292",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

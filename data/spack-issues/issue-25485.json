@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\n\n`paraview@5.9.0 +cuda` build fails w/ **CUDA 11.4** using:\r\n* `spack@develop` (b22728d55c126a0034f70c7331b6fabc4d6ad095 from `Wed Aug 18 09:49:51 2021 +0200`)\r\n* Ubuntu 20.04, GCC 9.3.0\r\n* Ubuntu 18.04, GCC 7.5.0\r\n* RHEL 7, GCC 9.3.0\r\n* RHEL 8, GCC 8.4.1\r\n\r\nConcrete spec: [paraview.spec.yaml.txt](https://github.com/spack/spack/files/7008885/paraview.spec.yaml.txt)\r\n\r\nReproduced here using Docker container image `ecpe4s/ubuntu20.04-runner-x86_64:2021-07-01`\r\n\r\n```\r\n$> spack mirror add E4S https://cache.e4s.io\r\n$> spack buildcache keys -it\r\n\r\n$> spack install --cache-only --include-build-deps --only dependencies -f ./paraview.spec.yaml\r\nOK\r\n\r\n$> spack install --no-cache -f ./paraview.spec.yaml\r\n...\r\n==> Installing paraview-5.9.1-5osszynx2x3kddw2qlwqr6lh5vrjmnnk\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/0d/0d486cb6fbf55e428845c9650486f87466efcb3155e40489182a7ea85dfd4c8d.tar.xz\r\n==> No patches needed for paraview\r\n==> paraview: Executing phase: 'cmake'\r\n==> paraview: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16'\r\n\r\n237 errors found in build log:\r\n     41538    /usr/bin/ar qc ../../lib/libvtkPVAdaptorsParticle-pv5.9.a CMakeFiles/AdaptorsParticle.dir/ParticleAdaptor.cxx.o CMakeFiles/AdaptorsParticle.dir/vtkParticlePipeline.cxx\r\n              .o\r\n     41539    /usr/bin/ar q ../../lib/libvtkPVAdaptorsParticle-pv5.9.a CMakeFiles/AdaptorsParticle.dir/cmake_device_link.o\r\n     41540    /usr/bin/ranlib ../../lib/libvtkPVAdaptorsParticle-pv5.9.a\r\n     41541    make[2]: Leaving directory '/tmp/root/spack-stage/spack-stage-paraview-5.9.1-5osszynx2x3kddw2qlwqr6lh5vrjmnnk/spack-build-5osszyn'\r\n     41542    [100%] Built target AdaptorsParticle\r\n     41543    /usr/bin/ld: ../../lib/libvtkAcceleratorsVTKmFilters-pv5.9.a(vtkmAverageToCells.cxx.o): in function `__sti____cudaRegisterAll()':\r\n  >> 41544    /tmp/tmpxft_00013e5b_00000000-6_vtkmAverageToCells.cudafe1.stub.c:2587: undefined reference to `__cudaRegisterLinkedBinary_53_tmpxft_00013e5b_00000000_7_vtkmAverageToC\r\n              ells_cpp1_ii_5ab189ac'\r\n     41545    /usr/bin/ld: ../../lib/libvtkAcceleratorsVTKmFilters-pv5.9.a(vtkmAverageToPoints.cxx.o): in function `__sti____cudaRegisterAll()':\r\n  >> 41546    /tmp/tmpxft_00013e56_00000000-6_vtkmAverageToPoints.cudafe1.stub.c:2060: undefined reference to `__cudaRegisterLinkedBinary_54_tmpxft_00013e56_00000000_7_vtkmAverageTo\r\n              Points_cpp1_ii_6442f0a3'\r\n     41547    /usr/bin/ld: ../../lib/libvtkAcceleratorsVTKmFilters-pv5.9.a(vtkmCleanGrid.cxx.o): in function `__sti____cudaRegisterAll()':\r\n  >> 41548    /tmp/tmpxft_00013e63_00000000-6_vtkmCleanGrid.cudafe1.stub.c:630: undefined reference to `__cudaRegisterLinkedBinary_48_tmpxft_00013e63_00000000_7_vtkmCleanGrid_cpp1_i\r\n              i_f7912904'\r\n...\r\n```\r\n\n\n### Information on your system\n\n* **Spack:** 0.16.2-3951-b22728d55c\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-cascadelake\r\n* **Concretizer:** original\n\n### Additional information\n\nBuild log: \r\n\r\n@vicentebolea @danlipsa @chuckatkins\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/25485",
+    "updated_at": "2022-03-03 02:12:46",
+    "created_at": "2021-08-18 17:00:37",
+    "closed_at": "2022-03-03 02:12:45",
+    "state": "closed",
+    "title": "paraview@5.9.0 +cuda build fails: undefined reference to __cudaRegisterLinkedBinary...",
+    "number": 25485,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "e4s"
+    ],
+    "id": 973880519,
+    "html_url": "https://github.com/spack/spack/issues/25485",
+    "assignees": [],
+    "comments": 7
+}

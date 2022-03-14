@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\n```console\r\n$ spack external find\r\n==> Error: NamedTemporaryFile() got an unexpected keyword argument 'buffering'\r\n\r\n$ ls ~/.spack\r\ncache/\r\n\r\n$ spack external list\r\n==> Detectable packages per repository\r\nRepository: builtin\r\n    python    cpio       gcc          hugo      meson     perl          texinfo\r\n    arm       cuda       gdal         intel     mpich     pkg-config    texlive\r\n    autoconf  diffutils  ghostscript  ispc      mvapich2  pkgconf       uftrace\r\n    automake  doxygen    git          krb5      nag       root          visit\r\n    bash      file       git-annex    libfuse   ncurses   rsync         xlc\r\n    bazel     findutils  git-lfs      libtool   ninja     ruby          xlf\r\n    bison     fish       gmake        llvm      opengl    rust          xz\r\n    bzip2     fj         gmt          llvm-doe  openjdk   sed\r\n    ccache    flex       go           lustre    openmpi   spectrum-mpi\r\n    cmake     fzf        gpgme        m4        openssh   sqlite\r\n    jdk       gawk       groff        maven     openssl   tar\r\n\r\n```\r\n\r\n### Error message\r\n\r\n```console\r\n$ spack external find\r\n==> [2021-11-17-17:50:31.799758] Imported external from built-in commands\r\n==> [2021-11-17-17:50:31.800992] Imported external from built-in commands\r\n==> [2021-11-17-17:50:31.801432] Reading config file /home/xxx/bin/spack/etc/spack/defaults/repos.yaml\r\n==> [2021-11-17-17:50:31.879999] Reading config file /home/xxx/bin/spack/etc/spack/defaults/config.yaml\r\n(...)\r\n==> [2021-11-17-17:50:55.901502] '/usr/bin/tex' '--version'\r\n==> [2021-11-17-17:50:55.930001] '/home/xxx/.conda/envs/main/bin/sqlite3' '--version'\r\nTraceback (most recent call last):\r\n  File \"/home/xxx/bin/spack/bin/spack\", line 100, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home/xxx/bin/spack/lib/spack/spack/main.py\", line 882, in main\r\n    return _main(argv)\r\n  File \"/home/xxx/bin/spack/lib/spack/spack/main.py\", line 865, in _main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/home/xxx/bin/spack/lib/spack/spack/main.py\", line 535, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/home/xxx/bin/spack/lib/spack/spack/cmd/external.py\", line 101, in external\r\n    action[args.external_command](args)\r\n  File \"/home/xxx/bin/spack/lib/spack/spack/cmd/external.py\", line 75, in external_find\r\n    detected_packages = spack.detection.by_executable(packages_to_check)\r\n  File \"/home/xxx/bin/spack/lib/spack/spack/detection/path.py\", line 103, in by_executable\r\n    pkg.determine_spec_details(prefix, exes_in_prefix)\r\n  File \"/home/xxx/bin/spack/lib/spack/spack/package.py\", line 212, in determine_spec_details\r\n    variants = cls.determine_variants(exes, version_str)\r\n  File \"/home/xxx/bin/spack/var/spack/repos/builtin/packages/sqlite/package.py\", line 116, in determine_variants\r\n    rc_fts5 = call(exe, query_fts(5))\r\n  File \"/home/xxx/bin/spack/var/spack/repos/builtin/packages/sqlite/package.py\", line 95, in call\r\n    sqlite_stdin.write(query + '\\n')\r\nTypeError: NamedTemporaryFile() got an unexpected keyword argument 'buffering'\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.0-186-9260c38\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-rhel7-skylake_avx512\r\n* **Concretizer:** clingo\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "jackzzs",
+    "url": "https://api.github.com/repos/spack/spack/issues/27499",
+    "updated_at": "2021-12-08 21:58:23",
+    "created_at": "2021-11-17 09:53:59",
+    "closed_at": "2021-12-08 21:58:23",
+    "state": "closed",
+    "title": "Spack external find: \"Error: NamedTemporaryFile() got an unexpected keyword argument 'buffering'\"",
+    "number": 27499,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 1055924177,
+    "html_url": "https://github.com/spack/spack/issues/27499",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Travis is failing spuriously when trying to execute:\r\n```python\r\nspack info openmpi\r\n```\r\nduring unit tests. The stacktrace we get back is something like:\r\n```\r\n__________________________ test_it_just_runs[openmpi] __________________________\r\npkg = 'openmpi'\r\n    @pytest.mark.parametrize('pkg', [\r\n        'openmpi',\r\n        'trilinos',\r\n        'boost',\r\n        'python',\r\n        'dealii'\r\n    ])\r\n    def test_it_just_runs(pkg):\r\n>       info(pkg)\r\n../../../lib/spack/spack/test/cmd/info.py:40: \r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\n../../../lib/spack/spack/main.py:406: in __call__\r\n    self.command, self.parser, args, unknown)\r\n../../../lib/spack/spack/main.py:355: in _invoke_spack_command\r\n    return_val = command(parser, args)\r\n../../../lib/spack/spack/cmd/info.py:241: in info\r\n    print_text_info(pkg)\r\n../../../lib/spack/spack/cmd/info.py:231: in print_text_info\r\n    when.colorized(), ', '.join(s.colorized() for s in specs)\r\n../../../lib/spack/spack/spec.py:2670: in colorized\r\n    return colorize_spec(self)\r\n../../../lib/spack/spack/spec.py:240: in colorize_spec\r\n    return colorize(re.sub(_separators, insert_color(), str(spec)) + '@.')\r\n/home/travis/virtualenv/python3.5.3/lib/python3.5/re.py:182: in sub\r\n    return _compile(pattern, flags).sub(repl, string, count)\r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\nself = <spack.spec.colorize_spec.<locals>.insert_color object at 0x7fd970749550>\r\nmatch = <_sre.SRE_Match object; span=(0, 1), match='o'>\r\n    def __call__(self, match):\r\n        # ignore compiler versions (color same as compiler)\r\n        sep = match.group(0)\r\n        if self.last == '%' and sep == '@':\r\n            return cescape(sep)\r\n        self.last = sep\r\n    \r\n>       return '%s%s' % (color_formats[sep], cescape(sep))\r\nE       KeyError: 'o'\r\n../../../lib/spack/spack/spec.py:238: KeyError\r\n```\r\nThe problem first occurred in #4994, and after trying without success to reproduce the issue both on Travis and locally I discarded it as some strange environment problem (like the ones we get from time to time regarding `svn` failing). Unfortunately, it happened again when building on `develop` [in build 12355](https://travis-ci.org/LLNL/spack/builds/265784067). Restarting the two failing builds made the issue disappear.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/5156",
+    "updated_at": "2017-08-20 22:34:35",
+    "created_at": "2017-08-18 12:50:22",
+    "closed_at": "2017-08-20 22:34:35",
+    "state": "closed",
+    "title": "spack info: Spurious failures on Travis",
+    "number": 5156,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "travis"
+    ],
+    "id": 251235566,
+    "html_url": "https://github.com/spack/spack/issues/5156",
+    "assignees": [],
+    "comments": 4
+}

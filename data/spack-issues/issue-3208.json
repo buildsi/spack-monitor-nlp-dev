@@ -1,0 +1,17 @@
+{
+    "body": "This is either a WIP or a CFH (Cry For Help).\r\n\r\nSee #3149 for detailed history, but PR #3077 broke gtkplus when it introduced gobject-introspection.\r\n\r\nI used to be able to `spack install emacs@25.1+X`.  I no longer can.  Very sad.\r\n\r\n**Can *you* build it?**\r\n\r\nThe issue I run into is that `gtkplus+X` no longer builds and emacs@25.1+X needs it.\r\n\r\nThe changes in this branch let gtkplus+X build, but they leave a bit to be desired.\r\n\r\n1. There's a problem with the sbang lines of some python scripts that get used as part of the build process ([details here](https://github.com/LLNL/spack/issues/3149#issuecomment-280803833)).  I've worked around them by adding python dependencies to all of the victims.\r\n\r\n2. Several packages generate their `.gir` files in their install tree rather than a standard `/usr/share` directory.  I worked around the by adding those directories to `XDG_DATA_DIRS`, but that might not be the best fix.\r\n\r\n3.  I can't, after an embarrassing/costly number of hours, get the demos in the gtkplus source tree to build.  I resorted to walking through the binary w/ gdb trying to figure out where it's having trouble before my timer fired and I [temporarily] gave up.\r\n\r\n    I ended up just patching them out of the `Makefile.in`.  The `tests` target passes and I can build a mostly functional emacs with the resulting gtkplus package (icons are missing, TBD).\r\n\r\nMisery loves company, so come join me.  Or better yet, throw me a life ring?\r\n\r\nThanks!\r\n\r\n---\r\n\r\nPR #3077 broke gtkplus by introducing gobject-introspection.\r\n\r\nThis big hack makes things work.  It has problems.\r\n\r\n1. Rather than deal with the nasty sbang fooey in the\r\n   g-ir-tool-template.in derived scripts, it just adds a python\r\n   dependency to each package that runs one of the scripts.  This lets\r\n   the `/usr/bin/env python` sbang do the right thing.\r\n\r\n2. It stuffs a several directories on to the XDG_DATA_DIRS environment\r\n   variable, which is used for (among other things) locating the .gir\r\n   files.\r\n\r\n3. It avoids building the gtkplus demos because I can't make the bit\r\n   that calls `gdk-pixbuf-csource` work.  It doesn't think that it can\r\n   load `.png` files and all of the google hits I found suggest a bad\r\n   `loader.cache` file.  The file's fine and I can strace the command\r\n   and watch it read it in...  Many, many hours wasted here.\r\n\r\n   In spite of the demo failing, the tests pass and an emacs built\r\n   with this lib seems to work.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3208",
+    "updated_at": "2017-04-27 16:04:30",
+    "created_at": "2017-02-21 21:27:52",
+    "closed_at": "2017-04-27 16:04:27",
+    "state": "closed",
+    "title": "Adjustments to get gtkplus to build",
+    "number": 3208,
+    "milestone": null,
+    "labels": [],
+    "id": 209277962,
+    "html_url": "https://github.com/spack/spack/pull/3208",
+    "assignees": [],
+    "comments": 37
+}

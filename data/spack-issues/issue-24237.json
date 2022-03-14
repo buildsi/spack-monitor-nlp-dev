@@ -1,0 +1,19 @@
+{
+    "body": "I am encountering some odd errors like\r\n.../spack-src/Rendering/FreeType/vtkFreeTypeTools.cxx:1251:26: error: 'vtkFreeTypeToolsFaceRequester' was not declared in this scope\r\n\r\nwhen attempting to compile vtk with freetype@2.10.4 as a dependency.\r\n\r\nIn a web search of the error message, I encountered https://gitlab.kitware.com/vtk/vtk/-/issues/18033\r\nwhich seems to match the situation I  am experiencing, and claims the issue is due to freetype@2.10.3: no longer exporting FT_CALLBACK_DEF.  The commentor provided patches to either:\r\n\r\n1. update the vtk code to not use FT_CALLBACK_DEF, --or--\r\n2. define FT_CALLBACK_DEF in vtk\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install  vtk@8.1.2%gcc +ffmpeg+ipo+mpi+opengl2~osmesa+python+qt+xdmf build_type=RelWithDebInfo ^freetype@2.10.4\r\n...\r\n/lustre/jn10/devspackswinst/spack-stage/spack-stage-vtk-8.1.2-d72ko7o34eumc5di5tk37h3btbxkqfr5/spack-src/Rendering/FreeType/vtkFreeTypeTools.cxx:390:1: error: expected constructor, destructor, or type conversion before 'vtkFreeTypeToolsFaceRequester'\r\n vtkFreeTypeToolsFaceRequester(FTC_FaceID face_id,\r\n ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n/lustre/jn10/devspackswinst/spack-stage/spack-stage-vtk-8.1.2-d72ko7o34eumc5di5tk37h3btbxkqfr5/spack-src/Rendering/FreeType/vtkFreeTypeTools.cxx: In member function 'virtual FT_Error vtkFreeTypeTools::CreateFTCManager()':\r\n/lustre/jn10/devspackswinst/spack-stage/spack-stage-vtk-8.1.2-d72ko7o34eumc5di5tk37h3btbxkqfr5/spack-src/Rendering/FreeType/vtkFreeTypeTools.cxx:1251:26: error: 'vtkFreeTypeToolsFaceRequester' was not declared in this scope\r\n                          vtkFreeTypeToolsFaceRequester,\r\n                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n/lustre/jn10/devspackswinst/spack-stage/spack-stage-vtk-8.1.2-d72ko7o34eumc5di5tk37h3btbxkqfr5/spack-src/Rendering/FreeType/vtkFreeTypeTools.cxx:1251:26: note: suggested alternative: 'vtkFreeTypeToolsCleanupCounter'\r\n                          vtkFreeTypeToolsFaceRequester,\r\n                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n                          vtkFreeTypeToolsCleanupCounter\r\n```\r\n\r\n### Information on your system\r\n```console\r\n> spack debug report\r\n* **Spack:** 0.16.1-2429-f5e6c32495\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-x86_64\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6632148/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6632149/spack-build-out.txt)\r\n\r\nMaintainers: @chuckatkins  @danlipsa\r\n\r\n### General information\r\n\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ x] I have uploaded the build log and environment files\r\n- [x ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/24237",
+    "updated_at": "2021-06-17 10:19:23",
+    "created_at": "2021-06-10 14:28:20",
+    "closed_at": "2021-06-17 10:19:23",
+    "state": "closed",
+    "title": "Installation issue: vtk - 'vtkFreeTypeToolsFaceRequester' was not declared in this scope",
+    "number": 24237,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 917411526,
+    "html_url": "https://github.com/spack/spack/issues/24237",
+    "assignees": [],
+    "comments": 0
+}

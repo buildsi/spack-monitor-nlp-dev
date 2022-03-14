@@ -1,0 +1,17 @@
+{
+    "body": "I wanted to take a shot at #3374 (now fixed by #3492) but I ran into dependency tracking issues when I wanted to use ```py-pudb```\r\n\r\n```\r\n$ spack load --dependencies py-pudb\r\n$ pudb\r\nTraceback (most recent call last):\r\n  File \"/Users/healther/Documents/git/spack/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/py-pudb-2016.2-lqp42db6v3o3pzkzeyf4fgpc46mjtpsp/bin/pudb\", line 7, in <module>\r\n    from pkg_resources import load_entry_point\r\nImportError: No module named pkg_resources\r\n```\r\n\r\nspack, for some reason, decided that it should load ```py-setuptools```, ```py-six```, ```py-packaging```, ```py-pyparsing``` and ```py-appdirs``` even though it concretizes the spec as follows: \r\n\r\n```\r\nConcretized\r\n--------------------------------\r\n[   ]  py-pudb@2016.2%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[b r]      ^py-pygments@2.1.3%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[b  ]          ^py-setuptools@34.2.0%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[b r]              ^py-appdirs@1.4.0%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[bl ]                  ^python@2.7.13%clang@8.0.0-apple~tk~ucs4 arch=darwin-sierra-x86_64 \r\n[bl ]                      ^bzip2@1.0.6%clang@8.0.0-apple+shared arch=darwin-sierra-x86_64 \r\n[bl ]                      ^ncurses@6.0%clang@8.0.0-apple~symlinks arch=darwin-sierra-x86_64 \r\n[b  ]                          ^gawk@4.1.4%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[bl ]                      ^openssl@1.0.2k%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[b  ]                          ^perl@5.24.1%clang@8.0.0-apple+cpanm arch=darwin-sierra-x86_64 \r\n[bl ]                          ^zlib@1.2.11%clang@8.0.0-apple+pic+shared arch=darwin-sierra-x86_64 \r\n[bl ]                      ^readline@7.0%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[bl ]                      ^sqlite@3.8.5%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[b r]              ^py-packaging@16.8%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[  r]                  ^py-pyparsing@2.1.10%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[  r]                  ^py-six@1.10.0%clang@8.0.0-apple arch=darwin-sierra-x86_64 \r\n[b r]      ^py-urwid@1.3.0%clang@8.0.0-apple arch=darwin-sierra-x86_64\r\n```\r\n\r\nIf I'm reading this correctly the missing packages should have been loaded according to the spec, but for some reason aren't. I haven't had time to track this down, but I think spack fails to load the dependencies of dependencies, even though it correctly concretises the spec.\r\n\r\nI hope that I can give it a shot tomorrow or the day after.... If someone could give me a pointer where to start looking I'd appreciate it.",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/3501",
+    "updated_at": "2017-03-28 09:03:56",
+    "created_at": "2017-03-20 21:35:30",
+    "closed_at": "2017-03-28 09:03:56",
+    "state": "closed",
+    "title": "Incorrect dependency handling on spack load --dependencies",
+    "number": 3501,
+    "milestone": null,
+    "labels": [],
+    "id": 215562511,
+    "html_url": "https://github.com/spack/spack/issues/3501",
+    "assignees": [],
+    "comments": 16
+}

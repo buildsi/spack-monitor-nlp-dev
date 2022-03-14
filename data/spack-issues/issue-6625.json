@@ -1,0 +1,19 @@
+{
+    "body": "I discovered this while trying to depend on it within the VTK package.  But it is reproduced, using a recent `develop` (12/07/17), by just trying to install it directly (i.e. `spack -d install mesa+hwrender).\r\n\r\n### Expected Result\r\n\r\nI expected the installation to complete successfully.\r\n\r\n### Actual Result\r\n\r\nThe installation seemed to fail during the `configure` stage:\r\n\r\n```console\r\n==> Installing mesa\r\n==> Using cached archive: /data/scott/projects/spack/var/spack/cache/mesa/mesa-17.2.3.tar.xz\r\n==> Staging archive: /data/scott/projects/spack/var/spack/stage/mesa-17.2.3-zdhfax5zvtedneic7ktgioil3r5rzuy3/mesa-17.2.3.tar.xz\r\n==> Created stage in /data/scott/projects/spack/var/spack/stage/mesa-17.2.3-zdhfax5zvtedneic7ktgioil3r5rzuy3\r\n==> No patches needed for mesa\r\n==> Building mesa [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/data/scott/projects/spack/var/spack/stage/mesa-17.2.3-zdhfax5zvtedneic7ktgioil3r5rzuy3/mesa-17.2.3/configure' '--prefix=/data/scott/projects/spack/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/mesa-17.2.3-zdhfax5zvtedneic7ktgioil3r5rzuy3' '--enable-glx' '--enable-glx-tls' '--disable-osmesa' '--enable-gallium-osmesa' '--enable-texture-float' '--enable-xa' '--with-platforms=x11,drm' '--with-gallium-drivers=swrast,svga,i915,r600,nouveau,virgl' 'LIBS=-lrt'\r\n\r\n1 error found in build log:\r\n     [ ... ]\r\n     199   checking for llvm-config... no\r\n     200   checking for libdrm >= 2.4.75... yes\r\n     201   checking for glproto >= 1.4.14... yes\r\n     202   checking for dri2proto >= 2.8... yes\r\n     203   checking for xxf86vm... no\r\n     204   checking for x11 xext xdamage >= 1.1 xfixes x11-xcb xcb xcb-glx >= 1.8.1 xcb-dri2 >= 1.8... no\r\n  >> 205   configure: error: Package requirements (x11 xext xdamage >= 1.1 xfixes x11-xcb xcb xcb-glx >= 1.8.1 xcb-dri2 >= 1.8) were not met:\r\n     206   \r\n     207   Package 'damageproto', required by 'xdamage', not found\r\n     208   Package 'fixesproto', required by 'xfixes', not found\r\n     209   Package 'fixesproto', required by 'xfixes', not found\r\n     210   \r\n     211   Consider adjusting the PKG_CONFIG_PATH environment variable if you\r\n\r\nSee build log for details:\r\n  /data/scott/projects/spack/var/spack/stage/mesa-17.2.3-zdhfax5zvtedneic7ktgioil3r5rzuy3/mesa-17.2.3/spack-build.out\r\n```\r\nI am attaching that build log in case it's helpful, though it seems the important bit was captured above.\r\n\r\n[spack-build.out.txt](https://github.com/spack/spack/files/1540846/spack-build.out.txt)\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack -d install mesa+hwrender\r\n```\r\n\r\n### System Information\r\n\r\nThis happened on Ubuntu 16.04, with no custom packages or modules yaml files.  Please let me know if more system information is needed.",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/6625",
+    "updated_at": "2019-05-31 14:15:49",
+    "created_at": "2017-12-07 22:42:22",
+    "closed_at": "2019-05-31 14:15:49",
+    "state": "closed",
+    "title": "Installing mesa+hwrender fails",
+    "number": 6625,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 280305541,
+    "html_url": "https://github.com/spack/spack/issues/6625",
+    "assignees": [],
+    "comments": 1
+}

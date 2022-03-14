@@ -1,0 +1,22 @@
+{
+    "body": "Previously the tau package got the cxx and cc names from\r\nos.path.basename(self.compiler.cxx), however if the path to the compiler\r\nlooks like \"/usr/bin/g++-10.2.0\" then tau's custom build system doesn't\r\nrecognize it.  What we want instead is something that looks like \"g++\"\r\nwhich is exactly what cxx_names[0] gives us.  We already did this for\r\nfortran, so I am not sure why we didn't do it here.  Not doing this\r\ncauses a build failure when tau tries to use a polyfill (vector.h,\r\niostream.h) that doesn't seem to be packaged with tau.\r\n\r\nAdditionally, tau needs some help finding mpi include directories when\r\nbuilding with MPI, so we provide them.  Unfortunately, we can't just say\r\nthat the compilers are mpicc and mpicxx in the previous fix to have\r\nthese things found automatically.  This is because tau assumes we always\r\nneed the polyfill when the compilers are set to these values which again\r\ncauses a build failure.\r\n\r\nCC maintainers: @eugeneswalker  @khuck  @sameershende  @wspear\r\n@sameershende you did the original change away from `cxx_names[0]`; is there a reason why this was done that I missed?\r\n\r\n",
+    "user": "robertu94",
+    "url": "https://api.github.com/repos/spack/spack/issues/23247",
+    "updated_at": "2021-04-29 12:49:06",
+    "created_at": "2021-04-26 13:54:01",
+    "closed_at": "2021-04-28 03:12:01",
+    "state": "closed",
+    "title": "[tau]: Use compiler name instead of basename",
+    "number": 23247,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "update-package",
+        "ecp",
+        "e4s"
+    ],
+    "id": 867731176,
+    "html_url": "https://github.com/spack/spack/pull/23247",
+    "assignees": [],
+    "comments": 1
+}

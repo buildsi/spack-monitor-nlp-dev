@@ -1,0 +1,17 @@
+{
+    "body": "[wow, lost a big hunk of my commit message, recreated here...]\r\n[edit: change -> changed]\r\n\r\n#12568 ~~change~~ changed the cairo package so that its --enable-gobject flag \r\nis either explicitly true or false.  Previously, the feature defaulted to `auto`\r\nand configure would *auto*magically run a test to figure whether to\r\ninclude gobject support.   I'm betting that (on our systems, at\r\nleast), it decided to include it.\r\n\r\nNow that we're defaulting it to off, that functionality is not being\r\nincluded.\r\n\r\nThe gtk configure script blithely assumes that cairo *has* gobject\r\nsupport, by searching for the `cairo-gobject.pc` pkg-config file and\r\ncrash/burning when it's not there.\r\n\r\nMaking the cairo dependency include gobject support fixes it (as in,\r\nWorks For Me(tm) and Works For Owen(patent-pending)).\r\n\r\nI've tested it in a clean environment on CentOS 7.  Owen has also tested it in his CI environment.\r\n\r\nFixes #12654",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/12655",
+    "updated_at": "2019-08-30 17:48:25",
+    "created_at": "2019-08-30 00:26:51",
+    "closed_at": "2019-08-30 17:47:54",
+    "state": "closed",
+    "title": "gtkplus' cairo dependency must be +gobject",
+    "number": 12655,
+    "milestone": null,
+    "labels": [],
+    "id": 487230294,
+    "html_url": "https://github.com/spack/spack/pull/12655",
+    "assignees": [],
+    "comments": 2
+}

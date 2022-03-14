@@ -1,0 +1,19 @@
+{
+    "body": "I downloaded `spack` and immediately proceeded to install GCC version 4.8.4 with:\n\n```\nspack install gcc@4.8.4\n```\n\nNotice that I'm on Ubuntu, and I have GCC version 4.8.2 already installed.\n\nWhen Spack runs, I get the following error: `configure: error: C++ compiler missing or inoperational`.\n\nHowever, if I type `which g++` or `which c++` I do get the compilers. As I mentioned before, I have GCC version 4.8.2 installed. I'm trying to install version 4.8.4 using Spack.\n\nInspecting the directory `spack-master/lib/spack/env/case-insensitive/` I noticed that the environment variable `c++` points to `cc`, which I think is what causes the error. Furthermore, every single symbolic link in this directory points to `cc`. Is there a reason for this?\n\nOnce I corrected these symbolic links, my installation worked.\n",
+    "user": "chvillanuevap",
+    "url": "https://api.github.com/repos/spack/spack/issues/37",
+    "updated_at": "2017-01-02 14:52:35",
+    "created_at": "2015-04-27 21:13:52",
+    "closed_at": "2017-01-02 14:52:35",
+    "state": "closed",
+    "title": "configure: error: C++ compiler missing or inoperational",
+    "number": 37,
+    "milestone": null,
+    "labels": [],
+    "id": 71403877,
+    "html_url": "https://github.com/spack/spack/issues/37",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 14
+}

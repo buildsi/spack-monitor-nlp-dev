@@ -1,0 +1,21 @@
+{
+    "body": "Spack seems to set the CUDAHOSTCXX environment variable in the build environment, which cmake picks up and passes to nvcc as -ccbin=(...)  Mine was g++-6.\r\n\r\nWhen compiling with mpi, cuda files cannot include <mpi.h> unless the host compiler points to the mpi wrapper.  Without this environment variable specifically set, no amount of cmake options could switch over the -ccbin from g++-6.\r\n\r\nShouldn't spack automatically set CUDAHOSTCXX to the right thing when using mpi?  Maybe I missed some documentation on this.",
+    "user": "frobnitzem",
+    "url": "https://api.github.com/repos/spack/spack/issues/19254",
+    "updated_at": "2020-10-12 22:26:20",
+    "created_at": "2020-10-11 00:28:33",
+    "closed_at": "2020-10-12 09:28:07",
+    "state": "closed",
+    "title": "Added CUDAHOSTCXX variable needed to compile with cuda and mpi.",
+    "number": 19254,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-environment",
+        "cuda"
+    ],
+    "id": 718729167,
+    "html_url": "https://github.com/spack/spack/pull/19254",
+    "assignees": [],
+    "comments": 15
+}

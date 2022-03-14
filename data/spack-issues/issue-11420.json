@@ -1,0 +1,17 @@
+{
+    "body": "Required for new versions of netcdf to succeed during configure with parallel-netcdf 1.8.0 to 1.10.0.\r\n\r\nHere is the error using NetCDF 4.6.3:\r\n```\r\n1 error found in build log:\r\n     289    checking for ncmpi_create in -lpnetcdf... yes\r\n     290    checking Is libpnetcdf version 1.6.0 or later?... yes\r\n     291    checking for full path of header file pnetcdf.h... sed: couldn't flush stdout: Broken pipe\r\n     292    /spack/opt/spack/linux-centos7-x86_64/gcc-7.4.0/parallel-netcdf-1.8.1-hlhhe3ef\r\n            ocvp53itqj3ebqijkmp552u3/include/pnetcdf.h\r\n     293    checking if erange-fill is enabled in PnetCDF... yes\r\n     294    checking if relax-coord-bound is enabled in PnetCDF... no\r\n  >> 295    configure: error: PNetCDF must be built with relax-coord-bound\r\n```\r\n\r\nHere is the website that shows this option was added in 1.8.0: https://lists.mcs.anl.gov/pipermail/parallel-netcdf/2016-December/001883.html . It was disabled by default initially.\r\n\r\nMore info here: https://github.com/Unidata/netcdf-c/issues/1010 . It seems NetCDF 4.6.3 enabled relax coords by default and required it from PNetCDF. Then PNetCDF 1.10.0 enabled it by default. So there is a gap in PNetCDF versions where it's disabled by default. Therefore enabling it by default for PNetCDF >= 1.8.0 should be the solution. Note: https://github.com/Unidata/netcdf-c/issues/1010#issuecomment-393900652",
+    "user": "jrood-nrel",
+    "url": "https://api.github.com/repos/spack/spack/issues/11420",
+    "updated_at": "2019-05-14 20:23:04",
+    "created_at": "2019-05-10 19:03:30",
+    "closed_at": "2019-05-14 20:15:38",
+    "state": "closed",
+    "title": "Add enable-relax-coord-bound to parallel-netcdf if version 1.8 or greater",
+    "number": 11420,
+    "milestone": null,
+    "labels": [],
+    "id": 442855123,
+    "html_url": "https://github.com/spack/spack/pull/11420",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "It would be nice to just spit out a bash script and use that to build the package, so that one can debug it easily.\r\n\r\nCurrently if I want to reproduce what spack is doing, is there any other way besides painfully copy & pasting the lines from the `spack-build.out` and loading the `spack-build.env` by hand? I found this hack to help most of the time:\r\n```\r\n$ cat spack-build.out | grep \"==> '\"\r\n==> 'cmake' '/home/certik/repos/spack/var/spack/stage/amrex-17.06-fhekkyv7l74gtypc2q4yjxqh6z7bl56k/amrex' '-G' 'Unix Makefiles' '-DCMAKE_INSTALL_PREFIX:PATH=/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/amrex-17.06-fhekkyv7l74gtypc2q4yjxqh6z7bl56k' '-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo' '-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON' '-DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=FALSE' '-DCMAKE_INSTALL_RPATH:STRING=/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/amrex-17.06-fhekkyv7l74gtypc2q4yjxqh6z7bl56k/lib:/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/amrex-17.06-fhekkyv7l74gtypc2q4yjxqh6z7bl56k/lib64:/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/openmpi-2.1.1-ywm4hkx6cyjqfxxwnsggbc3qaoi5ijax/lib:/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/hwloc-1.11.7-2ymnl3e3czf6hemzel7xwogxttxkkstl/lib:/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/libpciaccess-0.13.5-yf2577f2imu7jdf25doy6krwvov6wydi/lib:/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/libxml2-2.9.4-j26m2sopxpelbb2vhdtbfdb7gdhczbl2/lib:/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/xz-5.2.3-3k7sp3y2joy5gqakygyh26ma7fq4xw3t/lib:/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/zlib-1.2.11-whz3v7mejgeegpoiblv4vgkgv7dtaiqg/lib' '-DCMAKE_PREFIX_PATH:STRING=/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/openmpi-2.1.1-ywm4hkx6cyjqfxxwnsggbc3qaoi5ijax;/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/cmake-3.9.4-4e7en6f27k3m4jiu7chakc72y4h4gvdn' '-DENABLE_POSITION_INDEPENDENT_CODE=ON' '-DBL_SPACEDIM:INT=3' '-DBL_PRECISION:STRING=DOUBLE' '-DENABLE_FMG=True' '-DENABLE_FBASELIB=True' '-DBL_DEBUG:INT=0' '-DBL_USE_PARTICLES:INT=0' '-DENABLE_MPI:INT=1' '-DENABLE_OpenMP:INT=0' '-DCMAKE_C_COMPILER=/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/openmpi-2.1.1-ywm4hkx6cyjqfxxwnsggbc3qaoi5ijax/bin/mpicc' '-DCMAKE_CXX_COMPILER=/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/openmpi-2.1.1-ywm4hkx6cyjqfxxwnsggbc3qaoi5ijax/bin/mpic++' '-DCMAKE_Fortran_COMPILER=/home/certik/repos/spack/opt/spack/linux-ubuntu16.04-x86_64/intel-16.0.2/openmpi-2.1.1-ywm4hkx6cyjqfxxwnsggbc3qaoi5ijax/bin/mpif90' '-DENABLE_FORTRAN_MPI=True'\r\n==> 'make' '-j32'\r\n```\r\nBut even this is not complete --- for example spack loaded the intel compiler module behind the scene.\r\n\r\nFor debugging, it would greatly help if spack could just spit out the bash file itself, that I can just run to reproduce the error. Then I can debug it.",
+    "user": "certik",
+    "url": "https://api.github.com/repos/spack/spack/issues/5858",
+    "updated_at": "2017-10-31 20:25:54",
+    "created_at": "2017-10-20 22:08:32",
+    "closed_at": "2017-10-24 08:04:00",
+    "state": "closed",
+    "title": "Use bash script to build",
+    "number": 5858,
+    "milestone": null,
+    "labels": [
+        "wontfix"
+    ],
+    "id": 267317838,
+    "html_url": "https://github.com/spack/spack/issues/5858",
+    "assignees": [],
+    "comments": 5
+}

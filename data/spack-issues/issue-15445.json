@@ -1,0 +1,26 @@
+{
+    "body": "I have set up a NAG/GNU mixed compiler tool-chain according to the [documentation](https://spack.readthedocs.io/en/latest/getting_started.html#nag). When I try to build a simple package, I get an error. It turns out, that configure fails, since instead of `-fPIC` the `-PIC` flag is passed to the C-compiler.  Apparently the `-PIC` flag is defined in the `nag.py` compiler definition file, which is OK for the NAG Fortran compiler, but not for the GNU C-compiler.\r\n\r\n### Spack version\r\n```console\r\n$ spack --version\r\n0.14.0\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install zlib %nag@7.0\r\n```\r\n\r\nThe NAG compiler had been added by adding the following lines to the `compilers.yaml` configuration file:\r\n```yaml\r\n- compiler:\r\n    spec: nag@7.0\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: /opt/nag/7.0/bin/nagfor\r\n      fc: /opt/nag/7.0/bin/nagfor\r\n    flags:\r\n        fflags: -dusty -dcfuns -mismatch_all\r\n    operating_system: centos8\r\n    target: x86_64\r\n    modules: [nagfor/7.0]\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\n### Error Message\r\nThe `configure.log` file of the zlib-build contains the following error message:\r\n```\r\nChecking for obsessive-compulsive compiler options...                          \r\n=== ztest15505.c ===\r\nint foo() { return 0; }\r\n===\r\n/home/packager/spack/spack-packages/lib/spack/env/cc -c -PIC -O2 ztest15505.c  \r\ngcc: error: unrecognized command line option '-PIC'; did you mean '-fPIC'?     \r\n(exit code 1)\r\nCompiler error reporting is too harsh for ./configure (perhaps remove -Werror).\r\n** ./configure aborting.\r\n```\r\n",
+    "user": "aradi",
+    "url": "https://api.github.com/repos/spack/spack/issues/15445",
+    "updated_at": "2020-04-17 21:28:52",
+    "created_at": "2020-03-11 16:22:44",
+    "closed_at": "2020-04-17 21:28:52",
+    "state": "closed",
+    "title": "NAG/GNU mixed toolchain problem",
+    "number": 15445,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "impact-medium",
+        "nag",
+        "pic"
+    ],
+    "id": 579388445,
+    "html_url": "https://github.com/spack/spack/issues/15445",
+    "assignees": [
+        "alalazo",
+        "adamjstewart"
+    ],
+    "comments": 2
+}

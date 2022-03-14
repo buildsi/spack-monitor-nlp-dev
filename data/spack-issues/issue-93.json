@@ -1,0 +1,19 @@
+{
+    "body": "I was using the `develop` branch with commit tag `1792115b4df2f6ecca18bddf462ccd4a618d9698`\nOne of the `py-pandas` dependencies fails to build correctly.\n\nThe dependency is `libdrm` which depends on `libpciaccess`.\n\nTo build `libpciaccess`,\nI did\n\n```\n$ spack create http://pkgs.fedoraproject.org/repo/pkgs/libpciaccess/libpciaccess-0.13.2.tar.bz2/b7c0d3afce14eedca57312a3141ec13a/libpciaccess-0.13.2.tar.bz2\n```\n\nAnd edited the following:\n\n``` Python\nfrom spack import *\n\nclass Libpciaccess(Package):\n    \"\"\"Generic PCI access library\"\"\"\n    homepage = \"http://cgit.freedesktop.org/xorg/lib/libpciaccess/\"\n    url      = \"http://pkgs.fedoraproject.org/repo/pkgs/libpciaccess/libpciaccess-0.13.2.tar.bz2/b7c0d3afce14eedca57312a3141ec13a/libpciaccess-0.13.2.tar.bz2\"\n\n    version('0.13.2', 'b7c0d3afce14eedca57312a3141ec13a')\n\n    def install(self, spec, prefix):\n        import os\n        os.system(\"autoconf\")\n        configure('--prefix=%s' % prefix)\n\n        make()\n        make(\"install\")\n```\n\nThen `libdrm` is still unable to find the newly installed `libpciaccess` library so I edited:\n\n```\n$ spack edit libdrm\n```\n\nand modified the contents to:\n\n``` Python\nfrom spack import *\n\nclass Libdrm(Package):\n    \"\"\"A userspace  library for  accessing the  DRM, direct\n    rendering  manager, on  Linux,  BSD and  other  operating\n    systems that support the  ioctl interface.\"\"\"\n\n    homepage = \"http://dri.freedesktop.org/libdrm/\" # no real website...\n    url      = \"http://dri.freedesktop.org/libdrm/libdrm-2.4.59.tar.gz\"\n\n    version('2.4.59', '105ac7af1afcd742d402ca7b4eb168b6')\n    version('2.4.33', '86e4e3debe7087d5404461e0032231c8')\n\n    def install(self, spec, prefix):\n        import os\n        SPACK_ROOT = os.environ[\"SPACK_ROOT\"]\n        libpciaccess_path = [dir[0]\n                             for dir in os.walk(SPACK_ROOT + \"/opt/spack/\")\n                             if os.path.isdir(dir[0]) and\n                             \"libpciaccess\" in dir[0]][0]\n\n        os.environ[\"PCIACCESS_CFLAGS\"] = libpciaccess_path + \"/include\"\n        os.environ[\"PCIACCESS_LIBS\"] = libpciaccess_path + \"/lib\"\n        configure(\"--prefix=%s\" % prefix)\n\n        make()\n        make(\"install\")\n\n```\n\nThen when I did \n\n```\n$ spack install libdrm\n```\n\nStill there is an error about \n\n```\nlibtool: install: error: cannot install `libkms.la' to a directory not ending in /usr/local/lib\n```\n\nThe complete log file is [here](https://app.box.com/s/5pe6tqzpafqd7qramxr00tdncjs9pv9n)\n",
+    "user": "karenyyng",
+    "url": "https://api.github.com/repos/spack/spack/issues/93",
+    "updated_at": "2016-01-25 11:03:08",
+    "created_at": "2015-08-06 18:09:59",
+    "closed_at": "2016-01-25 11:03:08",
+    "state": "closed",
+    "title": "`spack install py-pandas` failed ",
+    "number": 93,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 99493840,
+    "html_url": "https://github.com/spack/spack/issues/93",
+    "assignees": [],
+    "comments": 3
+}

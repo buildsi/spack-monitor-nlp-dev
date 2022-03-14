@@ -1,0 +1,19 @@
+{
+    "body": "Using sys.executable in EnvironmentModifications does not work if the package depends on a specific python package, since in this case the PYTHONHOME environment variable is set in the build environment, and it is not the correct python home when using the sys.executable interpreter, which is the one used for the spack command itself.\r\n\r\nThis issue comes from #14252.\r\n\r\nFor instance consider the following package (we use the spack source url only to have a downloadable package):\r\n\r\n```\r\nimport os\r\nimport tempfile\r\n\r\nfrom spack import *\r\nfrom spack.util.environment import EnvironmentModifications\r\n\r\nclass SourceBug(Package):\r\n    homepage = \"https://github.com/spack\"\r\n    url      = \"https://github.com/spack/spack/releases/download/v0.13.3/spack-0.13.3.tar.gz\"\r\n\r\n    version('0.13.3', sha256='dc6f4d6b89d72f1713324e6fd7d4eba8534ba731c680c848d4169d94e76ef85e')\r\n    version('0.13.2', sha256='30c1a3eb42429344107acdea132be34ed7529489a8dafac9640fbcc86bee0ce1')\r\n\r\n    depends_on('python@3.6.8', when='@0.13.3')\r\n\r\n    def install(self, spec, prefix):\r\n        with tempfile.NamedTemporaryFile() as source_me:\r\n            source_me.write(\"MYDIR=/my/dir\\n\")\r\n            source_me.flush()\r\n            EnvironmentModifications.from_sourcing_file(source_me.name).apply_modifications()\r\n        touch(os.path.join(spec.prefix, 'readme'))\r\n```\r\nIn this case installing source-bug@0.13.2 works, while installing source-bug@0.13.3 fails:\r\n```\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/bin/bash' '-c' 'source /tmp/tmpOePPWf &> /dev/null && /usr/bin/python -c \"import os, json; print(json.dumps(dict(os.environ)))\"'\r\nSee build log for details:\r\n  .../spack/var/spack/stage/spack-stage-source-bug-0.13.3-wux6dhmj5htnxqhxqyqsykzdc2lptjto/spack-build-out.txt\r\n```\r\nThe error is:\r\n```\r\n==> [2020-01-07-09:47:11.939684] '/bin/bash' '-c' 'source /tmp/tmpOePPWf &> /dev/null && /usr/bin/python -c \"import os, json; print(json.dumps(dict(os.environ)))\"'\r\nImportError: No module named site\r\n```\r\n",
+    "user": "zzotta",
+    "url": "https://api.github.com/repos/spack/spack/issues/14491",
+    "updated_at": "2020-01-16 21:46:18",
+    "created_at": "2020-01-14 08:40:48",
+    "closed_at": "2020-01-16 21:46:18",
+    "state": "closed",
+    "title": "EnvironmentModifications does not work if the package depends on a specific python package",
+    "number": 14491,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 549414523,
+    "html_url": "https://github.com/spack/spack/issues/14491",
+    "assignees": [],
+    "comments": 0
+}

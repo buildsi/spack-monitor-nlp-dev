@@ -1,0 +1,17 @@
+{
+    "body": "# Fortran compiler as a dependencie of openmpi package ?\r\n\r\nhttps://github.com/spack/spack/blob/770100765f0ebd6943780c6cddb1dfea970dcdd6/var/spack/repos/builtin/packages/openmpi/package.py#L283\r\n\r\n##  Issue\r\nI got an error : \r\n```\r\n==> Installing openmpi\r\n==> Fetching http://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.bz2\r\n######################################################################## 100.0%\r\n==> Staging archive: /root/Spack/spack/var/spack/stage/openmpi-3.0.0-4k4itv72zq7vbpmjuhzlcedbcpc6cyju/openmpi-3.0.0.tar.bz2\r\n==> Created stage in /root/Spack/spack/var/spack/stage/openmpi-3.0.0-4k4itv72zq7vbpmjuhzlcedbcpc6cyju\r\n==> No patches needed for openmpi\r\n==> Building openmpi [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Error: InstallError: OpenMPI requires both C and Fortran compilers!\r\nInstallError: InstallError: OpenMPI requires both C and Fortran compilers!\r\n\r\n/root/Spack/spack/var/spack/repos/builtin/packages/openmpi/package.py:289, in die_without_fortran:\r\n     4             # avoid delayed build errors in dependents.\r\n     5             if (self.compiler.f77 is None) or (self.compiler.fc is None):\r\n     6                 raise InstallError(\r\n  >> 7                     'OpenMPI requires both C and Fortran compilers!'\r\n     8                 )\r\n\r\nSee build log for details:\r\n  /root/Spack/spack/var/spack/stage/openmpi-3.0.0-4k4itv72zq7vbpmjuhzlcedbcpc6cyju/openmpi-3.0.0/spack-build.out\r\n\r\n\r\nmore /root/Spack/spack/var/spack/stage/openmpi-3.0.0-4k4itv72zq7vbpmjuhzlcedbcpc6cyju/openmpi-3.0.0/spack-build.out\r\n==> Executing phase: 'autoreconf'\r\n\r\n```\r\n\r\n\r\n## Explanation\r\n\r\nAfter installing Spack on a fresh Ubuntu 16.04 (inside a Docker) I ran :  \r\n```bash\r\nspack install --only=dependencies mycustomlib_that_depend_of_scotch\r\n```\r\nTo install dependencies to my library.\r\nI suspect that Fortran compiler is not listed as a dependencie of openmpi package.\r\nSo Fortran compiler is not installed by Spack.\r\nBut I don't know how works Spack package dependencies for compilers.\r\n\r\n## Reproduction \r\nIf you want to reproduce, these lines - *a bit different than mines* - should be enough.\r\n\r\n```bash\r\ndocker pull ubuntu:16.04\r\ndocker run -it ubuntu:16.04\r\n\r\ncd ~/\r\nwhich git || ( apt-get update -y && apt-get install git -y )\r\nwhich curl || ( apt-get update -y && apt-get install curl -y )\r\nwhich module || ( apt-get update -y && apt-get install environment-modules -y )\r\nwhich python || ( apt-get update -y && apt-get install python -y )\r\nmkdir -p Spack && cd Spack\r\ngit clone https://github.com/llnl/spack.git\r\nmodule() { eval `/usr/bin/modulecmd bash $*`; }\r\nsource spack/share/spack/setup-env.sh  \r\n\r\nspack install --only=dependencies scotch\r\n```\r\n\r\nRegards,\r\nBenjamin\r\n",
+    "user": "Oximore",
+    "url": "https://api.github.com/repos/spack/spack/issues/7147",
+    "updated_at": "2020-08-11 11:29:19",
+    "created_at": "2018-01-31 14:11:06",
+    "closed_at": "2018-01-31 14:23:13",
+    "state": "closed",
+    "title": "Fortran compiler as a dependencie of openmpi package ?",
+    "number": 7147,
+    "milestone": null,
+    "labels": [],
+    "id": 293171329,
+    "html_url": "https://github.com/spack/spack/issues/7147",
+    "assignees": [],
+    "comments": 2
+}

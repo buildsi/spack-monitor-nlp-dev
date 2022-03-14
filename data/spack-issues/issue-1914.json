@@ -1,0 +1,17 @@
+{
+    "body": "I'm seeing a new warning that is showing up when I use an external package:\n\n```\n==> Successfully installed superlu-dist\n  Fetch: 0.03s.  Build: 42.64s.  Total: 42.68s.\n[+] /yellow/usr/projects/draco/vendors/spack.ml.20161005/opt/spack/linux-redhat6-x86_64/intel-16.0.3/superlu-dist-4.3-kj66a5c6kvfljlkn6geshkt3dpytqa6y\n==> Warning: Dependency missing due to corrupt install directory:\n  /usr/projects/hpcsoft/toss2/common/intel-clusterstudio/2016.3.067/compilers_and_libraries_2016.3.210/linux/mkl\n  Install prefix exists but contains no spec.yaml:\n      /usr/projects/hpcsoft/toss2/common/intel-clusterstudio/2016.3.067/compilers_and_libraries_2016.3.210/linux/mkl\n```\n\nBecause mkl is an external package, it will not have a `spec.yaml`.  I don't think spack should be issuing this warning.  \n\nFor completeness, my `packages.yaml` has the following:\n\n```\npackages:\n  mkl:\n    version: [11.3.3.210]\n    paths:\n      mkl@11.3.3.210%intel@16.0.3 arch=linux-redhat6-x86_64: /usr/projects/hpcsoft/toss2/common/intel-clusterstudio/2016.3.067/compilers_and_libraries_2016.3.210/linux/mkl\n    buildable: False\n  all:\n    compiler: [intel@16.0.3]\n    providers:\n      blas: [mkl]\n      lapack: [mkl]\n```\n\nI would like to know if there is something wrong with my configuration that is causing this warning.\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/1914",
+    "updated_at": "2016-10-31 15:33:53",
+    "created_at": "2016-10-05 19:23:37",
+    "closed_at": "2016-10-31 15:33:53",
+    "state": "closed",
+    "title": "New warning 'invalid spec.yaml' when using external package",
+    "number": 1914,
+    "milestone": null,
+    "labels": [],
+    "id": 181242978,
+    "html_url": "https://github.com/spack/spack/issues/1914",
+    "assignees": [],
+    "comments": 5
+}

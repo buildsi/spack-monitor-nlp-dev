@@ -1,0 +1,20 @@
+{
+    "body": "Not intending for this to be merged yet until reviewed and fully tested but this PR does a couple of things.\r\n\r\n1. Appends a major version number to the CNL os version in addition to making CNL lowercase.\r\n- Recently found out that the compute node linux os version is found by the version given by PrgEnv-X. This is how Cray displays their os version to NERSC, not sure if this is the same across all Crays.\r\n\r\n2. unset CRAY_LD_LIBRARY_PATH\r\n- Unless someone tells me this is a bad idea, this should unset CRAY_LD_LIBRARY_PATH.\r\n\r\n3. Adds a dummy package for Cray-libsci (provides lapack, blas and scalapack)\r\n- Used so that Spack is aware that a cray-libsci package exists.\r\n\r\nSomething I forgot to do is unload cray-libsci in the build-environment prior to building. This could potentially cause issues if a user on a Cray machine wishes to link with MKL or any other lapack, blas, scalapack provider due to the -L statement to cray-libsci found by default in the cray compiler wrappers.",
+    "user": "mamelara",
+    "url": "https://api.github.com/repos/spack/spack/issues/3122",
+    "updated_at": "2018-03-24 01:51:01",
+    "created_at": "2017-02-10 17:02:41",
+    "closed_at": "2018-03-24 01:51:01",
+    "state": "closed",
+    "title": "Cray libsci and ver",
+    "number": 3122,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "WIP"
+    ],
+    "id": 206850329,
+    "html_url": "https://github.com/spack/spack/pull/3122",
+    "assignees": [],
+    "comments": 1
+}

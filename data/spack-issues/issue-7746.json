@@ -1,0 +1,20 @@
+{
+    "body": "Popping the when spec from kwargs in the extends directive breaks\r\nclass inheritance. Inheriting classes do not find their when spec.\r\n\r\nWe now get the when spec from kwargs instead, leaving it to be found\r\nby any downstream package classes.\r\n\r\nAs an example suppose two packages foo and bar\r\n\r\n```\r\n$ cat foo/package.py\r\n...\r\nclass Foo(Package):\r\n    ...\r\n    variant('python', default=False, description=\"\")\r\n    extends('python', when='+python')\r\n    ...\r\n\r\n$ cat bar/package.py\r\n...\r\nclass Bar(Foo):\r\n    ...\r\n\r\n$ spack spec foo\r\nInput spec\r\n--------------------------------\r\nfoo\r\n\r\nConcretized\r\n--------------------------------\r\nfoo@1.2.11%clang@6.1~python arch=darwin-sierra-x86_64 \r\n\r\n$ spack spec bar\r\nInput spec\r\n--------------------------------\r\nbar\r\n\r\nConcretized\r\n--------------------------------\r\nbar@1.2.11%clang@6.1~python arch=darwin-sierra-x86_64 \r\n    ^python@2.7.14%clang@6.1 patches=123082ab3483ded78e86d7c809e98a804b3465b4683c96bd79a2fd799f572244 +pic~shared~tk~ucs4 arch=darwin-sierra-x86_64 \r\n        ^bzip2@1.0.6%clang@6.1~shared arch=darwin-sierra-x86_64 \r\n        ^ncurses@6.0%clang@6.1 patches=f84b2708a42777aadcc7f502a261afe10ca5646a51c1ef8b5e60d2070d926b57 ~symlinks~termlib arch=darwin-sierra-x86_64 \r\n            ^pkgconf@1.4.0%clang@6.1 arch=darwin-sierra-x86_64 \r\n        ^openssl@1.0.2n%clang@6.1 arch=darwin-sierra-x86_64 \r\n            ^zlib@1.2.11%clang@6.1+optimize+pic~shared arch=darwin-sierra-x86_64 \r\n        ^readline@7.0%clang@6.1 arch=darwin-sierra-x86_64 \r\n        ^sqlite@3.21.0%clang@6.1 patches=5bbcba091045e547eb550e6e9b9372009c41be0a9de8a5c030d03361c11ff939  arch=darwin-sierra-x86_64\r\n```\r\n\r\nObviously this is a problem, as `bar~python` should not build python. Note this is NOT fixed by specifying `bar~python` from the command-line.\r\n\r\nUnder the new behavior:\r\n\r\n```\r\n$ spack spec bar\r\nInput spec\r\n--------------------------------\r\nbar\r\n\r\nConcretized\r\n--------------------------------\r\nbar@1.2.11%clang@6.1~python arch=darwin-sierra-x86_64\r\n```\r\n\r\nThanks to @mclarsen for bringing this bug to my attention.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/7746",
+    "updated_at": "2018-04-13 19:22:19",
+    "created_at": "2018-04-13 00:27:05",
+    "closed_at": "2018-04-13 18:38:35",
+    "state": "closed",
+    "title": "Fix when_spec inheritance for extensions",
+    "number": 7746,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "extensions"
+    ],
+    "id": 313930679,
+    "html_url": "https://github.com/spack/spack/pull/7746",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Per issue #27565, there is an unsatisfiable constraint due to `gtk-doc`'s dependence on fixed version `docbook-xml@4.3`. This prevents installation of `gtkplus@3:` because another part of its dependency chain depends on fixed version `docbook-xml@4.4` (details in issue). This PR solves the unsatisfiable constraint by making the `gtk-doc` dependence optional (and disabled by default).\r\n\r\nThe variant name `doc` seems to be slightly preferred over `docs` (45 vs. 39 cases), so that is what is used here.\r\n\r\nWith these changes, I can confirm that `gtkplus@3:` installs (with `%gcc@11 arch=linux-ubuntu21.04-skylake`) using the current develop branch.\r\n\r\nOther notes:\r\n- One more package, `ctpl`, depends on `gtk-doc` but has no entries in `configure.ac` to make the `gtk-doc` dependence optional.\r\n- Newer versions of `librsvg` and `libcroco` are available, but this in turn requires upgrades to other dependencies. When I found myself upgrading rust from 1.51 to 1.57 I figured that the risk for collateral damage was getting larger than I'm comfortable with in the scope of this PR.",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/27790",
+    "updated_at": "2021-12-07 18:15:09",
+    "created_at": "2021-12-04 04:05:41",
+    "closed_at": "2021-12-06 13:08:23",
+    "state": "closed",
+    "title": "Avoid `gtk-doc` to avoid unsolvable constraints when installing `gtkplus`",
+    "number": 27790,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 1071115902,
+    "html_url": "https://github.com/spack/spack/pull/27790",
+    "assignees": [],
+    "comments": 1
+}

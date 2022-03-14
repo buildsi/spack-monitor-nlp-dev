@@ -1,0 +1,19 @@
+{
+    "body": "Zsh and newer versions of bash have a builtin `which` function that will show you if a command is actually an alias or a function. For functions, the entire function is printed, and our `spack()` function is quite long. Instead of printing out all that, make the `spack()` function a wrapper around `_spack_shell_wrapper()`, and include some no-ops in the definition so that users can see where it was created and where Spack is installed.\r\n\r\nHere's what the new output looks like in zsh:\r\n\r\n```console\r\n$ which spack\r\nspack () {\r\n\t: this is a shell function from: /Users/gamblin2/src/spack/share/spack/setup-env.sh\r\n\t: the real spack script is here: /Users/gamblin2/src/spack/bin/spack\r\n\t_spack_shell_wrapper \"$@\"\r\n\treturn $?\r\n}\r\n```\r\n\r\nNote that `:` is a no-op in Bourne shell; it just discards anything after it on the line. We use it here to embed paths in the function definition (as comments are stripped).",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/19256",
+    "updated_at": "2020-10-22 00:04:44",
+    "created_at": "2020-10-11 06:19:55",
+    "closed_at": "2020-10-22 00:04:43",
+    "state": "closed",
+    "title": "shell support: make `which spack` output intelligible",
+    "number": 19256,
+    "milestone": null,
+    "labels": [
+        "shell-support"
+    ],
+    "id": 718768924,
+    "html_url": "https://github.com/spack/spack/pull/19256",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,22 @@
+{
+    "body": "If I install *py-flake8*, activate it (which activates a bunch of its dependencies), `module load python` and then try to run it, if fails because py-setuptools is missing.\r\n\r\nE.g.:\r\n\r\n```\r\n[hartzelg@rpbuchop001 spack-20161212]$ module list\r\n\r\nCurrently Loaded Modules:\r\n  1) python/2.7.12\r\n\r\n[hartzelg@rpbuchop001 spack-20161212]$ spack activate py-flake8\r\n==> Activated extension py-configparser@3.5.0%gcc@5.4.0 arch=linux-centos7-x86_64-2vyc36s for python@2.7.12~tk~ucs4%gcc@5.4.0\r\n==> Activated extension py-enum34@1.1.6%gcc@5.4.0 arch=linux-centos7-x86_64-a5hkmca for python@2.7.12~tk~ucs4%gcc@5.4.0\r\n==> Activated extension py-mccabe@0.5.2%gcc@5.4.0 arch=linux-centos7-x86_64-eyrwg56 for python@2.7.12~tk~ucs4%gcc@5.4.0\r\n==> Activated extension py-pycodestyle@2.0.0%gcc@5.4.0 arch=linux-centos7-x86_64-5c257kg for python@2.7.12~tk~ucs4%gcc@5.4.0\r\n==> Activated extension py-pyflakes@1.2.3%gcc@5.4.0 arch=linux-centos7-x86_64-jx725az for python@2.7.12~tk~ucs4%gcc@5.4.0\r\n==> Activated extension py-flake8@3.0.4%gcc@5.4.0 arch=linux-centos7-x86_64-5wabxrq for python@2.7.12~tk~ucs4%gcc@5.4.0\r\n[hartzelg@rpbuchop001 spack-20161212]$ flake8\r\nTraceback (most recent call last):\r\n  File \"/isilon/Analysis/scratch/hartzelg/spack/spack-20161212/opt/spack/linux-centos7-x86_64/gcc-5.4.0/python-2.7.12-o6wssu2gjvn7j7ahz4qxwpxghzdp7qas/bin/flake8\", line 6, in <module>\r\n    from pkg_resources import load_entry_point\r\nImportError: No module named pkg_resources\r\n[hartzelg@rpbuchop001 spack-20161212]$ spack activate py-setuptools\r\n==> Activated extension py-setuptools@25.2.0%gcc@5.4.0 arch=linux-centos7-x86_64-3t7pdya for python@2.7.12~tk~ucs4%gcc@5.4.0\r\n[hartzelg@rpbuchop001 spack-20161212]$ flake8\r\n^C... stopped\r\n[hartzelg@rpbuchop001 spack-20161212]$\r\n```\r\n\r\nI'm mystified because I can't see any difference between *py-flake8*'s dependence on *py-setuptools* compared to its other dependencies.  In fact, the comment above the `depends_on` actually calls out the need for *py-setuptools*.\r\n\r\n```\r\n    # Most Python packages only require py-setuptools as a build dependency.\r\n    # However, py-flake8 requires py-setuptools during runtime as well.\r\n    depends_on('py-setuptools', type=nolink)\r\n```\r\n\r\nI'd like to make this \"Just Work\"(tm) but I need a clue or two...",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2760",
+    "updated_at": "2017-11-12 00:38:47",
+    "created_at": "2017-01-05 20:10:32",
+    "closed_at": "2017-01-26 04:43:13",
+    "state": "closed",
+    "title": "spack activate does not activate dependencies",
+    "number": 2760,
+    "milestone": "v0.11.0",
+    "labels": [
+        "concretization"
+    ],
+    "id": 199047539,
+    "html_url": "https://github.com/spack/spack/issues/2760",
+    "assignees": [
+        "scheibelp",
+        "becker33"
+    ],
+    "comments": 7
+}

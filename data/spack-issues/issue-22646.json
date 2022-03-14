@@ -1,0 +1,17 @@
+{
+    "body": "Sometimes there is no default config scope, for instance when\r\n\r\n```python\r\nwith spack.config.use_config(tmp_config):\r\n  install('xyz')\r\n```\r\nand spack.config.config_defaults is not used in tmp_config. It's easy to\r\nforget.\r\n\r\nThis might inadvertently result in security issues, such as fetching\r\nwithout ssl:\r\n\r\n```python\r\nif not spack.config.get('config:verify_ssl'):\r\n   curl_args.append('-k')\r\n```\r\n\r\nThis branch is followed when config:verify_ssl is not set and the get\r\nfunction returns None.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22646",
+    "updated_at": "2021-10-27 10:49:44",
+    "created_at": "2021-03-30 15:46:43",
+    "closed_at": "2021-10-27 10:49:44",
+    "state": "closed",
+    "title": "Add defaults to spack.config.get(\"config:...\")",
+    "number": 22646,
+    "milestone": null,
+    "labels": [],
+    "id": 844767398,
+    "html_url": "https://github.com/spack/spack/pull/22646",
+    "assignees": [],
+    "comments": 5
+}

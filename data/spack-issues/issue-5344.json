@@ -1,0 +1,22 @@
+{
+    "body": "When creating a mirror spack does not seem to include required patch files.\r\n\r\nOn machine with internet access:\r\n``` \r\n$ spack mirror create nauty\r\n==> Adding package nauty@2.6r7 to mirror\r\n==> Fetching http://pallini.di.uniroma1.it/nauty26r7.tar.gz\r\n######################################################################## 100.0%\r\n==> nauty@2.6r7 : checksum passed\r\n==> nauty@2.6r7 : added\r\n==> Successfully created mirror in spack-mirror-2017-09-12\r\n  Archive stats:\r\n    0    already present\r\n    1    added\r\n    0    failed to fetch.\r\n```\r\n\r\nOn machine without internet access:\r\n```\r\n==> Installing nauty\r\n==> Fetching file:///my/local/mirror/spack/mirror/nauty/nauty-2.6r7.tar.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /my/local/mirror/spack/var/spack/stage/nauty-2.6r7-attii264nx6pydjmpvwpnwzhlca23k5i/nauty26r7.tar.gz\r\n==> Created stage in /my/local/mirror/spack/var/spack/stage/nauty-2.6r7-attii264nx6pydjmpvwpnwzhlca23k5i\r\n==> Fetching file:///my/local/mirror/spack/mirror/nauty/nauty-fix-gt_numorbits.patch\r\ncurl: (37) Couldn't open file /my/local/mirror/spack/mirror/nauty/nauty-fix-gt_numorbits.patch\r\n==> Fetching from file:///my/local/mirror/spack/mirror/nauty/nauty-fix-gt_numorbits.patch failed.\r\n==> Fetching https://src.fedoraproject.org/rpms/nauty/raw/0f07d01caf84e9d30cb06b11af4860dd3837636a/f/nauty-fix-gt_numorbits.patch\r\n\r\ncurl: (22) The requested URL returned error: 403\r\n==> Fetching from https://src.fedoraproject.org/rpms/nauty/raw/0f07d01caf84e9d30cb06b11af4860dd3837636a/f/nauty-fix-gt_numorbits.patch failed.\r\n==> Patch https://src.fedoraproject.org/rpms/nauty/raw/0f07d01caf84e9d30cb06b11af4860dd3837636a/f/nauty-fix-gt_numorbits.patch failed.\r\n==> Error: FetchError: All fetchers failed for spack-stage-e2ZX5W\r\nFetchError: FetchError: All fetchers failed for spack-stage-e2ZX5W\r\n\r\n/turquoise/usr/projects/ic/spack/lib/spack/spack/package.py:1029, in do_patch:\r\n     50                            # Touch bad file if anything goes wrong.\r\n     51                            tty.msg('Patch %s failed.' % patch.path_or_url)\r\n     52                            touch(bad_file)\r\n  >> 53                            raise\r\n     54    \r\n     55            if has_patch_fun:\r\n     56                try:\r\n```",
+    "user": "louisvernon",
+    "url": "https://api.github.com/repos/spack/spack/issues/5344",
+    "updated_at": "2018-12-16 18:15:22",
+    "created_at": "2017-09-12 17:21:01",
+    "closed_at": "2018-12-16 18:15:22",
+    "state": "closed",
+    "title": "Patch files not included in mirror",
+    "number": 5344,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "mirrors"
+    ],
+    "id": 257121094,
+    "html_url": "https://github.com/spack/spack/issues/5344",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

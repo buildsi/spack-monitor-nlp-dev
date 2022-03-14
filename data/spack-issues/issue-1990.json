@@ -1,0 +1,20 @@
+{
+    "body": "Hello All,\n\nIf I add cray arch specific install method in \u201cany\u201d package, then I get error:\n\n``` bash\n./bin/spack spec hdf5 ^mpich\nInput spec\n------------------------------\n  hdf5\n      ^mpich\n\nNormalized\n------------------------------\n==> Error: spack requires modulecmd.  Make sure it is in your path.\n```\n\nSimple way to reproduce this is to add dummy method in package, for example:\n\n``` bash\ndiff --git a/var/spack/repos/builtin/packages/hdf5/package.py b/var/spack/repos/builtin/packages/hdf5/package.py\nindex c0635cf..6260384 100644\n--- a/var/spack/repos/builtin/packages/hdf5/package.py\n+++ b/var/spack/repos/builtin/packages/hdf5/package.py\n@@ -147,6 +147,10 @@ class Hdf5(Package):\n         make(\"install\")\n         self.check_install(spec)\n\n+    @when('arch=cray-CNL-sandybridge')\n+    def install(self, spec, prefix):\n+        print \"cray install!\"\n```\n\nAnd now you run spack command. I am able to reproduce this on local desktop.\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/1990",
+    "updated_at": "2018-04-08 08:26:55",
+    "created_at": "2016-10-11 07:26:45",
+    "closed_at": "2018-04-08 08:26:55",
+    "state": "closed",
+    "title": "Adding @when annotation for Cray gives  \"Error: spack requires modulecmd.  Make sure it is in your path\"",
+    "number": 1990,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "modules"
+    ],
+    "id": 182191780,
+    "html_url": "https://github.com/spack/spack/issues/1990",
+    "assignees": [],
+    "comments": 6
+}

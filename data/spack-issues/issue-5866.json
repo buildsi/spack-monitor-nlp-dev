@@ -1,0 +1,20 @@
+{
+    "body": "This is a nasty gotcha for anyone looking to build a portable toolchain with a buildcache that includes a compiler. My specific case relates to GCC, but I can imagine other compilers could suffer from this.\r\n\r\nWhen buildcache moves the compiler it walks through all the libraries and binaries and correctly resets their rpath to be the new install directory. However, there are a number of important files that are untouched, such as all of the `link against` or `.la` files and most importantly, the `lib/gcc/<architecture>/<compiler_version>/specs` file. These all contain the \"old\" path and need to be updated. \r\n\r\nFor example, if you don't update the specs file then the \"transported\" GCC will add an incorrect `runpath` variable to every binary it compiles. This will mean that the linker will load the wrong library at execution time (loading the system, rather than the compiled) , which can lead to errors such as `GLIBCXX_3.4.22 not found` and potentially unexpected behavior.\r\n\r\nThe options I see going forward are to either block transport of applications that rely on the absolute pathing of their install prefix. Or to add a mechanism to list files which contain these paths and have them patched.",
+    "user": "daveh86",
+    "url": "https://api.github.com/repos/spack/spack/issues/5866",
+    "updated_at": "2018-03-02 18:46:31",
+    "created_at": "2017-10-23 04:54:29",
+    "closed_at": "2018-03-02 18:46:31",
+    "state": "closed",
+    "title": "Buildcache installed compilers cannot function correctly",
+    "number": 5866,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "buildcache"
+    ],
+    "id": 267541329,
+    "html_url": "https://github.com/spack/spack/issues/5866",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "\r\n\r\n### Spack version\r\nCurrent `develop` branch.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install petsc@3.7.7 ^superlu_dist@5.1.3_\r\n```\r\n(The `superlu_dist` version is required until #15551 is merged, an related issue.)\r\n\r\nleads to:\r\n```console\r\n/gpfs/alpine/fus123/proj-shared/kaig1/spack/opt/spack/linux-rhel7-power9le/gcc-8.1.1/hdf5-1.12.0-env7kt2iczm4znpvefw4cqb6pbi767a3/include/H5version.h:746:23: error: too few arguments to function 'H5Oget_info3'\r\n   #define H5Oget_info H5Oget_info3\r\n                       ^~~~~~~~~~~~\r\n/tmp/kaig1/spack-stage/spack-stage-petsc-3.7.7-v2q6fsmywzszwwjov2nog6fppzwujepz/spack-src/include/petscviewerhdf5.h:34:37: note: in definition of macro 'PetscStackCallHDF5'\r\n     PetscStackPush(#func);_status = func args;PetscStackPop; if (_status) SETERRQ2(PETSC_COMM_SELF,PETSC_ERR_LIB,\"Error in HDF5 call %s() Status %d\",#func,(int)_status); \\\r\n                                     ^~~~\r\n/tmp/kaig1/spack-stage/spack-stage-petsc-3.7.7-v2q6fsmywzszwwjov2nog6fppzwujepz/spack-src/src/sys/classes/viewer/impls/hdf5/hdf5v.c:729:24: note: in expansion of macro 'H5Oget_info'\r\n     PetscStackCallHDF5(H5Oget_info,(obj, &info));\r\n                        ^~~~~~~~~~~\r\n```\r\n\r\nThis happens because of an incompatible API change in HDF5 1.12. It affects other packages, too, e.g., #15252.\r\n\r\nI can see various options to work around this, ie., limiting hdf5 to :1.10.99, adding `-DH5_USE_110_API`, or updating the code to work with the new API, which in particular for old versions of petsc doesn't seem desirable.\r\n\r\n@balay\r\n",
+    "user": "germasch",
+    "url": "https://api.github.com/repos/spack/spack/issues/15553",
+    "updated_at": "2020-03-19 16:42:19",
+    "created_at": "2020-03-18 19:17:47",
+    "closed_at": "2020-03-19 16:42:19",
+    "state": "closed",
+    "title": "petsc build error after update to hdf5 1.12",
+    "number": 15553,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 583948599,
+    "html_url": "https://github.com/spack/spack/issues/15553",
+    "assignees": [],
+    "comments": 6
+}

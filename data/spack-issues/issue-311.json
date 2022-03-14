@@ -1,0 +1,20 @@
+{
+    "body": "When I have python@2.7.10 installed:\n\n```\n(cab689):~$ spack find python\n==> 1 installed packages.\n-- chaos_5_x86_64_ib / gcc@4.9.2 --------------------------------\npython@2.7.10\n```\n\nI now try to install py-twisted, explicitly setting the dependency ^python@2.7.10:\n\n```\n(cab689):~$ spack install -v py-twisted^python@2.7.10\n==> Installing py-twisted\n==> Installing python\n==> bzip2 is already installed in /g/g22/gimenez1/src/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.2/bzip2-1.0.6-wl4v7wdok42cfndertdgyxys2au2ljpz.\n==> ncurses is already installed in /g/g22/gimenez1/src/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.2/ncurses-6.0-2v7r63atwq6aw3p66bc3mkp7hxeoxgqx.\n==> zlib is already installed in /g/g22/gimenez1/src/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.2/zlib-1.2.8-mbw4kksfiiloopjcuqbwrktbxe7hq73x.\n==> openssl is already installed in /g/g22/gimenez1/src/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.2/openssl-1.0.2e-qs3iwf2rhwlck3qsyrlea7i7zbxluntg.\n==> sqlite is already installed in /g/g22/gimenez1/src/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.2/sqlite-3.8.5-2fhvbyidf72xkkazmqnng4ofp2z2hgxk.\n==> readline is already installed in /g/g22/gimenez1/src/spack/opt/spack/chaos_5_x86_64_ib/gcc-4.9.2/readline-6.3-zclrirpahthnvxm2kj2qbz3rup6agcg5.\n==> Already downloaded /g/g22/gimenez1/src/spack/var/spack/stage/python-2.7.10-4azwfxr6b6fddsanso7fgk5xivgdnffs/Python-2.7.10.tar.xz.\n\n```\n\nAs you can see, spack tries to reinstall python 2.7.10. \n\nI went ahead with the installation to see the dependency graph of the new python, here it is:\n\n```\n(cab689):~$ spack find -d python\n==> 2 installed packages.\n-- chaos_5_x86_64_ib / gcc@4.9.2 --------------------------------\n    python@2.7.10\n        ^bzip2@1.0.6\n        ^ncurses@6.0\n        ^openssl@1.0.2e\n            ^zlib@1.2.8\n        ^readline@6.3\n            ^ncurses@6.0\n        ^sqlite@3.8.5\n    python@2.7.10\n        ^bzip2@1.0.6\n        ^ncurses@6.0\n        ^openssl@1.0.2e\n            ^zlib@1.2.8\n        ^readline@6.3\n            ^ncurses@6.0\n        ^sqlite@3.8.5\n        ^zlib@1.2.8\n```\n\nThe newly installed python has ^zlib, everything else is the same. py-twisted does not, however, depend on python^zlib, so not sure why spack is making this new dependency requirement. To verify that py-twisted is using the new python^zlib:\n\n```\n(cab689):~$ spack find -d py-twisted\n==> 1 installed packages.\n-- chaos_5_x86_64_ib / gcc@4.9.2 --------------------------------\n    py-twisted@15.4.0\n        ^py-setuptools@18.1\n            ^python@2.7.10\n                ^bzip2@1.0.6\n                ^ncurses@6.0\n                ^openssl@1.0.2e\n                    ^zlib@1.2.8\n                ^readline@6.3\n                    ^ncurses@6.0\n                ^sqlite@3.8.5\n                ^zlib@1.2.8\n        ^python@2.7.10\n            ^bzip2@1.0.6\n            ^ncurses@6.0\n            ^openssl@1.0.2e\n                ^zlib@1.2.8\n            ^readline@6.3\n                ^ncurses@6.0\n            ^sqlite@3.8.5\n            ^zlib@1.2.8\n```\n\nTL;DR py-twisted should use the existing python, but it creates a new python^zlib for no apparent reason.\n",
+    "user": "alfredo-gimenez",
+    "url": "https://api.github.com/repos/spack/spack/issues/311",
+    "updated_at": "2021-11-05 07:15:47",
+    "created_at": "2016-01-07 18:06:45",
+    "closed_at": "2021-11-05 07:15:47",
+    "state": "closed",
+    "title": "Spack should be more aggressive about reusing installed software",
+    "number": 311,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "snl-atdm"
+    ],
+    "id": 125453210,
+    "html_url": "https://github.com/spack/spack/issues/311",
+    "assignees": [],
+    "comments": 35
+}

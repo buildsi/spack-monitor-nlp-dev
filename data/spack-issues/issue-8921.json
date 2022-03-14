@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #8920.\r\n    \r\nOur `cc` cleanup caused a parsing regression in flag handling.\r\n    \r\nWe added proper quoting to array expansions, but flag variables were never actually converted to arrays, so our quotes made them into joined strings. The old code relied on this and split the arrays by *not* quoting them.\r\n\r\nThis commit:\r\n- [x] Adds reads to convert flags to arrays.\r\n- [x] Makes the cc test check for improper space handling to prevent future regressions.\r\n- [x] Simplifies the cc tests further to avoid redundant code in the `check_` functions.\r\n\r\n@balay: please verify!\r\n@becker33: FYI",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/8921",
+    "updated_at": "2018-09-03 04:49:33",
+    "created_at": "2018-08-09 05:59:30",
+    "closed_at": "2018-08-09 15:00:24",
+    "state": "closed",
+    "title": "bugfix: cc handles spaces in flag variables properly",
+    "number": 8921,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-environment"
+    ],
+    "id": 348988389,
+    "html_url": "https://github.com/spack/spack/pull/8921",
+    "assignees": [
+        "balay"
+    ],
+    "comments": 0
+}

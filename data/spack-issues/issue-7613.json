@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\n\r\nFetching scons-2.5.1 fails as the PyPi download url returns a 404 error.\r\nOther packages from PyPi seem to work.\r\nThis is only in the 0.11.x versions, previous versions used a sourceforge link.\r\n\r\n### Expected Result\r\n\r\nSpack to download and build SCons as a dependency to another package\r\n\r\n### Actual Result\r\n\r\nThe following error:\r\n```\r\n==> Fetching https://pypi.io/packages/source/s/scons/scons-2.5.1.tar.gz\r\n######################################################################## 100.0%\r\ncurl: (22) The requested URL returned error: 404 Not Found\r\n==> Fetching from https://pypi.io/packages/source/s/scons/scons-2.5.1.tar.gz failed.\r\n==> Error: FetchError: All fetchers failed for scons-2.5.1-nozqwus7rirav57cibr7b4fksjivsevg\r\nFetchError: FetchError: All fetchers failed for scons-2.5.1-nozqwus7rirav57cibr7b4fksjivsevg\r\n\r\n/usr/local/spack/lib/spack/spack/package.py:1025, in do_fetch:\r\n     25                                     self.spec.format('$_$@'), ck_msg)\r\n     26    \r\n     27            self.stage.create()\r\n  >> 28            self.stage.fetch(mirror_only)\r\n     29            self._fetch_time = time.time() - start_time\r\n     30    \r\n     31            if spack.do_checksum and self.version in self.versions:\r\n\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install scons\r\n```\r\n\r\n### Information on your system\r\n\r\n 1. Platform: CentOS 7 Singularity container\r\n 2. GNU toolchain used\r\n\r\nCurling [https://pypi.io/simple/scons](https://pypi.io/simple/scons) fetches the list with the working download urls, for 2.5.1 it's:\r\n[https://pypi.python.org/packages/2c/ee/a9601b958c94e93410e635a5d67ed95300998ffdc36127b16d322b054ff0/scons-2.5.1.tar.gz#md5=3eac81e5e8206304a9b4683c57665aa4](https://pypi.python.org/packages/2c/ee/a9601b958c94e93410e635a5d67ed95300998ffdc36127b16d322b054ff0/scons-2.5.1.tar.gz#md5=3eac81e5e8206304a9b4683c57665aa4)",
+    "user": "ch741",
+    "url": "https://api.github.com/repos/spack/spack/issues/7613",
+    "updated_at": "2018-03-28 15:29:45",
+    "created_at": "2018-03-27 16:19:29",
+    "closed_at": "2018-03-28 15:29:45",
+    "state": "closed",
+    "title": "SCons download url 404",
+    "number": 7613,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 309039593,
+    "html_url": "https://github.com/spack/spack/issues/7613",
+    "assignees": [],
+    "comments": 1
+}

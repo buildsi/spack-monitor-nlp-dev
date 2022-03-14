@@ -1,0 +1,21 @@
+{
+    "body": "I noticed a build regression with building omega-h. I get:\r\n\r\n```\r\nbalay@pj02:~/spack$ spack install omega-h~trilinos\r\n==> cmake@3.10.2 : externally installed in /usr\r\n==> cmake@3.10.2 : already registered in DB\r\n==> mpich@3.3b1 : externally installed in /home/petsc/soft/mpich-3.3b1\r\n==> mpich@3.3b1 : already registered in DB\r\n==> zlib@1.2.11 : externally installed in /usr\r\n==> zlib@1.2.11 : already registered in DB\r\n==> Installing omega-h\r\n==> Searching for binary cache of omega-h\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for omega-h found: installing from source\r\n==> Using cached archive: /home/balay/spack/var/spack/cache/omega-h/omega-h-9.19.1.tar.gz\r\n==> Staging archive: /home/balay/spack/var/spack/stage/omega-h-9.19.1-ykyja6izbegehqv7o7yzmwq7mfovhzua/v9.19.1.tar.gz\r\n==> Created stage in /home/balay/spack/var/spack/stage/omega-h-9.19.1-ykyja6izbegehqv7o7yzmwq7mfovhzua\r\n==> No patches needed for omega-h\r\n==> Building omega-h [CMakePackage]\r\n==> Executing phase: 'cmake'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    'cmake' '/home/balay/spack/var/spack/stage/omega-h-9.19.1-ykyja6izbegehqv7o7yzmwq7mfovhzua/omega_h-9.19.1' '-G' 'Unix Makefiles' '-DCMAKE_INSTALL_PREFIX:PATH=/home/balay/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.3.0/omega-h-9.19.1-ykyja6izbegehqv7o7yzmwq7mfovhzua' '-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo' '-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON' '-DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=FALSE' '-DCMAKE_INSTALL_RPATH:STRING=/home/balay/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.3.0/omega-h-9.19.1-ykyja6izbegehqv7o7yzmwq7mfovhzua/lib;/home/balay/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.3.0/omega-h-9.19.1-ykyja6izbegehqv7o7yzmwq7mfovhzua/lib64;/home/petsc/soft/mpich-3.3b1/lib;/usr/lib' '-DCMAKE_PREFIX_PATH:STRING=/home/petsc/soft/mpich-3.3b1' '-DCMAKE_CXX_FLAGS=-std=c++11' '-DUSE_XSDK_DEFAULTS:BOOL=OFF' '-DBUILD_SHARED_LIBS:BOOL=ON' '-DOmega_h_USE_MPI:BOOL=ON' '-DCMAKE_CXX_COMPILER:FILEPATH=/home/petsc/soft/mpich-3.3b1/bin/mpic++' '-DOmega_h_USE_ZLIB:BOOL=ON' '-DZLIB_ROOT:PATH=/usr' '-DOmega_h_EXAMPLES:BOOL=OFF' '-DOmega_h_THROW:BOOL=OFF' '-DOmega_h_CXX_OPTIMIZE:BOOL=ON' '-DOmega_h_CXX_SYMBOLS:BOOL=ON' '-DOmega_h_CXX_WARNINGS:BOOL=FALSE'\r\n\r\n1 error found in build log:\r\n     36    -- Omega_h_USE_pybind11: OFF\r\n     37    -- Omega_h_USE_dwarf: OFF\r\n     38    -- Not using Teuchos\r\n     39    -- Omega_h_USE_MPI: ON\r\n     40    -- Omega_h_USE_OpenMP: OFF\r\n     41    -- Omega_h_USE_CUDA: OFF\r\n  >> 42    CMake Error at cmake/bob.cmake:154 (message):\r\n     43      can't set CMAKE_BUILD_TYPE and use bob_*_cxx_flags\r\n     44    Call Stack (most recent call first):\r\n     45      CMakeLists.txt:123 (bob_begin_cxx_flags)\r\n     46    \r\n     47    \r\n     48    -- Configuring incomplete, errors occurred!\r\n\r\nSee build log for details:\r\n  /home/balay/spack/var/spack/stage/omega-h-9.19.1-ykyja6izbegehqv7o7yzmwq7mfovhzua/omega_h-9.19.1/spack-build.out\r\n```\r\n`git bisect` says\r\n\r\nc4521535e718ec9c0367b3825938dc06f1bc8aad is the first bad commit",
+    "user": "balay",
+    "url": "https://api.github.com/repos/spack/spack/issues/10291",
+    "updated_at": "2019-01-11 18:08:29",
+    "created_at": "2019-01-09 16:23:46",
+    "closed_at": "2019-01-11 18:08:29",
+    "state": "closed",
+    "title": "Regression in omega-h build due to c4521535e718ec9c0367b3825938dc06f1bc8aad",
+    "number": 10291,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 397448472,
+    "html_url": "https://github.com/spack/spack/issues/10291",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

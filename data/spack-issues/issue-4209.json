@@ -1,0 +1,20 @@
+{
+    "body": "On a Cray system, I had a number of python packages fail to build (e.g. py-numpy, py-netcdf4). In each case, gcc was being passed a `-R` option to set the RPATH, but gcc on linux requires the decorated form `-Wl,-R` to pass the `-R` option to the linker.\r\n\r\nIt turns out that python distutils uses a (self-described) \"Hackish\" method to guess the correct compiler options for setting RPATH (see Lib/distutils/unixccompiler.py). The identity of the compiler is guessed from the basename of the compiler executable, which is `cc` for all compilers when using the Cray compiler driver.\r\n\r\nMy solution involves patching the unixccompiler.py script on Cray systems when using gcc (or intel compilers, which use the same options for RPATH). With this patch, py-numpy and py-netcdf4 both installed without errors.\r\n\r\nThis patch may have some relevance to numpy/numpy#8653. Intel compilers would not be identified as gcc, and would therefore use an undecorated `-R` option to set the RPATH. (Update - my tests show that the rpath option is not being used at all in numpy builds with intel. I wonder why?)",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/4209",
+    "updated_at": "2017-05-28 16:17:16",
+    "created_at": "2017-05-11 05:57:23",
+    "closed_at": "2017-05-28 16:17:16",
+    "state": "closed",
+    "title": "python: RPATH on Cray",
+    "number": 4209,
+    "milestone": null,
+    "labels": [
+        "python",
+        "rpath"
+    ],
+    "id": 227885851,
+    "html_url": "https://github.com/spack/spack/pull/4209",
+    "assignees": [],
+    "comments": 12
+}

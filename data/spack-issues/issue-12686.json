@@ -1,0 +1,21 @@
+{
+    "body": "`spec.prefix` reads from Spack's database, and if you do this with\r\nmultiple consecutive read transactions, it can take a long time.  Or, at\r\nleast, you can see the paths get written out one by one.\r\n\r\nThis uses an outer read transaction to ensure that actual disk locks are\r\nacquired only once for the whole `spack find` operation, and that each\r\ntransaction inside `spec.prefix` is an in-memory operation. This speeds\r\nup `spack find -p` a lot.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/12686",
+    "updated_at": "2019-09-03 14:52:04",
+    "created_at": "2019-09-03 05:29:03",
+    "closed_at": "2019-09-03 14:41:40",
+    "state": "closed",
+    "title": "perf: spack find -p now does only one DB transaction",
+    "number": 12686,
+    "milestone": null,
+    "labels": [
+        "pkg-database",
+        "performance",
+        "commands"
+    ],
+    "id": 488399018,
+    "html_url": "https://github.com/spack/spack/pull/12686",
+    "assignees": [],
+    "comments": 4
+}

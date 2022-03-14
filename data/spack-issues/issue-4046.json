@@ -1,0 +1,17 @@
+{
+    "body": "I'm trying to sbang-ify bits of automake (#3719).  The scripts in question all start off with \r\n\r\n```\r\n#!/very/long/path/to/perl -w\r\n```\r\n\r\nWhen run under `sbang` (with a -x added to its own sbang line), they do this:\r\n\r\n```\r\n+ [[ hB != hxB ]]\r\n+ XTRACE_STATE=-x\r\n+ [[ hxB != hxB ]]                                                                                                                                                                                                 + VERBOSE_STATE=+v                                                                                                                                                                                                 + set +xv\r\n+ unset XTRACE_STATE VERBOSE_STATE\r\n+ script=bin/aclocal\r\n+ lines=0\r\n+ read line\r\n+ (( lines < 2 ))\r\n+ [[ #!/bin/bash /sc1/apps/spack/v0.0.10/bin/sbang = \\#\\!* ]]\r\n+ interpreter='/bin/bash /sc1/apps/spack/v0.0.10/bin/sbang'\r\n+ lines=1\r\n+ read line\r\n+ (( lines < 2 ))\r\n+ [[ #!/home/hartzelg/tmp/spack-automake-3719/opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-j6bsz4heoekfacvjx6w2tof76g5suovl/bin/perl -w = \\#\\!* ]]\r\n+ interpreter='/home/hartzelg/tmp/spack-automake-3719/opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-j6bsz4heoekfacvjx6w2tof76g5suovl/bin/perl -w'\r\n+ lines=2\r\n+ read line\r\n+ (( lines < 2 ))\r\n+ echo 'YIKES: /home/hartzelg/tmp/spack-automake-3719/opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-j6bsz4heoekfacvjx6w2tof76g5suovl/bin/perl -w\"'\r\nYIKES: /home/hartzelg/tmp/spack-automake-3719/opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-j6bsz4heoekfacvjx6w2tof76g5suovl/bin/perl -w\"\r\n+ [[ -n /home/hartzelg/tmp/spack-automake-3719/opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-j6bsz4heoekfacvjx6w2tof76g5suovl/bin/perl -w ]]\r\n+ [[ perl -w = \\p\\e\\r\\l ]]\r\n+ exec /home/hartzelg/tmp/spack-automake-3719/opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-j6bsz4heoekfacvjx6w2tof76g5suovl/bin/perl -w bin/aclocal\r\n/blah/apps/spack/v0.0.10/bin/sbang: line 111: -w: No such file or directory\r\nerror: sbang found no interpreter in -w\r\n```\r\n\r\nI think that I see two issues:\r\n\r\n1. need to break the interpreter into space separated words, exec the first one and add the rest to the arguments\r\n2. need to do the comparison to \"perl\" *after* we trim the arguments.\r\n\r\nAm I walking into a well-known door or am I onto something?\r\n\r\ng.\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4046",
+    "updated_at": "2017-11-23 14:38:00",
+    "created_at": "2017-04-28 20:27:50",
+    "closed_at": "2017-11-23 14:38:00",
+    "state": "closed",
+    "title": "sbang fails when original line includes switches",
+    "number": 4046,
+    "milestone": null,
+    "labels": [],
+    "id": 225184843,
+    "html_url": "https://github.com/spack/spack/issues/4046",
+    "assignees": [],
+    "comments": 6
+}

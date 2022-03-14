@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\nBuilding gnuplot on macOS High Sierra, the build of dependency pixman failed due the removal of __builtin_shuffle from clang 5.0, as reported here: https://bugs.freedesktop.org/show_bug.cgi?id=104886. I've manually applied the patch given there, and then pixman built.\r\n\r\n### Expected Result\r\nBuild pixman.\r\n\r\n### Actual Result\r\nBuild failed with:\r\n```console\r\n==> Installing pixman\r\n==> Using cached archive: /Applications/Spack/spack/var/spack/cache/pixman/pixman-0.34.0.tar.gz\r\n==> Staging archive: /Applications/Spack/spack/var/spack/stage/pixman-0.34.0-2rhnonvnl6rshlcan4jgpfdiwo2a3avg/pixman-0.34.0.tar.gz\r\n==> Created stage in /Applications/Spack/spack/var/spack/stage/pixman-0.34.0-2rhnonvnl6rshlcan4jgpfdiwo2a3avg\r\n==> No patches needed for pixman\r\n==> Building pixman [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j4'\r\n\r\n5 errors found in build log:\r\n     595      CC       infinite-loop.o\r\n     596      CC       trap-crasher.o\r\n     597      CC       fence-image-self-test.o\r\n     598      CC       region-translate-test.o\r\n     599      CC       fetch-test.o\r\n     600      CC       a1-trap-test.o\r\n   601    utils-prng.c:207:27: error: use of unknown builtin '__builtin_shuffle' [-Wimplicit-function-declaration]\r\n     602                randdata.vb = __builtin_shuffle (randdata.vb, bswap_shufflemask);\r\n     603                              ^\r\n   604    utils-prng.c:207:25: error: assigning to 'uint8x16' (vector of 16 'uint8_t' values) from incompatible type 'int'\r\n     605                randdata.vb = __builtin_shuffle (randdata.vb, bswap_shufflemask);\r\n     606                            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     607    2 errors generated.\r\n   608    make[2]: *** [utils-prng.lo] Error 1\r\n     609    make[2]: *** Waiting for unfinished jobs....\r\n   610    make[1]: *** [all-recursive] Error 1\r\n   611    make: *** [all] Error 2\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gnuplot\r\n```\r\n\r\n### Information on your system\r\nmacOS High Sierra 10.13.4\r\n```console\r\n$ clang --version\r\nApple LLVM version 9.1.0 (clang-902.0.39.1)\r\nTarget: x86_64-apple-darwin17.5.0\r\nThread model: posix\r\n```\r\n### Solution\r\nApply patch https://bugs.freedesktop.org/show_bug.cgi?id=104886\r\n-----",
+    "user": "anne-glerum",
+    "url": "https://api.github.com/repos/spack/spack/issues/7911",
+    "updated_at": "2018-05-07 14:51:28",
+    "created_at": "2018-04-26 12:11:28",
+    "closed_at": "2018-05-07 14:51:28",
+    "state": "closed",
+    "title": "Pixman build fails ",
+    "number": 7911,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 318001358,
+    "html_url": "https://github.com/spack/spack/issues/7911",
+    "assignees": [],
+    "comments": 2
+}

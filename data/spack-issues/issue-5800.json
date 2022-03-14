@@ -1,0 +1,19 @@
+{
+    "body": "I have a slightly odd situation. I'm trying to use the kahip package in my own package, but I am running into this slight difficulty. KaHIP is compiled with openmp (eg -fopenmp for gcc) and produces a static library. When I link my non-openmp libraries against kahip, the openmp symbols are not found. Presumably a dynamic kahip lib would carry the dependencies, but  I didn't seem to have much luck there either.\r\n\r\nI've added a hack with `-lgomp` into my package to ensure that the corresponding library is linked in. This solves things in an ad hoc, non-portable manner.\r\n* Is there a better way of getting at the library name (it might be different between gcc, icc, pgi, etc)?\r\n* Should I just reuse the `openmp_flag` (ie, `-fopenmp`) for the link stage as well?\r\n* Or do the compiler packages need to provide this information?",
+    "user": "olesenm",
+    "url": "https://api.github.com/repos/spack/spack/issues/5800",
+    "updated_at": "2017-10-23 11:37:14",
+    "created_at": "2017-10-18 05:23:42",
+    "closed_at": "2017-10-23 11:37:13",
+    "state": "closed",
+    "title": "need to get at openmp library flag",
+    "number": 5800,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 266363444,
+    "html_url": "https://github.com/spack/spack/issues/5800",
+    "assignees": [],
+    "comments": 2
+}

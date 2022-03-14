@@ -1,0 +1,21 @@
+{
+    "body": "\r\nSummary\r\n\r\nWhen subclassing a package, the resources such as  patches do not get propagated in the right way...\r\n\r\nE.g. If I had a package like this...\r\n\r\n```\r\nfrom spack import *\r\nfrom spack.pkg.builtin.kaldi import Kaldi as KaldiSpack\r\n\r\nclass Kaldi(KaldiSpack):\r\n    version('master', git='https://github.com/kaldi-asr/kaldi.git')\r\n```\r\n\r\nThe path to \"openfst-1.4.1.patch\" is incorrect, a full path would need to be provided to the patch for it to work. Currently if I want to extend an existing package I would need to copy all the resources to the extended package as well.\r\n\r\nThe above is pretty easy to reproduce reliably, just pick any package that has a patch or additional resource files and extend it.",
+    "user": "jcftang",
+    "url": "https://api.github.com/repos/spack/spack/issues/8908",
+    "updated_at": "2019-07-20 01:08:06",
+    "created_at": "2018-08-07 14:30:18",
+    "closed_at": "2019-07-20 01:08:06",
+    "state": "closed",
+    "title": "Subclassing of a package fails to expose resources such as patches correctly",
+    "number": 8908,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 348347468,
+    "html_url": "https://github.com/spack/spack/issues/8908",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

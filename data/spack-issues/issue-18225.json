@@ -1,0 +1,21 @@
+{
+    "body": "`setup-env.sh` and `setup-env.fish` know how to find themselves in `bash`, `zsh`, `dash`, and `fish` and how to set `SPACK_ROOT` automatically. `setup-env.csh` doesn't, and we still have to tell people to set `SPACK_ROOT` in this one case for csh, which can make initialization instructions confusing.\r\n\r\nThis uses the same trick we use for `dash` for `csh` and `tcsh`, and it adds some rudimentary testing for `setup-env.csh` to ensure it keeps working. It turns out we were broken for regular `csh` because it does not supporrt `[`, so this has been refactored as well.\r\n\r\nNew output looks like this:\r\n\r\n```console\r\n(spackbook):~$ src/spack/bin/spack env activate .\r\n==> `spack env activate` works best with spack's shell support.\r\n  \r\n  To set up shell support, run the command below for your shell.\r\n  \r\n  For bash/zsh/sh:\r\n    . /Users/gamblin2/src/spack/share/spack/setup-env.sh\r\n  \r\n  For csh/tcsh:\r\n    source /Users/gamblin2/src/spack/share/spack/setup-env.csh\r\n  \r\n  For fish:\r\n    source /Users/gamblin2/src/spack/share/spack/setup-env.fish\r\n  \r\n  Or, if you want to use `spack env activate` without shell\r\n  support, you can run one of these:\r\n  \r\n      eval `spack env activate --sh   .`  # bash/zsh/sh\r\n      eval `spack env activate --csh  .`  # csh/tcsh\r\n      eval `spack env activate --fish .`  # fish\r\n\r\n(spackbook):~$ \r\n```\r\n\r\n- [x] Add logic to `setup-env.csh` to automatically find the script and set `SPACK_ROOT`\r\n- [x] Add simple tests for `setup-env.csh`\r\n- [x] Refactor use of `[` out of `setup-env.csh` so it works with plain `csh`\r\n- [x] Remove SPACK_ROOT from csh/tcsh instructions\r\n- [x] Add fish to shell instructions\r\n- [x] make output consistent across commands",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/18225",
+    "updated_at": "2020-10-24 01:54:36",
+    "created_at": "2020-08-24 01:39:56",
+    "closed_at": "2020-10-24 01:54:35",
+    "state": "closed",
+    "title": "csh: don't require SPACK_ROOT for sourcing setup-env.csh",
+    "number": 18225,
+    "milestone": null,
+    "labels": [
+        "commands",
+        "shell-support",
+        "UI"
+    ],
+    "id": 684302964,
+    "html_url": "https://github.com/spack/spack/pull/18225",
+    "assignees": [],
+    "comments": 1
+}

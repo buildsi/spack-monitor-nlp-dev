@@ -1,0 +1,21 @@
+{
+    "body": "As discussed in https://github.com/bazelbuild/bazel/issues/10437#issuecomment-580028159. \r\n\r\nI've also tried using the `transitive_rpaths` approach ([on a different fork](https://github.com/s-sajid-ali/spack/blob/transitive_rpaths_tf/var/spack/repos/builtin/packages/py-tensorflow/package.py)), but that didn't work. \r\n\r\nI'd prefer unsetting `SPACK_INCLUDE_DIRS` over switching `CC` to `self.compiler.cc` because this still allows the spack compiler wrapper to set target arch flags appropriately. \r\n\r\nI've successfully built and tested `py-tensorflow` with this modification : \r\n```\r\n[sajid@xrm-backup ~]$ spack install py-tensorflow@2.1.0%gcc@7.4.0 ~cuda ~nccl ^python@3.7.4 ^bazel@0.29.1 ^intel-mkl ^jdk@1.8.0_241-b07 ^/e4jkv5\r\n==> py-tensorflow is already installed in /home/sajid/packages/spack/opt/spack/linux-rhel8-skylake_avx512/gcc-7.4.0/py-tensorflow-2.1.0-l3cs6pxbqeylvq72ikm7caiph4germ73\r\n```\r\n\r\n@adamjstewart, @Sinan81  : Is this is an acceptable solution for now ?\r\n\r\n@coreyjadams @pramodk @pat-s : Does this solve any of your problems ?",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/14681",
+    "updated_at": "2020-04-28 17:28:59",
+    "created_at": "2020-01-30 04:59:08",
+    "closed_at": "2020-04-28 17:28:59",
+    "state": "closed",
+    "title": "Temporary fix for tensorflow until a better solution is found",
+    "number": 14681,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 557267002,
+    "html_url": "https://github.com/spack/spack/pull/14681",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 13
+}

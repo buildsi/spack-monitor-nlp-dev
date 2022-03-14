@@ -1,0 +1,23 @@
+{
+    "body": "I've been relying on the current iteration of Spack Environments now for a year or more, and they are in the end working for me.  However, they also have shortcomings:\r\n\r\n1. I don't feel they were designed for my use case.  They were intentionally designed to follow the model of Python environments, in which *install* actions taken by the user are recorded, to be later replayed by the environment.  This doesn't work for me because it is bottom-up thinking, which I argue is obsolete in a Spack-based universe (see the PR text).  My use case is more like compiling a C program.  First I write it, then I compile it, then I use it.  I want to write the environment spec, not have Spack automagically write it (and re-write it) for me as I do stuff.  And I don't want a \"current\" environment.\r\n\r\n1. They have a number of small \"gotchas\" / bugs that I have to work around.\r\n\r\n1. Some features are incomplete; for example, Environment views.  Meaning... if you create a view with your environment, you are left at the end with no automated way to set env vars to *use* that view.  You just have to manually set a bunch of env vars manually.  In contrast, using environment modules to load your environment addresses that problem.  Unfortunately, views have also been made the default; unfortunate because the feature is incomplete.\r\n\r\n1. They are not as easy to debug as I would like, when things go wrong with the build.\r\n\r\n1. They are (mostly) documented in the reference docs, but the documentation is poorly documented in the rest of the Spack manual.  Users, especially new users, continue to ask for / try to do things that make sense in a world of manual software building, but not so much in a Spack world with environments.  For example: (a) asking for Spack to re-use packages you've already installed makes sense if you're still in manual mode, but not really so much in a more Spack-centric universe where you want to support reproducible environments for specific user projects.  (b) The `spack load` command is fundamentally non-deterministic, and now completely obsolete with Spack Environments.  But people continue to ask questions about it, presumably because that's what we've documented.  We need to remove that stuff from the manual and replace it with high-quality documentation showing how to use Spack Environments effectively.\r\n\r\nTo that end I present this PR.  It both argues why we should let Spack change our thinking; and shows the steps I go through now to support multiple per-project Spack environments in my work.  I am looking for feedback on this draft, such as:\r\n\r\n1. What do you think of the positions taken in this PR?  How do we integrate them coherently into the Spack documentation, recognizing that different people use Spack in different ways?\r\n\r\n1. Does the technical part of the PR make sense?  Has anyone else been building and using environments in this way?  If not, how have other people been using Spack Environment functionality?\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/15842",
+    "updated_at": "2021-06-11 15:08:07",
+    "created_at": "2020-04-03 01:45:33",
+    "closed_at": "2021-06-11 15:08:07",
+    "state": "closed",
+    "title": "Effective Use of Spack Environments",
+    "number": 15842,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "documentation",
+        "environments"
+    ],
+    "id": 593020494,
+    "html_url": "https://github.com/spack/spack/pull/15842",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 11
+}

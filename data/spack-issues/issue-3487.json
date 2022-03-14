@@ -1,0 +1,17 @@
+{
+    "body": "I failed to build mdtest with Intel Parallel Studio due to \"'Spec' object has no attribute 'mpicc'\" issue.  mdtest is an MPI program to test metadata performance on filesystem. \r\n\r\nThe command to reproduce this issue and the error message is listed below.\r\n\r\n```\r\n$ spack install mdtest %intel ^intel-parallel-studio+mpi \r\n==> Installing mdtest\r\n==> intel-parallel-studio is externally installed in /lustre/spack/tools/linux-centos7-x86_64/gcc-4.8.5/intel-parallel-studio-cluster.2017.1-4uy7iwkuftkrg5wx2sg5zi6r5355rqbe\r\n==> Using cached archive: /tmp/rpm/spack_source_cache/mdtest/mdtest-1.9.3.tar.gz\r\n==> Warning: Fetching from mirror without a checksum!\r\n  This package is normally checked out from a version control system, but it has been archived on a spack mirror.\r\nThis means we cannot know a checksum for the tarball in advance. Be sure that your connection to this mirror is secure!.\r\n==> Already staged mdtest-1.9.3-zwdgfm4vkhmcmqxhla4xhagbywnz7eqm in /home/rpm/spack/var/spack/stage/mdtest-1.9.3-zwdgfm4vkhmcmqxhla4xhagbywnz7eqm\r\n==> No patches needed for mdtest\r\n==> Building mdtest [Package]\r\n==> Executing phase : 'install'\r\n==> Error: AttributeError: 'Spec' object has no attribute 'mpicc'\r\n/home/rpm/spack/var/spack/repos/builtin/packages/mdtest/package.py:40, in install:\r\n     39       def install(self, spec, prefix):\r\n  >> 40           filter_file('$(CC.$(OS))', spec['mpi'].mpicc, 'Makefile', string=True)\r\n     41           make('mdtest')\r\n     42           mkdirp(prefix.bin)\r\n     43           install('mdtest', prefix.bin)\r\n\r\nSee build log for details:\r\n  /tmp/rpm/spack_stage/spack-stage/spack-stage-XbDO_t/mdtest/spack-build.out\r\n```\r\n\r\nmdtest's build process is organized in Makefiile shipped with it. What Spack does is to replace the \"$(CC.$(OS))'\" string with the selected MPI's mpicc specified in `spec['mpi'].mpicc`,  then run make. The embarrassing thing is that I tested it under `%gcc ^onmpi` only when I submit simul package, leaving `%intel ^intel-parallel-studio` untested. \r\n\r\nAccording to Spack's doc http://spack.readthedocs.io/en/latest/packaging_guide.html?highlight=mpic , `spec['mpi'].mpicc` should get the MPICC compiler for `intel-parallel-studio`. Please correct me if I use `spec['mpi']` in the wrong way.\r\n\r\nLink to mdtest package https://github.com/LLNL/spack/blob/develop/var/spack/repos/builtin/packages/mdtest/package.py . ",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/3487",
+    "updated_at": "2017-03-21 05:47:09",
+    "created_at": "2017-03-18 14:26:58",
+    "closed_at": "2017-03-21 05:47:09",
+    "state": "closed",
+    "title": "spec['mpi'].mpicc doesn't work for MPI in intel-parallel-studio",
+    "number": 3487,
+    "milestone": null,
+    "labels": [],
+    "id": 215197371,
+    "html_url": "https://github.com/spack/spack/issues/3487",
+    "assignees": [],
+    "comments": 16
+}

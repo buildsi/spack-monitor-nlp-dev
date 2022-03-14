@@ -1,0 +1,22 @@
+{
+    "body": "### Summary\n\nUse `install_name_tool -id '@rpath/${filename}' ${prefix}/${filename}` to fix up macOS libraries installed by autotools that have `LC_ID_DYLIB` hard-coded by `libtool`. This would make autotools-installed libraries consistent with CMake-installed libraries in that they use RPATH for propagating link information rather than hard-coding it.\n\n### Rationale\n\nWhereas most spack-CMake-installed packages install libraries with an `install_name` as `@rpath/libname.dylib` (which shows up in `LC_ID_DYLIB` in `otool -l ${path} | grep -A3 LC_ID_DYLIB`), most autotools (libtool) packages hard-code the install prefix using `-install_name ${PREFIX}/lib/${LIBNAME}`. This propagates the hardcoded library path into downstream libraries, making them more difficult to relocate (changing rpaths is insufficient, you have to know the dependent paths and use `-change`).\r\n\r\nPatching the installed libraries vastly simplifies the relocation of *any* downstream library, installed by spack or not, because only the `rpath` needs to change.\n\n### Description\n\nI would either add a configuration option or a `@after('install')` hook to the Autotools package, and adjust any non-autotools packages (such as `zstd`) to perform the fixup as needed.\n\n### Additional information\n\nIt looks like @gartung is credited with making macOS files relocatable (`spack.relocate`) so perhaps he has some opinions and a better idea of potential pitfalls?\r\n\r\nSpack version 0.16.3-4706-3157a97743\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/26552",
+    "updated_at": "2022-01-23 03:10:39",
+    "created_at": "2021-10-06 12:37:47",
+    "closed_at": "2022-01-23 03:10:39",
+    "state": "closed",
+    "title": "Patch Autotools-based libraries to use @rpath install_name",
+    "number": 26552,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "macOS",
+        "autotools",
+        "buildcache"
+    ],
+    "id": 1018236403,
+    "html_url": "https://github.com/spack/spack/issues/26552",
+    "assignees": [],
+    "comments": 3
+}

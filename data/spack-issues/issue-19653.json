@@ -1,0 +1,22 @@
+{
+    "body": "This is on ARM64/aarch64, fedora 26, gcc 7.3.1.\r\n\r\nThe new target=graviton for ARM64 breaks pretty much EVERYTHING, at\r\nleast for gcc.  This seems to affect only ARM, not powerpc or x86_64.\r\n\r\n```\r\n$ spack arch\r\nlinux-fedora26-graviton\r\n\r\n$ spack spec libsigsegv\r\nlibsigsegv@2.12%gcc@7.3.1 arch=linux-fedora26-graviton\r\n\r\n$ spack -d install libsigsegv\r\n...\r\n2 errors found in build log:\r\n     8     checking for a thread-safe mkdir -p... /usr/bin/mkdir -p\r\n     9     checking for gawk... gawk\r\n     10    checking whether make sets $(MAKE)... yes\r\n     11    checking whether make supports nested variables... yes\r\n     12    checking for gcc... /home/krentel/spack/spack-repo/lib/spack/env/gcc/gcc\r\n     13    checking whether the C compiler works... no\r\n  >> 14    configure: error: in `/home/krentel/spack/spack-repo/build-stage/spack-stage-libsigsegv-2.12-53nzpmnlsoniuxoiimmyjf2a57xirln6/spack-src':\r\n  >> 15    configure: error: C compiler cannot create executables\r\n     16    See `config.log' for more details\r\n```\r\n\r\nThe output of `spack -d` reveals the true problem.  target=graviton\r\ncauses -march to be set incorrectly.\r\n\r\n```\r\n[ccld] /usr/bin/gcc -march==armv8-a+crc+crypto -mtune=cortex-a72 ...\r\n```\r\n\r\nMaybe the mistake is simply the typo with two equal signs (=).\r\n\r\nAnyway, with target=aarch64, -march gets set correctly and the build\r\nsucceeds.\r\n\r\n```\r\n$ ./spack -d install libsigsegv target=aarch64\r\n\r\n[ccld] /usr/bin/gcc -march=armv8-a -mtune=generic ...\r\n```\r\n\r\n----------\r\n\r\nI traced the problem to this commit.\r\n\r\n```\r\ncommit 458d88eaad3c4e93210915ffa9b3bb64cc52d007\r\nAuthor: Massimiliano Culpo <massimiliano.culpo@gmail.com>\r\nDate:   Fri Oct 30 21:02:14 2020 +0100\r\n\r\n    Make archspec a vendored dependency (#19600)\r\n    \r\n    - Added archspec to the list of vendored dependencies\r\n    - Removed every reference to llnl.util.cpu\r\n    - Removed tests from Spack code base\r\n```\r\n\r\nBefore this commit, the default arch type is aarch64.  This commit\r\nadds the type graviton and the typo with -march.\r\n\r\nping @alalazo ",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/19653",
+    "updated_at": "2020-11-14 08:51:55",
+    "created_at": "2020-11-01 07:25:49",
+    "closed_at": "2020-11-14 08:51:55",
+    "state": "closed",
+    "title": "new arch target=graviton breaks everything on ARM/aarch64",
+    "number": 19653,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 733903036,
+    "html_url": "https://github.com/spack/spack/issues/19653",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 10
+}

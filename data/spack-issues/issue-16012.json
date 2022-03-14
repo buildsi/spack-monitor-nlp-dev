@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #15887 \r\n\r\n### Before\r\n```console\r\n$ otool -L /Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/libssh2-1.8.0-bwme3nb5vpustesfddxwqbevjk5zm2gd/lib/libssh2.dylib \r\n/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/libssh2-1.8.0-bwme3nb5vpustesfddxwqbevjk5zm2gd/lib/libssh2.dylib:\r\n\tlibssh2.1.dylib (compatibility version 1.0.0, current version 1.0.1)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/openssl-1.1.1f-hsoj6gr47qcrz623ak4ngcccg4hmcwpn/lib/libssl.1.1.dylib (compatibility version 1.1.0, current version 1.1.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/openssl-1.1.1f-hsoj6gr47qcrz623ak4ngcccg4hmcwpn/lib/libcrypto.1.1.dylib (compatibility version 1.1.0, current version 1.1.0)\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1281.100.1)\r\n```\r\n### After\r\n```console\r\n$ otool -L /Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/libssh2-1.8.0-bwme3nb5vpustesfddxwqbevjk5zm2gd/lib/libssh2.dylib \r\n/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/libssh2-1.8.0-bwme3nb5vpustesfddxwqbevjk5zm2gd/lib/libssh2.dylib:\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/libssh2-1.8.0-bwme3nb5vpustesfddxwqbevjk5zm2gd/lib/libssh2.dylib (compatibility version 1.0.0, current version 1.0.1)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/openssl-1.1.1f-hsoj6gr47qcrz623ak4ngcccg4hmcwpn/lib/libssl.1.1.dylib (compatibility version 1.1.0, current version 1.1.0)\r\n\t/Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/openssl-1.1.1f-hsoj6gr47qcrz623ak4ngcccg4hmcwpn/lib/libcrypto.1.1.dylib (compatibility version 1.1.0, current version 1.1.0)\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1281.100.1)\r\n```\r\n\r\n`libgit2` still doesn't link to `libssh2`, but I think that's for another reason.\r\n\r\n@DiegoMagdaleno @hartzell @trws can one of you test this?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/16012",
+    "updated_at": "2020-04-14 22:12:25",
+    "created_at": "2020-04-12 04:01:11",
+    "closed_at": "2020-04-14 22:10:46",
+    "state": "closed",
+    "title": "libssh2: fix linking on macOS",
+    "number": 16012,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "linking",
+        "bugfix"
+    ],
+    "id": 598405388,
+    "html_url": "https://github.com/spack/spack/pull/16012",
+    "assignees": [],
+    "comments": 7
+}

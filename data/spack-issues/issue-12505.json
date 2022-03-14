@@ -1,0 +1,24 @@
+{
+    "body": "*Rubygems is not working after installing ruby with spack*\r\n\r\n### Rationale\r\n\r\nrubygems is the built-in package manager just like pip for python. It comes with with den ruby package because it is part of the official ruby tarball. \r\n\r\n### Description\r\n\r\nUsually the rubygems command ```gem``` i used to install packages into system directories of below ```$HOME```. This does not work with the ruby package of spack, because only the spack compiler wrappers are build into ruby's ```RbConfig::CONFIG``` module. This contains information about how ruby is build in order be able to build C-extensions for ruby. \r\n\r\nFor plain ruby modules from rubygems.org the package management with ```gem``` works. But when it comes to extensions which need compiling, it fails. I test command is\r\n```\r\ngem install narray --user\r\n```\r\n\r\n### Additional information\r\n\r\nThe build-context varables of Ruby can be checked with\r\n```\r\nruby -e 'puts RbConfig::CONFIG'\r\n```\r\n\r\ngem is important to working with ruby packages - so making this work will help ruby-related development based on spack.",
+    "user": "Try2Code",
+    "url": "https://api.github.com/repos/spack/spack/issues/12505",
+    "updated_at": "2020-09-02 23:26:38",
+    "created_at": "2019-08-21 16:30:43",
+    "closed_at": "2020-09-02 23:26:38",
+    "state": "closed",
+    "title": "Ruby: Support rubygems coming with ruby package",
+    "number": 12505,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "impact-medium",
+        "environments",
+        "ruby"
+    ],
+    "id": 483526276,
+    "html_url": "https://github.com/spack/spack/issues/12505",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 8
+}

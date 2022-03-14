@@ -1,0 +1,21 @@
+{
+    "body": "Using `spack@develop` (ac7c69e62e61b0a45344690a8ede29f064f8fed5, 2020-09-25 ~1515) and trying to install+use `slate@develop` (cloned 2020-09-25) on:\r\n* `Ubuntu 18.04`\r\n* `X86_64`\r\n* Built with `gcc@7.5.0`\r\n\r\nI think there are some missing header files from the `slate` install:\r\n\r\n```\r\n$> spack install slate target=x86_64\r\n....\r\n==> Installing slate\r\n==> slate: Executing phase: 'install'\r\n[+] /opt/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.5.0/slate-develop-zm6eauz2qzguhk55psb7rwn6qbicbb5w\r\n```\r\n\r\n```\r\n$> grep include `spack location -i slate`/include/slate.hh\r\n#include \"slate/Matrix.hh\"\r\n#include \"slate/HermitianMatrix.hh\"\r\n#include \"slate/SymmetricMatrix.hh\"\r\n#include \"slate/TriangularMatrix.hh\"\r\n#include \"slate/BandMatrix.hh\"\r\n#include \"slate/TriangularBandMatrix.hh\"\r\n#include \"slate/HermitianBandMatrix.hh\"\r\n#include \"slate/types.hh\"\r\n#include \"simplified_api.hh\"\r\n```\r\n\r\nThese are the only header files present:\r\n```\r\n$> ls `spack location -i slate`/include\r\nslate.hh  slate_lapack_api.hh  slate_scalapack_api.hh\r\n```\r\n\r\nLooks like all the header files under `slate/...` are missing:\r\n* slate/Matrix.hh\r\n* slate/HermitianMatrix.hh\r\n* slate/SymmetricMatrix.hh\r\n* ...\r\n\r\n@G-Ragghianti @coti\r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/18978",
+    "updated_at": "2020-10-19 17:16:11",
+    "created_at": "2020-09-25 22:21:43",
+    "closed_at": "2020-10-19 17:16:11",
+    "state": "closed",
+    "title": "slate: missing header files",
+    "number": 18978,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "ecp",
+        "e4s"
+    ],
+    "id": 709318844,
+    "html_url": "https://github.com/spack/spack/issues/18978",
+    "assignees": [],
+    "comments": 3
+}

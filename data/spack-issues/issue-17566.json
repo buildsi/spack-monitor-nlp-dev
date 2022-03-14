@@ -1,0 +1,19 @@
+{
+    "body": "When using spack in slurm and/or containers I found that spack does not respect the number of cores made available to the process, but rather takes as many threads as the hardware provides. This is an issue mainly in CI, where spack commands may be executed on different nodes with a different core count, and where many commands like `spack install` are generated or implicit (e.g. in `spack ci rebuild`) s.t. one cannot easily pass the true number of cores available.\r\n\r\nAs an example, in my case spack was running `make -j72`, whereas only `8` cores were available. This happens because of the following:\r\n- The CI job got scheduled on a machine with 72 threads according to `nproc --all`\r\n- I have configured `build_jobs` to a high/unlimited number with the idea to make spack autodetect the number of cores available. (This seems sensible to me for CI: same config for different nodes, some nodes have a large number of cores, so the default limit of 16 is too small).\r\n- Our CI uses Slurm to start jobs, where one can control the number of cores per task via the `SLURM_CPUS_PER_TASK` variable, I had set it to 8, because I want to run multiple jobs on the same node. (Same story with Kubernetes and cpu requests or your favorite docker setup with the `--cpus` flag)\r\n- `spack` uses the Python call `multiprocessing.cpu_count()` to attempt to limit the number of build jobs to the number of cores available, but this returns the number of cores on the hardware level (72) instead of the number of cores available to the process (8).\r\n\r\nNote that this is the same difference between calling `$ nproc --all` (returns 72) and `$ nproc` (returns 8). The latter is correct.\r\n\r\nTo fix this I'm using `len(os.sched_getaffinity(0))`, which is linux-specific, to get the number of cores/threads actually available. According to the man page using `0` is equivalent to getting the cpu affinity for the current process, so this should be fine.\r\n\r\nTo reproduce in Docker:\r\n\r\n```\r\n$ docker run --cpuset-cpus=0,1 spack/ubuntu-bionic install llvm+clang\r\n```\r\n\r\nit should have exactly 2 cores available for the process, but with the default config will build with `make -j16` if you have at least 16 procs.\r\n\r\nTo reproduce with Slurm:\r\n\r\n```\r\n$ srun -N1 -n1 -c2 spack install llvm+clang\r\n```\r\nit should have exactly 2 cores available for the process, but builds with `-j16` in the default config if you have at least 16 procs.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/17566",
+    "updated_at": "2021-03-17 18:18:49",
+    "created_at": "2020-07-17 09:51:23",
+    "closed_at": "2021-03-17 18:18:48",
+    "state": "closed",
+    "title": "Use process cpu affinity instead of hardware specs to get cpu count",
+    "number": 17566,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 659088797,
+    "html_url": "https://github.com/spack/spack/pull/17566",
+    "assignees": [],
+    "comments": 11
+}

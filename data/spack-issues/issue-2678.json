@@ -1,0 +1,17 @@
+{
+    "body": "My valgrind build failed thusly:\r\n\r\n```\r\n[...]\r\n/isilon/Analysis/scratch/hartzelg/spack/spack-20161221/lib/spack/env/gcc/gcc -m64 -O2 -g -std=gnu99 -Wall -Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes -Wmissing-declarations -Wcast-align -Wcast-qual -Wwrite-strings -Wempty-body -Wformat -Wformat-security -Wignored-qualifiers -Wmissing-parameter-type -Wold-style-declaration -fno-stack-protector -fsanitize=undefined -fno-sanitize=alignment -fno-strict-aliasing -fno-builtin  -O -g -fno-omit-frame-pointer -fno-strict-aliasing -fpic -fno-builtin -fno-ipa-icf -O2  -nodefaultlibs -shared -Wl,-z,interpose,-z,initfirst  -m64 -Wl,--whole-archive ../coregrind/libreplacemalloc_toolpreload-amd64-linux.a -Wl,--no-whole-archive  -o vgpreload_memcheck-amd64-linux.so vgpreload_memcheck_amd64_linux_so-mc_replace_strmem.o\r\nmv -f .deps/memcheck_amd64_linux-mc_translate.Tpo .deps/memcheck_amd64_linux-mc_translate.Po\r\nmv -f .deps/memcheck_amd64_linux-mc_main.Tpo .deps/memcheck_amd64_linux-mc_main.Po\r\n../coregrind/link_tool_exe_linux 0x38000000 /isilon/Analysis/scratch/hartzelg/spack/spack-20161221/lib/spack/env/gcc/gcc     -o memcheck-amd64-linux -m64 -O2 -g -std=gnu99 -Wall -Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes -Wmissing-declarations -Wcast-align -Wcast-qual -Wwrite-strings -Wempty-body -Wformat -Wformat-security -Wignored-qualifiers -Wmissing-parameter-type -Wold-style-declaration -fno-stack-protector -fsanitize=undefined -fno-sanitize=alignment -fno-strict-aliasing -fno-builtin  -fomit-frame-pointer -O2 -static -nodefaultlibs -nostartfiles -u _start  -m64 memcheck_amd64_linux-mc_leakcheck.o memcheck_amd64_linux-mc_malloc_wrappers.o memcheck_amd64_linux-mc_main.o memcheck_amd64_linux-mc_translate.o memcheck_amd64_linux-mc_machine.o memcheck_amd64_linux-mc_errors.o ../coregrind/libcoregrind-amd64-linux.a ../VEX/libvex-amd64-linux.a -lgcc\r\nmake[3]: ../coregrind/link_tool_exe_linux: Command not found\r\nmake[3]: *** [memcheck-amd64-linux] Error 127\r\nmake[3]: Leaving directory `/tmp/hartzelg/spack-stage/spack-stage-xpwBUb/valgrind-3.11.0/memcheck'\r\nmake[2]: *** [all-recursive] Error 1\r\nmake[2]: Leaving directory `/tmp/hartzelg/spack-stage/spack-stage-xpwBUb/valgrind-3.11.0/memcheck'\r\nmake[1]: *** [all-recursive] Error 1\r\nmake[1]: Leaving directory `/tmp/hartzelg/spack-stage/spack-stage-xpwBUb/valgrind-3.11.0'\r\nmake: *** [all] Error 2\r\n==> Executing phase : 'install'\r\n```\r\n\r\n`coregrind/link_tool_exe_linux` is built by the install script and has a hideously long perl shbang line.\r\n\r\nI understand how the `sbang` mechanism is connected via the post-install hook and runs as part of the `install` process.  Is there an approved way of wedging it into the build process (valgrind seems to be auto-tools based)?",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2678",
+    "updated_at": "2016-12-26 19:12:00",
+    "created_at": "2016-12-25 19:31:45",
+    "closed_at": "2016-12-26 19:11:59",
+    "state": "closed",
+    "title": "Valgrind builds tool for its own build that needs to be \"sbang-ed\"...",
+    "number": 2678,
+    "milestone": null,
+    "labels": [],
+    "id": 197512690,
+    "html_url": "https://github.com/spack/spack/issues/2678",
+    "assignees": [],
+    "comments": 1
+}

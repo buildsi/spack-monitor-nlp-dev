@@ -1,0 +1,17 @@
+{
+    "body": "In compiler bootstrapping pipelines, we add an artificial dependency\r\nbetween jobs for packages to be built with a bootstrapped compiler\r\nand the job building the compiler.  To find the right bootstrapped\r\ncompiler for each spec, we compared not only the compiler spec to\r\nthat required by the package spec, but also the architectures of\r\nthe compiler and package spec.\r\n\r\nBut this prevented us from finding the bootstrapped compiler for a\r\nspec in cases where the architecture of the compiler wasn't exactly\r\nthe same as the spec.  For example, a gcc@4.8.5 might have given\r\nhaswell as the architecture, while the spec had broadwell.  By\r\ncomparing the families instead of the architecture itself, we know\r\nthat we can build the zlib for broadwell with the gcc for haswell.\r\n\r\nCompiler bootstrapping is still going to have issues until #17563 can be rebased and merged, but this is fixes a problem orthogonal to the issues addressed in that PR.  And since that PR doesn't touch the same files, it should be fine to merge this ahead of it.",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/19884",
+    "updated_at": "2020-11-12 18:46:17",
+    "created_at": "2020-11-12 17:59:03",
+    "closed_at": "2020-11-12 18:46:16",
+    "state": "closed",
+    "title": "Pipelines: Compare target family instead of architecture",
+    "number": 19884,
+    "milestone": null,
+    "labels": [],
+    "id": 741809061,
+    "html_url": "https://github.com/spack/spack/pull/19884",
+    "assignees": [],
+    "comments": 0
+}

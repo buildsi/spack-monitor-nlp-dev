@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #13346.\r\n\r\nFor `spack module loads` and `spack module find`, allow missing upstream modules (print a debug message vs. raising an error); also skip local modules if they are blacklisted.\r\n\r\nOld behavior:\r\n\r\n* `spack module find` will report an error if the root spec's module or any dependency module does not exist (regardless of whether it is blacklisted)\r\n* `spack module loads` works the same\r\n\r\nNew behavior: the short version is that the module finding is now more lenient (especially for blacklisted modules):\r\n\r\n* `spack module find` will report an error if the root spec's module does not exist, unless\r\n  * the module for the spec is blacklisted\r\n    * For the root package, a debug message is output so that the user could check this with `spack -d...`\r\n    * For any dependency package (when requesting dependency modules with `spack module find`) a message will not be reported (it's an error if the module is not blacklisted, but if it is blacklisted, the module is silently skipped)\r\n  * the spec is associated with an upstream\r\n    * instead of throwing exceptions when the module isn't find, the logic now prints out a debug-level message so the user has a hint of what is missing if they were expecting to see a module file for an upstream package\r\n* `spack module loads` works exactly the same way as the new `spack module find`, but informational messages are not generated for blacklisted packages ",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/13540",
+    "updated_at": "2019-12-05 03:17:41",
+    "created_at": "2019-11-01 18:22:03",
+    "closed_at": "2019-12-05 03:17:41",
+    "state": "closed",
+    "title": "Bugfix: allow missing modules if they are blacklisted",
+    "number": 13540,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 516275140,
+    "html_url": "https://github.com/spack/spack/pull/13540",
+    "assignees": [],
+    "comments": 4
+}

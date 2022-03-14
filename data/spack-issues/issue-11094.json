@@ -1,0 +1,19 @@
+{
+    "body": "This pull request will close https://github.com/spack/spack/issues/9698, specifically we are allowing for installation of Singularity (versions 3.0 and up). Specifically:\r\n\r\n - Singularity version 3.0 and up is a different install flow from (now legacy) Singularity - it uses golang as opposed to Autotools. There might be a better way to do this, but since both allow for installation from branches / source .tar.gz, I thought it would be cleaner to have `singularity` (3.0.0 and up) and 'singularity-legacy'.\r\n \r\nHere are some things that I learned that could help others in the future (and we can discuss).\r\n\r\n - Go itself is installed under gcc at ` opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/go-1.11.5-73pcics3bti7rafvlgjzmcgtaeogebxg`. It has a src folder but this is not GOPATH.\r\n - GOPATH is not defined by the module providing go. There is no \"spack location\" for go modules (I was thinking that maybe there should be, but I think it's cleaner to be able to compile Golang stuffs, and then get rid of the excessive repos that are usually found on a (kept) GOPATH.\r\n\r\n## GOPATH Troubles\r\nAs I mentioned, GOPATH is not defined, but Singularity is expected to be found under `$GOPATH/src/github.com/sylabs/singularity`. This led to most of the issues with install - the default location that the repo is dumped into doesn't match that. This means that we are able to compile, but when the time comes to build, the entire cloned repo is expected to be found under GOPATH. If we add the building directory to GOPATH, this actually means it's expected to find `<build_dir>/src/github.com/sylabs/singularity` which doesn't exist. If we try to change the build to some place other than there, we then lose having vendors/ in the present working directory and it breaks.\r\n\r\nThe solution I came up with was to create a temporary GOPATH in /tmp, and in fact we move everything there. This mimics the correct path setup and allows for configure / make / make install without any issues.",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/11094",
+    "updated_at": "2019-05-03 19:20:25",
+    "created_at": "2019-04-02 21:20:38",
+    "closed_at": "2019-05-03 01:27:14",
+    "state": "closed",
+    "title": "Ready to Merge: Update/package singularity",
+    "number": 11094,
+    "milestone": null,
+    "labels": [],
+    "id": 428450071,
+    "html_url": "https://github.com/spack/spack/pull/11094",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 147
+}

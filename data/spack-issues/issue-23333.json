@@ -1,0 +1,22 @@
+{
+    "body": "Today I hit an error in this [line](https://codecov.io/gh/spack/spack/src/develop/lib/spack/spack/environment.py#L1577).  The problem there is that `root_matches` is a dictionary mapping concrete specs to abstract specs, but it is indexed with an integer.\r\n\r\nI hit this while attempting to use `matching_spec()` in #22657, but you can also make it happen using the `spack location` command (or probably any command that uses `spack.cmd.matching_spec_from_env(spec)`).\r\n\r\n### Steps to reproduce the issue\r\n\r\nIt seems you need to have an environment where a particular package appears both as a root and a dependency (so concretized separately), but that might not be the complete necessary/sufficient set of conditions. To create an example problem environment:\r\n\r\n```console\r\n$ spack env create foo\r\n$ spack env activate foo\r\n$ spack add readline\r\n$ spack add ncurses ~termlib\r\n$ spack concretize\r\n```\r\n\r\nNow the `foo` environment contains two `ncurses` specs.\r\n\r\n### Error Message\r\n\r\nTo cause the error:\r\n\r\n```console\r\n$ spack -d location -s ncurses\r\n==> [2021-04-28-15:41:16.385703] Imported location from built-in commands\r\n==> [2021-04-28-15:41:16.387569] Imported location from built-in commands\r\n==> [2021-04-28-15:41:16.388594] Reading config file /projects/spack/etc/spack/defaults/repos.yaml\r\n==> [2021-04-28-15:41:16.392801] Reading config file /projects/spack/var/spack/environments/blah/spack.yaml\r\nTraceback (most recent call last):\r\n  File \"/projects/spack/bin/spack\", line 76, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/projects/spack/lib/spack/spack/main.py\", line 772, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/projects/spack/lib/spack/spack/main.py\", line 496, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/projects/spack/lib/spack/spack/cmd/location.py\", line 112, in location\r\n    spec = spack.cmd.matching_spec_from_env(spec)\r\n  File \"/projects/spack/lib/spack/spack/cmd/__init__.py\", line 192, in matching_spec_from_env\r\n    return env.matching_spec(spec) or spec.concretized()\r\n  File \"/projects/spack/lib/spack/spack/environment.py\", line 1588, in matching_spec\r\n    return root_matches[0][1]\r\nKeyError: 0\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2415-ceacc6706f\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-haswell\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/23333",
+    "updated_at": "2021-05-07 17:07:54",
+    "created_at": "2021-04-28 22:03:23",
+    "closed_at": "2021-05-07 17:07:54",
+    "state": "closed",
+    "title": "Error in Environment.matching_specs() method",
+    "number": 23333,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 870427706,
+    "html_url": "https://github.com/spack/spack/issues/23333",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

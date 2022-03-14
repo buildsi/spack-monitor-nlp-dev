@@ -1,0 +1,20 @@
+{
+    "body": "\r\n---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-spyder\r\n==> Installing py-spyder\r\n==> Using cached archive: /opt/sw/fw/rsc/Spack/srcCache/py-spyder/py-spyder-3.1.3.tar.gz\r\n==> Staging archive: /opt/sw/fw/rsc/Spack/spackSoftware/spack-20180706/var/spack/stage/py-spyder-3.1.3-b7euzpxm2zronjc4kmhgpskqrp4dwyyf/spyder-3.1.3.tar.gz\r\n==> Created stage in /opt/sw/fw/rsc/Spack/spackSoftware/spack-20180706/var/spack/stage/py-spyder-3.1.3-b7euzpxm2zronjc4kmhgpskqrp4dwyyf\r\n==> No patches needed for py-spyder\r\n==> Building py-spyder [PythonPackage]\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/opt/sw/fw/rsc/Spack/installHome/linux-sles12-x86_64/gcc-7/python-2.7.15-hknd33vagen27gb4p7keyvx7c6i7f43e/bin/python2.7' '-s' 'setup.py' '--no-user-cfg' 'install' '--prefix=/opt/sw/fw/rsc/Spack/installHome/linux-sles12-x86_64/gcc-7/py-spyder-3.1.3-b7euzpxm2zronjc4kmhgpskqrp4dwyyf' '--single-version-externally-managed' '--root=/'\r\n\r\n1 error found in build log:\r\n     935    ==> '/opt/sw/fw/rsc/Spack/installHome/linux-sles12-x86_64/gcc-7/python-2.7.15-hknd33\r\n            vagen27gb4p7keyvx7c6i7f43e/bin/python2.7' '-s' 'setup.py' '--no-user-cfg' 'install'\r\n            '--prefix=/opt/sw/fw/rsc/Spack/installHome/linux-sles12-x86_64/gcc-7/py-spyder-3.1.3\r\n            -b7euzpxm2zronjc4kmhgpskqrp4dwyyf' '--single-version-externally-managed' '--root=/'\r\n     936    usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]\r\n     937       or: setup.py --help [cmd1 cmd2 ...]\r\n     938       or: setup.py --help-commands\r\n     939       or: setup.py cmd --help\r\n     940\r\n  >> 941    error: option --single-version-externally-managed not recognized\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux athena52 4.4.132-94.33-default #1 SMP Tue May 29 20:09:56 UTC 2018 (76aae3b) x86_64 x86_64 x86_64 GNU/Linux\r\n``` \r\n\r\n### Additional information\r\n\r\nThe package.py has a depends_on('py-setuptools'), which is what causes it to include the switch for \r\n--single-version-externally-managed \r\nsee build_systems/python.py line 253. \r\n\r\nHowever, it seems that spyder's setup.py does not actually use setuptools, and therefore does not recognise the extra option. If I comment out the dependency, then it build OK. \r\n\r\nI am a bit unsure how this ever worked, although since it has been there for quite some time, I presume that it did. So, I was not confident enough to suggest changing it without guidance, hence I am raising an issue, rather than a pull request. Feel free to tell me I am doing something silly. \r\n\r\n",
+    "user": "neilflood",
+    "url": "https://api.github.com/repos/spack/spack/issues/9205",
+    "updated_at": "2018-10-12 17:57:33",
+    "created_at": "2018-09-11 07:08:24",
+    "closed_at": "2018-10-12 17:57:33",
+    "state": "closed",
+    "title": "Installation issue: py-spyder: The setuptools dependency causes build failure",
+    "number": 9205,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies"
+    ],
+    "id": 358914649,
+    "html_url": "https://github.com/spack/spack/issues/9205",
+    "assignees": [],
+    "comments": 5
+}

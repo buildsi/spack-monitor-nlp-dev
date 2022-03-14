@@ -1,0 +1,19 @@
+{
+    "body": "Today, I learned that a number of versions of git have a potentially serious security flaw.  I immediately revised git/package.py to disable the flawed versions, and to make it build good versions by default.  @tgamblin seemed to agree that this was a good idea, and he merged the PR.  So far so good.\n\nThe question is... what next?  How will all the Spack users who have already built git and are now using it be informed that they need to rebuild git, and anything that depends_on('git')?  And supposing that features are added to Spack that choose packages that have already been built... would that serve to further propagate dependence on bad git versions?\n\nI think we need some kind of infrastructure to deal with this issue in a systematic and thorough fashion.  Here is a \"first-draft\" idea.\n\nSuppose we have a git blacklist that is part of the Spack git repo.  The blacklist would be either:\n1. As one big file (eg, blacklist.yaml)\n2. (Probably better): Within each package.py file, allowing versions to be blacklisted.  For example:\n\n```\nclass Git(Package):\n    \"\"\"Git is a free and open source distributed version control\n       system designed to handle everything from small to very large\n       projects with speed and efficiency.\"\"\"\n    homepage = \"http://git-scm.com\"\n    url      = \"https://github.com/git/git/tarball/v2.7.1\"\n\n    version('2.8.0-rc2', 'c2cf9f2cc70e35f2fafbaf9258f82e4c')\n    version('2.7.3', 'fa1c008b56618c355a32ba4a678305f6')\n    version('2.7.1', 'bf0706b433a8dedd27a63a72f9a66060')\n\n    # See here for info on vulnerable Git versions:\n    # http://www.theregister.co.uk/2016/03/16/git_server_client_patch_now/\n    # All the following are vulnerable\n    version('2.6.3', 'b711be7628a4a2c25f38d859ee81b423', blacklist=True)\n    version('2.6.2', 'da293290da69f45a86a311ad3cd43dc8', blacklist=True)\n    version('2.6.1', '4c62ee9c5991fe93d99cf2a6b68397fd', blacklist=True)\n    version('2.6.0', 'eb76a07148d94802a1745d759716a57e', blacklist=True)\n    version('2.5.4', '3eca2390cf1fa698b48e2a233563a76b', blacklist=True)\n    version('2.2.1', 'ff41fdb094eed1ec430aed8ee9b9849c', blacklist=True)\n```\n\nSpack would then have a command (\"spack update\"?) that would identify any currently-built packages that are now blacklisted, and do what it takes to get rid of them.  This would involve re-building anything that depends on them.   It is not immediately clear (to me) where or not this step would require manual intervention.  Suppose we have installed A@1.5, and B@2.0 where B depends_on('A@1.5').  And suppose A@1.5 is blacklisted.  It now becomes impossible to rebuild B when we get rid of the blacklisted A@1.5.  Hopefully, B/package.py will have been changed to depends_on some other version of A.\n\nIf we want people to notice and respond to blacklisted versions, then it will be important to upgrade our package definitions regularly.  Some issues this brings up:\n1. Currently, that means upgrading all of Spack with \"git update.\"  Maybe that's not so bad.  The alternative is to update package definitions separately from spack.\n2. Probably best to regularly update released Spack versions with security fixes in the package files.  This would need to happen on some regular schedule.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/562",
+    "updated_at": "2017-01-10 14:02:51",
+    "created_at": "2016-03-17 00:14:44",
+    "closed_at": "2017-01-10 14:02:22",
+    "state": "closed",
+    "title": "Security Updates",
+    "number": 562,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 141439341,
+    "html_url": "https://github.com/spack/spack/issues/562",
+    "assignees": [],
+    "comments": 18
+}

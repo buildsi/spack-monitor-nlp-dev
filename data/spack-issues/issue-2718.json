@@ -1,0 +1,23 @@
+{
+    "body": "Resolves #2281.\r\n\r\nThis PR is pretty hacky at the moment, so it will need a lot of work before it is properly integrated. But it is a totally working proof of concept:\r\n```\r\n$ spack fetch py-scipy\r\n==> Fetching https://pypi.python.org/packages/22/41/b1538a75309ae4913cdbbdc8d1cc54cae6d37981d2759532c1aa37a41121/scipy-0.18.1.tar.gz\r\n######################################################################## 100.0%\r\n```\r\n\r\nIn the end, I'm hoping to support the following modes:\r\n\r\n#### 1. `pypi` passed to the version directive\r\n\r\nPackages should be able to have multiple versions, some that download from git and some that download from PyPi. The following should work:\r\n```python\r\nurl = 'url'\r\n\r\nversion('1.2.3', 'hash')\r\nversion('1.2.4', 'hash', pypi='name')\r\nversion('1.2.5', 'hash', url='url')\r\nversion('1.2.6', 'hash', git='url', branch='branch')\r\n```\r\n#### 2. `pypi` declared at the package level\r\n\r\nIf you have ten versions, you don't want to add `pypi='name'` to every single version directive. You should be able to declare it once at the package level.\r\n\r\n#### 3. packages named `py-*` without a URL?\r\n\r\nIf a URL isn't provided and the package starts with `py-`, why not call `PyPiFetchStrategy`?\r\n\r\n#### 4. packages that subclass `PythonPackage` without a URL?\r\n\r\nSame as above. See #2709",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2718",
+    "updated_at": "2019-10-20 01:41:10",
+    "created_at": "2017-01-02 22:48:56",
+    "closed_at": "2018-08-18 20:17:37",
+    "state": "closed",
+    "title": "Add a PyPiFetchStrategy to properly download Python packages",
+    "number": 2718,
+    "milestone": null,
+    "labels": [
+        "python",
+        "WIP",
+        "fetching"
+    ],
+    "id": 198388154,
+    "html_url": "https://github.com/spack/spack/pull/2718",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 35
+}

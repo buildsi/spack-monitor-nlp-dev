@@ -1,0 +1,17 @@
+{
+    "body": "Resolves #1789\r\n\r\nIn our scenario we have a a globally installed (i.e., read-only) set of\r\npackages from which each user should then be able to add a subset to\r\nlocal filesystem views. However, the current extension mechanism only\r\nallows for one set of extensions to be activated for any given extendee.\r\n\r\nOne way to circumvent this issue is to use a module system, but this way\r\nenvironment variables tend to get very long after a short while.\r\nFurthermore, since an error is raised when two files have the same\r\ntarget in the view, the user can immediately spot when multiple specs\r\nfrom one package are loaded (an error that sill creeps up from time to\r\ntime).\r\n\r\nIn order to support multiple (and maybe mutually exclusive)\r\nconfigurations of extensions for a given extendee, the following changes\r\nwere made. The aim is to silently activate any specified extensions when\r\nadding them to the filesystem view; no actions from the user required.\r\n\r\nTL;DR: Adding python packages built with py-setuptools to fileystem\r\nviews without globally activating them should \"just work\".\r\n\r\n* `DirectoryLayout`/`Package`: All extension-related command accept a\r\n`path_view` argument restricting extension operations to the given\r\nfilesystem view.\r\n\r\n* `Package`: `{do_,}{de,}activate`-functions also accept a `path_view`\r\nargument. If `path_view` is `not None`, the necessary extension files\r\nare linked into the view instead of the extendee's install directory.\r\n\r\n* `LinkTree`: `merge`-method now accepts a link argument to allow for\r\nboth symlinks and hardlinks.\r\n\r\n* `view`: All linking operations have been refactored to use `LinkTree`s\r\ninstead of custom code.\r\n\r\n* `view`: Check extensions prior to linking packages, activate\r\nextensions in filesystem view afterwards.\r\n\r\n* `view statlink`: The `--verbose` option now prints the `short_spec` of\r\npackages linked.\r\n\r\n* `view statlink`: `status` and `remove` now accept `--all` argument to\r\ndisplay the status of/remove all packages in the filesystem view.\r\n\r\n* `view statlink`: Now uses `display_specs`-function for prettier\r\noutput.\r\n\r\n* `view remove`: Only removes packages specified by user, packages\r\ndepending on those packages and packages that only user-specified\r\npackages depend on.\r\n\r\nI am currently working on some meaningful tests (I did not find any for the `view` command on its own to start from), but would appreciate some feedback in the meantime.",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/3227",
+    "updated_at": "2017-11-03 07:46:30",
+    "created_at": "2017-02-23 15:05:30",
+    "closed_at": "2017-11-03 07:46:30",
+    "state": "closed",
+    "title": "Allow for extensions on a per filesystem view basis",
+    "number": 3227,
+    "milestone": null,
+    "labels": [],
+    "id": 209787506,
+    "html_url": "https://github.com/spack/spack/pull/3227",
+    "assignees": [],
+    "comments": 40
+}

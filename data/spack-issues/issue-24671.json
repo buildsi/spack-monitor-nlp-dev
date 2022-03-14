@@ -1,0 +1,19 @@
+{
+    "body": "All med versions are broken by commit cc20dbf645d32a45ce6b7ed848c6f25eaf42e350. med 4.0.0 and med 4.1.0 depend on hdf5 1.10.7; med 3.2.0 depends on hdf5 1.8.22.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n(CMake constraint: the system has only CMake 3.7.2 and HDF5 requires CMake 3.12+).\r\n\r\n```console\r\n$ spack install med ^cmake@3.12.4\r\n[...]\r\n==> Installing med-4.0.0-oamvn6z2gfevbfx52jid34x632x5zxak\r\n==> No binary for med-4.0.0-oamvn6z2gfevbfx52jid34x632x5zxak found: installing from source\r\n==> Using cached archive: /home/john/spack/var/spack/cache/_source-cache/archive/a4/a474e90b5882ce69c5e9f66f6359c53b8b73eb448c5f631fa96e8cd2c14df004.tar.gz\r\n==> No patches needed for med\r\n==> med: Executing phase: 'cmake'\r\n==> Error: ProcessError: Command exited with status 1:\r\n[...]\r\n\r\n1 error found in build log:\r\n     15    -- Detecting CXX compile features\r\n     16    -- Detecting CXX compile features - done\r\n     17    -- No Fortran support\r\n     18    -- Check for HDF5 ...\r\n     19    -- Found HDF5 in CONFIG mode!\r\n     20    -- Found HDF5 version 1.10.7 -- parallel flag is set to ON\r\n  >> 21    CMake Error at config/cmake_files/FindMedfileHDF5.cmake:118 (GET_PRO\r\n           PERTY):\r\n     22      GET_PROPERTY could not find TARGET hdf5.  Perhaps it has not yet b\r\n           een\r\n     23      created.\r\n     24    Call Stack (most recent call first):\r\n     25      config/cmake_files/medMacros.cmake:396 (FIND_PACKAGE)\r\n     26      CMakeLists.txt:101 (MED_FIND_HDF5)\r\n     27    \r\n```\r\n\r\nIgnoring line numbers, the error message is the same for all versions.\r\n\r\n\r\n### Information on your system\r\n\r\n```console\r\njohn@da:~/spack$ spack debug report\r\n* **Spack:** 0.16.2-3346-406117148d\r\n* **Python:** 3.5.3\r\n* **Platform:** linux-devuan-haswell\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\nLog files for med 4.0.0 with hdf5 1.10.7:\r\n* [spack-build-01-cmake-out.txt](https://github.com/spack/spack/files/6755637/spack-build-01-cmake-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6755638/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6755639/spack-build-out.txt)\r\n* [spack-configure-args.txt](https://github.com/spack/spack/files/6755640/spack-configure-args.txt)\r\n\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers @likask\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "christoph-conrads",
+    "url": "https://api.github.com/repos/spack/spack/issues/24671",
+    "updated_at": "2021-10-01 14:27:24",
+    "created_at": "2021-07-02 15:45:26",
+    "closed_at": "2021-10-01 14:27:24",
+    "state": "closed",
+    "title": "Installation issue: med broken by hdf5 update",
+    "number": 24671,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 935885198,
+    "html_url": "https://github.com/spack/spack/issues/24671",
+    "assignees": [],
+    "comments": 3
+}

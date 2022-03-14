@@ -1,0 +1,20 @@
+{
+    "body": "* fix rtree variant\r\n* add version 3.36.0\r\n* make package and most variants discoverable\r\n\r\nThe SQLite build always enabled the rtree variant due to a confusion between the Autotools build and the amalgamation (SQLite in a single C file) build. This has been fixed. Example:\r\n```console\r\nubuntu@u20:~$ git clone --depth=1 --branch=v0.16.2 -- 'https://github.com/spack/spack.git'\r\nCloning into 'spack'...\r\n[...]\r\nubuntu@u20:~$ . ~/spack/share/spack/setup-env.sh \r\nubuntu@u20:~$ spack external find\r\n[...]\r\nubuntu@u20:~$ spack install sqlite~rtree\r\n[...]\r\n[+] /home/ubuntu/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/sqlite-3.33.0-5gu52nmcpfl4x6rzhfugv64tf5gd2bjp\r\nubuntu@u20:~$ spack load sqlite\r\nubuntu@u20:~$ which sqlite3\r\n/home/ubuntu/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/sqlite-3.33.0-5gu52nmcpfl4x6rzhfugv64tf5gd2bjp/bin/sqlite3\r\nubuntu@u20:~$ spack find --long --variants sqlite\r\n==> 1 installed package\r\n-- linux-ubuntu20.04-skylake / gcc@9.3.0 ------------------------\r\n5gu52nm sqlite@3.33.0+column_metadata+fts~functions~rtree\r\nubuntu@u20:~$ sqlite3 <<<'CREATE VIRTUAL TABLE t USING rtree(id, x, y);'\r\nubuntu@u20:~$ sqlite3 <<<'CREATE VIRTUAL TABLE t USING rtree(id, x);'\r\nError: near line 1: Too few columns for an rtree table\r\n```",
+    "user": "christoph-conrads",
+    "url": "https://api.github.com/repos/spack/spack/issues/25554",
+    "updated_at": "2021-09-10 00:13:49",
+    "created_at": "2021-08-22 13:19:58",
+    "closed_at": "2021-09-10 00:13:49",
+    "state": "closed",
+    "title": "SQLite: fix rtree, add version, make discoverable",
+    "number": 25554,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package"
+    ],
+    "id": 976375661,
+    "html_url": "https://github.com/spack/spack/pull/25554",
+    "assignees": [],
+    "comments": 7
+}

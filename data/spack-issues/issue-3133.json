@@ -1,0 +1,19 @@
+{
+    "body": "TODO:\r\n\r\n- [ ] Unit tests\r\n- [ ] Docs\r\n\r\nThis provides an implementation for \"clean\" Bundle packages --- i.e. packages that don't install anything, but whose purpose is to depend on other packages.  See example below.\r\n\r\nAddresses #1926 #2049\r\n```\r\nfrom spack import *\r\n\r\nclass ProjNcurses(BundlePackage):\r\n    \"\"\"Sample Bundle\"\"\"\r\n\r\n    version('1.0')\r\n\r\n    depends_on('ncurses', type='run')\r\n```\r\n\r\n@tgamblin @becker33 \r\nNotes from past conversation:\r\n\r\n> I would really like to have a MetaPackage class for this, which you could just extend, and Spack would know it's not real.\r\n\r\nI don't like the name `MetaPackage`, it sounds too much like \"meta class,\" which is not a class.  I think `BundlePackage` is less confusing.\r\n\r\n> 1. Are you doing this because spack doesn't have something like [`bundler`](http://bundler.io) or [`brew bundle`](https://github.com/Homebrew/homebrew-bundle)?  Would you like something like that?  It's something I've been thinking a lot about implementing recently, as our code teams need it for building _their_ dependencies. The `Gemfile` and `Gemfile.lock`  concepts map nicely onto Spack's abstract and concrete packages (though in both cases Spack can be more specific than `gem`).  This would be a larger feature than what you're describing, but I think it's something spack needs to adequately encapsulate build environments.\r\n> 2. Or, is this more like `X11`, where it's a bunch of packages that people will probably depend on together as _part_ of a larger system?\r\n\r\nI would say some of both.  This also addresses the issues in #3131.  Although I've used Spack configuration scopes and `packages.yaml` to good effect, I'm coming to believe that users aren't warming up to this way of working.  I realized that we could get the same thing with packages, thereby foisting fewer abstractions on our users.  (There are some subtle differences in semantics of putting version, variant, etc. directives in `packages.yaml` vs. a Bundle Package.  That discussion should happen in Spack Environments WG).\r\n\r\nHow would I re-do #3049 with this PR in place... suppose you have A->B, and you want A and B's `+debug` flag to be configured together.  You can make a `BundlePackage` we will call `proj-A`, something like this:\r\n```\r\nclass ProjA(BundlePackage):\r\n    variant('debug', default=False)\r\n    depends_on('A')\r\n    depends_on('A+debug', when='+debug')\r\n    depends_on('B')\r\n    depends_on('B+debug', when='+debug')\r\n```\r\n\r\nThis approach is quite flexible.  It can set multiple forwarded variants, create its own project-level variants to control constellations of variants in the DAG, choose which packages get the `+debug` (or whatever), etc.  The examples I work with are significantly more complex than this one; I will try to see how they turn out using this approach to project management.\r\n\r\nIf we decide to adopt this approach (part of a larger discussion on Spack Environments), then we will be better able to ask users to remove variant forwarding, site-specific stuff, etc. from their main packages -- and put it in project-level packages like the one above.  The hope is that users will be more willing to do this than the current state of affairs, where there seems to be resistance to putting stuff in `packages.yaml`.\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3133",
+    "updated_at": "2018-04-23 02:23:54",
+    "created_at": "2017-02-12 02:40:01",
+    "closed_at": "2018-04-23 02:23:54",
+    "state": "closed",
+    "title": "BundlePackage",
+    "number": 3133,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 207024349,
+    "html_url": "https://github.com/spack/spack/pull/3133",
+    "assignees": [],
+    "comments": 13
+}

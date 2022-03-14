@@ -1,0 +1,19 @@
+{
+    "body": "The current version of `package.py` for `llvm-flang` executes `cmake(*args)` always as part of the post install.  If nVidia device offload is not part of the build, this results in referencing `args` without it being set and the error:\r\n\r\n```\r\n==> Error: UnboundLocalError: local variable 'args' referenced before assignment\r\n```\r\n\r\nLooking at previous version of `package.py` (https://github.com/owainkenwayucl/spack/blob/d1c708bdf3d95b63a8aaaac66a9434222d77b4ce/var/spack/repos/builtin/packages/llvm-flang/package.py) this whole routine appears to be only required for offload, so indent `cmake/make/install` to be under the `if` and only executed if part of an offload nvptx build.",
+    "user": "owainkenwayucl",
+    "url": "https://api.github.com/repos/spack/spack/issues/17466",
+    "updated_at": "2020-07-13 08:58:36",
+    "created_at": "2020-07-10 19:54:37",
+    "closed_at": "2020-07-11 14:02:54",
+    "state": "closed",
+    "title": "llvm-flang: Only build offload code if cuda enabled",
+    "number": 17466,
+    "milestone": null,
+    "labels": [
+        "bugfix"
+    ],
+    "id": 655003122,
+    "html_url": "https://github.com/spack/spack/pull/17466",
+    "assignees": [],
+    "comments": 2
+}

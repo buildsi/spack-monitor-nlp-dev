@@ -1,0 +1,19 @@
+{
+    "body": "Trying to use #5716 I ran into the problem of getting a concretisation error of one of our internal packages. I also tried it with ```db149876a42ec4cc8db9e488d90d71c7d811a7a6``` where it also fails. So the reason isn't in #5716, although I know that it worked at some point in August.\r\n\r\nThis is the error message:\r\n```\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    pcre@8.40%gcc@4.9.2~jit+utf arch=linux-debian8-x86_64 \r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    git@2.14.1%gcc@4.9.2 arch=linux-debian8-x86_64 \r\n\r\n\r\ngit requires pcre variant +jit, but spec asked for ~jit\r\n```\r\n\r\nIt fails with current ```develop``` (Time to fail: ~1:30), but doesn't fail when setting the defaults of ```pcre``` to ```+jit```. (Time to complete: ~2:40)\r\nChecking out ```db149876a42ec4cc8db9e488d90d71c7d811a7a6``` (the last commit before the merge) also fails (Time to complete: ~4:50)\r\n\r\nwill add some strange example code in a couple of minutes",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/5748",
+    "updated_at": "2017-10-13 11:49:18",
+    "created_at": "2017-10-13 07:29:48",
+    "closed_at": "2017-10-13 11:49:18",
+    "state": "closed",
+    "title": "spack spec fails due to unsatisfiable dependency",
+    "number": 5748,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 265194658,
+    "html_url": "https://github.com/spack/spack/issues/5748",
+    "assignees": [],
+    "comments": 9
+}

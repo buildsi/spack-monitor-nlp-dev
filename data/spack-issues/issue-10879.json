@@ -1,0 +1,19 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/10852\r\nFixes https://github.com/spack/spack/issues/10851\r\n\r\nGenerally Spack applies patches in the order they are listed in the `package.py` file (which is sensible and consistent). However, due to details of internal management, patches with different `when` conditions could be applied in an inconsistent order (different orderings between runs of `spack`).\r\n\r\nIt was also possible for dependency patches to be applied in an inconsistent order (although this wasn't the issue with #10851 or #10852). This PR\r\n\r\n* guarantees applying patches in listed order within a package, and\r\n* among all patches (including those applied by dependents) applies them in an order determined by alphabetical ordering of the package names (arbitrary but consistent)",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/10879",
+    "updated_at": "2019-03-28 18:25:45",
+    "created_at": "2019-03-13 19:27:18",
+    "closed_at": "2019-03-28 18:25:45",
+    "state": "closed",
+    "title": "Consistent patch ordering",
+    "number": 10879,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 420679396,
+    "html_url": "https://github.com/spack/spack/pull/10879",
+    "assignees": [],
+    "comments": 3
+}

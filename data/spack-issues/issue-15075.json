@@ -1,0 +1,20 @@
+{
+    "body": "When binutils builds on macOS, it omits `ld` and other key components. Additionally, `gcc+binutils %clang` sends invalid arguments to the linker since it assumes it's being built with GCC. This MR:\r\n- marks `binutils+gold` as conflicting with `platform=darwin` since `ld.gold` doesn't actually get built in this case;\r\n- marks `gcc+binutils` on darwin as well, for the same reasons\r\n- marks `gcc+binutils+nvptx` as conflicting since `+binutils` requires bootstrapping and `+nvptx` explicitly disables it.\r\n\r\n## Configure errors when building with %clang\r\n```\r\nconfigure: error: C compiler cannot create executables\r\nSee `config.log' for more details.\r\nchecking for C compiler default output file name... checking for suffix of object files... checking for C compiler default output file name... make[2]: *** [configure-stage1-libdecnumber] Error 77\r\n```\r\nwhere closer inspection of `spack-src/spack-build/libdecnumber/config.log` shows\r\n```\r\nconfigure:2649: /ornldev/code/spack/lib/spack/env/clang/clang -g   -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/gcc/f2gezvp/lib -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/gcc/f2gezvp/lib64 -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/binutils/alksglg/lib -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/gmp/icsy6fw/lib -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/isl/uvsapsa/lib -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/libiconv/jg6ekuh/lib -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/mpc/eam5ugi/lib -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/mpfr/pzmx6wv/lib -Wl,-rpath,/ornldev/code/spack/opt/spack/clang-11.0.0-apple/zlib/xj36ejk/lib -static-libstdc++ -static-libgcc -Wl,-no_pie  conftest.c  >&5\r\nclang: error: unsupported option '-static-libgcc'\r\nconfigure:2653: $? = 1\r\nconfigure:2690: result: \r\nconfigure: failed program was:\r\n| /* confdefs.h */\r\n| #define PACKAGE_NAME \"libdecnumber\"\r\n| #define PACKAGE_TARNAME \"libdecnumber\"\r\n| #define PACKAGE_VERSION \" \"\r\n| #define PACKAGE_STRING \"libdecnumber  \"\r\n| #define PACKAGE_BUGREPORT \"gcc-bugs@gcc.gnu.org\"\r\n| #define PACKAGE_URL \"\"\r\n| /* end confdefs.h.  */\r\n| \r\n| int\r\n| main ()\r\n| {\r\n| \r\n|   ;\r\n|   return 0;\r\n| }\r\nconfigure:2696: error: in `/private/var/folders/fy/x2xtwh1n7fn0_0q2kk29xkv9vvmbqb/T/s3j/spack-stage/spack-stage-gcc-8.3.0-f2gezvpdyzaxh3drmmiz6i2ou22vgbip/spack-src/spack-build/libdecnumber':\r\nconfigure:2700: error: C compiler cannot create executables\r\nSee `config.log' for more details.\r\n```\r\n\r\n## After fixing that error but still using +binutils\r\n\r\n```\r\nconfigure: error: cannot execute: /ornldev/code/spack/opt/spack/clang-11.0.0-apple/binutils/alksglg/bin/ld: check --with-ld or env. var. DEFAULT_LINKER\r\n```",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/15075",
+    "updated_at": "2020-03-17 14:00:47",
+    "created_at": "2020-02-19 15:24:17",
+    "closed_at": "2020-02-20 18:00:48",
+    "state": "closed",
+    "title": "Mark binutils-related conflicts",
+    "number": 15075,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "gcc"
+    ],
+    "id": 567642198,
+    "html_url": "https://github.com/spack/spack/pull/15075",
+    "assignees": [],
+    "comments": 2
+}

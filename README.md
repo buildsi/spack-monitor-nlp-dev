@@ -82,7 +82,10 @@ And then try to match issues to error messages:
 
 ```
 python 3.spack-issues-match.py
-Found 319 issues with errors, 2046 issues without matches.
+Found 1469 issues with errors, 27938 issues without matches.
+Found 30000 spack-monitor errors!
+Found a total of 233205 errors
+Found 719 unique errors in the spack monitor set.
 ```
 
 This will generate [data/spack-issue-errors.json](data/spack-issue-errors.json)

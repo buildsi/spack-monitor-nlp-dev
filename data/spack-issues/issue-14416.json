@@ -1,0 +1,23 @@
+{
+    "body": "Given the case where a list configuration item is specified in YAML (`config.yaml`, say):\r\n```YAML\r\n...\r\nextensions:\r\n  - /my/path/to/extension\r\n```\r\nand a test overrides that item, _viz_:\r\n```Python\r\n    with spack.config.override('config:extensions', ['/my/path/to/extension-1', '/my/path/to/extension-2']):\r\n        ...\r\n```\r\nThen the actual value of `config:extensions` inside the overridden context as returned by `spack.config.get()` is:\r\n```Python\r\n['/my/path/to/extension-1', '/my/path/to/extension-2', '/my/path/to/extension']\r\n```\r\nrather than the expected:\r\n```Python\r\n['/my/path/to/extension-1', '/my/path/to/extension-2']\r\n```\r\n\r\nI would expect higher priority scopes to replace lists rather than prepend to them, at least as a default behavior. Is this intended, and what is the use case?",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/14416",
+    "updated_at": "2020-03-06 03:25:02",
+    "created_at": "2020-01-07 19:31:16",
+    "closed_at": "2020-03-06 03:25:02",
+    "state": "closed",
+    "title": "`spack.config.override()` prepends to lists rather than replacing",
+    "number": 14416,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "tests"
+    ],
+    "id": 546465711,
+    "html_url": "https://github.com/spack/spack/issues/14416",
+    "assignees": [
+        "chissg"
+    ],
+    "comments": 8
+}

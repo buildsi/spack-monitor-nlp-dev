@@ -1,0 +1,19 @@
+{
+    "body": "I've been using the issues here to solve some of my own problems with applications not installing, so I'm just going to document some issues I had with installing Paraview that I solved, but haven't decided on the best way to put back into Spack.\r\n\r\nWhen installing Paraview I found that it downloads a tar file like normal which has a `version.txt` file in it which contains `5.4.1` for example. The cmake configure then does a `find_package(git)` and if the Git executable exists, it runs `git describe` and uses whatever this output may be, which in my case was `0.8.17-6535-g5ccc9c1` for whatever reason:\r\n\r\n```\r\n-- Found Git: /usr/bin/git (found version \"1.7.1\") \r\n-- Determined Source Version : 0.8.17-6535-g5ccc9c1\r\n```\r\n\r\nThen Paraview is happy to consider itself version 0.8 and when trying to connect with a 5.4.1 client, it fails. The solution for me was to stop Paraview from running `git describe` by commenting it out in the CMakeLists.txt and then it defaults to using `version.txt`:\r\n\r\n```\r\n-- Could not use git to determine source version, using version 5.4.1\r\n```\r\n\r\nWhich then worked fine.\r\n\r\nNext the Paraview library files are then installed into `lib/paraview-5.4` rather than the normal `lib` directory itself, so I had to modify the module file that was generated.\r\n\r\nI would like to put this back into Spack, but I'm not sure of the best way to deal with the `git describe` issue, by either a patch, or whatever since I'm not sure if my patch will only work for 5.4.x. I feel like it might almost be best to hide `git` from Paraview before configure somehow to solve the problem for all Paraview versions. I will submit this issue to Paraview.\r\n\r\nThe module file should be easy to generate the correct library path, but I haven't looked into how to customize module file generation yet.\r\n\r\nAnyway just documenting my experience in case anyone else deals with Paraview. I will try to get my modifications put back into Spack in the right manner if I find the time.",
+    "user": "jrood-nrel",
+    "url": "https://api.github.com/repos/spack/spack/issues/5735",
+    "updated_at": "2017-10-19 21:54:58",
+    "created_at": "2017-10-12 19:55:39",
+    "closed_at": "2017-10-19 21:54:58",
+    "state": "closed",
+    "title": "Paraview Problems",
+    "number": 5735,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 265065560,
+    "html_url": "https://github.com/spack/spack/issues/5735",
+    "assignees": [],
+    "comments": 4
+}

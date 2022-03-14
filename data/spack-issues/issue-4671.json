@@ -1,0 +1,20 @@
+{
+    "body": "This parallelizes the lock test so that it can be run with MPI, to test cross-node locking on parallel filesystems.  This is needed for parallel builds in Spack, and to ensure that different spack processes can coordinate with each other reasonably well through locks on a parallel filesystem.\r\n\r\nThis actually looks like a lot more changes than it is, since it first makes the lock test a proper `pytest` test.  Look at commits after the first for the real details.\r\n\r\n- [x] Port lock test to pytest\r\n- [x] Fix `touch` and `mkdirp` to work properly with concurrent spack processes (multi-node)\r\n- [x] Make the `lock` test MPI-runnable\r\n- [x] Parametrize the `lock` test to run on potentially multiple filesystems.\r\n\r\nAs before, you can run the lock test as a node-local test, with a typical invocation like this:\r\n\r\n```console\r\n    $ spack test lock\r\n```\r\n\r\nYou can *also* run it as an MPI program, which allows you to test locks across nodes.  So, e.g., you can run the test like this:\r\n\r\n```console\r\n    $ mpirun -n 7 spack test lock\r\n```\r\n\r\nAnd it will test locking correctness among MPI processes.  Note that you'll need `mpi4py` for this to work properly.  To ensure that the MPI processes span multiple nodes, pass the right args to your MPI launcher.  e.g., for SLURM:\r\n\r\n```console\r\n    $ srun -N 7 -n 7 -m cyclic spack test lock\r\n```\r\n\r\nYou can use this to test whether your shared filesystem properly supports POSIX reader-writer locking with byte ranges through `fcntl`.\r\n\r\nThe test is parametrized, and it'll run on multiple filesystems in both node-local and MPI mode.\r\nYou can control this by modifying the `locations` list in `lib/spack/spack/test/lock.py`.  By default it looks like this:\r\n\r\n```python\r\n    locations = [\r\n        tempfile.gettempdir(),\r\n        os.path.join('/nfs/tmp2/', getpass.getuser()),\r\n        os.path.join('/p/lscratch*/', getpass.getuser()),\r\n    ]\r\n```\r\n\r\nThese are LLNL locations; you can add paths to the filesystems you want to test.  Nonexistant paths will be skipped.  `tempfile.gettempdir()` will also be skipped for MPI testing, as it is often a node-local filesystem, and multi-node tests will fail if the locks aren't actually on a shared filesystem.  I am not sure of a good way to auto-detect whether a system has a Lustre, NFS, or GPFS mount, otherwise I'd make the list a bit more automatic.\r\n\r\n@adamjstewart: this works for me node-local and in parallel on LLNL NFS and Lustre filesystems.  I'm curious to know whether it works in parallel on GPFS.\r\n\r\nI am curious to know what others get when mpi-running this across nodes on their favorite filesystems.  I'm hoping the lock implementation is pretty robust.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4671",
+    "updated_at": "2017-07-31 20:41:49",
+    "created_at": "2017-07-04 00:44:36",
+    "closed_at": "2017-07-04 18:41:38",
+    "state": "closed",
+    "title": "Parallelize lock test for parallel filesystems",
+    "number": 4671,
+    "milestone": null,
+    "labels": [
+        "locking",
+        "tests"
+    ],
+    "id": 240286830,
+    "html_url": "https://github.com/spack/spack/pull/4671",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,24 @@
+{
+    "body": "Sometimes build processes will emit invalid unicode. In my case,\r\nI ran into while building libtheora. (See merge request for traceback.)\r\n\r\nThis simply catches those errors and continues processes the log. I\r\nnormally wouldn't catch and release like this, but:\r\n\r\n 1. This problem is obviously not endemic\r\n 2. The alternative is to read in binary mode,\r\n    and then decode while ignoring errors. If that's the solution that's\r\n    prefered, it shouldn't be too big of a deal to tackle it.\r\n\r\nOne more thing\r\n#############\r\n\r\nAn error like this might cascade; One invalid read puts the cursor at a bad position for reading the next unicode bytes, which cause the error again, and so on. With UTF8, this is pretty unlikely unless the text is very unicode heavy, as most characters should be readable as a single byte. \r\n\r\n```\r\n==> Error: Exception occurred in writer daemon!\r\nTraceback (most recent call last):\r\n  File \"/yellow/users/pflarr/repos/spack/lib/spack/llnl/util/tty/log.py\", line 768, in _writer_daemon\r\n    line = _retry(in_pipe.readline)()\r\n  File \"/yellow/users/pflarr/repos/spack/lib/spack/llnl/util/tty/log.py\", line 830, in wrapped\r\n    return function(*args, **kwargs)\r\n  File \"/var/lib/perceus/vnfs/asc-fe/rootfs/usr/lib64/python3.6/codecs.py\", line 321, in decode\r\n    (result, consumed) = self._buffer_decode(data, self.errors, final)\r\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0x97 in position 145: invalid start byte\r\n```",
+    "user": "Paul-Ferrell",
+    "url": "https://api.github.com/repos/spack/spack/issues/21447",
+    "updated_at": "2021-11-29 14:35:14",
+    "created_at": "2021-02-02 16:57:56",
+    "closed_at": "2021-11-29 12:27:03",
+    "state": "closed",
+    "title": "Handle invalid unicode while logging.",
+    "number": 21447,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "tests",
+        "utilities",
+        "workflow"
+    ],
+    "id": 799468453,
+    "html_url": "https://github.com/spack/spack/pull/21447",
+    "assignees": [
+        "bernhardkaindl"
+    ],
+    "comments": 15
+}

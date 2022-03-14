@@ -1,0 +1,20 @@
+{
+    "body": "Fixes #25867 \r\n\r\n@haampie discovered a long-standing bug that had never been triggered prior to #22845 because the hashing algorithm had been stable for multiple years while the bug was in production. The bug was that when reading a concretized environment, Spack did not properly read in the build hashes associated with the specs in the environment. Those hashes were recomputed (and as long as we didn't change the algorithm, were recomputed identically).  Spack's policy, though, is never to recompute a hash.  Once something is installed, we respect its metadata hash forever -- even if internally Spack changes the hashing method.  Put differently, once something is concretized, it has a concrete hash, and that's it -- forever.\r\n\r\nWhen we changed the hashing algorithm for performance in #22845 we exposed the bug. This PR fixes the bug at its source, but properly reading in the cached build hash attributes associated with the specs. I've also renamed some variables in the Environment class methods to make a mistake of this sort more difficult to make in the future.\r\n\r\nIncludes a regression test.\r\n\r\n@nhanford and @tgamblin assisted in debugging.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/25879",
+    "updated_at": "2021-09-13 21:25:50",
+    "created_at": "2021-09-10 00:47:44",
+    "closed_at": "2021-09-13 21:25:49",
+    "state": "closed",
+    "title": "Fix environment reading from lockfile to trust written hashes",
+    "number": 25879,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "environments"
+    ],
+    "id": 992779721,
+    "html_url": "https://github.com/spack/spack/pull/25879",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\ncompilers.yaml\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    spec: gcc@11.2.0\r\n    paths:\r\n      cc: cc\r\n      cxx: CC\r\n      f77: ftn\r\n      fc: ftn # Fortran compiler specified here\r\n    flags: {}\r\n    operating_system: sles15\r\n    target: any\r\n    modules:\r\n    - PrgEnv-gnu\r\n    - gcc/11.2.0\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\n```console\r\nspack install ascent +fortran\r\n```\r\n\r\nBuilding conduit by itself it seems like everything is fine. `conduit +fortran` all builds, no problem. Or so it seems until `ascent +fortran` tries to configure when all of the sudden it can't find the conduit.mod file.\r\n\r\nI went digging around and finally found the culprit, the listed projects _silently_ hide turning off fortran when it is requested, even if there is a valid fortran compiler available. Either `self.compiler.fc` is not set for some reason or `SPACK_FC` is not set in the hostconfig stage context reliably (it is in the `spack-build-env.txt` file for what it is worth). Just removing all of the f_compiler logic fixes this issue, but my sense around these projects is they have some reason for doing all of these things.\r\n\r\nThis will always fail to build whatever project _downstream_ needs `conduit +fortran` but never fail to build a `conduit +fortran`. This is really not ideal, if a spec is specified the package should build to that spec or not build at all.\r\n\r\nhostconfig:\r\n[perlmutter-ascent-host-config.cmake.txt](https://github.com/spack/spack/files/7942267/perlmutter-ascent-host-config.cmake.txt)\r\n\r\n\r\n### Information on your system\r\n\r\nOn Perlmutter\r\n[perlmutter-ascent-build-out.txt](https://github.com/spack/spack/files/7942904/perlmutter-ascent-build-out.txt)\r\n[perlmutter-ascent-build-env.txt](https://github.com/spack/spack/files/7942905/perlmutter-ascent-build-env.txt)\r\n\r\n```\r\n* **Spack:** 0.17.1-823-28565749ff\r\n* **Python:** 3.6.13\r\n* **Platform:** cray-sles15-zen3\r\n* **Concretizer:** clingo\r\n```\r\n\r\n### Additional information\r\n\r\nMy environment is setup using the [spack-confg for perlmutter](https://github.com/spack/spack-configs/tree/main/NERSC/perlmutter/e4s-21.11/site_config) with some minor modifications around nvidia/cuda stuff which should affect this at all. I also added the `gcc@11.2.0` compiler, it is now the default in the `PrgEnv-gnu`.\r\n\r\n@cyrush \r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "kwryankrattiger",
+    "url": "https://api.github.com/repos/spack/spack/issues/28613",
+    "updated_at": "2022-02-01 14:44:49",
+    "created_at": "2022-01-26 15:29:49",
+    "closed_at": "2022-02-01 14:44:49",
+    "state": "closed",
+    "title": "Installation issue: conduit/apcomp/ascent +fortran",
+    "number": 28613,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1115152973,
+    "html_url": "https://github.com/spack/spack/issues/28613",
+    "assignees": [],
+    "comments": 1
+}

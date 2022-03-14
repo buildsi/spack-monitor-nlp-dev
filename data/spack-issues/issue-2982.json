@@ -1,0 +1,19 @@
+{
+    "body": "@Exteris @tgamblin @alalazo \r\n\r\n> The only option left is to make environment modules, but these lose dependency information...\r\n> Can we modify our modules to also load dependencies as well? I thought that\r\nworked? Or is that only for Lmod?\r\n> I think if the modules shipped with a configuration with... prereq loading enabled by default, that would be way better.\r\n\r\nCurrently, setting up recursive loading of modules requires users add per-package information in `modules.yaml`.  This is fundamentally the wrong place (see #1662).  Which dependencies need to be loaded recursively is package-specific, and should therefore go with all other package-specific things (in `package.py`).\r\n\r\nHow to fix:\r\n\r\n1. Design and implement a mechanisms that allows packagers to add recursive module loading information to `package.py`.  Is this an optional kwarg on `depends_on()`?\r\n\r\n2. Design a setting in `modules.yaml` to be able to turn package auto-loading on/off; or even override what is in `package.py` on a per-package basis.\r\n\r\n3. Modify the module generation logic to incorporate recursive-loading information from the packages, as well as its current source of `modules.yaml`.\r\n\r\n4. Add default rules to some Package superclasses.  For example, `PythonPackage` should auto-load its dependencies by default, whereas `AutotoolsPackage` and `CMakePackage` do not.\r\n\r\n5. Successively refine by adding more detailed information on recursive module loading, by editing `package.py` files on a per-package basis.\r\n\r\nI believe this issue needs to be fixed before we see widespread use of recursive module loading among typical Spack users.  Nobody wants to configure how 50 modules handle recursive loading --- especially since they likely don't even know the correct configuration for most of those modules.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2982",
+    "updated_at": "2018-04-08 14:52:53",
+    "created_at": "2017-02-01 15:54:07",
+    "closed_at": "2018-04-08 14:52:52",
+    "state": "closed",
+    "title": "Built-In Recursive Module Loading",
+    "number": 2982,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 204622317,
+    "html_url": "https://github.com/spack/spack/issues/2982",
+    "assignees": [],
+    "comments": 3
+}

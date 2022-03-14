@@ -1,0 +1,17 @@
+{
+    "body": "I am seeing this error:\n\n```\n$ spack install -v -j1 openblas +ilp64 %gcc@5.3.0-clang-apple-7.0.2\n==> Installing openblas\n==> Trying to fetch from http://github.com/xianyi/OpenBLAS/archive/v0.2.15.tar.gz\n######################################################################## 100.0%\n==> Trying to fetch from http://www.agner.org/optimize/objconv.zip\n######################################################################## 100.0%\n==> Staging archive: /Users/eschnett/src/spack/var/spack/stage/openblas-0.2.15-gpq5etdj36vxztbasmssl5ig43embxcd/v0.2.15.tar.gz\n==> Created stage in /Users/eschnett/src/spack/var/spack/stage/openblas-0.2.15-gpq5etdj36vxztbasmssl5ig43embxcd.\n==> Staging archive: /Users/eschnett/src/spack/var/spack/stage/resource-objconv-gpq5etdj36vxztbasmssl5ig43embxcd/objconv.zip\nArchive:  /Users/eschnett/src/spack/var/spack/stage/resource-objconv-gpq5etdj36vxztbasmssl5ig43embxcd/objconv.zip\n  inflating: objconv.exe             \n  inflating: objconv-instructions.pdf  \n extracting: source.zip              \n extracting: extras.zip              \n  inflating: changelog.txt           \n==> Created stage in /Users/eschnett/src/spack/var/spack/stage/resource-objconv-gpq5etdj36vxztbasmssl5ig43embxcd.\nTraceback (most recent call last):\n  File \"/Users/eschnett/src/spack/bin/spack\", line 168, in <module>\n    main()\n  File \"/Users/eschnett/src/spack/bin/spack\", line 146, in main\n    return_val = command(parser, args)\n  File \"/Users/eschnett/src/spack/lib/spack/spack/cmd/install.py\", line 81, in install\n    fake=args.fake)\n  File \"/Users/eschnett/src/spack/lib/spack/spack/package.py\", line 838, in do_install\n    self.do_patch()\n  File \"/Users/eschnett/src/spack/lib/spack/spack/package.py\", line 724, in do_patch\n    self.do_stage()\n  File \"/Users/eschnett/src/spack/lib/spack/spack/package.py\", line 712, in do_stage\n    os.symlink(source_path, link_path)\nOSError: [Errno 2] No such file or directory\n```\n\nClearly I made an error in my package recipe. However, it's difficult to debug since I don't know which symbolic couldn't be created. I didn't ask for a symbolic link, I think it must be Spack doing this internally, probably having to do with unpacking an archive. This is the relevant description in my recipe:\n\n```\n    resource(name='objconv',\n             url='http://www.agner.org/optimize/objconv.zip',\n             md5='fcf8f01a5683387e17df6d21497d53fa',\n             destination='objconv',\n             when='+ilp64')\n```\n\nCould you output the file names `source_path` and `link_path` with the error message?\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/279",
+    "updated_at": "2016-03-30 21:37:02",
+    "created_at": "2015-12-25 17:02:12",
+    "closed_at": "2016-03-30 21:37:02",
+    "state": "closed",
+    "title": "symlink should have better error message",
+    "number": 279,
+    "milestone": null,
+    "labels": [],
+    "id": 123890640,
+    "html_url": "https://github.com/spack/spack/issues/279",
+    "assignees": [],
+    "comments": 2
+}

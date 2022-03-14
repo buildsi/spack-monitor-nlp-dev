@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\nI installed spack on a RedHat 7.9 system (develop branch) and try to install any package, e.g. ncurses\r\n\r\n```console\r\n$ spack install -v ncurses\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\nThe following error is shown:\r\n```console\r\nError: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xf0 in position 0: invalid continuation byte\r\n\r\n/home/myuser/spack/lib/spack/spack/build_environment.py:863, in child_process:\r\n        860            tb_string = traceback.format_exc()\r\n        861\r\n        862            # build up some context from the offending package so we can\r\n  >>    863            # show that, too.\r\n        864            package_context = get_package_context(tb)\r\n        865\r\n        866            build_log = None\r\n\r\nTraceback (most recent call last):\r\n  File \"/home/myuser/spack/lib/spack/spack/build_environment.py\", line 812, in child_process\r\n    setup_package(pkg, dirty=dirty)\r\n  File \"/home/myuser/spack/lib/spack/spack/build_environment.py\", line 729, in setup_package\r\n    module('unload', 'cray-libsci')\r\n  File \"/home/myuser/spack/lib/spack/spack/util/module_cmd.py\", line 39, in module\r\n    env_output = str(module_p.communicate()[0].decode())\r\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xf0 in position 0: invalid continuation byte\r\n\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.15.4-1902-e80276c\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-broadwell\r\n\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\nSince spack ran fine for a long time, I did a git bisect, with the following results:\r\n`dd3762d0f936aca41d11deb033e56d68d2036f2f is the first bad commit`\r\nSo [this](https://github.com/spack/spack/commit/dd3762d0f936aca41d11deb033e56d68d2036f2f) is the first bad commit, if I checkout a commit before I can build the package as expected.\r\nI don't have the time today to look into the issue any longer, maybe someone has an idea?\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "mathsen",
+    "url": "https://api.github.com/repos/spack/spack/issues/19867",
+    "updated_at": "2020-11-13 18:11:48",
+    "created_at": "2020-11-11 21:29:36",
+    "closed_at": "2020-11-13 17:16:53",
+    "state": "closed",
+    "title": "Error: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xf0 in position 0: invalid continuation byte",
+    "number": 19867,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 741083272,
+    "html_url": "https://github.com/spack/spack/issues/19867",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 4
+}

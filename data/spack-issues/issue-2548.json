@@ -1,0 +1,19 @@
+{
+    "body": "This takes each dependency which has only the 'build' deptype and performs a distinct concretization on it. These build-only deps are no longer explicitly part of the dependency DAG. The dependency DAG may now include multiple instances of a given package, namely when it appears as a link dependency of the root and as a dependency of some package that is a build dependency. \r\n\r\nA common example is the cmake package: many packages may depend on cmake as a build dependency; cmake depends on zlib transitively. zlib is also a common dependency (transitively). With this PR, packages which depend on zlib via cmake and by linking via another package will build two instances of zlib.\r\n\r\nIt is not always possible to consider the concretization of a build-only dependency separately from other dependencies. At the moment this PR ignores this possibility and always performs a separate concretization.\r\n\r\nTODOs:\r\n\r\n- [x] add unit test for concretization as noted by @davydden \r\n- [x] ~~get rid of deptype 'nolink'~~ this was since handled by https://github.com/LLNL/spack/pull/2765\r\n- [x] by default use same compiler for build deps when possible\r\n\r\nSee: \r\n* https://github.com/LLNL/spack/issues/839\r\n* https://github.com/LLNL/spack/issues/2537\r\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/2548",
+    "updated_at": "2019-04-24 02:18:22",
+    "created_at": "2016-12-10 04:37:05",
+    "closed_at": "2019-04-24 02:18:21",
+    "state": "closed",
+    "title": "Perform concretization of build-only deps separately",
+    "number": 2548,
+    "milestone": null,
+    "labels": [
+        "WIP"
+    ],
+    "id": 194744389,
+    "html_url": "https://github.com/spack/spack/pull/2548",
+    "assignees": [],
+    "comments": 50
+}

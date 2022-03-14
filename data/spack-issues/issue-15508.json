@@ -1,0 +1,17 @@
+{
+    "body": "@eugeneswalker got this error using buildcache installs on RHEL8.\r\n```\r\n==> Relocating package from\r\n  /super/absurdly/ridiculously/obnoxiously/long/path/for/relocation to /opt/spack/opt/spack.\r\n==> Error: Doing a binary string replacement in /opt/spack/opt/spack/linux-rhel8-x86_64/gcc-7.3.0/pkgconf-1.6.3-mrunufrcl6il7w5yqi43dxmeshtdzsi2/lib/libpkgconf.so.3.0.0 failed.\r\nThe size of the file changed from 253992 to 254172\r\nwhen it should have remanined the same.\r\n```\r\n\r\nThis was tracked to using null byte strings in the search pattern for path text in the binary file. This method works for Mach-o paths but not for path strings in ELF binaries. Removing the null bytes from the string fixes the error.",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/15508",
+    "updated_at": "2020-03-17 03:04:36",
+    "created_at": "2020-03-16 18:49:11",
+    "closed_at": "2020-03-16 19:49:56",
+    "state": "closed",
+    "title": "When replacing path text in ELF binaries do not include null byte padding in search string",
+    "number": 15508,
+    "milestone": null,
+    "labels": [],
+    "id": 582527605,
+    "html_url": "https://github.com/spack/spack/pull/15508",
+    "assignees": [],
+    "comments": 0
+}

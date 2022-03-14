@@ -1,0 +1,19 @@
+{
+    "body": "One might reasonable expect uninstall to completely undo the results of install.\n\nBut, I not that uninstall does not touch and installed modules.\n\nFor instance:\n\n``` shell\nspack install dos2unix@5.3\n   ...\n==> Successfully installed dos2unix.\n   ...\n$ module av 2>&1 | grep dos2unix\ndos2unix@5.3%gcc@4.8.2\n$ which dos2unix\n/usr/bin/dos2unix\n$ module load dos2unix@5.3%gcc@4.8.2\n$ which dos2unix\n/n/local/sce/spack/opt/CentOS_7_x86_64/gcc@4.8.2/dos2unix@5.3/bin/dos2unix\n$ module unload dos2unix@5.3%gcc@4.8.2\n$ which dos2unix\n/usr/bin/dos2unix\n$ spack uninstall dos2unix\n==> Successfully uninstalled dos2unix@5.3%gcc@4.8.2=CentOS_7_x86_64.\n$ module av 2>&1 | grep dos2unix\ndos2unix@5.3%gcc@4.8.2\n$ module load dos2unix@5.3%gcc@4.8.2\n$ which dos2unix\n/usr/bin/dos2unix\n```\n\nI am not sure what the best resolution of this is.  Feel free to close with \"works as designed\".  I thought I should mention it though...\n",
+    "user": "malcook",
+    "url": "https://api.github.com/repos/spack/spack/issues/44",
+    "updated_at": "2016-06-27 06:54:14",
+    "created_at": "2015-05-18 17:18:55",
+    "closed_at": "2016-06-27 06:54:14",
+    "state": "closed",
+    "title": "spack uninstall leaves behind created module/dotkit",
+    "number": 44,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 77734011,
+    "html_url": "https://github.com/spack/spack/issues/44",
+    "assignees": [],
+    "comments": 2
+}

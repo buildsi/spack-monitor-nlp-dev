@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install expect\r\n\r\nError: ProcessError: install_name_tool: No such file or directory: 'install_name_tool'\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux 5d250e13fd17 3.10.0-1062.12.1.el7.x86_64 #1 SMP Tue Feb 4 23:02:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.7.1908 (Core)\r\n``` \r\n\r\nI believe that `install_name_tool` is specific to MacOS, so the entire [`darwin_fix` function](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/expect/package.py#L63) should look like this:\r\n```\r\n    @run_after('install')\r\n    def darwin_fix(self):\r\n        # The shared library is not installed correctly on Darwin; fix this\r\n        if not self.spec.satisfies('platform=darwin'):\r\n            return\r\n\r\n        fix_darwin_install_name(\r\n            join_path(self.prefix.lib, 'expect{0}'.format(self.version)))\r\n\r\n        old = 'libexpect{0}.dylib'.format(self.version)\r\n        new = glob.glob(join_path(self.prefix.lib, 'expect*', 'libexpect*'))[0]\r\n        install_name_tool = Executable('install_name_tool')\r\n        install_name_tool('-change', old, new, self.prefix.bin.expect)\r\n```",
+    "user": "iarspider",
+    "url": "https://api.github.com/repos/spack/spack/issues/15230",
+    "updated_at": "2020-02-28 20:58:01",
+    "created_at": "2020-02-26 08:20:11",
+    "closed_at": "2020-02-28 20:58:01",
+    "state": "closed",
+    "title": "[With proposed fix] Installation issue: expect",
+    "number": 15230,
+    "milestone": null,
+    "labels": [
+        "linux",
+        "build-error"
+    ],
+    "id": 571147338,
+    "html_url": "https://github.com/spack/spack/issues/15230",
+    "assignees": [],
+    "comments": 3
+}

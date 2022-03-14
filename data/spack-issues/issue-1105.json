@@ -1,0 +1,17 @@
+{
+    "body": "Whenever I installed a package that filters things like compiler wrappers, I noticed backup files like `mpicc~` and `mpicxx~` everywhere, despite the fact that backup is set to False in the filter_file kwargs. I tracked this down to two separate bugs in `filter_file()`:\n1. `backup` is initialized as a Boolean variable that decides whether or not we want to backup our files. It is later overwritten as a filename for the backup file. At the end, it is used in an if-statement to decide whether or not we want to delete the backups. Since a non-empty string is always True, `filter_file()` thought we wanted to keep the backup files. The fix was to use two separate variable names.\n2. During deletion, `filter_file()` was calling `shutil.rmtree()`, which recursively deletes directories. Since `backup_filename` is a regular file and not a directory, it was raising an error. But since ignore_errors was set to True, it didn't complain to the user. I replaced `shutil.rmtree()` with `os.remove()`.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1105",
+    "updated_at": "2016-06-27 05:33:09",
+    "created_at": "2016-06-23 21:44:01",
+    "closed_at": "2016-06-27 05:33:09",
+    "state": "closed",
+    "title": "Fix backup logic in filter_file",
+    "number": 1105,
+    "milestone": null,
+    "labels": [],
+    "id": 162030525,
+    "html_url": "https://github.com/spack/spack/pull/1105",
+    "assignees": [],
+    "comments": 1
+}

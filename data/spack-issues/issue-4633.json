@@ -1,0 +1,17 @@
+{
+    "body": "As written, [pkg_config only adds ACLOCAL_PATH to the environment when `platform = cray`](https://github.com/LLNL/spack/blame/develop/var/spack/repos/builtin/packages/pkg-config/package.py#L54)\r\n\r\nThat variable should be set all of the time (I need it for a new package that's in progress).\r\n\r\nI'll fix this, but I'm not sure about how the `when` bits are handled.\r\n\r\nIf I supply a second `setup_dependent_environment` that handles `ACLOCAL_PATH`, without a decorator, will *both* run when `platform=cray`?\r\n\r\nOr, should I remove the `@when` decorator and check the platform in the body of the function?\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4633",
+    "updated_at": "2017-07-19 22:19:50",
+    "created_at": "2017-06-28 18:01:42",
+    "closed_at": "2017-07-19 22:19:50",
+    "state": "closed",
+    "title": "pkg_config only sets ACLOCAL_PATH if you're on a cray",
+    "number": 4633,
+    "milestone": null,
+    "labels": [],
+    "id": 239246771,
+    "html_url": "https://github.com/spack/spack/issues/4633",
+    "assignees": [],
+    "comments": 3
+}

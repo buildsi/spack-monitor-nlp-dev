@@ -1,0 +1,19 @@
+{
+    "body": "Changes to support running pipelines on pull requests from forks.  At a high level, this change supports:\r\n\r\n- Running pipelines with no secrets whatsoever, or whatever secrets do happen to be available \r\n- A code path for PRs allowing pushing binaries to an alternate mirror.  This will improve developer experience in cases when the first push to a PR branch causes a rebuild to an expensive package, but subsequent pushes wouldn't cause subsequent rebuilds.\r\n- Makes use of #19209 so that only a single install pass is required to install packages (spack would previously have installed a binary cache even if it's `full_hash` was different than the locally computed one).  Allows us to do away with:\r\n  * Do a first pass install with `--only dependencies` and `--cache-only`\r\n  * Replace the re-written `spack.yaml` which was rendered useless by the first install\r\n  * Do a second pass install with `--only package` and `--no-cache`\r\n\r\nThe changes here are based on #19209 and require that to be merged first.",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/19248",
+    "updated_at": "2020-11-18 15:25:34",
+    "created_at": "2020-10-09 16:30:17",
+    "closed_at": "2020-11-16 23:16:25",
+    "state": "closed",
+    "title": "Pipelines support testing prs from forks",
+    "number": 19248,
+    "milestone": null,
+    "labels": [
+        "ci"
+    ],
+    "id": 718278056,
+    "html_url": "https://github.com/spack/spack/pull/19248",
+    "assignees": [],
+    "comments": 5
+}

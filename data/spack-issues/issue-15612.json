@@ -1,0 +1,23 @@
+{
+    "body": "Closes #15369.\r\nCloses #9034.\r\nFollow-up of #9261.\r\n\r\nPreviously, `spack test` would fail within a new spack environment, because it could not import `pkg_resources` (part of `setuptools`) Parts of `pytest` use `setuptools`, but we do not need them for Spack, so it's an unnecessary dependency.\r\n\r\nPatching `pytest` is nasty but it's a lot simpler than vendoring yet another mess of packages.  Also, recent versions of `pytest` do not depend on `setuptools` (see pytest-dev/pytest#5063).  We're just stuck with an old version of `pytest` because we still support Python 2.6.\r\n\r\nAstute readers may note that `jinja2` also uses `pkg_resources`, but we don't use any parts of it that actually import `pkg_resources`.  So we do not need to remove these imports from `jinja2`.\r\n\r\n- [x] Remove the parts of `pytest` that need setuptools\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/15612",
+    "updated_at": "2020-03-24 00:14:03",
+    "created_at": "2020-03-21 00:39:11",
+    "closed_at": "2020-03-23 23:55:08",
+    "state": "closed",
+    "title": "vendoring: remove dependency on setuptools from vendored pytest",
+    "number": 15612,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "environments",
+        "vendored-dependencies"
+    ],
+    "id": 585394444,
+    "html_url": "https://github.com/spack/spack/pull/15612",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

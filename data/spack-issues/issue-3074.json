@@ -1,0 +1,22 @@
+{
+    "body": "@alalazo \r\n\r\nThe problem: I did a `spack install` on a package, which created a module file.  I immediately did a `spack module refresh`, which re-generated the module file.  The two module files are different.  See transcript below.\r\n\r\nI have not applied #3060, although I suspect this is a different bug.\r\n\r\n```\r\n$ dspack install modele --setup ibmisc --setup pism --setup icebin modele\r\n...\r\n==> Generating config file icebin-config.py [icebin@develop%gcc@4.9.3+coupler~doc+everytrace+gridgen+modele+pism+python arch=linux-centos7-x86_64-z7c3fls]\r\n...\r\n$ dspack find -l icebin\r\n==> 1 installed packages.\r\n-- linux-centos7-x86_64 / gcc@4.9.3 -----------------------------\r\nz7c3fls icebin@develop\r\n$ cp ~/spack5/share/spack/modules/linux-centos7-x86_64/icebin-develop-gcc-4.9.3-z7c3fls  ~/tmp/x.mod\r\n$ dspack module refresh icebin\r\n$ diff ~/tmp/x.mod ~/spack5/share/spack/modules/linux-centos7-x86_64/icebin-develop-gcc-4.9.3-z7c3fls\r\n2c2\r\n< ## Module file created by spack (https://github.com/LLNL/spack) on 2017-02-08 11:32:40.732375\r\n---\r\n> ## Module file created by spack (https://github.com/LLNL/spack) on 2017-02-08 11:34:52.926176\r\n15d14\r\n< prepend-path PYTHONPATH \"/home2/rpfische/spack5/opt/spack/linux-centos7-x86_64/gcc-4.9.3/icebin-develop-z7c3flsksji423veihw5torvrchgdqoq/lib/python3.5/site-packages\"\r\n```\r\n\r\nHere is `icebin/package.py`.  Note that it conditionally `extends(python)`.\r\n\r\n```\r\nclass Icebin(CMakePackage):\r\n    \"\"\"Regridding/Coupling library for GCM + Ice Sheet Model\"\"\"\r\n\r\n    homepage = \"https://github.com/citibeth/icebin\"\r\n    url         = \"https://github.com/citibeth/icebin/tarball/v0.1.0\"\r\n\r\n    version('0.1.5', 'a209c4cd4502b9ded7525ebaa7c6107f')\r\n    ...\r\n\r\n    variant('everytrace', default=False, description='Report errors through Everytrace (requires Everytrace)')\r\n    variant('python', default=True, description='Build Python extension (requires Python, Numpy)')\r\n    variant('gridgen', default=True, description='Build grid generators (requires CGAL, GMP, MPFR)')\r\n    variant('coupler', default=False, description='Build the GCM couplers (requires MPI)')\r\n    variant('pism', default=False, description='Build coupling link with PISM (requires PISM, PETSc)')\r\n    variant('modele', default=False, description='Build coupling link with ModelE (no exta requirements')\r\n    variant('doc', default=False, description='Build documentation')\r\n\r\n    extends('python', when='+python')\r\n\r\n    depends_on('everytrace', when='+everytrace')\r\n\r\n    depends_on('python@3:', when='+python')\r\n    depends_on('py-cython', when='+python')\r\n    depends_on('py-numpy', when='+python')\r\n\r\n    depends_on('cgal', when='+gridgen')\r\n    depends_on('gmp', when='+gridgen')\r\n    depends_on('mpfr', when='+gridgen')\r\n\r\n    depends_on('mpi', when='+coupler')\r\n    depends_on('pism~python', when='+coupler+pism')\r\n    depends_on('petsc', when='+coupler+pism')\r\n\r\n    depends_on('boost+filesystem+date_time+mpi')\r\n    depends_on('blitz')\r\n    depends_on('netcdf-cxx4')\r\n    depends_on('ibmisc+proj+blitz+netcdf+boost+udunits2+python')\r\n    depends_on('proj')\r\n    depends_on('eigen')\r\n\r\n    depends_on('cmake', type='build')\r\n    depends_on('doxygen', type='build', when='+doc')\r\n\r\n    def cmake_args(self):\r\n        ...\r\n    def setup_environment(self, spack_env, run_env):\r\n        \"\"\"Add <prefix>/bin to the module; this is not the default if we\r\n        extend python.\"\"\"\r\n        run_env.prepend_path('PATH', join_path(self.prefix, 'bin'))\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/3074",
+    "updated_at": "2017-07-15 12:19:39",
+    "created_at": "2017-02-08 16:43:40",
+    "closed_at": "2017-07-15 12:19:39",
+    "state": "closed",
+    "title": "Module Referesh makes different module from `spack install`",
+    "number": 3074,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 206254532,
+    "html_url": "https://github.com/spack/spack/issues/3074",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

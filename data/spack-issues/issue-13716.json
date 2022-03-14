@@ -1,0 +1,20 @@
+{
+    "body": "While Spack's shell integration does work interactively in the shell, there are problems if it is used embedded into another script. The following shell script shows that modifications to `LD_LIBRARY_PATH` will be overwritten by environment-modules:\r\n\r\n```\r\nexport LD_LIBRARY_PATH=foobar\r\necho $LD_LIBRARY_PATH\r\n. ./share/spack/setup-env.sh\r\nspack load zlib target=x86_64\r\necho $LD_LIBRARY_PATH\r\n```\r\n\r\nThis will print the following, that is, the initial value is lost:\r\n```\r\nfoobar\r\n[...]/opt/spack/linux-fedora31-x86_64/gcc-9.2.1/zlib-1.2.11-4zcnhczvb3xvv2vr5ezoh2un5equbddk/lib\r\n```\r\n\r\nSpack's shell integration still uses a module function copied from environment-modules@3, which exhibits this problem if used with environment-modules@4. Luckily, all versions ship appropriate init scripts that can be used instead.\r\n\r\nAfter this change, the initial value will be preserved correctly:\r\n```\r\nfoobar\r\n[...]/opt/spack/linux-fedora31-x86_64/gcc-9.2.1/zlib-1.2.11-4zcnhczvb3xvv2vr5ezoh2un5equbddk/lib:foobar\r\n```",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/13716",
+    "updated_at": "2021-05-25 16:38:07",
+    "created_at": "2019-11-13 11:19:25",
+    "closed_at": "2021-05-25 16:38:07",
+    "state": "closed",
+    "title": "shell: Fix module command in scripts",
+    "number": 13716,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "shell-support"
+    ],
+    "id": 522139498,
+    "html_url": "https://github.com/spack/spack/pull/13716",
+    "assignees": [],
+    "comments": 5
+}

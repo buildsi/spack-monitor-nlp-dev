@@ -1,0 +1,19 @@
+{
+    "body": "## Summary\r\n\r\nRHEL 7 built in FIPS mode disables insecure hashes like MD5, and this behavior seems to break `spack`.\r\n\r\n### Expected Result\r\n\r\nSome sort of normal output from `spack --help`.\r\n\r\n### Actual Result\r\n\r\n```console\r\n[oxberry1@localhost spack]$ spack --help\r\nTraceback (most recent call last):\r\n  File \"/home/oxberry1/spack/bin/spack\", line 84, in <module>\r\n    import spack.main  # noqa\r\n  File \"/home/oxberry1/spack/lib/spack/spack/__init__.py\", line 84, in <module>\r\n    import spack.repository\r\n  File \"/home/oxberry1/spack/lib/spack/spack/repository.py\", line 52, in <module>\r\n    import spack.spec\r\n  File \"/home/oxberry1/spack/lib/spack/spack/spec.py\", line 122, in <module>\r\n    import spack.store\r\n  File \"/home/oxberry1/spack/lib/spack/spack/store.py\", line 49, in <module>\r\n    from spack.database import Database\r\n  File \"/home/oxberry1/spack/lib/spack/spack/database.py\", line 60, in <module>\r\n    from spack.util.crypto import bit_length\r\n  File \"/home/oxberry1/spack/lib/spack/spack/util/crypto.py\", line 38, in <module>\r\n    size_to_hash = dict((h().digest_size, h) for h in hashes.values())\r\n  File \"/home/oxberry1/spack/lib/spack/spack/util/crypto.py\", line 38, in <genexpr>\r\n    _size_to_hash = dict((h().digest_size, h) for h in hashes.values())\r\nValueError: error:060800A3:digital envelope routines:EVP_DigestInit_ex:disabled for fips \r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n# Build RHEL7 in FIPS mode, clone spack, then\r\n$ spack --help\r\n```\r\n\r\n### Information on your system\r\n\r\nAs far as I can tell, the system is a RHEL7 system built in FIPS mode. OpenSSL is installed, however, running `openssl md5 $FILE` will return an error, and `openssl sha256 $FILE` succeeds and outputs a SHA256 hash. Unfortunately, I don't have that much control over how this system is provisioned due to LLNL policy.\r\n\r\n### Conjecture\r\n\r\nMD5 isn't FIPS-compliant, so nothing in Spack that uses MD5 is going to work. Unfortunately, AFAICT, many packages in Spack use MD5...",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/7333",
+    "updated_at": "2018-03-21 21:12:39",
+    "created_at": "2018-02-23 10:03:23",
+    "closed_at": "2018-03-21 21:12:39",
+    "state": "closed",
+    "title": "Spack fails on RHEL7 built in FIPS mode because MD5 isn't FIPS-compliant",
+    "number": 7333,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 299657929,
+    "html_url": "https://github.com/spack/spack/issues/7333",
+    "assignees": [],
+    "comments": 8
+}

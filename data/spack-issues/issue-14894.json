@@ -1,0 +1,21 @@
+{
+    "body": "I'm wondering if it would be easy to implement a new behaviour for build caches so that you don't explicitly ask for a build cache, but spack tries to use it if available, or otherwise builds the source, installs it, and creates a build cache for future uses.\r\n\r\nOf course this implies that when you ask to install a package, spack would first search if there's already a build cache for the exact variant/compiler/architecture/etc that you are asking in the install command. If there is one, use it. Otherwise, build (similar behaviour to Macports).\r\n\r\nAnother consequence is that these build caches should't include any dependency: you would always have a different build cache for each dependency, so installing a package would first install the build caches for its dependencies (if they are available).\r\n\r\nThe goal I'm trying to achieve is to save bandwidth when `rsync-ing` disks across machines that run the same OS and have the same hardware. Performing a `rsync` of the whole root with all the installed packages is way overkill, at least for the hardware we use. However, if I could `rsync` just the build caches, it would be great: When you install a package in one computer, a build cache is automatically created, and it's stored in a directory that will be `rsync-ed` across all the machines (the actual installation is done in a directory outside the `rsync-ed` area). Then when another computer tries to install the same package with the same options, it finds its cache (together for the caches for all dependencies if available), and extracts the cache instead of building.\r\n\r\nAnother potential and powerful use of this feature would be backing up the installation of old package versions: When you uninstall an old version, you could first archive it just in case you might need it again in the future and you wish to save the build time. \r\n\r\nWould this imply a lot of work in the current spack code? \r\n\r\n_Note: I'm implying these \"build caches\" (or better \"binary packages\" because they would be per-package) would be **for local use only within a machine farm**. I'm not thinking in world wide web distribution of binary packages, as this would require lots of binary compatibility checking that falls outside of spack's scope. Moreover, in my case I wouldn't even need RPATH substitution because all machines in the farm install packages on the same paths_",
+    "user": "cesss",
+    "url": "https://api.github.com/repos/spack/spack/issues/14894",
+    "updated_at": "2020-02-14 09:33:28",
+    "created_at": "2020-02-11 21:05:30",
+    "closed_at": "2020-02-13 12:00:38",
+    "state": "closed",
+    "title": "Transparent build caches? (a la Macports binary packages)",
+    "number": 14894,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "question",
+        "proposal"
+    ],
+    "id": 563476272,
+    "html_url": "https://github.com/spack/spack/issues/14894",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,23 @@
+{
+    "body": "@lukebroskop @samcmill \r\n\r\ncc: @wspear @eugeneswalker @sameershende \r\n\r\nThere is an issue when running `spack compiler find` for detecting nvhpc compilers. According to this line it will create module `PrgEnv-nvhpc` \r\n\r\nhttps://github.com/spack/spack/blob/a43ed9286fc99f5e9127744d914b7c09a4021836/lib/spack/spack/compilers/nvhpc.py#L28\r\n\r\nI think this was the case some time back but now Cray has decided to change this to `PrgEnv-nvidia` according to Perlmutter we get the following modules\r\n\r\n```\r\n(spack-pyenv) siddiq90@login06> ml -t av PrgEnv\r\n/opt/cray/pe/lmod/modulefiles/core:\r\nPrgEnv-aocc/8.2.0\r\nPrgEnv-cray/8.2.0\r\nPrgEnv-gnu/8.2.0\r\nPrgEnv-nvidia/8.2.0\r\n```\r\n\r\nIf i load `PrgEnv-nvidia` i should get spack to detect the compiler but in this case i dont get this\r\n\r\n```\r\n(spack-pyenv) siddiq90@login06> ml PrgEnv-nvidia\r\n(spack-pyenv) siddiq90@login06> spack compiler find\r\n==> Found no new compilers\r\n==> Compilers are defined in the following files:\r\n    /global/homes/s/siddiq90/software.nersc.gov/spack-infrastructure/spack-configs/perlmutter-systemlayer/ci/spack.yaml\r\n```\r\n\r\n",
+    "user": "shahzebsiddiqui",
+    "url": "https://api.github.com/repos/spack/spack/issues/28275",
+    "updated_at": "2022-02-17 19:44:45",
+    "created_at": "2022-01-06 00:48:54",
+    "closed_at": "2022-02-17 19:44:44",
+    "state": "closed",
+    "title": "spack compiler find for nvhpc is not correct",
+    "number": 28275,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "compilers",
+        "nersc",
+        "nvhpc"
+    ],
+    "id": 1094863671,
+    "html_url": "https://github.com/spack/spack/issues/28275",
+    "assignees": [],
+    "comments": 3
+}

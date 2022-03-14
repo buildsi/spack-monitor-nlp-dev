@@ -1,0 +1,17 @@
+{
+    "body": "Clearing LD_LIBRARY_PATH seemed like a good idea at the time.  BUT... some systems require it.  The backstory:\n\nI'm working on a supercomputer where they've provided a bunch of packages, including GCC.  \"module load gcc\" sets LD_LIBRARY_PATH, and the compiler doesn't work without it.  I need to use the compiler provided by the module in question, since I don't have a big enough quota to have Spack build GCC for me.  Therefore... in order to get Spack to work, I have to do \"module load gcc\" in my environment, and then make sure that Spack does NOT muck with LD_LIBRARY_PATH.  Yes, LD_LIBRARY_PATH is evil, but I have to make a deal with the devil here.\n\nIt's true that Spack can be polluted by stuff in the user's environment.  But just deleting it can cause problems too.  I think we should either:\n   a) Advise users to be careful of what's in their env when they build with Spack\n   b) Create .spack/environment.yaml, where we can set up the environment that will be used by Spack.  Or some other similar mechanism.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/813",
+    "updated_at": "2016-04-21 00:35:12",
+    "created_at": "2016-04-20 23:27:54",
+    "closed_at": "2016-04-20 23:35:22",
+    "state": "closed",
+    "title": "Cleaning the environment breaks on some systems.",
+    "number": 813,
+    "milestone": null,
+    "labels": [],
+    "id": 149913819,
+    "html_url": "https://github.com/spack/spack/pull/813",
+    "assignees": [],
+    "comments": 2
+}

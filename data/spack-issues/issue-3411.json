@@ -1,0 +1,17 @@
+{
+    "body": "Fixes #3412. Was introduced by #3378.\r\n\r\nPreviously, this would fail with a NoSuchMethodError:\r\n\r\n```python\r\n    class Package(object):\r\n        # this is the default implementation\r\n        def some_method(self):\r\n            ...\r\n\r\n    class Foo(Package):\r\n        @when('platform=cray')\r\n        def some_method(self):\r\n            ...\r\n\r\n        @when('platform=linux')\r\n        def some_method(self):\r\n            ...\r\n```\r\n\r\n@mamelara @becker33: This error would happen after #3378 was merged when installing dependents of `pkg-config`.\r\n\r\nThis fixes the implementation of `@when` so that the superclass method\r\nwill be invoked when no subclass method matches.\r\n\r\nAdds tests to ensure this works, as well.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/3411",
+    "updated_at": "2017-03-21 23:32:40",
+    "created_at": "2017-03-11 06:46:36",
+    "closed_at": "2017-03-11 13:48:36",
+    "state": "closed",
+    "title": "Make multimethods work with inheritance.",
+    "number": 3411,
+    "milestone": null,
+    "labels": [],
+    "id": 213510968,
+    "html_url": "https://github.com/spack/spack/pull/3411",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack config --scope defaults add config:concretizer:clingo\r\n```\r\n\r\nThis also requires that `concretizer: original` *not* be present in `etc/.../config.yaml` - this may be an unsupported configuration.\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n$ spack config --scope defaults add config:concretizer:clingo\r\nspack.config.ConfigError: Cannot determine valid type for path 'config:concretizer'.\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.1\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-broadwell\r\n* **Concretizer:** original\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n\r\nThe issue appears to be the logic in [get_valid_type](https://github.com/spack/spack/blob/develop/lib/spack/spack/config.py#L1036) - because it uses the \"default-constructed\" instance of a type for schema checking, it only works with JSONSchema's `type` attribute - it does not appear to consider the case where the `enum` attribute is also used.\r\n\r\nFixing this may require traversing the schema, and either:\r\n1. Using the enum values to determine the time (when `enum` is used)\r\n2. Grabbing the required type information directly (from the `type` attr)\r\n",
+    "user": "joshessman-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/23259",
+    "updated_at": "2021-10-29 16:44:50",
+    "created_at": "2021-04-26 17:49:24",
+    "closed_at": "2021-10-29 16:44:50",
+    "state": "closed",
+    "title": "\"spack config add\" fails for config:concretizer due to enum requirement",
+    "number": 23259,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "commands",
+        "triage"
+    ],
+    "id": 867966468,
+    "html_url": "https://github.com/spack/spack/issues/23259",
+    "assignees": [],
+    "comments": 2
+}

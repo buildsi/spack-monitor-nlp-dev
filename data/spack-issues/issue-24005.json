@@ -1,0 +1,19 @@
+{
+    "body": "If we can use the database as a source of truth we can avoid having to parse the spec.yaml.\r\n\r\nbefore:\r\n\r\n```\r\n$ hyperfine '~/spack/bin/spack -e . install --only=dependencies'\r\nBenchmark #1: ~/spack/bin/spack -e . install --fail-fast --only-concrete --only=dependencies\r\n  Time (mean \u00b1 \u03c3):      2.307 s \u00b1  0.028 s    [User: 2.227 s, System: 0.055 s]\r\n  Range (min \u2026 max):    2.268 s \u2026  2.361 s    10 runs\r\n```\r\n\r\nafter:\r\n\r\n```\r\n$ hyperfine '~/spack/bin/spack -e . install --only=dependencies'\r\nBenchmark #1: ~/spack/bin/spack -e . install --fail-fast --only-concrete --only=dependencies\r\n  Time (mean \u00b1 \u03c3):      1.300 s \u00b1  0.023 s    [User: 1.224 s, System: 0.059 s]\r\n  Range (min \u2026 max):    1.264 s \u2026  1.342 s    10 runs\r\n```\r\n\r\nthis environment has 20+ dependencies already installed, only the root spec is not, so it's just benchmarking the time it would take to get to the point of installing the root spec.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/24005",
+    "updated_at": "2021-06-01 12:59:42",
+    "created_at": "2021-05-28 17:37:29",
+    "closed_at": "2021-06-01 12:59:42",
+    "state": "closed",
+    "title": "Use the database to check if a package was installed or not",
+    "number": 24005,
+    "milestone": null,
+    "labels": [],
+    "id": 905796778,
+    "html_url": "https://github.com/spack/spack/pull/24005",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Installing binutils@2.34 fails, but binutils@2.33.1 succeeds. It seems the cause is Makefile warnings being detected as errors.\r\n\r\n```\r\n$ spack -d install -v -j8 -y binutils >binutils.log 2>&1\r\n\r\n$ spack log-parse --show=errors,warnings /tmp/tim/spack-stage/spack-stage-binutils-2.34-trjqrkvyfc3db5rwj5hbzatswuttqybx/spack-build-out.txt\r\n\r\n0 errors\r\n3 warnings\r\n     29      checking whether to use debuginfod... auto\r\n     30      checking for debuginfod_begin in -ldebuginfod... no\r\n     31      checking whether debuginfod_begin is declared... no\r\n  >> 32      configure: WARNING: debuginfod is missing or unusable; some features may be unavailable.\r\n     33      checking for isl 0.15 or later... no\r\n     34      required isl version is 0.15 or later\r\n     35      *** This configuration is not supported in the following subdirectories:\r\n\r\n     ...\r\n\r\n     822     checking for sys_errlist... checking whether debuginfod_begin is declared... no\r\n     823     checking how to compare bootstrapped objects... cmp --ignore-initial=16 $$f1 $$f2\r\n     824     no\r\n  >> 825     configure: WARNING: debuginfod is missing or unusable; some features may be unavailable.\r\n     826     no\r\n     827     checking whether NLS is requested... yes\r\n     828     checking for catalogs to be installed... both\r\n\r\n     ...\r\n\r\n     4059    \tmv -f ar.1.T$$ ar.1) || (rm -f ar.1.T$$ && exit 1)\r\n     4060    make[4]: Entering directory '/tmp/tim/spack-stage/spack-stage-binutils-2.34-trjqrkvyfc3db5rwj5hbzatswuttqybx/spack-src/gprof'\r\n     4061    /home/tim/ecp-builds/spack/lib/spack/env/gcc/gcc -DHAVE_CONFIG_H -I.  -DDEBUG -I../bfd -I./../include -I./../bfd  -I. -DLOCALEDIR=\"\\\"/home/tim/e\r\n             cp-builds/spack/opt/spack/linux-ubuntu19.04-skylake/gcc-8.3.0/binutils-2.34-trjqrkvyfc3db5rwj5hbzatswuttqybx/share/locale\\\"\"  -W -Wall -Wstrict-\r\n             prototypes -Wmissing-prototypes -Wshadow -Wstack-usage=262144 -g -O2 -c -o basic_blocks.o basic_blocks.c\r\n  >> 4062    WARNING: 'makeinfo' is missing on your system.\r\n     4063             You should only need it if you modified a '.texi' file, or\r\n     4064             any other file indirectly affecting the aspect of the manual.\r\n     4065             You might want to install the Texinfo package:\r\n\r\n```\r\n\r\n[binutils.log](https://github.com/spack/spack/files/4325517/binutils.log)\r\n[spack-cc-binutils-trjqrkv.in.log](https://github.com/spack/spack/files/4325518/spack-cc-binutils-trjqrkv.in.log)\r\n[spack-cc-binutils-trjqrkv.out.log](https://github.com/spack/spack/files/4325519/spack-cc-binutils-trjqrkv.out.log)\r\n\r\n\r\n```\r\n$ spack --version\r\n0.14.0-194-12940f344\r\n\r\n$ git branch -v\r\n* develop 12940f344 libfabric@1.9.1: Add fabtests (#15440)\r\n\r\n$ uname -a\r\nLinux 5.0.0-38-generic #41-Ubuntu SMP Tue Dec 3 00:27:35 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:\tUbuntu 19.04\r\n```\r\n\r\nTagging @mathsen",
+    "user": "hainest",
+    "url": "https://api.github.com/repos/spack/spack/issues/15467",
+    "updated_at": "2020-03-12 17:23:05",
+    "created_at": "2020-03-12 17:10:22",
+    "closed_at": "2020-03-12 17:23:05",
+    "state": "closed",
+    "title": "Installation issue: binutils@2.34",
+    "number": 15467,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 580085858,
+    "html_url": "https://github.com/spack/spack/issues/15467",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,17 @@
+{
+    "body": "This commit fixes simul's bulding issue in GCC. I am sorry that I hadn't tested simul against GCC before it was merged in #3300 . Changes include:\r\n\r\n1. Replacing `mpicc` with `$(MPICC)` in `Makefile`.\r\n2. Replacing `inline void` with `void` in `simul.c`.\r\n\r\nTests of `spack` and `flake8` pass and simul has been successfully built with openmpi and gcc.\r\n\r\n[`simul.c`](https://github.com/LLNL/simul/blob/master/simul.c#L52) uses the following macros to determine whether `inline` keyword should be enabled:\r\n\r\n```\r\n#ifdef __GNUC__\r\n   /* \"inline\" is a keyword in GNU C */\r\n#elif __STDC_VERSION__ >= 199901L\r\n   /* \"inline\" is a keyword in C99 and later versions */\r\n#else\r\n#  define inline /* \"inline\" not available */\r\n#endif\r\n```\r\n\r\nFunctions `begin` and `end` are defined as `inline void`. I have no idea why GCC fails to link those  inline `begin` and `end` functions. In contrast, Intel compiler works well with `inline void`.",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/3323",
+    "updated_at": "2017-03-06 11:46:11",
+    "created_at": "2017-03-03 03:12:40",
+    "closed_at": "2017-03-03 16:19:18",
+    "state": "closed",
+    "title": "Fix simul by diabling inline and replacing mpicc command.",
+    "number": 3323,
+    "milestone": null,
+    "labels": [],
+    "id": 211583825,
+    "html_url": "https://github.com/spack/spack/pull/3323",
+    "assignees": [],
+    "comments": 0
+}

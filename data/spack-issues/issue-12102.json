@@ -1,0 +1,21 @@
+{
+    "body": "A fresh clone of spack is creating the install directory with permissions of 777. This began with commit 3a026f14123e8a010e0c969bb38dfdde2738226f, #11995. These are bad permissions, particularly when deploying a stack on a system.\r\n\r\nWith the following config:\r\n\r\n```yaml\r\nconfig:\r\n  build_stage: /dev/shm\r\n  misc_cache: $spack/var/spack/cache\r\n  install_tree: $spack/../apps\r\n```\r\nan installation will create directories as follows:\r\n```console\r\n$ ls -l ../apps/                                                                        \r\ntotal 0\r\ndrwxrwxrwx 3 gpjohnsn its-rs-user 31 Jul 23 15:12 linux-centos7-x86_64\r\n$ ls -l ../apps/linux-centos7-x86_64/\r\ntotal 0\r\ndrwxrwxrwx 3 gpjohnsn its-rs-user 66 Jul 23 15:12 gcc-4.8.5\r\n```\r\n\r\nThe expected behavior is:\r\n```console\r\n$ ls -l ../apps/                                                                            \r\ntotal 0\r\ndrwxr-xr-x 3 gpjohnsn its-rs-user 31 Jul 23 15:11 linux-centos7-x86_64\r\n$ ls -l ../apps/                                                                            \r\ntotal 0\r\ndrwxr-xr-x 3 gpjohnsn its-rs-user 31 Jul 23 15:11 linux-centos7-x86_64/gcc-4.8.5\r\n```\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12102",
+    "updated_at": "2019-08-21 06:08:03",
+    "created_at": "2019-07-23 20:22:09",
+    "closed_at": "2019-08-21 06:08:03",
+    "state": "closed",
+    "title": "spack creates app directory with permissions of 777",
+    "number": 12102,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 471919877,
+    "html_url": "https://github.com/spack/spack/issues/12102",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

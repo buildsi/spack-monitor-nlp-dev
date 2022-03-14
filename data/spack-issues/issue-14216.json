@@ -1,0 +1,20 @@
+{
+    "body": "I get a checksum error when building packages that require cmake:\r\n\r\n$ spack stage cmake@3.15.5\r\n==> Using cached archive: /gpfs/mira-home/cadams/Cooley/spack/var/spack/cache/_source-cache/archive/fb/fbdd7cef15c0ced06bb13024bfda0ecc0dedbcaaaa6b8a5d368c75255243beb4.tar.gz\r\n==> Fetching https://gitlab.kitware.com/cmake/cmake/merge_requests/4075.patch\r\n######################################################################## 100.0%\r\n==> Error: sha256 checksum failed for /tmp/cadams/spack-stage/spack-stage-3ngsa7kj/4075.patch\r\nExpected 3387faf4a71efe81c0fa17410b270ca7d352081ac88d2322df3da9bb6a6a3f2d but got 001736d791957225aadfc416b0cef915e8c8dcc04765b8e0fcbebf6058a05560\r\n\r\nThis was triggered when I tried to install py-torch with \r\n$ spack install py-torch^intel-mkl ^cuda@10.1   %gcc@6.3.0\r\n\r\nI am trying again with \r\n$ spack install py-torch^intel-mkl ^cuda@10.1 ^cmake@3.15.1  %gcc@6.3.0\r\nto see if cmake builds, since I see there was an open and closed issue regarding cmake 3.15.1.\r\n\r\n\r\n\r\nPlease report your OS here:\r\nLinux cc015 3.10.0-957.27.2.el7.x86_64 #1 SMP Tue Jul 9 16:53:14 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:\tRed Hat Enterprise Linux Server release 7.7 (Maipo)\r\n\r\nIs there something I need to do to get the checksums to work?",
+    "user": "coreyjadams",
+    "url": "https://api.github.com/repos/spack/spack/issues/14216",
+    "updated_at": "2019-12-18 23:14:09",
+    "created_at": "2019-12-18 21:47:49",
+    "closed_at": "2019-12-18 23:14:03",
+    "state": "closed",
+    "title": "Installation Issue: cmake @ 3.15.5 checksum error",
+    "number": 14216,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "checksum"
+    ],
+    "id": 539942567,
+    "html_url": "https://github.com/spack/spack/issues/14216",
+    "assignees": [],
+    "comments": 1
+}

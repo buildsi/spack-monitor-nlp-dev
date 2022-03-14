@@ -1,0 +1,20 @@
+{
+    "body": "@pramodskumbhar @bvanessen\r\nThis PR adds `spack setup` capability and supercedes #5043.  It is based on the Spack Environments PR (#4585).  Ideally, the two can be merged at the same time.\r\n\r\nSetup is a developer tool that makes it easy to configure CMake-based packages to use Spack-built dependencies.  When Spack installs a package as \"setup\", it does not download, build or install that package.  Instead, it creates a Python script `<package>-config.py` that, when run, will call CMake with appropriate configuration options.\r\n\r\nSyntax is as follows:\r\n```\r\nspack install --setup pkg1,pkg2 --setup pkg3 ... spec\r\n```\r\nThis will install the DAG represented by `spec`, while installing `pkg1`, `pkg2` and `pkg3` in setup mode.  Most common is to install the top of the DAG only as setup:\r\n```\r\nspack install --setup spec spec\r\n```\r\n\r\n1. When a package is installed as \"setup\", Spack still creates a module and database entry, as it would for any other installation.  As far as Spack is concerned, the packages is fully installed.  The user is then *required* to complete the installation.  Overall use might be as follows:\r\n```\r\nspack install --setup mypackage mypackage\r\ncd mypackage-source-dir\r\nmkdir build\r\ncd build\r\n../../mypackage-config.py\r\nmake\r\nmake install\r\n```\r\n\r\n1. Because Spack does not actually install packages in \"setup\" mode, any packages that depend on a setup package *must* also bee \"installed\" in \"setup\" mode.  This restriction is not currently checked.\r\n\r\n1. Setup mode currently only works for packages subclassing from `CMakePackage`.  Similar work could be done for other build systems, as well as ad-hoc packages.\r\n\r\nNOTES:\r\n\r\n* Setup was added to previous versions of Spack; but was never merged and suffered bitrot.  This is the third (!) time the `spack setup` capability has been added to Spack; and hopefully we can get it merged this time!\r\n\r\n* This PR contains the minimal changes needed to get Spack setup working.  The separate `spack setup` command in previous incarnations has been removed for simplicity.\r\n\r\n* Future commits to this PR will allow for the use of Spack setup in environments.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7830",
+    "updated_at": "2018-04-20 03:27:54",
+    "created_at": "2018-04-19 17:47:14",
+    "closed_at": "2018-04-20 03:27:54",
+    "state": "closed",
+    "title": "Spack Setup: Developer Build Tool",
+    "number": 7830,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "build-environment"
+    ],
+    "id": 315976354,
+    "html_url": "https://github.com/spack/spack/pull/7830",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,26 @@
+{
+    "body": "This will allow a user to (from anywhere a Spec is parsed including both name and version) refer to a git commit in lieu of \r\na package version, and be able to make comparisons with releases in the history based on commits (or with other commits). We do this by way of:\r\n\r\n - Adding a property, is_commit, to a version, meaning I can always check if a version is a commit and then change some action.\r\n - Adding an attribute to the Version object which can lookup commits from a git repo and find the last known version before that commit, and the distance\r\n - Construct new Version comparators, which are tuples. For normal versions, they are unchanged. For commits with a previous version x.y.z, d commits away, the comparator is (x, y, z, '', d). For commits with no previous version, the comparator is ('', d) where d is the distance from the first commit in the repo.\r\n - Metadata on git commits is cached in the misc_cache, for quick lookup later.\r\n - Git repos are cached as bare repos in `~/.spack/git_repos`\r\n - In both caches, git repo urls are turned into file paths within the cache\r\n\r\nIf a commit cannot be found in the cached git repo, we fetch from the repo. If a commit is found in the cached metadata, we do not recompare to newly downloaded tags (assuming repo structure does not change). The cached metadata may be thrown out by using the `spack clean -m` option if you know the repo structure has changed in a way that invalidates existing entries. Future work will include automatic updates.\r\n\r\n# Finding previous versions\r\nSpack will search the repo for any tags that match the string of a version given by the `version` directive. Spack will also search for any tags that match `v + string` for any version string. Beyond that, Spack will search for tags that match a SEMVER regex (i.e., tags of the form x.y.z) and interpret those tags as valid versions as well. Future work will increase the breadth of tags understood by Spack\r\n\r\nFor each tag, Spack queries git to determine whether the tag is an ancestor of the commit in question or not. Spack then sorts the tags that are ancestors of the commit by commit-distance in the repo, and takes the nearest ancestor. The version represented by that tag is listed as the previous version for the commit.\r\n\r\nNot all commits will find a previous version, depending on the package workflow. Future work may enable more tangential relationships between commits and versions to be discovered, but many commits in real world git repos require human knowledge to associate with a most recent previous version. Future work will also allow packages to specify commit/tag/version relationships manually for such situations.\r\n\r\n# Version comparisons.\r\nThe empty string is a valid component of a Spack version tuple, and is in fact the lowest-valued component. It cannot be generated as part of any valid version. These two characteristics make it perfect for delineating previous versions from distances. For any version x.y.z, (x, y, z, '', _) will be less than any \"real\" version beginning x.y.z. This ensures that no distance from a release will cause the commit to be interpreted as \"greater than\" a version which is not an ancestor of it.\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/24639",
+    "updated_at": "2021-10-04 10:41:38",
+    "created_at": "2021-06-30 22:12:25",
+    "closed_at": "2021-09-15 05:12:34",
+    "state": "closed",
+    "title": "Adding ability to compare git references to spack install",
+    "number": 24639,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "fetching",
+        "tests",
+        "commands",
+        "versions",
+        "utilities"
+    ],
+    "id": 934166127,
+    "html_url": "https://github.com/spack/spack/pull/24639",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 29
+}

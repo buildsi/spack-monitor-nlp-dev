@@ -1,0 +1,17 @@
+{
+    "body": "```\n==> Already downloaded /xfs1/eschnetter/spacktest/spack/var/spack/stage/py-numpy-1.11.0-urymgx5gdatropsqd2ehdfjoln44isa6/py-numpy-1.11.0.tar.gz\n==> Already staged py-numpy-1.11.0-urymgx5gdatropsqd2ehdfjoln44isa6 in /xfs1/eschnetter/spacktest/spack/var/spack/stage/py-numpy-1.11.0-urymgx5gdatropsqd2ehdfjoln44isa6\n==> No patches needed for py-numpy\n==> Building py-numpy\n==> '/xfs1/eschnetter/spacktest/spack/opt/spack/linux-Ubuntu14-x86_64/gcc-6.1.0-spacktest/python-2.7.12-b5sf3vacbqfghadqm6uj2tti2oemd3xy/bin/python' 'setup.py' 'install' '--prefix=/xfs1/eschnetter/spacktest/spack/opt/spack/linux-Ubuntu14-x86_64/gcc-6.1.0-spacktest/py-numpy-1.11.0-urymgx5gdatropsqd2ehdfjoln44isa6'\nRunning from numpy source directory.\n\nNote: if you need reliable uninstall behavior, then install\nwith pip instead of using `setup.py install`:\n\n  - `pip install .`       (from a git repo or downloaded source\n                           release)\n  - `pip install numpy`   (last Numpy release on PyPi)\n\n\nTraceback (most recent call last):\n  File \"setup.py\", line 386, in <module>\n    setup_package()\n  File \"setup.py\", line 363, in setup_package\n    from setuptools import setup\nImportError: No module named setuptools\n```\n\nI used this package definition for an umbrella package:\n\n```\nfrom spack import *\n\nclass Umbrella(Package):\n    homepage = \"Umbrella package\"\n    # This is just a dummy download\n    url = \"http://zlib.net/zlib-1.2.8.tar.gz\"\n    version('1.2.8', '44d667c142d7cda120332623eab69f40')\n\n    depends_on(\"boost +mpi\")\n    depends_on(\"fftw +mpi +openmp\")\n    depends_on(\"git\")\n    depends_on(\"gsl\")\n    depends_on(\"hdf5 +mpi\")\n    depends_on(\"hdf5-blosc\")\n    depends_on(\"hwloc\")\n    depends_on(\"jemalloc\")\n    depends_on(\"julia\")\n    # depends_on(\"julia +hdf5 +mpi\")\n    depends_on(\"llvm\")\n    depends_on(\"lmod\")\n    depends_on(\"openblas +openmp\")\n    depends_on(\"openmpi\")\n    depends_on(\"papi\")\n    depends_on(\"petsc +boost +hdf5 +mpi\")\n    depends_on(\"py-h5py +mpi\")\n    depends_on(\"py-mpi4py\")\n    depends_on(\"py-numpy\")\n    depends_on(\"py-scipy\")\n    # Specify version @2.7.12 explicitly to circumvent a concretization bug\n    depends_on(\"python @2.7.12\")\n    depends_on(\"qthreads\")\n    depends_on(\"swig\")\n    depends_on(\"tmux\")\n\n    def install(self, spec, prefix):\n        # This package does not install anything; it only installs its\n        # dependencies\n        mkdirp(prefix.lib)\n```\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/1281",
+    "updated_at": "2016-07-18 20:58:17",
+    "created_at": "2016-07-18 19:22:30",
+    "closed_at": "2016-07-18 20:58:17",
+    "state": "closed",
+    "title": "Cannot install py-numpy: \"No module named setuptools\"",
+    "number": 1281,
+    "milestone": null,
+    "labels": [],
+    "id": 166172135,
+    "html_url": "https://github.com/spack/spack/issues/1281",
+    "assignees": [],
+    "comments": 2
+}

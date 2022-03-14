@@ -1,0 +1,21 @@
+{
+    "body": "\r\nThe recent change to `bin/spack` to prefer python3 breaks packages\r\nthat have trouble with python3 on systems that have both python\r\nversions 2 and 3.\r\n\r\n```\r\ncommit 97980a8f94e0c3f868dc071a24c299d05b017de5 (HEAD)\r\nAuthor: Todd Gamblin <tgamblin@llnl.gov>\r\nDate:   Sat Sep 28 20:59:02 2019 -0700\r\n\r\n    prefer Python 3 to Python 2 for running Spack\r\n```\r\n\r\nThis is on a single node x86_64 workstation, Fedora 26, gcc 7.3.1.\r\n`/usr/bin` has both python (2.7.15) and python3 (3.6.5).\r\n\r\nSpack install papi hangs in `filter_file` at:\r\n\r\n```\r\n$ spack spec papi\r\npapi@5.7.0%gcc@7.3.1 arch=linux-fedora26-westmere\r\n\r\n$ spack install -v papi\r\n...\r\n==> [2019-10-08-22:44:20.061799] FILTER FILE: ./linux-bgq.h [replacing \"\\<malloc\\.h\\>\"]\r\n==> [2019-10-08-22:44:20.062630] FILTER FILE: ./freebsd.c [replacing \"\\<malloc\\.h\\>\"]\r\n==> [2019-10-08-22:44:20.066617] FILTER FILE: ./x86_cpuid_info.c [replacing \"\\<malloc\\.h\\>\"]\r\n```\r\n\r\nThis goes back to Feb 2018 in #7358.  But now it's more serious\r\nbecause it's harder to avoid python3.  I noticed this with papi, but\r\nthere are other packages that use `filter_file`.\r\n\r\nI normally include this in `packages.yaml`, but it fails both with and\r\nwithout this.\r\n\r\n```\r\npackages:\r\n  python:\r\n    paths:\r\n      python@2.7.15:  /usr\r\n    buildable: False\r\n```\r\n\r\nI don't really know a satisfactory workaround, except to revert to the\r\nlast working commit or else hack `packages.py` to remove `filter_file`.\r\n\r\nping @tgamblin and @alalazo ",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/13101",
+    "updated_at": "2019-10-15 03:35:15",
+    "created_at": "2019-10-09 04:38:30",
+    "closed_at": "2019-10-15 03:35:15",
+    "state": "closed",
+    "title": "python3 breaks filter_file in papi package",
+    "number": 13101,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 504409828,
+    "html_url": "https://github.com/spack/spack/issues/13101",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "We can't set `PYTORCH_BUILD_VERSION` to `master`, otherwise the build crashes with:\r\n```\r\n     2051    In file included from ../caffe2/core/common.h:27:0,\r\n     2052                     from ../caffe2/perfkernels/common_avx2.cc:5:\r\n  >> 2053    ./caffe2/core/macros.h:12:30: error: 'master' was not declared in this scope\r\n     2054     #define CAFFE2_VERSION_MINOR master\r\n     2055                                  ^\r\n     2056    ./caffe2/core/macros.h:16:5: note: in expansion of macro 'CAFFE2_VERSION_MINOR'\r\n     2057         CAFFE2_VERSION_MINOR < 100,\r\n     2058         ^\r\n  >> 2059    ./caffe2/core/macros.h:13:30: error: 'master' was not declared in this scope\r\n     2060     #define CAFFE2_VERSION_PATCH master\r\n     2061                                  ^\r\n     2062    ./caffe2/core/macros.h:19:5: note: in expansion of macro 'CAFFE2_VERSION_PATCH'\r\n     2063         CAFFE2_VERSION_PATCH < 100,\r\n     2064         ^\r\n     2065    [1035/2226] Building CXX object caffe2/perfkernels/CMakeFiles/Caffe2_perfkernels_avx2.dir/fused_8bit_rowwise_conversion_avx2.cc.o\r\n```\r\nAlso, the `intel-mkl-dnn` package was renamed to `dnnl`, and then renamed again to `onednn`. Update `py-torch` to use the right dependency name.\r\n\r\n@tgamblin why didn't your package sanity dependency checks catch the missing `intel-mkl-dnn` package?\r\n\r\nEDIT: Oh, that test only looks at `depends_on`, the spec of non-existing package bug can only be caught at run-time.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/16560",
+    "updated_at": "2020-05-11 00:40:02",
+    "created_at": "2020-05-10 20:55:17",
+    "closed_at": "2020-05-11 00:40:01",
+    "state": "closed",
+    "title": "PyTorch: fix master and mkldnn builds",
+    "number": 16560,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 615474489,
+    "html_url": "https://github.com/spack/spack/pull/16560",
+    "assignees": [],
+    "comments": 0
+}

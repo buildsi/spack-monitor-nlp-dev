@@ -1,0 +1,20 @@
+{
+    "body": "Successfully installs on macOS 10.15.6 with Apple Clang 12.0.0.\r\n\r\nI noticed a couple of build problems on macOS. First of all, I'm not able to build `zip`. I'm not actually sure if this dependency is required or if it's only needed to unzip the zip file that gets downloaded. It looks like @melven added this in #15402. According to the [Ubuntu installation instructions](https://docs.bazel.build/versions/master/install-ubuntu.html), zip is required, but the [macOS installation instructions](https://docs.bazel.build/versions/master/install-os-x.html) make no mention of `zip`, so maybe it's not required (or assumed to be present on the OS)? What should we do here? I suppose I could add `zip` as an external package and still get `bazel` to build. But if it's only needed to extract the zip file, it shouldn't be a dependency.\r\n\r\nThe other issue I encountered is when I have a Spack-built bash in the `PATH`. This causes the `bazel` build to immediately fail with:\r\n```\r\n==> bazel: Executing phase: 'bootstrap'\r\n==> [2020-09-25-23:09:00.253263] '/Users/Adam/.spack/.spack-env/view/bin/bash' './compile.sh'\r\nshell-init: error retrieving current directory: getcwd: cannot access parent directories: Bad file descriptor\r\nchdir: error retrieving current directory: getcwd: cannot access parent directories: Bad file descriptor\r\n```\r\nI have no idea how to fix our bash package, but things work with the system `/bin/bash`.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/18991",
+    "updated_at": "2020-10-05 14:53:12",
+    "created_at": "2020-09-27 03:42:03",
+    "closed_at": "2020-10-05 14:53:11",
+    "state": "closed",
+    "title": "bazel: add latest version",
+    "number": 18991,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "bazel"
+    ],
+    "id": 709659416,
+    "html_url": "https://github.com/spack/spack/pull/18991",
+    "assignees": [],
+    "comments": 0
+}

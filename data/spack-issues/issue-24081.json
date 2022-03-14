@@ -1,0 +1,25 @@
+{
+    "body": "Edit:\r\n\r\nInstead of installing the full `env` to `<install prefix>/.spack/spack-build-env.txt` only install variables that have been changed in the build environment. This is to avoid \"installing\" secret tokens, passwords and keys often set in CI.\r\n\r\nHalfway this PR the original behavior of installing all variables was still available through `spack install --env-variables`, but that flag is now dropped (67e2bea01dd04c07161c53f587440071fd2c6f38).\r\n\r\n<details>\r\n <summary>Original description:</summary>\r\n\r\nWe shouldn't persist environment variables to disk by default, and we should definitely not install them on shared instances and pipelines.\r\n\r\nThis PR ensures that we do not have a `<install prefix>/.spack/spack-build-env.txt` file and that the `<stage dir>/spack-build-env.txt` file has 600 permissions (that is read-write for the user only: `-rw-------`)\r\n\r\nThe only potentially safe thing to do is to store the environment *modifications* of spack's build environment, but until that is figured out, it's better to drop this entirely.\r\n</details>",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/24081",
+    "updated_at": "2021-10-11 14:13:30",
+    "created_at": "2021-06-02 13:17:35",
+    "closed_at": "2021-10-11 14:07:45",
+    "state": "closed",
+    "title": "Do not install environment variables",
+    "number": 24081,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "tests",
+        "utilities"
+    ],
+    "id": 909493000,
+    "html_url": "https://github.com/spack/spack/pull/24081",
+    "assignees": [
+        "haampie",
+        "vsoch",
+        "alalazo"
+    ],
+    "comments": 17
+}

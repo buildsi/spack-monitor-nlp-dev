@@ -1,0 +1,19 @@
+{
+    "body": "I was wondering why I have two hdf5 packages installed with same compiler and same variant:\n\n``` bash\nspack find -v  hdf5 %gcc\n==> 2 installed packages.\n-- linux-redhat6-x86_64 / gcc@4.9.0 -----------------------------\nhdf5@1.10.0-patch1+cxx~debug~fortran+mpi+shared~szip~threadsafe\nhdf5@1.10.0-patch1+cxx~debug~fortran+mpi+shared~szip~threadsafe\n```\n\n(they have different hash though, so may not be same problem as in #2087).\n\nAs hash different, I thought there might be some changes, fine.\n\nNow I see below:\n\n``` bash\n spack install hdf5 +mpi %gcc\n==> hdf5 is already installed in /some_path//linux-redhat6-x86_64/gcc-4.9.0/hdf5-1.10.0-patch1-gkx34kcxlc7yyy75zhgbdhtuodmm65pp\n\n\u2192 spack install hdf5 %gcc\n==> hdf5 is already installed in /some_path//linux-redhat6-x86_64/gcc-4.9.0/hdf5-1.10.0-patch1-gkx34kcxlc7yyy75zhgbdhtuodmm65pp\n```\n\nI understand `+mpi` is `on` and hence thats the same package. Now I want to use this `hdf5` with `PGI` compiler:\n\n``` bash\nspack install mypkg %pgi ^hdf5%gcc\n==> Installing mypkg\n==> mvapich2 is externally installed in /some_path/mvapich2-2.0.1-nocuda-slurm-14.03.4.2/install\n==> cmake is externally installed in cmake-3.6.1-gcc-4.4.7-xhpqagp\n==> Installing hdf5\n\u2026.\n```\n\nWhy installing hdf5 again?\n\nAnd then adding `+mpi` : \n\n``` bash\nspack install mypkg %pgi ^hdf5+mpi%gcc\n==> Installing mypkg\n==> mvapich2 is externally installed in /some_path/mvapich2-2.0.1-nocuda-slurm-14.03.4.2/install\n==> cmake is externally installed in cmake-3.6.1-gcc-4.4.7-xhpqagp\n==> hdf5 is already installed in ...\n```\n\nWhy adding `+mpi` variant makes difference?\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2130",
+    "updated_at": "2020-11-01 15:47:44",
+    "created_at": "2016-10-25 20:11:19",
+    "closed_at": "2020-11-01 15:47:43",
+    "state": "closed",
+    "title": "Using existing package with different compiler and multiple installations",
+    "number": 2130,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 185221109,
+    "html_url": "https://github.com/spack/spack/issues/2130",
+    "assignees": [],
+    "comments": 11
+}

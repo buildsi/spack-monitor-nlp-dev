@@ -1,0 +1,22 @@
+{
+    "body": "@alalazo I asked you that question at SC16 but did honestly forget how to exactly do the workflow or if it is already implemented (latest docs say no).\r\n\r\nIn our scenario, we have a heterogeneous cluster with 3 queues of individual compute hardware:\r\n- login nodes (ideally as compile nodes) with AMD Opteron 6376 (gcc: `bdver2`)\r\n- compute 1: AMD Opteron 6276 (gcc: `bdver1`)\r\n- compute 2: Intel Xeon E5-2609 (gcc: `corei7-avx`) + K20 (nvcc: `sm_35`)\r\n- compute 3: intel Xeon E5-2630 (gcc: `core-avx2`) + K80 (nvcc: `sm_37`)\r\n\r\nWe see dramatic performance increase in our [CPU code(s)](https://github.com/ComputationalRadiationPhysics/alpaka) if we compile on-node (interactively) with `-march=native` (queue-specific architecture flags see above).\r\n\r\nWill there be a way to configure user-specific architectures beyond the rather coarse `x86_64` that can honor, e.g. `-march` correctly for all (cross-compile) builds, so we can generate a perfectly tailored set of vector instructions in our binaries for each of those queues?\r\n\r\nIdeally, one might want to take GPU architectures (`sm_XY`) directly into account here, too.\r\n\r\nCCing @tgamblin ",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/2379",
+    "updated_at": "2019-09-23 20:52:05",
+    "created_at": "2016-11-22 09:48:33",
+    "closed_at": "2019-09-20 07:51:38",
+    "state": "closed",
+    "title": "Compute-Specific Architecture Chains",
+    "number": 2379,
+    "milestone": null,
+    "labels": [
+        "platform-support"
+    ],
+    "id": 190951626,
+    "html_url": "https://github.com/spack/spack/issues/2379",
+    "assignees": [
+        "alalazo",
+        "becker33"
+    ],
+    "comments": 5
+}

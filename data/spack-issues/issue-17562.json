@@ -1,0 +1,22 @@
+{
+    "body": "`icu4c@67.1` fails to build on GCC 4.8.5. `icu4c@66.1` builds fine.\r\n\r\nGCC 4.8.5 on rhel6:\r\n```\r\nutext.cpp:572:5: error: 'max_align_t' in namespace 'std' does not name a\r\ntype\r\n     std::max_align_t    extension;\r\n     ^\r\nutext.cpp: In function 'UText* utext_setup_67(UText*, int32_t,\r\nUErrorCode*)':\r\nutext.cpp:587:73: error: 'max_align_t' is not a member of 'std'\r\n             spaceRequired = sizeof(ExtendedUText) + extraSpace -\r\nsizeof(std::max_align_t);\r\n                                                                         ^\r\nutext.cpp:587:73: note: suggested alternative:\r\nIn file included from\r\n/projects/spack/opt/spack/gcc-4.4.7/gcc/6ln2t7b/include/c++/4.8.5/cstddef:42:0,\r\n                 from utext.cpp:19:\r\n/projects/spack/opt/spack/gcc-4.4.7/gcc/6ln2t7b/lib/gcc/x86_64-unknown-linux-gnu/4.8.5/include/stddef.h:\r\n425:3: note:   'max_align_t'\r\n } max_align_t;\r\n   ^\r\nutext.cpp:598:57: error: 'struct ExtendedUText' has no member named\r\n'extension'\r\n                 ut->pExtra    = &((ExtendedUText *)ut)->extension;\r\n                                                         ^\r\n   g++   ...  loadednormalizer2impl.cpp\r\n   g++   ...  chariter.cpp\r\n```",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/17562",
+    "updated_at": "2020-08-01 17:16:13",
+    "created_at": "2020-07-16 20:18:40",
+    "closed_at": "2020-07-17 00:34:03",
+    "state": "closed",
+    "title": "icu4c: Mark new version as conflicting with old GCC",
+    "number": 17562,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "gcc",
+        "update-package",
+        "conflicts"
+    ],
+    "id": 658533216,
+    "html_url": "https://github.com/spack/spack/pull/17562",
+    "assignees": [],
+    "comments": 0
+}

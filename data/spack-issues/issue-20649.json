@@ -1,0 +1,23 @@
+{
+    "body": "This code in `SpecBuilder.build_specs()` introduced in #20203, can loop seemingly interminably for very large specs:\r\n\r\n```python\r\nset([spec.root for spec in self._specs.values()])\r\n```\r\n\r\nIt's deceptive, because it seems like there must be an issue with `spec.root`, but that works fine. It's building the set afterwards that takes forever, at least on `r-rminer`. Currently if you try running `spack solve r-rminer`, it loops infinitely and spins up your fan.\r\n\r\nThe issue (I think) is that the spec is not yet complete when this is run, and something is going wrong when constructing and comparing so many values produced by `_cmp_key()`. We can investigate the efficiency of `_cmp_key()` separately, but for now, the fix is:\r\n\r\n```python\r\nroots = [spec.root for spec in self._specs.values()]\r\nroots = dict((id(r), r) for r in roots)\r\n```\r\n\r\nWe know the specs in `self._specs` are distinct (they just came out of the solver), so we can just use their `id()` to unique them here. This gets rid of the infinite loop.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/20649",
+    "updated_at": "2021-01-04 09:28:18",
+    "created_at": "2021-01-04 04:46:14",
+    "closed_at": "2021-01-04 09:28:17",
+    "state": "closed",
+    "title": "bugfix: infinite loop when building a set from incomplete specs",
+    "number": 20649,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "hashes",
+        "specs",
+        "patch",
+        "bugfix"
+    ],
+    "id": 777810026,
+    "html_url": "https://github.com/spack/spack/pull/20649",
+    "assignees": [],
+    "comments": 0
+}

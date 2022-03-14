@@ -1,0 +1,21 @@
+{
+    "body": "Sometimes one needs to be explicit and provide `-arch=sm_60` or `-arch=sm_35` flags when building with CUDA. I don't know enough about CUDA but maybe Spack should know this information so that if CUDA is enabled, you can get something like `spec.cuda_arch` to return `sm_60` or alike. \r\n\r\nIn meantime, one could probably encode this into a variant:\r\n```\r\nvariant(\r\n        'cuda',\r\n        default=None,\r\n        description='CUDA architecture',\r\n        values=('sm_70', 'sm_62', 'sm_61', 'sm_60', ..., 'sm_35',...),\r\n        multi=False\r\n    )\r\n```\r\n\r\nBut those values should also be consistent with CUDA version, from http://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/\r\n```\r\nSupported on CUDA 7 and later\r\nSM20 \u2013 Older cards such as GeForce GT630\r\nSM30 \u2013 Kepler architecture (generic \u2013 Tesla K40/K80)\r\nAdds support for unified memory programming\r\nSM35 \u2013 More specific Tesla K40\r\nAdds support for dynamic parallelism. Shows no real benefit over SM30 in my experience.\r\nSM37 \u2013 More specific Tesla K80\r\nAdds a few more registers. Shows no real benefit over SM30 in my experience\r\nSM50 \u2013 Tesla/Quadro M series\r\nSM52 \u2013 Quadro M6000 , GTX 980/Titan\r\nSM53 \u2013 Tegra TX1 / Tegra X1\r\nSupported on CUDA 8 and later\r\nSM60 \u2013 GP100/Pascal P100 \u2013 DGX-1 (Generic Pascal)\r\nSM61 \u2013 GTX 1080, 1070, 1060, Titan Xp, Tesla P40, Tesla P4\r\nSM62 \u2013 Probably Drive-PX2\r\nSupported on CUDA 9 and later\r\nSM70 \u2013 Tesla V100\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/6005",
+    "updated_at": "2017-11-19 19:39:13",
+    "created_at": "2017-10-27 08:06:27",
+    "closed_at": "2017-11-19 19:39:13",
+    "state": "closed",
+    "title": "CUDA device architecture",
+    "number": 6005,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "discussion",
+        "cuda"
+    ],
+    "id": 269020959,
+    "html_url": "https://github.com/spack/spack/issues/6005",
+    "assignees": [],
+    "comments": 13
+}

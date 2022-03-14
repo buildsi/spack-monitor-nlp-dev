@@ -1,0 +1,19 @@
+{
+    "body": "The elk version in the package builtin repo is very old (3.* while 7.* is released) and fails to link against external libxc, at least in my setup\r\n\r\nI tried to update the elk/package.py for handling the latest version of elk, but failed. The issue is that elk slightly changed the way it links against external blas/lapack and requires to compile stubs for missing MKL/OpenBLAS\r\n\r\nIn addition handling of libxc in elk changed, I had to set             \r\n            config['SRC_libxc'] = ' '.join([\r\n                'libxcf90.f90',\r\n                'libxcifc.f90'\r\n            ])\r\nafter which this particular part apparently works fine.\r\n\r\n\r\n\r\n\r\n\r\n",
+    "user": "permeakra",
+    "url": "https://api.github.com/repos/spack/spack/issues/23949",
+    "updated_at": "2021-08-10 14:51:45",
+    "created_at": "2021-05-27 06:34:16",
+    "closed_at": "2021-08-10 14:51:45",
+    "state": "closed",
+    "title": "Please, bump elk versions to 7.* and fix linking",
+    "number": 23949,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 903278392,
+    "html_url": "https://github.com/spack/spack/issues/23949",
+    "assignees": [],
+    "comments": 6
+}

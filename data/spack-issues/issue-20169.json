@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ apt-get install libboost1.71-all-dev\r\n$ spack install -v range-v3 %gcc@:9 +examples cxxstd=14 ^boost@1.65.0\r\n...\r\n\r\n-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake (found suitable version \"1.71.0\", minimum required is \"1.59.0\") found components: date_time program_options \r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-102-623caf85a9\r\n* **Python:** 3.8.6\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n* **Concretizer:** clingo\r\n\r\n\r\nFollowing https://cmake.org/cmake/help/latest/module/FindBoost.html#boost-cmake I've tried to fix this by adding this to boost/package.py:\r\n\r\n```python\r\n    def setup_dependent_build_environment(self, env, dependent_spec):\r\n        if '^cmake' in dependent_spec and '^boost@:1.69' in dependent_spec:\r\n            env.set('Boost_NO_BOOST_CMAKE', 'ON')\r\n```\r\n\r\nbut this does not work, you really need to specify `cmake -DBoost_NO_BOOST_CMAKE=ON` on the command line, which is currently awkward from the parent package.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/20169",
+    "updated_at": "2020-12-02 11:25:58",
+    "created_at": "2020-11-30 10:50:21",
+    "closed_at": "2020-12-02 11:25:58",
+    "state": "closed",
+    "title": "System boost 1.70+ preferred over spack boost < 1.70 when using cmake",
+    "number": 20169,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 753370221,
+    "html_url": "https://github.com/spack/spack/issues/20169",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

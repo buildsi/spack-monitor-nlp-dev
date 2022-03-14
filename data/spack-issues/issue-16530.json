@@ -1,0 +1,19 @@
+{
+    "body": "the 'libev' package provides data structures prrte needs such as\r\n`ev_async`.  libevent does not offer such an interface.  Was it a mistake to depend on `libevent` instead of `libev`?  \r\n\r\nWithout this change prrte fails to build, giving errors:\r\n\r\n```==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j4'\r\n\r\n4 errors found in build log:\r\n     1645      CC       runtime/opal_init.lo\r\n     1646      CC       runtime/opal_params.lo\r\n     1647      CC       runtime/opal_info_support.lo\r\n     1648      CC       runtime/opal_progress_threads.lo\r\n     1649      CC       threads/condition.lo\r\n     1650      CC       threads/mutex.lo\r\n  >> 1651    runtime/opal_progress_threads.c:50:5: error: unknown type name 'ev_async'\r\n     1652       50 |     ev_async async;\r\n     1653          |     ^~~~~~~~\r\n  >> 1654    runtime/opal_progress_threads.c:116:37: error: unknown type name 'EV_P_'\r\n     1655      116 | static void opal_libev_ev_async_cb (EV_P_ ev_async *w, int revents)\r\n     1656          |                                     ^~~~~  \r\n     1657    runtime/opal_progress_threads.c: In function 'opal_event_add':\r\n     1658    runtime/opal_progress_threads.c:150:9: warning: implicit declaration of function 'ev_async_send' [-Wimplicit-function-declaration]\r\n     1659      150 |         ev_async_send ((struct ev_loop *)trk->ev_base, &trk->async);\r\n     1660          |         ^~~~~~~~~~~~~\r\n     1661    runtime/opal_progress_threads.c: In function 'opal_progress_thread_init':\r\n     1662    runtime/opal_progress_threads.c:320:5: warning: implicit declaration of function 'ev_async_init'; did you mean 'evtag_init'? [-Wimplicit-function-declaration]\r\n     1663      320 |     ev_async_init (&trk->async, opal_libev_ev_async_cb);\r\n     1664          |     ^~~~~~~~~~~~~\r\n     1665          |     evtag_init\r\n  >> 1666    runtime/opal_progress_threads.c:320:33: error: 'opal_libev_ev_async_cb' undeclared (first use in this function)\r\n     1667      320 |     ev_async_init (&trk->async, opal_libev_ev_async_cb);\r\n     1668          |                                 ^~~~~~~~~~~~~~~~~~~~~~\r\n     1669    runtime/opal_progress_threads.c:320:33: note: each undeclared identifier is reported only once for each function it appears in\r\n     1670    runtime/opal_progress_threads.c:321:5: warning: implicit declaration of function 'ev_async_start' [-Wimplicit-function-declaration]\r\n     1671      321 |     ev_async_start((struct ev_loop *)trk->ev_base, &trk->async);\r\n     1672          |     ^~~~~~~~~~~~~~\r\n     1673    runtime/opal_progress_threads.c: In function 'opal_progress_thread_attach':\r\n  >> 1674    runtime/opal_progress_threads.c:382:33: error: 'opal_libev_ev_async_cb' undeclared (first use in this function)\r\n     1675      382 |     ev_async_init (&trk->async, opal_libev_ev_async_cb);\r\n     1676          |                                 ^~~~~~~~~~~~~~~~~~~~~~\r\n     1677    make[2]: *** [Makefile:1448: runtime/opal_progress_threads.lo] Error 1\r\n     1678    make[2]: *** Waiting for unfinished jobs....\r\n     1679    make[2]: Leaving directory '/tmp/robl/spack-stage/spack-stage-prrte-1.0.0-wvg7qdwqtcsxyuqq7jpqqg45dtngh3xl/spack-src/opal'\r\n     1680    make[1]: *** [Makefile:1520: all-recursive] Error 1\r\n```",
+    "user": "roblatham00",
+    "url": "https://api.github.com/repos/spack/spack/issues/16530",
+    "updated_at": "2020-05-22 15:31:11",
+    "created_at": "2020-05-08 13:47:30",
+    "closed_at": "2020-05-22 15:31:11",
+    "state": "closed",
+    "title": "prrte uses libev data structues, not libevent",
+    "number": 16530,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 614753967,
+    "html_url": "https://github.com/spack/spack/pull/16530",
+    "assignees": [],
+    "comments": 10
+}

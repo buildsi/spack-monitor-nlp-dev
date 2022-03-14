@@ -1,0 +1,20 @@
+{
+    "body": "Anticipated to be ready for review by 9/7 (update 9/5)\r\n\r\nFixes #5344\r\nFixes #8637 \r\nFixes #9015 (update 9/5)\r\nSee #8585\r\n\r\nThis is an updated attempt to add patches to mirrors. As of now Spack add the primary source archive and resources to a mirror (e.g. download URLs specified in a Spack `resource` declaration) but does not add patches (e.g. URLs specified with a Spack `patch` declaration). This replaces the custom logic in `mirror.add_single_spec` and downloads all patches and dependency patches.\r\n\r\nLike #8699 (which this supercedes):\r\n\r\n> This also updates the spack mirror command to add all packages in the concretized DAG (where originally it only added the package specified by the user). This is required in order to collect patches that are specified by dependents: e.g. if X->Y and X requires a patch on Y called Pxy, then Pxy will only be discovered if you create a mirror with X.\r\n\r\nUnlike #8699, this makes use of the local Spack cache and any existing download mirrors when creating a new mirror (previously when creating a mirror only the default fetcher was used). This may also resolve issues for packages which have an alternative download link (which is attempted as a backup after the default fetcher) and should resolve errors that are being detected in #8585.\r\n\r\nFurthermore, this approach resolves item 3 of https://github.com/spack/spack/issues/9015:\r\n\r\n> `spack mirror create` does not try to use list_url\r\n\r\nThis PR includes edits to address items 1 and 2 of https://github.com/spack/spack/issues/9015:\r\n\r\n> 1. The first question is regarding the flag `--one-version-per-spec`. As far a I understand get_matching_versions recieves a list of concrete specs, which means that there is only one matching version for each spec.\r\n\r\nThis is handled by allowing `mirror.create` to pick additional versions for concrete specs. Currently this just pulls:\r\n\r\n* The concrete spec (with whatever version the user asked for)\r\n* After that, the newest versions of the package\r\n\r\nWhile the `mirror.create` library function is capable of dealing with constraints like `foo@2:5`, the `spack mirror create` command always concretizes the spec, so that type of constraint cannot currently be used for example to retrieve versions 2, 3, 4, and 5.\r\n\r\nTODOs:\r\n\r\n- [x] Make it optional to mirror the entire DAG (this is required to get the dependency patches correct but some users may still want to mirror just the root) (EDIT: this is actually satisfied already with the `-D` option of `spack mirror create`)\r\n- [ ] Currently Spack reports number of hits/misses in terms of the number of packages where some resource was downloaded. This PR updates the statistics to report in terms of the number of individual files downloaded: if 3 packages have a total of 10 resources and patches between them, then it will report adding 10 items (if none of them were present before)\r\n- [x] There was a request in #8699 to optionally download all versions of all packages in a DAG which may also be good to add to this PR - see: https://github.com/spack/spack/pull/8699#issuecomment-404762014",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/8993",
+    "updated_at": "2018-12-16 19:41:10",
+    "created_at": "2018-08-16 02:40:38",
+    "closed_at": "2018-12-16 18:15:23",
+    "state": "closed",
+    "title": "Add patches to mirrors 2",
+    "number": 8993,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "patch"
+    ],
+    "id": 351034718,
+    "html_url": "https://github.com/spack/spack/pull/8993",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,17 @@
+{
+    "body": "``` bash\r\n$ spack install intel-mkl\r\n==> Installing intel-mkl\r\n==> Using cached archive: spack/var/spack/cache/intel-mkl/intel-mkl-2017.2.174.tgz\r\n==> Already staged intel-mkl-2017.2.174-twy6vcyriwtass3cjgsc7wbtkouqnluo in spack/var/spack/stage/intel-mkl-2017.2.174-twy6vcyriwtass3cjgsc7wbtkouqnluo\r\n==> Already patched intel-mkl\r\n==> Building intel-mkl [Package]\r\n==> Found already existing license spack/etc/spack/licenses/intel/license.lic\r\n==> Executing phase : 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    './install.sh' '--silent' 'silent.cfg'\r\nspack/var/spack/repos/builtin/packages/intel/package.py:96, in install:\r\n     74       def install(self, spec, prefix):\r\n     75\r\n     76           if not hasattr(self, \"intel_prefix\"):\r\n     77               self.intel_prefix = self.prefix\r\n     78\r\n     79           silent_config_filename = 'silent.cfg'\r\n     80           with open(silent_config_filename, 'w') as f:\r\n     81               f.write(\"\"\"\r\n     82   ACCEPT_EULA=accept\r\n     83   PSET_MODE=install\r\n     84   CONTINUE_WITH_INSTALLDIR_OVERWRITE=yes\r\n     85   PSET_INSTALL_DIR=%s\r\n     86   NONRPM_DB_DIR=%s\r\n     87   ACTIVATION_LICENSE_FILE=%s\r\n     88   ACTIVATION_TYPE=license_file\r\n     89   PHONEHOME_SEND_USAGE_DATA=no\r\n     90   CONTINUE_WITH_OPTIONAL_ERROR=yes\r\n     91   COMPONENTS=%s\r\n     92   \"\"\" % (self.intel_prefix, self.intel_prefix, self.global_license_file,\r\n     93                   self.intel_components))\r\n     94\r\n     95           install_script = Executable(\"./install.sh\")\r\n  >> 96           install_script('--silent', silent_config_filename)\r\n```\r\n\r\nNote that the package it's citing is ```intel``` not ```intel-mkl```\r\n\r\nThe error output indicates the build script quit upon parsing a cfg intended for the intel compilers.\r\n``` bash\r\n==> './install.sh' '--silent' 'silent.cfg'\r\nName \"ACTIVATION_LICENSE_FILE\" is not valid\r\n```\r\n\r\nI haven't found other commands that stumble on this.",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/3925",
+    "updated_at": "2017-04-24 20:57:30",
+    "created_at": "2017-04-20 18:52:59",
+    "closed_at": "2017-04-24 20:57:30",
+    "state": "closed",
+    "title": "spack install conflates intel-mkl and intel",
+    "number": 3925,
+    "milestone": null,
+    "labels": [],
+    "id": 223164343,
+    "html_url": "https://github.com/spack/spack/issues/3925",
+    "assignees": [],
+    "comments": 12
+}

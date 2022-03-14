@@ -1,0 +1,17 @@
+{
+    "body": "**Reported by @KineticTheory:**\n\nUsing a clean 'develop' branch, I am seeing this error:\n\n```\nspack find\n==> 0 installed packages.\n\nspack install qt\n[many packages are built...]\n[Python-2.7.11 is built]\n[xcb-proto1.11 is built]\nlibxcb-1.11.1 fails with the error:\n==> Error: No spec file found at path /var/tmp/spack/opt/spack/linux-x86_64/gcc-4.4.7/libxcb-1.11.1-fcoxqkvmi3a2y2qvmcevwvlhbvh5wlvb/.spack/spec.yaml\n```\n\nIt looks like the path  `/var/tmp/spack/opt/spack/linux-x86_64/gcc-4.4.7/libxcb-1.11.1-fcoxqkvmi3a2y2qvmcevwvlhbvh5wlvb/lib/python2.7/site-packages` is created before spack expects  `/var/tmp/spack/opt/spack/linux-x86_64/gcc-4.4.7/libxcb-1.11.1-fcoxqkvmi3a2y2qvmcevwvlhbvh5wlvb` to exist (see logic in `lib/spack/spack/directory_layout.py`).\n\nIs there any chance that the sbang feature (#497) modified python in a way to causes these site-packages directories to be generated in each install directory? I haven't identified the source of the error, but decided it should reported sooner rather than later.  Can anyone else confirm this behavior after updating with the feature/sbang update?\n\nBTW - after the above error, if you blindly rerun `spack install qt` (`libxcb` isn't actually installed, but spack thinks it is), the same error message shows up in qt before compiling starts.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/502",
+    "updated_at": "2016-03-08 11:43:53",
+    "created_at": "2016-03-08 08:19:19",
+    "closed_at": "2016-03-08 11:43:53",
+    "state": "closed",
+    "title": "No spec file found at path $prefix/.spack/spec.yaml",
+    "number": 502,
+    "milestone": null,
+    "labels": [],
+    "id": 139209651,
+    "html_url": "https://github.com/spack/spack/issues/502",
+    "assignees": [],
+    "comments": 0
+}

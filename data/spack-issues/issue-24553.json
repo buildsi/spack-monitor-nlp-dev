@@ -1,0 +1,21 @@
+{
+    "body": "This PR includes the following updates:\r\n\r\n- [x] Add missing `+objc` module variant\r\n- [x] Enforce `+apps` adding variants for necessary modules (note 1)\r\n- [x] Add several 3rd party component variants (note 2)\r\n- [x] Add missing dependencies for 3rd party components\r\n- [x] Add conflicts for 3rd party components\r\n\r\nNote 1: The `+apps` variant builds several applications. It doesn't seem possible to control _which_ apps get built, but certain apps require certain modules to be enabled. I've added conflicts so that if a user requests `+apps`, we make sure that all applications get built and installed. Fixes #24551 \r\n\r\nNote 2: Previously, I added all 3rd party components that showed up in my `CMakeCache.txt` on macOS. However, OpenCV has many variants which aren't visible on macOS. I've now added a variant for every possible 3rd party component, and OS-specific conflicts where needed.\r\n\r\nSuccessfully builds and passes all tests on macOS 10.15.7 with Apple Clang 12.0.0 using the default variants (everything disabled).\r\n\r\n@bvanessen @gmfricke",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/24553",
+    "updated_at": "2021-07-06 13:01:47",
+    "created_at": "2021-06-27 00:03:34",
+    "closed_at": "2021-07-06 06:18:59",
+    "state": "closed",
+    "title": "OpenCV: various package updates",
+    "number": 24553,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "conflicts",
+        "new-variant"
+    ],
+    "id": 930816540,
+    "html_url": "https://github.com/spack/spack/pull/24553",
+    "assignees": [],
+    "comments": 0
+}

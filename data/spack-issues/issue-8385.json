@@ -1,0 +1,19 @@
+{
+    "body": "Removed PGI-specific code in `boost` package that redefined `dirent` to be `dirent64`.  This caused `boost%pgi` to fail as certain function prototypes expected `dirent` instead of `dirent64`.\r\n\r\n`dirent` and `dirent64` structures are defined in `/usr/include/bits/dirent.h` and are identical, depending on whether `__USE_FILE_OFFSET64` is defined.  If not defined, `dirent64` doesn't exist, if defined `dirent64` and `dirent` are identical.  I am unsure what advantage explicitly using the `dirent64` type over `dirent` with the pgi compiler, as the only purpose it seems to serve is prevent compilation.",
+    "user": "djfitzgerald",
+    "url": "https://api.github.com/repos/spack/spack/issues/8385",
+    "updated_at": "2018-06-05 19:48:41",
+    "created_at": "2018-06-05 19:43:05",
+    "closed_at": "2018-06-05 19:48:34",
+    "state": "closed",
+    "title": "Remove PGI-specific code to use dirent64 in place of dirent in boost",
+    "number": 8385,
+    "milestone": null,
+    "labels": [
+        "duplicate"
+    ],
+    "id": 329598138,
+    "html_url": "https://github.com/spack/spack/pull/8385",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,17 @@
+{
+    "body": "After updating my fork, and also in a freshly cloned repository `spack` is crashing:\n\n```\n[throgg@baloney spack]$ spack clean git\nTraceback (most recent call last):\n  File \"/home/throgg/foo/spack/bin/spack\", line 179, in <module>\n    main()\n  File \"/home/throgg/foo/spack/bin/spack\", line 157, in main\n    return_val = command(parser, args)\n  File \"/home/throgg/foo/spack/lib/spack/spack/cmd/clean.py\", line 46, in clean\n    package.do_clean()\n  File \"/home/throgg/foo/spack/lib/spack/spack/package.py\", line 1376, in do_clean\n    self.stage.destroy()\n  File \"/home/throgg/foo/spack/lib/spack/spack/package.py\", line 532, in stage\n    self._stage = self._make_stage()\n  File \"/home/throgg/foo/spack/lib/spack/spack/package.py\", line 512, in _make_stage\n    stage = self._make_root_stage(fetcher)\n  File \"/home/throgg/foo/spack/lib/spack/spack/package.py\", line 496, in _make_root_stage\n    mp = spack.mirror.mirror_archive_path(self.spec, fetcher)\n  File \"/home/throgg/foo/spack/lib/spack/spack/mirror.py\", line 72, in mirror_archive_path\n    return join_path(spec.name, mirror_archive_filename(spec, fetcher))\n  File \"/home/throgg/foo/spack/lib/spack/spack/mirror.py\", line 64, in mirror_archive_filename\n    filename = \"%s-%s\" % (spec.package.name, spec.version)\n[...]\n  File \"/home/throgg/foo/spack/lib/spack/llnl/util/lang.py\", line 248, in <lambda>\n    setter('__hash__', lambda self: hash(self._cmp_key()))\n  File \"/home/throgg/foo/spack/lib/spack/spack/spec.py\", line 2058, in _cmp_key\n    for name in sorted(dep_dict)),)\n  File \"/home/throgg/foo/spack/lib/spack/spack/spec.py\", line 2058, in <genexpr>\n    for name in sorted(dep_dict)),)\n  File \"/home/throgg/foo/spack/lib/spack/llnl/util/lang.py\", line 248, in <lambda>\n    setter('__hash__', lambda self: hash(self._cmp_key()))\nRuntimeError: maximum recursion depth exceeded while calling a Python object\n```\n\nThe full trace is here:  https://gist.github.com/hartzell/108ac201d1686146386d03148e03dd7c\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/1429",
+    "updated_at": "2016-08-04 04:55:05",
+    "created_at": "2016-08-03 19:40:02",
+    "closed_at": "2016-08-04 04:54:27",
+    "state": "closed",
+    "title": "spack command recursing and crashing",
+    "number": 1429,
+    "milestone": null,
+    "labels": [],
+    "id": 169215241,
+    "html_url": "https://github.com/spack/spack/issues/1429",
+    "assignees": [],
+    "comments": 20
+}

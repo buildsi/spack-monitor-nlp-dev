@@ -1,0 +1,23 @@
+{
+    "body": "Certain commands (e.g. `spack find`, `spack location`) are unable to resolve installed packages when dependencies of dependencies are specified. In particular, I have several non-builtin packages: `parsec` optionally depend on an MPI implementation or on another library, `lci`, and `dplasma` depends on `parsec`.\r\n\r\nHaving installed `dplasma ^parsec transport=mpi ^openmpi` and `dplasma ^parsec transport=lci ^lci completion=am,sync`, I run into issues where Spack is unable to resolve the dependency when looking for installed packages:\r\n```console\r\n$ spack find -l dplasma\r\n==> 2 installed packages\r\n-- linux-centos7-haswell / gcc@7.2.0 ----------------------------\r\nsz65j37 dplasma@local  spjdu6u dplasma@local\r\n$ \r\n$ spack find -l dplasma ^openmpi\r\n==> 1 installed packages\r\n-- linux-centos7-haswell / gcc@7.2.0 ----------------------------\r\nspjdu6u dplasma@local\r\n$\r\n$ spack find -l dplasma ^parsec ^openmpi\r\n==> No package matches the query: dplasma ^parsec ^openmpi\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install namd ^charmpp backend=mpi ^openmpi\r\n$ spack install namd ^charmpp backend=ucx ^ucx\r\n$\r\n$ spack find namd ^openmpi\r\n==> 1 installed packages\r\n-- linux-centos7-haswell / gcc@7.2.0 ----------------------------\r\ndplasma@2.14\r\n$ spack find namd ^charmpp ^openmpi\r\n==> No package matches the query 'namd ^charmpp ^openmpi'\r\n```\r\n\r\n(Note: I the packages I've specifically encountered this with aren't builtin ones, but I expect the same issue should occur with `namd` and many other packages.)\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack --debug --stacktrace find -l dplasma ^parsec ^openmpi\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-09-05-17:19:23.540980] Imported find from built-in commands\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-09-05-17:19:23.542771] Imported find from built-in commands\r\nlib/spack/spack/config.py:835 ==> [2020-09-05-17:19:23.611505] Reading config file /home/omor1/spack/etc/spack/defaults/config.yaml\r\nlib/spack/spack/config.py:835 ==> [2020-09-05-17:19:23.633781] Reading config file /home/omor1/.spack/config.yaml\r\nlib/spack/spack/database.py:362 ==> [2020-09-05-17:19:23.655744] DATABASE LOCK TIMEOUT: 3s\r\nlib/spack/spack/database.py:366 ==> [2020-09-05-17:19:23.656217] PACKAGE LOCK TIMEOUT: No timeout\r\nlib/spack/spack/config.py:835 ==> [2020-09-05-17:19:23.713785] Reading config file /home/omor1/spack/etc/spack/defaults/repos.yaml\r\nlib/spack/spack/config.py:835 ==> [2020-09-05-17:19:23.717171] Reading config file /home/omor1/.spack/repos.yaml\r\nlib/spack/spack/cmd/find.py:222 ==> [2020-09-05-17:19:24.764859] No package matches the query: dplasma ^parsec ^openmpi\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4-793-94142519d\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-haswell\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "omor1",
+    "url": "https://api.github.com/repos/spack/spack/issues/18527",
+    "updated_at": "2020-10-17 09:40:32",
+    "created_at": "2020-09-06 00:25:09",
+    "closed_at": "2020-10-17 09:40:32",
+    "state": "closed",
+    "title": "Recursive dependency resolution in database search",
+    "number": 18527,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 694212977,
+    "html_url": "https://github.com/spack/spack/issues/18527",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

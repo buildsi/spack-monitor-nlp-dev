@@ -1,0 +1,17 @@
+{
+    "body": "Bug: when installing with `install_missing_compilers: true` in the config.yaml, leaf nodes of the package will be pulled from the queue for installation before the underlying compiler is installed.\r\n\r\nFix: Mark bootstrapped compilers as having a dependent of the package they are bootstrapped for. Do not mark the package as having a dependency on the compiler, as that would change the hash. Rather, we separately compute the compiler, if not already installed, as one of the dependents of the BuildTask object when pushing tasks to the queue.\r\n\r\nTo reproduce, try to install the following environment to a Spack instance in which `gcc@5.5.0` is not already configured as an available compiler.\r\n\r\n```\r\nspack:\r\n  specs: [zlib%gcc@5.5.0]\r\n  config:\r\n    install_missing_compilers: true\r\n```",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/15416",
+    "updated_at": "2020-06-30 23:38:48",
+    "created_at": "2020-03-10 00:14:07",
+    "closed_at": "2020-03-10 17:35:21",
+    "state": "closed",
+    "title": "bugfix: fix install_missing_compilers option bug from v0.14.0",
+    "number": 15416,
+    "milestone": null,
+    "labels": [],
+    "id": 578260083,
+    "html_url": "https://github.com/spack/spack/pull/15416",
+    "assignees": [],
+    "comments": 0
+}

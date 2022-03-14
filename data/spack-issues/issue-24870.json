@@ -1,0 +1,22 @@
+{
+    "body": "The current version of OpenJDK is 16 and the `spack` config only has up to OpenJDK 11 (several years old!). As part of the a-hug hackathon, I've been making sure that a [Java-based application (GATK) is working](https://github.com/arm-hpc-user-group/Cloud-HPC-Hackathon-2021/pull/19). It seemed helpful to test performance against the latest OpenJDK version.\r\n\r\nThis PR adds in x86 and arm config for OpenJDK 16. I also added the provides mapping for `openjdk@16`. Same style as the previous versions of the config. These JDK downloads can be found at https://jdk.java.net/16/\r\n\r\nYou can see the new versions with `spack info openjdk`\r\n\r\n```\r\n[jayson@ip-10-0-0-37 spack]$ spack info openjdk\r\nPackage:   openjdk\r\n\r\nDescription:\r\n    The free and opensource java implementation\r\n\r\nHomepage: https://jdk.java.net\r\n\r\nExternally Detectable:\r\n    True (version, variants)\r\n\r\nTags:\r\n    None\r\n\r\nPreferred version:\r\n    16.0.1           https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-x64_bin.tar.gz\r\n\r\nSafe versions:\r\n    16.0.1           https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-x64_bin.tar.gz\r\n    11.0.8_10        https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.8%2B10/OpenJDK11U-jdk_x64_linux_hotspot_11.0.8_10.tar.gz\r\n    11.0.2           https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz\r\n    11.0.1           https://download.java.net/java/GA/jdk11/13/GPL/openjdk-11.0.1_linux-x64_bin.tar.gz\r\n    1.8.0_265-b01    https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u265-b01/OpenJDK8U-jdk_x64_linux_hotspot_8u265b01.tar.gz\r\n    1.8.0_222-b10    https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u222-b10_openj9-0.15.1/OpenJDK8U-jdk_x64_linux_openj9_8u222b10_openj9-0.15.1.tar.gz\r\n    1.8.0_202-b08    https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u202-b08/OpenJDK8U-jdk_x64_linux_openj9_8u202b08_openj9-0.12.0.tar.gz\r\n    1.8.0_40-b25     https://download.java.net/openjdk/jdk8u40/ri/jdk_ri-8u40-b25-linux-x64-10_feb_2015.tar.gz\r\n\r\nVariants:\r\n    None\r\n\r\nInstallation Phases:\r\n    install\r\n\r\nBuild Dependencies:\r\n    None\r\n\r\nLink Dependencies:\r\n    None\r\n\r\nRun Dependencies:\r\n    None\r\n\r\nVirtual Packages:\r\n    openjdk@16.0:16.99 provides java@16\r\n    openjdk@11.0:11.99 provides java@11\r\n    openjdk@10.0:10.99 provides java@10\r\n    openjdk@9.0:9.99 provides java@9\r\n    openjdk@1.8.0:1.8.999 provides java@8\r\n```\r\n\r\nYou can install and use OpenJDK 16 as follows.\r\n\r\n```\r\n# for x86 HPCs\r\nspack install openjdk@16.0.1%gcc@10.3.0\r\n\r\n# for ARM HPCs\r\nspack install openjdk@16.0.1%arm@21.0.0.879\r\n```\r\n\r\nAnd then use it with `spack load openjdk@16.0.01`\r\n\r\n```\r\n[jayson@ip-10-0-0-37 spack]$ spack load openjdk@16.0.1\r\n\r\n[jayson@ip-10-0-0-37 spack]$ java --version\r\nopenjdk 16.0.1 2021-04-20\r\nOpenJDK Runtime Environment (build 16.0.1+9-24)\r\nOpenJDK 64-Bit Server VM (build 16.0.1+9-24, mixed mode, sharing)\r\n\r\n# go back to system default\r\n[jayson@ip-10-0-0-37 spack]$ spack unload openjdk\r\n\r\n[jayson@ip-10-0-0-37 spack]$ java -version\r\nopenjdk version \"1.8.0_282\"\r\nOpenJDK Runtime Environment (build 1.8.0_282-b08)\r\nOpenJDK 64-Bit Server VM (build 25.282-b08, mixed mode)\r\n```",
+    "user": "jfalkner",
+    "url": "https://api.github.com/repos/spack/spack/issues/24870",
+    "updated_at": "2021-09-30 01:00:18",
+    "created_at": "2021-07-14 04:04:33",
+    "closed_at": "2021-09-30 01:00:18",
+    "state": "closed",
+    "title": "OpenJDK: new version 16",
+    "number": 24870,
+    "milestone": null,
+    "labels": [
+        "virtual-dependencies",
+        "update-package"
+    ],
+    "id": 944014459,
+    "html_url": "https://github.com/spack/spack/pull/24870",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 8
+}

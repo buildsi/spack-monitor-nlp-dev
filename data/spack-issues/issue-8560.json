@@ -1,0 +1,20 @@
+{
+    "body": "This is a slight rework of the very nice #2686 that @citibeth wrote a while ago.  Key differences:\r\n\r\n* it accounts for the changes in #7774 \r\n* it improves the way initialization works in `spack.main`\r\n* the argument for passing a configuration scope is `-C` / `--config-scope`\r\n\r\nThe last one leaves room for a future `-c` / `--config` option that would adjust *one* configuration setting (like `git`'s `-c`).\r\n\r\nBasically, this PR lets you do this:\r\n\r\n```\r\nspack -C /path/to/special-config install package\r\n```\r\n\r\nWhere `path/to/special-config` can contain `packages.yaml`, `config.yaml`, etc.\r\n\r\nThere is more fancy stuff coming in #8231, but we have some users who need to make use of this feature now, and it's still useful even with #8231.  People would like to keep several different configurations in version control, and this enables them to do that easily.\r\n\r\n@cyrush @mwkrentel @stephdempsey: this should help you out.  I think others will also be interested.\r\n\r\n- [x] add command-line scopes\r\n- [x] rework `spack.main.main` to handle exceptions raised by the config system gracefully\r\n- [x] docs for command-line scopes\r\n- [x] docs for `spack config blame` (added in #8081)\r\n\r\n\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/8560",
+    "updated_at": "2019-07-20 19:06:36",
+    "created_at": "2018-06-24 08:37:43",
+    "closed_at": "2018-07-21 21:04:19",
+    "state": "closed",
+    "title": "Command-line scopes",
+    "number": 8560,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "configuration"
+    ],
+    "id": 335162195,
+    "html_url": "https://github.com/spack/spack/pull/8560",
+    "assignees": [],
+    "comments": 1
+}

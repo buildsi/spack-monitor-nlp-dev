@@ -1,0 +1,22 @@
+{
+    "body": "This mainly addresses problems on `darwin` with MacPorts-built `mpich`.\r\n\r\n1. Fix `Warning: error detecting \"mpich\" from prefix /opt/local/bin [expected str, bytes or os.PathLike object, not NoneType]` by checking whether `spack_compiler.cc` is set before using its value (`Spack` falsely detects `apple-clang` in `/opt/local/bin` that is mixed with `gfortran` but does not have `cc`).\r\n2. Fix the detection of MacPorts-built `gcc`, which has suffix `-mp-10` on my system.\r\n3. Fix incorrect concatenation of a multi-valued variant with a compiler spec (`Warning: error detecting \"mpich\" from prefix /opt/local/bin [invalid values for variant \"device\" in package \"mpich\": ['ch4%gcc@10.3.0']`)",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/29284",
+    "updated_at": "2022-03-14 15:33:57",
+    "created_at": "2022-03-02 10:02:42",
+    "closed_at": "2022-03-14 15:33:57",
+    "state": "closed",
+    "title": "mpich: fix the detection of the package",
+    "number": 29284,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "update-package"
+    ],
+    "id": 1156963410,
+    "html_url": "https://github.com/spack/spack/pull/29284",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

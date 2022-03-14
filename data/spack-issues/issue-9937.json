@@ -1,0 +1,20 @@
+{
+    "body": "I would like to achieve following but optional dependencies seems to be currently limited to variants. For example, I would like to do:\r\n\r\n```\r\nclass Custom(Package):\r\n\r\n    variant('python', default=False)\r\n\r\n   depends_on('AA', when='+python')\r\n   depends_on('BB', when='^AA+xx')           # +xx may not be default variant in AA\r\n\r\n```\r\n### Rationale\r\n\r\nFor some Custom package we have to grab all dependencies and their libraries. As this is not CMake package, we don't have `FindAA.cmake` mechanism to grab all dependency libraries. One can implement the `libs` method in package `AA` to return all dependencies. But, this doesn't work when we have `AA` as external package. (note that all dependency DAG of `AA` gets striped when package is external).\r\n\r\nAnd hence I would like to define the dependency as shown above.\r\n\r\n### Possible solution\r\n\r\nThe [2015-05-14/Telco](https://github.com/spack/spack/wiki/Telcon%3A-2015-05-14) describes this feature as part of `features/optional-deps`:\r\n\r\n```\r\nVariants and optional dependencies are ready to be tested. They're in the features/optional-deps branch.\r\n\r\nVariants look like this: variant('mpi', default=False, description='Enable MPI support')\r\n\r\nYou can add an optional dependency based on a variant like this: depends_on('mpi', when='+mpi') The package will now build with MPI when you add +mpi. You could install like this: spack install foo+mpi ^mpich Note that this wouldn't work: spack install foo ^mpich Spack only understands the implication one way, i.e. +mpi implies depends_on('mpi'), NOT the other way. Open to the idea of allowing a shortcut for this case (where extra deps are implied by an option) but not sure how much this would complicate the normalization process.\r\n\r\nConditional dependencies can depend on other things too: depends_on('mpi', when='@1.2:') # depend on MPI at version 1.2 or higher depends_on('libelf', when='%gcc') # depend on `libelf` when using `gcc` depends_on('hwloc', when='=chaos_5_x86_64_ib') # depend on `hwloc` when running on Linux.\r\n\r\nYou can even chain things: depends_on('a', when='+option') depends_on('b', when='^a') depends_on('c', when='^b')\r\n\r\nNow the package will depend on a, b, and c when +option is enabled.\r\n```\r\n\r\nI tried to test this with current develop without any success. Could someone comment if this is already merged? I don't see the corresponding branch.\r\n\r\n",
+    "user": "ferdonline",
+    "url": "https://api.github.com/repos/spack/spack/issues/9937",
+    "updated_at": "2020-11-02 15:18:24",
+    "created_at": "2018-11-23 14:56:48",
+    "closed_at": "2020-11-02 15:18:24",
+    "state": "closed",
+    "title": "Variants and optional dependencies",
+    "number": 9937,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "concretization"
+    ],
+    "id": 383852417,
+    "html_url": "https://github.com/spack/spack/issues/9937",
+    "assignees": [],
+    "comments": 1
+}

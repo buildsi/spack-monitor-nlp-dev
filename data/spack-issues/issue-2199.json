@@ -1,0 +1,20 @@
+{
+    "body": "I have two versions of mvapich2 installed, 2.2b and 2.2. But I am unable to uninstall them:\r\n```\r\n$ spack uninstall mvapich2@2.2 %gcc@5\r\n==> Error: mvapich2@2.2%gcc@5 matches multiple packages:\r\n\r\n-- linux-centos6-x86_64 / gcc@5.3.0 -----------------------------\r\nv6xdy4c mvapich2@2.2%gcc~debug~gforker+hydra~mrail~nemesis~nemesisib~nemesisibtcp+psm~remshell~slurm~sock\r\n\r\nm6iglhi mvapich2@2.2b%gcc~debug~gforker+hydra~mrail~nemesis~nemesisib~nemesisibtcp+psm~remshell~slurm~sock\r\n\r\n\r\n==> Error: You can either:\r\n    a) Use a more specific spec, or\r\n    b) use spack uninstall -a to uninstall ALL matching specs.\r\n```\r\nI'm also unable to install them by hash:\r\n```\r\n$ spack uninstall /v6xdy4ccf7drmudbjkxa2vu6ctovy2jj\r\n==> Error: mvapich2@2.2%gcc@5.3.0~debug~gforker+hydra~mrail~nemesis~nemesisib~nemesisibtcp+psm~remshell~slurm~sock arch=linux-centos6-x86_64^bison@3.0.4%gcc@5.3.0 arch=linux-centos6-x86_64^libpciaccess@0.13.4%gcc@5.3.0 arch=linux-centos6-x86_64 matches multiple packages:\r\n\r\n-- linux-centos6-x86_64 / gcc@5.3.0 -----------------------------\r\nv6xdy4c mvapich2@2.2%gcc~debug~gforker+hydra~mrail~nemesis~nemesisib~nemesisibtcp+psm~remshell~slurm~sock\r\n\r\nm6iglhi mvapich2@2.2b%gcc~debug~gforker+hydra~mrail~nemesis~nemesisib~nemesisibtcp+psm~remshell~slurm~sock\r\n\r\n\r\n==> Error: You can either:\r\n    a) Use a more specific spec, or\r\n    b) use spack uninstall -a to uninstall ALL matching specs.\r\n```\r\nUninstalling them by running `rm` on the directory followed by `spack reindex` corrupts my Spack database, and I can no longer install anything:\r\n```\r\n$ spack install mvapich2 %gcc@5\r\n==> Installing mvapich2\r\n==> libpciaccess is already installed in /blues/gpfs/home/software/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-5.3.0/libpciaccess-0.13.4-tbllpvg3h4r2hgxkvzgtmgm645g777ub\r\nTraceback (most recent call last):\r\n  File \"/soft/spack-0.9.1/bin/spack\", line 203, in <module>\r\n    main()\r\n  File \"/soft/spack-0.9.1/bin/spack\", line 180, in main\r\n    return_val = command(parser, args)\r\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/cmd/install.py\", line 342, in install\r\n    package.do_install(**kwargs)\r\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 1190, in do_install\r\n    **kwargs\r\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/package.py\", line 1162, in do_install\r\n    rec = spack.store.db.get_record(self.spec)\r\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 80, in converter\r\n    return function(self, spec_like, *args, **kwargs)\r\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 529, in get_record\r\n    key = self._get_matching_spec_key(spec, **kwargs)\r\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 521, in _get_matching_spec_key\r\n    match = self.query_one(spec, **kwargs)\r\n  File \"/blues/gpfs/home/software/spack-0.9.1/lib/spack/spack/database.py\", line 655, in query_one\r\n    assert len(concrete_specs) <= 1\r\nAssertionError\r\n```\r\nThis was reported in #2123, and I have no idea what is causing it. Please help.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2199",
+    "updated_at": "2019-12-03 12:58:27",
+    "created_at": "2016-11-01 18:11:09",
+    "closed_at": "2019-12-03 12:58:27",
+    "state": "closed",
+    "title": "Cannot uninstall software",
+    "number": 2199,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "versions"
+    ],
+    "id": 186605382,
+    "html_url": "https://github.com/spack/spack/issues/2199",
+    "assignees": [],
+    "comments": 18
+}

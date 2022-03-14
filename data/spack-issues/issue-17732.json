@@ -1,0 +1,22 @@
+{
+    "body": "Closes #17754\r\nCloses #17738\r\n\r\nModifications:\r\n- [x] Group tests with similar duration together\r\n- [x] Slightly simplify YAML files for workflows\r\n- [x] Fetch all branches and tags from spack repo using `fetch-depth: 0`\r\n\r\n**Group tests with similar duration together:** style and documentation tests take just a few minutes to run. Since in Github actions one can't restart a single job but needs to restart an entire workflow, here we group tests with similar duration together. The benefit is that if a test lasting 1 min. is hanging we don't need to restart a few other ones that would take much longer to complete.\r\n\r\n**Fetch all branches and tags:** MacOS unit tests started failing as the MacOS virtual environment was upgraded to use git 2.28.0 The mechanism leading to the failure is well explained in #17754 description. This PR solves the issue by fetching the whole history from Spack repository and by using `git branch develop origin/develop` instead of `git fetch -u origin develop:develop`.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17732",
+    "updated_at": "2020-07-30 18:23:15",
+    "created_at": "2020-07-28 13:36:23",
+    "closed_at": "2020-07-29 18:23:36",
+    "state": "closed",
+    "title": "Github Actions: improvements to CI workflows",
+    "number": 17732,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "maintainers"
+    ],
+    "id": 667079615,
+    "html_url": "https://github.com/spack/spack/pull/17732",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

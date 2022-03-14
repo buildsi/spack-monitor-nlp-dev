@@ -1,0 +1,21 @@
+{
+    "body": "I am following [Developing Software with Spack](https://spack.readthedocs.io/en/latest/workflows.html#build-with-spack) section from documentation and see following error:\n\n``` bash\n$ mkdir build; cd build\n$ ../spconfig.py ..\n-- The C compiler identification is GNU 4.9.3\n-- The CXX compiler identification is GNU 4.9.3\n-- Checking whether C compiler has -isysroot\n-- Checking whether C compiler has -isysroot - yes\n-- Checking whether C compiler supports OSX deployment target flag\n-- Checking whether C compiler supports OSX deployment target flag - yes\n-- Check for working C compiler: /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-4.2.1/gcc-4.9.3-3yghgmzvmbiqmem7lpu2dmcqz6qoqcjd/bin/gcc\n-- Check for working C compiler: /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-4.2.1/gcc-4.9.3-3yghgmzvmbiqmem7lpu2dmcqz6qoqcjd/bin/gcc -- broken\n\u2026.\n  /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-4.2.1/gcc-4.9.3-3yghgmzvmbiqmem7lpu2dmcqz6qoqcjd/bin/gcc\n  -Wl,-search_paths_first -Wl,-headerpad_max_install_names\n  CMakeFiles/cmTC_afeb5.dir/testCCompiler.c.o -o cmTC_afeb5\n\n  Spack compiler must be run from Spack! Input 'SPACK_PREFIX' is\n  missing.collect2: error: ld returned 1 exit status\n```\n\nIn some other thread (#1111) I came across `spack env`. Using this I get all environment as:\n\n```\nspack env mylib@develop bash\n```\n\nand then it works fine. Is above the missing step from the workflow document? \n\nI have another question related to extending `CMakePackage` and  `spconfig.py`:\n\nWhen I started writing packages for CMake based projects, I have extended packages from `Package`. Now when I do `spack setup my_spec` in the source directory of the project, `spconfig.py` is not generated. But I have `install` method defined in the `package.py` with `spack-build` as build directory. So when I invoke`spack setup`, it build and install the package. And then for development purpose I just do:\n\n``` bash\ncd speck-build\nspack env spec_with_spaces - -  bash  \n\n# change code - make - change code .....\n```\n\nwhich works fine! Is there any drawback of this compared to having `spconfig.py`?\n\n@citibeth : any suggestion?\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2055",
+    "updated_at": "2020-09-02 01:07:51",
+    "created_at": "2016-10-19 19:24:29",
+    "closed_at": "2020-09-02 01:07:51",
+    "state": "closed",
+    "title": "Compiler Wrappers Erroneously in Path for `spack setup`; breaks things sometimes.",
+    "number": 2055,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 184051717,
+    "html_url": "https://github.com/spack/spack/issues/2055",
+    "assignees": [
+        "citibeth"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "@davydden @adamjstewart @tgamblin \n\nI did `spack install modele`.  This failed on `modele`.  I immediately repeated `spack install modele`, which produced the following error on `everytrace`, one of `modele`'s dependencies:\n\n```\n==> everytrace is already installed in /home2/rpfische/spack2/opt/spack/linux-centos7-x86_64/gcc-4.9.3/everytrace-develop-6jjehjenba2xqm6v6s37erahxzjxrblr\nTraceback (most recent call last):\n  File \"bin/spack\", line 184, in <module>\n    main()\n  File \"bin/spack\", line 161, in main\n    return_val = command(parser, args)\n  File \"/home2/rpfische/spack2/lib/spack/spack/cmd/install.py\", line 92, in install\n    explicit=True)\n  File \"/home2/rpfische/spack2/lib/spack/spack/package.py\", line 909, in do_install\n    run_tests=run_tests)\n  File \"/home2/rpfische/spack2/lib/spack/spack/package.py\", line 1059, in do_install_dependencies\n    dep.package.do_install(**kwargs)\n  File \"/home2/rpfische/spack2/lib/spack/spack/package.py\", line 891, in do_install\n    rec = spack.installed_db.get_record(self.spec)\n  File \"/home2/rpfische/spack2/lib/spack/spack/database.py\", line 76, in converter\n    return function(self, spec_like, *args, **kwargs)\n  File \"/home2/rpfische/spack2/lib/spack/spack/database.py\", line 468, in get_record\n    key = self._get_matching_spec_key(spec, **kwargs)\n  File \"/home2/rpfische/spack2/lib/spack/spack/database.py\", line 463, in _get_matching_spec_key\n    raise KeyError(\"No such spec in database! %s\" % spec)\nKeyError: 'No such spec in database! everytrace@develop%gcc@4.9.3+fortran+mpi arch=linux-centos7-x86_64^cmake@3.6.0%gcc@4.9.3~doc+ncurses+openssl~qt arch=linux-centos7-x86_64^hwloc@1.11.3%gcc@4.9.3 arch=linux-centos7-x86_64^libpciaccess@0.13.4%gcc@4.9.3 arch=linux-centos7-x86_64^libsigsegv@2.10%gcc@4.9.3 arch=linux-centos7-x86_64^libtool@2.4.6%gcc@4.9.3 arch=linux-centos7-x86_64^m4@1.4.17%gcc@4.9.3+sigsegv arch=linux-centos7-x86_64^ncurses@6.0%gcc@4.9.3 arch=linux-centos7-x86_64^openmpi@2.0.0%gcc@4.9.3~mxm~pmi~psm~psm2~slurm~sqlite3~thread_multiple~tm~verbs+vt arch=linux-centos7-x86_64^openssl@system%gcc@4.9.3 arch=linux-centos7-x86_64'\n```\n\nMy guess is this is related to #1561, that something somewhere is handling `develop` versions in a way that breaks this code.  Any pointers to what might be going wrong?\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1568",
+    "updated_at": "2016-08-20 15:19:05",
+    "created_at": "2016-08-20 12:02:08",
+    "closed_at": "2016-08-20 15:18:58",
+    "state": "closed",
+    "title": "[Bug] Package Built but not in Database",
+    "number": 1568,
+    "milestone": null,
+    "labels": [
+        "duplicate"
+    ],
+    "id": 172267880,
+    "html_url": "https://github.com/spack/spack/issues/1568",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "@adamjstewart @tgamblin @scheibelp \r\n\r\nI've noticed an increasing number of PRs that convert MD5 to SHA256 hashes.  I understand the reason behind this, and that we need to move in that direction.  However, I am concerned that the *way* we are doing this opens us up to security problems.\r\n\r\nThe purpose of the hash is to ensure that the versions of a package a *user* downloads is the same as the version seen by the package *author*.  As long as nobody has noticed a problem with that version for a while, it's probably good.\r\n\r\nSuppose someone gains illicit access to an upstream package's Git repo.  They could then create a modified version of that package; however, Spack's checksums would find that and reject it.  This works because checksums don't change, and we don't change the checksums in Spack packages.  Any PR that involves a checksum change is potentially suspicious, and deserves extra scrutiny.\r\n\r\nThat's how things were.  But now we live in a universe where any MD5 checksum can be changed to SHA256 with zero scrutiny.  It's a HUGE opportunity to insert malicious code into Spack.\r\n\r\nTo address this issue, I believe we should do as follows:\r\n\r\n1. Don't accept PRs that change existing checksums.\r\n\r\n2. Hack up a script that goes over all packages, downloads all tarballs, re-does checksums, and then edits in the new checksum.  (@adamjstewart ???).  I think such a script would be successful, and probably even fun to do.  Then a TRUSTED person runs the script, checks things over, submits the PR and gets it merged.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10664",
+    "updated_at": "2020-02-14 10:52:10",
+    "created_at": "2019-02-21 01:36:29",
+    "closed_at": "2020-02-14 10:52:09",
+    "state": "closed",
+    "title": "Policy on MD5-SHA256 Checksum Conversions",
+    "number": 10664,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "checksum"
+    ],
+    "id": 412707929,
+    "html_url": "https://github.com/spack/spack/issues/10664",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

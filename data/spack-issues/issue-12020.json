@@ -1,0 +1,21 @@
+{
+    "body": "I noticed that when looking for updates to R CRAN packages, which have a `url` and a `list_url` setting, that `spack versions/checksum` will only use the `list_url`. The expected, or preferred, behavior is to use both the parent directory of the file in the `url` *and* `list_url`.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack versions r-broom\r\n==> Safe versions (already checksummed):\r\n  0.5.1  0.4.2\r\n==> Remote versions (not yet checksummed):\r\n  0.5.0  0.4.5  0.4.4  0.4.3  0.4.1  0.4.0  0.3.7  0.3.6  0.3.5  0.3.4\r\n...\r\n```\r\nThe current version on CRAN is actually 0.5.2 but that does not show up. That version would be in the parent directory of the file in `url` and not where `list_url` points to.\r\n\r\nBoth the parent directory of the file in `url` and `list_url` should be used. Alternatively, allow `list_url` to have multiple entries. \r\n\r\nA workaround for R CRAN packages would be to make the root of `list_url` higher up to catch everything but that will mean more spidering.\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12020",
+    "updated_at": "2019-07-22 20:05:56",
+    "created_at": "2019-07-14 22:45:32",
+    "closed_at": "2019-07-22 20:05:56",
+    "state": "closed",
+    "title": "spack versions and spack checksum only using list_url",
+    "number": 12020,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 467893115,
+    "html_url": "https://github.com/spack/spack/issues/12020",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 1
+}

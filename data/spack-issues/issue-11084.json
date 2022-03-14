@@ -1,0 +1,22 @@
+{
+    "body": "This change fixes (at least) two problems:\r\n\r\n1. proj uses its stage directory during configure_args. However, configure_options does not set up the stage, leading to OSErrors about the stage directory (see #10649). This change will lead to missing configure_args in such cases but allows regenerating the module file and avoids needlessy setting up fake stages during refresh.\r\n2. libxml2 uses global variables exported by python. Again, configure_options does not set up the environment appropriately, leading to NameErrors (see #10716). In addition to ignoring NameErrors, this change will set up the package environment so global variables can be found during refresh.\r\n\r\nFixes #10649, #10716\r\ncloses #14361 ",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/11084",
+    "updated_at": "2020-02-24 14:34:58",
+    "created_at": "2019-04-02 16:00:47",
+    "closed_at": "2020-02-24 14:34:58",
+    "state": "closed",
+    "title": "module: Fix various errors during refresh",
+    "number": 11084,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 428313138,
+    "html_url": "https://github.com/spack/spack/pull/11084",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 13
+}

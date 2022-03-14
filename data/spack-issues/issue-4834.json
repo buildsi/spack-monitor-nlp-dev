@@ -1,0 +1,19 @@
+{
+    "body": "Also added better API docs.\r\n\r\nIn #4823, @akthoma discovered an interesting URL:\r\nhttps://www.tbi.univie.ac.at/RNA/download/sourcecode/2_3_x/ViennaRNA-2.3.5.tar.gz\r\n\r\nIn order to properly compute this URL based on the version number, we need to be able to do the following:\r\n```python\r\ndef url_for_version(self, version):\r\n    url = \"https://www.tbi.univie.ac.at/RNA/download/sourcecode/2_3_x/ViennaRNA-2.3.5.tar.gz\"\r\n    return url.format(version.up_to(2).underscored, version.dotted)\r\n```\r\nPreviously, this wasn't possible because `version.up_to()` returned a string. Now that it returns a `Version` object, it is possible to string together `up_to()` with `dotted`, `dashed`, `underscored`, and `joined`.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4834",
+    "updated_at": "2017-07-24 20:29:03",
+    "created_at": "2017-07-20 18:52:01",
+    "closed_at": "2017-07-24 20:02:14",
+    "state": "closed",
+    "title": "Change Version formatting properties and functions to return Version objects",
+    "number": 4834,
+    "milestone": null,
+    "labels": [
+        "versions"
+    ],
+    "id": 244462169,
+    "html_url": "https://github.com/spack/spack/pull/4834",
+    "assignees": [],
+    "comments": 9
+}

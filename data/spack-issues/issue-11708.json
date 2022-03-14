@@ -1,0 +1,21 @@
+{
+    "body": "I am getting errors like this:\r\n\r\n```\r\n==> Error: [/usr/workspace/lee218/delete/usr/tce] Package conflict detected:\r\n   (Linked) fftw@3.3.8%gcc@4.9.3+double+float~fma+long_double+mpi~openmp~pfft_patches~quad simd=avx,avx2,sse2 arch=linux-rhel7-x86_64/rgyy7pr\r\n(Specified) fftw@3.3.8%gcc@4.9.3+double+float~fma+long_double+mpi~openmp~pfft_patches~quad simd=avx,avx2,sse2 arch=linux-rhel7-x86_64/q3bdqd7\r\n```\r\n\r\nThis is because in my spack.yaml I have fftw^mpi as a combinatorial package and I specify both mvapich2 and openmpi as mpi_specs. Also in the spack.yaml, here is the view specification:\r\n\r\n```\r\n  view:\r\n    default:\r\n      root: /usr/workspace/lee218/delete/usr/tce\r\n      select: ['%gcc@4.9.3', intel@18.0.1]\r\n      projections: {}\r\n    tce-llnl:\r\n      root: /usr/workspace/lee218/delete/usr/tce/packages\r\n      projections:\r\n        ^mpi: '{name}/{name}-{version}-{^mpi.name}-{^mpi.version}-{compiler.name}-{compiler.version}'\r\n        '%gcc@4.9.3': '{name}/{name}-{version}'\r\n        all: '{name}/{name}-{version}-{compiler.name}-{compiler.version}'\r\n```\r\n\r\nWe probably do not want the combinatorial_packages to show up in the default view, unless a specific ^mpi%compiler is explicitly requested.\r\n\r\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/11708",
+    "updated_at": "2020-01-29 18:47:03",
+    "created_at": "2019-06-14 17:45:42",
+    "closed_at": "2020-01-29 18:47:02",
+    "state": "closed",
+    "title": "conflict in views with spack stacks",
+    "number": 11708,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 456363123,
+    "html_url": "https://github.com/spack/spack/issues/11708",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 3
+}

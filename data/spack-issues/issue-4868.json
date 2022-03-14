@@ -1,0 +1,20 @@
+{
+    "body": "This makes it easier to test command-line commands from within Spack's testing framework.  It adds a `SpackCommand` class so you can do this:\r\n\r\n```python\r\nfrom spack.main import SpackCommand\r\nuninstall = SpackCommand('uninstall')\r\nout, err = uninstall('-y', '-a', '--dependents', 'mpich')\r\n```\r\n\r\nNo more creating parsers and all that from within command tests.  Just run the command like a user would and test that.  The commands return their error and their output so you can parse that, as well.  I've redone the command tests to use this instead of all the cruft that was there before.  I also removed a bunch of unnecessary mockery from the `spack install` test, and simplified the mocking of fetches a bit.\r\n\r\nI hope this will make it easier to get coverage in some of the commands where we've been missing it.\r\n\r\n- [x] Add `SpackCommand` to make testing commands easier\r\n- [x] Rework tests of commands to use `SpackCommand`\r\n- [x] Simplify mocking in the `cmd/install` test and in general\r\n- [x] Move the `mock_archive` fixture up to the `conftest.py` level so all tests can use it\r\n- [x] Make a `mock_fetch` fixture usable by all tests\r\n\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4868",
+    "updated_at": "2017-08-02 15:44:01",
+    "created_at": "2017-07-22 00:50:04",
+    "closed_at": "2017-07-23 04:27:55",
+    "state": "closed",
+    "title": "Make testing spack commands simpler",
+    "number": 4868,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands"
+    ],
+    "id": 244812914,
+    "html_url": "https://github.com/spack/spack/pull/4868",
+    "assignees": [],
+    "comments": 0
+}

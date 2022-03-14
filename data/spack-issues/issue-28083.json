@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install openpmd-api\r\n```\r\n\r\nSince Friday, Dec 17th, the Spack `develop` branch cannot install my package anymore.\r\n\r\nIn my CMake logic, I have a test to check if MPI is enabled, that also a parallel HDF5 package is provided in the environment. This check fails now:\r\nhttps://github.com/openPMD/openPMD-api/blob/0.14.3/CMakeLists.txt#L214-L223\r\n\r\nAs the maintainer of the package, I do not know why. It looks like something changed probably in Spack's HDF5 package?\r\n\r\nUp to Thursday, all is fine:\r\nhttps://dev.azure.com/axelhuebl/openPMD-api/_build?definitionId=1&_a=summary\r\n![Screenshot from 2021-12-19 19-33-53](https://user-images.githubusercontent.com/1353258/146708013-663dafdd-4ec7-4b77-bfdf-f24355a03275.png)\r\n\r\n### Latest Changes to HDF5\r\n\r\n- #28010 by @lrknox - but my env concretizes on HDFt 1.10.8 since this is the preferred HDF5\r\n- #27613 by @lrknox - also adds some silo patching\r\n\r\nCould this be related to #28074 seen by @jbigot?\r\n\r\nLocally, I changed the `preferred` HDF5 back to 1.10.7 and this fixes my issue. Looks like the new preferred HDF5 1.10.8 creates a broken install of some kind. Potentially, its installed configs are off?\r\n\r\nHelp wanted! :)\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.0-583-541ccd6669\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-skylake\r\n* **Concretizer:** clingo\r\n\r\nI also run this in CI on freshly partitioned Ubuntu 18/20 runners.\r\n\r\n### Additional information\r\n\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/7742400/spack-build-env.txt)\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/7742401/spack-build-out.txt)\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/28083",
+    "updated_at": "2021-12-23 20:11:51",
+    "created_at": "2021-12-20 03:39:09",
+    "closed_at": "2021-12-23 20:11:51",
+    "state": "closed",
+    "title": "Installation issue: openpmd-api -> hdf5 1.10.8/1.13.0 parallel",
+    "number": 28083,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "help wanted"
+    ],
+    "id": 1084322344,
+    "html_url": "https://github.com/spack/spack/issues/28083",
+    "assignees": [],
+    "comments": 1
+}

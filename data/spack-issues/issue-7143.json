@@ -1,0 +1,20 @@
+{
+    "body": "[I believe the information in here should be somehow added to the manual, on discussions of macOS.  These kinds of problems can crop up when you use a pre-built `gfortran` binary.  Installing it from source, aka `spack install gcc +fortran` or `brew install gcc`, does not seem to encounter these problems.]\r\n\r\nI'm running macOS High Sierra, brand new installation.  Installed XCode, then GFortran.  Since I'm lazy, I installed a pre-built GFortran macOS binary (I used the gfortran 6.3 build, which is said to also work with High Sierra):\r\n   https://gcc.gnu.org/wiki/GFortranBinaries#MacOS\r\n\r\nThis gfortran worked OK on its own.  But when I ran from Spack, I got an error:\r\n```\r\n     4813  ld: library not found for -lcrt1.10.6.o\r\n```\r\nThis problem is known.  Basically, the `gfortran` I was using did not know to look inside the Xcode I was using; probably because it was originally built on a different version of Xcode.  I fixed the problem by adding to the `flags:` section of `compilers.yaml`, which now looks lie this:\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n        ldflags: -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib\r\n    modules: []\r\n    operating_system: highsierra\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /usr/local/bin/gfortran\r\n      fc: /usr/local/bin/gfortran\r\n    spec: clang@9.0.0-apple\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n        ldflags: -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib\r\n    modules: []\r\n    operating_system: highsierra\r\n    paths:\r\n      cc: null\r\n      cxx: null\r\n      f77: /usr/local/bin/gfortran\r\n      fc: /usr/local/bin/gfortran\r\n    spec: gcc@6.3.0\r\n    target: x86_64\r\n```\r\n\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7143",
+    "updated_at": "2018-01-31 18:41:18",
+    "created_at": "2018-01-31 03:40:30",
+    "closed_at": "2018-01-31 18:41:18",
+    "state": "closed",
+    "title": "Binary-installed gfortran for macOS",
+    "number": 7143,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "documentation"
+    ],
+    "id": 293020889,
+    "html_url": "https://github.com/spack/spack/issues/7143",
+    "assignees": [],
+    "comments": 2
+}

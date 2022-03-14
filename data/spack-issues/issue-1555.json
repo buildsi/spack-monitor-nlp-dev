@@ -1,0 +1,17 @@
+{
+    "body": "@tgamblin \n\nTo see fireworks, try the following:\n1. Clone latest Spack, go to `develop` branch.\n2. Use the following for `packages.yaml`:\n\n```\npackages:\n    openssl:\n        paths:\n            openssl@system: /usr\n```\n1. Try the following Spack command:\n\n```\nspack spec openssl@system\n```\n\nThis produces the following stacktrace (many times over):\n\n```\n  File \"/home2/rpfische/spack2/lib/spack/spack/repository.py\", line 580, in get\n    self._instances[key] = package_class(copy)\n  File \"/home2/rpfische/spack2/lib/spack/spack/package.py\", line 372, in __init__\n    f = fs.for_package_version(self, self.version)\n  File \"/home2/rpfische/spack2/lib/spack/spack/fetch_strategy.py\", line 812, in for_package_version\n    url = pkg.url_for_version(version)\n  File \"/home2/rpfische/spack2/var/spack/repos/builtin/packages/openssl/package.py\", line 52, in url_for_version\n    if '@system' in self.spec:\n  File \"/home2/rpfische/spack2/lib/spack/spack/spec.py\", line 1986, in __contains__\n    if s.satisfies(spec, strict=True):\n  File \"/home2/rpfische/spack2/lib/spack/spack/spec.py\", line 1814, in satisfies\n    return self.satisfies_dependencies(other, strict=deps_strict)\n  File \"/home2/rpfische/spack2/lib/spack/spack/spec.py\", line 1843, in satisfies_dependencies\n    self_index = ProviderIndex(self.traverse(), restrict=True)\n  File \"/home2/rpfische/spack2/lib/spack/spack/provider_index.py\", line 86, in __init__\n    self.update(spec)\n  File \"/home2/rpfische/spack2/lib/spack/spack/provider_index.py\", line 98, in update\n    pkg = spec.package\n  File \"/home2/rpfische/spack2/lib/spack/spack/spec.py\", line 716, in package\n    return spack.repo.get(self)\n  File \"/home2/rpfische/spack2/lib/spack/spack/repository.py\", line 75, in converter\n    return function(self, spec_like, *args, **kwargs)\n  File \"/home2/rpfische/spack2/lib/spack/spack/repository.py\", line 326, in get\n    return self.repo_for_pkg(spec).get(spec)\n  File \"/home2/rpfische/spack2/lib/spack/spack/repository.py\", line 75, in converter\n    return function(self, spec_like, *args, **kwargs)\n  File \"/home2/rpfische/spack2/lib/spack/spack/repository.py\", line 584, in get\n    raise FailedConstructorError(spec.fullname, *sys.exc_info())\n```\n\nLooks to me like a bug in the core Spec handling code.  I can work around it by commenting out `url_for_version()` in `openssl/package.py`:\n\n```\n#    def url_for_version(self, version):\n#        if '@system' in self.spec:\n#            return '@system (reserved version for system openssl)'\n#        else:\n#            return super(Openssl, self).url_for_version(self.version)\n```\n\nAlthough I'm dubious of the value of the code I just commented out, I also don't believe that `if '@system' in self.spec` should crash Spack.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1555",
+    "updated_at": "2016-09-20 17:18:27",
+    "created_at": "2016-08-18 02:57:17",
+    "closed_at": "2016-09-20 17:18:27",
+    "state": "closed",
+    "title": "Serious Bug with openssl, @system",
+    "number": 1555,
+    "milestone": null,
+    "labels": [],
+    "id": 171807229,
+    "html_url": "https://github.com/spack/spack/issues/1555",
+    "assignees": [],
+    "comments": 2
+}

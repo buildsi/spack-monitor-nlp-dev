@@ -1,0 +1,21 @@
+{
+    "body": "Related to #327. I know there was a lot of discussion about it in the previous issue.\r\n\r\nRather than just a performance optimization, this actually causes builds to fail.\r\nToo many processes active at once leads to very strange gcc 'internal compiler error' messages. I *think* this is gcc running out of memory, but have not been able to confirm. \r\n\r\nBy default, Spack spins up 160 make jobs, which very quickly burns the available memory (C++ compilations involving Trilinos). Lowering the number of make jobs makes the compiler errors go away.\r\n\r\nI believe this should be fairly easy to fix because of the use of the compiler wrapper. The compiler wrapper could check available memory on the node upon exiting with an error. If the available memory is very low, this would be a \"non-fatal error\" and would trigger a reduction in the number of make jobs.\r\n\r\nThe notion of a \"non-fatal error\" that can be diagnosed and fixed might be useful in general if there are other situations like this that might arise.\r\n\r\n*make -> error\r\n*diagnose and fix\r\n*make (pick up where left off)\r\n\r\n",
+    "user": "jjwilke",
+    "url": "https://api.github.com/repos/spack/spack/issues/11072",
+    "updated_at": "2019-05-28 13:42:05",
+    "created_at": "2019-04-01 05:16:42",
+    "closed_at": "2019-05-28 13:42:05",
+    "state": "closed",
+    "title": "Spack uses too many processes by default and runs out of memory",
+    "number": 11072,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 427515978,
+    "html_url": "https://github.com/spack/spack/issues/11072",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 10
+}

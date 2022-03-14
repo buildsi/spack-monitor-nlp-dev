@@ -1,0 +1,21 @@
+{
+    "body": "I just discovered https://pypi.org/simple/ and [PEP 503](https://www.python.org/dev/peps/pep-0503/). This finally allows us to use `spack versions` and `spack checksum` on PyPI packages properly! For example:\r\n\r\n### Before\r\n\r\n```console\r\n$ spack versions py-numpy\r\n==> Safe versions (already checksummed):\r\n  master  1.18.4  1.18.1  1.17.4  1.17.1  1.16.5  1.16.2  1.15.4  1.15.1  1.14.5  1.14.2  1.13.3  1.12.1  1.11.2  1.10.4  1.9.1\r\n  1.19.0  1.18.3  1.18.0  1.17.3  1.17.0  1.16.4  1.16.1  1.15.3  1.15.0  1.14.4  1.14.1  1.13.1  1.12.0  1.11.1  1.9.3\r\n  1.18.5  1.18.2  1.17.5  1.17.2  1.16.6  1.16.3  1.16.0  1.15.2  1.14.6  1.14.3  1.14.0  1.13.0  1.11.3  1.11.0  1.9.2\r\n==> Remote versions (not yet checksummed):\r\n==> Warning: Found no unchecksummed versions for py-numpy\r\n```\r\n\r\n### After\r\n```console\r\n$ spack versions py-numpy\r\n==> Safe versions (already checksummed):\r\n  master  1.18.4  1.18.1  1.17.4  1.17.1  1.16.5  1.16.2  1.15.4  1.15.1  1.14.5  1.14.2  1.13.3  1.12.1  1.11.2  1.10.4  1.9.1\r\n  1.19.0  1.18.3  1.18.0  1.17.3  1.17.0  1.16.4  1.16.1  1.15.3  1.15.0  1.14.4  1.14.1  1.13.1  1.12.0  1.11.1  1.9.3\r\n  1.18.5  1.18.2  1.17.5  1.17.2  1.16.6  1.16.3  1.16.0  1.15.2  1.14.6  1.14.3  1.14.0  1.13.0  1.11.3  1.11.0  1.9.2\r\n==> Remote versions (not yet checksummed):\r\n  1.19.0rc2  1.17.0rc2  1.16.0rc1  1.14.0rc1  1.12.1rc1  1.12.0b1   1.11.0rc2  1.10.2        1.9.0  1.8.0  1.7.0  1.6.0\r\n  1.19.0rc1  1.17.0rc1  1.15.0rc2  1.13.0rc2  1.12.0rc2  1.11.2rc1  1.11.0rc1  1.10.1        1.8.2  1.7.2  1.6.2\r\n  1.18.0rc1  1.16.0rc2  1.15.0rc1  1.13.0rc1  1.12.0rc1  1.11.1rc1  1.11.0b3   1.10.0.post2  1.8.1  1.7.1  1.6.1\r\n```\r\nThis PR modifies `PythonPackage` to accept a `pypi` variable that defines the `homepage`, `url`, and `list_url` for every Python package like @alalazo and others have done for GNU/SourceForge/etc. Progress so far:\r\n\r\n- [x] Add `pypi` variable to `PythonPackage` base class\r\n- [x] Auto-populate `homepage`, `url`, and `list_url` if `pypi` is set\r\n- [x] Update `spack create` to set `pypi` instead of `url`\r\n- [x] Add `spack versions/checksum/create` support for PyPI URLs\r\n- [x] Update `PythonPackage` documentation\r\n\r\nIf this works well, we can do the same for `cran`, `cpan`, and other similar language-specific software repositories.\r\n\r\nCloses #2281\r\nCloses #2335\r\nAlternative to #2718",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/17587",
+    "updated_at": "2020-12-29 18:48:00",
+    "created_at": "2020-07-19 03:26:38",
+    "closed_at": "2020-12-29 08:03:10",
+    "state": "closed",
+    "title": "PythonPackage: add pypi attribute to infer homepage/url/list_url",
+    "number": 17587,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "python",
+        "fetching"
+    ],
+    "id": 660553924,
+    "html_url": "https://github.com/spack/spack/pull/17587",
+    "assignees": [],
+    "comments": 3
+}

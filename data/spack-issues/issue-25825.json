@@ -1,0 +1,24 @@
+{
+    "body": "CMake can now bootstrap itself as it would on *nix systems. \r\nThis is accomplished by using Spack's fetch system to fetch and 'install' a cmake binary into the cmake stage source directory. That binary is then used to build CMake from source as usual.\r\n\r\nIn order to prevent CMake from requiring ZLib, openssl has to be manually disabled via `~openssl` which can then be reenabled after Zlib is built. This situation is not ideal, but currently, AFAIK, no other way exists to have a 'bootstrapped' dependency in Spack. \r\n\r\nMSVC compiler class was previously leaving `CC` and `CXX` env variables unset, causing problems in CMake and Meson build systems. The variables are now set to their respective compiler locations on the system, which are configured by the WindowsOs Class.",
+    "user": "johnwparent",
+    "url": "https://api.github.com/repos/spack/spack/issues/25825",
+    "updated_at": "2021-09-28 19:19:55",
+    "created_at": "2021-09-07 17:32:10",
+    "closed_at": "2021-09-28 19:19:55",
+    "state": "closed",
+    "title": "CMake - Windows Bootstrap",
+    "number": 25825,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "dependencies",
+        "build-environment",
+        "update-package",
+        "new-variant",
+        "windows"
+    ],
+    "id": 990200337,
+    "html_url": "https://github.com/spack/spack/pull/25825",
+    "assignees": [],
+    "comments": 1
+}

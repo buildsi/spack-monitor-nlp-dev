@@ -1,0 +1,23 @@
+{
+    "body": "I am still seeing the issue using `spack install --only dependencies <pkg>` . For example, try this in Docker image `spack/ubuntu-bionic`:\r\n\r\n```\r\nspack mirror add e4s https://instinct.nic.uoregon.edu:8083/e4s\r\nspack spec -y py-ptyprocess > py-ptyprocess.spec.yaml\r\nspack install --cache-only --only dependencies ./py-ptyprocess.spec.yaml\r\n```\r\n\r\nOutput (truncated to only show final error):\r\n```\r\n==> Error: Detected uninstalled dependencies for diffutils: {'libiconv'}\r\n==> Error: Cannot proceed with diffutils: 1 uninstalled dependency: libiconv\r\n```\r\n\r\nThe KEY is that libiconv IS INSTALLED, despite the above error message:\r\n```\r\n$> spack find libiconv\r\n--- linux-ubuntu18.04-x86_64 / gcc@7.4.0 --------------\r\nlibiconv@1.16\r\n```\r\n\r\n_Originally posted by @eugeneswalker in https://github.com/spack/spack/pull/15197#issuecomment-591005144_",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/15219",
+    "updated_at": "2020-02-27 02:49:30",
+    "created_at": "2020-02-26 00:21:12",
+    "closed_at": "2020-02-27 02:49:30",
+    "state": "closed",
+    "title": "bug: spack install from yaml fails",
+    "number": 15219,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build",
+        "yaml"
+    ],
+    "id": 570950659,
+    "html_url": "https://github.com/spack/spack/issues/15219",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 0
+}

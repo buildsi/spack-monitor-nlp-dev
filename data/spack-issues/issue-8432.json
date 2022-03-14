@@ -1,0 +1,21 @@
+{
+    "body": "### Expected Result\r\nspack to install  mpich 3.2.1 (default version)\r\n\r\n### Actual Result\r\n\r\nmpich 3.2.1 fails to build due to a rejected patch.\r\n\r\nIt appears the patch was added  for 3.2 and it is not needed for 3.2.1.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ bin/spack install mpich%clang \r\n==> Installing mpich\r\n==> Using cached archive: /Users/harrison37/Work/alpine/spack/var/spack/cache/mpich/mpich-3.2.1.tar.gz\r\n==> Staging archive: /Users/harrison37/Work/alpine/spack/var/spack/stage/mpich-3.2.1-gmk64r7kkptknk4e2knl7zlof6tqirfo/mpich-3.2.1.tar.gz\r\n==> Created stage in /Users/harrison37/Work/alpine/spack/var/spack/stage/mpich-3.2.1-gmk64r7kkptknk4e2knl7zlof6tqirfo\r\n1 out of 1 hunk FAILED -- saving rejects to file src/include/mpiimpl.h.rej\r\n==> Patch mpich32_clang.patch failed.\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/Users/harrison37/Work/alpine/spack/var/spack/repos/builtin/packages/mpich/mpich32_clang.patch' '-d' '.'\r\n==> Error: [Errno 2] No such file or directory: '/Users/harrison37/Work/alpine/spack/var/spack/stage/mpich-3.2.1-gmk64r7kkptknk4e2knl7zlof6tqirfo/mpich-3.2.1/spack-build.out'...\r\n```\r\n\r\nNote: 3.2 does build:\r\n\r\n```console\r\nbin/spack install mpich@3.2%clang\r\n==> Installing mpich\r\n==> Fetching http://www.mpich.org/static/downloads/3.2/mpich-3.2.tar.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /Users/harrison37/Work/alpine/spack/var/spack/stage/mpich-3.2-gea6brxmwnhbxy5xsj6xzp454jbgguta/mpich-3.2.tar.gz\r\n==> Created stage in /Users/harrison37/Work/alpine/spack/var/spack/stage/mpich-3.2-gea6brxmwnhbxy5xsj6xzp454jbgguta\r\n==> Applied patch mpich32_clang.patch\r\n==> Building mpich [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n```\r\n\r\nHere is how the patch is specified in the package -- how can we restrict to just `3.2` and not `3.2.x`? \r\n\r\n```python\r\npatch('mpich32_clang.patch', when='@3.2%clang')\r\n```\r\n\r\n\r\n### System Info:\r\n\r\nmacOS 10.13\r\nXCode 9 (clang reports as version 9)\r\n\r\n-----\r\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/8432",
+    "updated_at": "2018-09-28 13:20:09",
+    "created_at": "2018-06-08 23:16:06",
+    "closed_at": "2018-09-28 13:20:09",
+    "state": "closed",
+    "title": "error building mpich 3.2.1 on macOS",
+    "number": 8432,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "patch"
+    ],
+    "id": 330828099,
+    "html_url": "https://github.com/spack/spack/issues/8432",
+    "assignees": [],
+    "comments": 5
+}

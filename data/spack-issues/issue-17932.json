@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nOn Ubuntu 20.04 with the system GCC 9.3.0, LLVM gets built with `-DGCC_INSTALL_PREFIX=/` when the compiler paths are `/bin/gcc` -- which was the default in my case (compilers are added with `spack compiler find`). The correct prefix is `/usr` I guess.\r\n\r\n```console\r\n$ cat ~/.spack/linux/compilers.yaml | grep -A5 9.3.0\r\n    spec: gcc@9.3.0\r\n    paths:\r\n      cc: /bin/gcc\r\n      cxx: /bin/g++\r\n      f77: /bin/gfortran\r\n      fc: /bin/gfortran\r\n$ spack install llvm+clang\r\n$ spack load llvm\r\n$ cat main.cc \r\n#include <iostream>\r\n\r\nint main() {\r\n    std::cout << \"hello\\n\";\r\n}\r\n\r\n$ clang++ main.cc \r\nmain.cc:1:10: fatal error: 'iostream' file not found\r\n#include <iostream>\r\n         ^~~~~~~~~~\r\n1 error generated.\r\n```\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.15.3-455-7628e33f2\r\n* **Python:** 3.8.2\r\n* **Platform:** linux-ubuntu20.04-zen2-->\r\n```\r\n\r\nError was introduced by https://github.com/spack/spack/pull/12381\r\n\r\nPinging @sethrj \r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/17932",
+    "updated_at": "2021-02-25 12:12:10",
+    "created_at": "2020-08-07 15:11:46",
+    "closed_at": "2021-02-25 12:12:10",
+    "state": "closed",
+    "title": "GCC_INSTALL_PREFIX in llvm+clang not set correctly with system GCC on Ubuntu 20.04",
+    "number": 17932,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "triage"
+    ],
+    "id": 675080552,
+    "html_url": "https://github.com/spack/spack/issues/17932",
+    "assignees": [],
+    "comments": 5
+}

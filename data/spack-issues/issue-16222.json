@@ -1,0 +1,23 @@
+{
+    "body": "When building CPython with GCC, a lot of users report issues with a missing module (`_scproxy`) when using the resulting python interpreter.\r\n\r\n[Checking the error message](https://github.com/spack/macos-nightly/actions), which is silently overrun in the build, shows that this module's build is killed while [using functionality](https://github.com/python/cpython/blob/v3.7.7/Modules/_scproxy.c#L6) from the macOS `SystemConfiguration` framework:\r\n```\r\n2020-04-22T07:04:50.2843140Z building '_scproxy' extension\r\n2020-04-22T07:04:50.2846790Z .../spack-src/Modules/_scproxy.o\r\n2020-04-22T07:04:50.6842590Z In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Security.framework/Headers/AuthSession.h:32,\r\n2020-04-22T07:04:50.7925720Z                  from /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Security.framework/Headers/Security.h:42,\r\n2020-04-22T07:04:50.7926000Z                  from /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework/Headers/SCPreferences.h:35,\r\n2020-04-22T07:04:50.7926640Z                  from /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework/Headers/SystemConfiguration.h:126,\r\n2020-04-22T07:04:50.7928400Z                  from /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/runner/spack-stage/spack-stage-python-3.7.7-unj2vg733v7uv5pqpun3cozwirh2d454/spack-src/Modules/_scproxy.c:6:\r\n2020-04-22T07:04:50.7929300Z /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Security.framework/Headers/Authorization.h:193:7: error: variably modified 'bytes' at file scope\r\n2020-04-22T07:04:50.7929590Z   193 |  char bytes[kAuthorizationExternalFormLength];\r\n2020-04-22T07:04:50.7929690Z       |       ^~~~~\r\n```\r\nwhich causes the subsequent fails when using the package.\r\n\r\nCrawling into [CPython's setup.py](https://github.com/python/cpython/blob/v3.7.7/setup.py#L1655-L1661) reveils that one needs to add extra linker flags, `-framework CoreFoundation -framework Security` on Darwin for the `_scproxy` extension.\r\n\r\nUpdate: Found [this CPython PR](https://github.com/python/cpython/pull/13306), the `_scproxy` extension seams to be an objective C file...\r\n\r\nRefs.:\r\n- #2230\r\n- https://github.com/spack/spack/issues/2230#issuecomment-617431516\r\n- #16053\r\n- https://bugs.python.org/issue26317#msg342055\r\n- https://github.com/python/cpython/pull/13306\r\n- https://github.com/python/cpython/blob/v3.7.7/setup.py#L1655-L1661\r\n- https://github.com/spack/macos-nightly/runs/606624706?check_suite_focus=true on https://github.com/spack/macos-nightly\r\n\r\nBuilding a framework for python itself is another question, we potentially want to pass `--disable-framework`, too:\r\n- homebrew: with `--enable-framework=...` paths https://github.com/Homebrew/homebrew-core/blob/master/Formula/python.rb#L70\r\n- conda-forge: disables (?) framework: https://github.com/conda-forge/python-feedstock/search?q=framework&unscoped_q=framework and just links `-framework CoreFoundation`?\r\n\r\ncc @LDAmorim @hartzell @adamjstewart @citibeth @healther\r\n\r\nI am a Linux user, please macOS users, test this extensively :)\r\nIn order to test:\r\n- install `py-setuptools %gcc` which reliably triggers the bug and/or\r\n- `spack load -r python %gcc` the python package for extensive testing.\r\n\r\nA test with an externally registered python, e.g. from homebrew, is also appreciated.",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/16222",
+    "updated_at": "2020-04-27 00:27:22",
+    "created_at": "2020-04-21 23:01:01",
+    "closed_at": "2020-04-27 00:27:22",
+    "state": "closed",
+    "title": "CPython on macOS: framework issues (scproxy)",
+    "number": 16222,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "python",
+        "don't-merge-yet",
+        "gcc",
+        "update-package"
+    ],
+    "id": 604337276,
+    "html_url": "https://github.com/spack/spack/pull/16222",
+    "assignees": [],
+    "comments": 2
+}

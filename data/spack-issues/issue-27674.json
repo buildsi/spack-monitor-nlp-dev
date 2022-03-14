@@ -1,0 +1,21 @@
+{
+    "body": "With the following environment:\r\n\r\n```\r\n$ cat spack.yaml\r\n# This is a Spack Environment file.\r\n#\r\n# It describes a set of packages to be installed, along with\r\n# configuration settings.\r\nspack:\r\n  # add package specs to the `specs` list\r\n  specs: []\r\n  view: false\r\n\r\n  config:\r\n    install_tree:\r\n      root: /tmp/tmp.82RfP3XQ0J\r\n\r\n  mirrors:\r\n    local: file:///tmp/tmp.82RfP3XQ0J/bc\r\n```\r\n\r\nI still inherit default mirrors:\r\n\r\n```\r\n$ spack -e . mirror list\r\nlocal           file:///tmp/tmp.82RfP3XQ0J/bc\r\nspack-public    https://mirror.spack.io\r\n```\r\n\r\nAnd apparently there is no index file on `mirror.spack.io`, so that ultimately:\r\n\r\n```\r\n$ spack -d buildcache install -afu /7cwfjli\r\nTraceback (most recent call last):\r\n  File \"/home/user/spack/bin/spack\", line 100, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home/user/spack/lib/spack/spack/main.py\", line 882, in main\r\n    return _main(argv)\r\n  File \"/home/user/spack/lib/spack/spack/main.py\", line 865, in _main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/home/user/spack/lib/spack/spack/main.py\", line 535, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/home/user/spack/lib/spack/spack/cmd/buildcache.py\", line 993, in buildcache\r\n    args.func(args)\r\n  File \"/home/user/spack/lib/spack/spack/cmd/buildcache.py\", line 528, in installtarball\r\n    matches = match_downloaded_specs(pkgs, args.multiple, args.force,\r\n  File \"/home/user/spack/lib/spack/spack/cmd/buildcache.py\", line 347, in match_downloaded_specs\r\n    specs = [s for s in specs if s.satisfies(arch)]\r\nUnboundLocalError: local variable 'specs' referenced before assignment\r\n```\r\n\r\nThis PR just lets the exception bubble up. Which results in this behavior:\r\n\r\n```\r\n$ spack buildcache install -afu /7cwfjli\r\n==> Error: Multiple errors during fetching:\r\n        Error 1: RuntimeError: Unable to read index hash https://mirror.spack.io/build_cache/index.json.hash due to SpackWebError: Download failed: HTTP Error 404: Not Found\r\n        Error 2: RuntimeError: Unable to read index https://mirror.spack.io/build_cache/index.json due to SpackWebError: Download failed: HTTP Error 404: Not Found\r\n```\r\n\r\nand is still bad, cause it shouldn't be a fatal error, just try the next mirror instead? It's a mirror after all, it can be down...\r\n\r\nHopefully other people can take this from here... @scottwittenburg / @opadron ",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27674",
+    "updated_at": "2021-12-07 21:31:45",
+    "created_at": "2021-11-26 15:42:12",
+    "closed_at": "2021-12-07 21:17:18",
+    "state": "closed",
+    "title": "Don't catch FetchCacheError, cause the remainder relies on its result",
+    "number": 27674,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 1064633589,
+    "html_url": "https://github.com/spack/spack/pull/27674",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

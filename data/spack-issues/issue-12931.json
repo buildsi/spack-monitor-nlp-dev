@@ -1,0 +1,19 @@
+{
+    "body": "When installing `llvm` I've run into a Spack error `AttributeError: 'Target' object has no attribute 'lower'`. There are a few other packages that also use `Target.lower()` but I haven't tried installing those yet.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install llvm\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n==> Building llvm [CMakePackage]\r\n==> Executing phase: 'cmake'\r\n==> Error: AttributeError: 'Target' object has no attribute 'lower'\r\n\r\n/var/tmp/spack/var/spack/repos/builtin/packages/llvm/package.py:686, in cmake_args:\r\n        683                # hence the test to see if the version starts with \"flang\".\r\n        684                targets.append('CppBackend')\r\n        685\r\n  >>    686            if 'x86' in spec.architecture.target.lower():\r\n        687                targets.append('X86')\r\n        688            elif 'arm' in spec.architecture.target.lower():\r\n        689                targets.append('ARM')\r\n```\r\n\r\n\r\n\r\n### Information on your system\r\n\r\nOnly tried a single system at this moment:\r\n\r\n```\r\n$ git rev-parse HEAD\r\n6cd5edacca8e4cacbcaf104b3c241097fc83568f\r\n$ uname -a\r\nLinux p901 4.14.0-115.8.1.el7a.ppc64le #1 SMP Wed Jun 5 15:02:21 UTC 2019 ppc64le ppc64le ppc64le GNU/Linux\r\n```\r\n```\r\n",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/12931",
+    "updated_at": "2019-09-25 23:41:03",
+    "created_at": "2019-09-24 19:17:00",
+    "closed_at": "2019-09-25 23:41:03",
+    "state": "closed",
+    "title": "AttributeError: 'Target' object has no attribute 'lower'",
+    "number": 12931,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 497875606,
+    "html_url": "https://github.com/spack/spack/issues/12931",
+    "assignees": [],
+    "comments": 2
+}

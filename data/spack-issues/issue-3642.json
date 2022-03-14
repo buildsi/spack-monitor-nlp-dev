@@ -1,0 +1,22 @@
+{
+    "body": "`spack configure` and `spack build` are designed stop at a certain phase of the package installation process for debugging purposes. However, this only works for `CMakePackage`, `AutotoolsPackage`, and `PythonPackage`. These 3 build systems contain separate build and install phases.\r\n\r\nThis doesn't work for `MakefilePackage` even though it has a build phase:\r\n```\r\n$ spack build lammps\r\n==> Error: Package lammps has no build phase, or its build phase is not separated from install\r\n```\r\nIt also doesn't work for a `Package` class with manually added build phases:\r\n```\r\n$ spack build qbank\r\n==> Error: Package qbank has no build phase, or its build phase is not separated from install\r\n```\r\nSee #3641 for this qbank package.\r\n\r\nBased on the commands, it looks like we are looking for the package base class in `build_systems_to_phase`, a dictionary that converts the phase to the name of the function. If the base class isn't in this dictionary, it crashes, even if the package has a build phase defined.\r\n\r\n@alalazo ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3642",
+    "updated_at": "2019-10-24 00:08:15",
+    "created_at": "2017-03-30 21:55:42",
+    "closed_at": "2019-10-24 00:08:15",
+    "state": "closed",
+    "title": "spack configure/build doesn't work for all package base classes",
+    "number": 3642,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "commands"
+    ],
+    "id": 218339590,
+    "html_url": "https://github.com/spack/spack/issues/3642",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

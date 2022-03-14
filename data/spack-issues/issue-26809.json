@@ -1,0 +1,27 @@
+{
+    "body": "Fixes #26798 \r\n\r\nI fell pretty far down the rabbit hole on this one. GDAL allows you to compress files. From what I can tell, this is on a driver-by-driver basis, and support for this involves compiling the driver with these specific (de)compression libraries. The only reason that GDAL has flags for these dependencies is to allow libtiff to be compiled during the build of GDAL. If you instead build against an external libtiff, then these flags aren't used.\r\n\r\nIn this PR I added explicit variants for all external compression libraries that libtiff supports. All variants are off by default to minimize build times, at least until the new concretizer gets better at reusing already-installed deps. I also removed the `zstd` variant from GDAL since it doesn't seem to do anything. There may be many more variants that can be removed but I'm not sure which. Maybe @rouault would know which dependencies are GDAL deps and which are deps of deps?\r\n\r\nTested by compiling GDAL with `libtiff+lerc+zstd` and using `gdal_translate` with both `-co COMPRESS=LERC` and `-co COMPRESS=ZSTD` to compress a Landsat tile. Both work great now! Thanks to @steo85it for reporting this.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/26809",
+    "updated_at": "2021-10-19 18:47:16",
+    "created_at": "2021-10-18 22:17:53",
+    "closed_at": "2021-10-19 14:17:38",
+    "state": "closed",
+    "title": "Libtiff: improve compression support",
+    "number": 26809,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "new-package",
+        "dependencies",
+        "update-package",
+        "conflicts",
+        "maintainers",
+        "new-variant"
+    ],
+    "id": 1029653140,
+    "html_url": "https://github.com/spack/spack/pull/26809",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

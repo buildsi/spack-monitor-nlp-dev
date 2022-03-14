@@ -1,0 +1,22 @@
+{
+    "body": "Enable the encapsulation of sub-commands to top level Spack or extension commands, removing the necessity to explicitly add sub-command parser and implementation invocations to the top level command.\r\n\r\n### Implementation details.\r\n\r\nNew function `find_commands(*command_paths)` to return all the commands found under the specified directories. `all_commands()` now uses this to obtain and cache the list of top level commands (including extension commands).\r\n\r\nIn addition, there is a new function `get_command_module_from()` to import a module from a specific namespace, abstracted from `get_module()` (which has been renamed to `get_command_module()`). The higher level function continues to attempt to get commands from the core `spack` namespace first, falling back to `load_command_extension()` on failure.\r\n\r\nWhen used together, `find_commands()` and `get_command_module_from()` allow Spack commands (internal and extensions) to implement sub-commands (and sub-sub-commands, _etc._) as _fully-encapsulated_ standalone modules. As a result sub-commands and their options may be added to the parser configuration without the parent command having to be aware of each sub-command individually.\r\n\r\nA new exception, `CommandNotFoundError`, ensures that Spack behaves sensibly when a command is misspelled or otherwise cannot be found, including for `spack help`.\r\n\r\nFunctions utilizing both `spack.cmd` and `spack.extensions` functionality have been extracted to `spack.command_loading` to avoid cyclic includes.\r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/11145",
+    "updated_at": "2021-02-19 08:57:33",
+    "created_at": "2019-04-09 16:07:12",
+    "closed_at": "2021-02-19 08:57:33",
+    "state": "closed",
+    "title": "[WIP] Generalize command-finding to support sub-commands, incl. for extensions.",
+    "number": 11145,
+    "milestone": null,
+    "labels": [
+        "extensions",
+        "commands",
+        "error-messages",
+        "blocked"
+    ],
+    "id": 431051771,
+    "html_url": "https://github.com/spack/spack/pull/11145",
+    "assignees": [],
+    "comments": 47
+}

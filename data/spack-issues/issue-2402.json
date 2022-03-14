@@ -1,0 +1,17 @@
+{
+    "body": "I'm trying to create a package to install the [IEGenLib](https://github.com/CompOpt4Apps/IEGenLib).\r\nHowever, during configure it cannot understand the line arguments following.\r\n\r\nThe package file is very simple:\r\n\r\n```\r\nfrom spack import *\r\n\r\nclass Iegenlib(Package):\r\n    \"\"\"Description\"\"\"\r\n\r\n    homepage = \"http://www.example.com\"\r\n    url      = \"http://www.example.com/iegenlib-1.0.tar.gz\"\r\n\r\n    #version('1.0', '0123456789abcdef0123456789abcdef')\r\n    version('master', branch='master', git='https://github.com/CompOpt4Apps/IEGenLib.git')\r\n\r\n    depends_on(\"autoconf\")\r\n    depends_on(\"cmake\")\r\n\r\n    def install(self, spec, prefix):\r\n        configure(\"--prefix %s\" % prefix)\r\n        make()\r\n        make(\"install\")\r\n```\r\nI get the following error:\r\n\r\n ```\r\n==> ./configure --prefix /usr/workspace/wsa/bluenet/thiago/spack/opt/spack/chaos_5_x86_64_ib/gcc-5.3.0/iegenlib-master-pfjbuc2sjocs4trbys4onq7nx7sswqhd\r\nUnknown command line argument '--prefix /usr/workspace/wsa/bluenet/thiago/spack/opt/spack/chaos_5_x86_64_ib/gcc-5.3.0/iegenlib-master-pfjbuc2sjocs4trbys4onq7nx7sswqhd'\r\n\r\nUsage ./configure [options]\r\n\r\nSupported options:\r\n  --prefix DIR       : Installation prefix\r\n  --gen-parser       : Generate the parser code using Flex/Bison\r\n  --build-python     : Build the IEGen Python bindings\r\n  -h | --help        : Print this help message\r\n```",
+    "user": "thiagotei",
+    "url": "https://api.github.com/repos/spack/spack/issues/2402",
+    "updated_at": "2016-11-24 02:21:21",
+    "created_at": "2016-11-24 00:17:34",
+    "closed_at": "2016-11-24 02:21:21",
+    "state": "closed",
+    "title": "Unknown command line argument on configure",
+    "number": 2402,
+    "milestone": null,
+    "labels": [],
+    "id": 191407333,
+    "html_url": "https://github.com/spack/spack/issues/2402",
+    "assignees": [],
+    "comments": 2
+}

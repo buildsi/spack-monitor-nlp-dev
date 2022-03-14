@@ -1,0 +1,17 @@
+{
+    "body": "Hi,\n\nlets say I have a variant \"var\" in a package \"pac\":\n\n```\nvariant('var', default=False, description='Enable lib2 instead of lib1')\n```\n\nand optional dependencies like this:\n\n```\ndepends_on(\"lib1\", when='~var')\ndepends_on(\"lib2\", when='+var')\n```\n\nwhat I expect writting this is to have by default a dependency to lib1 and if variant var is enabled then I depend on lib2 and no more on lib1.\n\nso that when I invoke:\n\n```\n$ spack install pac\n```\n\nthen I depend on lib1, because var is not activated. And If I invoke:\n\n```\n$ spack install pac+var\n```\n\nthen I depend on lib2 and not on lib1\n\nThe problem is that for now, with this configuration, if I invoke:\n\n```\n$ spack install pac\n```\n\nSpack does not detect the dependency to lib1. To get the correct behaviour, I have to write:\n\n```\n$ spack install pac~var\n```\n\neven if \"install pac\" implicitly means \"install pac~var\".\n\nIs it possible to get dependencies resolved with:\n\n```\ndepends_on(\"lib1\", when='~var')\n```\n\nwithout explicitly add the \"~var\" in the specs?\n\nThanks,\nFlorent\n",
+    "user": "fpruvost",
+    "url": "https://api.github.com/repos/spack/spack/issues/77",
+    "updated_at": "2015-07-16 09:09:35",
+    "created_at": "2015-06-25 09:40:30",
+    "closed_at": "2015-07-16 09:09:35",
+    "state": "closed",
+    "title": "develop: default behaviour with variants",
+    "number": 77,
+    "milestone": null,
+    "labels": [],
+    "id": 90911099,
+    "html_url": "https://github.com/spack/spack/issues/77",
+    "assignees": [],
+    "comments": 5
+}

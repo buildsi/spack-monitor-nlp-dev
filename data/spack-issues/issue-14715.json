@@ -1,0 +1,19 @@
+{
+    "body": "I'm doing builds of many packages on Lassen@LLNL, so I'm using the batch partition to not overburden the login node and also to be able to use all cores to do the builds more quickly. However, the packages that are installed while running on the batch node are not reflected in the Spack repo on the head node even though the build node uses the Spack repo from the head node to do its work.\r\n\r\n    $ git log --oneline -1\r\n        412c33611 (HEAD -> develop, origin/develop, origin/HEAD) boost: Add versions 1.71.0 and 1.72.0, use Clang toolset on Darwin (#14678)\r\n\r\n    $ spack compiler list\r\n        ==> Available compilers\r\n        -- clang rhel7-ppc64le ------------------------------------------\r\n        clang@8.0.1\r\n\r\n        -- gcc rhel7-ppc64le --------------------------------------------\r\n        gcc@7.3.1  gcc@4.9.3  gcc@4.8.5\r\n\r\n        -- xl rhel7-ppc64le ---------------------------------------------\r\n        xl@16.1\r\n\r\n        -- xl_r rhel7-ppc64le -------------------------------------------\r\n        xl_r@16.1\r\n\r\n    $ cat build.sh\r\n        #!/bin/bash\r\n        # This is abbreviated for simplicity\r\n        source spack/share/spack/setup-env.sh\r\n        $HOME/spack/bin/spack -d install -v -j32 -y tau %gcc@7.3.1 >tau.gcc.log 2>&1\r\n\r\n    $ bsub -nnodes 1 -q pbatch -W \"00:30\" sh ./build.sh\r\n\r\nThe intallation log shows\r\n\r\n    ==> [2020-01-31-16:09:11.912103] Successfully installed tau\r\n      Fetch: 0.54s.  Build: 35.81s.  Total: 36.35s.\r\n    [+] /usr/WS1/haines8/ecp/spack/opt/spack/linux-rhel7-power9le/gcc-7.3.1/tau-2.28.2-eeu6pilexjv24535jac2bfjnggz7ceca\r\n\r\nIndeed, from the login node, I see\r\n\r\n    $ ll /usr/WS1/haines8/ecp/spack/opt/spack/linux-rhel7-power9le/gcc-7.3.1/tau-2.28.2-eeu6pilexjv24535jac2bfjnggz7ceca/bin/taucc\r\n      -rwxr-xr-x 1 haines8 haines8 7010 Jan 31 16:08 /usr/WS1/haines8/ecp/spack/opt/spack/linux-rhel7-power9le/gcc-7.3.1/tau-2.28.2-eeu6pilexjv24535jac2bfjnggz7ceca/bin/taucc\r\n\r\nSo tau installed correctly and is available in the Spack repo on the login node. Yet\r\n\r\n    $ spack find\r\n        ==> 33 installed packages\r\n        -- linux-rhel7-power9le / gcc@7.3.1 -----------------------------\r\n        autoconf@2.69    diffutils@3.7     libiconv@1.16        libunwind@2018.10.12  otf2@2.2            xerces-c@3.2.2\r\n        automake@1.16.1  elfutils@0.178    libpciaccess@0.13.5  libxml2@2.9.9         perl@5.30.0         xz@5.2.4\r\n        binutils@2.32    gdbm@1.18.1       libpfm4@4.10.1       m4@1.4.18             pkgconf@1.6.3       zlib@1.2.11\r\n        boost@1.70.0     gettext@0.20.1    libsigsegv@2.12      ncurses@6.1           readline@8.0\r\n        bzip2@1.0.8      hwloc@1.11.11     libtool@2.4.6        numactl@2.0.12        tar@1.32\r\n        cmake@3.16.1     intel-tbb@2019.8  libunwind@1.2.1      openssl@1.1.1d        util-macros@1.19.1\r\n\r\nfinds no Tau or its installed dependencies.\r\n\r\nI've tried other packages with similar results, so it's not an issue specific to Tau.\r\n",
+    "user": "hainest",
+    "url": "https://api.github.com/repos/spack/spack/issues/14715",
+    "updated_at": "2020-11-01 06:16:50",
+    "created_at": "2020-02-01 00:24:14",
+    "closed_at": "2020-11-01 06:16:50",
+    "state": "closed",
+    "title": "spack: remote build install failure",
+    "number": 14715,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 558441633,
+    "html_url": "https://github.com/spack/spack/issues/14715",
+    "assignees": [],
+    "comments": 6
+}

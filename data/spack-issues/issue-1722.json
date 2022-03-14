@@ -1,0 +1,19 @@
+{
+    "body": "@adamjstewart The new separation of unit, doc and flake8 tests is really nice.  Here's my report on trying to run them, I think another round of improvements is probably needed.\n## **flake8**\n\nWorked like a charm:\n\n```\nspack install py-flake8\nspack load py-flake8\ncd spack/lib/spack/docs\nflake8 my-file.py\n```\n\nBTW: I would consider just naming the package flake8, not py-flake8.  Because it's (sort of) a top-level app, the fact that it's implemented in Python is not so important.  Admittedly, this is a grey area.\n\nflake8 reports line numbers but no context.  That makes it really hard to follow and correct its errors off of Travis.  You really need to install flake8 yourself.  Luckily, installing it myself worked.\n## **Unit tests**\n\nI tried running unit tests as I always have before (go to the directory, run it with nosetest or python), and that failed miserably.  I see now, there's a qa script.\n\nBut that script is not useful for my needs.  To be useful in rapid debugging, we need a way to run a SINGLE unit test, even a SINGLE test case within a single unit test.  We also need a way to run a SINGLE directory of unit tests, plus all unit tests.  Nosetest gives this  out of the box, but that functionality has now been obscured by a single run-all-the-tests script.\n\nUltimately, I copied out the one unit test I needed to a different directory, put an 'if **main**' at the end, hacked my PYTHONPATH to point to Spack, and ran it with python.  Hack, hack, hack.  This needs to be set up better so I can run single (or a selection of) tests without those kinds of hacks.\n## **sphinx**\n\nI could not get Sphinx working.  See console log:\n\n```\nvpn-128-154-224-57:docs me$ spack find py-sphinx\n==> 1 installed packages.\n-- darwin-elcapitan-x86_64 / clang@7.3.0-apple ------------------\npy-sphinx@1.3.1\nvpn-128-154-224-57:docs me$ spack load py-sphinx\nvpn-128-154-224-57:docs me$ make\nsphinx-apidoc -T -o . ../../spack/spack\nTraceback (most recent call last):\n  File \"/Users/me/spack/opt/spack/darwin-elcapitan-x86_64/clang-7.3.0-apple/py-sphinx-1.3.1-t4j2snyy2fwja5rknsbbp6mkf5norpbs/bin/sphinx-apidoc\", line 5, in <module>\n    from pkg_resources import load_entry_point\n  File \"/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py\", line 2793, in <module>\n    working_set.require(__requires__)\n  File \"/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py\", line 673, in require\n    needed = self.resolve(parse_requirements(requirements))\n  File \"/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/pkg_resources.py\", line 576, in resolve\n    raise DistributionNotFound(req)\npkg_resources.DistributionNotFound: Sphinx==1.3.1\nmake: *** [apidoc] Error 1\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1722",
+    "updated_at": "2016-10-05 22:31:31",
+    "created_at": "2016-09-03 01:45:15",
+    "closed_at": "2016-10-05 22:31:31",
+    "state": "closed",
+    "title": "Report on Running QA Stuff",
+    "number": 1722,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 174872962,
+    "html_url": "https://github.com/spack/spack/issues/1722",
+    "assignees": [],
+    "comments": 17
+}

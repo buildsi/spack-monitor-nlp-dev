@@ -1,0 +1,23 @@
+{
+    "body": "We use Spack environments on a variety of platforms. Recently I encountered the following error while trying to load a particular Spack-built modulefile:\r\n\r\n```console\r\nshapo/171108-gcc-9.2.0-t34z6v5(7):ERROR:102: Tcl command execution failed: ake/paraview-5.6 -DBUILD_SHAPO_PARALLEL=ON\r\n```\r\n\r\nThe issue seems to be a single long line (8234 characters) in the modulefile -- a comment containing the package configuration options:\r\n```console\r\n## Configure options: -G Unix Makefiles -DCMAKE_INSTALL_PREFIX:STRING=/projects/shavano/dev/quellyn/dw/DWX86G/spack-environments/DWX86G_9.2.0/1.4/spack/opt/spack/linux-centos7-skylake/gcc-9.2.0/shapo-171108-t34z6v5wv6zk4hiiqkbjvncvbzgtn3vf . . . . . . . .cmake/paraview-5.6 -DBUILD_SHAPO_PARALLEL=ON\r\n```\r\n\r\nIf I break up this huge line into two separate comments, then the module file loads without a problem.\r\n\r\nAlthough I couldn't find confirmation of this, I'm guessing that Tcl has a line-length limit of 8192 characters.\r\n\r\nI suspect that the issue was triggered by my organizational scheme; I tend to use a deep paths to my development/test area. For example:\r\n```console\r\nSPACK_ROOT=/usr/projects/lap/dev/quellyn/dw/darwin-x86-gcc/spack-environments/DWX86G_9.2.0/1.4\r\n```\r\n\r\nIt's probably that the propagation of these lengthy paths has blown up the size of that line past the limit.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI believe adding a very long line to any Spack-generated modulefile will likely precipitate this issue.\r\n\r\n### Error Message\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.15.4-679-878d0b7\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-skylake_avx512\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/18667",
+    "updated_at": "2021-02-17 18:55:03",
+    "created_at": "2020-09-14 16:59:20",
+    "closed_at": "2021-02-17 18:51:55",
+    "state": "closed",
+    "title": "Spack-generated modulefiles may exceed line-length limits for tcl",
+    "number": 18667,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "triage"
+    ],
+    "id": 701271420,
+    "html_url": "https://github.com/spack/spack/issues/18667",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

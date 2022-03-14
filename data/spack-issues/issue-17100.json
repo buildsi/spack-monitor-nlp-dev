@@ -1,0 +1,20 @@
+{
+    "body": "There appears to be a problem propagating the correct build environment to the compilers shipped with Intel Parallel Studio 2020 update 1\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n\r\nThe same problem occurs for a number of packages including netcdf-fortran and mumps. Stream is simply the fastest and simplest reproducer.\r\n\r\n```console\r\n$ spack install stream%intel@19.1.1.217\r\n2 errors found in build log: \r\n     35    f77 -O2 -c stream.f\r\n     36    f77 -O2 stream.o mysecond.o -o stream_f.exe\r\n  >> 37    ld: /dcsrsoft/spack/external/intel/2020u1/compilers_and_libraries_2020.1.217/linux/bin/intel64/../../lib/LLVMgold.so: error loading plugin: libimf.so: cannot open shared object file: No such file or directory\r\n  >> 38    make: *** [stream_f.exe] Error 1\r\n```\r\n\r\nThe build works correctly with Intel@19.1.0.166 and also with a dirty build environment\r\n\r\n```\r\n$ spack install stream%intel@19.1.0.166\r\n..\r\n..\r\n==> 172171: stream: Executing phase: 'edit'\r\n==> 172171: stream: Executing phase: 'build'\r\n==> 172171: stream: Executing phase: 'install'\r\n==> 172171: stream: Successfully installed stre\r\n```\r\n\r\n```\r\n$  spack load intel@19.1.1.217\r\n\r\n$ spack install --dirty stream%intel@19.1.1.217\r\n..\r\n..\r\n==> 172490: stream: Building stream [MakefilePackage]\r\n==> 172490: stream: Executing phase: 'edit'\r\n==> 172490: stream: Executing phase: 'build'\r\n==> 172490: stream: Executing phase: 'install'\r\n==> 172490: stream: Successfully installed stream\r\n  Fetch: 0.03s.  Build: 1.02s.  Total: 1.06s.\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.13.3-2728-294ee67\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-skylake_avx512\r\n```\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\nAdding the path to libimf in the icc.cfg doesn't help and it's not at all clear what has changed between the initial release of 2020 and update 1.\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "ilbiondo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17100",
+    "updated_at": "2021-09-03 06:07:30",
+    "created_at": "2020-06-15 11:16:43",
+    "closed_at": "2021-09-03 06:07:30",
+    "state": "closed",
+    "title": "Installation issue: Stream (and other codes) with intel@19.1.1.217",
+    "number": 17100,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "intel"
+    ],
+    "id": 638768001,
+    "html_url": "https://github.com/spack/spack/issues/17100",
+    "assignees": [],
+    "comments": 1
+}

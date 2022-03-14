@@ -1,0 +1,21 @@
+{
+    "body": "This is a bug found by @harshithamenon.  This solution is a bit\r\ndifferent from what we discussed so needs some explanation.  The `lock=None` line it seems shouldn't be a\r\nrelease, based on my testing, but should be `return (lock_type, None)`\r\nto inform the caller it couldn't get the lock type requested without\r\ndisturbing the existing lock object in the database.  There were also a\r\ncouple of bugs due to taking write locks during the dependency status check at the beginning without any\r\nchecking or release, and not releasing read locks before requeueing.\r\nThis version no longer gives me read upgrade to write errors, even\r\nrunning >200 instances.\r\n\r\n* Change lock in check_deps_status to read, release if not installed,\r\n  not sure why this was ever write, but read definitely is more\r\n  appropriate here, and the read lock is only held out of the scope if\r\n  the package is installed.\r\n* Release read lock before requeueing to reduce chance of livelock, the\r\n  timeout that caused the original issue now happens in roughly 3 of 200\r\n  workers instead of 199 on average.",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/27846",
+    "updated_at": "2021-12-22 16:05:47",
+    "created_at": "2021-12-07 21:43:56",
+    "closed_at": "2021-12-22 15:25:06",
+    "state": "closed",
+    "title": "locks: allow locks to work under high contention",
+    "number": 27846,
+    "milestone": null,
+    "labels": [
+        "locking"
+    ],
+    "id": 1073778654,
+    "html_url": "https://github.com/spack/spack/pull/27846",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 9
+}

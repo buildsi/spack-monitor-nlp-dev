@@ -1,0 +1,21 @@
+{
+    "body": "In #19411 `camp` was added as a dependency of `umpire`, but the source checksum of `camp` was wrong, so the `umpire` build didn't get a chance to run.  Then #19543 fixed that problem so that `camp` built, but now the `umpire` build fails during the configuration phase with a lot errors like the following:\r\n\r\n```\r\n  >> 66     CMake Error at /home/software/spack_path_placeholder/spack_path_pla\r\n            ceholder/spack_path_placeholder/spack_path_placeholder/spack_path_p\r\n            laceholder/spack_path_placeholder/spack_path_placeholder/spack_path\r\n            _placeholder/spack_path_placeholder/spack_path_placeholder/spack_pa\r\n            th_placeholder/spack_path_placeholder/spack_path_placeholder/spack_\r\n            path_placeholder/spack_path_placeholder/spack_path_placeholder/spac\r\n            k_path_placeholder/spack_path_placeholder/spack_path_placeholder/sp\r\n            ack_path_placeholder/spack_path_placeholder/spack_path_placeholder/\r\n            spack_/linux-ubuntu18.04-x86_64/gcc-7.3.0/blt-0.3.6-gn3xknsnfg5qkpn\r\n            vkzcmdrlivwiudzm6/cmake/BLTPrivateMacros.cmake:338 (target_link_lib\r\n            raries):\r\n     67       Error evaluating generator expression:\r\n     68\r\n     69         $<LINK_LANGUAGE:Fortran>\r\n     70\r\n     71       Expression did not evaluate to a known generator expression\r\n     72     Call Stack (most recent call first):\r\n     73       /home/software/spack_path_placeholder/spack_path_placeholder/spac\r\n            k_path_placeholder/spack_path_placeholder/spack_path_placeholder/sp\r\n            ack_path_placeholder/spack_path_placeholder/spack_path_placeholder/\r\n            spack_path_placeholder/spack_path_placeholder/spack_path_placeholde\r\n            r/spack_path_placeholder/spack_path_placeholder/spack_path_placehol\r\n            der/spack_path_placeholder/spack_path_placeholder/spack_path_placeh\r\n            older/spack_path_placeholder/spack_path_placeholder/spack_path_plac\r\n            eholder/spack_path_placeholder/spack_path_placeholder/spack_/linux-\r\n            ubuntu18.04-x86_64/gcc-7.3.0/blt-0.3.6-gn3xknsnfg5qkpnvkzcmdrlivwiu\r\n            dzm6/cmake/BLTMacros.cmake:604 (blt_setup_target)\r\n     74       examples/CMakeLists.txt:70 (blt_add_executable)\r\n``` \r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install umpire\r\n```\r\n\r\nThe above command currently picks up `umpire@4.1.2`.\r\n\r\n### Information on your system\r\n\r\nThis happened on `linux-ubuntu18.04`, attempting to build for `x86_64` target architecture, using a system-provided `gcc@7.3.0`.  The version of `spack` was:\r\n\r\n```\r\n$ spack --version\r\n 0.15.4-1688-9b809e01b\r\n```\r\n\r\n### Additional information\r\n\r\nThese builds are running as part of an automated gitlab build pipeline, I have attached the pipeline log as well as the spack build output below.\r\n\r\n[pipeline_log.txt](https://github.com/spack/spack/files/5453182/pipeline_log.28.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5453184/spack-build-out.12.txt)\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/19576",
+    "updated_at": "2020-10-29 18:32:57",
+    "created_at": "2020-10-28 15:58:37",
+    "closed_at": "2020-10-29 18:32:57",
+    "state": "closed",
+    "title": "Installation issue: umpire",
+    "number": 19576,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "ecp",
+        "e4s"
+    ],
+    "id": 731575680,
+    "html_url": "https://github.com/spack/spack/issues/19576",
+    "assignees": [],
+    "comments": 9
+}

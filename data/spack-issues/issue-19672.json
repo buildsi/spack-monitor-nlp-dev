@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #19649.\r\n\r\nThere was an error introduced in #19209 where `full_hash()` and `build_hash()` are called on older specs that we've read in from the DB.\r\n\r\nSince we evaluate hashes lazily, `node_dict_with_hashes()` has no way of knowing whether the spec just never had a `full_hash` or a `build_hash` or whether they need to be lazily computed. When we just had `dag_hash`, this wasn't an issue since it was always computed when concrete specs were stored -- it would always be there for specs read in from files.\r\n\r\nTo get around this ambiguity and to fix the issue, this makes two changes:\r\n\r\n- [x] Always compute `dag_hash`, `build_hash`, and `full_hash` after concretization, so we know if one is present, then all should be, if they are avaialble.\r\n\r\n- [x] Only store `full_hash` and `build_hash` if they are present. If not, don't bother recomputing.\r\n\r\nThis *may* make concretization slightly slower. If it does we could look at some other way to store whether full_hash and build_hash can be computed (e.g. we coudl store a `bool` on the `Spec` at concretize time), or we could look at other options like using JSON for these hashes to speed them up.  I think this solution is simpler for now.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/19672",
+    "updated_at": "2020-11-02 22:18:17",
+    "created_at": "2020-11-02 09:50:37",
+    "closed_at": "2020-11-02 21:21:13",
+    "state": "closed",
+    "title": "bugfix: don't recompute full_hash or build_hash",
+    "number": 19672,
+    "milestone": null,
+    "labels": [
+        "hashes",
+        "specs",
+        "buildcache"
+    ],
+    "id": 734357394,
+    "html_url": "https://github.com/spack/spack/pull/19672",
+    "assignees": [],
+    "comments": 4
+}

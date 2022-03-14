@@ -1,0 +1,19 @@
+{
+    "body": "This is in reponse to #2494 and others.\r\n\r\nSpack packages get hash codes based on the spec used to install them.  The implicit assumption is that if two install directories have the same spec, then they will have the same software inside them.  This assumption breaks down for packages that are really installers for a suite of packages.  For example:\r\n  a) `luarocks`, `pip`, etc --- these install stuff later on, thus changing their contents\r\n  b) Similar thing for X11 fonts?\r\n  c) `texlive` --- this installer makes no guarantees or claims about the versions it is installing.  You just get the \"latest available version\" of stuff.  And like `luarocks`, the user might later change the installation.\r\n\r\nSpack can install these installers, but they do break the assumptions of the meaning of a hash.  One partial fix would be to make sure that each installation of an installer package has a unique hash (even if it's installed with the same variants and versions as another installed version).  We could do that pretty easily by adding a \"dummy\" string-valued variant to the package in question.  By setting this variant, the user could install multiple meta-installers.  Management of them would now be up to the user and no longer under Spack control --- but that's the case anyway.\r\n\r\nSo... this proposal seems to be to simply add an extra dummy variant to packages that are actually installers (`luarocks`, `pip`, `texlive`, etc).\r\n\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2499",
+    "updated_at": "2019-12-09 11:49:23",
+    "created_at": "2016-12-07 02:17:01",
+    "closed_at": "2019-12-09 11:49:23",
+    "state": "closed",
+    "title": "Proposal: Dummy Variants",
+    "number": 2499,
+    "milestone": null,
+    "labels": [
+        "proposal"
+    ],
+    "id": 193940305,
+    "html_url": "https://github.com/spack/spack/issues/2499",
+    "assignees": [],
+    "comments": 10
+}

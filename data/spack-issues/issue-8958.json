@@ -1,0 +1,21 @@
+{
+    "body": "While debugging #8954, I discovered that if you are on a system where `ibv_devices` exists, every time you run a command that touches any `package.py` file, the `openmpi` package tries to run `ibv_devices` to set the default variant value. This is true even if you don't reference any package that depends on `openmpi`. You can see this for yourself by running:\r\n```console\r\n$ spack --debug spec zlib\r\n...\r\n==> '/usr/bin/ibv_devices'\r\n...\r\n```\r\nI don't think this is the root cause of #8954, but I also think running this command every time is unnecessary. Convenient, but slow.\r\n\r\nThis has been in place since @eschnett's #973.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8958",
+    "updated_at": "2019-10-20 01:43:12",
+    "created_at": "2018-08-11 19:53:17",
+    "closed_at": "2018-08-18 18:39:13",
+    "state": "closed",
+    "title": "Don't run ibv_devices every time packages are loaded",
+    "number": 8958,
+    "milestone": null,
+    "labels": [
+        "mpi",
+        "performance",
+        "update-package"
+    ],
+    "id": 349759538,
+    "html_url": "https://github.com/spack/spack/pull/8958",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "this is bit long but to gives complete picture:\n\nI am working on an application with PGI compiler and didn't understand why I was getting below error while compiling only with spack:\n\n``` bash\n  128, Accelerator restriction: call to 'log' with no acc routine information\n```\n\nI looked into `spack/lib/spack/env/pgi/pgcc` and enabled some verbose output. I realise that following extra includes are added : \n\n``` bash\n -I/usr/include\n```\n\nThe associated code in the compiler wrapper is:\n\n``` bash\n# Read spack dependencies from the path environment variable\nIFS=':' read -ra deps <<< \"$SPACK_DEPENDENCIES\"\nfor dep in \"${deps[@]}\"; do\n    # Prepend include directories\n    if [[ -d $dep/include ]]; then\n        if [[ $mode == cpp || $mode == cc || $mode == as || $mode == ccld ]]; then\n            args=(\"-I$dep/include\" \"${args[@]}\")\n        fi\n    fi\n```\n\nI am using `OpenACC` with PGI and the `accelerated` kernels are using some `math` functions. PGI compiler doesn't like `/usr/include` (and hence `math.h`) because it needs `OpenACC` annotated declarations from compiler's directory.\n\nSuppose there are two packages `A` and `B`. `A` has following dependencies (specified as externals with path `/usr`): \n\n``` bash\n    depends_on('automake', type='build')\n    depends_on('autoconf', type='build')\n    depends_on('libtool', type='build')\n```\n\nWhile building package `B` for GPU with `PGI`, spack adds `-I/usr/include` for every dependency mentioned above which causes the problem.\n\nI somewhat understand whats going on and wondering why `build` dependencies path (of `A`) are included for package `B`.\n\nI could work around this by avoiding `/usr`. Has someone else came across this issue and have better way to avoid this situation?\n\np.s. I tried using `fake` path approach but if one of the dependencies is `python` then I got error like:\n\n``` bash\n'import site' failed; use -v for traceback\nTraceback (most recent call last):\n  File \"/tmp/kumbhar/spack-stage/spack-stage-zIDsDu/xx/somefile.py\", line 12, in <module>\n    import os\nImportError: No module named os\n```\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2180",
+    "updated_at": "2017-04-14 10:14:26",
+    "created_at": "2016-10-30 22:41:37",
+    "closed_at": "2017-04-14 10:14:26",
+    "state": "closed",
+    "title": "Compiler wrappers and include of directories from /usr (PGI, OpenACC)",
+    "number": 2180,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "external-packages"
+    ],
+    "id": 186170232,
+    "html_url": "https://github.com/spack/spack/issues/2180",
+    "assignees": [],
+    "comments": 2
+}

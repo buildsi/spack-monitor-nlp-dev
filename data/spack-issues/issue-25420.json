@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n`gtk-doc` fails during config stage using:\r\n\r\n- spack@develop [f0875b2](https://github.com/spack/spack/commit/f0875b2fef8e495809854141785c1fc7f5d86407)\r\n\r\n- Ubuntu 20.04, GCC 9.3.0\r\n- Docker container: `ecpe4s/ubuntu20.04-runner-x86_64:2021-07-01`\r\n\r\nSpec: [gtk-doc-spack.yaml.txt](https://github.com/spack/spack/files/6984545/gtk-doc_spack.yaml.txt)\r\n\r\nHow to reproduce:\r\n```\r\n$ git clone https://github.com/spack/spack\r\n$ cd spack\r\n$ git checkout f0875b2\r\n$ . share/spack/setup-env.sh\r\n$ spack env create test ~/gtk-doc-spack.yaml\r\n$ spack env activate test\r\n$ spack buildcache keys -it\r\n$ spack concretize -f\r\n$ spack install\r\n==> Installing gtk-doc-1.32-2z5hjsgkzaemspqqxlgfaerb5wrdhean\r\n==> No binary for gtk-doc-1.32-2z5hjsgkzaemspqqxlgfaerb5wrdhean found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/08/0890c1f00d4817279be51602e67c4805daf264092adc58f9c04338566e8225ba.tar.gz\r\n==> Applied patch /root/spack/var/spack/repos/builtin/packages/gtk-doc/build.patch\r\n==> gtk-doc: Executing phase: 'autoreconf'\r\n==> gtk-doc: Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/tmp/root/spack-stage/spack-stage-gtk-doc-1.32-2z5hjsgkzaemspqqxlgfaerb5wrdhean/spack-src/configure' '--prefix=/root/spack/opt/spack/linux-ubuntu20.04-x86_64/gcc-9.3.0/gtk-doc-1.32-2z5hjsgkzaemspqqxlgfaerb5wrdhean'\r\n\r\n1 error found in build log:\r\n     126    checking for dblatex... no\r\n     127    checking for fop... no\r\n     128    configure: WARNING: neither dblatex nor fop found, so no pdf output from xml\r\n     129    checking for XML catalog...\r\n     130    checking for xmlcatalog... /root/spack/opt/spack/linux-ubuntu20.04-x86_64/gcc-9.3.0/libxml2-2.9.10-qlt5ajqqmtin3atqcycnv67oex63cvny/bin/xmlcatalo\r\n            g\r\n     131    checking for DocBook XML DTD V4.3 in XML catalog... not found\r\n  >> 132    configure: error: could not find DocBook XML DTD V4.3 in XML catalog\r\n\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-gtk-doc-1.32-2z5hjsgkzaemspqqxlgfaerb5wrdhean/spack-build-out.txt\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n* **Spack:** 0.16.2-3907-f0875b2fef\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-zen3\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\nBuild log: [gtk-doc-build-out.txt](https://github.com/spack/spack/files/6984553/gtk-doc-build-out.txt)\r\n\r\nConfigure log: [spack-build-02-configure-out.txt](https://github.com/spack/spack/files/6984557/spack-build-02-configure-out.txt)\r\n\r\n@lee218llnl @adamjstewart \r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "superNick459",
+    "url": "https://api.github.com/repos/spack/spack/issues/25420",
+    "updated_at": "2021-09-11 07:19:38",
+    "created_at": "2021-08-13 18:35:48",
+    "closed_at": "2021-09-10 10:51:59",
+    "state": "closed",
+    "title": "gtk-doc build fails: configure: could not find DocBook XML DTD V4.3 in XML catalog",
+    "number": 25420,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "e4s"
+    ],
+    "id": 970629392,
+    "html_url": "https://github.com/spack/spack/issues/25420",
+    "assignees": [],
+    "comments": 9
+}

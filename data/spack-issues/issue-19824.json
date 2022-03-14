@@ -1,0 +1,20 @@
+{
+    "body": "On MacOS Catalina 10.15.7 building Scalapack 2.0.2 and 2.1.0 is not possible due to this warning\r\n```\r\n/<PATH>/spack-stage-netlib-scalapack-2.1.0-mnjgrebekoi6272ut6i3zyldgorynvcp/spack-src/BLACS/SRC/sgsum2d_.c:154:7: error: implicit declaration of function 'BI_smvcopy' is invalid in C99 [-Werror,-Wimplicit-function-declaration]\r\n      BI_smvcopy(Mpval(m), Mpval(n), A, tlda, bp->Buff);\r\n      ^\r\n/<PATH>/spack-stage-netlib-scalapack-2.1.0-mnjgrebekoi6272ut6i3zyldgorynvcp/spack-src/BLACS/SRC/dgsum2d_.c:154:7: error: implicit declaration of function 'BI_dmvcopy' is invalid in C99 [-Werror,-Wimplicit-function-declaration]\r\n      BI_dmvcopy(Mpval(m), Mpval(n), A, tlda, bp->Buff);\r\n```\r\nbeing promoted to an error. Although this should probably be fixed upstream, it does look like the warning has been around [for some time](https://clang.debian.net/logs/2013-01-28/blacs-mpi_1.1-31_unstable_clang.log) and so I'm guessing that its not a critical error. It builds fine for me, but I have not yet tested it.\r\n\r\nRelates to https://github.com/dealii/dealii/issues/11138",
+    "user": "jppelteret",
+    "url": "https://api.github.com/repos/spack/spack/issues/19824",
+    "updated_at": "2020-11-12 14:55:59",
+    "created_at": "2020-11-09 20:23:58",
+    "closed_at": "2020-11-12 14:55:59",
+    "state": "closed",
+    "title": "Fix scalapack build error",
+    "number": 19824,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "clang"
+    ],
+    "id": 739337631,
+    "html_url": "https://github.com/spack/spack/pull/19824",
+    "assignees": [],
+    "comments": 2
+}

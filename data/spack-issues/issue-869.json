@@ -1,0 +1,17 @@
+{
+    "body": "This PR provides a new Spack command called `view`.  A view is a directory hierarchy which is a union of directory hierarchies under the prefixes of all specs on which the view is based.  The installed files under the prefixes are symlinked into their corresponding locations in the view.\n\nThe `view` command provides actions driven by the concrete Spack DAG created from the given package specs.  Actions include linking in a set of packages, removing them or checking status.  By default the entire DAG is used but the `view` command can be limited by the user specifying to only consider the packages give or to explicitly exclude some packages.\n\nThe single-rooted view is then useful for providing easy environment setup for users and developers working outside of Spack.  Eg, only a single and easily located `bin/` directory need be added to `PATH`.\n\nA session giving trivial example:\n\n``` bash\n$ spack install libelf\n\n$ spack view -p myview libelf\n==> link libelf\n\n$ ls -l myview/\ntotal 12\ndrwxrwxr-x 3 bviren bviren 4096 Apr 29 15:37 include\ndrwxrwxr-x 3 bviren bviren 4096 Apr 29 15:37 lib\ndrwxrwxr-x 3 bviren bviren 4096 Apr 29 15:37 share\n\n$ ls -l myview/include/libelf/libelf.h \nlrwxrwxrwx 1 bviren bviren 157 Apr 29 15:33 myview/include/libelf/libelf.h -> /home/bviren/projects/wire-cell/wire-cell-spack/spack/opt/spack/linux-x86_64/gcc-5.3.1/libelf-0.8.13-rdd4vrfzoey4wqxzqmkb6riuhon7y62f/include/libelf/libelf.h\n\n$ spack view -p myview -a status libelf\n==> status libelf\n==> Package added: libelf\n\n$ spack view -p myview -a remove libelf\n==> remove libelf\n\n$ spack view -p myview -a status libelf\n==> status libelf\n==> Package missing: libelf\n\n$ spack view -h\nusage: spack view [-h] [-e EXCLUDE] [-a {link,remove,status}]\n                  [--no-dependencies] -p PREFIX\n                  ...\n\npositional arguments:\n  specs                 specs of packages to expose in the view.\n\noptional arguments:\n  -h, --help            show this help message and exit\n  -e EXCLUDE, --exclude EXCLUDE\n                        exclude any packages which the given re pattern\n  -a {link,remove,status}, --action {link,remove,status}\n                        what action to perform on the view\n  --no-dependencies     just operate on named packages and do not follow\n                        dependencies\n  -p PREFIX, --prefix PREFIX\n                        Path to a top-level directory to receive the view.\n```\n",
+    "user": "brettviren",
+    "url": "https://api.github.com/repos/spack/spack/issues/869",
+    "updated_at": "2016-06-05 18:31:49",
+    "created_at": "2016-04-29 19:43:04",
+    "closed_at": "2016-06-05 18:31:48",
+    "state": "closed",
+    "title": "Feature/views",
+    "number": 869,
+    "milestone": null,
+    "labels": [],
+    "id": 151953052,
+    "html_url": "https://github.com/spack/spack/pull/869",
+    "assignees": [],
+    "comments": 43
+}

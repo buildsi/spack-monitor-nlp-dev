@@ -1,0 +1,19 @@
+{
+    "body": "I have been unable to get any spack load commands to work within a cobalt job script even though they work fine on a login node or within an interactive job session.  This is on the \"cooley\" system at the ALCF (https://www.alcf.anl.gov/user-guides/cooley).\r\n\r\nAfter some debugging, I found that this is because the SPACK_SHELL variable is being set incorrectly.  This is in my env after running setup-env.sh:\r\n\r\n```SPACK_SHELL=margo-regressio```\r\n\r\n(\"margo-regressio\" is a truncation of the actual script name).  The SPACK_SHELL variable is generated from this logic:\r\n\r\nhttps://github.com/spack/spack/blob/develop/share/spack/setup-env.sh#L201\r\n\r\nIf I check the output of ```ps -p $$``` within a job script, I get the following:\r\n\r\n```\r\nps -p 106371\r\n   PID TTY          TIME CMD\r\n106371 ?        00:00:00 margo-regressio\r\n```\r\n\r\nNote that the CMD is \"margo-regressio\" intead of \"bash\" like the setup-env.sh logic expects.  If I manually edit setup-env.sh to force SPACK_SHELL to be set to \"bash\", then everything works as expected for me.\r\n\r\nIs there a more robust way to detect the shell type in setup-env.sh, or maybe even just a way to override it from the command line?\r\n",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/8443",
+    "updated_at": "2018-06-12 17:00:54",
+    "created_at": "2018-06-11 21:16:38",
+    "closed_at": "2018-06-12 17:00:54",
+    "state": "closed",
+    "title": "SPACK_SHELL set incorrectly within cobalt scheduler job script environment",
+    "number": 8443,
+    "milestone": null,
+    "labels": [
+        "shell-support"
+    ],
+    "id": 331353471,
+    "html_url": "https://github.com/spack/spack/issues/8443",
+    "assignees": [],
+    "comments": 5
+}

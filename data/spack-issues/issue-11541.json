@@ -1,0 +1,20 @@
+{
+    "body": "I am trying to install paraview with python2 and mesa from:\r\nhttps://github.com/spack/spack/pull/11485\r\n\r\nThe first command installs paraview with mesa and python3 and that works OK.\r\n\r\nThe second command, which tries to install paraview with mesa and python2,  complains that meson, the build system for mesa, needs python3.\r\n\r\nHowever, mesa is already installed at that point by the first command so it should not need meson. Also, meson is only a build dependency for mesa it does need to interfer with python used in paraview.\r\n\r\n\r\n\r\n\r\n```console\r\n[~/projects/spack (use_python3)]$ spack install paraview+osmesa+python\r\n==> paraview is already installed in /home/danlipsa/projects/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.3.0/paraview-5.6.0-3jelinu57glruradq74wp72swlaooxx6\r\n[~/projects/spack (use_python3)]$ \r\n\r\n[~/projects/spack (use_python3)]$ spack spec paraview@5.5.2+osmesa+python\r\nInput spec\r\n--------------------------------\r\nparaview@5.5.2+osmesa+python\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    python@2.7:2.8\r\n        ^pkgconfig@0.9.0:\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    meson@0.45:\r\n\r\n\r\nmeson requires python version 3:, but spec asked for 2.7:2.8\r\n\r\n```",
+    "user": "danlipsa",
+    "url": "https://api.github.com/repos/spack/spack/issues/11541",
+    "updated_at": "2019-06-12 00:56:51",
+    "created_at": "2019-05-23 20:17:41",
+    "closed_at": "2019-06-12 00:56:51",
+    "state": "closed",
+    "title": "spack seem to mix build and run dependencies",
+    "number": 11541,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization"
+    ],
+    "id": 447854044,
+    "html_url": "https://github.com/spack/spack/issues/11541",
+    "assignees": [],
+    "comments": 1
+}

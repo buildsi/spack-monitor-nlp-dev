@@ -1,0 +1,20 @@
+{
+    "body": "This PR adds support for building pre-release versions of Rust, including the latest beta and nightly releases, along with building from the master branch at https://github.com/rust-lang/rust.\r\n\r\nThese releases all only build with `-n`/`--no-checksum`.\r\n\r\nThe \"beta\" and \"nightly\" versions are not \"advertised\" because spack requires all `version`s to have a checksum, unless they're a source control version.\r\n\r\n\"beta\" and \"nightly\" _should_ build offline, but I haven't tested it. \"master\" will not because it fetches its Rust dependencies from Rust's package manager.\r\n\r\nIt's hypothetically possible to support specific nightly releases of Rust, but this PR doesn't support that. If anybody is interested in implementing this, the source code for a specific nightly release of Rust is hosted at a slightly different URL scheme than the one used by the moving target pre-releases and official releases. For example, the source for the nightly release of Rust for 1/31/2020 is hosted at: `https://static.rust-lang.org/dist/2020-01-31/rustc-nightly-src.tar.gz`\r\n\r\nNote: as of this writing, the `rustfmt` component does not build for the latest \"nightly\" release: https://github.com/rust-lang/rust/issues/71077\r\n\r\nYou can disable the rustfmt build by adding `-rustfmt` when building the \"rust\" package. \"master\" also couldn't build \"clippy\" when I tried, which I resolved by specifying `-clippy`. I assume this is also transient.",
+    "user": "AndrewGaspar",
+    "url": "https://api.github.com/repos/spack/spack/issues/16042",
+    "updated_at": "2020-04-14 17:57:05",
+    "created_at": "2020-04-14 17:13:46",
+    "closed_at": "2020-04-14 17:53:43",
+    "state": "closed",
+    "title": "Add support for pre-release builds of Rust (beta, master, nightly)",
+    "number": 16042,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "rust"
+    ],
+    "id": 599727840,
+    "html_url": "https://github.com/spack/spack/pull/16042",
+    "assignees": [],
+    "comments": 1
+}

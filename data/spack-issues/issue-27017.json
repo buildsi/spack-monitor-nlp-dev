@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nCompile on macOS arm64 with `DEVELOPER_DIR=/Applications/Xcode-x.y.app/Contents/Developer` (modify as needed). `clingo-bootstrap-spack` fails with:\r\n\r\n```\r\n==> Installing clingo-bootstrap-spack-62s5iidrm32mm3u4ccoprwigg7ye2d77\r\n==> No binary for clingo-bootstrap-spack-62s5iidrm32mm3u4ccoprwigg7ye2d77 found: installing from source\r\n==> Error: RuntimeError: Unable to locate Python3.framework/Versions/3.8/Python3 libraries in /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.8/lib\r\n/opt/glr/vtk/vtk-remoting-ci/.gitlab/spack/src/var/spack/repos/builtin/packages/python/package.py:811, in libs:\r\n        808                return LibraryList(os.path.join(frameworkprefix, ldlibrary))\r\n        809            else:\r\n        810                msg = 'Unable to locate {0} libraries in {1}'\r\n  >>    811                raise RuntimeError(msg.format(ldlibrary, libdir))\r\n        812        else:\r\n        813            library = self.config_vars['LIBRARY']\r\n        814\r\n```\r\n\r\nThere is no `/Applications/Xcode.app` on the machine because there are many such versions installed, so they all get renamed to not conflict. Our x86_64 machines are set up the same way and do not fail.\r\n\r\nBuild logs from CI: https://gitlab.kitware.com/vtk/remoting/-/jobs/6291139 (I don't see any log files around)\r\n\r\n### Information on your system\r\n\r\n```\r\n% bin/spack debug report                                              \r\nobjc[87342]: Class AMSupportURLConnectionDelegate is implemented in both /usr/lib/libauthinstall.dylib (0x1f4ceec10) and /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x1187d42c8). One of the two will be\r\n used. Which one is undefined.\r\nobjc[87342]: Class AMSupportURLSession is implemented in both /usr/lib/libauthinstall.dylib (0x1f4ceec60) and /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/MobileDevice (0x1187d4318). One of the two will be used. Whic\r\nh one is undefined.\r\n* **Spack:** 0.16.3-5064-8fd94e3114\r\n* **Python:** 3.8.2\r\n* **Platform:** darwin-bigsur-m1\r\n* **Concretizer:** clingo\r\n```\r\n\r\n### Additional information\r\n\r\nCc: @alalazo @tgamblin \r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mathstuf",
+    "url": "https://api.github.com/repos/spack/spack/issues/27017",
+    "updated_at": "2021-11-01 12:55:16",
+    "created_at": "2021-10-28 15:34:30",
+    "closed_at": "2021-11-01 12:55:16",
+    "state": "closed",
+    "title": "Installation issue: clingo-bootstrap-spack",
+    "number": 27017,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "bootstrap"
+    ],
+    "id": 1038660090,
+    "html_url": "https://github.com/spack/spack/issues/27017",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,17 @@
+{
+    "body": "I merged today from develop, and it broke anything that depends_on('py-numpy').  I believe these used to work.  But now I have to set LD_LIBRARY_PATH to point to Numpy (or else `python3 -c numpy` won't find libopenblas.so).\n\nThe most likely reason for this problem is that OpenBLAS builds a shared object (previously I was using ATLAS, I believe with static library).  That has uncovered a latent problem, that Python extensions (eg, those built in py-numpy) do not use RPATH (and thus cannot find libopenblas.so).  Or... maybe this problem with Python libs was introduced in the last two weeks.  Or maybe with \nrefactoring of build_environment on March 21?\n\nSeeking advice...\n\nSee: https://github.com/LLNL/spack/issues/719\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/722",
+    "updated_at": "2016-08-11 21:52:33",
+    "created_at": "2016-04-02 04:29:26",
+    "closed_at": "2016-08-11 21:52:33",
+    "state": "closed",
+    "title": "[WIP] Workaround (or permanent fix?) for depends_on(py-numpy)",
+    "number": 722,
+    "milestone": null,
+    "labels": [],
+    "id": 145334161,
+    "html_url": "https://github.com/spack/spack/pull/722",
+    "assignees": [],
+    "comments": 3
+}

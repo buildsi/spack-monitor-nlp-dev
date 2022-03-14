@@ -1,0 +1,19 @@
+{
+    "body": "Previously, the following prefix attributes worked great:\r\n\r\n* `prefix.bin`\r\n* `prefix.lib`\r\n\r\nbut as soon as you needed something new, you were S.O.L.:\r\n\r\n* `prefix.examples`\r\n* `prefix.bin.perl`\r\n\r\nThis led to several PRs adding new attributes to the `Prefix` class:\r\n\r\n* #4321 added `prefix.include64`\r\n* #3905 added `prefix.bin64`\r\n* 295ffd8c506821ed079d2151fb21cd27979d7387 added `prefix.share_man[1-8]`\r\n\r\nThis is cumbersome, and more often than not leads to people using `join_path(prefix, 'examples')`. I've never been a big fan of `join_path`. It's just plain ugly...\r\n\r\nWith this PR, these limitations have been removed. Now, any prefix attribute you can think of works:\r\n\r\n* `prefix.foo.bar.baz == $prefix/foo/bar/baz`\r\n\r\nAll prefix attributes are defined on the fly, so they don't need to be declared beforehand. This means that most of the uses of `join_path` are now obsolete. I won't remove all uses of `join_path` in this PR, but we should encourage users to do this from now on.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4591",
+    "updated_at": "2017-06-25 12:12:51",
+    "created_at": "2017-06-23 16:07:09",
+    "closed_at": "2017-06-25 05:39:32",
+    "state": "closed",
+    "title": "Allow arbitrary Prefix attributes",
+    "number": 4591,
+    "milestone": null,
+    "labels": [
+        "refactoring"
+    ],
+    "id": 238187100,
+    "html_url": "https://github.com/spack/spack/pull/4591",
+    "assignees": [],
+    "comments": 2
+}

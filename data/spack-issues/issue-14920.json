@@ -1,0 +1,22 @@
+{
+    "body": "Consider a user that wants to mark CUDA-enabled modules with a `-cuda` suffix. To also account for libraries that use cuda-enabled MPI (perhaps to differentiate them from the same library that uses non-cuda MPI), they set their `modules.yaml` file to:\r\n```yaml\r\nmodules:\r\n  enable::\r\n    - lmod\r\n  lmod:\r\n    all:\r\n      suffixes:\r\n        '+cuda': 'cuda'\r\n        '^mpi+cuda': 'cuda'\r\n```\r\nAlthough this creates non-conflicting module names for `foo ^mpi+cuda` and `foo ^mpi~cuda`, it gives `bar+cuda ^mpi+cuda` an suffix of `-cuda-cuda`.\r\n\r\nThis patch deduplicates module extensions so that the latter suffix will simplify to `-cuda`. It also sorts the suffixes to improve robustness.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14920",
+    "updated_at": "2020-08-28 07:32:55",
+    "created_at": "2020-02-12 20:24:49",
+    "closed_at": "2020-02-26 17:03:28",
+    "state": "closed",
+    "title": "Uniquify suffixes added to module names",
+    "number": 14920,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "modules"
+    ],
+    "id": 564249107,
+    "html_url": "https://github.com/spack/spack/pull/14920",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 10
+}

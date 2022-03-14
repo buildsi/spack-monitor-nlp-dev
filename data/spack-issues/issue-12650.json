@@ -1,0 +1,22 @@
+{
+    "body": "I'm seeing a problem where spack finds the wrong prefix for a cuda\r\nmodule.  IMO, this has to be either a bug with the module entry or\r\nelse a bug in how spack reads the module, and I'm asking for a ruling.\r\n\r\nThis is on cori at NERSC, a Cray machine with GPUs on some compute\r\nnodes.  I created a dummy package that just adds a few dependencies\r\nand has a trivial install() method that prints the `spec[...].prefix`\r\nfor the packages.\r\n\r\n```\r\nclass Mypack(Package):\r\n    ...\r\n    depends_on('cmake')\r\n    depends_on('cuda')\r\n\r\n    def install(self, spec, prefix):\r\n        print 'cmake =  {0}'.format(spec['cmake'].prefix)\r\n        print 'cuda =   {0}'.format(spec['cuda'].prefix)\r\n\t...\r\n```\r\n\r\nI added `modules:` entries in `packages.yaml` for cmake, cuda, etc.\r\n\r\n```\r\ncmake:\r\n  modules:\r\n    cmake@3.14.4:  cmake/3.14.4\r\n\r\ncuda:\r\n  modules:\r\n    cuda@10.1.168:  cuda/10.1.168\r\n```\r\n\r\nMost of the prefixes make sense, but the cuda prefix is `/usr` which\r\nis not correct.\r\n\r\n```\r\ncmake =  /global/common/sw/cray/cnl7/haswell/cmake/3.14.4/gcc/8.2.0/2hef55n\r\ncuda =   /usr\r\njdk =    /global/common/cori_cle7/software/jdk/1.8.0_202\r\npapi =   /opt/cray/pe/papi/5.7.0.1\r\n```\r\n\r\nI'm expecting `spec['cuda'].prefix` to be `/usr/common/software/cuda/10.1.168`,\r\nnot `/usr`.\r\n\r\nCori uses TCL modules and the cuda module has:\r\n\r\n```\r\n$ module show cuda/10.1.168\r\n-------------------------------------------------------------------\r\n/usr/common/software/modulefiles/cuda/10.1.168:\r\n\r\nconflict         cuda \r\nmodule-whatis    CUDA is a parallel computing platform and programming model developed by NVIDIA\r\n                 for general computing on graphical processing unit (GPU). \r\nsetenv           CUDA_VERSION 10.1.168 \r\nsetenv           CUDNN_VERSION 7.6.2 \r\nsetenv           CUDA_ROOT /usr/common/software/cuda/10.1.168 \r\nsetenv           CUDA_HOME /usr/common/software/cuda/10.1.168 \r\nsetenv           CUDA_PATH /usr/common/software/cuda/10.1.168 \r\nprepend-path     LD_LIBRARY_PATH /usr/lib64 \r\nprepend-path     LD_LIBRARY_PATH /usr/common/software/cuda/10.1.168/lib64 \r\nprepend-path     PATH /usr/common/software/cuda/10.1.168/bin \r\nprepend-path     PATH /usr/common/software/cuda/10.1.168/NsightCompute-2019.3.1.2 \r\nprepend-path     PATH /usr/common/software/cuda/10.1.168/NsightSystems-linux-public-2019.3.6.30-e2e891f/Host-x86_64/ \r\nprepend-path     PATH /usr/common/software/cuda/10.1.168/NsightSystems-linux-public-2019.3.6.30-e2e891f/Target-x86_64/x86_64 \r\nprepend-path     MANPATH /usr/common/software/cuda/10.1.168/doc/man \r\nprepend-path     CMAKE_PREFIX_PATH /usr/common/software/cuda/10.1.168 \r\n-------------------------------------------------------------------\r\n```\r\n\r\nIt's not TCL modules in general.  The other modules on cori are TCL\r\nand they seem to work.\r\n\r\nIt's not just this one cuda module.  There are 5 cuda modules on cori,\r\nolder and newer.  The others also report /usr.\r\n\r\nIt's not cuda in general.  I tried other cuda modules on other\r\nsystems, including summit at ORNL, and they work.  But those are LMOD\r\nmodules.\r\n\r\nIt seems to be just cuda on cori at NERSC.  At least, I haven't found\r\nanother pattern.\r\n\r\nCori has separate FE/BE arch types.  Same problem for either arch.\r\n\r\nI'm not blocked.  I can change `modules:` to `paths:` and get the\r\nright prefix.  But this is supposed to work, right?\r\n\r\nThis is with a recent spack clone: 02bb1d5ec618 on Aug 27.\r\n\r\nAnyway, I'm seeking a ruling if this a problem with the module entry\r\nor in how spack reads the module.  But let's try not to have each side\r\nblame the other.  :-)\r\n\r\nping @mamelara who seems to be in the intersection of spack and NERSC.\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/12650",
+    "updated_at": "2019-09-11 17:51:45",
+    "created_at": "2019-08-29 20:05:14",
+    "closed_at": "2019-09-11 17:51:45",
+    "state": "closed",
+    "title": "external packages: spack finds wrong prefix for cuda from module on Cori",
+    "number": 12650,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 487151590,
+    "html_url": "https://github.com/spack/spack/issues/12650",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 7
+}

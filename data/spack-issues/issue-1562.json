@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #1266, #1966.\n\nRebased #866 on `develop`.  See discussion there.\n\nTo recap, from @alalazo:\n##### Modifications\n- [x] removed global db locks from `install`, `uninstall` and `diy`\n- [x] added lock for stage directory (an exclusive lock is taken as part of the `Stage` context manager)\n- [x] added lock for prefix directory (an exclusive lock is taken during `Package.do_install`)\n- [x] debug output shows locks acquire and release\n- [x] Use single lock file instead of per-prefix locks.\n##### Install and uninstall are not mutually exclusive\n\nThis means that if : \n\n```\nspack uninstall ...\n```\n\nis run concurrently with \n\n```\nspack install ...\n```\n\nthe former command may cause the latter to fail (the same way an administrator can `sudo rm ...` something that another admin is about to use)\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/1562",
+    "updated_at": "2016-10-11 09:35:47",
+    "created_at": "2016-08-19 16:18:02",
+    "closed_at": "2016-10-11 09:35:46",
+    "state": "closed",
+    "title": "Finer-grained locking",
+    "number": 1562,
+    "milestone": null,
+    "labels": [
+        "locking"
+    ],
+    "id": 172167802,
+    "html_url": "https://github.com/spack/spack/pull/1562",
+    "assignees": [],
+    "comments": 27
+}

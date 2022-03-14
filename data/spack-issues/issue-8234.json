@@ -1,0 +1,17 @@
+{
+    "body": "Might be a duplicate, I didn't know what to search.\r\n\r\n```\r\n$ spack install py-numpy ^openblas@0.2.20\r\n==> Error: py-numpy does not depend on openblas\r\n```\r\n```\r\n$ spack spec py-numpy\r\nInput spec\r\n--------------------------------\r\npy-numpy\r\n\r\nConcretized\r\n--------------------------------\r\npy-numpy@1.14.2%gcc@4.9.3+blas+lapack arch=linux-rhel7-ppc64le\r\n--> ^openblas@0.2.20%gcc@4.9.3 cpu_target=POWER8 ~ilp64 patches=47cfa7a952ac7b2e4632c73ae199d69fb54490627b66a62c681e21019c4ddc9d +pic+shared threads=none ~virtual_machine arch=linux-rhel7-ppc64le <--\r\n    ^py-setuptools@39.0.1%gcc@4.9.3 arch=linux-rhel7-ppc64le\r\n        ^python@2.7.14%gcc@4.9.3+dbm~optimizations patches=123082ab3483ded78e86d7c809e98a804b3465b4683c96bd79a2fd799f572244 +pic+pythoncmd+shared~tk~ucs4 arch=linux-rhel7-ppc64le\r\n            ^bzip2@1.0.6%gcc@4.9.3+shared arch=linux-rhel7-ppc64le\r\n            ^gdbm@1.14.1%gcc@4.9.3 arch=linux-rhel7-ppc64le\r\n                ^readline@7.0%gcc@4.9.3 arch=linux-rhel7-ppc64le\r\n                    ^ncurses@6.0%gcc@4.9.3 patches=f84b2708a42777aadcc7f502a261afe10ca5646a51c1ef8b5e60d2070d926b57 ~symlinks~termlib arch=linux-rhel7-ppc64le\r\n                        ^pkgconf@1.4.0%gcc@4.9.3 arch=linux-rhel7-ppc64le\r\n            ^openssl@1.0.2n%gcc@4.9.3+systemcerts arch=linux-rhel7-ppc64le\r\n                ^zlib@1.2.11%gcc@4.9.3+optimize+pic+shared arch=linux-rhel7-ppc64le\r\n            ^sqlite@3.22.0%gcc@4.9.3 arch=linux-rhel7-ppc64le\r\n```\r\n```\r\n$ spack install py-numpy\r\n==> Installing openblas\r\n[...]\r\n```\r\nhowever\r\n```\r\n$ spack install py-numpy+blas ^openblas@0.2.20\r\n```\r\nworks.\r\n\r\nAre default variants not expanded correctly somewhere in the installation dependency collection process?\r\n\r\n---\r\n\r\n(I had to specify the full hash to pull in the openblas I already had built, but I think this is a different issue)",
+    "user": "mcneish1",
+    "url": "https://api.github.com/repos/spack/spack/issues/8234",
+    "updated_at": "2018-05-21 22:57:32",
+    "created_at": "2018-05-21 22:28:36",
+    "closed_at": "2018-05-21 22:57:32",
+    "state": "closed",
+    "title": "depends_on with default variant: differing dependency list from spack spec",
+    "number": 8234,
+    "milestone": null,
+    "labels": [],
+    "id": 325079948,
+    "html_url": "https://github.com/spack/spack/issues/8234",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,21 @@
+{
+    "body": "\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install mumps %gcc@10.2.0\r\n...\r\n.../linux-ubuntu20.10-sandybridge/gcc-10.2.0/openmpi-3.1.6-5buw3dsyti44enea7vodmjltlqrh2qnq/bin/mpif90 -fPIC -O -DALLOW_NON_INIT -I. -I../include   -Dpord -Dparmetis -c ana_omp_m.F -oana_omp_m.o\r\nana_omp_m.F:758:42:\r\n\r\n  758 |         CALL MUMPS_QUICK_SORT_PHYS_L0( N, STEP(1), PHYS_L0_OMP(1),\r\n      |                                          1\r\nError: Element of assumed-shape or pointer array passed to array dummy argument 'step' at (1)\r\n```\r\n\r\nThis is corrected by setting `fflags=\"-fallow-argument-mismatch\"`as suggested in [https://gcc.gnu.org/gcc-10/changes.html](https://gcc.gnu.org/gcc-10/changes.html) and confirmed in a private confirmation with the Mumps team.\r\n\r\n\r\n### Information on your system\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.15.4-1773-4d6c9a8f2\r\n* **Python:** 3.8.6\r\n* **Platform:** linux-ubuntu20.10-sandybridge\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/5477742/spack-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/5477743/spack-build-env.txt)\r\n\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "lpoirel",
+    "url": "https://api.github.com/repos/spack/spack/issues/19687",
+    "updated_at": "2021-05-21 08:31:00",
+    "created_at": "2020-11-02 20:13:44",
+    "closed_at": "2021-05-21 08:31:00",
+    "state": "closed",
+    "title": "Installation issue: mumps%gcc@10:",
+    "number": 19687,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 734788348,
+    "html_url": "https://github.com/spack/spack/issues/19687",
+    "assignees": [
+        "RikkiButler20"
+    ],
+    "comments": 1
+}

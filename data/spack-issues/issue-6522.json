@@ -1,0 +1,19 @@
+{
+    "body": "I failed to install intel-paralle-stuodio@16 due to inexistent `psxevars.csh` file which is called during post-installtion. I think this post-installation should be limited to version >= 2017 according to comments in the code. 2017 and 2018 installation work well.\r\n\r\n### Expected Result\r\n\r\nSpack installs intel-parallel-studio.\r\n\r\n### Actual Result\r\n\r\nSpack fails intel-parallel-studio.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install intel-parallel-studio@cluster.2016.4+advisor+clck+daal+inspector+ipp+itac+mkl+mpi+tbb+vtune %gcc@\r\n4.8.5\r\n==> Installing intel-parallel-studio                                                                              \r\n==> Fetching http://spack.pi.sjtu.edu.cn/mirror/intel-parallel-studio/intel-parallel-studio-cluster.2016.4.tgz\r\n######################################################################## 100.0%                                    \r\n==> Staging archive: /lustre/home/rpm/spack/var/spack/stage/intel-parallel-studio-cluster.2016.4-jnqjhwujdkmsbkqwhn\r\nvo7urpcmyqbkgd/parallel_studio_xe_2016_update4.tgz\r\n==> Created stage in /lustre/home/rpm/spack/var/spack/stage/intel-parallel-studio-cluster.2016.4-jnqjhwujdkmsbkqwhn\r\nvo7urpcmyqbkgd\r\n==> No patches needed for intel-parallel-studio\r\n==> Building intel-parallel-studio [IntelPackage]\r\n==> Added global license file /lustre/home/rpm/spack/etc/spack/licenses/intel/license.lic\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'install'\r\n==> Error: IOError: [Errno 2] No such file or directory: '/lustre/spack/tools/linux-centos7-x86_64/gcc-4.8.5/intel-\r\nparallel-studio-cluster.2016.4-jnqjhwujdkmsbkqwhnvo7urpcmyqbkgd/parallel_studio_xe_2016.4.072/bin/psxevars.sh'\r\nIOError: IOError: [Errno 2] No such file or directory: '/lustre/spack/tools/linux-centos7-x86_64/gcc-4.8.5/intel-pa\r\nrallel-studio-cluster.2016.4-jnqjhwujdkmsbkqwhnvo7urpcmyqbkgd/parallel_studio_xe_2016.4.072/bin/psxevars.sh'\r\n\r\n/lustre/home/rpm/spack/var/spack/repos/builtin/packages/intel-parallel-studio/package.py:446, in fix_psxevars:\r\n     7\r\n     8             filter_file('^SCRIPTPATH=.*', 'SCRIPTPATH={0}'.format(self.prefix),\r\n     9                         os.path.join(bindir, 'psxevars.sh'),\r\n  >> 10                        os.path.join(bindir, 'psxevars.csh'))\r\n\r\nSee build log for details:\r\n  /lustre/home/rpm/spack/var/spack/stage/intel-parallel-studio-cluster.2016.4-jnqjhwujdkmsbkqwhnvo7urpcmyqbkgd/parallel_studio_xe_2016_update4/spack-build.out\r\n\r\n\r\n$ tail /lustre/home/rpm/spack/var/spack/stage/intel-parallel-studio-cluster.2016.4-jnqjhwujdkmsbkqwhnvo7urpcmyqbk\r\ngd/parallel_studio_xe_2016_update4/spack-build.out\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'install'\r\n==> './install.sh' '--silent' 'silent.cfg'\r\nMissing optional prerequisites\r\n```\r\n[spack-build.env.txt](https://github.com/spack/spack/files/1516441/spack-build.env.txt)\r\n[spack-build.out.txt](https://github.com/spack/spack/files/1516443/spack-build.out.txt)\r\n\r\n### Information on your system\r\n\r\nI'm using CentOS 7. Installation of 2017 and 2018 work well.",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/6522",
+    "updated_at": "2017-12-11 21:14:25",
+    "created_at": "2017-11-30 03:39:30",
+    "closed_at": "2017-12-11 21:14:25",
+    "state": "closed",
+    "title": "Failed to install intel-paralle-stuodio@2016 due to inexistent psxevars.csh file",
+    "number": 6522,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 277988112,
+    "html_url": "https://github.com/spack/spack/issues/6522",
+    "assignees": [],
+    "comments": 1
+}

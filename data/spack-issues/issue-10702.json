@@ -1,0 +1,19 @@
+{
+    "body": "This is mostly an FYI.\r\n\r\nStarting with `git-lfs@2.7.0` we frequently had `git-lfs` aborting.  In some situations it ran successfully, in others it didn't.  It seemed to depend on what other modules were loaded, but...\r\n\r\nBetween `git-lfs@2.6.1` and `git-lfs@2.7.0` the Makefile started unconditionally adding a `-extldflags` bit to the `go` command line, setting it to the value of `LDFLAGS`.  If `LDFLAGS` isn't set to anything (our case) then it wasn't given an argument, even though it needs one.  I'm not sure why this doesn't provide an error from the compiler, it seems to be grabbing something out of whatever comes next in memory.\r\n\r\nI've changed the Makefile only set `-extldflags` if `LDFLAGS` is defined and made a Pull Request upstream:  https://github.com/git-lfs/git-lfs/pull/3545\r\n\r\nDepending what Upstream has to say, perhaps we'll want to patch `git-lfs@2.7.0`, or forbid it, or ...\r\n\r\nI'll keep this updated as the `git-lfs` PR progresses.\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/10702",
+    "updated_at": "2019-02-27 22:02:25",
+    "created_at": "2019-02-25 21:42:14",
+    "closed_at": "2019-02-27 22:02:25",
+    "state": "closed",
+    "title": "git-lfs aborts (sometimes), fix in progress upstream",
+    "number": 10702,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 414320561,
+    "html_url": "https://github.com/spack/spack/issues/10702",
+    "assignees": [],
+    "comments": 0
+}

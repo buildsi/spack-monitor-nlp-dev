@@ -1,0 +1,23 @@
+{
+    "body": "While it is possible to specify compiler preferences for all packages, those for single packages are currently ignored.\r\n\r\nFor instance, a `packages.yaml` such as this:\r\n```yaml\r\npackages:\r\n    all:\r\n        compiler: [clang]\r\n    ncurses:\r\n        compiler: [gcc]\r\n```\r\nresults in the following output for `spack spec readline`:\r\n```\r\nreadline@7.0%clang@9.1.1 arch=linux-fedora30-x86_64\r\n    ^ncurses@6.1%clang@9.1.1~symlinks~termlib arch=linux-fedora30-x86_64\r\n        ^pkgconf@1.6.1%clang@9.1.1 arch=linux-fedora30-x86_64\r\n```\r\n\r\nSimply querying the package's compiler preferences is not enough due to the concretizer's current behavior. If a compiler preference is specified explicitly anywhere in the DAG, it is applied everywhere, as can be seen for `spack spec readline ^pkgconf%gcc`:\r\n```\r\nreadline@7.0%gcc@9.1.1 arch=linux-fedora30-x86_64\r\n    ^ncurses@6.1%gcc@9.1.1~symlinks~termlib arch=linux-fedora30-x86_64\r\n        ^pkgconf@1.6.1%gcc@9.1.1 arch=linux-fedora30-x86_64\r\n```\r\n\r\nThis is in contrast to the concretizer's behavior in other cases such as when dealing with compiler flags, which are only applied to children. For instance, `spack spec readline ^pkgconf cflags='-g'` produces:\r\n```\r\nreadline@7.0%clang@9.1.1 arch=linux-fedora30-x86_64\r\n    ^ncurses@6.1%clang@9.1.1~symlinks~termlib arch=linux-fedora30-x86_64\r\n        ^pkgconf@1.6.1%clang@9.1.1 cflags=\"-g\"  arch=linux-fedora30-x86_64\r\n```\r\n\r\nTherefore, this PR contains two changes to the concretizer:\r\n1. Make compiler preferences only apply to children. On the one hand, this makes the concretizer's behavior more consistent. On the other hand, it makes sure that compiler preferences specified in `packages.yaml` are only applied to the specified package. Otherwise, it would get propagated up to its parents due to the concretizer's bottom-up approach.\r\n2. Apply compiler preferences specified in `packages.yaml` to individual packages.\r\n\r\nAs can be seen with `spack spec readline`, the compiler preference from `packages.yaml` is applied correctly:\r\n```\r\nreadline@7.0%clang@9.1.1 arch=linux-fedora30-x86_64\r\n    ^ncurses@6.1%gcc@9.1.1~symlinks~termlib arch=linux-fedora30-x86_64\r\n        ^pkgconf@1.6.1%clang@9.1.1 arch=linux-fedora30-x86_64\r\n```\r\n\r\nMoreover, `spack spec readline ^pkgconf%gcc` shows that compiler preferences only apply to children:\r\n```\r\nreadline@7.0%clang@9.1.1 arch=linux-fedora30-x86_64\r\n    ^ncurses@6.1%gcc@9.1.1~symlinks~termlib arch=linux-fedora30-x86_64\r\n        ^pkgconf@1.6.1%gcc@9.1.1 arch=linux-fedora30-x86_64\r\n```\r\n\r\nIt is also still possible to override compiler preferences in `packages.yaml` explicitly. For instance, `spack spec readline%clang`:\r\n```\r\nreadline@7.0%clang@9.1.1 arch=linux-fedora30-x86_64\r\n    ^ncurses@6.1%clang@9.1.1~symlinks~termlib arch=linux-fedora30-x86_64\r\n        ^pkgconf@1.6.1%clang@9.1.1 arch=linux-fedora30-x86_64\r\n```\r\n\r\nFixes: #1371",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/12118",
+    "updated_at": "2021-06-06 17:49:58",
+    "created_at": "2019-07-24 11:18:35",
+    "closed_at": "2021-06-06 17:49:58",
+    "state": "closed",
+    "title": "Make the concretizer respect compiler preferences",
+    "number": 12118,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "concretization",
+        "impact-high"
+    ],
+    "id": 472225949,
+    "html_url": "https://github.com/spack/spack/pull/12118",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 11
+}

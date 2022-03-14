@@ -1,0 +1,23 @@
+{
+    "body": "I'm seeing this with all the `+rocm` variants I'm interested in:\r\n\r\nUsing `spack@develop` (cc0b3017ea55e7e235dfd2c7a4506d0ba2348e04 from `Sat Mar 27 09:29:51 2021 -0400`):\r\n\r\n```\r\n$> spack spec umpire+rocm amdgpu_target=gfx906\r\nInput spec\r\n--------------------------------\r\n -   umpire+rocm amdgpu_target=gfx906\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    hsakmt-roct@4.1.0\r\n...\r\nwhile trying to concretize the partial spec:\r\n\r\n    hip-rocclr@4.0.0\r\n...\r\nhip-rocclr requires hsakmt-roct version 4.0.0, but spec asked for 4.1.0\r\n```\r\n\r\nSame concretization complaints with:\r\n* `strumpack~slate+rocm amdgpu_target=gfx906`\r\n* `raja+rocm~openmp amdgpu_target=gfx906`\r\n* `kokkos+rocm amdgpu_target=gfx906`\r\n\r\nI don't think this is new, but I'm just now running into it as I normally specify my specs with an explicit `^hip@4.0.0` (which works).\r\n\r\n@srekolam @arjun-raj-kuppala @tgamblin ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/22597",
+    "updated_at": "2021-10-11 21:40:38",
+    "created_at": "2021-03-27 15:22:13",
+    "closed_at": "2021-10-11 21:40:22",
+    "state": "closed",
+    "title": "ROCM Concretization: hip-rocclr requires hsakmt-roct version 4.0.0, but spec asked for 4.1.0",
+    "number": 22597,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "ecp",
+        "triage",
+        "e4s",
+        "AMD"
+    ],
+    "id": 842526042,
+    "html_url": "https://github.com/spack/spack/issues/22597",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,17 @@
+{
+    "body": "The package jellyfish now have all its source code files on github after version 2.0. The url is like \"https://github.com/gmarcais/Jellyfish/releases/download/v2.2.7/jellyfish-2.2.7.tar.gz\". \r\n\r\nWhat I was trying to do is to add this url as list_url:\r\n```python\r\nhomepage = \"http://www.cbcb.umd.edu/software/jellyfish/\"\r\nurl      = \"http://www.cbcb.umd.edu/software/jellyfish/jellyfish-1.1.11.tar.gz\"\r\nlist_url = \"https://github.com/gmarcais/Jellyfish/releases/download/\"\r\nlist_depth = 2\r\n```\r\n\r\nBut `spack checksum` cannot find those source code files:\r\n\r\n```console\r\nspack -k checksum jellyfish\r\n==> Warning: You asked for --insecure. Will NOT check SSL certificates.\r\n==> Found 1 version of jellyfish:\r\n\r\n  1.1.11  http://www.cbcb.umd.edu/software/jellyfish/jellyfish-1.1.11.tar.gz\r\n\r\n==> How many would you like to checksum? (default is 1, q to abort)\r\n```\r\n\r\nOnly 1.1.11 from url is found. \r\n\r\nAnd if the old url is set to be the list_url and the url is set to jellyfish 2.2.7, then spack can find 1.1.11 and 2.2.x.\r\n\r\n```python\r\nhomepage = \"http://www.cbcb.umd.edu/software/jellyfish/\"\r\nurl      = \"https://github.com/gmarcais/Jellyfish/releases/download/v2.2.7/jellyfish-2.2.7.tar.gz\"\r\nlist_url = \"http://www.cbcb.umd.edu/software/jellyfish/\"\r\n```\r\n\r\n```console\r\n$ spack -k checksum jellyfish\r\n==> Warning: You asked for --insecure. Will NOT check SSL certificates.\r\n==> Found 8 versions of jellyfish:\r\n\r\n  2.2.7          https://github.com/gmarcais/Jellyfish/releases/download/v2.2.7/jellyfish-2.2.7.tar.gz\r\n  2.2.6          https://github.com/gmarcais/Jellyfish/releases/download/v2.2.6/jellyfish-2.2.6.tar.gz\r\n  2.2.5          https://github.com/gmarcais/Jellyfish/releases/download/v2.2.5/jellyfish-2.2.5.tar.gz\r\n  2.2.4          https://github.com/gmarcais/Jellyfish/releases/download/v2.2.4/jellyfish-2.2.4.tar.gz\r\n  2.2.3-CentOS6  https://github.com/gmarcais/Jellyfish/releases/download/v2.2.3/jellyfish-2.2.3-CentOS6.tar.gz\r\n  2.2.3          https://github.com/gmarcais/Jellyfish/releases/download/v2.2.3/jellyfish-2.2.3.tar.gz\r\n  2.2.0          https://github.com/gmarcais/Jellyfish/releases/download/v2.2.0/jellyfish-2.2.0.tar.gz\r\n  1.1.11         http://www.cbcb.umd.edu/software/jellyfish/jellyfish-1.1.11.tar.gz\r\n\r\n==> How many would you like to checksum? (default is 1, q to abort) q\r\n``` \r\n\r\nSo is there anything special with the url \"https://github.com/gmarcais/Jellyfish/releases/download/\" that makes the checksum fail?\r\n\r\n\r\n",
+    "user": "fanne-stat",
+    "url": "https://api.github.com/repos/spack/spack/issues/6637",
+    "updated_at": "2017-12-08 21:31:38",
+    "created_at": "2017-12-08 20:45:21",
+    "closed_at": "2017-12-08 21:31:38",
+    "state": "closed",
+    "title": "spack checksum failed ",
+    "number": 6637,
+    "milestone": null,
+    "labels": [],
+    "id": 280611968,
+    "html_url": "https://github.com/spack/spack/issues/6637",
+    "assignees": [],
+    "comments": 1
+}

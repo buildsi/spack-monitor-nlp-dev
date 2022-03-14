@@ -1,0 +1,21 @@
+{
+    "body": "In packages, `extends` implies `depends_on`, but until now there was no way to control what deptype to use. Since `depends_on` defaults to `type=('build', 'link')`, all extensions were marked as this deptype. It was possible to add `type=('build', 'run')`, but Spack would simply merge this and the deptype would become `type=('build', 'link', 'run')`.\r\n\r\nThis PR adds a `type` kwarg to the `extends` directive, which is then passed to the `depends_on` call. The deptype for this defaults to `type=('build', 'run')`, as is the case for (almost?) every extension currently in Spack.\r\n\r\nThis behavior is so intuitive that the following packages already use it, even though it didn't work until now:\r\n\r\n* heffte\r\n* tasmanian\r\n* the-platinum-searcher\r\n\r\n### Before\r\n\r\n```console\r\n$ spack spec -t py-setuptools\r\n...\r\n[blr ]      ^python@3.8.6%apple-clang@12.0.0+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4+uuid+zlib patches=0d98e93189bc278fbc37a50ed7f183bd8aaf249a8e1670a465f0db6bb4f8cf87 arch=darwin-catalina-x86_64\r\n```\r\n\r\n### After\r\n\r\n```console\r\n$ spack spec -t py-setuptools\r\n...\r\n[b r ]      ^python@3.8.6%apple-clang@12.0.0+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4+uuid+zlib patches=0d98e93189bc278fbc37a50ed7f183bd8aaf249a8e1670a465f0db6bb4f8cf87 arch=darwin-catalina-x86_64\r\n```\r\n\r\n**Note**: this will likely break some packages that link to the Python libs/headers but don't explicitly declare a link dependency. I would love to have better PR testing to make sure that this change doesn't break anything, but I'm also fine with dealing with issues as they are reported.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/20045",
+    "updated_at": "2020-12-30 17:10:00",
+    "created_at": "2020-11-22 05:46:26",
+    "closed_at": "2020-12-30 17:09:59",
+    "state": "closed",
+    "title": "extends: add type kwarg",
+    "number": 20045,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "extensions",
+        "directives"
+    ],
+    "id": 748176193,
+    "html_url": "https://github.com/spack/spack/pull/20045",
+    "assignees": [],
+    "comments": 0
+}

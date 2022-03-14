@@ -1,0 +1,17 @@
+{
+    "body": "Things that accessed the cdd package, such as `spack info cdd run\ntripped over a buglet in the _cdd_ package, causing them to exit with\nsomething like this:\n\n```\nCaused by:\nTypeError: 'str' object is not callable\n  File \"/rss/spack/lib/spack/spack/repository.py\", line 584, in get\n    self._instances[key] = package_class(copy)\n  File \"/rss/spack/lib/spack/spack/package.py\", line 398, in __init__\n    f = fs.for_package_version(self, self.version)\n  File \"/rss/spack/lib/spack/spack/fetch_strategy.py\", line 852, in for_package_version\n    attrs['url'] = pkg.url_for_version(version)\n  File \"/rss/spack/var/spack/repos/builtin/packages/cdd/package.py\", line 40, in url_for_version\n    str(version.dotted()).replace('.', ''))\n```\n\n@tgamblin pointed out that `dotted` is a property, not a function call\nand that the parentheses are therefor inappropriate.\n\nThis deletes the parentheses.  `spack info cdd` now works for me.\n\ncloses #2047 \n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2054",
+    "updated_at": "2016-10-19 19:28:40",
+    "created_at": "2016-10-19 18:21:54",
+    "closed_at": "2016-10-19 19:28:26",
+    "state": "closed",
+    "title": "Fix cdd package definition, dotted is a property",
+    "number": 2054,
+    "milestone": null,
+    "labels": [],
+    "id": 184037371,
+    "html_url": "https://github.com/spack/spack/pull/2054",
+    "assignees": [],
+    "comments": 2
+}

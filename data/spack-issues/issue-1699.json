@@ -1,0 +1,17 @@
+{
+    "body": "Close #1683: Apply the patch https://github.com/ornladios/ADIOS/commit/3b21a8a41509 for all released ADIOS version up to the latest 1.10.0 which will break when used with HDF5 1.10+.\n\nThe bug is already fixed upstream in ADIOS.\n### Other Changes\n- fix doc strings: `--with-hdf5` (and --`with-netcdf`) are not transports but serial file converters\n- remove `bp2ncd` tool: depends on netcdf 3 and is not essential\n- hdf5:\n  - since `spec['hdf5+mpi'].prefix` does not exist, we only add one `+hdf5` variant,  its building\n    - the _parallel_ transport `--with-phdf5`\n    - the _serial_ converter `--with-hdf5`, but also build by `--with-phdf5`\n    - building the serial converter alone is intentionally not possible this way and reduces confusion\n- add: `develop` version as described `spack_workflows.rst` (the ADIOS development branch is `master`)\n\nsee: [official manual, section 2.3](http://users.nccs.gov/%7Epnorbert/ADIOS-UsersManual-1.10.0.pdf)\n### Tests\n- [x] old fail\n\n``` bash\n# unpatched version\n$ spack install adios +hdf5 # implies currently hdf5 1.10.0-patch1\n==> No patches needed for adios\n==> Building adios\n==> Error: Command exited with status 2:\n'make' '-j4'\n[...]\n  >> 132          make()\n[...]\n```\n- [x] new: only apply patch when necessary\n\n``` bash\n# old HDF5 version, latest (1.10.0) ADIOS version\n$ spack install adios +hdf5 ^hdf5@1.8.16\n[...]\n==> Created stage in [...]/var/spack/stage/hdf5-1.8.16-[...]\n==> No patches needed for hdf5\n==> Building hdf5\n==> Successfully installed hdf5\n[...]\nNo patches needed for adios\n==> Building adios\n==> Warning: Patched overlong shebang in [...]opt/spack/linux-debian8-x86_64/gcc-4.9.2/adios-1.10.0-[...]/bin/gpp.py\n==> Successfully installed adios\n```\n- [x] new: apply patch to fix\n\n``` bash\n# latest versions\n$ spack install adios +hdf5 # implies currently hdf5 1.10.0-patch1\n[...]\n==> Created stage in [...]var/spack/stage/hdf5-1.10.0-patch1-[...]\n==> No patches needed for hdf5\n==> Building hdf5\n==> Successfully installed hdf5\n[...]\n==> Created stage in [...]/var/spack/stage/adios-1.10.0-[...]\n==> Applied patch adios_1100.patch\n==> Building adios\n==> Warning: Patched overlong shebang in [...]opt/spack/linux-debian8-x86_64/gcc-4.9.2/adios-1.10.0-x6woxnqfn2gzu6smq5xgxtqrglpquowd/bin/gpp.py\n==> Successfully installed adios\n```\n",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/1699",
+    "updated_at": "2016-09-21 07:55:54",
+    "created_at": "2016-09-02 12:08:30",
+    "closed_at": "2016-09-21 07:55:54",
+    "state": "closed",
+    "title": "Close #1683 Apply ADIOS 1.10.0 Patch (HDF5 1.10+)",
+    "number": 1699,
+    "milestone": null,
+    "labels": [],
+    "id": 174744909,
+    "html_url": "https://github.com/spack/spack/pull/1699",
+    "assignees": [],
+    "comments": 8
+}

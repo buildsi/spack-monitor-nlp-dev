@@ -1,0 +1,17 @@
+{
+    "body": "The debubedit package used to be a part of rpm, but now is being developed separately. It will supposedly be moved to a sourceware repository (it is maintained by redhat) but I do not know if this will happen soon. We need it in order to change locations in binaries that are built in /tmp and then moved elsewhere. I will ping @woodard who might be able to give us an estimate if we should include this development repository or wait for it to be moved elsewhere. Once this is merged, we will want to use the bootstrap approach to install and use the library from spack.\r\n\r\nNote that it requires libdw and not libdwarf, which I believe is provided by elfutils. The whole story behind that is weird and confusing (for anyone interested -> http://crtags.blogspot.com/2013/11/libdwarf-vs-libdw-revisited.html)\r\n\r\nUpdate 3/23: we probably need to wait for this to be in sourceware, so I'm going to work on adding the bootstrap tomorrow to use it when we install a binary package (in binary_distribution.py). I think that's the only place we need it, because an install proper would have the correct install prefix on compile.\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/22458",
+    "updated_at": "2021-03-24 05:59:35",
+    "created_at": "2021-03-22 17:00:26",
+    "closed_at": "2021-03-24 05:59:34",
+    "state": "closed",
+    "title": "adding debugedit package.",
+    "number": 22458,
+    "milestone": null,
+    "labels": [],
+    "id": 837926008,
+    "html_url": "https://github.com/spack/spack/pull/22458",
+    "assignees": [],
+    "comments": 0
+}

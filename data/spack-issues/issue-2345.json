@@ -1,0 +1,22 @@
+{
+    "body": "@mamelara this can be used to create one module file per package (and more generally it is intended to be helpful for your use case at NERSC). I'm curious if you have feedback/questions. I'm also curious if the PE_PRODUCT_LIST variable at https://www.nersc.gov/assets/modulefile-example.txt is used to track modules for unloading when changing the compiler.\r\n\r\nWhen multiple instances of a package are installed, this provides a ```merged_tcl``` command which creates a module file that can choose between those instances based on the value of an environment variable.\r\n\r\nFor a modules.yaml file with a TCL section like:\r\n\r\n```\r\n  tcl:\r\n    merge:\r\n        compiler:\r\n            \"%gcc@4.4.7\": \"gnu_447\"\r\n            \"%gcc@4.8.5\": \"gnu_485\"\r\n```\r\n\r\nIf two instances of bzip are created with gcc 4.4.7 and 4.8.5, the command\r\n\r\n```spack merged-tcl --output=testmodule bzip2```\r\n\r\nwill produce a module file like:\r\n\r\n```\r\nset compiler $env(compiler)\r\n\r\nif { $compiler == \"gnu_485\" } {\r\n\t#do path modifications for spec which satisfies %gcc@4.8.5\r\n}\r\nelseif { $compiler == \"gnu_447\" } {\r\n\t#do path modifications for spec which satisfies %gcc@4.4.7\r\n}\r\n```",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/2345",
+    "updated_at": "2020-08-20 02:10:37",
+    "created_at": "2016-11-16 03:21:08",
+    "closed_at": "2020-08-20 02:10:37",
+    "state": "closed",
+    "title": "Features/merged tcl modules",
+    "number": 2345,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "modules"
+    ],
+    "id": 189572643,
+    "html_url": "https://github.com/spack/spack/pull/2345",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

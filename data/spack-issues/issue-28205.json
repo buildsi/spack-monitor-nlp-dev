@@ -1,0 +1,22 @@
+{
+    "body": "Many users are surprised that `spack install python` does not install `pip` (#2065). Some packages actually require a version of Python built with `--ensurepip` (https://github.com/pypa/build/issues/266). This PR adds an `+ensurepip` variant to the Python package. \r\n\r\nI think the only thing we should think about is whether to default to `+ensurepip` or `~ensurepip`. I'm also a bit concerned with how this will interact with #27798. We may need to make the dependency on `py-pip` in `PythonPackage` conditional on the Python variant.\r\n\r\nNote that the `ensurepip` module is available in Python even if `--without-ensurepip` is used. The module seems to work fine, but when you create a venv it doesn't contain `pip`. This causes tools like `build` to fail.\r\n\r\nCloses #2065",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/28205",
+    "updated_at": "2022-01-15 02:09:43",
+    "created_at": "2022-01-02 21:08:21",
+    "closed_at": "2022-01-15 02:09:42",
+    "state": "closed",
+    "title": "Python: add ensurepip variant",
+    "number": 28205,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 1092101012,
+    "html_url": "https://github.com/spack/spack/pull/28205",
+    "assignees": [],
+    "comments": 1
+}

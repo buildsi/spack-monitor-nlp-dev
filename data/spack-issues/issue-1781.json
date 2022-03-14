@@ -1,0 +1,23 @@
+{
+    "body": "I was trying to rewrite a long combinatorial chain of `depends_on(boost)`  (`+mpi` is `on` by default) \n\n```\n    depends_on(\"boost@1.59.0:+thread+system+serialization+iostreams\",\n               when='@:8.4.2~mpi')\n    depends_on(\"boost@1.59.0:+thread+system+serialization+iostreams+mpi\",\n               when='@:8.4.2+mpi')\n    depends_on(\"boost@1.59.0:+thread+system+serialization+iostreams\",\n               when='@8.5.0:~mpi~python')\n    depends_on(\"boost@1.59.0:+thread+system+serialization+iostreams+mpi\",\n               when='@8.5.0:+mpi~python')\n    depends_on(\"boost@1.59.0:+thread+system+serialization+iostreams+python\",\n               when='@8.5.0:~mpi+python')\n    depends_on(\n        \"boost@1.59.0:+thread+system+serialization+iostreams+mpi+python\",\n        when='@8.5.0:+mpi+python')\n```\n\nin a much more concise and readable way \n\n```\n    depends_on(\"boost@1.59.0:+thread+system+serialization+iostreams\")\n    depends_on(\"boost+mpi\", when='+mpi')\n    depends_on(\"boost+python\", when='@8.5.0:+python')\n```\n\nbut i got an error `Package boost requires variant +mpi, but spec asked for ~mpi`\n\n```\n==> Error: Invalid spec: 'boost@1.61.0%clang@7.3.0-apple+atomic+chrono+date_time~debug+filesystem~graph~icu_support+iostreams+locale+log+math~mpi+multithreaded+program_options~python+random+regex+serialization+shared+signals+singlethreaded+system+test+thread+timer+wave arch=darwin-elcapitan-x86_64'. Package boost requires variant +mpi, but spec asked for ~mpi\n```\n\nIt looks like once the normalized spec settles on\n\n```\n^boost@1.59.0:+iostreams+serialization+system+thread\n```\n\ni.e. without `~mpi`, Spack can not add to this from other conditional dependencies even within a single `package.py`. \n\nIt would be good to fix this (with unit tests) and also document in `Developers Guide` how Spack treats such cases. From other PRs i had an impression that Spack can make a union of dependencies, but it does not seem to be the case here. It could be that it worked by chance for other packages, that already rely on this functionality.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/1781",
+    "updated_at": "2021-01-18 14:38:10",
+    "created_at": "2016-09-15 07:53:40",
+    "closed_at": "2020-11-17 18:04:15",
+    "state": "closed",
+    "title": "Depending on the same package conditionally and unconditionally may cause concretization failures",
+    "number": 1781,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "specs",
+        "dependencies"
+    ],
+    "id": 177112298,
+    "html_url": "https://github.com/spack/spack/issues/1781",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

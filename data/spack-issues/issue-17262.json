@@ -1,0 +1,23 @@
+{
+    "body": "When accessing configuration data using `spack.config.[gs]et` at some point before test setup, something goes wrong and the test configuration will not be set up properly, leading to test failures. I encountered this in #17229 because it introduces `spack.config.get` calls in Spack's main function. However, it is enough to enable debugging to reproduce the problem.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack -d test -k test_exclude_specs\r\n```\r\n\r\n### Error Message\r\n\r\nFor some reason, the tests try to use my normal environment instead of the test environment:\r\n\r\n```\r\nE           spack.concretize.NoCompilersForArchError: No compilers found for operating system debian6 and target x86_64.\r\nE           If previous installations have succeeded, the operating system may have been updated.\r\nE           Compilers are defined for the following operating systems and targets:\r\nE           \tfedora32-x86_64\r\nE               Run 'spack compiler find' to add compilers.\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.2-1557-096bd69a9\r\n* **Python:** 3.8.3\r\n* **Platform:** linux-fedora32-haswell\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/17262",
+    "updated_at": "2020-08-10 05:48:34",
+    "created_at": "2020-06-25 21:47:57",
+    "closed_at": "2020-08-10 05:48:34",
+    "state": "closed",
+    "title": "config-related test errors",
+    "number": 17262,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "impact-low"
+    ],
+    "id": 645871052,
+    "html_url": "https://github.com/spack/spack/issues/17262",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,19 @@
+{
+    "body": "For some reason bootstrapping cmake on a cray machine with lustre filesystem is laughably slow (8 minutes!)\r\n\r\nTurns out setting -O3 flags for the initial bootstrap itself helps a lot (5 minutes, still 5x slower than my desktop).\r\n\r\nNote that this -O3 is just for the initial tools it compiles to detect system stuff, so it's unrelated to `build_type=Release` (which is used during `make`)\r\n\r\nOn my desktop (amd cpu) the improved runtime is exactly offset by the increased compile time by adding -O3, so no change. \r\n\r\nThanks to https://github.com/spack/spack/issues/10385 for the suggestion!\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/23147",
+    "updated_at": "2021-04-23 17:10:10",
+    "created_at": "2021-04-20 19:51:11",
+    "closed_at": "2021-04-23 17:10:10",
+    "state": "closed",
+    "title": "Bootstrap with -O3 in cmake",
+    "number": 23147,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 863181155,
+    "html_url": "https://github.com/spack/spack/pull/23147",
+    "assignees": [],
+    "comments": 6
+}

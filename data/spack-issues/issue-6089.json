@@ -1,0 +1,21 @@
+{
+    "body": "While using spack to build packages and create module files (dotkit, tcl, and lmod), we found that it appears spack does not know what `spack_cc` is when creating the module files.  I appears to be related to packages that have `\"CC=%s\" % spack_cc` (or similar) in `def configure_args(self)`.\r\n\r\nWhen spack attempts to create the module files for these packages, we get the following:\r\n\r\n```\r\n> spack module refresh -y -m lmod gdbm\r\n==> Regenerating lmod module files\r\n==> Warning: Could not write module file [/home/fms/opt/modules/linux-rhel7-x86_64/Core/gdbm/1.13.lua]\r\n==> Warning:    --> global name 'spack_cc' is not defined <--\r\n```\r\n\r\nIt appears, that although  `\"CC=%s\" % spack_cc` is expanded correctly during the configure step, that process is not occurring during the module file creation.  Or, is there something we need to do to get past this?",
+    "user": "underwoo",
+    "url": "https://api.github.com/repos/spack/spack/issues/6089",
+    "updated_at": "2019-04-05 11:28:02",
+    "created_at": "2017-11-01 21:28:07",
+    "closed_at": "2019-04-05 11:28:02",
+    "state": "closed",
+    "title": "spack_{cc,cxx,etc} not expanded when creating module files.",
+    "number": 6089,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 270458744,
+    "html_url": "https://github.com/spack/spack/issues/6089",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Hi all,\r\nSorry for this probably very basic issue/question, but when trying to install `py-jupyter` package I get a sort of an error in the sub-package `llvm`.\r\nIn the cmake phase it breaks and asks for a password (my computer login one doesn't work).\r\nI tried to look at the corresponding llvm package.py file, but I can't understand which part is calling for sudo/password.\r\nBelow is the end of the output related to this issue.\r\nDo you know what password it is requesting or have any suggestion on how I can fix this issue?\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.0-124-1757ec9ea\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install llvm\r\n...\r\n==> 69923: Installing llvm\r\n==> Warning: microarchitecture specific optimizations are not supported yet on mixed compiler toolchains [check clang@11.0.0-apple for further details]\r\n==> Using cached archive: /Users/LDianaAmorim/Documents/opt/spack/var/spack/cache/_source-cache/archive/be/be7b034641a5fda51ffca7f5d840b1a768737779f75f7c4fd18fe2d37820289a.tar.gz\r\n==> Staging archive: /var/folders/5p/x7ftfty12yndrs3p6ntlk1jc0000gp/T/LDianaAmorim/spack-stage/spack-stage-llvm-9.0.1-uyfmfxzkm7btiwyyqpcjd77zizuoajz3/llvmorg-9.0.1.tar.gz\r\n==> Created stage in /var/folders/5p/x7ftfty12yndrs3p6ntlk1jc0000gp/T/LDianaAmorim/spack-stage/spack-stage-llvm-9.0.1-uyfmfxzkm7btiwyyqpcjd77zizuoajz3\r\nmissing header for unified diff at line 3 of patch\r\n==> Applied patch /Users/LDianaAmorim/Documents/opt/spack/var/spack/repos/builtin/packages/llvm/constexpr_longdouble_9.0.patch\r\n==> 69923: llvm: Building llvm [CMakePackage]\r\n==> 69923: llvm: Executing phase: 'cmake'\r\nPassword:\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nDarwin LDianaAmorim-M30.dhcp.lbnl.us 19.3.0 Darwin Kernel Version 19.3.0: Thu Jan  9 20:58:23 PST 2020; root:xnu-6153.81.5~1/RELEASE_X86_64 x86_64\r\n``` \r\nand, if relevant, post or attach:\r\n\r\n- packages.yaml\r\n```python\r\npackages:\r\n  all:\r\n    providers:\r\n      mpi: [mpich, openmpi]\r\n```\r\n\r\n- compilers.yaml\r\n```python\r\ncompilers:\r\n- compiler:\r\n    spec: clang@11.0.0-apple\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n      fc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n    flags: {}\r\n    operating_system: catalina\r\n    target: x86_64\r\n    modules: []\r\n    environment:\r\n      unset: []\r\n    extra_rpaths: []\r\n- compiler:\r\n    spec: gcc@9.2.0\r\n    paths:\r\n      cc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gcc\r\n      cxx: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/g++\r\n      f77: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n      fc: /Users/LDianaAmorim/Documents/opt/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.0-apple/gcc-9.2.0-exw25ccpcwqlkcvuwn266kvwqzxbyelp/bin/gfortran\r\n    flags: {}\r\n    operating_system: catalina\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n",
+    "user": "LDAmorim",
+    "url": "https://api.github.com/repos/spack/spack/issues/15410",
+    "updated_at": "2020-04-22 14:49:08",
+    "created_at": "2020-03-09 17:58:21",
+    "closed_at": "2020-04-22 14:49:08",
+    "state": "closed",
+    "title": "Installation issue: llvm ",
+    "number": 15410,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 578088444,
+    "html_url": "https://github.com/spack/spack/issues/15410",
+    "assignees": [],
+    "comments": 5
+}

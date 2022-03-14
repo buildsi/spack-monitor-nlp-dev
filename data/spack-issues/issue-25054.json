@@ -1,0 +1,22 @@
+{
+    "body": "Looking at the CUDA conflicts declaration I realized that there is a mismatch between CUDA versions and officially supported GCC.\r\n\r\nIn particular, targeting CUDA 11 on generic x86_64, looking at the official DOC for various minor versions ([11.0](https://docs.nvidia.com/cuda/archive/11.0/cuda-installation-guide-linux/index.html#system-requirements), [11.1.0](https://docs.nvidia.com/cuda/archive/11.1.0/cuda-installation-guide-linux/index.html#system-requirements), [11.2.0](https://docs.nvidia.com/cuda/archive/11.2.0/cuda-installation-guide-linux/index.html#system-requirements), [11.3.0](https://docs.nvidia.com/cuda/archive/11.3.0/cuda-installation-guide-linux/index.html#system-requirements), [11.4.0](https://docs.nvidia.com/cuda/archive/11.4.0/cuda-installation-guide-linux/index.html#system-requirements)), they all report GCC 9.x as supported version. \r\n\r\nFrom this, together with the following notes extents from the official doc\r\n> (2) Note that starting with CUDA 11.0, the minimum recommended GCC compiler is at least GCC 5 [ed GCC 6 for Cuda 11.4.0] due to C++11 requirements in CUDA libraries e.g. cuFFT and CUB\r\n\r\n> (3) Minor versions of the following compilers listed: of GCC, ICC, PGI and XLC, as host compilers for nvcc are supported.\r\n\r\nI would say that:\r\n- CUDA 11 (at the time of writing) works with GCC up to version 9 (all minor versions included);\r\n- CUDA [11.0, 11.4) requires GCC 5 as minimum version\r\n- CUDA 11.4 requires GCC 6 as minimum version\r\n\r\nAs an additional information, I quickly checked `crt/host_config.h` in the CUDA version I have right now (11.0) which contains the following snippet\r\n\r\n```cpp\r\n#if __GNUC__ > 9\r\n\r\n#error -- unsupported GNU version! gcc versions later than 9 are not supported!\r\n\r\n#endif /* __GNUC__ > 9 */\r\n```\r\n\r\nwhich looks quite strict in not supporting newer versions.\r\n\r\nAs a last note, I looked at https://gist.github.com/ax3l/9489132 that is reported just above the declaration of cuda conflicts in spack, and it says\r\n\r\n> [...] Sometimes it is possible to hack the requirements there to get some newer versions working, too :)\r\n\r\nwhich may be (at least partially) in contrast with the previous `crt/host_config.h`. Moreover, there is also a [section](https://gist.github.com/ax3l/9489132#nvcc) that tries to report in a table the compatibility list of CUDA with the different compilers, but it looks incomplete and not fully correct (e.g. it reports `11.1.0 NVCC:11.1.74 compatible with GCC (5-)6-10.0`, but AFAIK is incorrect).\r\n\r\nThe content of the gist may be useful and it may be worth to put it somewhere where it can be easily updated/fixed (thanks @haampie for the suggestion).",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/25054",
+    "updated_at": "2022-01-18 14:35:42",
+    "created_at": "2021-07-23 09:31:31",
+    "closed_at": "2021-09-09 22:03:16",
+    "state": "closed",
+    "title": "CUDA official GCC conflicts",
+    "number": 25054,
+    "milestone": null,
+    "labels": [
+        "conflicts",
+        "build-systems"
+    ],
+    "id": 951410342,
+    "html_url": "https://github.com/spack/spack/pull/25054",
+    "assignees": [
+        "haampie"
+    ],
+    "comments": 6
+}

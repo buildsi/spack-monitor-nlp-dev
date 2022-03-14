@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nFor development, I need to frequently update the definition of environment (i.e. `spack.yaml`). I keep it in git repo, and symlink it from there to `var/spack/environments/<name>`. However, each time I concretize the environment, the symlink is replaced with a copy of file.\r\n\r\nSimple reproducer:\r\n1. Create some environment:\r\n```\r\n$ spack env create test\r\n$ spack -e test add pythia8\r\n```\r\n\r\n2. Replace `spack.yaml` with a symlink\r\n```\r\n$ mv var/spack/environments/test/spack.yaml ~\r\n$ ln -s ~/spack.yaml var/spack/environments/test/spack.yaml\r\n$ file var/spack/environments/test/spack.yaml\r\nvar/spack/environments/test/spack.yaml: symbolic link to /home/razumov/spack.yaml\r\n```\r\n\r\n3. Concretize the environment - the symlink is replaced with a copy:\r\n```\r\n$ spack -e test concretize\r\n$ file var/spack/environments/test/spack.yaml\r\nvar/spack/environments/test/spack.yaml: ASCII text\r\n```\r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\nThe behavior is platform-independent, obviously\r\n\r\n* **Spack:** 0.16.3-4386-71378bcf39\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.10-skylake\r\n* **Concretizer:** clingo\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "iarspider",
+    "url": "https://api.github.com/repos/spack/spack/issues/26231",
+    "updated_at": "2021-10-04 14:59:04",
+    "created_at": "2021-09-24 13:58:54",
+    "closed_at": "2021-10-04 14:59:04",
+    "state": "closed",
+    "title": "Spack replaces symlinked spack.yaml with a copy",
+    "number": 26231,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1006496131,
+    "html_url": "https://github.com/spack/spack/issues/26231",
+    "assignees": [],
+    "comments": 0
+}

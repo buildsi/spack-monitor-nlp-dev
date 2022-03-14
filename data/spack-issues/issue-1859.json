@@ -1,0 +1,20 @@
+{
+    "body": "Since currently we can't pass any variants in virtual packages (see https://github.com/LLNL/spack/issues/1712), there are several options:\n1. To each relevant package add `asserts` to make sure `spec['mpi'].mpif77` and `spec['mpi'].mpifc` point to existing files. If not, raise en error that `mpi` installation does not contain fortran wrappers and users need to make sure that `Fortran` compiler is set and re-build `mpi`. This is doable but potentially **a lot of code duplication** which is not a solution, but a workaround.\n2. Leave things as is and if something fails to build, let users suffer and dig into output logs to find out that they are building a package which needs fortran but their `mpi` is built without `fortran`.\n3. Force all `mpi` implementation to provide Fortran wrappers. Throw an error if fortran compiler is not available during build time. That is the current behaviour of `mpich`, but `openmpi` allows to install it without `fortran`. In the HPC context, probably 99% of times people do have Fortran compilers around. Most likely only mac users may suffer a bit as they will need to always mix `clang` with `gfortran` even if they don't plant to compile packages which need fortran wrappers. But if @tgamblin can engineer a quick fix for this setup (see https://github.com/LLNL/spack/issues/1850#issuecomment-249449306), then i think it's a viable solution. \n\nin reference to https://github.com/LLNL/spack/pull/1516, https://github.com/LLNL/spack/pull/1441 and https://github.com/LLNL/spack/pull/1084.\n\n@pramodk @suraia @alalazo ping.\n\nI am in favour of (3).\n\np.s. i don't consider (2) an option, but I list it here anyway.\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/1859",
+    "updated_at": "2016-10-26 16:12:26",
+    "created_at": "2016-09-26 20:32:14",
+    "closed_at": "2016-10-26 16:12:26",
+    "state": "closed",
+    "title": "require MPI to be always built with Fortran",
+    "number": 1859,
+    "milestone": null,
+    "labels": [
+        "new-package",
+        "discussion"
+    ],
+    "id": 179329820,
+    "html_url": "https://github.com/spack/spack/issues/1859",
+    "assignees": [],
+    "comments": 5
+}

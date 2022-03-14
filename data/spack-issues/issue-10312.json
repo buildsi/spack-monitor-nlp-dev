@@ -1,0 +1,20 @@
+{
+    "body": "[edit: wordsmith point 4]\r\n\r\nDocbook processing now works correctly for gdk-pixbuf\r\n\r\n1. The various bits of documentation in gdk-pixbuf include hardcoded references to dtd's and stuff at their canonical, Internet, locations.  BUT, gdk-pixbuf runs xslt-proc with the `--nonet` option, which forbids it from using the network.\r\n\r\n    Sadness ensues.\r\n\r\n   Traditionally folks use XML Catalogs to map these to local copies.  Our docbook-xsl package wasn't setting the appropriate env var in its dependents environments to use our catalog.\r\n\r\n   Now it does.  Less sadness ensues.\r\n\r\n2. If we're going to use these things, we should depend on them.\r\n\r\n3. The \"post-install.sh\" script uses gdk-pixbuf-query-loaders, which was installed earlier.\r\n\r\n   If py-psyclone can set its own bin on its PATH in its environment, so can we...\r\n\r\n4. Our docbook-xsl package assumes that the canonical location is  `http://cdn.docbook.org/release/xsl/current/manpages/docbook.xsl`,  but the gdk-pixbuf's meson build script uses\r\n`http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl`.\r\n\r\n   This means that our XML Catalog doesn't fix the reference and sadness happens.\r\n\r\n   Just patch the build so that it sees what it wants to see, then it can make it right.\r\n\r\nThere are at least two things that I could use some feedback on:\r\n\r\n1. I made a little helper `catalog` method in the docbook-xsl package.  Perhaps is should not be a method and should instead have some sort of a decorator on it.  Python feedback welcome....\r\n\r\n2. The docbook-xml package almost certainly should also be setting XML_CATALOG_FILES for it's dependents, it's basically a clone of docbook-xsl.  But *If It Ain't Broke, Don't Fix It* and *It's Not My Problem* and *What Docbook-xml Package?*.  More seriously, I don't have anything useful to test any changes I might make.  Perhaps just throw a note over there?\r\n\r\nFixes #10222",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/10312",
+    "updated_at": "2020-09-21 07:00:54",
+    "created_at": "2019-01-11 02:16:14",
+    "closed_at": "2019-01-13 20:40:20",
+    "state": "closed",
+    "title": "bugfix/gdk-pixbuf",
+    "number": 10312,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build-error"
+    ],
+    "id": 398101475,
+    "html_url": "https://github.com/spack/spack/pull/10312",
+    "assignees": [],
+    "comments": 24
+}

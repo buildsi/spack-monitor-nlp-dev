@@ -1,0 +1,17 @@
+{
+    "body": "When compiling llvm I got warnings that spack thought were errors. Things like this:\r\n```\r\n     11502 /home/xap/local/opt/spack/var/spack/stage/llvm-4.0.0-zy57t3src64pg4hijvf2hy2xzhwsbkab/llvm-4.0.0.src/lib/Support/YAMLParser.cpp:2119:5: note: here\r\n  >> 11503 case Token::TK_Error:\r\n     11504      ^~~~\r\n     11505 /home/xap/local/opt/spack/var/spack/stage/llvm-4.0.0-zy57t3src64pg4hijvf2hy2xzhwsbkab/llvm-4.0.0.src/lib/Support/YAMLParser.cpp:2130:14: warning: this statement may fall through [-Wimplicit-fallthrough=]\r\n     11506        getNext();\r\n     11507        ~~~~~~~^~\r\n```\r\nThe problem is that matching \"error:\" should really check that it is a word.\r\n\r\nI *think* adding `\\b` should fix it, but have not tested it, and there may be a better way to do this.\r\n",
+    "user": "aprokop",
+    "url": "https://api.github.com/repos/spack/spack/issues/5236",
+    "updated_at": "2018-06-05 03:30:33",
+    "created_at": "2017-08-29 19:46:55",
+    "closed_at": "2017-08-30 07:56:17",
+    "state": "closed",
+    "title": "Slightly better error matching when parsing spack logs",
+    "number": 5236,
+    "milestone": null,
+    "labels": [],
+    "id": 253781807,
+    "html_url": "https://github.com/spack/spack/pull/5236",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nI wanted to create an environment containing `py-torch@1.9.1+cuda`. Unfortunately it's not picking up CUDA, e.g. I get a `+cuda`-spec, but it's actually not properly linking CUDA! However it does, when building standalone with roughly the same spec (didn't lock every minor python dep but CUDA/cudnn/nccl)! The `spack-build-01-install-out.txt` says very weirdly it couldn't find CUDA (see below as \"Error message\"). This could be related to the fact that in the finished environment, the libcudart.so is also not found in the `LD_LIBRARY_PATH`.\r\n\r\nI remember the last time I had this problem I just built the spec, then added this to the environment. However, due to added dependencies this is not feasible now.\r\n\r\n### Error message\r\n\r\nIn the `spack-build-01-install-out.txt` I see that CUDA is not found when building within the environment:\r\n```\r\n  -- Could NOT find CUDA (missing: CUDA_CUDART_LIBRARY) (found version \"10.2\")\r\n  CMake Warning at cmake/public/cuda.cmake:31 (message):\r\n    Caffe2: CUDA cannot be found.  Depending on whether you are building Caffe2\r\n    or a Caffe2 dependent library, the next warning / error will give you more\r\n    info.\r\n  Call Stack (most recent call first):\r\n    cmake/Dependencies.cmake:1155 (include)\r\n    CMakeLists.txt:621 (include)\r\n```\r\n\r\nCorrectly it is found, building standalone:\r\n```\r\n -- Found CUDA: /home/private_software/spack_21Q4/opt/spack/linux-debian10-skylake_avx512/gcc-8.5.0/cuda-0.2.89-c53spuuc5e\r\n7eb6ulbdsrurexw6sged6d (found version \"10.2\")\r\n  -- Caffe2: CUDA detected: 10.2\r\n  -- Caffe2: CUDA nvcc is: /home/private_software/spack_21Q4/opt/spack/linux-debian10-skylake_avx512/gcc-8.5.0/cuda-10.2.89-c53spuuc5e7eb6ulbdsrurexw6sged6d/bin/nvcc\r\n  -- Caffe2: CUDA toolkit directory: /home/private_software/spack_21Q4/opt/spack/linux-debian10-skylake_avx512/gcc-8.5.0/cuda-10.2.89-c53spuuc5e7eb6ulbdsrurexw6sged6d\r\n  -- Caffe2: Header version is: 10.2\r\n  ```\r\n\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-debian10-cascadelake\r\n* **Concretizer:** clingo\r\n(head is at 9fef13ce95701449e467d1de5c5b1254f4cdfabc though)\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "flxmr",
+    "url": "https://api.github.com/repos/spack/spack/issues/29206",
+    "updated_at": "2022-02-28 13:08:52",
+    "created_at": "2022-02-25 11:53:56",
+    "closed_at": "2022-02-27 09:54:10",
+    "state": "closed",
+    "title": "CUDA not found/linked building pytorch inside a spack environment",
+    "number": 29206,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1150360847,
+    "html_url": "https://github.com/spack/spack/issues/29206",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,17 @@
+{
+    "body": "With gcc-10, `qt@5.14.2+opengl` fails with\r\n```console\r\n  >> 55479    src/mbgl/util/convert.cpp:6:56: error: 'int32_t' was not declared in this scope\r\n     55480        6 | template std::array<float, 2> convert(const std::array<int32_t, 2>&);\r\n     55481          |                                                        ^~~~~~~\r\n  >> 55482    src/mbgl/util/convert.cpp:6:66: error: template argument 1 is invalid\r\n     55483        6 | template std::array<float, 2> convert(const std::array<int32_t, 2>&);\r\n     55484          |                                                                  ^\r\n  >> 55485    src/mbgl/util/convert.cpp:6:31: error: template-id 'convert<>' for 'std::array<float, 2> mbgl::util::convert(const int&)' does not match any template declaration\r\n     55486        6 | template std::array<float, 2> convert(const std::array<int32_t, 2>&);\r\n     55487          |                               ^~~~~~~\r\n     55488    In file included from src/mbgl/util/convert.cpp:1:\r\n     55489    include/mbgl/util/convert.hpp:12:37: note: candidate is: 'template<class To, class From, long unsigned int Size, class> constexpr std::array<To, Size> mbgl::util::convert(const std::array<_Tp, _Nm>&)'\r\n     55490       12 | MBGL_CONSTEXPR std::array<To, Size> convert(const std::array<From, Size>&from) {\r\n     55491          |  \r\n```\r\nThe offending file, `convert.cpp`, is in `qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/util/convert/` and the error is caused by a missing `#include \"stdint.h\"`.\r\n\r\nThis has been reported [upstream](https://bugreports.qt.io/browse/QTBUG-84106) and resolved in qt@5.16. That bug report includes the patch included here to allows a specific qtlocation 3rd party plugin (which is only used when `+opengl`) to compile with gcc-10.\r\n\r\nI tested that this patch applies cleanly against qt@5.12.7 through the most recent version, qt@5.14.2 at this time. The patch is set to apply for qt@5.12.7:5.15 since 5.16 has the fix upstream. Before qt@5.12.7 other patches fail to apply (`qt5-12-configure.patch` fails against qt@5.12.5), and spack never gets to trying to apply this new patch. mapbox-gl-native was added in qt@5.9, so before then the patch should not apply. The conflict excludes potentially problematic compiles instead of addressing the hypothetical of someone running gcc-10 but wanting a specific older version of qt.\r\n\r\nI tested that qt@5.12.7 and qt@5.14.2 both build fine with gcc@10.2.0 with this patch, but didn't explicitly build any versions in between (qt is a fairly big compile...).\r\n\r\nMaintainer tag: @sethrj ",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/19963",
+    "updated_at": "2020-11-18 12:51:52",
+    "created_at": "2020-11-18 02:20:27",
+    "closed_at": "2020-11-18 12:51:52",
+    "state": "closed",
+    "title": "qt: patch missing includes when +opengl %gcc@10:",
+    "number": 19963,
+    "milestone": null,
+    "labels": [],
+    "id": 745265578,
+    "html_url": "https://github.com/spack/spack/pull/19963",
+    "assignees": [],
+    "comments": 3
+}

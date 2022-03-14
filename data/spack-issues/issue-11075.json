@@ -1,0 +1,17 @@
+{
+    "body": "Issue #10850 is an instance of where legitimate actions taken in an external package's build system can be subverted or broken by Spack's feature of prepending flags (specifically `-I` here for include directories of dependencies) in the compiler wrapper.\r\n\r\nThis PR attempts to sketch out a non-disruptive scheme to allow recipes, on a global default or per-dependency basis, to control which if any of the three usually-prepended entities (referred to in the code as `incdir`, `libdir`, and `rpath` are actually prepended in the compiler wrapper used to build the recipe.\r\n\r\nIn brief:\r\n* A recipe can use a new directive (`default_wrapper_item`) to define the default behavior of the wrapper with respect to the prepending of flag options.\r\n* Any `dependes_on` statement can specify a `wrapper_items` flag to do the same thing for specific dependencies.\r\n* The `wrapper_items` settings are stored in `Dependency` objects.\r\n* The implementation of `build_environment.set_build_environment_variables()` herein is currently *wrong*, as my analysis of the code was unable to trace how the new attribute of `Dependency` might properly be transferred into the data structures available via the `Package` object or its `DependencySpec` tree.\r\n\r\nAny insight into this would be greatly appreciated. I am not tied to anything particularly related to this (beginnings of) a solution, although it is pretty certain that some way needs to be found of controlling the compiler wrapper flag insertion in order to facilitate the resolution of #10850.\r\n",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/11075",
+    "updated_at": "2019-04-10 18:44:47",
+    "created_at": "2019-04-01 17:11:18",
+    "closed_at": "2019-04-10 18:44:47",
+    "state": "closed",
+    "title": "[WIP] Incomplete implementation of compiler wrapper insertion control",
+    "number": 11075,
+    "milestone": null,
+    "labels": [],
+    "id": 427818417,
+    "html_url": "https://github.com/spack/spack/pull/11075",
+    "assignees": [],
+    "comments": 7
+}

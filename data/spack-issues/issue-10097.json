@@ -1,0 +1,17 @@
+{
+    "body": "Previously, module variables set by the Spack build environment were not available for parent classes when using inheritance to create packages. This was fixed for dependencies previously, but not for the top level package.\r\n\r\nMore specifically what failed prior to this PR: a Spack package were declared `class Foo(Bar)`, where `Bar` is another Spack package. When `Foo.func()` was called, if `func` is a method defined on `Bar` and inherited by `Foo` that requires module variables from the build environment (like `env['CFLAGS'] = 'baz'`), then Spack would fail with a `NameError`.\r\n\r\nThis is resolved by this PR, and a regression test is added.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/10097",
+    "updated_at": "2018-12-17 19:16:01",
+    "created_at": "2018-12-13 21:23:20",
+    "closed_at": "2018-12-14 16:37:22",
+    "state": "closed",
+    "title": "Fix spack package inheritance for module variables",
+    "number": 10097,
+    "milestone": null,
+    "labels": [],
+    "id": 390865620,
+    "html_url": "https://github.com/spack/spack/pull/10097",
+    "assignees": [],
+    "comments": 0
+}

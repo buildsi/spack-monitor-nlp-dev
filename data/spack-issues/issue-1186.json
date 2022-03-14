@@ -1,0 +1,24 @@
+{
+    "body": "**TLDR** : have a look at the `<name>/package.py` files to have an idea of what this PR does :smile: \n##### Description\n\nThis PR allows sub-classes of `PackageBase` (ex `Package`) to have an arbitrary number of phases.\n\nIt also add a convenient syntax to register arbitrary methods as `preconditions` or `sanity_checks`, meaning that they will be run **before** or **after** the phases they are bound to. \n\nIn the end it should give more flexibility for further development of features like the ones discussed in #169 or #1305 and reduce the boiler-plate code needed in many packages.\n\nA few packages have been converted to exemplify some of the benefits of this refactoring.\n##### Modifications\n- [x] `Package` has been renamed `PackageBase`, it has logic to be extended by subclasses that are tailored to specific build systems\n- [x] decorator syntax to register preconditions and sanity checks to a given phase\n- [x] added `Package` : simple subclass having only an `install` phase (backward-compatible)\n- [x] added `EditableMakefile` : examples in `astyle/package.py`\n- [x] added `AutotoolsPackage` : examples in `gmp/package.py` and others\n- [x] added `CMakePackage` : examples in `openjpeg/package.py` and others\n- [x] `log_output` has been turned into a \"double\" context manager : the external context spawns a daemon that wait for things to write to a file, the internal plug `stderr` and `stdout` to that file\n- [x] all the changes that have been extracted in #1228 \n- [ ] unit tests for the new feature\n- [x] brief documentation of the new subclasses\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/1186",
+    "updated_at": "2016-10-27 04:30:58",
+    "created_at": "2016-07-07 10:29:43",
+    "closed_at": "2016-10-25 00:13:49",
+    "state": "closed",
+    "title": "do_install : allow for an arbitrary number of phases",
+    "number": 1186,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "ready",
+        "build-environment",
+        "refactoring"
+    ],
+    "id": 164278333,
+    "html_url": "https://github.com/spack/spack/pull/1186",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 97
+}

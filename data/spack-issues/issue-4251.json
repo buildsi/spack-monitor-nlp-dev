@@ -1,0 +1,20 @@
+{
+    "body": "I've been playing around with Spack's Lmod support and so far most things are great. One problem I discovered is a discrepancy between Spack's version detection for PGI and the versions we use for the PGI package. In the `pgi` package, we have versions like `17.4`. But when I install the compiler with Spack and add it to `compilers.yaml` with `spack compiler find`, it detects the version as `17.4-0`. This is fine, unless you use Lmod. When I run `module load pgi`, it appends the following directory to my `MODULEPATH`:\r\n```\r\n$SPACK_ROOT/share/spack/lmod/linux-centos7-x86_64/pgi/17.4\r\n```\r\nunfortunately, Spack writes module files for things built with PGI to:\r\n```\r\n$SPACK_ROOT/share/spack/lmod/linux-centos7-x86_64/pgi/17.4-0\r\n```\r\nso none of these modules appear in `module avail`.\r\n\r\nWe have 2 options to fix this:\r\n\r\n1. Change our PGI version detection to pick up `17.4` instead of `17.4-0`\r\n2. Change the PGI package to contain versions for `17.4-0` instead of `17.4`\r\n\r\nI chose the former option, but if people prefer the latter I can go down that route too.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4251",
+    "updated_at": "2017-05-24 11:57:39",
+    "created_at": "2017-05-15 16:20:09",
+    "closed_at": "2017-05-24 11:57:32",
+    "state": "closed",
+    "title": "Fix PGI version detection: 17.4-0 -> 17.4",
+    "number": 4251,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "modules"
+    ],
+    "id": 228768878,
+    "html_url": "https://github.com/spack/spack/pull/4251",
+    "assignees": [],
+    "comments": 6
+}

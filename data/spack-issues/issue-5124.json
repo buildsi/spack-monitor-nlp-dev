@@ -1,0 +1,20 @@
+{
+    "body": "This does not refer to the new 0.9.9.0 version of rose (which is addressed by #4730)\r\nRather the issue is that version 0.9.7 of rose has gone missing, and 0.9.7.0 has been put in its place.\r\n([see Rose release page](https://github.com/rose-compiler/rose/releases))\r\n\r\nThere are several problems that this causes\r\n1. URL (https://github.com/rose-compiler/rose/archive/v0.9.7.tar.gz) fails to resolve (404 error). New url is https://github.com/rose-compiler/rose/archive/v0.9.7.0.tar.gz\r\n2. Version (0.9.7) is wrong, should be 0.9.7.0, . as also causing a 404 error.\r\n3. Checksum now incorrect for version 0.9.7.0\r\n3. add_spack_compiler_recognition patch fails:\r\n```\r\nPatching failed last time. Restaging.\r\n==> Staging archive: /home/ian/Research/Workspace/spack_test/spack/var/spack/stage/rose-0.9.7.0-lryeemoinaapvnsw4qusqasnwliffkjw/v0.9.7.0.tar.gz\r\n1 out of 1 hunk FAILED -- saving rejects to file config/compiler-defs.m4.rej\r\n==> Patch add_spack_compiler_recognition.patch failed.\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/home/ian/Research/Workspace/spack_test/spack/var/spack/repos/builtin/packages/rose/add_spack_compiler_recognition.patch'\r\n```\r\n\r\nAt this point I removed the patch directive, and it failed with:\r\n```\r\n==> Building rose [Package]\r\n==> Executing phase : 'install'\r\n==> Error: AttributeError: 'Rose' object has no attribute 'install'\r\n```\r\n\r\nI'd like to keep hacking on this, but thought I'd also raise an issue to see if this may have already been fixed somewhere, or if someone knew what the underlying problem was.",
+    "user": "ian-bertolacci",
+    "url": "https://api.github.com/repos/spack/spack/issues/5124",
+    "updated_at": "2019-12-04 20:55:25",
+    "created_at": "2017-08-16 17:13:45",
+    "closed_at": "2019-12-04 20:55:24",
+    "state": "closed",
+    "title": "Rose package out of date w.r.t. 0.9.7.0",
+    "number": 5124,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "fetching"
+    ],
+    "id": 250698180,
+    "html_url": "https://github.com/spack/spack/issues/5124",
+    "assignees": [],
+    "comments": 8
+}

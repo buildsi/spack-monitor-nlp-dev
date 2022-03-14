@@ -1,0 +1,23 @@
+{
+    "body": "If I cancel building a package in the middle of build phase, I don\u2019t expect that package in db. But instead I see following:\r\n\r\nHere I terminated jenkins job during configure step :\r\n\r\n```\r\n==> Building gettext [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\nSending interrupt signal to process\r\nsh: line 1: 431746 Terminated              JENKINS_SERVER_COOKIE=$jsc '/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/deploy/spack/deploy@tmp/durable-2c521847/script.sh' > '/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/deploy/spack/deploy@tmp/durable-2c521847/jenkins-log.txt' 2>&1\r\n```\r\n\r\nIf I look at install prefix, only spec.yaml exist:\r\n\r\n```\r\n$ tree -a /gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/install/tools/1986-01-01/linux-rhel7-x86_64/gcc-6.4.0/gettext-0.19.8.1-e3ptifce2s\r\n/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/install/tools/1986-01-01/linux-rhel7-x86_64/gcc-6.4.0/gettext-0.19.8.1-e3ptifce2s\r\n\u2514\u2500\u2500 .spack\r\n    \u2514\u2500\u2500 spec.yaml\r\n\r\n1 directory, 1 file\r\n```\r\n\r\nand `.spack-db/index.json` has entry :\r\n\r\n```\r\n{\r\n \"database\": {\r\n  \"installs\": {\r\n   \"e3ptifce2s3zbs6qeb667cbm2mxs3p2i\": {\r\n    \"explicit\": true,\r\n    \"installation_time\": 1544507891.338126,\r\n    \"ref_count\": 1,\r\n    \"installed\": true,\r\n    \"path\": \"/gpfs/bbp.cscs.ch/apps/hpc/test/jenkins/deployment/install/tools/1986-01-01/linux-rhel7-x86_64/gcc-6.4.0/gettext-0.19.8.1-e3ptifce2s\",\r\n    \"spec\": {\r\n     \"gettext\": {\r\n      \"version\": \"0.19.8.1\",\r\n      \"arch\": {\r\n       \"platform\": \"linux\",\r\n       \"platform_os\": \"rhel7\",\r\n       \"target\": \"x86_64\"\r\n      },\r\n      \"compiler\": {\r\n       \"name\": \"gcc\",\r\n       \"version\": \"6.4.0\"\r\n....\r\n```\r\n\r\nand spack find shows :\r\n\r\n```\r\n==> 10 installed packages\r\n-- linux-rhel7-x86_64 / gcc@6.4.0 -------------------------------\r\ne3ptifc gettext@0.19.8.1+bzip2+curses+git~libunistring+libxml2 patches=9acdb4e73f67c241b5ef32505c9ddf7cf6884ca8ea661692f21dca28483b04b8 +tar+xz\r\n```\r\n\r\nI couldn't re-produce this issue on my laptop when I manually cancelled build using `Ctl^C`. I wonder if this is different if process is terminated/killed.",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/10080",
+    "updated_at": "2022-03-10 10:27:22",
+    "created_at": "2018-12-11 21:13:08",
+    "closed_at": "2022-03-10 10:27:22",
+    "state": "closed",
+    "title": "Canceling/interrupting spack install result into invalid install ",
+    "number": 10080,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "build-error",
+        "pkg-database"
+    ],
+    "id": 389955932,
+    "html_url": "https://github.com/spack/spack/issues/10080",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

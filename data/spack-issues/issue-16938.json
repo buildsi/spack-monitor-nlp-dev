@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n### Steps to reproduce the issue\r\nspack install suite-sparse@5.7.2%gcc@8.4.0 +cuda +openmp +pic +tbb arch=linux-rhel8-x86_64\r\n\r\nwith our virtual tbb package set to tbb: [intel-tbb@2018.3] in package.py\r\n\r\nresults in error\r\n==> 21880: suite-sparse: Building suite-sparse [Package]\r\n==> 21880: suite-sparse: Executing phase: 'install'\r\n==> Error: NoLibrariesError: Unable to recursively locate intel-tbb libraries in /software/spack-software/2020.05.14/linux-rhel8-x86_64/gcc-8.4.0/intel-tbb-2018.3-xdjisurfypoyubmiarjswhwme36iobhp\r\n\r\n/software/spack/git.2020.05.14/var/spack/repos/builtin/packages/suite-sparse/package.py:133, in install:\r\n        130            print(pformat(spec['tbb']))\r\n        131            make_args += [\r\n        132                'SPQR_CONFIG=-DHAVE_TBB',\r\n  >>    133                'TBB=%s' % spec['tbb'].libs.ld_flags,\r\n        134            ]\r\n        135\r\n        136        if '@5.3:' in spec:\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\nspack debug report\r\n* **Spack:** 0.14.2\r\n* **Python:** 3.8.2\r\n* **Platform:** linux-rhel8-x86_64\r\n\r\n[spack-build-env.txt](https://github.com/spack/spack/files/4725137/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/4725138/spack-build-out.txt)\r\n\r\n(No maintainers found for either suite-sparse or intel-tbb)\r\n\r\n### General information\r\n\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x ] I have uploaded the build log and environment files\r\n- [x ] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\nI have looked into the \"Unable to recursively locate intel-tbb libraries\" and saw mention \r\nof something that might be related in\r\nhttps://spack-tutorial.readthedocs.io/en/latest/tutorial_advanced_packaging.html#providing-libraries-to-dependents\r\n\r\nIf I understand things correctly, the intel-tbb package does not explicitly provide a 'libs' method and so inherits the default, which will look for libtbb-intel.* libraries instead of the libtbb.* libraries provided by the package.\r\n\r\nI will attempt to add a patch, but I am not sure if I am doing it write\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/16938",
+    "updated_at": "2020-06-06 21:12:47",
+    "created_at": "2020-06-03 18:06:32",
+    "closed_at": "2020-06-06 21:12:47",
+    "state": "closed",
+    "title": "Installation issue: suite-sparse (possibly intel-tbb issue?)",
+    "number": 16938,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 630209672,
+    "html_url": "https://github.com/spack/spack/issues/16938",
+    "assignees": [],
+    "comments": 0
+}

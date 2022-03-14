@@ -1,0 +1,20 @@
+{
+    "body": "We currently don't vendor `flake8`.  This is an attempt to do that.  @adamjstewart \r\n\r\nAfter attempting to do it, I think we *should not* vendor `flake8`, because things get rather nasty:\r\n\r\n1. `flake8` requires `setuptools` to run, so we would need to vendor `setuptools`\r\n    * specifically, it requires `pkg_resources` (provide by `setuptools`) to figure out what formatters to use for its output.\r\n2. Vendoring `setuptools` is a pain, and I am not sure I want to get quite so low-level in what we vendor in Spack.  This PR (which does not vendor `setuptools` and friends) already increases the number of lines in `lib/spack/external` a lot.\r\n3. There is no good way to bypass the `setuptools` requirement, as `flake8` has no public API to just check some files programmatically.  We have to run the `flake8` command, or `python -m flake8` from within `spack flake8`.\r\n4. When you try to call `flake8` *indirectly* from within `python` using `sys.executable`, it doesn't seem to know how to set things up for `pkg_resources`.  `flake8` dies looking for its formatter, like this:\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py\", line 174, in _run_module_as_main\r\n    \"__main__\", fname, loader, pkg_name)\r\n  File \"/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py\", line 72, in _run_code\r\n    exec code in run_globals\r\n  File \"/Users/gamblin2/src/spack/lib/spack/external/flake8/__main__.py\", line 4, in <module>\r\n    cli.main()\r\n  File \"/Users/gamblin2/src/spack/lib/spack/external/flake8/main/cli.py\", line 16, in main\r\n    app.run(argv)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/external/flake8/main/application.py\", line 316, in run\r\n    self._run(argv)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/external/flake8/main/application.py\", line 299, in _run\r\n    self.initialize(argv)\r\n  File \"/Users/gamblin2/src/spack/lib/spack/external/flake8/main/application.py\", line 292, in initialize\r\n    self.make_formatter()\r\n  File \"/Users/gamblin2/src/spack/lib/spack/external/flake8/main/application.py\", line 192, in make_formatter\r\n    format_plugin, self.formatting_plugins['default']\r\n  File \"/Users/gamblin2/src/spack/lib/spack/external/flake8/plugins/manager.py\", line 338, in __getitem__\r\n    return self.plugins[name]\r\nKeyError: 'default'\r\n```\r\n\r\nI'm opening this PR so people can see what happened.  If someone has a good idea about how we might vendor this more effectively, let me know, otherwise let's close it.\r\n\r\nI think we should wait until `flake8` has a [stable API](http://flake8.pycqa.org/en/latest/user/python-api.html) or until Spack can install its own build tools as discussed in #3181.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4238",
+    "updated_at": "2017-05-24 23:18:46",
+    "created_at": "2017-05-12 21:47:57",
+    "closed_at": "2017-05-12 21:58:09",
+    "state": "closed",
+    "title": "Vendor flake8",
+    "number": 4238,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "flake8"
+    ],
+    "id": 228416232,
+    "html_url": "https://github.com/spack/spack/pull/4238",
+    "assignees": [],
+    "comments": 2
+}

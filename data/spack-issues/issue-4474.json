@@ -1,0 +1,19 @@
+{
+    "body": "My attempts to build `gcc@5.1.0:5.4.0` failed with errors similar to the following:\r\n\r\n```\r\nIn file included from /home/mwoods/spack/var/spack/stage/gcc-5.1.0-az2fstmixudojmsw4bflopypa4yikc4i/gcc-5.1.0/gcc/graphite.c:88:\r\n/home/mwoods/spack/var/spack/stage/gcc-5.1.0-az2fstmixudojmsw4bflopypa4yikc4i/gcc-5.1.0/gcc/graphite-poly.h:398: error: \u2018isl_constraint\u2019 has not been declared\r\n/home/mwoods/spack/var/spack/stage/gcc-5.1.0-az2fstmixudojmsw4bflopypa4yikc4i/gcc-5.1.0/gcc/graphite-poly.h:402: error: variable or field \u2018debug_isl_constraint\u2019 declared void\r\n/home/mwoods/spack/var/spack/stage/gcc-5.1.0-az2fstmixudojmsw4bflopypa4yikc4i/gcc-5.1.0/gcc/graphite-poly.h:402: error: \u2018isl_constraint\u2019 was not declared in this scope\r\n/home/mwoods/spack/var/spack/stage/gcc-5.1.0-az2fstmixudojmsw4bflopypa4yikc4i/gcc-5.1.0/gcc/graphite-poly.h:402: error: expected primary-expression before \u2018)\u2019 token\r\n```\r\n\r\nAccording to https://gcc.gnu.org/ml/gcc-help/2015-10/msg00008.html, this is a known problem that can be resolved either by omitting isl from the build or by downgrading to a known-good version of isl.\r\n\r\nI changed the gcc package to use `isl@0.14` for `gcc@5`, and my builds of `gcc@5.1.0:5.4.0` were then successful (using `%gcc@4.4.7` on RHEL6).",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/4474",
+    "updated_at": "2017-06-10 13:16:11",
+    "created_at": "2017-06-10 00:40:37",
+    "closed_at": "2017-06-10 13:16:11",
+    "state": "closed",
+    "title": "gcc: use isl@0.14 for gcc@5",
+    "number": 4474,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 234967216,
+    "html_url": "https://github.com/spack/spack/pull/4474",
+    "assignees": [],
+    "comments": 0
+}

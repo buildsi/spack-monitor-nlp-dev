@@ -1,0 +1,17 @@
+{
+    "body": "Summary\r\n\r\nI'm trying to write a very simple new package for the x264 library used by ffmpeg.  The package.py file looks like this:\r\n```python\r\nfrom spack import *\r\n\r\nclass Libx264(AutotoolsPackage):\r\n    \"\"\"This installs x264, a free software library and application for encoding video streams into the H.264/MPEG-4 AVC compression format, released under the terms of the GNU GPL.\"\"\"\r\n\r\n    # FIXME: Add a proper url for your package's homepage here.\r\n    homepage = \"http://www.videolan.org/developers/x264.html\"\r\n    url      = \"ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20180201-2245-stable.tar.bz2\"\r\n\r\n    version('264-snapshot-20180201-2245', '8b4ccde2d6746fbb9f8672d8b41efe8e')\r\n\r\n    # FIXME: Add dependencies if required.\r\n    # depends_on('foo')\r\n\r\n    def configure_args(self):\r\n        # FIXME: Add arguments other than --prefix\r\n        # FIXME: If not needed delete this function\r\n        args = ['--disable-asm']\r\n        return args\r\n```\r\n### Expected Result\r\n\r\nWhen manually executing configure, make, etc. this code builds out of the box, so I expected this should be relatively simple.\r\n\r\n### Actual Result\r\n\r\nInstead, it appears that during the \"autoreconf\" process the Makefile is replaced by a self-referencing soft link.  This causes the \"spack install libx264\" command to fail with the error \"make: Makefile: Too many levels of symbolic links\".\r\n\r\n### Steps to reproduce the issue\r\n\r\nSimply adding the above package.py file in builtin/packages/libx264/package.py and executing\r\n\r\n```console\r\n$ spack install libx264\r\n```\r\nshould reproduce the problem.\r\n\r\n### Information on your system\r\n\r\nThis problem occurs on darwin, el capitan, 10.11.6\r\n\r\nI've seen issues of this sort reported in the past.  Any thoughts on how to resolve this?\r\nThanks!",
+    "user": "tagardi",
+    "url": "https://api.github.com/repos/spack/spack/issues/7174",
+    "updated_at": "2018-02-06 12:57:29",
+    "created_at": "2018-02-03 00:26:54",
+    "closed_at": "2018-02-06 12:56:41",
+    "state": "closed",
+    "title": "self-referencing symlink failure",
+    "number": 7174,
+    "milestone": null,
+    "labels": [],
+    "id": 294063423,
+    "html_url": "https://github.com/spack/spack/issues/7174",
+    "assignees": [],
+    "comments": 3
+}

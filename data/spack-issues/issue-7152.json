@@ -1,0 +1,20 @@
+{
+    "body": "Functional updates:\r\n\r\n* `python` now creates a copy of the `python` binaries when it is added to a view\r\n* Python extensions (packages which subclass `PythonPackage`) rewrite their shebang lines to refer to python in the view\r\n* Python packages in the same namespace will not generate conflicts if both have `...lib/site-packages/namespace-example/__init__.py`\r\n  * These `__init__` files will also remain when removing any package in the namespace until the last package in the namespace is removed\r\n\r\nGenerally (Updated 2/16):\r\n\r\n* Any package can define `add_files_to_view` to customize how it is added to a view (and at the moment custom definitions are included for `python` and `PythonPackage`)\r\n  * Likewise any package can define `remove_files_from_view` to customize which files are removed (e.g. you don't always want to remove the namespace `__init__`)\r\n* Any package can define `view_file_conflicts` to customize what it considers a merge conflict\r\n* Global activations are handled like views (where the view root is the spec prefix of the extendee)\r\n  * Benefit: filesystem-management aspects of activating extensions are now placed in views (e.g. now one can hardlink a global activation)\r\n  * Benefit: overriding `Package.activate` is more straightforward (see `Python.activate`)\r\n  * Complication: extension packages which have special-purpose logic *only* when activated outside of the extendee prefix must check for this in their `add_files_to_view` method (see `PythonPackage`)\r\n* `LinkTree` is refactored to have separate methods for copying a directory structure and for copying files (since it was found that generally packages may want to alter how files are copied but still wanted to copy directories in the same way)\r\n\r\nTODOs (updated 2/20):\r\n\r\n- [x] additional testing (there is some unit testing added at this point but more would be useful)\r\n- [x] refactor or reorganize `LinkTree` methods: currently there is a separate set of methods for replicating just the directory structure without the files, and a set for replicating everything\r\n- [x] Right now external views (i.e. those not used for global activations) call `view.add_extension`, but global activations do not to avoid some extra work that goes into maintaining external views. I'm not sure if addressing that needs to be done here but I'd like to clarify it in the comments (UPDATE: for now I have added a TODO and in my opinion this can be merged now and the refactor handled later)\r\n- [x] Several method descriptions (e.g. for `Package.activate`) are out of date and reference a distinction between global activations and views, they need to be updated\r\n- [x] Update aspell package activations",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/7152",
+    "updated_at": "2022-03-14 18:53:27",
+    "created_at": "2018-01-31 20:56:36",
+    "closed_at": "2018-06-26 23:14:06",
+    "state": "closed",
+    "title": "Customize how packages are added to views",
+    "number": 7152,
+    "milestone": null,
+    "labels": [
+        "python",
+        "views"
+    ],
+    "id": 293308513,
+    "html_url": "https://github.com/spack/spack/pull/7152",
+    "assignees": [],
+    "comments": 11
+}

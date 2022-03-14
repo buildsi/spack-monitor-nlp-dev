@@ -1,0 +1,20 @@
+{
+    "body": "I believe this is ready to merged, but I would also like to solicit advice on good packaging practice:\n1. This package seems to choke on parallel make, so I have set `gmake.jobs = 1` on line 44. Is that the best thing to do, or do we have an existing convention for asserting serial make on a per-package level?\n2. The url I use in `url_for_version` is just a link to the latest version, so it will break as soon as the maintainers put out another release. However, the urls they use seem to confuse Spack about what kind of compression/archiver is used: `http://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz.v2.0.5`. Is there a way I can clarify to spack that `*.tgz.v1.2.3` should be treated like `*.tar.gz`? Could I make a custom subclass of URLFetchStrategy and use it in this one package?\n3. In their wisdom, the maintainers do not offer an `install` target for make, so I've got to copy stuff in place by hand (see lines 48-54). Have I done this in a clear-enough way, or have we got an established convention for this? Best example I could find is [the lmdb package](https://github.com/LLNL/spack/blob/f59653ac2c9b20ec5954d90fda019c7652644ac9/var/spack/repos/builtin/packages/lmdb/package.py).\n\nAlso, @citibeth or other climate folks that may be familiar with this package: Is it called \"wgrib\" or should it properly be called \"wgrib2\"? The docs seem to use both, but the build produces an executable called `wgrib2`.\n\nThank you for your feedback!\n",
+    "user": "robertdfrench",
+    "url": "https://api.github.com/repos/spack/spack/issues/1726",
+    "updated_at": "2016-12-14 16:10:06",
+    "created_at": "2016-09-04 17:43:29",
+    "closed_at": "2016-12-14 16:10:06",
+    "state": "closed",
+    "title": "Wgrib Package for Wrangling GRIB files",
+    "number": 1726,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "fetching"
+    ],
+    "id": 174960467,
+    "html_url": "https://github.com/spack/spack/pull/1726",
+    "assignees": [],
+    "comments": 7
+}

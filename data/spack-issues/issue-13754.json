@@ -1,0 +1,20 @@
+{
+    "body": "Starting with commit 43b0356e14a8227f33040302cf948d3c98508d59, configuration scopes seem to be ignored.  For example, with one commit before (dc36b4737d16ea4aa49daa14fb782b5ea85b60e3):\r\n\r\n```console\r\n$ cd $spack_root\r\n$ git checkout dc36b4737d16ea4aa49daa14fb782b5ea85b60e3\r\n$ ./bin/spack --config-scope=<some path> config blame repos\r\n---                                            repos:\r\n<some path>/repos.yaml:2                       - $nevada_toolset2_root/var/nevada/spack/repo\r\n<spack root>/etc/spack/defaults/repos.yaml:14  - $spack/var/spack/repos/builtin\r\n```\r\n\r\nbut, after 43b0356e14a8227f33040302cf948d3c98508d59 I get\r\n\r\n```console\r\n$ cd $spack_root\r\n$ git checkout develop\r\n$ ./bin/spack --config-scope=<some path> config blame repos\r\n---                                            repos:\r\n<spack root>/etc/spack/defaults/repos.yaml:14  - $spack/var/spack/repos/builtin\r\n```\r\n\r\nChecking out `lib/spack/spack/relocate.py` from dc36b4737d16ea4aa49daa14fb782b5ea85b60e3 seems to resolve the issue:\r\n\r\n```console\r\n$ cd $spack_root\r\n$ git co dc36b4737d16ea4aa49daa14fb782b5ea85b60e3 -- lib/spack/spack/relocate.py\r\n$ ./bin/spack --config-scope=<some path> config blame repos\r\n---                                            repos:\r\n<some path>/repos.yaml:2                       - $nevada_toolset2_root/var/nevada/spack/repo\r\n<spack root>/etc/spack/defaults/repos.yaml:14  - $spack/var/spack/repos/builtin\r\n```\r\n\r\nOne of the changes in 43b0356e14a8227f33040302cf948d3c98508d59 is to the function signature of `file_is_relocatable` from\r\n\r\n```python\r\ndef file_is_relocatable(file):\r\n    ...\r\n```\r\n\r\nTo\r\n\r\n```python\r\ndef file_is_relocatable(\r\n    file, paths_to_relocate=[spack.store.layout.root, spack.paths.prefix]):\r\n```\r\n\r\n`paths_to_relocate` is then used in the function.  Simply making the following change fixes the config scope issue for me:\r\n\r\n```python\r\ndef file_is_relocatable(file):\r\n    paths_to_relocate = [spack.store.layout.root, spack.paths.prefix]\r\n```\r\n\r\nThat said, this makes no sense to me.  The function `file_is_relocatable` is not called when `spack config blame ...` is issued (tested by dropping `assert 0` as the first line of `file_is_relocatable`).  Nevertheless, the change does fix my issue.\r\n\r\nA grep of the spack source shows:\r\n\r\n```console\r\n$ cd $spack_root\r\n$ grep -irl  --include=*.py file_is_relocatable .\r\n./lib/spack/spack/test/relocate.py\r\n./lib/spack/spack/binary_distribution.py\r\n./lib/spack/spack/relocate.py\r\n```\r\n\r\nand none of the calls use the `paths_to_relocate` argument, so the change above should be fine, and it might be best to leave mutable arguments from function signature, if possible.\r\n\r\n\r\n@becker33, since he was the author of 43b0356e\r\n",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/13754",
+    "updated_at": "2019-11-15 21:32:59",
+    "created_at": "2019-11-15 13:59:37",
+    "closed_at": "2019-11-15 21:32:58",
+    "state": "closed",
+    "title": "--config-scope seems to be ignored",
+    "number": 13754,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high"
+    ],
+    "id": 523484968,
+    "html_url": "https://github.com/spack/spack/issues/13754",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,19 @@
+{
+    "body": "This PR add libudev variant in hwloc.\r\nOn rhel8, libudev dose not link with spack build libuuid.\r\nSo I want to libudev default to False.\r\n\r\nlibudev.so depend libblkid.so:\r\n<pre>\r\n$ ldd  /lib64/libudev.so\r\n        linux-vdso.so.1 (0x0000ffffad450000)\r\n        libmount.so.1 => /lib64/libmount.so.1 (0x0000ffffad360000)\r\n        libgcc_s.so.1 => /opt/arm/reports-20.0.3/lib/libgcc_s.so.1 (0x0000ffffad320000)\r\n        libpthread.so.0 => /lib64/libpthread.so.0 (0x0000ffffad2e0000)\r\n        libc.so.6 => /lib64/libc.so.6 (0x0000ffffad160000)\r\n        /lib/ld-linux-aarch64.so.1 (0x0000ffffad460000)\r\n        libblkid.so.1 => /lib64/libblkid.so.1 (0x0000ffffad0f0000)\r\n        libuuid.so.1 => /lib64/libuuid.so.1 (0x0000ffffad0c0000)\r\n        libselinux.so.1 => /lib64/libselinux.so.1 (0x0000ffffad070000)\r\n        librt.so.1 => /lib64/librt.so.1 (0x0000ffffad040000)\r\n        libpcre2-8.so.0 => /lib64/libpcre2-8.so.0 (0x0000ffffacfa0000)\r\n        libdl.so.2 => /lib64/libdl.so.2 (0x0000ffffacf70000)\r\n</pre>\r\nlibblkid need uuid_unparse@UUID_1.0.\r\nBut uuid_unparse@UUID_1.0 is not found in spack provided libuuid.\r\nSo the package depends hwloc and libuuid is faild to build.\r\n<pre>\r\n/bin/ld: /lib64/libblkid.so.1: undefined reference to `uuid_unparse@UUID_1.0\r\n</pre>",
+    "user": "tkameyama",
+    "url": "https://api.github.com/repos/spack/spack/issues/16615",
+    "updated_at": "2020-05-18 01:00:24",
+    "created_at": "2020-05-13 03:23:37",
+    "closed_at": "2020-05-18 01:00:23",
+    "state": "closed",
+    "title": "hwloc: Add libudev variant.",
+    "number": 16615,
+    "milestone": null,
+    "labels": [
+        "new-variant"
+    ],
+    "id": 617110201,
+    "html_url": "https://github.com/spack/spack/pull/16615",
+    "assignees": [],
+    "comments": 5
+}

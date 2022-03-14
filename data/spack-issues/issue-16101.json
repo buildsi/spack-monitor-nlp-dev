@@ -1,0 +1,20 @@
+{
+    "body": "These libs need to be forwarded, as in ncurses `pkg-config` file.\r\n\r\nThis patch does **not** address #16098, but still looks wrong in the `nurses` package and several packages, e.g. `samtools`, seam to work-around this downstream. `libncurses` has an rpath to `ltinfo` set in Spack, but maybe some downstream libs need other `ncurses` lib artifacts directly as well...\r\n\r\n```\r\nldd [...]/opt/spack/linux-ubuntu18.04-skylake/gcc-8.3.0/ncurses-6.2-xgtgxgzhrvlpslxomko63jqbqgmshyah/lib/libncursesw.so\r\n\tlinux-vdso.so.1 (0x00007ffcb23f3000)\r\n\tlibtinfow.so.6 => [...]/opt/spack/linux-ubuntu18.04-skylake/gcc-8.3.0/ncurses-6.2-xgtgxgzhrvlpslxomko63jqbqgmshyah/lib/libtinfow.so.6 (0x00007f68557c1000)\r\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f68553d0000)\r\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f6855c37000)\r\n```\r\n\r\nThere are even more libs build by `ncurses` but that `ncurses` does not link to directly. For example, I see on Ubuntu in Spacks install prefix`/lib`:\r\n```\r\nlibcurses.a   libform.so.6.2   libmenu.a       libmenuw_g.a     libncurses_g.a     libncurses.so.6.2    libncurses++w.so      libpanel.a       libpanelw_g.a     libtinfo.so      libtinfow.so.6\r\nlibcurses.so  libformw.a       libmenu_g.a     libmenuw.so      libncurses++_g.a   libncurses++.so.6.2  libncursesw.so        libpanel_g.a     libpanelw.so      libtinfo.so.6    libtinfow.so.6.2\r\nlibform.a     libformw_g.a     libmenu.so      libmenuw.so.6    libncurses.so      libncurses++w.a      libncurses++w.so.6    libpanel.so      libpanelw.so.6    libtinfo.so.6.2  pkgconfig\r\nlibform_g.a   libformw.so      libmenu.so.6    libmenuw.so.6.2  libncurses++.so    libncursesw.a        libncursesw.so.6      libpanel.so.6    libpanelw.so.6.2  libtinfow.a      terminfo\r\nlibform.so    libformw.so.6    libmenu.so.6.2  libncurses.a     libncurses.so.6    libncurses++w_g.a    libncurses++w.so.6.2  libpanel.so.6.2  libtinfo.a        libtinfow_g.a\r\nlibform.so.6  libformw.so.6.2  libmenuw.a      libncurses++.a   libncurses++.so.6  libncursesw_g.a      libncursesw.so.6.2    libpanelw.a      libtinfo_g.a      libtinfow.so\r\n```\r\n\r\nMaybe relying more on the `pkg-config/` scripts inside `lib/` could help as well.\r\n\r\nRefs.:\r\n- https://github.com/conda-forge/ncurses-feedstock/issues/36\r\n- https://github.com/conda-forge/emacs-feedstock/pull/16",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/16101",
+    "updated_at": "2020-04-17 03:28:11",
+    "created_at": "2020-04-16 20:12:54",
+    "closed_at": "2020-04-16 22:27:30",
+    "state": "closed",
+    "title": "ncurses: forward termlib libs",
+    "number": 16101,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 601422005,
+    "html_url": "https://github.com/spack/spack/pull/16101",
+    "assignees": [],
+    "comments": 0
+}

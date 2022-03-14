@@ -1,0 +1,17 @@
+{
+    "body": "``intel-oneapi-mkl`` in contrast to ``intel-mkl`` does not set the environment variable ``MKLROOT`` when used as build dependency. As a result e.g. ``lammps +kspace ^intel-oneapi-mkl`` cannot find the MKL include files and libraries in tLammps' cmake phase.\r\n\r\nAdding the following two lines to ``packages/intel-oneapi-mkl/package.py`` would solve the issue. But there might be a better way to do it. @rscohn2?\r\n```\r\n    def setup_dependent_build_environment(self, env, dependent_spec):\r\n        env.set('MKLROOT', self.component_path)\r\n```\r\n\r\n\r\n* **Spack:** 0.17.0\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-almalinux8-zen3\r\n* **Concretizer:** clingo",
+    "user": "tz-rrze",
+    "url": "https://api.github.com/repos/spack/spack/issues/27260",
+    "updated_at": "2021-11-12 07:12:50",
+    "created_at": "2021-11-07 19:02:20",
+    "closed_at": "2021-11-12 07:12:50",
+    "state": "closed",
+    "title": "intel-oneapi-mkl does not set MKLROOT when used as build dependency",
+    "number": 27260,
+    "milestone": null,
+    "labels": [],
+    "id": 1046824417,
+    "html_url": "https://github.com/spack/spack/issues/27260",
+    "assignees": [],
+    "comments": 0
+}

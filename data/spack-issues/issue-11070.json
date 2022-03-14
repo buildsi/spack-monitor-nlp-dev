@@ -1,0 +1,22 @@
+{
+    "body": "My understanding is filter_compiler_wrappers()  can be used to change spack compilers back to system compilers - aka mpicc wrappers [or similar use - user makefiles]. And this should work from both spack env [for dependent packages] - and outsite spack [for user compilers]\r\n\r\nThis is related to #10365\r\n\r\nHere petsc creates a user-makefile that a dependant package pflotran uses. Also petsc users who are not in spack env also use this user-makefile for compiling user applications. [aka mpicc wrapper - which internally uses system compiler]\r\n\r\nThis works for me on linux - but not Cray systems [Theta/Cori]\r\n\r\nOn cray systems - when spack attempts to install dependent package using this system compiler - the build errors out\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nbalay@cori05:~/spack> git describe\r\nv0.8.17-10445-ge3f00750e\r\nbalay@cori05:~/spack> spack install --dirty -j8 pflotran ^hdf5+hl\r\n\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n     9     ftn -c -fPIC     -I/global/u2/b/balay/spack/opt/spack/cray-cnl9-haswell/intel-18.0.3.222/petsc-3.11.0-rgzfigpowxqofxo5wtu5rgt6omjoxnwz/include -I/global/u2/\r\n           b/balay/spack/opt/spack/cray-cnl9-haswell/intel-18.0.3.222/hypre-2.15.1-b7sedjuhnjsi4vjw3nqhjirxeysfekvh/include -I/global/u2/b/balay/spack/opt/spack/cray-c\r\n           nl9-haswell/intel-18.0.3.222/superlu-dist-6.1.0-jcfujt5n7tfseukklffr5jkci3j3hkfb/include -I/global/u2/b/balay/spack/opt/spack/cray-cnl9-haswell/intel-18.0.3\r\n           .222/hdf5-1.10.5-hk3pedgeh6zokqckjxnspqwa6ijaqodq/include -I/global/u2/b/balay/spack/opt/spack/cray-cnl9-haswell/intel-18.0.3.222/parmetis-4.0.3-kqtzwywdfbc\r\n           plnrv62g7o6dcimvt623q/include -I/global/u2/b/balay/spack/opt/spack/cray-cnl9-haswell/intel-18.0.3.222/metis-5.1.0-2n3dm3mnxr2pq4ipm77l2vgesdue4rtm/include -\r\n           I/usr/include   -I.  -o derivatives_utilities.o derivatives_utilities.F90\r\n<snip>\r\n     12    Error:\r\n     13      cray-libsci/18.07.1 is not available for the INTEL compiler.\r\n     14    /global/u2/b/balay/spack/opt/spack/cray-cnl9-haswell/intel-18.0.3.222/petsc-3.11.0-rgzfigpowxqofxo5wtu5rgt6omjoxnwz/lib/petsc/conf/petscrules:31: recipe for\r\n            target 'derivatives_utilities.o' failed\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\nAttaching config files and build logs from NERSC/Cori\r\n\r\n[console.txt](https://github.com/spack/spack/files/3025861/console.txt)\r\n[petsc-build.env.txt](https://github.com/spack/spack/files/3025862/petsc-build.env.txt)\r\n[petsc-build.out.txt](https://github.com/spack/spack/files/3025863/petsc-build.out.txt)\r\n[petscvariables.txt](https://github.com/spack/spack/files/3025864/petscvariables.txt)\r\n[pflotran-spack-build.env.txt](https://github.com/spack/spack/files/3025865/pflotran-spack-build.env.txt)\r\n[pflotran-spack-build.out.txt](https://github.com/spack/spack/files/3025866/pflotran-spack-build.out.txt)\r\n\r\n",
+    "user": "balay",
+    "url": "https://api.github.com/repos/spack/spack/issues/11070",
+    "updated_at": "2019-04-17 20:12:26",
+    "created_at": "2019-03-30 19:26:17",
+    "closed_at": "2019-04-17 20:12:26",
+    "state": "closed",
+    "title": "filter_compiler_wrappers()  does not wok on Cray systems as advertised",
+    "number": 11070,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "xSDK"
+    ],
+    "id": 427319249,
+    "html_url": "https://github.com/spack/spack/issues/11070",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 33
+}

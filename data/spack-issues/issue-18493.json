@@ -1,0 +1,20 @@
+{
+    "body": "When I updated the Go package to use `setup_dependent_build_environment` and `setup_dependent_run_environment` I failed to catch the dependent build environment was no longer working as intended. The appropriate `GOPATH` was not set so the build environment looked as such:\r\n\r\n```\r\n$ cat <path to package>/.spack/spack-build-env.txt | grep GOPATH\r\nGOPATH=''; export GOPATH\r\n```\r\n\r\nThis lead to an earlier issues where results of the `GOPATH` were ending up (un-expectantly) in a home directly.\r\nThis commit looks to correct this and bring the functionality back in line with what was probably expected:\r\n\r\n```\r\n$ cat /<path to package>/.spack/spack-build-env.txt | grep GOPATH\r\nGOPATH=/store/spack/opt/linux-pop20-zen2/gcc-9.3.0/fzf-0.17.5-g7l5d5rtxo2xspwhb6ta6gdhcnzjk7cb:/home/paul/go; export GOPATH\r\n```\r\nWhile updating it I also added the latest releases (1.15.1 & 1.14.8).\r\n\r\n@adamjstewart - The other day you merged https://github.com/spack/spack/pull/18443 which corrected this for a single package (Hugo), should I remove the added `setup_build_environment` and instead rely on this?",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/18493",
+    "updated_at": "2020-12-22 01:47:54",
+    "created_at": "2020-09-03 21:16:52",
+    "closed_at": "2020-12-22 01:47:54",
+    "state": "closed",
+    "title": "Corrected Go dependent build environment.",
+    "number": 18493,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "go"
+    ],
+    "id": 692371726,
+    "html_url": "https://github.com/spack/spack/pull/18493",
+    "assignees": [],
+    "comments": 5
+}

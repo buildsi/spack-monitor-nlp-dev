@@ -1,0 +1,17 @@
+{
+    "body": "@tgamblin Installing ROSE on `aztec` works just fine, but something is different when I'm trying to install on my local tux machine:\n\n``` bash\n$ spack install rose\n==> Installing rose\n==> boost is already installed in /export/tmp.too1/development/projects/rose/master/spack/opt/unknown_arch/gcc@4.4.7/boost@1.54.0.\n==> autoconf is already installed in /export/tmp.too1/development/projects/rose/master/spack/opt/unknown_arch/gcc@4.4.7/autoconf@2.69.\n==> libtool is already installed in /export/tmp.too1/development/projects/rose/master/spack/opt/unknown_arch/gcc@4.4.7/libtool@2.4.\n==> jdk is already installed in /export/tmp.too1/development/projects/rose/master/spack/opt/unknown_arch/gcc@4.4.7/jdk@8u25-linux-x64.\n==> automake is already installed in /export/tmp.too1/development/projects/rose/master/spack/opt/unknown_arch/gcc@4.4.7/automake@1.14-7dfae544.\n==> rose-master.\nTraceback (most recent call last):\n  File \"./bin/spack\", line 105, in <module>\n    command(parser, args)\n  File \"/export/tmp.too1/development/projects/rose/master/spack/lib/spack/spack/cmd/install.py\", line 62, in install\n    ignore_deps=args.ignore_deps)\n  File \"/export/tmp.too1/development/projects/rose/master/spack/lib/spack/spack/package.py\", line 729, in do_install\n    self.do_patch()\n  File \"/export/tmp.too1/development/projects/rose/master/spack/lib/spack/spack/package.py\", line 663, in do_patch\n    self.do_stage()\n  File \"/export/tmp.too1/development/projects/rose/master/spack/lib/spack/spack/package.py\", line 645, in do_stage\n    self.do_fetch()\n  File \"/export/tmp.too1/development/projects/rose/master/spack/lib/spack/spack/package.py\", line 633, in do_fetch\n    self.stage.fetch()\n  File \"/export/tmp.too1/development/projects/rose/master/spack/lib/spack/spack/package.py\", line 457, in stage\n    mirror_path=self.mirror_path(),\n  File \"/export/tmp.too1/development/projects/rose/master/spack/lib/spack/spack/package.py\", line 482, in mirror_path\n    filename += extension(self.url) if self.url else \"tar.gz\"\nTypeError: cannot concatenate 'str' and 'NoneType' objects\n```\n\nThis is the Git version information in `rose/package.py`:\n\n``` python\nversion('master', branch='master', git='https://github.com/rose-compiler/edg4x-rose.git')\n```\n\nFrom what I can tell, it looks like Spack is interpreting this as a tarball rather than a Git repository. Your guidance is appreciated!\n",
+    "user": "justintoo",
+    "url": "https://api.github.com/repos/spack/spack/issues/12",
+    "updated_at": "2015-03-16 17:43:24",
+    "created_at": "2015-01-15 18:21:59",
+    "closed_at": "2015-03-16 17:43:03",
+    "state": "closed",
+    "title": "GitFetchStrategy wrongly interpreted as tarball",
+    "number": 12,
+    "milestone": null,
+    "labels": [],
+    "id": 54484888,
+    "html_url": "https://github.com/spack/spack/issues/12",
+    "assignees": [],
+    "comments": 4
+}

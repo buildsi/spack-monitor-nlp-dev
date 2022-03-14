@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\n\r\n```spack install --use-cache <SPEC>``` cryptically fails when installing an unsigned package\r\n\r\n### Expected Result\r\n\r\nA readable error at minimum, and possibly a flag to ignore it like ``` spack buildcache install``` or a ```[y/N]``` similar to the behaviour when installing an untrusted spec version with ```spack install```\r\n\r\n### Actual Result\r\n\r\n``` bash\r\nspack buildcache list pkg-config\r\n==> Finding buildcaches in /<PATH>/build_cache\r\n==> buildcache spec(s) matching set(['pkg-config']) and commands to install them\r\n==> Enter\r\nspack buildcache install /rhaia4m\r\n to install \"pkg-config@0.29.1%gcc@4.8.5+internal_glib patches=49ffcd644e190dc5efcb2fab491177811ea746c1a526f75d77118c2706574358 arch=linux-centos7-x86_64 \"\r\n[sknigh@klogin1 spack]$ spack install --use-cache pkg-config@0.29.1%gcc@4.8.5\r\n==> Installing pkg-config\r\n==> Searching for binary cache of pkg-config\r\n==> Finding buildcaches in <PATH>/build_cache\r\n==> Installing pkg-config from binary cache\r\n==> Fetching file://<PATH>/build_cache/linux-centos7-x86_64/gcc-4.8.5/pkg-config-0.29.1/linux-centos7-x86_64-gcc-4.8.5-pkg-config-0.29.1-rhaia4mg3zxhtrwkm6qluc7aef2eozu3.spack\r\n######################################################################## 100.0%\r\n==> Error:\r\n```\r\n\r\nWhen run with debugging:\r\n\r\n``` bash\r\n...\r\n==> Installing pkg-config from binary cache\r\n==> Already downloaded <SPACK_ROOT>/var/spack/stage/build_cache/linux-centos7-x86_64-gcc-4.8.5-pkg-config-0.29.1-rhaia4mg3zxhtrwkm6qluc7aef2eozu3.spack\r\nTraceback (most recent call last):\r\n  File \"<SPACK_ROOT>/bin/spack\", line 81, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"<SPACK_ROOT>/lib/spack/spack/main.py\", line 547, in main\r\n    return _main(command, parser, args, unknown)\r\n  File \"<SPACK_ROOT>/lib/spack/spack/main.py\", line 439, in _main\r\n    return _invoke_spack_command(command, parser, args, unknown_args)\r\n  File \"<SPACK_ROOT>/lib/spack/spack/main.py\", line 355, in _invoke_spack_command\r\n    return_val = command(parser, args)\r\n  File \"<SPACK_ROOT>/lib/spack/spack/cmd/install.py\", line 461, in install\r\n    install_spec(args, kwargs, spec)\r\n  File \"<SPACK_ROOT>/lib/spack/spack/cmd/install.py\", line 358, in install_spec\r\n    package.do_install(**kwargs)\r\n  File \"<SPACK_ROOT>/lib/spack/spack/package.py\", line 1370, in do_install\r\n    if self.try_install_from_binary_cache(explicit):\r\n  File \"<SPACK_ROOT>/lib/spack/spack/package.py\", line 1282, in try_install_from_binary_cache\r\n    binary_spec, tarball, yes_to_all=False, force=False)\r\n  File \"<SPACK_ROOT>/lib/spack/spack/binary_distribution.py\", line 400, in extract_tarball\r\n    raise NoVerifyException()\r\nspack.binary_distribution.NoVerifyException\r\n```\r\n\r\n### Information on your system\r\n\r\nCentos 7.4",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/6404",
+    "updated_at": "2018-03-07 02:03:42",
+    "created_at": "2017-11-21 17:15:52",
+    "closed_at": "2018-03-07 02:03:42",
+    "state": "closed",
+    "title": "install --use-cache does not print error message",
+    "number": 6404,
+    "milestone": null,
+    "labels": [
+        "buildcache"
+    ],
+    "id": 275793557,
+    "html_url": "https://github.com/spack/spack/issues/6404",
+    "assignees": [],
+    "comments": 1
+}

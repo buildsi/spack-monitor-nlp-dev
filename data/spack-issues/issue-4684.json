@@ -1,0 +1,22 @@
+{
+    "body": "Currently, environment-variables in `modules.yaml` are consequently casted to uppercase.\r\n\r\nIn packages like `Ice-T` it's actually relevant if `ICET_DIR` or `IceT_DIR` is set in the environment, since only the latter is honored by CMake properly.\r\n\r\nProbably, we should not change the spelling of such variables if the user sets them explicitly. This \"cast-to-uppercase\" was probably added because [generic syntax such as](spack.readthedocs.io/en/latest/tutorial_modules.html#add-custom-environment-modifications)\r\n```yaml\r\n      environment:\r\n        set:\r\n          '${PACKAGE}_ROOT': '${PREFIX}'\r\n```\r\nis allowed which *usually* needs the package name in uppercase.\r\n\r\nExample snippet that breaks my `IceT` hint:\r\n```yaml\r\nmodules:\r\n  enable::\r\n    - lmod\r\n  lmod:\r\n    core_compilers:\r\n      - 'gcc@5.4.0'\r\n    hash_length: 0\r\n    gcc:\r\n      environment:\r\n        set:\r\n          CC: gcc\r\n          CXX: g++\r\n          FC: gfortran\r\n          F90: gfortran\r\n          F77: gfortran\r\n    openmpi:\r\n      environment:\r\n        set:\r\n          OMPI_MCA_mpi_leave_pinned: '0'\r\n    icet:\r\n      environment:\r\n        set:\r\n          IceT_DIR: '${PREFIX}/lib'\r\n```\r\n\r\ndoes not set and `IceT_DIR` but an `ICET_DIR`.\r\n\r\n\r\nBoth cases are actually only triggered by a double-inconsistency in IceT:\r\n- it's CMake config scripts are installed at the wrong place and\r\n- all CMake ENV var hints are traditionally UPPERCASE (and only CMake vars are case-sensitive)\r\n\r\nTherefore we could also decide to just ignore that problem and I could try to work-around it via:\r\n```yaml\r\n    icet:\r\n      environment:\r\n        prepend_path:\r\n          CMAKE_PREFIX_PATH: '${PREFIX}/lib'\r\n```\r\nwhich is luckily already uppercase.\r\n\r\nThe same happens to `OMPI_MCA_mpi_leave_pinned` (-> `OMPI_MCA_MPI_LEAVE_PINNED`) above, where I am not sure if the spelling might again be critical for MPI's understanding of it.\r\n\r\nccing @alalazo ",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/4684",
+    "updated_at": "2017-10-05 01:14:07",
+    "created_at": "2017-07-06 15:49:49",
+    "closed_at": "2017-10-05 01:14:07",
+    "state": "closed",
+    "title": "Modules: Spelling of Environment Vars",
+    "number": 4684,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 241002489,
+    "html_url": "https://github.com/spack/spack/issues/4684",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

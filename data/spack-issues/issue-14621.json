@@ -1,0 +1,23 @@
+{
+    "body": "This is a minimal set of edits to get parallel installs as implemented in https://github.com/spack/spack/pull/13100 working with environments.\r\n\r\nWhat it currently does:\r\n\r\n* adds a lock file for an environment that is stored in the environment directory\r\n* adds `Environment.write_transaction`\r\n* makes use of `Environment.write_transaction` in `cmd.install`\r\n\r\n(UPDATE: now passing) ~One test is currently failing, which I think is an issue with the testing framwork vs. the actual logic (since I cannot manually reproduce the error when manually running through commands executed in the test).~\r\n\r\nTODOs\r\n\r\n- [x] fix the test\r\n- [x] (lower priority) synchronize other actions like `spack add`, `spack rm` etc.; this isn't strictly necessary for correcting parallel Spack installs but it should be done (perhaps later)\r\n- [x] introduce similar logic to `Database.write_transaction` to `Environment.write_transaction`, which would include re-reading the environment (this would possibly allow moving the transaction logic from `cmd.install` to `Environment`",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/14621",
+    "updated_at": "2020-01-29 02:07:15",
+    "created_at": "2020-01-24 20:54:50",
+    "closed_at": "2020-01-29 01:26:27",
+    "state": "closed",
+    "title": "Synchronized env update for install",
+    "number": 14621,
+    "milestone": null,
+    "labels": [
+        "locking",
+        "environments"
+    ],
+    "id": 554949456,
+    "html_url": "https://github.com/spack/spack/pull/14621",
+    "assignees": [
+        "scheibelp",
+        "tldahlgren"
+    ],
+    "comments": 9
+}

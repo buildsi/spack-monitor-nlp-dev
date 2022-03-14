@@ -1,0 +1,22 @@
+{
+    "body": "I just have an informal reproducer for now, but I can use command sequences like the following on hpc nodes and local Ubuntu machines to produce different results with different shells--bash seems to properly recurse through the `spack load -r package` module loads, while `tcsh` and `csh` appear to only load the target and not recurse though the dependent modules.\r\n\r\nIn reproducer.sh (with i.e., appropriate .tcshrc / .bashrc files to make spack shell commands available)\r\n\r\n```\r\n/bin/bash -c \"module purge && spack load -r gdbm && module list\"\r\n/bin/tcsh -c \"module purge; spack load -r gdbm; module list\"\r\n```\r\n\r\n```\r\ntreddy@adobe:/mnt/c/Users/treddy/rough_work/spack$ ./reproducer.sh\r\nCurrently Loaded Modulefiles:\r\n  1) ncurses-6.1-gcc-5.4.0-3o765ou    2) readline-7.0-gcc-5.4.0-nxhwrg7   3) gdbm-1.18.1-gcc-5.4.0-4t5z44k\r\nCurrently Loaded Modulefiles:\r\n  1) gdbm-1.18.1-gcc-5.4.0-4t5z44k\r\n```\r\n\r\nIs `spack load -r package` currently being tested for functional parity on the different shells? A visual inspection of the sourcing scripts seems to show quite a bit more parsing / handling in the bash vs. c-shell variant setup script. If there's no intention to have feature parity, I suppose a warning might be in order?",
+    "user": "tylerjereddy",
+    "url": "https://api.github.com/repos/spack/spack/issues/12661",
+    "updated_at": "2019-09-12 17:11:27",
+    "created_at": "2019-08-30 04:13:32",
+    "closed_at": "2019-09-12 17:11:27",
+    "state": "closed",
+    "title": "spack load -r portability across all supported shells",
+    "number": 12661,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 487276376,
+    "html_url": "https://github.com/spack/spack/issues/12661",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 1
+}

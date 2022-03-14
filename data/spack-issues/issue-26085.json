@@ -1,0 +1,20 @@
+{
+    "body": "Fix #24248\r\nThe original error: \r\n```\r\n==> Installing autoconf-2.69-wrg6ktvtw2tgao5psjguouzptf5obfaf\r\n==> No binary for autoconf-2.69-wrg6ktvtw2tgao5psjguouzptf5obfaf found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/95/954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b59dc0dd6fd4c2969.tar.gz\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/77/7793209b33013dc0f81208718c68440c5aae80e7a1c4b8d336e382525af791a7\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/35/35c449281546376449766f92d49fc121ca50e330e60fefcfc9be2af3253082c2\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/a4/a49dd5bac3b62daa0ff688ab4d508d71dbd2f4f8d7e2a02321926346161bf3ee\r\n==> Applied patch http://mirrors.mit.edu/gentoo-portage/sys-devel/autoconf/files/autoconf-2.69-fix-libtool-test.patch\r\n==> Applied patch http://mirrors.mit.edu/gentoo-portage/sys-devel/autoconf/files/autoconf-2.69-perl-5.26.patch\r\n==> Applied patch http://mirrors.mit.edu/gentoo-portage/sys-devel/autoconf/files/autoconf-2.69-perl-5.26-2.patch\r\n==> Ran patch() for autoconf\r\n==> autoconf: Executing phase: 'autoreconf'\r\n==> Error: RuntimeError: Failed to find suitable substitutes for config.guess\r\n\r\n/home/ubuntu/spack/lib/spack/spack/build_systems/autotools.py:172, in _do_patch_config_files:\r\n        169\r\n        170        # Check that we found everything we needed\r\n        171        if to_be_found:\r\n  >>    172            msg = 'Failed to find suitable substitutes for {0}'\r\n        173            raise RuntimeError(msg.format(', '.join(to_be_found)))\r\n        174\r\n        175        # Copy the good files over the bad ones\r\n\r\nSee build log for details:\r\n  /tmp/ubuntu/spack-stage/spack-stage-autoconf-2.69-wrg6ktvtw2tgao5psjguouzptf5obfaf/spack-build-out.txt\r\n```\r\n\r\nCreated a patch that adds `ppcle` and `ppc64le` to `config.guess` and fixes the versions 2.64, 2.65, 2.66, 2.67, 2.68 and 2.69 of autoconf package.\r\n\r\n/cc @hyviquel",
+    "user": "lcnzg",
+    "url": "https://api.github.com/repos/spack/spack/issues/26085",
+    "updated_at": "2021-09-28 00:55:21",
+    "created_at": "2021-09-21 01:51:14",
+    "closed_at": "2021-09-28 00:55:20",
+    "state": "closed",
+    "title": "autoconf: Fix config.guess on ppc",
+    "number": 26085,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "update-package"
+    ],
+    "id": 1001664079,
+    "html_url": "https://github.com/spack/spack/pull/26085",
+    "assignees": [],
+    "comments": 4
+}

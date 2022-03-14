@@ -1,0 +1,20 @@
+{
+    "body": "*Update - see below for a full quite - Massimiliano wrote*:\r\n> What puzzles me is that up to this PR there was a 1:1 mapping from the store to the DB. Here the store is a superset of the DB.\r\n\r\nMy answer:\r\nCool, thanks! This made it clear to me that there seems to be (in my understanding) another feature which might currently not work as I expected:\r\n\r\nAt least from reading the pull request messages around #22845, it's commit message and the comments in it, I understood that an intent of it was to have a \"read-only\" compatibility with the old `spec.yaml` files.\r\n\r\nSo I guess, the implementation should have been that the new code should read `spec.yaml` as well as `spec.json` formats from the .spack subdirectory of installed packages in `{install_tree:root(default: $spack/opt/spack)}/projections:all (default: \"${ARCHITECTURE}/${COMPILERNAME}-${COMPILERVER}/${PACKAGE}-${VERSION}-${HASH}\")/.spack/`\r\n\r\nBut it seems a reindex without the presence of the old specs.json apparently misses to properly add the old installed specs which only have `spec.yaml` files to the new database (independent of how the db file is named).\r\n\r\n----\r\n\r\n#### The Story wihch is implemented so far:\r\n\r\nSometimes, it might be needed to (temporarily) checkout older spack revisions. It would be nice to allow switching between of v5 and v6 database code (including misc_cache):\r\n\r\n#### Database handling\r\n\r\nIn case a developer checks out an old branch or commit, this error is shown by spack:\r\n```py\r\n==> Error: Expected database version 5 but found version 6.\r\n`spack reindex` may fix this, or you may need a newer Spack version.\r\n```\r\nAs @haampie reported in  #25872, `spack reindex` itself also throws the same error:\r\n```py\r\n$ spack reindex \r\n==> Error: Expected database version 5 but found version 6.\r\n`spack reindex` may fix this, or you may need a newer Spack version.\r\n```\r\n\r\nThe only way to reindex the db in this case is to remove the database file and let spack recreate it:\r\n```sh\r\nrm opt/spack/.spack-db/index.json\r\n```\r\nThis fast without noticeable delay (at least with a local SSD as storage).\r\n\r\n#### This PR takes advantage of this by:\r\n* Using `opt/spack/.spack-db/iindex-v6.json` for the version 6 database.\r\n* When **writing** a *v6* db(when packages are removed/installed), it removes old v5 `index.json file`, so in case a v5 spack is used gain, it will automatically reindex.\r\n\r\n##### Coexistence of misc_cache versions\r\n\r\nWhat's also needed to make this work is to not overwrite the v5 misc_cache files, otherwise `\"'str' object has no attribute 'get'\"` is triggered in the provider_index. Put the v6 misc_cache into it's own subdirectory.\r\n#### Summary\r\nThese changes allow to switch back and forth between git revisions using v5 databasse and misc_cache and those after the intro of v6. The only caveat is:\r\n\r\nThe v5 reindex code will not find packages built by new spack, but it is possible to work on the older spack versions and build packages:\r\n\r\nThe apparent cause for this might be that currently, spack reindex without the presence of the old `index.json` apparently misses to include the old installed specs which only have `spec.yaml` files into the new database (independent of how the db file is named).",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/25890",
+    "updated_at": "2021-09-27 19:37:44",
+    "created_at": "2021-09-10 15:38:07",
+    "closed_at": "2021-09-20 22:55:57",
+    "state": "closed",
+    "title": "spack: Allow smooth transition period between v5 and v6 db",
+    "number": 25890,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "environments"
+    ],
+    "id": 993351012,
+    "html_url": "https://github.com/spack/spack/pull/25890",
+    "assignees": [],
+    "comments": 5
+}

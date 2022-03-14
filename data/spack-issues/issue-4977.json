@@ -1,0 +1,19 @@
+{
+    "body": "I build a long list of packages regularly via a Jenkins job.\r\n\r\nWhen a package fails to build, its staging directory is often removed, much to my frustration.\r\n\r\nHere's what I see in Jenkins log file (the last line from spack is the `...'make'...` line, the it goes on with other output from the driver script):\r\n\r\n```\r\n[...]\r\n==> Installing mono\r\n==> Fetching file:///tmp/apps-build-mirror.DiDlFd/mirror/mono/mono-5.0.1.1.tar.bz2\r\n==> Staging archive: /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mono-5.0.1.1-hx7nxp5x4irgecrvw6mwl354ehdejztd/mono-5.0.1.1.tar.bz2\r\n==> Created stage in /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mono-5.0.1.1-hx7nxp5x4irgecrvw6mwl354ehdejztd\r\n==> Ran patch() for mono\r\n==> Building mono [AutotoolsPackage]\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j28'\r\nOTHER SCRIPT OUTPUT\r\n```\r\n\r\nHere's my `etc/spack/config.yaml` file, I believe this says to stage things in `/tmp` and link them into the Spack tree:\r\n\r\n```yaml\r\n# -------------------------------------------------------------------------\r\n# This is the project specific spack configuration file.\r\n# -------------------------------------------------------------------------\r\nconfig:\r\n  # Temporary locations Spack can try to use for builds.\r\n  #\r\n  # A value of $spack/var/spack/stage indicates that Spack should run\r\n  # builds directly inside its install directory without staging them in\r\n  # temporary space.\r\n  #\r\n  # The build stage can be purged with `spack purge --stage`.\r\n  build_stage:\r\n    - $tempdir\r\n    - $spack/var/spack/stage\r\n```\r\n\r\nThe link in the Spack tree exists but it points to a directory within `/tmp` that does not.  Other Spack related staging dirs *do* exist there, they're all empty.  `/tmp` is part of the `698GB` `/` partition, which on this machine is currently `2%` full.\r\n\r\n```\r\n[hartzelg@lb097hmdev spack]$ ls -l /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mono-5.0.1.1-hx7nxp5x4irgecrvw6mwl354ehdejztd\r\nlrwxrwxrwx 1 hartzelg users 44 Aug  4 11:31 /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mono-5.0.1.1-hx7nxp5x4irgecrvw6mwl354ehdejztd -> /tmp/hartzelg/spack-stage/spack-stage-rUCQxf\r\n[hartzelg@lb097hmdev spack]$ ls -l /tmp/hartzelg/spack-stage/spack-stage-rUCQxf\r\nls: cannot access /tmp/hartzelg/spack-stage/spack-stage-rUCQxf: No such file or directory\r\n[hartzelg@lb097hmdev spack]$ ls -l /tmp/hartzelg/spack-stage/spack-stage-* | head\r\n/tmp/hartzelg/spack-stage/spack-stage-0ATOqP:\r\ntotal 0\r\n\r\n/tmp/hartzelg/spack-stage/spack-stage-1foqeC:\r\ntotal 0\r\n\r\n/tmp/hartzelg/spack-stage/spack-stage-3OlQZn:\r\ntotal 0\r\n[...]\r\n```\r\n\r\nHave I mis-understood something or am I tripping over a bug?",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4977",
+    "updated_at": "2017-10-29 21:12:43",
+    "created_at": "2017-08-04 21:48:31",
+    "closed_at": "2017-10-29 21:12:43",
+    "state": "closed",
+    "title": "Staging dirs disappear for failed builds.",
+    "number": 4977,
+    "milestone": null,
+    "labels": [],
+    "id": 248125364,
+    "html_url": "https://github.com/spack/spack/issues/4977",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 23
+}

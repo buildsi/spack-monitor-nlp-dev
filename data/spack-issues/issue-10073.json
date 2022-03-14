@@ -1,0 +1,19 @@
+{
+    "body": "From #9747:\r\n\r\n> Binary caches of packages with absolute symlinks had broken symlinks. From what I can tell, tar doesn't support any notion of matching source/destination roots when unpacking an archive with absolute symlinks. Therefore, this commit just makes a copy of any file that is a symlink while creating a binary cache of a package.\r\n\r\n#9747 caused other binary relocation bugs and was reverted for v0.12.0. This is an alternative solution that avoids the bugs from #9747.\r\n\r\nInstead of copying files for absolute symlinks, we relocate the source path of the symlink. This involves computing the new path, removing the link, and creating a new link with the new path.\r\n\r\n@scottwittenburg @gartung @scheibelp @tgamblin ",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/10073",
+    "updated_at": "2019-01-12 09:08:44",
+    "created_at": "2018-12-10 23:39:27",
+    "closed_at": "2019-01-11 22:52:02",
+    "state": "closed",
+    "title": "Binary caching bugfix: symlink relocation",
+    "number": 10073,
+    "milestone": null,
+    "labels": [
+        "buildcache"
+    ],
+    "id": 389534509,
+    "html_url": "https://github.com/spack/spack/pull/10073",
+    "assignees": [],
+    "comments": 4
+}

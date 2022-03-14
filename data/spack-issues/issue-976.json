@@ -1,0 +1,17 @@
+{
+    "body": "There are some requirements about which versions of the interfaces are compatible with which versions of NetCDF.  So a little thought will have to go into updating the Spack packages.  See note below, from the NetCDF mailing list:\n\n```\nOn 05/13/2016 09:12 PM, Ward Fisher wrote:\n> Hello all,\n>\n> We\u2019re happy to announce the availability of the following netCDF libraries\n>\n>   * netcdf-c 4.4.1-rc2\n>   * netcdf-fortran 4.4.4\n>   * netcdf-cxx4 4.3.0\n>\n>\n>     netCDF-C 4.4.1-rc2\n\nLooks good here, thanks.\n\n>     netCDF-Fortran 4.4.4\n\nSince this fails to compile with netcdf-4.3.3.1 with:\n\nlibtool: link: gfortran -I../../fortran -I../fortran -O2 -g -pipe -Wall\n-Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong\n--param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic\n-I/usr/lib64/gfortran/modules -Wl,-z -Wl,relro -o .libs/nf_test\nf03lib_f_interfaces.o test_get.o test_put.o nf_error.o nf_test.o test_read.o\ntest_write.o util.o f03lib.o  ../fortran/.libs/libnetcdff.so -lnetcdf\n-Wl,-rpath -Wl,/usr/lib64\n../fortran/.libs/libnetcdff.so: undefined reference to `nc_open_mem'\ncollect2: error: ld returned 1 exit status\n\nIt's worth adding a check for the version of netcdf-c needed.\n\nCompiles fine against 4.4.0 here. Still seeing\nhttps://github.com/Unidata/netcdf-fortran/issues/42 though, although I believe\nthat's expected.\n\n\n>\n>     netCDF-Cxx4 4.3.0\n\nCompiles fine here.\n\n\n--\nOrion Poplawski\nTechnical Manager                     303-415-9701 x222\nNWRA, Boulder/CoRA Office             FAX: 303-415-9702\n3380 Mitchell Lane                       orion@nwra.com\nBoulder, CO 80301                   http://www.nwra.com\n```\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/976",
+    "updated_at": "2016-06-20 14:51:55",
+    "created_at": "2016-05-18 20:47:41",
+    "closed_at": "2016-06-20 14:51:55",
+    "state": "closed",
+    "title": "Update to latest of all NetCDF Libraries",
+    "number": 976,
+    "milestone": null,
+    "labels": [],
+    "id": 155597759,
+    "html_url": "https://github.com/spack/spack/issues/976",
+    "assignees": [],
+    "comments": 0
+}

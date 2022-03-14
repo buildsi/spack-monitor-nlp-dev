@@ -1,0 +1,20 @@
+{
+    "body": "See: https://github.com/spack/spack/issues/10139\r\n\r\nThis doesn't actually fix #10139 as it is presented (which is a matter of invoking `spack mirror create` using a complete spec version), but rather addresses an error that comes up for packages which have UrlPatches and a `patch` function; more specifically, this applies for implementations of `patch` which access state (e.g. environment variables like `spack_cc`) that only exist when the package is ready to be installed (e.g. when all of its dependencies are installed).\r\n\r\nhttps://github.com/spack/spack/pull/8993 made use of `Package.do_patch` to ensure that all `UrlPatches` in a package were collected and archived in a mirror; this also calls a `.patch()` function if it is implemented. This PR adds an `archive` function to `UrlPatch` and calls that in favor of `Package.do_patch` in `mirror.add_single_spec`.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/10171",
+    "updated_at": "2019-01-02 22:08:44",
+    "created_at": "2018-12-21 01:39:49",
+    "closed_at": "2019-01-02 19:46:31",
+    "state": "closed",
+    "title": "Don't invoke do_patch when archiving patches in mirrors",
+    "number": 10171,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "patch"
+    ],
+    "id": 393278588,
+    "html_url": "https://github.com/spack/spack/pull/10171",
+    "assignees": [],
+    "comments": 7
+}

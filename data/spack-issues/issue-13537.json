@@ -1,0 +1,21 @@
+{
+    "body": "CC: @fryeguy52 \r\n\r\nTag: snl-atdm-issue\r\n\r\nThe older version of spack we were using would try to get source off our local mirror before going out to the internet with behavior like:\r\n\r\n```\r\n==> Installing libsigsegv\r\n==> Searching for binary cache of libsigsegv\r\n==> Finding buildcaches in /ascldap/users/rabartl/Spack.base/atdm-spack/atdm-spack-tarball-mirror/build_cache\r\n==> No binary for libsigsegv found: installing from source\r\n==> Fetching file:///ascldap/users/rabartl/Spack.base/atdm-spack/atdm-spack-tarball-mirror/libsigsegv/libsigsegv-2.11.tar.gz\r\n==> Staging archive: /home/rabartl/Spack.base/atdm-spack/spack/var/spack/stage/libsigsegv-2.11-xqiyghtlms7lwgexu3wh7zdtbw6lnytl/libsigsegv-2.11.tar.gz\r\n==> Created stage in /home/rabartl/Spack.base/atdm-spack/spack/var/spack/stage/libsigsegv-2.11-xqiyghtlms7lwgexu3wh7zdtbw6lnytl\r\n==> No patches needed for libsigsegv\r\n==> Building libsigsegv [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Successfully installed libsigsegv\r\n  Fetch: 0.02s.  Build: 4.54s.  Total: 4.56s.\r\n[+] /home/rabartl/Spack.base/atdm-spack/spack/opt/spack/linux-rhel6-x86_64/gcc-4.4.7/libsigsegv-2.11-xqiyghtlms7lwgexu3wh7zdtbw6lnytl\r\n```\r\n\r\nBut with the upgrade version of spack 0.13.0, it does:\r\n\r\n```\r\n==> Installing libsigsegv\r\n==> Searching for binary cache of libsigsegv\r\n==> Finding buildcaches in /ascldap/users/rabartl/Spack.base4/atdm-spack/atdm-spack-tarball-mirror/build_cache\r\n==> No binary for libsigsegv found: installing from source\r\ncurl: (7) Failed to connect to 2001:470:142:5::200: Network is unreachable\r\n==> Fetching https://ftpmirror.gnu.org/libsigsegv/libsigsegv-2.12.tar.gz\r\n==> Fetching from https://ftpmirror.gnu.org/libsigsegv/libsigsegv-2.12.tar.gz failed.\r\n==> Fetching file:///ascldap/users/rabartl/Spack.base4/atdm-spack/atdm-spack-tarball-mirror/_source-cache/archive/3a/3ae1af359eebaa4ffc5896a1aee3568c052c99879316a1ab57f8fe1789c390b6.tar.gz\r\n==> Staging archive: /tmp/rabartl/spack-stage/spack-stage-libsigsegv-2.12-fx22pfx4m4zrul7ahkzfhbvgud3t5j4q/libsigsegv-2.12.tar.gz\r\n==> Created stage in /tmp/rabartl/spack-stage/spack-stage-libsigsegv-2.12-fx22pfx4m4zrul7ahkzfhbvgud3t5j4q\r\n==> No patches needed for libsigsegv\r\n==> Building libsigsegv [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Executing phase: 'install'\r\n==> Successfully installed libsigsegv\r\n  Fetch: 1m 3.33s.  Build: 4.13s.  Total: 1m 7.46s.\r\n[+] /home/rabartl/Spack.base4/atdm-spack/spack/opt/spack/linux-rhel6-x86_64/gcc-4.4.7/libsigsegv-2.12-fx22pfx4m4zrul7ahkzfhbvgud3t5j4q\r\n```\r\n\r\nSee that, over 1m to try to get the source from the internet (and failing because if did not set the proxies on purpose) and 4s to build!  This is not good.  This is killing out build times.\r\n\r\nIs this a defect in Spack or has this behavior changed in spack for some good reason?  Is there a way to get spack install to not try to download stuff from the internet?\r\n\r\n\r\n\r\n",
+    "user": "bartlettroscoe",
+    "url": "https://api.github.com/repos/spack/spack/issues/13537",
+    "updated_at": "2019-11-06 06:43:48",
+    "created_at": "2019-11-01 15:36:34",
+    "closed_at": "2019-11-04 01:11:30",
+    "state": "closed",
+    "title": "Updated spack install tries to get tarballs off internet first before looking in local mirror!",
+    "number": 13537,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high",
+        "snl-atdm"
+    ],
+    "id": 516187457,
+    "html_url": "https://github.com/spack/spack/issues/13537",
+    "assignees": [],
+    "comments": 10
+}

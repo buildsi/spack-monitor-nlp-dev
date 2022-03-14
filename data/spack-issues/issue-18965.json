@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #18939\r\n\r\nThere was an unnecessary duplicate dependency on CUDA at the top level from the Flang Spack package. Flang does not directly depend on CUDA, but only through its dependency in llvm-flang (because it needs to generate the appropriate bit-code for the CUDA device).\r\n\r\nHowever, we still have the problem that you need to specify a value of cuda_arch at the first invocation `spack install flang+nvptx cuda_arch=<sm value>`. However, there doesn't seem to be a way to propagate a multi-valued variant through the DAG.\r\n\r\nSo, a user will have to do\r\n`spack install flang+nvptx ^llvm-flang+cuda cuda_arch=<sm value>`\r\n\r\nThere is a msg when you do `spack info` that explains this limitation.",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/18965",
+    "updated_at": "2020-10-14 16:35:26",
+    "created_at": "2020-09-25 04:45:55",
+    "closed_at": "2020-10-14 16:35:26",
+    "state": "closed",
+    "title": "Flang NVidia offload fix",
+    "number": 18965,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 708637000,
+    "html_url": "https://github.com/spack/spack/pull/18965",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 9
+}

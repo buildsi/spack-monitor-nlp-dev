@@ -1,0 +1,26 @@
+{
+    "body": "This was reported to me via the STAT github repo (https://github.com/LLNL/STAT/issues/27). STAT is failing to install because binutils variants aren't being concretized properly. I can work around this by depending on `^binutils+plugins`, but it seems like the default should work. Is there some other way I need to resolve this in the STAT package or LLVM package?\r\n\r\n```\r\n$ ./bin/spack spec stat\r\nInput spec\r\n--------------------------------\r\nstat\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    binutils@2.36.1%gcc@8.3.1~gas+gold~headers~interwork~ld~libiberty~lto+nls~plugins arch=linux-rhel8-broadwell\r\n        ^diffutils@3.7%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^libiconv@1.16%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n        ^gettext@0.21%gcc@8.3.1+bzip2+curses+git~libunistring+libxml2+tar+xz arch=linux-rhel8-broadwell\r\n            ^bzip2@1.0.8%gcc@8.3.1+shared arch=linux-rhel8-broadwell\r\n            ^libxml2@2.9.10%gcc@8.3.1~python arch=linux-rhel8-broadwell\r\n                ^pkgconf@1.7.4%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                ^xz@5.2.5%gcc@8.3.1~pic arch=linux-rhel8-broadwell\r\n                ^zlib@1.2.11%gcc@8.3.1+optimize+pic+shared arch=linux-rhel8-broadwell\r\n            ^ncurses@6.2%gcc@8.3.1~symlinks+termlib abi=none arch=linux-rhel8-broadwell\r\n            ^tar@1.34%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    llvm@12.0.0%gcc@8.3.1~all_targets+clang~code_signing+compiler-rt~cuda~flang+gold+internal_unwind~ipo+libcxx+lld+lldb~llvm_dylib~mlir~omp_debug~omp_tsan+polly~python~shared_libs~split_dwarf build_type=Release cuda_arch=none arch=linux-rhel8-broadwell\r\n        ^cmake@3.20.1%gcc@8.3.1~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=linux-rhel8-broadwell\r\n            ^ncurses@6.2%gcc@8.3.1~symlinks+termlib abi=none arch=linux-rhel8-broadwell\r\n                ^pkgconf@1.7.4%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^openssl@1.1.1k%gcc@8.3.1~docs+systemcerts arch=linux-rhel8-broadwell\r\n                ^perl@5.32.1%gcc@8.3.1+cpanm+shared+threads arch=linux-rhel8-broadwell\r\n                    ^berkeley-db@18.1.40%gcc@8.3.1+cxx~docs+stl arch=linux-rhel8-broadwell\r\n                    ^gdbm@1.19%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                        ^readline@8.1%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                ^zlib@1.2.11%gcc@8.3.1+optimize+pic+shared arch=linux-rhel8-broadwell\r\n        ^hwloc@2.4.1%gcc@8.3.1~cairo~cuda~gl~libudev+libxml2~netloc~nvml+pci+shared arch=linux-rhel8-broadwell\r\n            ^libpciaccess@0.16%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                ^libtool@2.4.6%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                    ^m4@1.4.18%gcc@8.3.1+sigsegv arch=linux-rhel8-broadwell\r\n                        ^libsigsegv@2.13%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                ^util-macros@1.19.1%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^libxml2@2.9.10%gcc@8.3.1~python arch=linux-rhel8-broadwell\r\n                ^libiconv@1.16%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                ^xz@5.2.5%gcc@8.3.1~pic arch=linux-rhel8-broadwell\r\n        ^libedit@3.1-20210216%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n        ^perl-data-dumper@2.173%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n        ^python@3.8.9%gcc@8.3.1+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4+uuid+zlib arch=linux-rhel8-broadwell\r\n            ^bzip2@1.0.8%gcc@8.3.1+shared arch=linux-rhel8-broadwell\r\n                ^diffutils@3.7%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^expat@2.3.0%gcc@8.3.1+libbsd arch=linux-rhel8-broadwell\r\n                ^libbsd@0.11.3%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n                    ^libmd@1.0.3%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^gettext@0.21%gcc@8.3.1+bzip2+curses+git~libunistring+libxml2+tar+xz arch=linux-rhel8-broadwell\r\n                ^tar@1.34%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^libffi@3.3%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^sqlite@3.35.4%gcc@8.3.1+column_metadata+fts~functions~rtree arch=linux-rhel8-broadwell\r\n            ^util-linux-uuid@2.36.2%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n        ^swig@4.0.2%gcc@8.3.1 arch=linux-rhel8-broadwell\r\n            ^pcre@8.44%gcc@8.3.1~jit+multibyte+utf arch=linux-rhel8-broadwell\r\n        ^z3\r\n\r\n\r\nllvm requires binutils variant +plugins, but spec asked for ~plugins\r\n```\r\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/23275",
+    "updated_at": "2021-04-28 11:51:27",
+    "created_at": "2021-04-27 00:01:40",
+    "closed_at": "2021-04-28 11:51:27",
+    "state": "closed",
+    "title": "Installation issue: concretization of stat with binutils plugins variant",
+    "number": 23275,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "concretization",
+        "workaround",
+        "impact-low"
+    ],
+    "id": 868290339,
+    "html_url": "https://github.com/spack/spack/issues/23275",
+    "assignees": [
+        "alalazo",
+        "becker33",
+        "tldahlgren"
+    ],
+    "comments": 5
+}

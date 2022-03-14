@@ -1,0 +1,19 @@
+{
+    "body": "See: https://github.com/spack/spack/issues/11542\r\n\r\nThe intent of this PR is that for a spec DAG like:\r\n\r\n```\r\nX->Y->Z (all link dependencies)\r\nX->W->Z (W has a build dependency on Z)\r\n```\r\n\r\nthat you can do something like\r\n\r\n```\r\n$ spack install w\r\n$ spack install X ^/hash-of-installed-w\r\n```\r\n\r\nIn this case, if Y and W have differing constraints on Z, this allows Y to build Z without using constraints from W (since W only needed Z to build).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/11594",
+    "updated_at": "2019-06-11 13:21:09",
+    "created_at": "2019-05-31 02:02:49",
+    "closed_at": "2019-06-08 18:43:27",
+    "state": "closed",
+    "title": "Don't apply build-dependency constraints for installed packages",
+    "number": 11594,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 450580755,
+    "html_url": "https://github.com/spack/spack/pull/11594",
+    "assignees": [],
+    "comments": 12
+}

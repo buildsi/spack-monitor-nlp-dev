@@ -1,0 +1,19 @@
+{
+    "body": "The ``test_patchelf_is_relocatable`` test fails on LLNL's Quartz since `patchelf` is a bash script wrapper, not an executable as required by the test.\r\n\r\nPerhaps ``is_binary`` should be checking the subtype from ``mime_type`` and declaring binary if it is ``x-shellscript``?\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack test -k test_patchelf_is_relocatable\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n_________________________ test_patchelf_is_relocatable _________________________\r\n\r\n    @pytest.mark.requires_executables(\r\n        'patchelf', 'strings', 'file'\r\n    )\r\n    def test_patchelf_is_relocatable():\r\n        patchelf = spack.relocate.get_patchelf()\r\n>       assert spack.relocate.is_binary(patchelf)\r\nE       AssertionError: assert False\r\nE        +  where False = <function is_binary at 0x2aaab19c62f0>('/usr/tce/bin/patchelf')\r\nE        +    where <function is_binary at 0x2aaab19c62f0> = <module 'spack.relocate' from '$HOME/spack/clean/spack/lib/spack/spack/relocate.py'>.is_binary\r\nE        +      where <module 'spack.relocate' from '$HOME/spack/clean/spack/lib/spack/spack/relocate.py'> = spack.relocate\r\n\r\nrelocate.py:68: AssertionError\r\n...\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\nRunning on LLNL's Quartz, where ``/usr/tce/packages/patchelf/patchelf-0.8/bin/patchelf`` symlinks ultimately to a bash script that uses `exec`.\r\n",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/14402",
+    "updated_at": "2020-01-13 21:00:15",
+    "created_at": "2020-01-06 19:26:11",
+    "closed_at": "2020-01-13 21:00:15",
+    "state": "closed",
+    "title": "tests: test_patchelf_is_relocatable fails on LLNL/Quartz",
+    "number": 14402,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 545895945,
+    "html_url": "https://github.com/spack/spack/issues/14402",
+    "assignees": [],
+    "comments": 9
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Here is simple example:\n\nI have specified `mpich` as an external package in `packages.yaml` :\n\n``` bash\n    mpich:\n        paths:\n            mpich@3.2%gcc@6.2.0: /usr/local\n        version: [3.2]\n```\n\n(I didn't specify buildable false because I want to build it with clang compiler).\n\nNow lets look at `HDF5` spec:\n\n```\nspack spec hdf5 +mpi %gcc\nInput spec\n------------------------------\n  hdf5%gcc+mpi\n\nNormalized\n------------------------------\n  hdf5%gcc+mpi\n      ^mpi\n      ^zlib@1.1.2:\n\nConcretized\n------------------------------\n  hdf5@1.10.0-patch1%gcc@6.2.0+cxx~debug~fortran+mpi+shared~szip~threadsafe arch=darwin-elcapitan-x86_64\n      ^mpich@3.2%gcc@6.2.0+hydra+pmi+romio~verbs arch=darwin-elcapitan-x86_64\n      ^zlib@1.2.8%gcc@6.2.0 arch=darwin-elcapitan-x86_64\n```\n\nIf I try install above `mpich` then:\n\n``` bash\nspack install --fake mpich@3.2%gcc@6.2.0+hydra+pmi+romio~verbs arch=darwin-elcapitan-x86_64\n==> mpich is externally installed in /usr/local\n```\n\nWhich is expected behaviour. Now if I try to install `HDF5`, it builds `mpich`:\n\n``` bash\nspack install --fake hdf5 +mpi %gcc\n==> Installing hdf5\n==> Installing mpich\n==> Building mpich\n==> Successfully installed mpich\n  Fetch: .  Build: 0.12s.  Total: 0.12s.\n[+] /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-6.2.0/mpich-3.2-vawupusw7g7zwadhoaqfefzyizosh2ml\n==> zlib is already installed in /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-6.2.0/zlib-1.2.8-fbuurtffrrl7o2h5q4vnf7dgf67bo7au\n==> Building hdf5\n==> Successfully installed hdf5\n  Fetch: .  Build: 0.29s.  Total: 0.29s.\n[+] /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-6.2.0/hdf5-1.10.0-patch1-3mx2kc2rcd52gkysod5k2vccsj4m6f4u\n```\n\nWhy it's building `mpich`? If I explicitly specify `mpich` dependency  then it doesn't :\n\n``` bash\nspack install --fake hdf5 +mpi %gcc ^mpich\n==> Installing hdf5\n==> mpich is externally installed in /usr/local\n==> zlib is already installed in /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-6.2.0/zlib-1.2.8-fbuurtffrrl7o2h5q4vnf7dgf67bo7au\n==> Building hdf5\n==> Successfully installed hdf5\n  Fetch: .  Build: 0.29s.  Total: 0.29s.\n[+] /Users/kumbhar/workarena/software/sources/spack/opt/spack/darwin-elcapitan-x86_64/gcc-6.2.0/hdf5-1.10.0-patch1-3mx2kc2rcd52gkysod5k2vccsj4m6f4u\n==> Warning: Dependency missing due to corrupt install directory:\n  /usr/local\n  Install prefix exists but contains no spec.yaml:\n      /usr/local\n```\n\nAm I missing anything? (recent concretisation issue #2068)\n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2093",
+    "updated_at": "2022-03-02 14:42:53",
+    "created_at": "2016-10-23 13:12:19",
+    "closed_at": "2022-03-02 14:26:35",
+    "state": "closed",
+    "title": "Spack install mpich even if it is specified in packages.yaml",
+    "number": 2093,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization"
+    ],
+    "id": 184689161,
+    "html_url": "https://github.com/spack/spack/issues/2093",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

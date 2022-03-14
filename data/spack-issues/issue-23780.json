@@ -1,0 +1,22 @@
+{
+    "body": "The tkagg backend does not work as expected, see below with a fresh Spack at 319f20d94ff68f781b4913d236e0587dfa0195ba.\r\n\r\n```console\r\n$ spack install py-matplotlib backend=tkagg\r\n$ spack load -r py-matplotlib\r\n$ python -c \"import matplotlib.pyplot as plt; plt.plot([0],[1]); plt.show()\"\r\n...\r\n_tkinter.TclError: Can't find a usable tk.tcl in the following directories: \r\n    /home/sschmitt/spack-tcl/opt/spack/linux-ubuntu20.04-haswell/gcc-9.3.0/tk-8.6.10-egp4nzel66d2273p3olurpjif6bhhkmj/lib /home/sschmitt/spack-tcl/opt/spack/linux-ubuntu20.04-haswell/gcc-9.3.0/tcl-8.6.11-uoh3u6zmjwbky6rhfojdihz6blnk5sy5/lib/tcl8.6/tk8.6 /home/sschmitt/spack-tcl/opt/spack/linux-ubuntu20.04-haswell/gcc-9.3.0/tcl-8.6.11-uoh3u6zmjwbky6rhfojdihz6blnk5sy5/lib/tk8.6 /home/sschmitt/spack-tcl/opt/spack/linux-ubuntu20.04-haswell/gcc-9.3.0/python-3.8.10-efzidqekqhq4y4raa2q4iabetuoqdnse/lib/tk8.6 /home/sschmitt/spack-tcl/opt/spack/linux-ubuntu20.04-haswell/gcc-9.3.0/python-3.8.10-efzidqekqhq4y4raa2q4iabetuoqdnse/lib/tk8.6 /home/sschmitt/spack-tcl/opt/spack/linux-ubuntu20.04-haswell/gcc-9.3.0/lib/tk8.6 /home/sschmitt/spack-tcl/opt/spack/linux-ubuntu20.04-haswell/gcc-9.3.0/python-3.8.10-efzidqekqhq4y4raa2q4iabetuoqdnse/library\r\n```\r\n\r\nThe variants `tk` and `tcl` itself were installed:\r\n\r\n```console\r\n$ spack find --loaded -v | grep -e tcl -e tk   \r\npy-matplotlib@3.4.2~animation~fonts+image~latex~movies backend=tkagg\r\npython@3.8.10+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix+tkinter~ucs4+uuid+zlib patches=0d98e93189bc278fbc37a50ed7f183bd8aaf249a8e1670a465f0db6bb4f8cf87\r\ntcl@8.6.11\r\ntk@8.6.10+xft+xss\r\n``` \r\n\r\n### General information\r\n\r\n* **Spack:** 0.16.1-2700-319f20d94f\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-haswell\r\n* **Concretizer:** original",
+    "user": "schmitts",
+    "url": "https://api.github.com/repos/spack/spack/issues/23780",
+    "updated_at": "2021-06-08 17:45:04",
+    "created_at": "2021-05-19 05:48:49",
+    "closed_at": "2021-06-08 17:45:04",
+    "state": "closed",
+    "title": "Run-time issue: python+tkinter",
+    "number": 23780,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible"
+    ],
+    "id": 895016660,
+    "html_url": "https://github.com/spack/spack/issues/23780",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 13
+}

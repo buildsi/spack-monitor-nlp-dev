@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\n$ spack install samtools@1.14\r\n[...]\r\n==> samtools: Executing phase: 'install'\r\n==> Error: OSError: No such file or directory: 'sam.h'\r\n\r\n/software/spack/git.2021.11.29/var/spack/repos/builtin/packages/samtools/package.py:75, in install:\r\n         72        # Install dev headers and libs for legacy apps depending on them\r\n         73        mkdir(prefix.include)\r\n         74        mkdir(prefix.lib)\r\n  >>     75        install('sam.h', prefix.include)\r\n         76        install('bam.h', prefix.include)\r\n         77        install('libbam.a', prefix.lib)\r\n```\r\n\r\nAccording to samtools@1.14 release notes (https://github.com/samtools/samtools/releases/tag/1.14), as of 1.14 the legacy API has been removed, so no sam.h, libbam.a, or bam_endian.h, and bam.h has been greatly reduced.\n\n### Information on your system\n\n```console\r\n$ spack debug report\r\n* **Spack:** 0.17.0-319-5dce4d79bd\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n```\n\n### Additional information\n\n- [spack-build-out.txt](https://github.com/spack/spack/files/7816179/spack-build-out.txt)\r\n- [spack-build-env.txt](https://github.com/spack/spack/files/7816180/spack-build-env.txt)\r\n- [config.log](https://github.com/spack/spack/files/7816181/config.log)\r\n\r\nNo maintainers\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/28257",
+    "updated_at": "2022-01-05 16:14:52",
+    "created_at": "2022-01-05 16:09:37",
+    "closed_at": "2022-01-05 16:14:52",
+    "state": "closed",
+    "title": "Installation issue: samtools",
+    "number": 28257,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1094513051,
+    "html_url": "https://github.com/spack/spack/issues/28257",
+    "assignees": [],
+    "comments": 1
+}

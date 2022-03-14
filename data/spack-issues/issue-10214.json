@@ -1,0 +1,20 @@
+{
+    "body": "I'm trying to install `gdal`, which depends on `libjpeg-turbo`. Several of the dependencies successfully install, but when it gets to `libjpeg-turbo`, I get the following error:\r\n```console\r\n$ spack -d install gdal\r\n...\r\n==> Installing libjpeg-turbo\r\n==> Searching for binary cache of libjpeg-turbo\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for libjpeg-turbo found: installing from source\r\nTraceback (most recent call last):\r\n  File \"/Users/Adam/spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/Adam/spack/lib/spack/spack/main.py\", line 669, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/Adam/spack/lib/spack/spack/main.py\", line 440, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/install.py\", line 318, in install\r\n    install_spec(args, kwargs, abstract, concrete)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/install.py\", line 197, in install_spec\r\n    install(spec, kwargs)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/install.py\", line 186, in install\r\n    spec.package.do_install(**kwargs)\r\n  File \"/Users/Adam/spack/lib/spack/spack/package.py\", line 1402, in do_install\r\n    **kwargs)\r\n  File \"/Users/Adam/spack/lib/spack/spack/package.py\", line 1511, in do_install\r\n    spack.store.layout.create_install_directory(self.spec)\r\n  File \"/Users/Adam/spack/lib/spack/spack/directory_layout.py\", line 253, in create_install_directory\r\n    mkdirp(spec.prefix, mode=perms)\r\n  File \"/Users/Adam/spack/lib/spack/llnl/util/filesystem.py\", line 435, in mkdirp\r\n    raise e\r\n  File \"/Users/Adam/spack/lib/spack/llnl/util/filesystem.py\", line 430, in mkdirp\r\n    os.makedirs(path)\r\n  File \"/Users/Adam/anaconda3/lib/python3.6/os.py\", line 210, in makedirs\r\n    makedirs(head, mode, exist_ok)\r\n  File \"/Users/Adam/anaconda3/lib/python3.6/os.py\", line 220, in makedirs\r\n    mkdir(name, mode)\r\nPermissionError: [Errno 13] Permission denied: '/-'\r\n```\r\nIf I look inside of `create_install_directory`, for whatever reason, it thinks that `spec.prefix` should be `/-/libjpeg-turbo--achj34aiwnm4nhyogydigq3elywyqwb4`, which causes the permission denied error. If I try to install `libjpeg-turbo` on its own, it successfully installs, but then when I try to install `gdal`, it tries to reinstall `libjpeg-turbo` and encounters the same error message. I've managed to reproduce this problem with both Python 2 and 3. `spack reindex` and `spack clean` didn't help. I'm wondering if this is a bug related to virtual dependencies. Any thoughts?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/10214",
+    "updated_at": "2018-12-28 23:27:40",
+    "created_at": "2018-12-28 19:46:35",
+    "closed_at": "2018-12-28 23:27:39",
+    "state": "closed",
+    "title": "PermissionError: [Errno 13] Permission denied: '/-'",
+    "number": 10214,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "virtual-dependencies"
+    ],
+    "id": 394706869,
+    "html_url": "https://github.com/spack/spack/issues/10214",
+    "assignees": [],
+    "comments": 1
+}

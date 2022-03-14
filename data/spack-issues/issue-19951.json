@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec hip\r\n==> Error: 'none' cannot be combined with other variant values.\r\n```\r\n\r\nbut using the latest version explicitly:\r\n\r\n```console\r\n$ spack spec hip@3.9.0\r\n```\r\nis fine.\r\n\r\nFrom `spack --debug spec hip` it looks like the issue arises due to this line:\r\n\r\n```python\r\n    depends_on('mesa~llvm@18.3: swr=none', type='link')\r\n```\r\nin hip-rocclr: https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/hip-rocclr/package.py#L33\r\n\r\nWhen printing the output variant.py > _value_setter, this is what I see:\r\n```\r\n==> [2020-11-17-09:30:55.173335] hip-rocclr applying constraint mesa@18.3:~llvm swr=none\r\n['auto', 'none']\r\n```\r\nthe `auto` is the defautl value, `none` is set by hip.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4-1979-423e80af2\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/19951",
+    "updated_at": "2020-11-19 15:59:38",
+    "created_at": "2020-11-17 08:34:58",
+    "closed_at": "2020-11-19 15:59:37",
+    "state": "closed",
+    "title": "hip cannot be concretized due to an invalid variant value error",
+    "number": 19951,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low"
+    ],
+    "id": 744526662,
+    "html_url": "https://github.com/spack/spack/issues/19951",
+    "assignees": [],
+    "comments": 6
+}

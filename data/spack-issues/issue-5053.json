@@ -1,0 +1,20 @@
+{
+    "body": "fixes #4236\r\nfixes #5002\r\n\r\nThis should be the quickest fix for the two issues listed above. I didn't follow the suggestion in #4307 because `RepoPath` is supposed to provide the same API as `Repo`. Turning:\r\n```python\r\ndef dirname_for_package_name(self, pkg_name):\r\n    ...\r\n```\r\ninto:\r\n```python\r\ndef dirname_for_package(self, pkg):\r\n    ...\r\n```\r\nwill break this consistency. The function `Repo.dirname_for_package` is used by `filename_for_package` in contexts where the package doesn't exist and we want to know what would be the name for it, like:\r\n```console\r\n$ spack create <url>\r\n```\r\nso it can't be deleted altogether. Refactoring this part will require maybe more discussion, hence the minimal fix.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/5053",
+    "updated_at": "2017-08-12 07:06:28",
+    "created_at": "2017-08-10 09:38:32",
+    "closed_at": "2017-08-12 02:18:53",
+    "state": "closed",
+    "title": "patch: get correct directory for a given package object",
+    "number": 5053,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "ready"
+    ],
+    "id": 249288644,
+    "html_url": "https://github.com/spack/spack/pull/5053",
+    "assignees": [],
+    "comments": 5
+}

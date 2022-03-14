@@ -1,0 +1,17 @@
+{
+    "body": "Fixes #175, #469 by adding extra provenance to the `$prefix/.spack` directory:\n1. Writes the build environment out to a file, `$prefix/.spack/build.env`, alongside the already installed `$prefix/.spack/build.out` log.\n2. Creates a directory called `repos` within `$prefix/.spack/` that contains ALL package files (and associated patches) that were used for the build of a package and its dependencies.\n\nThe fact that (2) writes out ready-to-use package repos allows you to easily do `spack repo add` to use the packages again.  In conjunction with `spec.yaml`, this should allow the exact same build to be run twice.  Reading the spec, setting up a `RepoPath` for the rebuild, and running the build should probably be wrapped up into a spack command (`spack rebuild` or something). That's left to future work.\n\n(2) writes `package.py` for the root _and_ dependencies so that so that you still have full provenance if a dependency install is forcibly removed for one reason or another.  This could also be useful for rebuilding dependencies.\n\n@alalazo, @eschnett, @becker33, @mplegendre, @lee218llnl: check it out.\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/475",
+    "updated_at": "2016-03-06 23:52:58",
+    "created_at": "2016-03-02 08:26:54",
+    "closed_at": "2016-03-03 08:42:40",
+    "state": "closed",
+    "title": "Features/env and package provenance",
+    "number": 475,
+    "milestone": null,
+    "labels": [],
+    "id": 137806430,
+    "html_url": "https://github.com/spack/spack/pull/475",
+    "assignees": [],
+    "comments": 1
+}

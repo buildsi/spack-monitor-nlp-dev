@@ -1,0 +1,21 @@
+{
+    "body": "Unfortunately, my hack to reuse the `import_modules` and `test` functions from `PythonPackage` in other packages doesn't work. This means that we need to duplicate the tests and explicitly declare `import_modules` for other build systems.\r\n\r\nTested that `gdal+python` now passes its tests. Previous behavior:\r\n```\r\n==> Testing package gdal-3.2.0-c5vyq6z\r\n==> Error: TypeError: unbound method test() must be called with PythonPackage instance as first argument (got Gdal instance instead)\r\n\r\n/Users/Adam/spack/var/spack/repos/builtin/packages/gdal/package.py:561, in test:\r\n        559    def test(self):\r\n        560        if '+python' in self.spec:\r\n  >>    561            PythonPackage.test(self)\r\n\r\nSee test log for details:\r\n  /Users/Adam/.spack/test/74n2cbqzyhgx3bcpmld3lkdc35jyb4vz/gdal-3.2.0-c5vyq6z-test-out.txt\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/20555",
+    "updated_at": "2021-02-04 20:12:13",
+    "created_at": "2020-12-26 22:44:06",
+    "closed_at": "2021-02-04 17:00:37",
+    "state": "closed",
+    "title": "Fix usage of PythonPackage.test outside of PythonPackage",
+    "number": 20555,
+    "milestone": null,
+    "labels": [
+        "python",
+        "sip",
+        "stand-alone-tests"
+    ],
+    "id": 774943792,
+    "html_url": "https://github.com/spack/spack/pull/20555",
+    "assignees": [],
+    "comments": 9
+}

@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ git clone https://github.com/spack/spack.git\r\n$ cat > spack/etc/spack/defaults/compilers.yaml <<EOL\r\ncompilers:\r\n- compiler:\r\n    paths:\r\n      cc:  /opt/gcc-9.2.0/bin/gcc\r\n      cxx: /opt/gcc-9.2.0/bin/g++\r\n      f77: /opt/gcc-9.2.0/bin/gfortran\r\n      fc:  /opt/gcc-9.2.0/bin/gfortran\r\n    operating_system: centos7\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    spec: gcc@9.2.0\r\nEOL\r\n$ cat >> spack/etc/spack/defaults/packages.yaml <<EOL\r\n\r\n  mpi:\r\n    buildable: false\r\n    modules:\r\n      intel-mpi@2019.7.217 %gcc@9.2.0: mpi/impi_2019.7.217\r\n      openmpi@4.0.3        %gcc@9.2.0: mpi/openmpi-4.0.3\r\nEOL\r\n```\r\n\r\n### Error Message\r\n```console\r\n$ source spack/share/spack/setup-env.sh\r\n$ spack install osu-micro-benchmarks arch=linux-centos7-x86_64 ^intel-mpi\r\n==> intel-mpi@2019.7.217 : has external module in mpi/impi_2019.7.217\r\n==> intel-mpi@2019.7.217 : is actually installed in None\r\n==> intel-mpi@2019.7.217 : generating module file\r\n==> Error: super() argument 1 must be type, not IntelMpi\r\n```\r\n\r\nUsing `openmpi` works as expected:\r\n```\r\n$ spack install osu-micro-benchmarks arch=linux-centos7-x86_64 ^openmpi\r\n```\r\n\r\nAny ideas?\r\n\r\nThanks\r\n",
+    "user": "yellowhat",
+    "url": "https://api.github.com/repos/spack/spack/issues/17197",
+    "updated_at": "2020-07-03 13:42:29",
+    "created_at": "2020-06-22 15:01:16",
+    "closed_at": "2020-06-26 19:04:36",
+    "state": "closed",
+    "title": "intel-mpi from system: Error: super() argument 1 must be type, not IntelMpi",
+    "number": 17197,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 643143114,
+    "html_url": "https://github.com/spack/spack/issues/17197",
+    "assignees": [],
+    "comments": 4
+}

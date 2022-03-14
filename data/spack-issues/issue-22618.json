@@ -1,0 +1,20 @@
+{
+    "body": "We need to build with `-fcommon` when building with `gcc@10:` (as described [here](https://gcc.gnu.org/gcc-10/porting_to.html)).\r\n\r\nOtherwise, we get:\r\n```console\r\n/path/to/spack/lib/spack/env/gcc/gcc -DGNU_INTRINSIC_EXTENSION -DNDEBUG -DBUGFIX -D__XCODEML__ -DYYDEBUG -I/path/to/spack/opt/spack/linux-debian9-haswell/gcc-10.2.0/libxml2-2.9.10-j477kg7qyyejzp3vpxalinoim6vrnhqt/include//libxml2 -I../../include -o F_Front F95-main.o C-expr-mem.o C-exprcode.o F-datatype.o F-ident.o F95-parser.o F-mem.o F-compile.o F-compile-decl.o F-compile-expr.o F-opt-expv.o F-output-xcodeml.o F-io-xcodeml.o F-data.o F-datasub.o F-equiv.o F-varutil.o F-intrinsic.o F-intrinsics-table.o F-OMP.o F-ACC.o F-XMP.o xcodeml-node.o xcodeml-parse.o xcodeml-util.o xcodeml-type.o xcodeml-traverse.o xcodeml-output-F.o F-dump.o F-type-attr-tbl.o module-manager.o hash.o F-input-xmod.o F-module-procedure.o F-second-pass.o -L/path/to/spack/opt/spack/linux-debian9-haswell/gcc-10.2.0/libxml2-2.9.10-j477kg7qyyejzp3vpxalinoim6vrnhqt/lib -lxml2 -lm\r\nxcodeml-parse.o:(.bss+0x0): multiple definition of `current_symbol_stack'\r\nxcodeml-node.o:(.bss+0x0): first defined here\r\nxcodeml-util.o:(.bss+0x0): multiple definition of `current_symbol_stack'\r\nxcodeml-node.o:(.bss+0x0): first defined here\r\nxcodeml-type.o:(.bss+0x0): multiple definition of `current_symbol_stack'\r\nxcodeml-node.o:(.bss+0x0): first defined here\r\nxcodeml-traverse.o:(.bss+0x0): multiple definition of `current_symbol_stack'\r\nxcodeml-node.o:(.bss+0x0): first defined here\r\nxcodeml-output-F.o:(.bss+0x0): multiple definition of `current_symbol_stack'\r\nxcodeml-node.o:(.bss+0x0): first defined here\r\ncollect2: error: ld returned 1 exit status\r\nMakefile:52: recipe for target 'F_Front' failed\r\n```\r\n\r\n@clementval",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/22618",
+    "updated_at": "2021-04-14 06:49:35",
+    "created_at": "2021-03-29 17:24:05",
+    "closed_at": "2021-03-30 18:33:33",
+    "state": "closed",
+    "title": "claw: support for gcc10",
+    "number": 22618,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "update-package"
+    ],
+    "id": 843600170,
+    "html_url": "https://github.com/spack/spack/pull/22618",
+    "assignees": [],
+    "comments": 0
+}

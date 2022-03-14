@@ -1,0 +1,22 @@
+{
+    "body": "The `spack config update` command doesn't handle comments (#).\r\n\r\nAFAIK, comments are allowed and I've been using them for years.  For\r\nexample, here is a sample `packages.yaml` file, and what happens when\r\nI try to update it.\r\n\r\n```\r\npackages:\r\n  # system cmake in /usr\r\n  cmake:\r\n    paths:\r\n      cmake@3.11.0:  /usr\r\n    buildable: False\r\n\r\n$ spack config update packages\r\n...\r\n==> Do you want to proceed? [y/N] y\r\n==> Error: 'dict' object has no attribute '_yaml_comment'\r\n```\r\n\r\nAnd the file isn't updated.\r\n\r\n----------\r\n\r\nBtw, there are two formats to specify lists in yaml, either with\r\n`[...]` on one line, or with `-` on multiple lines.  I think this is\r\nstandard yaml and AFAIK, they're equivalent.\r\n\r\nBut spack update is inconsistent in how it updates them.  If I update\r\nthis, including cmake which needs updating:\r\n\r\n```\r\npackages:\r\n  cmake:\r\n    paths:\r\n      cmake@3.11.0:  /usr\r\n    buildable: False\r\n\r\n  binutils:\r\n    version:  [2.34]\r\n    variants: +libiberty ~nls\r\n```\r\n\r\nThen binutils changes to:\r\n\r\n```\r\n  binutils:\r\n    version:\r\n    - 2.34\r\n    variants: +libiberty ~nls\r\n```\r\n\r\nBut if I leave out cmake, then spack update reports nothing to do and\r\nleaves the file unchanged.\r\n\r\n```\r\npackages:\r\n  binutils:\r\n    version:  [2.34]\r\n    variants: +libiberty ~nls\r\n\r\n$ spack config update packages\r\n==> No updates needed for \"packages\" section.\r\n```\r\n\r\nI don't know if I really care one way or the other, but it's odd that\r\nit's inconsistent like this.\r\n\r\n----------\r\n\r\nAlso, spack update deletes all the blank lines in the file, which I\r\ndon't like.\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/18031",
+    "updated_at": "2020-08-13 16:54:09",
+    "created_at": "2020-08-12 20:54:04",
+    "closed_at": "2020-08-13 16:54:09",
+    "state": "closed",
+    "title": "spack config update doesn't handle comments in yaml file",
+    "number": 18031,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-high"
+    ],
+    "id": 677971836,
+    "html_url": "https://github.com/spack/spack/issues/18031",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

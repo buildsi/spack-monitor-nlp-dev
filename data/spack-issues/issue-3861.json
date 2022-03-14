@@ -1,0 +1,22 @@
+{
+    "body": "I followed the advice in spack's Getting Started guide about preferring a vendor-supplied openssl for improved security. This involved creating a packages.yaml file with the following contents:\r\n\r\n```\r\npackages:\r\n  openssl:\r\n    paths:\r\n      openssl@1.0.1e: /usr\r\n    buildable: False\r\n```\r\n\r\nThis seemed to work for many packages, but then I tried to build `qt@4.8.6`. One of the link steps failed with an unresolved symbol from libpng, even though libpng is listed as a dependency by the qt package. I eventually found the problem - `spack env qt@4.8.6 which c++` was resolving to `/usr/bin/c++`. After removing my customised packages.yaml file, spack's `c++` wrapper was found correctly.\r\n\r\nWhat is the best way to force spack to use specified system packages (e.g. openssl) without breaking spack's build environment?",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/3861",
+    "updated_at": "2017-05-01 01:43:45",
+    "created_at": "2017-04-17 00:30:11",
+    "closed_at": "2017-05-01 01:43:45",
+    "state": "closed",
+    "title": "External system packages may hide spack compiler wrappers",
+    "number": 3861,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "external-packages"
+    ],
+    "id": 222043395,
+    "html_url": "https://github.com/spack/spack/issues/3861",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 13
+}

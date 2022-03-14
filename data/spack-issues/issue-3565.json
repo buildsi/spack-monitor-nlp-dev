@@ -1,0 +1,17 @@
+{
+    "body": "1. GnuTLS requires a nettle from the 2.7 series, won't work with 3.x (so sayeth configure when it crashes...).\r\n\r\n2. Neutralize funky symlinking of GNUmakefile\r\n\r\n   I'm confused about how this ever worked, but....\r\n\r\n   As configure runs, it does something like this:\r\n\r\n   ```\r\n   config.status: linking /home/hartzelg/tmp/spack/var/spack/stage/gnutls-3.3.9-uq2u4ecucncv2l3akran765aystyvkys/gnutls-3.3.9/GNUmakefile to GNUmakefile\r\n   ```\r\n\r\n   and since that is the cwd the build crashes with:\r\n\r\n   ```\r\n   ==> 'make' '-j28'\r\n   make: GNUmakefile: Too many levels of symbolic links\r\n   make: stat: GNUmakefile: Too many levels of symbolic links\r\n   make: *** No rule to make target `GNUmakefile'.  Stop.\r\n   ```\r\n\r\n   Since the comment in the configure script points out that the GNUmakefile is \"only for the maintainer\" I've just commented out the bit that leads to the symlinking.\r\n\r\n   Builds for me on CentOS 7.  (I do have a recent-ish set of auto-* things in my patch via linuxbrew)",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3565",
+    "updated_at": "2017-03-27 15:33:37",
+    "created_at": "2017-03-27 01:05:32",
+    "closed_at": "2017-03-27 15:29:57",
+    "state": "closed",
+    "title": "Bugfix/gnutls",
+    "number": 3565,
+    "milestone": null,
+    "labels": [],
+    "id": 217110826,
+    "html_url": "https://github.com/spack/spack/pull/3565",
+    "assignees": [],
+    "comments": 3
+}

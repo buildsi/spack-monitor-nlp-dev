@@ -1,0 +1,19 @@
+{
+    "body": "When I try to install gdrcopy it builds but tries to install in /usr/local/lib as opposed to my spack sandbox.  I modified gdrcopy/package.py to fix the problem.\r\n\r\nI get the following error:\r\n\r\n==> Installing gdrcopy-master-gn4oaromvgzkq72ld66jpynzutojejw6\r\n==> No binary for gdrcopy-master-gn4oaromvgzkq72ld66jpynzutojejw6 found: installing from source\r\n==> gdrcopy: Executing phase: 'edit'\r\n==> gdrcopy: Executing phase: 'build'\r\n==> gdrcopy: Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16' 'lib_install' 'PREFIX=/home/mjleven/local/spatse/install/spack/opt/spack/linux-rhel8-thunderx2/gcc-10.2.0/gdrcopy-master-gn4oaromvgzkq72ld66jpynzutojejw6'\r\n \r\n3 errors found in build log:\r\n     18    make LIB_MAJOR_VER=2 LIB_MINOR_VER=2\r\n     19    make[1]: Entering directory '/tmp/mjleven/spack-stage/spack-stage-gdrcopy-master-gn4oaromvgzkq72ld66jpynzutojejw6/spack-src/src'\r\n     20    GDRAPI_ARCH=ARM64\r\n     21    make[1]: Leaving directory '/tmp/mjleven/spack-stage/spack-stage-gdrcopy-master-gn4oaromvgzkq72ld66jpynzutojejw6/spack-src/src'\r\n     22    installing in /usr/local/lib /usr/local/include...\r\n     23    'src/libgdrapi.so.2.2' -> '/usr/local/lib/libgdrapi.so.2.2'\r\n  >> 24    install: cannot create regular file '/usr/local/lib/libgdrapi.so.2.2': Permission denied\r\n  >> 25    ln: failed to create symbolic link 'libgdrapi.so.2': Permission denied\r\n  >> 26    ln: failed to create symbolic link 'libgdrapi.so': Permission denied\r\n     27    make: *** [Makefile:68: lib_install] Error 1\r\n\r\nI fixed the problem with a change to gdrcopy/package.py:\r\n\r\n[mjleven@stnv1 spack]$ git diff\r\ndiff --git a/var/spack/repos/builtin/packages/gdrcopy/package.py b/var/spack/repos/builtin/packages/gdrcopy/package.py\r\nindex 88cf814e40..14ba4bb31b 100644\r\n--- a/var/spack/repos/builtin/packages/gdrcopy/package.py\r\n+++ b/var/spack/repos/builtin/packages/gdrcopy/package.py\r\n@@ -32,4 +32,4 @@ def build(self, spec, prefix):\r\n     def install(self, spec, prefix):\r\n         mkdir(prefix.include)\r\n         mkdir(prefix.lib64)\r\n-        make('lib_install', 'PREFIX={0}'.format(self.prefix))\r\n+        make('lib_install', 'prefix={0}'.format(self.prefix))\r\n[mjleven@stnv1 spack]$\r\n ",
+    "user": "mjleven",
+    "url": "https://api.github.com/repos/spack/spack/issues/22865",
+    "updated_at": "2021-04-14 21:34:48",
+    "created_at": "2021-04-08 14:19:09",
+    "closed_at": "2021-04-14 21:34:48",
+    "state": "closed",
+    "title": "Installation issue: gdrcopy",
+    "number": 22865,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 853524702,
+    "html_url": "https://github.com/spack/spack/issues/22865",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Have hit this issue on a few systems now where location of gcc cannot be trusted to give a consistent location for the install prefix.  By querying the gcc execuable itself it seems it provides a better approach.\r\n\r\nErrors I would get during llvm build would be:\r\n```\r\n     80847        /apps/spack/opt/linux-rhel7-skylake_avx512/gcc-8.1.0/llvm-11.\r\n              0.0-s4pz3g4h3dladmlwlrldac5eflo44izh/bin/clang      -rdynamic CMa\r\n              keFiles/cmTC_b709c.dir/testCCompiler.c.o  -o cmTC_b709c\r\n  >> 80848    ld: cannot find crtbegin.o: No such file or directory\r\n  >> 80849        ld: cannot find -lgcc\r\n  >> 80850        ld: cannot find -lgcc_s\r\n  >> 80851        clang-11: error: linker command failed with exit code 1 (use\r\n              -v to see invocation)\r\n  >> 80852        gmake[1]: *** [cmTC_b709c] Error 1\r\n```\r\n\r\nBy applying this patch it helps.",
+    "user": "tomgreen66",
+    "url": "https://api.github.com/repos/spack/spack/issues/20189",
+    "updated_at": "2021-01-15 08:22:59",
+    "created_at": "2020-11-30 22:59:45",
+    "closed_at": "2021-01-15 08:22:59",
+    "state": "closed",
+    "title": "Improve gcc detection in llvm.",
+    "number": 20189,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 753864853,
+    "html_url": "https://github.com/spack/spack/pull/20189",
+    "assignees": [],
+    "comments": 10
+}

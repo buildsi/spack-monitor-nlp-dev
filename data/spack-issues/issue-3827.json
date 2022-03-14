@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #2215.\r\n\r\nPartially due to my tests for #3761, but also regularly when interacting with ```spack``` I become annoyed, that it doesn't complain enough. If I ask it to load a package which is installed in multiple versions. ```spack```'s behaviour is to just load ALL of them. Even worse, in the case of 0 matching packages it silently does nothing.\r\n\r\nThis PR adds a check in a ```module loads``` call whether exactly one spec is found in the db. I'm sure that it is not the most elegant way, but it works for me . The error message (well the dying message) should distinguish between having found n>1 or n=0 matching packages (which it doesn't do at the moment).\r\nThis here is mostly to ask the questions, whether a) this feature is wanted, b) this is the correct wau of introducing the logic and c) what the scope of the error message should be.\r\n\r\nI know that I broke two tests in ```lib/spack/spack/test/cmd/module.py```, but I don't know how I have to read the output of ```spack test```. So any help/feedback is appreciated.",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/3827",
+    "updated_at": "2018-07-24 18:27:18",
+    "created_at": "2017-04-13 18:10:37",
+    "closed_at": "2018-07-24 18:27:18",
+    "state": "closed",
+    "title": "fix module load behaviour [WIP] [donotmerge]",
+    "number": 3827,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "modules"
+    ],
+    "id": 221640530,
+    "html_url": "https://github.com/spack/spack/pull/3827",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 30
+}

@@ -1,0 +1,23 @@
+{
+    "body": "I have an environment already installed. I want to update that environment by running `spack concretize --force`, but I'm seeing a KeyError when I try to.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack concretize\r\n$ spack install\r\n# update one of the packages in the environment\r\n$ spack concretize --force\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack -d concretize -f\r\nTraceback (most recent call last):\r\n  File \"/Users/Adam/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/Adam/spack/lib/spack/spack/main.py\", line 653, in main\r\n    ev.activate(env, args.use_env_repo)\r\n  File \"/Users/Adam/spack/lib/spack/spack/environment.py\", line 163, in activate\r\n    cmds += env.add_default_view_to_shell(shell)\r\n  File \"/Users/Adam/spack/lib/spack/spack/environment.py\", line 1090, in add_default_view_to_shell\r\n    for _, spec in self.concretized_specs():\r\n  File \"/Users/Adam/spack/lib/spack/spack/environment.py\", line 1215, in concretized_specs\r\n    yield (s, self.specs_by_hash[h])\r\nKeyError: 'pxw6s2yxrbws3sg5jxzosiqc3xiisane'\r\n```\r\n\r\n### Information on your system\r\n\r\nI've been able to reproduce this on both macOS 10.15.1 and Cray CNL5. The only workaround I've found so far is to `rm spack.lock` and start from scratch in the environment.\r\n\r\n@alalazo This may be related to past problems we've encountered where the `package.py` used to install a package and generate module files is different from the current `package.py`. In this case, the only major change I know of is that `sqlite` had a new version added, so that may be the problem.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/13553",
+    "updated_at": "2020-01-22 07:36:11",
+    "created_at": "2019-11-03 22:56:28",
+    "closed_at": "2020-01-22 07:36:11",
+    "state": "closed",
+    "title": "KeyError in Spack Environments",
+    "number": 13553,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium",
+        "environments"
+    ],
+    "id": 516902945,
+    "html_url": "https://github.com/spack/spack/issues/13553",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I believe I've found a possible file handle leak in Spack. This manifests itself when installing very large environments.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI'm trying to install the following environment:\r\n```yaml\r\nspack:\r\n  specs:\r\n\r\n  # Shells\r\n  - bash\r\n\r\n  # Spack dependencies\r\n  - clingo\r\n  - gnupg\r\n  - graphviz\r\n  - kcov\r\n\r\n  # Newer versions of Linux tools\r\n  - watch\r\n  - wget\r\n  - unrar\r\n\r\n  # Software installation tools\r\n  - automake\r\n  - autoconf\r\n  - m4\r\n  - cmake\r\n  - ninja\r\n  - patchelf\r\n  - scons\r\n\r\n  # Version control systems\r\n  - mercurial\r\n  - subversion\r\n\r\n  # Python libraries\r\n  - python\r\n  - py-azureml-sdk\r\n  - py-black\r\n  - py-cartopy\r\n  - py-cmocean\r\n  - py-codecov\r\n  - py-dask\r\n  - py-fiona\r\n  - py-flake8\r\n  - py-flake8-import-order\r\n  - py-geocube\r\n  - py-geopandas\r\n  - py-geoplot\r\n  - py-inference-schema+numpy\r\n  - py-ipywidgets\r\n  - py-joblib\r\n  - py-jupyterlab\r\n  - py-matplotlib\r\n  - py-metpy\r\n  - py-mypy\r\n  - py-numpy\r\n  - py-openpyxl\r\n  - py-pandas\r\n  - py-pycocotools\r\n  - py-pygeos\r\n  - py-pyinstrument\r\n  - py-pytest\r\n  - py-pytest-cov\r\n  - py-pytest-mock\r\n  - py-pyyaml\r\n  - py-rarfile\r\n  - py-rasterio\r\n  - py-scikit-learn\r\n  - py-scipy\r\n  - py-seaborn\r\n  - py-setuptools\r\n  - py-shapely\r\n  - py-sphinx\r\n  - py-sphinx-rtd-theme\r\n  - py-sphinxcontrib-programoutput\r\n  - py-statsmodels\r\n  - py-tables\r\n  - py-torch\r\n  - py-torchvision\r\n  - py-twine\r\n  - py-vermin\r\n  - py-wheel\r\n  - py-xarray\r\n  - py-xgboost\r\n\r\n  # Research libraries\r\n  - gdal\r\n  - opencv\r\n\r\n  concretization: together\r\n```\r\nA few of these packages aren't yet in Spack, but you should be able to substitute them with other packages and still reproduce this.\r\n\r\n### Error Message\r\n\r\nAfter successfully installing several packages, I eventually hit:\r\n```\r\n==> Installing py-pytest-cov-2.8.1-jvm5vpnwx3vgzanxse2putpvi6ft54o5\r\n==> No binary for py-pytest-cov-2.8.1-jvm5vpnwx3vgzanxse2putpvi6ft54o5 found: installing from source\r\n==> Warning: Missing a source id for apple-libuuid@1353.100.2\r\n==> Error: Failed to install py-pytest-cov due to OSError: [Errno 24] Too many open files\r\n==> Installing py-pytest-mock-1.11.1-f2yunbyvz5f7sm6p5fkunwpu3lu6zc2f\r\n==> No binary for py-pytest-mock-1.11.1-f2yunbyvz5f7sm6p5fkunwpu3lu6zc2f found: installing from source\r\n==> Warning: Missing a source id for apple-libuuid@1353.100.2\r\n==> Error: Failed to install py-pytest-mock due to ProcessError: /usr/bin/git: Too many open files\r\n    Command: '/usr/bin/git' 'describe' '--tags' '--match' 'v*'\r\n==> Installing py-requests-2.24.0-cbnrnlrvv32qea7ofousm62yr7g5o4eq\r\n==> No binary for py-requests-2.24.0-cbnrnlrvv32qea7ofousm62yr7g5o4eq found: installing from source\r\n==> Warning: Missing a source id for apple-libuuid@1353.100.2\r\n==> Warning: Skipping build of py-azureml-core-1.23.0-ufhtrskom5dhrbf2ohomke6d75uaw5m5 since py-requests-2.24.0-cbnrnlrvv32qea7ofousm62yr7g5o4eq failed\r\n==> Warning: Skipping build of py-azureml-pipeline-core-1.23.0-6o5oa3nknsfca3a2yrplbj6l2rikwwyp since py-azureml-core-1.23.0-ufhtrskom5dhrbf2ohomke6d75uaw5m5 failed\r\n==> Error: [Errno 24] Too many open files: '/Users/Adam/spack/opt/spack/.spack-db/lock'\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.1-2888-a284edb852\r\n* **Python:** 3.8.10\r\n* **Platform:** darwin-catalina-ivybridge\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/23891",
+    "updated_at": "2021-08-24 21:08:35",
+    "created_at": "2021-05-25 16:52:50",
+    "closed_at": "2021-08-24 21:08:35",
+    "state": "closed",
+    "title": "Too many open files",
+    "number": 23891,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 901088015,
+    "html_url": "https://github.com/spack/spack/issues/23891",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 8
+}

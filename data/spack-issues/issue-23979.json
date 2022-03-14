@@ -1,0 +1,20 @@
+{
+    "body": "The `spack install --no-cache` option does not work.\r\n\r\nI confirmed the `use_cache` option is set properly when `--no-cache` is provided on the command line; however, it appears to have *no* affect on the installation.\r\n\r\nHaving this option actually work provides a quick way to reproduce fetch-related issues for packages without having mess with your mirror settings.  For example,\r\n\r\n```console\r\n$ spack checksum samrai@3.12.0\r\n ==> Found 1 version of samrai:\r\n  \r\n  3.12.0  https://computing.llnl.gov/projects/samrai/download/SAMRAI-v3.12.0.tar.gz\r\n\r\n==> Something failed on https://computing.llnl.gov/projects/samrai/download/SAMRAI-v3.12.0.tar.gz, skipping.  (All fetchers failed)\r\n==> Error: Could not fetch any versions for samrai\r\n...\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nYou should be able to reproduce the problem if any mirror with the spec cached (e.g., Spack's `spack-public` mirror).\r\n\r\nThe following is output the first time you run it in your instance (i.e., no local cache):\r\n\r\n```console\r\n$ spack install --no-cache samrai@3.12.0\r\n...\r\n==> Installing samrai-3.12.0-valqidvhtn5rbp2lrij3my46m6il6gnl\r\n...\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/b8/b8334aa22330a7c858e09e000dfc62abbfa3c449212b4993ec3c4035bed6b832.tar.gz\r\n######################################################################## 100.0%\r\n==> Applied patch /usr/WS1/dahlgren/releases/spack/var/spack/repos/builtin/packages/samrai/no-tool-build.patch\r\n...\r\n```\r\n\r\nOnce your local cache is populated, the output will appear as follows:\r\n \r\n```console\r\n$ spack install --no-cache samrai@3.12.0\r\n...\r\n==> Installing samrai-3.12.0-valqidvhtn5rbp2lrij3my46m6il6gnl\r\n...\r\n==> Using cached archive: /usr/WS1/dahlgren/releases/spack/var/spack/cache/_source-cache/archive/b8/b8334aa22330a7c858e09e000dfc62abbfa3c449212b4993ec3c4035bed6b832.tar.gz\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-2880-f31bc986a8\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-broadwell\r\n* **Concretizer:** original\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n~~- [ ] I have run the failing commands in debug mode and reported the output~~",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/23979",
+    "updated_at": "2021-06-02 18:16:36",
+    "created_at": "2021-05-28 01:34:54",
+    "closed_at": "2021-06-02 18:16:36",
+    "state": "closed",
+    "title": "Bug: spack install's --no-cache option does not work",
+    "number": 23979,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 904506825,
+    "html_url": "https://github.com/spack/spack/issues/23979",
+    "assignees": [],
+    "comments": 1
+}

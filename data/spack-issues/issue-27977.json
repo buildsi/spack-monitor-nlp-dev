@@ -1,0 +1,22 @@
+{
+    "body": "```bash\r\n$ spack test run bolt\r\n==> Spack test zy7oyss5ssmupkv2kcxpuo4d2ofgb3do\r\n==> Testing package bolt-2.0-svs7pdd\r\n==> Error: TestFailure: 2 tests failed.\r\n\r\n\r\nCommand exited with status 1:\r\n    '/home/vanessa/Desktop/Code/spack-vsoch/lib/spack/env/gcc/gcc' '-lomp' '-o' 'sample_nested' '-L/home/vanessa/Desktop/Code/spack-vsoch/opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/bolt-2.0-svs7pddm6k4zqtnzzrtkta5y2g2jblll/lib' '/home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd/cache/bolt/examples/sample_nested.c'\r\n/home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd/cache/bolt/examples/sample_nested.c: In function 'main':\r\n/home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd/cache/bolt/examples/sample_nested.c:15:23: warning: implicit declaration of function 'atoi' [-Wimplicit-function-declaration]\r\n   15 |     int size=(argc>1)?atoi(argv[1]):100;\r\n      |                       ^~~~\r\n/home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd/cache/bolt/examples/sample_nested.c:21:27: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]\r\n   21 |     double *a = (double *)malloc(sizeof(double)*size*size);\r\n      |                           ^~~~~~\r\n/home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd/cache/bolt/examples/sample_nested.c:21:27: warning: incompatible implicit declaration of built-in function 'malloc'\r\n/home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd/cache/bolt/examples/sample_nested.c:10:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'\r\n    9 | #include <sys/time.h>\r\n  +++ |+#include <stdlib.h>\r\n   10 | \r\n/usr/bin/ld: /tmp/cc5TlRZR.o: in function `main':\r\nsample_nested.c:(.text+0x71): undefined reference to `omp_get_num_threads'\r\ncollect2: error: ld returned 1 exit status\r\n\r\n\r\n\r\n1 error found in test log:\r\n     31    /home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd/cache/bolt/examples/sample_nested.c:10:1: note: include '<stdlib.h>\r\n           ' or provide a declaration of 'malloc'\r\n     32        9 | #include <sys/time.h>\r\n     33      +++ |+#include <stdlib.h>\r\n     34       10 |\r\n     35    /usr/bin/ld: /tmp/cc5TlRZR.o: in function `main':\r\n     36    sample_nested.c:(.text+0x71): undefined reference to `omp_get_num_threads'\r\n  >> 37    collect2: error: ld returned 1 exit status\r\n     38    \r\n     39      File \"/home/vanessa/Desktop/Code/spack-vsoch/bin/spack\", line 98, in <module>\r\n\r\n\r\n\r\nFailed to find executable 'sample_nested'\r\n\r\n/home/vanessa/Desktop/Code/spack-vsoch/lib/spack/spack/package.py:1882, in run_test:\r\n       1879                    # stack instead of from traceback.\r\n       1880                    # The traceback is truncated here, so we can't use it to\r\n       1881                    # traverse the stack.\r\n  >>   1882                    m = '\\n'.join(\r\n       1883                        spack.build_environment.get_package_context(tb)\r\n       1884                    )\r\n       1885\r\n\r\n\r\n/home/vanessa/Desktop/Code/spack-vsoch/lib/spack/spack/build_environment.py:1051, in _setup_pkg_and_run:\r\n       1048        tb_string = traceback.format_exc()\r\n       1049\r\n       1050        # build up some context from the offending package so we can\r\n  >>   1051        # show that, too.\r\n       1052        package_context = get_package_context(tb)\r\n       1053\r\n       1054        logfile = None\r\n\r\nSee test log for details:\r\n  /home/vanessa/.spack/test/zy7oyss5ssmupkv2kcxpuo4d2ofgb3do/bolt-2.0-svs7pdd-test-out.txt\r\n\r\n==> Error: 1 test(s) in the suite failed.\r\n```",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/27977",
+    "updated_at": "2022-03-08 17:25:14",
+    "created_at": "2021-12-14 00:23:04",
+    "closed_at": "2022-03-08 17:25:14",
+    "state": "closed",
+    "title": "spack test run bolt fails undefined reference to `omp_get_num_threads'",
+    "number": 27977,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "stand-alone-tests"
+    ],
+    "id": 1079167934,
+    "html_url": "https://github.com/spack/spack/issues/27977",
+    "assignees": [
+        "RikkiButler20"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "The [install file for LIKWID](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/likwid/package.py) changes the user for installation to the current user. This works only if the current user has enough permission to access the msr kernel interface and open PCI devices. Either you don't change the user (default is root) and have to use sudo (https://github.com/spack/spack/issues/4432) or you change the `ACCESSMODE` in config.mk to `perf_event` (>= 4.3.0). The perf_event backend works for performance counter measurements (depending on the perf_event_paranoid setting) but some features are disabled (Changing CPU and Uncore frequencies, reading turbo frequency limits, ...)\r\n\r\nThe problem was posted to the [LIKWID mailing list](https://groups.google.com/forum/#!topic/likwid-users/NXixg8Hjuko), I'm just reporting it.\r\n\r\n### Expected Result\r\n```console\r\n$ cd <LIKWID_INSTALL_DIR>/sbin/\r\n$ ls -la\r\n-rwsr-xr-x 1 root root 57960 Jul 28 15:35 likwid-accessD\r\n-rwsr-xr-x 1 root root 23824 Jul 28 15:35 likwid-setFreq\r\n```\r\n\r\n### Actual Result\r\n\r\n```console\r\n$ cd <LIKWID_INSTALL_DIR>/sbin/\r\n$ ls -la\r\n-rwsr-xr-x 1 user_without_enough_permission users 57960 Jul 28 15:35 likwid-accessD\r\n-rwsr-xr-x 1 user_without_enough_permission users 23824 Jul 28 15:35 likwid-setFreq\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ whoami\r\nuser_without_enough_permission\r\n$ spack install likwid@4.3.2\r\n```\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. which platform you are using\r\nThe reporting user uses CentOS 7.4\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\n```console\r\n$ spack find -ldf likwid\r\n==> 1 installed packages.\r\n-- linux-centos7-x86_64 / gcc@7.3.0 -----------------------------\r\nr76dngv    likwid@4.3.2%gcc cflags=\"-O3 -mavx2\" cxxflags=\"-O3 -mavx2\"\r\nzmy36jg        ^lua@5.3.4%gcc cflags=\"-O3 -mavx2\" cxxflags=\"-O3 -mavx2\"\r\n7zig44d            ^ncurses@6.1%gcc cflags=\"-O3 -mavx2\" cxxflags=\"-O3 -mavx2\"\r\nmcblpx4            ^readline@7.0%gcc cflags=\"-O3 -mavx2\" cxxflags=\"-O3 -mavx2\"\r\ntdjcr4u        ^perl@5.26.2%gcc cflags=\"-O3 -mavx2\" cxxflags=\"-O3 -mavx2\"\r\njim3cxh            ^gdbm@1.14.1%gcc cflags=\"-O3 -mavx2\" cxxflags=\"-O3 -mavx2\"\r\n```\r\n\r\nThanks for offering LIKWID in spack :)",
+    "user": "TomTheBear",
+    "url": "https://api.github.com/repos/spack/spack/issues/8885",
+    "updated_at": "2018-08-06 14:21:31",
+    "created_at": "2018-08-03 18:07:06",
+    "closed_at": "2018-08-06 14:21:31",
+    "state": "closed",
+    "title": "User change in LIKWID's package.py might be user without enough permissions",
+    "number": 8885,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 347488404,
+    "html_url": "https://github.com/spack/spack/issues/8885",
+    "assignees": [],
+    "comments": 3
+}

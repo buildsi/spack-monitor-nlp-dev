@@ -1,0 +1,26 @@
+{
+    "body": "Resolves #2379\r\n\r\nAllow spack to detect target at a finer granularity.\r\n\r\nMoves toward using the granularity of the -march option for the gnu compiler toolchain.\r\n\r\n##### Modifications to be done to add the feature\r\n\r\n- [x] Add support for detecting specific architectures (complete for Intel, IBM and AMD chips, not done for ARM yet).\r\n- [x] Create a mechanism for comparisons among architectures. This will be a partial ordering.\r\n- [x] Automatically add optimization flags for the proper target through the compiler wrappers.\r\n- [x] Ensure that defaults from `packages.yaml` allow for setting a generic target at any scope.\r\n- [x] Ensure that moving to a new architecture family will still use `platform.machine()` and avoid failures due to the architecture not being present in the list of known ones\r\n- [x] Ensure that targets saved in `compilers.yaml` are just representing an arch family - not micro-architectures. The rationale is that if a compiler can emit code for `x86_64` it can also emit specialized code for any `x86_64` micro-architecture it knows about. The benefits are that:\r\n  1. The number of entries in `compilers.yaml` is not exploding due to over-specialization.\r\n  2. This will be backward compatible with what we are already doing, and won't require user intervention on upgrade\r\n- [x] Make the features, etc. of the specialized architecture part of the hash. For generic architectures, like `x86_64` continue to use a string for backward compatibility.\r\n- [x] Document the extended support for micro-architectures\r\n- [x] Sync module docstrings as they contain outdated information\r\n- [x] Add a schema for `targets.json`\r\n- [x] Modify concretization algorithm to take into account compiler constraints if available, see https://github.com/spack/spack/pull/3206#issuecomment-507079614\r\n\r\n##### Tests to be added to the suite\r\n- [x] Ensure that high-end machines with custom build / detection logic (Cray, BG/Q) still work properly\r\n- [ ] Test that defaults in `packages.yaml` can set the target at any scope\r\n- [x] Test the semantic of `llnl.util.cpu.MicroArchitecture`, including partial ordering\r\n- [ ] Ensure that we don't dump unicode to `yaml` configuration even in Python 2\r\n- [x] Test that we are injecting the right compiler flags for relevant pairs of target / compiler\r\n- [x] Test that target names don't contain dashes\r\n- [x] Test that `spack find` works properly (was broken by 43d5e97 but not caught by unit tests)\r\n- [x] Test micro-architecture detection for common targets\r\n",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/3206",
+    "updated_at": "2019-10-13 00:16:55",
+    "created_at": "2017-02-21 18:13:02",
+    "closed_at": "2019-09-20 07:51:39",
+    "state": "closed",
+    "title": "Specific targets",
+    "number": 3206,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "hash-change",
+        "hashes",
+        "impact-high",
+        "architectures",
+        "microarchitectures"
+    ],
+    "id": 209228072,
+    "html_url": "https://github.com/spack/spack/pull/3206",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 34
+}

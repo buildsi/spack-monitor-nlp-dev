@@ -1,0 +1,19 @@
+{
+    "body": "# Background\r\n\r\n* `superlu-dist@5.4.0` introduced an API change that is not backward compatible.  This causes the spackage for `trilinos@12.12.1` to fail with the error:\r\n\r\n```\r\n     6109    $HOME/spack/var/spack/stage/trilinos-12.12.1-2n3hngka6s5cigudpk5o5ojykzl4mtyz/Trilinos-trilinos-release-12-12-1/packages/amesos/src/Amesos_Superludist.cpp: In member function \u2018int Amesos_Superludist::Factor()\u2019:\r\n  >> 6110    $HOME/spack/var/spack/stage/trilinos-12.12.1-2n3hngka6s5cigudpk5o5ojykzl4mtyz/Trilinos-trilinos-release-12-12-1/packages/amesos/src/Amesos_Superludist.cpp:475:75: error: \u2018LargeDiag\u2019 was not declared in this scope\r\n     6111         if( RowPerm_ == \"LargeDiag\" ) PrivateSuperluData_->options_.RowPerm = LargeDiag;\r\n     6112                                                                               ^~~~~~~~~\r\n     6113    $HOME/spack/var/spack/stage/trilinos-12.12.1-2n3hngka6s5cigudpk5o5ojykzl4mtyz/Trilinos-trilinos-release-12-12-1/packages/amesos/src/Amesos_Superludist.cpp:475:75: note: suggested alternative: \u2018LargeDiag_AWPM\u2019\r\n     6114         if( RowPerm_ == \"LargeDiag\" ) PrivateSuperluData_->options_.RowPerm = LargeDiag;\r\n     6115                                                                               ^~~~~~~~~\r\n     6116                                                                               LargeDiag_AWPM                                                                           ^~~~~~~~~\r\n```\r\n\r\n# Changes\r\n\r\n* Limit the version of `superlu-dist` used when building `trilinos`\r\n\r\n```python\r\n    depends_on('superlu-dist@4.4:5.3', when='@12.6.2:12.12.1+superlu-dist')\r\n```",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/8851",
+    "updated_at": "2019-04-02 21:28:33",
+    "created_at": "2018-07-31 16:34:57",
+    "closed_at": "2018-08-02 16:25:30",
+    "state": "closed",
+    "title": "Trilinos: Update rules for superlu-dist version compatibility.",
+    "number": 8851,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 346266464,
+    "html_url": "https://github.com/spack/spack/pull/8851",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Refers to #9902\r\nRefers to #11095\r\n\r\nThis PR adds a function that concretizes specs together or fails trying to do so.\r\n\r\n### Rationale\r\nIn many contexts (e.g. when using Spack environments to develop software or sometimes when deploying applications in a container) there could be the need to concretize specs together - meaning there will be a single configuration for each package in the DAG. This PR adds a function that permits to do just that:\r\n```python\r\nimport spack.concretize\r\n\r\n# Hdf5 below will depend on `mpich` and `zlib@1.2.8`\r\nconcrete_specs = spack.concretize.concretize_specs_together('hdf5+mpi', 'zlib@1.2.8', 'mpich')\r\n```\r\nThe function comes with unit tests and can be used later to solve issues like #9902\r\n\r\n### Description\r\nThe implementation of this functionality relies on the current state of the concretizer and repository modules in Spack. This involves:\r\n1. Creating a temporary repository on the fly that contains a fake package, whose only purpose is to depend on all the specs passed as input.\r\n2. Concretize this fake package and extract its direct dependencies\r\n\r\nBeing factored within a single function, it shouldn't be difficult to adapt this once the new concretizer will be in place. If need be error handling (in particular user messages) can be improved either in this PR or in a follow up.\r\n\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11158",
+    "updated_at": "2019-05-03 18:16:49",
+    "created_at": "2019-04-10 11:08:42",
+    "closed_at": "2019-05-03 18:04:39",
+    "state": "closed",
+    "title": "Added a function that concretizes specs together",
+    "number": 11158,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "tests",
+        "environments"
+    ],
+    "id": 431442582,
+    "html_url": "https://github.com/spack/spack/pull/11158",
+    "assignees": [],
+    "comments": 3
+}

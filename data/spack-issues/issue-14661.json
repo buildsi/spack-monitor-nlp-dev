@@ -1,0 +1,21 @@
+{
+    "body": "Importing `package.py` files involves a lot of spec parsing, which currently takes the bulk of the time.  This `test.py` script:\r\n\r\n```python\r\n#!/usr/bin/env spack-python\r\nimport spack.repo\r\nfor name in spack.repo.all_package_names():\r\n    spack.repo.path.get_pkg_class(name)\r\n```\r\n\r\ntakes ~8.5s on my machine on current `develop`.  With the changes included here, it takes 7.4s.  It's small but it makes a difference when importing lots of files.  The new concretizer will import a lot of packages, so I'm trying to speed this up.\r\n\r\n- [x] Avoid auto-creating `Spec` objects in `filename_for_package_name()` when all we need is a package name.\r\n- [x] Avoid calling `traverse()` in `SpecParser`",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/14661",
+    "updated_at": "2020-02-14 22:11:18",
+    "created_at": "2020-01-29 06:45:32",
+    "closed_at": "2020-01-30 05:15:59",
+    "state": "closed",
+    "title": "Faster spec parsing and imports",
+    "number": 14661,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "performance",
+        "imports"
+    ],
+    "id": 556670469,
+    "html_url": "https://github.com/spack/spack/pull/14661",
+    "assignees": [],
+    "comments": 0
+}

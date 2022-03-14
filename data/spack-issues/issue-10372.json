@@ -1,0 +1,21 @@
+{
+    "body": "I recently got an account on Piz Daint and noticed there's one unit test failing. The failure seems to depend on the order in which tests are run.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nculpo@daint106:~/github/spack> spack test\r\n...\r\n======================================== 1 failed, 1258 passed, 102 skipped, 1 xfailed in 293.22 seconds =========================================\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==================================================================== FAILURES ====================================================================\r\n__________________________________________________ test_get_module_cmd_from_bash_using_modules ___________________________________________________\r\n\r\n    @pytest.mark.skipif(MODULE_NOT_DEFINED, reason='Depends on defined module fn')\r\n    def test_get_module_cmd_from_bash_using_modules():\r\n        module_list_proc = subprocess.Popen(['module list'],\r\n                                            stdout=subprocess.PIPE,\r\n                                            stderr=subprocess.STDOUT,\r\n                                            executable='/bin/bash',\r\n                                            shell=True)\r\n        module_list_proc.wait()\r\n        module_list = module_list_proc.stdout.read()\r\n    \r\n        module_cmd = get_module_cmd_from_bash()\r\n        module_cmd_list = module_cmd('list', output=str, error=str)\r\n    \r\n        # Lmod command reprints some env variables on every invocation.\r\n        # Test containment to avoid false failures on lmod systems.\r\n>       assert module_list in module_cmd_list\r\nE       AssertionError: assert 'Currently Loaded Modulefiles:\\n  1) modules/3.2.10.6\\n  2) cce/8.7.3\\n  3) craype-network-aries\\n  4) craype/2.5.15\\n...) zlib/.1.2.8\\n 26) libxml2/.2.9.3\\n 27) ncurses/.6.0\\n 28) gettext/.0.19.7\\n 29) Perl/5.22.1-bare\\n 30) git/.2.13.1\\n' in 'fill python list\\n'\r\n\r\nmodule_parsing.py:123: AssertionError\r\n======================================== 1 failed, 1258 passed, 102 skipped, 1 xfailed in 293.22 seconds =========================================\r\n```\r\n\r\n\r\nNotice that if we run:\r\n```console\r\nculpo@daint106:~/github/spack> spack test --lf\r\n============================================================== test session starts ===============================================================\r\nplatform linux2 -- Python 2.7.13, pytest-3.2.5, py-1.4.34, pluggy-0.4.0\r\nrootdir: /users/culpo/github/spack/lib/spack/spack/test, inifile: pytest.ini\r\ncollected 1362 items                                                                                                                              \r\nrun-last-failure: rerun previous 1 failure\r\n\r\nmodule_parsing.py .\r\n\r\n=========================================================== slowest 20 test durations ============================================================\r\n0.06s call     module_parsing.py::test_get_module_cmd_from_bash_using_modules\r\n0.00s setup    module_parsing.py::test_get_module_cmd_from_bash_using_modules\r\n0.00s teardown module_parsing.py::test_get_module_cmd_from_bash_using_modules\r\n============================================================= 1361 tests deselected ==============================================================\r\n=================================================== 1 passed, 1361 deselected in 3.24 seconds ====================================================\r\n```\r\nthe failing test now passes (this might then be related to some state set by previous tests that is not appropriately cleaned up?).\r\n\r\n\r\n### Information on your system\r\n\r\nThe error happens on [Piz Daint](https://www.cscs.ch/computers/piz-daint/)",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10372",
+    "updated_at": "2022-03-10 10:51:12",
+    "created_at": "2019-01-17 09:45:56",
+    "closed_at": "2022-03-10 10:51:12",
+    "state": "closed",
+    "title": "Unit tests failing on Piz Daint",
+    "number": 10372,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "tests"
+    ],
+    "id": 400189941,
+    "html_url": "https://github.com/spack/spack/issues/10372",
+    "assignees": [],
+    "comments": 0
+}

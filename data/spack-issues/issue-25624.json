@@ -1,0 +1,17 @@
+{
+    "body": "When using modules for compiler (and/or external package), if a package's `setup_[dependent_]build_environment` set `PYTHONHOME`, it can influence the python [subprocess executed to gather module information](https://github.com/spack/spack/blob/4ddc0ff218d5ed0968f6efb0fac855b1b7127375/lib/spack/spack/util/module_cmd.py#L50):\r\n\r\nSpack failed with this error:\r\n\r\n```\r\n  File \"spack/var/spack/repos/builtin/packages/harfbuzz/package.py\", line 50, in configure_args\r\n    args.append('CXXFLAGS={0}'.format(self.compiler.cxx11_flag))\r\n  File \"spack/lib/spack/spack/compilers/gcc.py\", line 66, in cxx11_flag\r\n    if self.real_version < ver('4.3'):\r\n  File \"spack/lib/spack/spack/compiler.py\", line 348, in real_version\r\n    self.get_real_version())\r\n  File \"spack/lib/spack/spack/compiler.py\", line 524, in get_real_version\r\n    with self._compiler_environment():\r\n  File \"/usr/lib64/python3.6/contextlib.py\", line 81, in __enter__\r\n    return next(self.gen)\r\n  File \"spack/lib/spack/spack/compiler.py\", line 609, in _compiler_environment\r\n    spack.util.module_cmd.load_module(module)\r\n  File \"spack/lib/spack/spack/util/module_cmd.py\", line 106, in load_module\r\n    module('unload', text[i + 1])\r\n  File \"spack/lib/spack/spack/util/module_cmd.py\", line 73, in module\r\n    env_dict = json.loads(env_json)\r\n  File \"/usr/lib64/python3.6/json/__init__.py\", line 354, in loads\r\n    return _default_decoder.decode(s)\r\n  File \"/usr/lib64/python3.6/json/decoder.py\", line 339, in decode\r\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\r\n  File \"/usr/lib64/python3.6/json/decoder.py\", line 357, in raw_decode\r\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\r\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\r\n```\r\n\r\nBut the actual hidden error happened in the `python -c 'import json...'` subprocess, which made it output nothing on stdout, and on stderr:\r\n\r\n```\r\nModuleNotFoundError: No module named 'encodings'\r\n```\r\n\r\nThis fix uses `python -E` to ignore `PYTHONHOME` and `PYTHONPATH`. Should be safe here because the python subprocess code only use packages built-in to python.\r\n\r\nThe python subprocess in `environment.py` was also patched to be safe and consistent.",
+    "user": "Jordan474",
+    "url": "https://api.github.com/repos/spack/spack/issues/25624",
+    "updated_at": "2022-02-11 08:49:51",
+    "created_at": "2021-08-26 13:37:24",
+    "closed_at": "2021-10-03 14:10:33",
+    "state": "closed",
+    "title": "Fix JSONDecodeError when using compiler modules",
+    "number": 25624,
+    "milestone": null,
+    "labels": [],
+    "id": 980257894,
+    "html_url": "https://github.com/spack/spack/pull/25624",
+    "assignees": [],
+    "comments": 0
+}

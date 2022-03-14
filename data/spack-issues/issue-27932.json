@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```\r\n$ spack install cmake@3.21.4~ownlibs~ncurses\r\n\r\n==> Error: ProcessError: Command exited with status 11:\r\n    './bootstrap' (...)\r\n\r\n2 errors found in build log:\r\n     359    -- Using system-installed LIBRHASH\r\n     360    -- Using system-installed LIBUV\r\n     361    -- Using system-installed NGHTTP2\r\n     362    -- Using system-installed ZLIB\r\n     363    -- Using system-installed ZSTD\r\n     364    -- Could NOT find LibRHash (missing: LibRHash_LIBRARY)\r\n  >> 365    CMake Error at CMakeLists.txt:440 (message):\r\n     366      CMAKE_USE_SYSTEM_LIBRHASH is ON but LibRHash is not found!\r\n     367    Call Stack (most recent call first):\r\n     368      CMakeLists.txt:777 (CMAKE_BUILD_UTILITIES)\r\n     369\r\n     370\r\n     371    -- Configuring incomplete, errors occurred!\r\n     372    See also \"/build/razumov/cms-spack-repo/spack/stage/spack-stage-cmake-3.21.4-py4j4aexfhahe24xpk7y7wjmtnoqwx3f/spack-src/CMakeFiles/CMakeOutput.log\".\r\n     373    See also \"/build/razumov/cms-spack-repo/spack/stage/spack-stage-cmake-3.21.4-py4j4aexfhahe24xpk7y7wjmtnoqwx3f/spack-src/CMakeFiles/CMakeError.log\".\r\n     374    ---------------------------------------------\r\n  >> 375    Error when bootstrapping CMake:\r\n     376    Problem while running initial CMake\r\n     377    ---------------------------------------------\r\n\r\nSee build log for details:\r\n  /build/razumov/cms-spack-repo/spack/stage/spack-stage-cmake-3.21.4-py4j4aexfhahe24xpk7y7wjmtnoqwx3f/spack-build-out.txt\r\n```\n\n### Information on your system\n\n* **Spack:** 0.17.0\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-broadwell\r\n* **Concretizer:** clingo\r\n\n\n### Additional information\n\nSpack logs: https://gist.github.com/iarspider/fea199199cfe2fd9c94f1db5030875a2\r\n\r\nReason: CMake looks for `librhash.so`, but only `librhash.so.0` is installed by rhash, see https://github.com/rhash/RHash/issues/117 . \r\n\r\nPinging maintainer @chuckatkins, also @adamjstewart who did rhash recipe.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "iarspider",
+    "url": "https://api.github.com/repos/spack/spack/issues/27932",
+    "updated_at": "2021-12-17 01:02:26",
+    "created_at": "2021-12-12 21:58:24",
+    "closed_at": "2021-12-17 01:02:26",
+    "state": "closed",
+    "title": "Installation issue: cmake@3.21.4~ownlibs~ncurses",
+    "number": 27932,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1077919089,
+    "html_url": "https://github.com/spack/spack/issues/27932",
+    "assignees": [],
+    "comments": 1
+}

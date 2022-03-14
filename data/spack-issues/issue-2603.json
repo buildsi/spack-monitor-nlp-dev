@@ -1,0 +1,19 @@
+{
+    "body": "[I'm not much of a python programmer; pythonism feedback encouraged]  \r\n[I'm not much of a spack programmer; spack-ist feedback encouraged]  \r\n\r\nI thought it might be nice if I could avoid confusing my users by presenting them with a bunch of modules that were only installed as prerequisites to the ones that they've explicitly asked us to install and maintain.\r\n\r\nHere's a way to do it.\r\n\r\nIt's entirely based on transmogrified bits of existing functionality.  If it looks like I ripped off your code, you're probably right....\r\n\r\nThis is where someone is bound to point out the existing ways to achieve this.... ;)\r\n\r\nI'm not sure what documentation additions to make.\r\n\r\n---\r\n\r\nAdd the ability to the modules generation process to blacklist\r\npackages that were installed implicitly.  One can still whitelist\r\nmodules that were installed implicitly.\r\n\r\nThis changes adds a `blacklist_implicts` boolean as a peer to the\r\n`whitelist` and `blacklist` arrays, e.g.:\r\n\r\n```\r\nmodules:\r\n  enable::\r\n    - lmod\r\n  lmod:\r\n    whitelist:\r\n      - 'lua'\r\n      - 'py-setuptools'\r\n    blacklist:\r\n      -  '%gcc@4.8.3'\r\n    blacklist_implicits: True\r\n```\r\n\r\nIt adds a small helper in `spec.py` and then touches up the package\r\nfiltering code in `modules.py`.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2603",
+    "updated_at": "2017-02-03 23:42:46",
+    "created_at": "2016-12-15 21:45:18",
+    "closed_at": "2017-02-03 23:42:46",
+    "state": "closed",
+    "title": "Blacklist implicit packages for modulefile generation",
+    "number": 2603,
+    "milestone": null,
+    "labels": [],
+    "id": 195924433,
+    "html_url": "https://github.com/spack/spack/pull/2603",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

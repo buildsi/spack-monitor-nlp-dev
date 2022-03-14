@@ -1,0 +1,22 @@
+{
+    "body": "The command:\r\n```console\r\n$ spack config add config:build_jobs:2\r\n==> Error: Cannot determine valid type for path 'config:build_jobs'.\r\n```\r\nfails while it should instead write:\r\n```yaml\r\nconfig:\r\n  build_jobs: 2\r\n```\r\nin the most appropriate configuration scope.\r\n\r\n### Steps to reproduce the issue\r\nJust try the following command:\r\n```console\r\n$ spack config add config:build_jobs:2\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack -d --stacktrace config add config:build_jobs:2\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-07-15-12:06:35.452404, 5188] Imported config from built-in commands\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-07-15-12:06:35.456601, 5188] Imported config from built-in commands\r\nlib/spack/spack/config.py:834 ==> [2020-07-15-12:06:35.458919, 5188] Reading config file /home/culpo/.spack/config.yaml\r\nlib/spack/spack/main.py:764 ==> [2020-07-15-12:06:35.462300, 5188] ConfigError: Cannot determine valid type for path 'config:build_jobs'.\r\nlib/spack/spack/error.py:55 ==> [2020-07-15-12:06:35.462819, 5188] Error: Cannot determine valid type for path 'config:build_jobs'.\r\nTraceback (most recent call last):\r\n  File \"/home/culpo/PycharmProjects/spack/lib/spack/spack/main.py\", line 761, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/home/culpo/PycharmProjects/spack/lib/spack/spack/main.py\", line 489, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/home/culpo/PycharmProjects/spack/lib/spack/spack/cmd/config.py\", line 432, in config\r\n    action[args.config_command](args)\r\n  File \"/home/culpo/PycharmProjects/spack/lib/spack/spack/cmd/config.py\", line 245, in config_add\r\n    existing = spack.config.get_valid_type(path)\r\n  File \"/home/culpo/PycharmProjects/spack/lib/spack/spack/config.py\", line 913, in get_valid_type\r\n    raise ConfigError(\"Cannot determine valid type for path '%s'.\" % path)\r\nspack.config.ConfigError: Cannot determine valid type for path 'config:build_jobs'.\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.1-127-a6abd530b\r\n* **Python:** 3.7.4\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n\r\n\r\n### Additional information\r\n\r\nThe issue is due to the fact that the field in question has a minimum allowed value in the schema:\r\n\r\nhttps://github.com/spack/spack/blob/d25c7ddd6f1686f115f6dc2615a3bd3b6b3d29c4/lib/spack/spack/schema/config.py#L67\r\n\r\nThis causes the validation done in:\r\n\r\nhttps://github.com/spack/spack/blob/d25c7ddd6f1686f115f6dc2615a3bd3b6b3d29c4/lib/spack/spack/config.py#L870-L884\r\n\r\nto fail since there's an attempt to validate with `{'config': {'build_jobs': 0}}`. The failure is not because of the type but because of the value.\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17543",
+    "updated_at": "2021-10-29 16:44:50",
+    "created_at": "2020-07-15 10:14:10",
+    "closed_at": "2021-10-29 16:44:50",
+    "state": "closed",
+    "title": "\"spack config add\" fails to validate type of fields where the default constructor value is not allowed",
+    "number": 17543,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "workaround",
+        "impact-low"
+    ],
+    "id": 657233830,
+    "html_url": "https://github.com/spack/spack/issues/17543",
+    "assignees": [],
+    "comments": 1
+}

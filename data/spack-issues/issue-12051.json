@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #11844\r\nFixes #8908 \r\n\r\nPreviously, a new repo with the following package extending the behavior or the `gcc` package would fail:\r\n\r\n```\r\nfrom spack.pkg.builtin.gcc import Gcc as BuiltinGcc\r\n\r\nclass Gcc(BuiltinGcc):\r\n    def install(self, spec, prefix):\r\n        # logging code\r\n        ...\r\n        BuiltinGcc.install(self, spec, prefix)\r\n```\r\n\r\nSee #11844 for the error message. The reason for the bug is that the patches are stored in the same directory as the `package.py` file for which they are defined. If we inherit from `builtin.gcc`, we need to still find the patches associated with `builtin.gcc`. \r\n\r\nThe above package code will now work. We use python's method resolution order to find the first module which lives in a directory that also contains a patch file of the appropriate name.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/12051",
+    "updated_at": "2019-09-03 05:30:38",
+    "created_at": "2019-07-18 14:22:59",
+    "closed_at": "2019-07-20 01:08:07",
+    "state": "closed",
+    "title": "Package inheritance: Find patch files defined in parent classes using MRO",
+    "number": 12051,
+    "milestone": null,
+    "labels": [
+        "repos",
+        "patch"
+    ],
+    "id": 469799522,
+    "html_url": "https://github.com/spack/spack/pull/12051",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 1
+}

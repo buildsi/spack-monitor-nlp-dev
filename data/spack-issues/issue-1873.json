@@ -1,0 +1,20 @@
+{
+    "body": "I had a user complaint that my Mercurial installation wasn't working for his HTTPS repository. It turns out that we didn't have a global hgrc set up to tell Mercurial where to find our CA certificates. Prior to Mercurial 3.9, this would produce a harmless warning message:\n\n```\nwarning: bitbucket.org certificate with fingerprint 3f:d3:c5:17:23:3c:cd:f5:2d:17:76:06:93:7e:ee:97:42:21:14:aa not verified (check hostfingerprints or web.cacerts config setting) \n```\n\nBut as of Mercurial 3.9, this now produces an error message:\n\n```\n(an attempt was made to load CA certificates but none were loaded; see https://mercurial-scm.org/wiki/SecureConnections for how to configure Mercurial to avoid this error)\nabort: error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590) \n```\n\nThis PR creates an `hgrc` file in the installation directory that points to the location of the CA certs.\n\nAside from this main goal, the PR also:\n- Adds the latest version, 3.9.1\n- Makes mercurial a Python extension\n  - I don't expect anyone to activate it, but Mercurial technically builds a `site-packages` directory, so why not\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1873",
+    "updated_at": "2017-04-16 16:24:26",
+    "created_at": "2016-09-28 16:56:01",
+    "closed_at": "2016-09-28 18:58:51",
+    "state": "closed",
+    "title": "Tell Mercurial where to find CA certs",
+    "number": 1873,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "mercurial"
+    ],
+    "id": 179828293,
+    "html_url": "https://github.com/spack/spack/pull/1873",
+    "assignees": [],
+    "comments": 3
+}

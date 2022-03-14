@@ -1,0 +1,23 @@
+{
+    "body": "spack generates modules with /usr/bin in them. When this modules are loaded they switch compilers.\r\n\r\nhere is the list of modules I got.\r\n```\r\n$ cd /soft/spack-0.10.1/share/spack/lmod/linux-centos7-x86_64/\r\n[ssergien@beboplogin1 linux-centos7-x86_64]$ grep -R \"/usr/bin\" *\r\ngcc/7.1.0/m4/1.4.16-epqs64j.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/autoconf/2.69-obpbcpi.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/bison/2.7-mjao2rh.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/flex/2.5.37-6pkw7dj.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/cmake/2.8.12.2-mh5v6sj.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/automake/1.13.4-kokvbmh.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/openssl/1.0.1e-nn3ng5d.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/libtool/2.4.2-lyjk4te.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\ngcc/7.1.0/pkg-config/0.27.1-lyjdbtd.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.3/bison/2.7-ifeqg3x.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.3/openssl/1.0.1e-afp44aa.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.3/libtool/2.4.2-zrj7kuz.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.3/libtool/2.4.2-xzrrrf5.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.3/pkg-config/0.27.1-azeappb.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.3/pkg-config/0.27.1-or5h6mu.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/m4/1.4.16-4mceggk.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/autoconf/2.69-potli3m.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/bison/2.7-m5h6nq4.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/flex/2.5.37-mdp4grx.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/automake/1.13.4-a2fyvjt.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/openssl/1.0.1e-cdz677p.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/libtool/2.4.2-f5ckt6h.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\nintel/17.0.4/pkg-config/0.27.1-tkab33h.lua:prepend_path(\"PATH\", \"/usr/bin\")\r\n```\r\nThat is probably coming from this inside of packages.yaml:\r\n```\r\nautoconf:\r\n    paths:\r\n      autoconf@2.69 arch=linux-centos7-x86_64: /usr\r\n      autoconf@2.63 arch=linux-centos6-x86_64: /usr\r\n    buildable: False\r\n  automake:\r\n    paths:\r\n      automake@1.13.4 arch=linux-centos7-x86_64: /usr\r\n      automake@1.11.1 arch=linux-centos6-x86_64: /usr\r\n    buildable: False\r\n  bison:\r\n    paths:\r\n      bison@2.7   arch=linux-centos7-x86_64: /usr\r\n      bison@2.4.1 arch=linux-centos6-x86_64: /usr\r\n    buildable: False\r\n  cmake:\r\n    paths:\r\n      cmake@2.8.12.2 arch=linux-centos6-x86_64: /usr\r\n  flex:\r\n    paths:\r\n      flex@2.5.37 arch=linux-centos7-x86_64: /usr\r\n      flex@2.5.35 arch=linux-centos6-x86_64: /usr\r\n    buildable: False\r\n  libtool:\r\n    paths:\r\n      libtool@2.4.2 arch=linux-centos7-x86_64: /usr\r\n      libtool@2.2.6b arch=linux-centos6-x86_64: /usr\r\n    buildable: False\r\n  m4:\r\n    paths:\r\n      m4@1.4.16 arch=linux-centos7-x86_64: /usr\r\n      m4@1.4.13 arch=linux-centos6-x86_64: /usr\r\n    buildable: False\r\n```\r\n```$ spack find -p m4\r\n==> 6 installed packages.\r\n-- linux-centos6-x86_64 / gcc@6.1.0 -----------------------------\r\n    m4@1.4.13  /usr\r\n\r\n-- linux-centos6-x86_64 / intel@17.0.0 --------------------------\r\n    m4@1.4.13  /usr\r\n\r\n-- linux-centos7-x86_64 / gcc@4.8.5 -----------------------------\r\n    m4@1.4.16  /usr\r\n\r\n-- linux-centos7-x86_64 / gcc@7.1.0 -----------------------------\r\n    m4@1.4.16  /usr\r\n\r\n-- linux-centos7-x86_64 / intel@17.0.4 --------------------------\r\n    m4@1.4.16  /usr\r\n    m4@1.4.18  /blues/gpfs/home/software/spack-0.10.1/opt/spack/linux-centos7-x86_64/intel-17.0.4/m4-1.4.18-vytvqhc2wpwfxvqnjisv6z5pd756nenw\r\n```\r\nI think this modules should not be generated. \r\n\r\nOr at least do `append_path` vs `prepend_path` \r\n\r\nThanks\r\n\r\n\r\n\r\n",
+    "user": "ssergien",
+    "url": "https://api.github.com/repos/spack/spack/issues/5201",
+    "updated_at": "2017-09-25 16:47:50",
+    "created_at": "2017-08-24 16:20:24",
+    "closed_at": "2017-09-25 16:47:50",
+    "state": "closed",
+    "title": "spack generates modules with /usr/bin",
+    "number": 5201,
+    "milestone": null,
+    "labels": [
+        "question",
+        "modules",
+        "external-packages"
+    ],
+    "id": 252655869,
+    "html_url": "https://github.com/spack/spack/issues/5201",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

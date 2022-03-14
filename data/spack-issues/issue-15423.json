@@ -1,0 +1,19 @@
+{
+    "body": "<!--*Thanks for taking the time to report this build failure. To proceed with the\r\nreport please:*\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n-->\r\n\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.0-105-d6b0cf7\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install trilinos@12.12.1%gcc@7.4.0~adios2~alloptpkgs+amesos+amesos2+anasazi+aztec+belos+boost build_type=RelWithDebInfo ~cgns~chaco~complex~debug~dtk+epetra+epetraext+exodus+explicit_template_instantiation~float+fortran~fortrilinos gotype=long +gtest+hdf5+hypre+ifpack+ifpack2~intrepid~intrepid2~isorropia+kokkos~mesquite+metis~minitensor+ml~muelu~mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards+shared~shylu~stk~suite-sparse~superlu+superlu-dist~teko~tempus+teuchos+tpetra~x11~xsdkflags~zlib+zoltan+zoltan2 arch=linux-centos7-sandybridge\r\n.\r\n.\r\n.\r\n >> 5968    /tmp/spack/spack-stage/spack-stage-trilinos-12.12.1-jojooamnznfq5nv6eykybl5vo5zoe4w7/spack-src/packages/amesos2/src/Amesos2_Superludist.cpp:57:29: error: expected constructo\r\n             r, destructor, or type conversion before '(' token\r\n     5969       AMESOS2_SOLVER_EPETRA_INST(Superludist);\r\n     5970                                 ^\r\n  >> 5971    make[2]: *** [packages/amesos2/src/CMakeFiles/amesos2.dir/Amesos2_Superludist.cpp.o] Error 1\r\n     5972    make[2]: *** Waiting for unfinished jobs....\r\n```\r\n\r\n`trilinos@12.14.1` fails to build in the same way; `trilinos@12.18.1` succeeds!\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux lap-fey1.lanl.gov 3.10.0-1062.12.1.el7.x86_64 #1 SMP Tue Feb 4 23:02:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.7.1908 (Core)\r\n```\r\n\r\n### Additional information\r\n\r\nCommit d6b0cf75ed79ace3154de11ff3ad24af4e69f773 is the genesis of this problem; backing off to the prior commit enables both `trilinos@12.12.1` and `trilinos@12.14.1` to build successfully.  @mathsen, @aprokop, would you be willing to have a look at supporting a few downrev versions?\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "DarylGrunau",
+    "url": "https://api.github.com/repos/spack/spack/issues/15423",
+    "updated_at": "2020-09-22 23:52:06",
+    "created_at": "2020-03-10 16:02:48",
+    "closed_at": "2020-09-22 23:52:06",
+    "state": "closed",
+    "title": "Installation issue: trilinos",
+    "number": 15423,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 578690680,
+    "html_url": "https://github.com/spack/spack/issues/15423",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I haven't seen this with other packages, so I'm not sure what's special about `py-pillow`, but I'm reproducing this easily with the following:\r\n\r\n```\r\n$ spack python\r\nSpack version 0.13.3\r\nPython 3.6.9, Linux x86_64\r\n>>> from spack.spec import Spec\r\n>>> s = Spec('py-pillow')\r\n>>> s.concretize()\r\n>>> s.full_hash()\r\nTraceback (most recent call last):\r\n  File \"/usr/lib/python3.6/code.py\", line 91, in runcode\r\n    exec(code, self.locals)\r\n  File \"<console>\", line 1, in <module>\r\n  File \"/data/scott/projects/spack/lib/spack/spack/spec.py\", line 1424, in full_hash\r\n    return self._cached_hash(ht.full_hash, length)\r\n  File \"/data/scott/projects/spack/lib/spack/spack/spec.py\", line 1391, in _cached_hash\r\n    hash_string = self._spec_hash(hash)\r\n  File \"/data/scott/projects/spack/lib/spack/spack/spec.py\", line 1365, in _spec_hash\r\n    self.to_node_dict(hash=hash), default_flow_style=True)\r\n  File \"/data/scott/projects/spack/lib/spack/spack/spec.py\", line 1521, in to_node_dict\r\n    d['package_hash'] = self.package.content_hash()\r\n  File \"/data/scott/projects/spack/lib/spack/spack/package.py\", line 1281, in content_hash\r\n    hash_content.append(package_hash(self.spec, content))\r\n  File \"/data/scott/projects/spack/lib/spack/spack/util/package_hash.py\", line 118, in package_hash\r\n    content = package_content(spec)\r\n  File \"/data/scott/projects/spack/lib/spack/spack/util/package_hash.py\", line 113, in package_content\r\n    return ast.dump(package_ast(spec))\r\n  File \"/data/scott/projects/spack/lib/spack/spack/util/package_hash.py\", line 132, in package_ast\r\n    RemoveDirectives(spec).visit(root)\r\n  File \"/usr/lib/python3.6/ast.py\", line 253, in visit\r\n    return visitor(node)\r\n  File \"/usr/lib/python3.6/ast.py\", line 308, in generic_visit\r\n    value = self.visit(value)\r\n  File \"/usr/lib/python3.6/ast.py\", line 253, in visit\r\n    return visitor(node)\r\n  File \"/data/scott/projects/spack/lib/spack/spack/util/package_hash.py\", line 56, in visit_ClassDef\r\n    c for c in node.body\r\n  File \"/data/scott/projects/spack/lib/spack/spack/util/package_hash.py\", line 57, in <listcomp>\r\n    if (not self.is_directive(c) and not self.is_spack_attr(c))]\r\n  File \"/data/scott/projects/spack/lib/spack/spack/util/package_hash.py\", line 46, in is_directive\r\n    node.value.func.id in spack.directives.__all__)\r\nAttributeError: 'Call' object has no attribute 'id'\r\n```\r\n\r\nHere's some system information:\r\n\r\n```console\r\n$ uname -a\r\nLinux beast 4.15.0-76-generic #86-Ubuntu SMP Fri Jan 17 17:24:28 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n$ cat /etc/lsb-release \r\nDISTRIB_ID=Ubuntu\r\nDISTRIB_RELEASE=18.04\r\nDISTRIB_CODENAME=bionic\r\nDISTRIB_DESCRIPTION=\"Ubuntu 18.04.4 LTS\"\r\n```\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/14735",
+    "updated_at": "2020-02-20 21:45:59",
+    "created_at": "2020-02-04 05:27:07",
+    "closed_at": "2020-02-20 21:45:59",
+    "state": "closed",
+    "title": "Stack trace when calling full_hash() method (at least on py-pillow pkg)",
+    "number": 14735,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 559496346,
+    "html_url": "https://github.com/spack/spack/issues/14735",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

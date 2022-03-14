@@ -1,0 +1,17 @@
+{
+    "body": "Haven't looked at the code yet to see what is going on but I'm seeing the following behavior:\r\n\r\n```\r\n$ spack env create a\r\n$ spack env activate a\r\n$ printenv > act-a.txt\r\n$ spack env activate a\r\nSPACK_OLD_PROMPT: Undefined variable.\r\n$ printenv > act2-a.txt\r\n$ diff act-a.txt act2-a.txt\r\n< SPACK_LD_LIBRARY_PATH=/usr/tce/packages/mvapich2/mvapich2-2.3-intel-19.0.4/lib:/usr/tce/packages/intel/intel-19.0.4/lib/intel64\r\n< SPACK_ENV=/usr/WS1/dahlgren/releases/spack/var/spack/environments/a\r\n---\r\n> SPACK_LD_LIBRARY_PATH=/usr/WS1/dahlgren/releases/spack/var/spack/environments/a/.spack-env/view/lib64:/usr/WS1/dahlgren/releases/spack/var/spack/environments/a/.spack-env/view/lib:/usr/tce/packages/mvapich2/mvapich2-2.3-intel-19.0.4/lib:/usr/tce/packages/intel/intel-19.0.4/lib/intel64\r\n$ spack env deactivate\r\n==> Error: No environment is currently active.\r\n$ printenv > deact-a.txt\r\n$ diff deact-a.txt act2-a.txt   # Note no differences\r\n$ spack env remove a\r\n$ printenv > rem-a.txt\r\n$ diff act2-a.txt rem-a.txt   # Note no differences\r\n```\r\n\r\nAnd environment variables still have paths to the view.\r\n\r\n_Originally posted by @tldahlgren in https://github.com/spack/spack/issues/25409#issuecomment-953132990_",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/27024",
+    "updated_at": "2021-10-28 19:29:30",
+    "created_at": "2021-10-28 18:40:39",
+    "closed_at": "2021-10-28 19:29:30",
+    "state": "closed",
+    "title": "Environment activation/deactivation issues with [t]csh",
+    "number": 27024,
+    "milestone": null,
+    "labels": [],
+    "id": 1038841940,
+    "html_url": "https://github.com/spack/spack/issues/27024",
+    "assignees": [],
+    "comments": 3
+}

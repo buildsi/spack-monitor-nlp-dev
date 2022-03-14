@@ -1,0 +1,19 @@
+{
+    "body": "I fixed the download URL because the previous URL are no longer available.\r\n\r\nIn addition, installing binutils with Fujitsu compiler will cause the following errors:\r\n`x86_64.cc:1592:10: error: case value evaluates to 3221225474, which cannot be narrowed to type 'int' [-Wc++11-narrowing]`\r\n\r\nThe above cause is narrowing conversions are not allowed by {} initialization, since C++11. \r\n\r\nhttp://www.stroustrup.com/C++11FAQ.html#narrowing\r\n\r\nTherefore, I used `-Wno-narrowing` to ignore the above errors and continue with the previous semantics of silently converting values.\r\n\r\nhttps://gcc.gnu.org/wiki/FAQ#Wnarrowing",
+    "user": "Hironori-Yamaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/11922",
+    "updated_at": "2019-07-15 15:50:27",
+    "created_at": "2019-07-03 06:47:13",
+    "closed_at": "2019-07-15 15:50:27",
+    "state": "closed",
+    "title": "binutils: added '-Wno-narrowing' to CXXFLAGS when using fj compiler via flag_handler",
+    "number": 11922,
+    "milestone": null,
+    "labels": [],
+    "id": 463574352,
+    "html_url": "https://github.com/spack/spack/pull/11922",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 7
+}

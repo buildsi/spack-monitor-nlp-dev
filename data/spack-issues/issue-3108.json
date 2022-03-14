@@ -1,0 +1,17 @@
+{
+    "body": "```\r\n$ spack install --run-tests m4 %pgi\r\n```\r\ncrashes with thousands of error messages like:\r\n```\r\nPGC-W-0116-Constant value out of range for signed short or char (/blues/gpfs/home/software/spack-0.10.0/var/spack/stage/m4-1.4.18-zwtcbe4z66lx36aq7iuwsqbmz35a76jp/m4-1.4.18/tests/test-intprops.c: 164)\r\nPGC-W-0155-64-bit integral value truncated  (/blues/gpfs/home/software/spack-0.10.0/var/spack/stage/m4-1.4.18-zwtcbe4z66lx36aq7iuwsqbmz35a76jp/m4-1.4.18/tests/test-intprops.c: 164)\r\nPGC-W-0155-Integer overflow in divide  (/blues/gpfs/home/software/spack-0.10.0/var/spack/stage/m4-1.4.18-zwtcbe4z66lx36aq7iuwsqbmz35a76jp/m4-1.4.18/tests/test-intprops.c: 292)\r\nPGC-W-0086-Division by zero (/blues/gpfs/home/software/spack-0.10.0/var/spack/stage/m4-1.4.18-zwtcbe4z66lx36aq7iuwsqbmz35a76jp/m4-1.4.18/tests/test-intprops.c: 337)\r\n```\r\nThis PR fixes that. It should be included in the next release. Note that `make check` still doesn't pass for older versions of the PGI compilers (16.5), but it does for newer versions (16.10), so there is likely a bug in the PGI compilers themselves that has been fixed.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3108",
+    "updated_at": "2017-02-18 22:42:17",
+    "created_at": "2017-02-09 16:59:00",
+    "closed_at": "2017-02-18 22:42:14",
+    "state": "closed",
+    "title": "Add patch to allow M4 `make check` to pass for PGI",
+    "number": 3108,
+    "milestone": null,
+    "labels": [],
+    "id": 206564472,
+    "html_url": "https://github.com/spack/spack/pull/3108",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I found a few packages that could bypass `gcc` and `ld` spack compiler wrapper and call `ld.gold` directly, and so missing spack link flags injection.\r\n\r\nFor example, with a gcc  configured to use `ld.gold` by default, it will then call `ld.gold` explicitly when called to link. So if a package manages to resolve the true `gcc` path, it bypasses the compiler wrapper, and then calls `ld.gold` directly too. Having a `ld.gold` spack compiler wrapper in PATH workaround that. \r\n\r\nIf I recall correctly, I first saw this issue with a py-matplotlib@2 _png.so that did not have RPATH to the libpng. I then found a couple other packages that had similar issue.\r\n\r\nAlso I wouldn't be surprised to learn that some package call `ld.gold` directly. I've seen way shadier.\r\n\r\n\r\nAs a side note, I was also wondering about spack team's take on the fact that it will change a few packages installations without even changing the `full_hash` ?\r\n\r\n",
+    "user": "Jordan474",
+    "url": "https://api.github.com/repos/spack/spack/issues/25626",
+    "updated_at": "2022-02-11 08:45:34",
+    "created_at": "2021-08-26 14:17:49",
+    "closed_at": "2021-08-27 11:16:27",
+    "state": "closed",
+    "title": "Add ld.gold and ld.lld compiler wrapper",
+    "number": 25626,
+    "milestone": null,
+    "labels": [
+        "git"
+    ],
+    "id": 980302489,
+    "html_url": "https://github.com/spack/spack/pull/25626",
+    "assignees": [],
+    "comments": 3
+}

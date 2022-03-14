@@ -1,0 +1,19 @@
+{
+    "body": "\r\n<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\nI am trying to install visit, and I am hitting an error when it tries to install dbus.  This appears\r\nto be due to dbus depending on libSM (and through that libuuid), but not declaring that dependency in Spack. So in my build of visit, the libuuid dependency is picked up and set to use the spack installed libuuid via some other package visit depends on, but dbus ends up using the system installed libSM, and there is a mismatch between the two.  But the dbus\r\npackage should not be linking against system libSM.\r\n\r\n### Steps to reproduce the issue\r\nI am trying to install visit, and I am hitting an error when it tries to install dbus.  This appears\r\nto be \r\nspack install dbus@1.12.8%gcc@8.4.0 ^libuuid@1.0.3\r\neventually aborts with\r\n  CCLD     dbus-run-session\r\n/lib/../lib64/libSM.so: undefined reference to `uuid_unparse_lower@UUID_1.0'\r\n/lib/../lib64/libSM.so: undefined reference to `uuid_generate@UUID_1.0'\r\ncollect2: error: ld returned 1 exit status\r\n\r\nError appears due to the attempt to link the system /lib64/libSM.so\r\n\r\n### Information on your system\r\nspack debug report\r\n* **Spack:** 0.14.2\r\n* **Python:** 2.7.16\r\n* **Platform:** linux-rhel7-broadwell\r\n\r\n### Additional information\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5125717/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5125718/spack-build-out.txt)\r\n\r\nNo maintainers for dbus\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x ] I have uploaded the build log and environment files\r\n- [ x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/18267",
+    "updated_at": "2020-08-27 01:57:55",
+    "created_at": "2020-08-25 18:48:28",
+    "closed_at": "2020-08-27 01:57:55",
+    "state": "closed",
+    "title": "Installation issue: dbus (missing libsm dependency)",
+    "number": 18267,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 685709427,
+    "html_url": "https://github.com/spack/spack/issues/18267",
+    "assignees": [],
+    "comments": 0
+}

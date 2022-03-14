@@ -1,0 +1,20 @@
+{
+    "body": "Building nettle (as a prereq for gnutls as a prereq for emacs) failed\r\non a Mac running OS X 10.13.5 like so:\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8'\r\n\r\n2 errors found in build log:\r\n     197    1 warning generated.\r\n     198    getopt.c:1188:1: warning: no previous prototype for function 'getopt' [-Wmissing-prototype\r\n            s]\r\n     199    getopt (int argc, char *const *argv, const char *optstring)\r\n     200    ^\r\n     201    /Users/hartzell/tmp/spack-homework/opt/spack/darwin-highsierra-x86_64/clang-9.1.0-apple/m4\r\n            -1.4.18-caxsf7l5yd7qbq2bown6bzi5el3ltfwf/bin/m4 /Users/hartzell/tmp/spack-homework/var/spa\r\n            ck/stage/nettle-3.3-md2iuphdxpnsvj7nrdhczjvrhdgnrq7h/nettle-3.3/asm.m4 machine.m4 config.m\r\n            4 aes-decrypt-internal.asm >aes-decrypt-internal.s\r\n     202    /bin/sh: line 1: 78519 Abort trap: 6           /Users/hartzell/tmp/spack-homework/opt/spac\r\n            k/darwin-highsierra-x86_64/clang-9.1.0-apple/m4-1.4.18-caxsf7l5yd7qbq2bown6bzi5el3ltfwf/bi\r\n            n/m4 /Users/hartzell/tmp/spack-homework/var/spack/stage/nettle-3.3-md2iuphdxpnsvj7nrdhczjv\r\n            rhdgnrq7h/nettle-3.3/asm.m4 machine.m4 config.m4 aes-decrypt-internal.asm > aes-decrypt-in\r\n            ternal.s\r\n  >> 203    make[1]: *** [aes-decrypt-internal.o] Error 134\r\n     204    make[1]: *** Waiting for unfinished jobs....\r\n     205    5 warnings generated.\r\n  >> 206    make: *** [all] Error 2\r\n\r\nSee build log for details:\r\n  /Users/hartzell/tmp/spack-homework/var/spack/stage/nettle-3.3-md2iuphdxpnsvj7nrdhczjvrhdgnrq7h/nettle-3.3/spack-build.out\r\n```\r\n\r\nI'm not up to snuff for exploring OS X assembler and AES libraries.\r\n\r\nThe only useful thing Google discovered for me was this gist:\r\nhttps://gist.github.com/morgant/1753095 about building *gnutls* on the\r\nmac.\r\n\r\nIt didn't directly address my issue, but it pointed out that there was\r\na `--disable-assembler` flag to nettle's configure.\r\n\r\nWith this change I was able to build an emacs that was able to make\r\nthe necessary https connections to set up my [straight.el](https://github.com/raxod502/straight.el) based emacs config.\r\n\r\nIt seems that sometimes simply avoiding the issue **is** sufficient.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/8541",
+    "updated_at": "2018-06-23 18:04:11",
+    "created_at": "2018-06-22 00:37:31",
+    "closed_at": "2018-06-23 18:04:11",
+    "state": "closed",
+    "title": "Fix for nettle failure on OS X 10.13.5",
+    "number": 8541,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 334705736,
+    "html_url": "https://github.com/spack/spack/pull/8541",
+    "assignees": [],
+    "comments": 3
+}

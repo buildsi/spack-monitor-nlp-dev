@@ -1,0 +1,17 @@
+{
+    "body": "For repositories with tag commits that aren't reachable from the current head, the checkout of a tag in the git fetch strategy can fail.  This came up with the Go repository, which doesn't get its release version tags with the initial clone.\n\nTwo options, I'll put in either one but though it best to get some feedback first:\n1. Depend on using `--branch`, this requires a newer version of git, but allows it to put `--depth 1` and drop download bandwidth and time by a significant amount\n2. Add a `pull --tags` before the checkout.  In principle `fetch --tags` would also work, but the behavior is dependent on git version.  Either way, this completely prevents using a shallow clone.\n\nSpeaking of, is there a reason `--depth 1` isn't in the standard flags?\n",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/64",
+    "updated_at": "2015-06-14 00:57:34",
+    "created_at": "2015-06-12 15:38:05",
+    "closed_at": "2015-06-14 00:57:34",
+    "state": "closed",
+    "title": "Git tags not pulled in full before checkout",
+    "number": 64,
+    "milestone": null,
+    "labels": [],
+    "id": 87765884,
+    "html_url": "https://github.com/spack/spack/issues/64",
+    "assignees": [],
+    "comments": 6
+}

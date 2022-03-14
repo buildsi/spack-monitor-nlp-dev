@@ -1,0 +1,22 @@
+{
+    "body": "Currently, `intel-tbb` doesn't export `tbb.pc` files, and cannot be referenced from dependents by pkg-config.\r\n\r\npkg-config generation [may be introduced](https://github.com/oneapi-src/oneTBB/issues/5), but not available in now or earlier versions (e.g. version 2020.3). \r\n\r\nThis changes allows to export  `tbb.pc` , like [leveldb do](https://github.com/spack/spack/pull/3441).\r\n\r\nI'll explain how it will affect `intel-tbb` users.\r\n\r\n---\r\n\r\n[pmemkv](https://github.com/spack/spack/blob/4e8d87e5cc9c6cc536e4bd919e5f53aa7c3a7c75/var/spack/repos/builtin/packages/pmemkv/package.py#L47) is one of packages which want to use  `intel-tbb` 's  `tbb.pc`.\r\n\r\n`pmemkv` finds `tbb` from [pkg-config](https://github.com/pmem/pmemkv/blob/4ab5a4608d44c534e713f9f644fe117a0d6b9bda/CMakeLists.txt#L281), deb, rpm, or [`TBB_DIR`](https://github.com/pmem/pmemkv/blob/4ab5a4608d44c534e713f9f644fe117a0d6b9bda/cmake/tbb.cmake#L19).\r\n\r\nSo `pmemkv` cannot reference `intel-tbb` now ( and I want to fix that ).\r\n\r\nFor `pmemkv`, generating `tbb.pc` in `intel-tbb` is the easiest way since `pmemkv` doesn't have to know where `intel-tbb` is installed.\r\n\r\nTo set `TBB_DIR`, we need to write complicated patch. It is not a good solution.\r\n\r\n\r\n---\r\n[xtensor](https://github.com/spack/spack/blob/3d2cd480486648cd60c2400b9771df34e7aca684/var/spack/repos/builtin/packages/xtensor/package.py#L41) is one of packages which uses [FindTBB](https://github.com/justusc/FindTBB) to find TBB with [find_path](https://github.com/justusc/FindTBB/blob/25ecdea817b3af4a26d74ddcd439642dbd706acb/FindTBB.cmake#L177).\r\n\r\nxtensor doesn't use `pkg_check_modules` and pkg-config, so there is no effect for xtensor.\r\n\r\n[As far as I can find](https://github.com/spack/spack/search?l=Python&q=tbb), most packages take this approach.\r\n\r\n",
+    "user": "KoyamaSohei",
+    "url": "https://api.github.com/repos/spack/spack/issues/23977",
+    "updated_at": "2021-10-04 21:46:54",
+    "created_at": "2021-05-27 21:40:56",
+    "closed_at": "2021-10-04 21:38:31",
+    "state": "closed",
+    "title": "intel-tbb: install pkgconfig file",
+    "number": 23977,
+    "milestone": null,
+    "labels": [
+        "intel",
+        "update-package"
+    ],
+    "id": 904224186,
+    "html_url": "https://github.com/spack/spack/pull/23977",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 11
+}

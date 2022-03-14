@@ -1,0 +1,19 @@
+{
+    "body": "I configured spack as per the instructions in the documentation.  Specifically, I added the following to packages.yaml.\r\n```yaml\r\npackages:\r\n    openssl:\r\n        paths:\r\n            openssl@system: /usr\r\n        version: [system]\r\n        buildable: False\r\n```\r\nNow, when I try to install a package, I get an error.  For example:\r\n```\r\n\u279c  ~ spack install julia@master+cxx+hdf5+plot                                                                                                                         [19/24142]\r\n==> Installing julia\r\n==> git is already installed in /home/tom/dev/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/git-2.9.3-liibyiulrje5j2jtliitmgxz5lw3hinq\r\n==> Installing cmake\r\n==> ncurses is already installed in /home/tom/dev/spack/opt/spack/linux-fedora24-x86_64/gcc-6.2.1/ncurses-6.0-7abjubw7hxme3k7dufbfuc2jw3b2tajv\r\n==> Installing openssl\r\n==> Warning: There is no checksum on file to fetch openssl@system safely.\r\n  Fetch anyway? [y/N] ==> Error: EOFError: EOF when reading a line\r\n/home/tom/dev/spack/lib/spack/spack/package.py:946, in do_fetch:\r\n     927      def do_fetch(self, mirror_only=False):\r\n     928          \"\"\"\r\n     929          Creates a stage directory and downloads the tarball for this package.\r\n     930          Working directory will be set to the stage directory.\r\n     931          \"\"\"\r\n     932          if not self.spec.concrete:\r\n     933              raise ValueError(\"Can only fetch concrete packages.\")\r\n     934  \r\n     935          start_time = time.time()\r\n     936          if spack.do_checksum and self.version not in self.versions:\r\n     937              tty.warn(\"There is no checksum on file to fetch %s safely.\" %\r\n     938                       self.spec.format('$_$@'))\r\n     939  \r\n     940              # Ask the user whether to skip the checksum if we're\r\n     941              # interactive, but just fail if non-interactive.\r\n     942              ck_msg = \"Add a checksum or use --no-checksum to skip this check.\"\r\n     943              ignore_checksum = False\r\n     944              if sys.stdout.isatty():\r\n     945                  ignore_checksum = tty.get_yes_or_no(\"  Fetch anyway?\",\r\n  >> 946                                                      default=False)\r\n     947                  if ignore_checksum:\r\n     948                      tty.msg(\"Fetching with no checksum.\", ck_msg)\r\n```\r\nWhy is spack looking for a checksum for a system-installed binary?  Also, I am never given the opportunity to say \"y/N\".\r\n\r\nWhen I passed '--no-checksum', spack tried to download 'openssl-system.tar.gz' from the openssl URL instead of using the system version.",
+    "user": "TomasPuverle",
+    "url": "https://api.github.com/repos/spack/spack/issues/2473",
+    "updated_at": "2017-03-16 13:12:09",
+    "created_at": "2016-12-04 04:58:28",
+    "closed_at": "2017-03-16 13:12:09",
+    "state": "closed",
+    "title": "openssl@system not working at HEAD",
+    "number": 2473,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 193331916,
+    "html_url": "https://github.com/spack/spack/issues/2473",
+    "assignees": [],
+    "comments": 2
+}

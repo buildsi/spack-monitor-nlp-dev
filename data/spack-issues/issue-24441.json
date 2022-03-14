@@ -1,0 +1,22 @@
+{
+    "body": "The default behavior of ARM compilers (I tested 20.3 and the latest 21.0) is **not** to generate SVE code, even on A64fx platforms. The `-march=armv8.2a+sve` flag is required in order to generate SVE code.\r\n\r\nThis is arguably an ARM bug/feature, and a manual workaround is to\r\n```\r\nexport SPACK_CFLAGS=-march=armv8.2a+sve\r\n```\r\nand friends.\r\n\r\n\r\nThat being said, I believe spack can improve this and automatically set this flag (unless the `-march` flag is already set by the user/recipe) when building on a SVE capable platform such as `a64fx`.\r\n\r\nI guess a first step would be to have spack\r\n`export SPACK_ARCH=$(spack arch)`\r\nor something similar, and enhance the spack compiler wrappers to set the `-march` flag when needed.",
+    "user": "ggouaillardet",
+    "url": "https://api.github.com/repos/spack/spack/issues/24441",
+    "updated_at": "2021-06-26 07:18:49",
+    "created_at": "2021-06-21 01:45:52",
+    "closed_at": "2021-06-26 07:18:49",
+    "state": "closed",
+    "title": "ARM compilers do not generate SVE code on a64fx",
+    "number": 24441,
+    "milestone": null,
+    "labels": [
+        "arm",
+        "microarchitectures"
+    ],
+    "id": 925746771,
+    "html_url": "https://github.com/spack/spack/issues/24441",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 15
+}

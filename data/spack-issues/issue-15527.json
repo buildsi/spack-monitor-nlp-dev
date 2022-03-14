@@ -1,0 +1,21 @@
+{
+    "body": "Trying to install `intel-tbb` on `Ubuntu 18.04` for `ppc64le` and `x86_64`. After fetching the source, the checksum verification fails and the installation is aborted. It looks like the source package hash may have changed since it was originally entered into `intel-tbb`'s `package.py`. I'm using Spack @ develop (commit c9a715b190c, 16-March-2020)\r\n\r\n```\r\n$> spack install intel-tbb\r\n...\r\n==> Error: Failed to install intel-tbb due to ChildError: ChecksumError: sha256 checksum failed for /tmp/root/spack-stage/spack-stage-intel-tbb-2020.1-cw7q6lntstlmraaf5a2o377pgg2oqand/v2020.1.tar.gz\r\n    Expected 48d51c63b16787af54e1ee4aaf30042087f20564b4eecf9a032d5568bc2f0bf8 but got 7c96a150ed22bc3c6628bc3fef9ed475c00887b26d37bca61518d76a56510971\r\n/opt/spack/lib/spack/spack/package.py:1134, in do_fetch:\r\n       1131        self.stage.fetch(mirror_only)\r\n       1132        self._fetch_time = time.time() - start_time\r\n       1133\r\n  >>   1134        if checksum and self.version in self.versions:\r\n       1135            self.stage.check()\r\n       1136\r\n       1137        self.stage.cache_local()\r\n\r\nTraceback (most recent call last):\r\n  File \"/opt/spack/lib/spack/spack/build_environment.py\", line 801, in child_process\r\n    return_value = function()\r\n  File \"/opt/spack/lib/spack/spack/installer.py\", line 1047, in build_process\r\n    pkg.do_patch()\r\n  File \"/opt/spack/lib/spack/spack/package.py\", line 1170, in do_patch\r\n    self.do_stage()\r\n  File \"/opt/spack/lib/spack/spack/package.py\", line 1155, in do_stage\r\n    self.do_fetch(mirror_only)\r\n  File \"/opt/spack/lib/spack/spack/package.py\", line 1135, in do_fetch\r\n    self.stage.check()\r\n  File \"/opt/spack/lib/spack/spack/util/pattern.py\", line 68, in getter\r\n    getattr(item, self.name)(*args, **kwargs)\r\n  File \"/opt/spack/lib/spack/spack/stage.py\", line 490, in check\r\n    self.fetcher.check()\r\n  File \"/opt/spack/lib/spack/spack/fetch_strategy.py\", line 72, in wrapper\r\n    return fun(self, *args, **kwargs)\r\n  File \"/opt/spack/lib/spack/spack/fetch_strategy.py\", line 504, in check\r\n    \"Expected %s but got %s\" % (self.digest, checker.sum))\r\nspack.fetch_strategy.ChecksumError: sha256 checksum failed for /tmp/root/spack-stage/spack-stage-intel-tbb-2020.1-cw7q6lntstlmraaf5a2o377pgg2oqand/v2020.1.tar.gz\r\n    Expected 48d51c63b16787af54e1ee4aaf30042087f20564b4eecf9a032d5568bc2f0bf8 but got 7c96a150ed22bc3c6628bc3fef9ed475c00887b26d37bca61518d76a56510971\r\n```",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/15527",
+    "updated_at": "2020-03-18 01:45:57",
+    "created_at": "2020-03-18 00:15:29",
+    "closed_at": "2020-03-18 01:45:57",
+    "state": "closed",
+    "title": "intel-tbb: bad checksum on Ubuntu 18.04 ppc64le",
+    "number": 15527,
+    "milestone": null,
+    "labels": [
+        "checksum"
+    ],
+    "id": 583376984,
+    "html_url": "https://github.com/spack/spack/issues/15527",
+    "assignees": [
+        "eugeneswalker"
+    ],
+    "comments": 0
+}

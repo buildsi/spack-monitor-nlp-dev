@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nDuring the installation of NCL on freshly installed CentOS Linux 8 I have experienced a missing header, ft2build.h.\r\nThe reason for the missing header is that the cairo-ft.h header requires ft2build.h which resides inside include/freetype2 directory but the build system uses only include. \r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install ncl\r\n...\r\n$ sed '27862,27870!d' spack-build-out.txt \r\ncc -fopenmp -fcommon  -O  -I../../../.././include -I/var/lib/localadmin/stack/stack/opt/zen2/freetype/2.10.1-gcc-c4ear53/include  -DLinux    -DCTXT -DX11 -DPS -DPDF -DPIX   -DNeedFuncProto    -c -o cro_device.o cro_device.c\r\nIn file included from cro.h:147,\r\n                 from cro_device.c:26:\r\n/var/lib/localadmin/stack/stack/opt/zen2/cairo/1.16.0-gcc-idlt7l5/include/cairo/cairo-ft.h:46:10: fatal error: ft2build.h: No such file or directory\r\n   46 | #include <ft2build.h>\r\n      |          ^~~~~~~~~~~~\r\ncompilation terminated.\r\nmake[5]: *** [<builtin>: cro_device.o] Error 1\r\nmake[5]: Leaving directory '/dev/shm/build/zen2/localadmin/spack-stage-ncl-6.6.2-txq2fzn3s44tjlubf2iq7arcnnoer5pk/spack-src/ncarg2d/src/libncarg_gks/cdrivers'\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-zen2\r\n```\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6083842/spack-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6083835/spack-build-env.txt)\r\n\r\n\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "robert-mijakovic",
+    "url": "https://api.github.com/repos/spack/spack/issues/22082",
+    "updated_at": "2021-03-05 19:43:10",
+    "created_at": "2021-03-04 13:29:21",
+    "closed_at": "2021-03-05 19:43:10",
+    "state": "closed",
+    "title": "Installation issue: NCL fails to install due to missing ft2build.h",
+    "number": 22082,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 822133745,
+    "html_url": "https://github.com/spack/spack/issues/22082",
+    "assignees": [],
+    "comments": 1
+}

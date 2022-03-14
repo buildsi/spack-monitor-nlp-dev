@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\nCreate an environment with:\r\n```console\r\n$ mkdir tmp && cd tmp\r\n$ spack env create -d .\r\n$ spack external find python\r\n$ spack add py-pytest\r\n```\r\nand then edit it to have a single external Python. In my case the final `spack.yaml` looks like:\r\n```yaml\r\n# This is a Spack Environment file.\r\n#\r\n# It describes a set of packages to be installed, along with\r\n# configuration settings.\r\nspack:\r\n  # add package specs to the `specs` list\r\n  specs:\r\n  - py-pytest\r\n  view: true\r\n  packages:\r\n    python:\r\n      externals:\r\n      - spec: python@3.8.10+bz2+ctypes+dbm+lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib\r\n        prefix: /usr\r\n```\r\nWhen trying to install the environment you should get errors near the end:\r\n```console\r\n$ spack install\r\n[ ... ]\r\n==> Installing py-py-1.9.0-vohcpazqyqvxez6gopbq45pzxuaundmm\r\n==> No binary for py-py-1.9.0-vohcpazqyqvxez6gopbq45pzxuaundmm found: installing from source\r\n==> Using cached archive: /home/culpo/PycharmProjects/spack/var/spack/cache/_source-cache/archive/9c/9ca6883ce56b4e8da7e79ac18787889fa5206c79dcc67fb065376cd2fe03f342.tar.gz\r\n==> No patches needed for py-py\r\n==> py-py: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/usr/bin/python3.8' '-s' 'setup.py' '--no-user-cfg' 'build'\r\n\r\n1 warning found in build log:\r\n  >> 3    WARNING: The wheel package is not available.\r\n     4    Traceback (most recent call last):\r\n     5      File \"setup.py\", line 45, in <module>\r\n     6        main()\r\n     7      File \"setup.py\", line 5, in main\r\n     8        setup(\r\n     9      File \"/home/culpo/PycharmProjects/spack/opt/spack/linux-ubuntu20.04-icelake/gcc-9.3.0/py-setuptools-58.2.0-j3uiv6hk77qtaa3jo2mnek6gke5wzshg/lib/p\r\n          ython3/dist-packages/setuptools/__init__.py\", line 152, in setup\r\n\r\nSee build log for details:\r\n  /tmp/culpo/spack-stage/spack-stage-py-py-1.9.0-vohcpazqyqvxez6gopbq45pzxuaundmm/spack-build-out.txt\r\n[ ... ]\r\n```\n\n### Information on your system\n\n* **Spack:** 0.17.0-171-2f84643c26\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-icelake\r\n* **Concretizer:** clingo\r\n\n\n### Additional information\n\n[spack-build-out.txt](https://github.com/spack/spack/files/7551975/spack-build-out.txt)\r\n\r\n@adamjstewart \r\n\r\nNote that the issue is just with external Python. Letting Spack build a new interpreter works correctly. Being able to use a system Python is needed to let Spack bootstrap `py-test` and remove the outdated vendored dependency.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/27497",
+    "updated_at": "2022-01-14 02:11:17",
+    "created_at": "2021-11-17 05:26:23",
+    "closed_at": "2022-01-14 02:11:17",
+    "state": "closed",
+    "title": "Installation issue: py-pytest with external (system) python",
+    "number": 27497,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1055720611,
+    "html_url": "https://github.com/spack/spack/issues/27497",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

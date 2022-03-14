@@ -1,0 +1,21 @@
+{
+    "body": "My CI build last succeeded on \"Sep 30, 2017 2:27 AM\" (GMT).\r\n\r\nThe failure I'm seeing looks like this in the console output:\r\n\r\n```\r\n==> Successfully installed gmp\r\n  Fetch: 0.02s.  Build: 31.38s.  Total: 31.41s.\r\n[+] /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/gmp-6.1.2-6bsovvkqwx6zscwtbvjj6egrgizbyycm\r\n==> Installing mpfr\r\n==> Fetching file:///tmp/apps-build-mirror.TwcZKz/mirror/mpfr/mpfr-3.1.5.tar.bz2\r\n==> Staging archive: /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mpfr-3.1.5-sgc4qsrkmz4g73gp4d7ltpik67g42p6q/mpfr-3.1.5.tar.bz2\r\n==> Created stage in /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mpfr-3.1.5-sgc4qsrkmz4g73gp4d7ltpik67g42p6q\r\n==> Applied patch vasprintf.patch\r\n==> Applied patch strtofr.patch\r\n==> Building mpfr [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mpfr-3.1.5-sgc4qsrkmz4g73gp4d7ltpik67g42p6q/mpfr-3.1.5/configure' '--prefix=/scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/mpfr-3.1.5-sgc4qsrkmz4g73gp4d7ltpik67g42p6q'\r\n\r\n1 error found in build log:\r\n     [ ... ]\r\n     143   checking whether to build static libraries... yes\r\n     144   checking whether gcc __attribute__ ((mode (XX))) works... yes\r\n     145   checking for recent GMP... yes\r\n     146   checking usable gmp.h at link time... yes\r\n     147   checking for GMP_NUMB_BITS and sizeof(mp_limb_t) consistency... yes\r\n     148   checking for __gmpz_init in -lgmp... no\r\n  >> 149   configure: error: libgmp not found or uses a different ABI (including static vs shared).\r\n     150   Please read the INSTALL file -- see \"In case of problem\".\r\n\r\nSee build log for details:\r\n  /scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build/spack/var/spack/stage/mpfr-3.1.5-sgc4qsrkmz4g73gp4d7ltpik67g42p6q/mpfr-3.1.5/spack-build.out\r\n/scratch/hartzelg/spack-cime-sc1-working-dir/workspace/sc1-daily-build\r\n```\r\n\r\nand like this in the `spack-build.out` (Those of you following my disappearing staging dirs in #4977, this log is missing on the new shiny machine but present on the old system, which gives me a bit of traction):\r\n\r\n```\r\n[...]\r\nchecking whether gcc __attribute__ ((mode (XX))) works... yes\r\nchecking for recent GMP... yes\r\nchecking usable gmp.h at link time... yes\r\nchecking for GMP_NUMB_BITS and sizeof(mp_limb_t) consistency... yes\r\nchecking for __gmpz_init in -lgmp... no\r\nconfigure: error: libgmp not found or uses a different ABI (including static vs shared).\r\nPlease read the INSTALL file -- see \"In case of problem\".\r\n```\r\n\r\nI don't see any obviously related commits over the past couple of days.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/5564",
+    "updated_at": "2017-10-03 23:47:08",
+    "created_at": "2017-10-02 15:32:12",
+    "closed_at": "2017-10-03 23:47:08",
+    "state": "closed",
+    "title": "gcc broken: mpfr build fails due to inappropriate libgmp, SPACK_LINK_DEPS missing?",
+    "number": 5564,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error",
+        "gcc"
+    ],
+    "id": 262126297,
+    "html_url": "https://github.com/spack/spack/issues/5564",
+    "assignees": [],
+    "comments": 14
+}

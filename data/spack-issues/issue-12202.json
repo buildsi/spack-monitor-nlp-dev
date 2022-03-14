@@ -1,0 +1,17 @@
+{
+    "body": "Fixes #12007.\r\n\r\nThe Cray cc wrappers don't handle the -s flag (strip) cleanly, It's\r\nnot essential to strip the binary, so just remove the flag on Cray.\r\n\r\nNote: the default build on Cray is for the back end and the unzip\r\nbinary won't run on the front end.  To build for FE, use something\r\nlike arch=cray-fe-x86_64.\r\n\r\n----------\r\n\r\nAs I mentioned in #12199, the way I wrote this, this removes the `-s`\r\nflag on Cray.  If you really wanted to strip the binary, there is\r\nanother one-line `filter_file` to put `-s` on `LFLAGS1` which works.\r\n\r\nBut I'd just as soon not strip the binary.  The zip package uses the\r\nsame Makefile except without -s, and I'd rather follow their example.\r\nAll five binaries combined are less than 1 meg.\r\n\r\nping @mamelara @jrood-nrel  @chuckatkins \r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/12202",
+    "updated_at": "2019-08-01 03:44:42",
+    "created_at": "2019-07-30 20:07:11",
+    "closed_at": "2019-08-01 03:44:42",
+    "state": "closed",
+    "title": "unzip: fix build for cray back-end",
+    "number": 12202,
+    "milestone": null,
+    "labels": [],
+    "id": 474796466,
+    "html_url": "https://github.com/spack/spack/pull/12202",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Working with gnu package directories, which are pretty regularly structured and I expected to work well, it seems that some oddities come up with the current spider approach.  This actually turned up two separate but related issues.\n\nThe first is that loading a directory from an FTP url appears to cause issues, second is that `.sig` files are being recognized as potential archives and causing failures when spack attempts to treat them as tar archives.\n\nSee errors below:\n\n```\nrzalastor1@scogland:EDITOR='emacs -nw' spack create ftp://ftp.gnu.org/pub/gnu/emacs/emacs-24.5.tar.xz\n==> This looks like a URL for emacs version 24.5.\n==> Creating template for package emacs\nTraceback (most recent call last):\n  File \"/g/g12/scogland/spack/bin/spack\", line 168, in <module>\n    main()\n  File \"/g/g12/scogland/spack/bin/spack\", line 146, in main\n    return_val = command(parser, args)\n  File \"/g/g12/scogland/spack/lib/spack/spack/cmd/create.py\", line 169, in create\n    versions = spack.util.web.find_versions_of_archive(url)\n  File \"/g/g12/scogland/spack/lib/spack/spack/util/web.py\", line 214, in find_versions_of_archive\n    p, l = spider(lurl, depth=list_depth)\n  File \"/g/g12/scogland/spack/lib/spack/spack/util/web.py\", line 176, in spider\n    pages, links =  _spider((root_url, set(), root_url, None, 1, max_depth, False))\nValueError: need more than 0 values to unpack\nrzalastor1@scogland:EDITOR='emacs -nw' spack create http://ftp.gnu.org/pub/gnu/emacs/emacs-24.5.tar.xz\n==> This looks like a URL for emacs version 24.5.\n==> Creating template for package emacs\n==> Found 8 versions of emacs:\n  24.5.tar.xz.sighttp://ftp.gnu.org/pub/gnu/emacs/emacs-24.5.tar.xz.sig\n  24.5      http://ftp.gnu.org/pub/gnu/emacs/emacs-24.5.tar.xz\n  24.4.tar.xz.sighttp://ftp.gnu.org/pub/gnu/emacs/emacs-24.4.tar.xz.sig\n  24.4      http://ftp.gnu.org/pub/gnu/emacs/emacs-24.4.tar.xz\n  24.3.tar.xz.sighttp://ftp.gnu.org/pub/gnu/emacs/emacs-24.3.tar.xz.sig\n  24.3      http://ftp.gnu.org/pub/gnu/emacs/emacs-24.3.tar.xz\n  24.2.tar.xz.sighttp://ftp.gnu.org/pub/gnu/emacs/emacs-24.2.tar.xz.sig\n  24.2      http://ftp.gnu.org/pub/gnu/emacs/emacs-24.2.tar.xz\n\nInclude how many checksums in the package file? (default is 5, q to abort)\n==> Downloading...\n==> Trying to fetch from http://ftp.gnu.org/pub/gnu/emacs/emacs-24.5.tar.xz.sig\n######################################################################## 100.0%\n/bin/tar: This does not look like a tar archive\n/bin/tar: Skipping to next header\n/bin/tar: Exiting with failure status due to previous errors\n==> Error: Command exited with status 2:\n/bin/tar --exclude=*/*/* -tf /g/g12/scogland/spack/var/spack/stage/spack-stage-aC986I/emacs-24.5.tar.xz.sig\n```\n",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/282",
+    "updated_at": "2016-10-16 21:46:30",
+    "created_at": "2015-12-29 16:48:24",
+    "closed_at": "2016-10-16 21:46:30",
+    "state": "closed",
+    "title": "package version auto-location exceptions and mis-identification",
+    "number": 282,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 124237086,
+    "html_url": "https://github.com/spack/spack/issues/282",
+    "assignees": [],
+    "comments": 11
+}

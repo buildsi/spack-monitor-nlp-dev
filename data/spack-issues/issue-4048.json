@@ -1,0 +1,20 @@
+{
+    "body": "On the latest Ubuntu and Debian, and on Arch, the default system shell is `dash`, and there are systems out there that don't have `bash`.  See [Arch](https://wiki.archlinux.org/index.php/Dash) and [Ubuntu](https://wiki.ubuntu.com/DashAsBinSh)'s docs on this.\r\n\r\nIf you run as Spack in those environments, you get this:\r\n\r\n```shell\r\n+ export SPACK_ROOT=/spack\r\n+ . /spack/share/spack/setup-env.sh\r\n+ function spack {\r\n/bin/sh: 59: /spack/share/spack/setup-env.sh: function: not found\r\nERROR: Aborting with RETVAL=255\r\n```\r\n\r\nThis PR makes `setup-env.sh` `dash`-compatible \ud83d\ude04 .  And less readable \ud83d\ude1e .  I think it is worthwhile to be `sh`-compatible so that we can be used easily in these more and more popular minimal environments.\r\n\r\n- [x] Replaced use of `[[` with `[`\r\n- [x] Replaced `function foo { .. }` with `foo() { .. }`\r\n- [x] Wrapped some long lines\r\n- [x] Add magic so that we can find the sourced file even in `dash` (whoa!)\r\n- [x] Only do the complicated shell checks in one place; test `$_sp_shell` elsewhere.\r\n- [x] Tests",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/4048",
+    "updated_at": "2019-07-16 15:01:40",
+    "created_at": "2017-04-29 00:02:45",
+    "closed_at": "2019-07-05 19:54:18",
+    "state": "closed",
+    "title": "Make setup-env.sh compatible with dash",
+    "number": 4048,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "shell-support"
+    ],
+    "id": 225218877,
+    "html_url": "https://github.com/spack/spack/pull/4048",
+    "assignees": [],
+    "comments": 16
+}

@@ -1,0 +1,17 @@
+{
+    "body": "I am writing a package for a piece of software that is retrieved through a link that does not contain a filename:\n\nhttps://www.earthsystemgrid.org/download/fileDownload.html?logicalFileId=5995adf7-351e-11e4-a4b4-00c0f03d5b7c\n\nAnd spack \"Cannot deduce archive type\" of the downloaded file. As it turns out the extension that is returned by the method `downloaded_file_extension` that rises that exception is necessary only to build a filename under which the downloaded file will be cached. And later this filename is used to detect the decompressor (unzip or tar) to use, but only when the fetching is done from the cache. This extension is not used when staging after fetching from the url. I see several solutions for this problem, which I would like to discuss:\n1. Use `expand=False`. In that case the method `downloaded_file_extension` is not called at all and the cached file has no extension. There are two problems with this solution: a) I will have to do all the work with decompressing and patching within the `install` method of my package (I don't like this idea); b) `expand=False` does not work when fetching from cache: in this case spack uses the default return value of the `decompressor_for` method, which is tar (which is correct in my particular case, but the decompressing is done twice since I implement it in the `install` method of my package).\n2. Try to get the filename and the archive type from the HTTP response headers. I could try to implement this, but would appreciate the guidance on where it would be better to put this logic. Also I don't know in how many ways servers can give me the filename to account for all possible options.\n3. Add an additional kwarg for the `version` directive. Something like `archive_ext='tar.gz'` and then, if the argument is provided, use this extension in the `mirror_archive_filename` method instead of trying to get it from the `downloaded_file_extension` method (which fails with `UrlParseError` in my case). But this will work if either we fetch from the cache or we fetch from an url AND the downloaded file is a tar archive, since tar is the default decompressor. So it will be necessary to append the provided extension to the filename of the downloaded file to account for zip archives. I could implement this as well, but also would like to get some tips on where to put the logic.\n4. To get almost the same result as in the 3rd, it is possible just to `return None` instead of raising `UrlParseError` in the `downloaded_file_extension` method. But the problem with zip archives will stay.\n\nPlease, tell if you see other solutions for this. Thank you.\n",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/1488",
+    "updated_at": "2017-04-12 21:30:31",
+    "created_at": "2016-08-10 12:29:24",
+    "closed_at": "2017-04-12 21:30:31",
+    "state": "closed",
+    "title": "UrlParseError in downloaded_file_extension",
+    "number": 1488,
+    "milestone": null,
+    "labels": [],
+    "id": 170404991,
+    "html_url": "https://github.com/spack/spack/issues/1488",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Currently, version range constraints, compiler version range constraints,and target range constraints are implemented by generating ground rules from `asp.py`, via `one_of_iff()`.  The rules look like this:\r\n\r\n```\r\nversion_satisfies(\"python\", \"2.6:\") :- 1 { version(\"python\", \"2.4\"); ... } 1.\r\n1 { version(\"python\", \"2.4\"); ... } 1 :- version_satisfies(\"python\", \"2.6:\").\r\n```\r\n\r\nSo, `version_satisfies(Package, Constraint)` is true if and only if the package is assigned a version that satisfies the constraint. We precompute the set of known versions that satisfy the constraint, and generate the rule in `SpackSolverSetup`.\r\n\r\nWe shouldn't need to generate already-ground rules for this. Rather, we should leave it to the grounder to do the grounding, and generate facts so that the constraint semantics can be defined in `concretize.lp`.\r\n\r\nWe can replace rules like the ones above with facts like this:\r\n\r\n```\r\nversion_satisfies(\"python\", \"2.6:\", \"2.4\")\r\n```\r\n\r\nAnd ground them in `concretize.lp` with rules like this:\r\n\r\n```\r\n1 { version(Package, Version) : version_satisfies(Package, Constraint, Version) } 1\r\n  :- version_satisfies(Package, Constraint).\r\nversion_satisfies(Package, Constraint)\r\n  :- version(Package, Version), version_satisfies(Package, Constraint, Version).\r\n```\r\n\r\nThe top rule is the same as before. It makes conditional dependencies and other places where version constraints are used work properly. Note that we do not need the cardinality constraint for the second rule -- we already have rules saying there can be only one version assigned to a package, so we can just infer from `version/2` `version_satisfies/3`. This form is also safe for grounding -- If we used the original form we'd have unsafe variables like `Constraint` and `Package` -- the original form only really worked when specified as ground to begin with.\r\n\r\n- [x] use facts instead of generating rules for package version constraints\r\n- [x] use facts instead of generating rules for compiler version constraints\r\n- [x] use facts instead of generating rules for target range constraints\r\n- [x] remove `one_of_iff()` and `iff()` as they're no longer needed",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/20383",
+    "updated_at": "2021-02-18 00:16:47",
+    "created_at": "2020-12-14 21:37:55",
+    "closed_at": "2020-12-15 19:58:59",
+    "state": "closed",
+    "title": "concretizer: don't use one_of_iff for range constraints",
+    "number": 20383,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "refactoring"
+    ],
+    "id": 766951574,
+    "html_url": "https://github.com/spack/spack/pull/20383",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,17 @@
+{
+    "body": "The split of the `parmetis` package introduced a bug that appears with new version of gcc, we tested 4.8 and 5.3. With 4.4 it compiles.\n\nThe problem is with a missing link with libm, before the change this link is pulled by metis that was a cmake subdirectory. The target `metis` is explicitely linked with `m` in case of unix system. The `parmetis` target is then linked by transitivity.\n\nNo that `parmetis` is linked with an external `metis` library this transitivity does not exists anymore.\n\nI see 3 solutions:\n- patch the `metis` cmake to export the target and use a find_package in `parmetis` to link correctly with `metis`\n- do a quick and dirty patch in `parmetis` to make it link with the same condition as `metis` on `libm`\n- fallback to the version of the package where `metis` is in `parmetis`\n\nThe last one is the less invasive and needs no patch on compilation system of the packages,\nThe first one would be the cleanest if we stay with split packages, but also the most invasive and thus the hardest to maintain.\nThe second one is as already mentioned a quick and dirty fix.\n\nThis raise another problem, depending on the compiler we need or not link with `libm` explicitly. I guess we should hope the build system of packages should handle it correclty. But for `metis` for example the condition is `if(UNIX)` this will most probably already fail with intel compilers so perhaps with others too.\n",
+    "user": "nrichart",
+    "url": "https://api.github.com/repos/spack/spack/issues/614",
+    "updated_at": "2016-03-25 20:23:37",
+    "created_at": "2016-03-23 09:18:50",
+    "closed_at": "2016-03-25 20:23:37",
+    "state": "closed",
+    "title": "Parmetis does not compile with newer version of gcc (on UNIX systems)",
+    "number": 614,
+    "milestone": null,
+    "labels": [],
+    "id": 142906188,
+    "html_url": "https://github.com/spack/spack/issues/614",
+    "assignees": [],
+    "comments": 10
+}

@@ -1,0 +1,17 @@
+{
+    "body": "currently, the packaging documentation says\n\n> The staging directory will be located under $SPACK_HOME/var/spack. When run after the archive has already been downloaded, spack fetch is idempotent and will not download the archive again.\n\nwhich is actually not entirely correct. For example for `trilinos`, spack stages under\n\n```\n $SPACK_HOME/var/spack/stage/trilinos-12.6.1-ddppcv7qgrv4a4rutk7d2rqyvzlunxpr/trilinos-release-12-6-1.tar.gz\n```\n\nso if a user installs trilinos again but with a different DAG (different flags or a new version of openmpi), it appears that the same archive will be downloaded again into a new directory.\n\nI think spack should download archives and keep them if needed without any references to the DAG, i.e. download to something like\n\n```\n $SPACK_HOME/var/spack/stage/trilinos/trilinos-release-12-6-1.tar.gz\n```\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/917",
+    "updated_at": "2016-05-09 05:26:15",
+    "created_at": "2016-05-09 04:23:15",
+    "closed_at": "2016-05-09 05:26:15",
+    "state": "closed",
+    "title": "Stage archives without a hash for DAG",
+    "number": 917,
+    "milestone": null,
+    "labels": [],
+    "id": 153701080,
+    "html_url": "https://github.com/spack/spack/issues/917",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Here is a case where `spack env activate` does not set `PATH` (and other environment variables) on RHEL 8\r\n\r\nUsing:\r\n* `spack@develop` (379a1fd23bf464717b93a09fde68cf6469c2cbe7 from `Sat May 15 13:48:00 2021 -0700`)\r\n* RHEL8 via container image `ecpe4s/rhel8-runner-x86_64:2021-05-16`\r\n\r\nspack.yaml:\r\n```\r\n spack:\r\n  view: /bootstrap/view\r\n  concretization: separately\r\n\r\n  config:\r\n    install_tree:\r\n      root: /bootstrap/install\r\n\r\n  packages:\r\n    all:\r\n      target: [x86_64]\r\n\r\n  specs:\r\n  - patchelf\r\n```\r\n\r\n\r\n```\r\n$> spack -e . install --no-cache\r\n==> Concretized patchelf\r\n -   hfkgaau  patchelf@0.12%gcc@8.3.1 patches=a155f233b228f02d7886e304cb13898d93801b52f351e098c2cc0719697ec9d0 arch=linux-rhel8-x86_64\r\n\r\n==> Installing environment /\r\n==> Installing patchelf-0.12-hfkgaauno6l77h5ds4hrj4xgpqalfmei\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/69/699a31cf52211cf5ad6e35a8801eb637bc7f3c43117140426400d67b7babd792.tar.bz2\r\n############################################################################################################################################### 100.0%\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/a1/a155f233b228f02d7886e304cb13898d93801b52f351e098c2cc0719697ec9d0\r\n############################################################################################################################################### 100.0%\r\n==> Applied patch https://github.com/NixOS/patchelf/pull/230.patch\r\n==> patchelf: Executing phase: 'autoreconf'\r\n==> patchelf: Executing phase: 'configure'\r\n==> patchelf: Executing phase: 'build'\r\n==> patchelf: Executing phase: 'install'\r\n==> patchelf: Successfully installed patchelf-0.12-hfkgaauno6l77h5ds4hrj4xgpqalfmei\r\n  Fetch: 0.37s.  Build: 8.12s.  Total: 8.49s.\r\n[+] /bootstrap/install/linux-rhel8-x86_64/gcc-8.3.1/patchelf-0.12-hfkgaauno6l77h5ds4hrj4xgpqalfmei\r\n==> Updating view at /bootstrap/view\r\n\r\n$> ls -l /bootstrap/view/bin\r\npatchelf\r\n\r\n$> /bootstrap/view/bin/patchelf --version\r\npatchelf 0.12.20200827.8d3a16e\r\n\r\n$> spack env activate -d .\r\n\r\n$> which patchelf\r\n/usr/bin/which: no patchelf in (/spack/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)\r\n\r\n$> spack env activate -d . --sh\r\nexport SPACK_ENV=/;\r\nalias despacktivate='spack env deactivate';\r\n```\r\n\r\nThis exact same environment can be activated on RHEL 7, Ubuntu 18.04, and Ubuntu 20.04 and `PATH` gets set correctly there. Just not here.",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/23665",
+    "updated_at": "2021-05-26 22:48:50",
+    "created_at": "2021-05-16 14:45:53",
+    "closed_at": "2021-05-26 22:48:49",
+    "state": "closed",
+    "title": "environment w/ view: spack env activate: PATH not set right on RHEL8",
+    "number": 23665,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments",
+        "triage"
+    ],
+    "id": 892686090,
+    "html_url": "https://github.com/spack/spack/issues/23665",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,19 @@
+{
+    "body": "This change adds new fields to the `release.yaml` file, fixes an issue where the `cdash` field from that file was ignored, and updates the release workflow to make use of two repositories.\r\n\r\nNew fields are added to the `release.yaml` file: `ci-except` and `ci-only` allows lists of strings which will be added to each job to control conditions under which the jobs will or will not run.  The values provided in these two new fields are expected to be compatible with the strings allowed in the [only/except](https://docs.gitlab.com/ee/ci/yaml/#onlyexcept-basic) fields of jobs as described in the gitlab-ci documentation.  Another new field added to `release.yaml` is `release-tag`, which will be used in two ways: added to the job name, and used as the build group within CDash.\r\n\r\nThis change also fixes the issue where the 'cdash' field of the `release.yaml` was ignored and instead expected to be provided as argument to the `release-jobs` command.  That argument has been removed in favor of the field from the yaml file.  Also, since we are not currently reporting to more than one cdash site for a release, the 'cdash' field has been changed from a list to a single entry, but where the baseurl and project can be configured separately.\r\n\r\nAdditionally, this change adds support for a 2-repo approach to the workflow release.  In this approach, a first repository (in the cloud system, the gitlab set up to mirror spack on github) is used to generate the `.gitlab-ci.yaml`, and push it as a commit to a secondary repository, where the build jobs will actually be run.  In the current incarnation, the first repo CI executes a single job which:\r\n\r\n1. sends a `GET` requests to the microservice to generate the jobs (.gitlab-ci.yaml)\r\n2. parses that file for the job names, and register all of them under the build group identified by the `release-tag` in the `release.yaml`\r\n3. commits the `.gitlab-ci.yml` and pushes it to the next CI repo where the packages are actually built",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/10771",
+    "updated_at": "2019-06-04 03:46:48",
+    "created_at": "2019-03-01 17:21:54",
+    "closed_at": "2019-06-04 03:46:48",
+    "state": "closed",
+    "title": "WIP: Release workflow improvements",
+    "number": 10771,
+    "milestone": null,
+    "labels": [
+        "don't-merge-yet"
+    ],
+    "id": 416201999,
+    "html_url": "https://github.com/spack/spack/pull/10771",
+    "assignees": [],
+    "comments": 1
+}

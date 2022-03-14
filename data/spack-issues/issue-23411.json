@@ -1,0 +1,19 @@
+{
+    "body": "When trying to build hdf-eos5 using an hdf5 built with +szip, I get an error during configure\r\nabout lack of an --with-szlib flag.\r\n\r\nIt also looks like the check for  zlib libraries will fail if hdf was not built with it it\r\n(e.g. using if self.spec['zlib']: instead of ``if 'zlib' in self.spec:```)\r\n\r\nBasically looks to be the hdf-eos5 version of issue #23345 for hdf-eos2.\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install hdf-eos5 ^hdf5+szip\r\n...\r\nchecking for hdf5 szip encoding filter... yes\r\nconfigure: error: HDF5 was linked with SZIP, but --with-szlib was not given\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2432-16111354aa\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-x86_64\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6417555/spack-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6417556/spack-build-env.txt)\r\n\r\nNo maintainers for hdf-eos2, but IIRC I (@payerle) am the one who uploaded the original version.\r\n\r\n### General information\r\n\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x ] I have uploaded the build log and environment files\r\n- [x ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/23411",
+    "updated_at": "2021-06-05 11:46:16",
+    "created_at": "2021-05-03 20:48:25",
+    "closed_at": "2021-06-05 11:46:15",
+    "state": "closed",
+    "title": "Installation issue: hdf-eos5 fails to build with hdf5+szip",
+    "number": 23411,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 874897709,
+    "html_url": "https://github.com/spack/spack/issues/23411",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "@BarrySmith added in https://github.com/LLNL/spack/pull/2192 a nice feature so that `gfortran` is setup within `clang` compiler in Spack. It appers that this feature is currently broken.\r\nI am testing  a simple bash script which has:\r\n```\r\nspack install gcc\r\nGCC_PATH=`spack location -i gcc`\r\nexport PATH=\"$GCC_PATH/bin:$PATH\"\r\nspack compiler remove clang\r\nspack compiler find\r\n```\r\nwhich produces\r\n```\r\n==> gcc is already installed in /Users/davydden/spack.tmp/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/gcc-6.3.0-oauwkr2nrtqqtmq5d45cpduvxcjwxlgj\r\n==> Removed compiler clang@8.0.0-apple\r\n==> Added 1 new compiler to /Users/davydden/.spack/darwin/compilers.yaml\r\n    clang@8.0.0-apple\r\n```\r\nhowever `fortran` part is still missing in `clang@8.0.0-apple`:\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: sierra\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: null\r\n      fc: null\r\n    spec: gcc@4.2.1\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: sierra\r\n    paths:\r\n      cc: /Users/davydden/spack.tmp/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/gcc-6.3.0-oauwkr2nrtqqtmq5d45cpduvxcjwxlgj/bin/gcc\r\n      cxx: /Users/davydden/spack.tmp/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/gcc-6.3.0-oauwkr2nrtqqtmq5d45cpduvxcjwxlgj/bin/g++\r\n      f77: /Users/davydden/spack.tmp/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/gcc-6.3.0-oauwkr2nrtqqtmq5d45cpduvxcjwxlgj/bin/gfortran\r\n      fc: /Users/davydden/spack.tmp/opt/spack/darwin-sierra-x86_64/clang-8.0.0-apple/gcc-6.3.0-oauwkr2nrtqqtmq5d45cpduvxcjwxlgj/bin/gfortran\r\n    spec: gcc@6.3.0\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: sierra\r\n    paths:\r\n      cc: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang\r\n      cxx: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++\r\n      f77: null\r\n      fc: null\r\n    spec: clang@8.0.0-apple\r\n    target: x86_64\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/3426",
+    "updated_at": "2017-03-14 16:48:28",
+    "created_at": "2017-03-12 20:17:43",
+    "closed_at": "2017-03-14 16:48:28",
+    "state": "closed",
+    "title": "compiler find does not automatically mix clang and gfortran anymore",
+    "number": 3426,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS"
+    ],
+    "id": 213631008,
+    "html_url": "https://github.com/spack/spack/issues/3426",
+    "assignees": [],
+    "comments": 0
+}

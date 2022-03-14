@@ -1,0 +1,19 @@
+{
+    "body": "I'm trying to install Bazel on a Debian machine. The machine has 8 GB of RAM so it shouldn't pose any problem, yet the build fails:\r\n\r\n```\r\n==> Building bazel [Package]\r\n==> Executing phase: 'bootstrap'\r\n==> Executing phase: 'install'\r\n==> Error: FileNotFoundError: [Errno 2] No such file or directory: 'output/bazel'\r\n\r\n/projects/spack/var/spack/repos/builtin/packages/bazel/package.py:136, in install:\r\n        134    def install(self, spec, prefix):\r\n        135        mkdir(prefix.bin)\r\n  >>    136        install('output/bazel', prefix.bin)\r\n```\r\n\r\nWhen I inspect spack-build-out.txt, I see that the build failed with a `java.lang.OutOfMemoryError` exception. I read somewhere that it might be that javac isn't allocating enough (despite the machine having plenty).\r\n\r\nAny has this error? How could the Bazel package be updated to avoid it?",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/14149",
+    "updated_at": "2019-12-13 16:44:50",
+    "created_at": "2019-12-13 15:16:44",
+    "closed_at": "2019-12-13 16:44:49",
+    "state": "closed",
+    "title": "Bazel build fails with a Java java.lang.OutOfMemoryError exception",
+    "number": 14149,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 537604399,
+    "html_url": "https://github.com/spack/spack/issues/14149",
+    "assignees": [],
+    "comments": 1
+}

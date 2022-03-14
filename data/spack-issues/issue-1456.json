@@ -1,0 +1,19 @@
+{
+    "body": "Package tags have been proposed as a way to organize packages into groups.\n\n@tgamblin \n\n> w.r.t. organizing them, I was pondering adding tags (ala gmail) to the packages. It would be easy to implement and would give us a more categorical high level view of the packages themselves. What do people think of that? \n> \n> We'd probably want either another command or another argument for spack list to show this. I was thinking it might be nice if, say, \"spack tags\" showed total package count, available tags and number of packages with each tag (likely not distinct sets). It would also allow listing the packages with one or more tags. Thoughts? I like this better than strict hierarchical layouts used by things like Gentoo and macports.\n\n@davydden \n\n> I think tags is a very good idea which would help a lot to organise packages (such as LinearAlgebra, PartialDifferentialEquations). One would need to find a good compromise in \"granularity\", but that should work. A github issue to discuss and agree with the list of tags which fits the current packages ought to do it.\n> \n> Obviously a single package can have several tags attached. One should probably maintain the list of tags somewhere with their description and then force packages to use only those tags.\n\nThe purpose of this issue is to assemble input on a set of tags we will use canonically in Spack.  Current suggested tags are:\n\n`\nLinearAlgebra: <Any blas/lapack implementation>, eigen, py-numpy\nPartialDifferentialEquations: eigen, py-scipy\n`\n\nI would suggest some others:\n\n```\nNumerical:  scipy,octave\nClimate: modele, icebin\nCryosphere: icebin, pism\nMolecularDynamics\n...other domain-specific stuff...\nDomainSpecific: (would subsume Climate, MolecularDynamics, etc)\nStorage: netcdf, hdf5, mariadb, etc.\nDatabase: mariadb\nGUI: qt,gnome, etc.\nLanguage: python, perl, r, ghc, ruby, etc.\nPython,R,Perl, Haskell, Ruby, etc.\nCxx: boost\nCompiler: (includes glibc as well)\nUtilities: git,curl,elfutils\nTypesetting: tex\nSystemLibs: openssl, glibc, dbus\nSupercomputer: mpi,openmp,slurm\n```\n\nNow that I'm thinking this through.... we want not just tags, but a lattice built out of tags and packages.  In layman's terms, this means that Tags can have Tags on them as well.  So... the `Cryosphere` tag would have the `Climate` tag on it.  Anything listing of `Climate` packages would also list `Cryosphere` packages (unless you're looking for packages that explicitly list `Climate`, i.e. they are not transitive).  When you query the lattice, the results should include both tags and packages (unless the user asked for only one type).\n\nOther conventions: package names are always lower case (any violations of this convention in current Spack are subject to change).  Tag names are always upper camel case.\n\nAlso, let's make tags always singular.  No plurals.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1456",
+    "updated_at": "2017-09-06 01:44:43",
+    "created_at": "2016-08-05 13:26:38",
+    "closed_at": "2017-09-06 01:44:43",
+    "state": "closed",
+    "title": "Package Tags",
+    "number": 1456,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 169606771,
+    "html_url": "https://github.com/spack/spack/issues/1456",
+    "assignees": [],
+    "comments": 2
+}

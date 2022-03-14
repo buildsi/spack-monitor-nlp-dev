@@ -1,0 +1,19 @@
+{
+    "body": "<!--*Please add a concise summary of your suggestion here.*-->\r\n\r\n### Rationale\r\nzoltan spec has a variant called  `int64` which imposes the corresponding constrain on metis. \r\nhttps://github.com/spack/spack/blob/6947951aaf9954b1dfd12ca7a9266d7335f07105/var/spack/repos/builtin/packages/zoltan/package.py#L37-L44\r\n\r\nThe same constrain must be applied to parmetis. \r\n\r\n\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\n\r\n### Description\r\nI guess a solution can be something like\r\n```\r\ndepends_on('parmetis@4:', when='+parmetis') \r\ndepends_on('parmetis@4: +int64', when='+parmetis+int64')\r\n```\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\n\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\nI guess this happens because parmetis package has been recently updated and `int64` has been added. Because there was no such an option in parmetis for a long time people came up with a workaround by specifying `metis+int64` explicitly in their script. The parametis update brings an inconsistency because `int64`   is off by default in parmetis, however, and the ''legacy'' workaround imposes `int64` on metis.\r\nMy spack version is 0.16.0\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "ravil-mobile",
+    "url": "https://api.github.com/repos/spack/spack/issues/20545",
+    "updated_at": "2020-12-28 11:53:09",
+    "created_at": "2020-12-24 13:43:52",
+    "closed_at": "2020-12-28 11:53:09",
+    "state": "closed",
+    "title": "improve installation of Zoltran: imposing +int64 constrains on parmetis",
+    "number": 20545,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 774453902,
+    "html_url": "https://github.com/spack/spack/issues/20545",
+    "assignees": [],
+    "comments": 2
+}

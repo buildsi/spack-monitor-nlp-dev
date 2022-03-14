@@ -1,0 +1,22 @@
+{
+    "body": "GATK requires `bwa` and `samtools` in its [best practices guide](https://gatk.broadinstitute.org/hc/en-us/articles/360041320571--How-to-Install-all-software-packages-required-to-follow-the-GATK-Best-Practices); however, the current spack package doesn't have them as dependencies. This PR adds them.\r\n\r\n`gatk` still installs same as before\r\n```\r\nspack install gatk %gcc@10.3.0\r\n```\r\n\r\nDependencies now have `bwa` and `samtools`\r\n```\r\n[jayson@ip-10-0-0-37 spack]$ spack spec -Il gatk@4.1.8.1 %gcc@10.3.0\r\nInput spec\r\n--------------------------------\r\n -   gatk@4.1.8.1%gcc@10.3.0\r\n\r\nConcretized\r\n--------------------------------\r\n[+]  v6xcxol  gatk@4.1.8.1%gcc@10.3.0~r arch=linux-amzn2-skylake_avx512\r\n[+]  ztpzyhm      ^bwa@0.7.17%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  q2x25kt          ^zlib@1.2.11%gcc@10.3.0+optimize+pic+shared arch=linux-amzn2-skylake_avx512\r\n[+]  z77sgxs      ^openjdk@1.8.0_265-b01%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  p7mkxd4      ^python@3.8.11%gcc@10.3.0+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline+shared+sqlite3+ssl~tix~tkinter~ucs4+uuid+zlib patches=0d98e93189bc278fbc37a50ed7f183bd8aaf249a8e1670a465f0db6bb4f8cf87 arch=linux-amzn2-skylake_avx512\r\n[+]  s36txvt          ^bzip2@1.0.8%gcc@10.3.0~debug~pic+shared arch=linux-amzn2-skylake_avx512\r\n[+]  kjoplsl              ^diffutils@3.7%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  qmzfn6j                  ^libiconv@1.16%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  256y6qy          ^expat@2.4.1%gcc@10.3.0+libbsd arch=linux-amzn2-skylake_avx512\r\n[+]  mxgrkle              ^libbsd@0.11.3%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  aehweer                  ^libmd@1.0.3%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  fgwgsih          ^gdbm@1.19%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  i35suwy              ^readline@8.1%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  xbybdoz                  ^ncurses@6.2%gcc@10.3.0~symlinks+termlib abi=none arch=linux-amzn2-skylake_avx512\r\n[+]  i665ooz                      ^pkgconf@1.7.4%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  vfg4fms          ^gettext@0.21%gcc@10.3.0+bzip2+curses+git~libunistring+libxml2+tar+xz arch=linux-amzn2-skylake_avx512\r\n[+]  mztzlil              ^libxml2@2.9.10%gcc@10.3.0~python arch=linux-amzn2-skylake_avx512\r\n[+]  p7yqdpr                  ^xz@5.2.5%gcc@10.3.0~pic libs=shared,static arch=linux-amzn2-skylake_avx512\r\n[+]  fajl3kg              ^tar@1.34%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  vv3r7pc          ^libffi@3.3%gcc@10.3.0 patches=26f26c6f29a7ce9bf370ad3ab2610f99365b4bdd7b82e7c31df41a3370d685c0 arch=linux-amzn2-skylake_avx512\r\n[+]  larjnul          ^openssl@1.1.1k%gcc@10.3.0~docs+systemcerts arch=linux-amzn2-skylake_avx512\r\n[+]  fb3kjch              ^perl@5.32.1%gcc@10.3.0+cpanm+shared+threads arch=linux-amzn2-skylake_avx512\r\n[+]  i5lbkjo                  ^berkeley-db@18.1.40%gcc@10.3.0+cxx~docs+stl patches=b231fcc4d5cff05e5c3a4814f6a5af0e9a966428dc2176540d2c05aff41de522 arch=linux-amzn2-skylake_avx512\r\n[+]  6ox5zyb          ^sqlite@3.35.5%gcc@10.3.0+column_metadata+fts~functions~rtree arch=linux-amzn2-skylake_avx512\r\n[+]  uzq2g5d          ^util-linux-uuid@2.36.2%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  wy7qefd      ^samtools@1.12%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  pbccjac          ^htslib@1.12%gcc@10.3.0+libcurl arch=linux-amzn2-skylake_avx512\r\n[+]  zf3o4dn              ^curl@7.76.1%gcc@10.3.0~darwinssl~gssapi~libssh~libssh2~nghttp2 arch=linux-amzn2-skylake_avx512\r\n[+]  rkhja6k                  ^libidn2@2.3.0%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n[+]  wnpqqe5                      ^libunistring@0.9.10%gcc@10.3.0 arch=linux-amzn2-skylake_avx512\r\n```",
+    "user": "jfalkner",
+    "url": "https://api.github.com/repos/spack/spack/issues/24902",
+    "updated_at": "2021-09-21 19:25:42",
+    "created_at": "2021-07-15 05:23:24",
+    "closed_at": "2021-09-21 19:25:41",
+    "state": "closed",
+    "title": "gatk: require BWA and samtools",
+    "number": 24902,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 945010926,
+    "html_url": "https://github.com/spack/spack/pull/24902",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 9
+}

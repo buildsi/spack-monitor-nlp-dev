@@ -1,0 +1,17 @@
+{
+    "body": "I am running the latest `develop` as of f5bc0cbb65c95249b3f1fd1b5c63da5a03acbded and am building adios\n- `depends_on('libtool', type='build')`\n-  `depends_on('mpi', when='+mpi')` while `mpi=True` is the default\n\n.\n\nDoing a `spack install adios` leads to an install of `libtool` itself for build and `libtool` again due to `mpi` with `^libsigsegv@2.10%gcc@4.9.2`\n\n``` bash\n$ spack graph --concretize openmpi\no  openmpi\no  hwloc\no  libpciaccess\no  libtool\no  m4\no  libsigsegv\n```\n\nThis results in an error while `spack install`-ing adios, directly after building `openmpi`:\n\n```\n==> Building openmpi\n==> Successfully installed openmpi\n  Fetch: 10.65s.  Build: 10m 40.85s.  Total: 10m 51.50s.\n[+] [...]/opt/spack/linux-debian8-x86_64/gcc-4.9.2/openmpi-2.0.0-[...]\n\n==> Error: Specs libtool@2.4.6%gcc@4.9.2\n  arch=linux-debian8-x86_64^libsigsegv@2.10%gcc@4.9.2\n    arch=linux-debian8-x86_64^m4@1.4.17%gcc@4.9.2+sigsegv\n    arch=linux-debian8-x86_64\n  and\n  libtool@2.4.6%gcc@4.9.2\n    arch=linux-debian8-x86_64\n  have the same SHA-1 prefix!\n```\n\nI cleaned my repo with\n\n``` bash\nrm -rf /tmp/$(whoami)/spack-stage bin/ etc/ lib/ opt/ share/ var/\ngit checkout .\n```\n\nbeforehand.\n",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/1701",
+    "updated_at": "2016-09-02 14:08:50",
+    "created_at": "2016-09-02 13:55:20",
+    "closed_at": "2016-09-02 14:08:50",
+    "state": "closed",
+    "title": "Building a Dependency on libtool and mpi fails",
+    "number": 1701,
+    "milestone": null,
+    "labels": [],
+    "id": 174765459,
+    "html_url": "https://github.com/spack/spack/issues/1701",
+    "assignees": [],
+    "comments": 2
+}

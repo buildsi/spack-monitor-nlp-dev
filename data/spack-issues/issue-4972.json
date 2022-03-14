@@ -1,0 +1,20 @@
+{
+    "body": "I am trying to install GCC 5.4.0 with the following command:\r\n\r\n`spack install gcc@5.4.0+binutils~piclibs languages=all ^binutils@2.28 ^gmp@6.1.2 ^isl@0.18 ^mpc@1.0.3 ^mpfr@3.1.5 ^zip@3.0 ^zlib@1.2.11 ^gettext@0.19.8.1+bzip2+curses+git+libunistring+libxml2+tar+xz %gcc@4.8.5 arch=linux-centos7-x86_64`\r\n\r\nand it fails with\r\n\r\n```\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j36'\r\n/cluster/apps/spack/lib/spack/spack/build_systems/autotools.py:273, in build:\r\n     268      def build(self, spec, prefix):\r\n     269          \"\"\"Makes the build targets specified by\r\n     270          :py:attr:``~.AutotoolsPackage.build_targets``\r\n     271          \"\"\"\r\n     272          with working_dir(self.build_directory):\r\n  >> 273              inspect.getmodule(self).make(*self.build_targets)\r\n\r\nSee build log for details:\r\n  /scratch/spackapps/spack-stage/spack-stage-kFlS4I/gcc-5.4.0/spack-build.out\r\n```\r\n\r\nThe log file contains the error message:\r\n\r\n```\r\n/bin/sh /cluster/apps/spack/var/spack/stage/gcc-5.4.0-bvtn6sudt232zijglsj5hsa3x4odu6bv/gcc-5.4.0/gcc/../move-if-change tmp-options.h options.h\r\necho timestamp > s-options-h\r\n/cluster/spack/apps/linux-centos7-x86_64/gcc-4.8.5/binutils-2.28-rrcp2p7yfho5b33wbctod6c52miif4w5/bin/ld: cannot find -lstdc++\r\ncollect2: error: ld returned 1 exit status\r\nMakefile:2613: recipe for target 'build/genchecksum' failed\r\nmake[3]: *** [build/genchecksum] Error 1\r\n```\r\n\r\nDid somebody encounter simliar problems ?",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/4972",
+    "updated_at": "2018-06-28 06:01:57",
+    "created_at": "2017-08-04 13:28:56",
+    "closed_at": "2017-08-04 14:02:44",
+    "state": "closed",
+    "title": "building gcc 5.4.0 fails with \"cannot find -lstdc++\"",
+    "number": 4972,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "gcc"
+    ],
+    "id": 248006315,
+    "html_url": "https://github.com/spack/spack/issues/4972",
+    "assignees": [],
+    "comments": 6
+}

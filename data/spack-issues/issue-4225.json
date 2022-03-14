@@ -1,0 +1,20 @@
+{
+    "body": "apparently, `self.compiler.cc` is not the path to the wrapper, but the actual compiler. \r\nVery likely most of the packages below should use `CC` instead. I.e see https://github.com/LLNL/spack/pull/4220 for a fix of SuiteSparse.\r\n```\r\n$ ag \"self.compiler.cc\" var/spack/repos/builtin/\r\nvar/spack/repos/builtin/packages/cantera/package.py\r\n187:            filter_file(os.environ['CC'], self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/darshan-util/package.py\r\n44:        options = ['CC=%s' % self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/exodusii/package.py\r\n61:        cc_path = spec['mpi'].mpicc if '+mpi' in spec else self.compiler.cc\r\n\r\nvar/spack/repos/builtin/packages/hdf5/package.py\r\n260:                cc = Executable(self.compiler.cc)\r\n\r\nvar/spack/repos/builtin/packages/hdf5-blosc/package.py\r\n180:                cc = Executable(self.compiler.cc)\r\n\r\nvar/spack/repos/builtin/packages/hpctoolkit/package.py\r\n51:        options = ['CC=%s' % self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/hpctoolkit-externals/package.py\r\n43:        options = ['CC=%s' % self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/metis/package.py\r\n100:        ccompile = Executable(self.compiler.cc)\r\n\r\nvar/spack/repos/builtin/packages/mpich/package.py\r\n130:        filter_file(env['CC'],  self.compiler.cc,  mpicc,  **kwargs)\r\n\r\nvar/spack/repos/builtin/packages/mvapich2/package.py\r\n241:        filter_file(env['CC'], self.compiler.cc, mpicc, **kwargs)\r\n\r\nvar/spack/repos/builtin/packages/ncl/package.py\r\n104:        if (self.compiler.fc is None) or (self.compiler.cc is None):\r\n\r\nvar/spack/repos/builtin/packages/ompt-openmp/package.py\r\n44:            cmake('-DCMAKE_C_COMPILER=%s' % self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/openmpi/package.py\r\n263:            ('mpicc-vt-wrapper-data.txt', self.compiler.cc),\r\n264:            ('mpicc-wrapper-data.txt', self.compiler.cc),\r\n265:            ('ortecc-wrapper-data.txt', self.compiler.cc),\r\n266:            ('shmemcc-wrapper-data.txt', self.compiler.cc),\r\n\r\nvar/spack/repos/builtin/packages/parmgridgen/package.py\r\n52:            'CC={0}'.format(self.compiler.cc),\r\n53:            'LD={0}'.format(self.compiler.cc),\r\n\r\nvar/spack/repos/builtin/packages/psi4/package.py\r\n99:            filter_file(os.environ['CC'], self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/python/package.py\r\n330:        filter_file(env['CC'], self.compiler.cc, *abs_filenames, **kwargs)\r\n\r\nvar/spack/repos/builtin/packages/r/package.py\r\n134:        filter_file(env['CC'], self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/sundials/package.py\r\n173:            filter_file(os.environ['CC'], self.compiler.cc,\r\n\r\nvar/spack/repos/builtin/packages/tau/package.py\r\n82:        compiler_path = os.path.dirname(self.compiler.cc)\r\n85:                            '-cc=%s' % self.compiler.cc_names[0]]\r\n\r\nvar/spack/repos/builtin/packages/yorick/package.py\r\n64:                    'CC={0}'.format(self.compiler.cc),\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/4225",
+    "updated_at": "2019-12-09 14:04:48",
+    "created_at": "2017-05-12 06:51:42",
+    "closed_at": "2019-12-09 14:04:48",
+    "state": "closed",
+    "title": "use CC instead of self.compiler.cc",
+    "number": 4225,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers"
+    ],
+    "id": 228203004,
+    "html_url": "https://github.com/spack/spack/issues/4225",
+    "assignees": [],
+    "comments": 6
+}

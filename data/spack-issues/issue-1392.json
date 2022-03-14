@@ -1,0 +1,20 @@
+{
+    "body": "Parts of URL processing breaks when using a spack built python. I am not sure if the issue is related specifically to spack built python or if other variants of python exhibit the same issue. The affected parts of spack are `spack checksum`, `spack versions`, and `spack fetch` with #1346.\n\nHere is an example with r-jsonlite. First, with the system python on a `CentOS Linux release 7.2.1511 (Core)` system.\n\n```\nmodule list\nNo modules loaded\n\nspack versions r-jsonlite\n==> Safe versions (already checksummed):\n  0.9.21\n==> Remote versions (not yet checksummed):\n  1.0     0.9.20  0.9.18  0.9.16  0.9.14  0.9.12  0.9.10  0.9.8  0.9.6  0.9.4  0.9.1\n  0.9.22  0.9.19  0.9.17  0.9.15  0.9.13  0.9.11  0.9.9   0.9.7  0.9.5  0.9.3  0.9.0\n```\n\nNow, load the spack built python.\n\n```\nmodule load python/2.7.12-gcc-4.8.5-mhb6rhl \nAutoloading bzip2/1.0.6-gcc-4.8.5-rgrn5su\nAutoloading ncurses/6.0-gcc-4.8.5-jelh6yx\nAutoloading zlib/1.2.8-gcc-4.8.5-7qfsb3e\nAutoloading openssl/1.0.2h-gcc-4.8.5-xoai5al\nAutoloading sqlite/3.8.5-gcc-4.8.5-siwv5j5\nAutoloading readline/6.3-gcc-4.8.5-5upu5tz\n\nspack versions r-jsonlite\n==> Safe versions (already checksummed):\n  0.9.21\n==> Remote versions (not yet checksummed):\n  Found no versions for r-jsonlite\n```\n\nNot having the python dependencies in the environment, with only python loaded, yields the same results. Unloading the python module restores proper functionality. This issue is related to #1225.\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/1392",
+    "updated_at": "2018-04-13 10:34:42",
+    "created_at": "2016-07-30 22:06:45",
+    "closed_at": "2018-04-13 10:34:42",
+    "state": "closed",
+    "title": "Parts of spack break when using spack built python",
+    "number": 1392,
+    "milestone": null,
+    "labels": [
+        "python",
+        "fetching"
+    ],
+    "id": 168489351,
+    "html_url": "https://github.com/spack/spack/issues/1392",
+    "assignees": [],
+    "comments": 1
+}

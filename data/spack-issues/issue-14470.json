@@ -1,0 +1,21 @@
+{
+    "body": "The `test_patchelf_is_relocatable` test from `relocate.py` fails on macOS.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack test relocate.py::test_patchelf_is_relocatable\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack test relocate.py::test_patchelf_is_relocatable\r\n============================================= test session starts ==============================================\r\nplatform darwin -- Python 3.7.4, pytest-3.2.5, py-1.4.34, pluggy-0.4.0\r\nrootdir: /Users/Adam/spack/lib/spack/spack/test, inifile: pytest.ini\r\nplugins: mock-1.11.1, cov-2.8.1\r\ncollected 1 item                                                                                                \r\n\r\nrelocate.py F\r\n=========================================== short test summary info ============================================\r\nFAIL relocate.py::test_patchelf_is_relocatable\r\n\r\n========================================== slowest 20 test durations ===========================================\r\n0.09s setup    relocate.py::test_patchelf_is_relocatable\r\n0.01s call     relocate.py::test_patchelf_is_relocatable\r\n0.00s teardown relocate.py::test_patchelf_is_relocatable\r\n=================================================== FAILURES ===================================================\r\n_________________________________________ test_patchelf_is_relocatable _________________________________________\r\n\r\n    @pytest.mark.requires_executables(\r\n        'patchelf', 'strings', 'file'\r\n    )\r\n    def test_patchelf_is_relocatable():\r\n        patchelf = spack.relocate.get_patchelf()\r\n>       assert spack.relocate.is_binary(patchelf)\r\nE       AssertionError: assert False\r\nE        +  where False = <function is_binary at 0x10f442320>('/Users/Adam/.spack/darwin/.spack-env/view/bin/patchelf')\r\nE        +    where <function is_binary at 0x10f442320> = <module 'spack.relocate' from '/Users/Adam/spack/lib/spack/spack/relocate.py'>.is_binary\r\nE        +      where <module 'spack.relocate' from '/Users/Adam/spack/lib/spack/spack/relocate.py'> = spack.relocate\r\n\r\nrelocate.py:68: AssertionError\r\n=========================================== 1 failed in 0.27 seconds ===========================================\r\n```\r\n\r\n### Information on your system\r\n\r\n1. macOS 10.15.2\r\n2. patchelf 0.10 is installed via Spack and is in the `PATH`\r\n\r\n---\r\n\r\n@gartung is this a test that we should skip on macOS? There are other tests in `relocate.py` that are skipped due to \"implementation for MacOS still missing\".",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/14470",
+    "updated_at": "2020-01-15 02:28:50",
+    "created_at": "2020-01-11 22:28:22",
+    "closed_at": "2020-01-11 22:42:53",
+    "state": "closed",
+    "title": "test_patchelf_is_relocatable fails on macOS",
+    "number": 14470,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "buildcache"
+    ],
+    "id": 548488291,
+    "html_url": "https://github.com/spack/spack/issues/14470",
+    "assignees": [],
+    "comments": 6
+}

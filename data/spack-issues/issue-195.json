@@ -1,0 +1,19 @@
+{
+    "body": "Spack's `cc` compiler and linker wrapper changes the order in which arguments are passed to the linker. Specifically, library paths are moved in front of libraries. This creates problems if a library can be found in multiple locations, and the reordering makes them found in the wrong locations.\n\nThis is specifically a problem when building LLVM on a system that has LLVM installed in a system library. The command line passed to Spack's `cc` looks something like\n\n```\n-lLLVM-3.3 -L/usr/lib/x86_64-linux-gnu\n```\n\nand both the build directory of LLVM as well as the system directory `/usr/lib/x86_64-linux-gnu` contain a file `libLLVM-3.3.so`.\n\nI have modified `cc` to keep the original arguments; a not-so-elegant sample implementation is at https://gist.github.com/eschnett/f4459534f3b797235aa4.\n\nWith these changes, I can build LLVM 3.3 just fine.\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/195",
+    "updated_at": "2016-03-29 12:03:32",
+    "created_at": "2015-11-23 02:37:22",
+    "closed_at": "2016-03-29 12:03:32",
+    "state": "closed",
+    "title": "Spack changes order of command line arguments to linker",
+    "number": 195,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 118309507,
+    "html_url": "https://github.com/spack/spack/issues/195",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Summary\r\npackage should compile\r\n\r\nWhat you expected\r\nThe package is:\r\n```python\r\n##############################################################################\r\n# Copyright (c) 2013-2018, Lawrence Livermore National Security, LLC.\r\n# Produced at the Lawrence Livermore National Laboratory.\r\n#\r\n# This file is part of Spack.\r\n# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.\r\n# LLNL-CODE-647188\r\n#\r\n# For details, see https://github.com/spack/spack\r\n# Please also see the NOTICE and LICENSE files for our notice and the LGPL.\r\n#\r\n# This program is free software; you can redistribute it and/or modify\r\n# it under the terms of the GNU Lesser General Public License (as\r\n# published by the Free Software Foundation) version 2.1, February 1999.\r\n#\r\n# This program is distributed in the hope that it will be useful, but\r\n# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF\r\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and\r\n# conditions of the GNU Lesser General Public License for more details.\r\n#\r\n# You should have received a copy of the GNU Lesser General Public\r\n# License along with this program; if not, write to the Free Software\r\n# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\r\n##############################################################################\r\n\r\nfrom spack import *\r\nimport os\r\n\r\nclass Cnvnator(Package):\r\n    \"\"\"FIXME: Put a proper description of your package here.\"\"\"\r\n\r\n    # FIXME: Add a proper url for your package's homepage here.\r\n    homepage = \"http://www.example.com\"\r\n    url      = \"https://github.com/abyzovlab/CNVnator/releases/download/v0.3.3/CNVnator_v0.3.3.zip\"\r\n\r\n    version('0.3.3', 'ae87356632b1c48c89362f2796b3ae73')\r\n\r\n    # FIXME: Add dependencies if required.\r\n    depends_on('root')\r\n    depends_on('zlib')\r\n\r\n    def install(self, spec, prefix):\r\n        os.environ['ROOTSYS'] = spec['root'].prefix\r\n        path1 = join_path(self.stage.source_path, 'src', 'samtools')\r\n        os.chdir(path1)\r\n        make()\r\n        path2 = join_path(self.stage.source_path, 'src')\r\n        os.chdir(path2)\r\n        make()\r\n```\r\nSpack installation yields errors. While compilation from terminal works:\r\n```console\r\nmodule load root..\r\nmodule load zlib...\r\n\r\nexport ROOTSYS=/spack/opt/spack/linux-linuxmint18-x86_64/gcc-5.4.0/root-6.08.06-6rrvrgpfubsryd5zuz3qcz754poburpl\r\n\r\ncd ~/Downloads\r\nwget https://github.com/abyzovlab/CNVnator/releases/download/v0.3.3/CNVnator_v0.3.3.zip\r\nunzip CNVnator_v0.3.3.zip\r\ncd ~/Downloads/CNVnator_v0.3.3/src/samtools\r\nmake\r\ncd ~/Downloads/CNVnator_v0.3.3/src/\r\nmake\r\n```\r\n\r\n### Information on your system\r\n\r\nThis problem is not platform specific.\r\n\r\nLinux mint 18\r\n-----\r\n",
+    "user": "Sinan81",
+    "url": "https://api.github.com/repos/spack/spack/issues/7693",
+    "updated_at": "2019-04-09 14:20:32",
+    "created_at": "2018-04-08 10:38:56",
+    "closed_at": "2019-04-09 14:20:32",
+    "state": "closed",
+    "title": "a quick help needed: package compiles just fine on terminal, but not as spack package",
+    "number": 7693,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 312294375,
+    "html_url": "https://github.com/spack/spack/issues/7693",
+    "assignees": [],
+    "comments": 5
+}

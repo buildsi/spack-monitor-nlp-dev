@@ -1,0 +1,25 @@
+{
+    "body": "A Spack environment which contains root specs with custom versions (i.e. versions not declared in a `version` directive in the corresponding `package.py`) cannot be concretized together.\r\n\r\n\r\n### Steps to reproduce the issue\r\nThe following environment:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - hdf5@atom-broadwell\r\n  - zlib\r\n  concretization: together\r\n  config:\r\n    concretizer: clingo\r\n```\r\ngives an error during concretization.\r\n\r\n### Error Message\r\nThe error message is:\r\n```console\r\n$ spack -e . concretize\r\n==> The following constraints are unsatisfiable:\r\n  condition(220)\r\n  dependency_condition(220,\"concretizationroot\",\"hdf5\")\r\n  dependency_type(220,\"build\")\r\n  imposed_constraint(220,\"version_satisfies\",\"hdf5\",\"atom-broadwell\")\r\n  root(\"concretizationroot\")\r\n==> Error: concretizationroot does not satisfy unknown\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.1-2510-43c74f2f17\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/23440",
+    "updated_at": "2021-05-06 17:19:11",
+    "created_at": "2021-05-05 07:48:17",
+    "closed_at": "2021-05-06 17:19:11",
+    "state": "closed",
+    "title": "ASP-based solver: custom package versions cannot be concretized together",
+    "number": 23440,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-medium",
+        "environments",
+        "concretizer-use-case"
+    ],
+    "id": 876164867,
+    "html_url": "https://github.com/spack/spack/issues/23440",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

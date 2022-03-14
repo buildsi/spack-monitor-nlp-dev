@@ -1,0 +1,23 @@
+{
+    "body": "So here's the situation. I have both GCC and PGI in my `compilers.yaml`. GCC does not have any compiler flags, but PGI does:\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: centos6\r\n    paths:\r\n      cc:  /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/gcc\r\n      cxx: /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/g++\r\n      f77: /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/gfortran\r\n      fc:  /soft/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/bin/gfortran\r\n    spec: gcc@6.1.0\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n      cflags:   -tp=haswell,sandybridge\r\n      cxxflags: -tp=haswell,sandybridge\r\n      fflags:   -tp=haswell,sandybridge\r\n    modules: []\r\n    operating_system: centos6\r\n    paths:\r\n      cc:  /soft/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-4.4.7/pgi-16.5-pa5hji6khmosol3h7u65zhw6cy2dnekn/linux86-64/16.5/bin/pgcc\r\n      cxx: /soft/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-4.4.7/pgi-16.5-pa5hji6khmosol3h7u65zhw6cy2dnekn/linux86-64/16.5/bin/pgc++\r\n      f77: /soft/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-4.4.7/pgi-16.5-pa5hji6khmosol3h7u65zhw6cy2dnekn/linux86-64/16.5/bin/pgfortran\r\n      fc:  /soft/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-4.4.7/pgi-16.5-pa5hji6khmosol3h7u65zhw6cy2dnekn/linux86-64/16.5/bin/pgfortran\r\n    spec: pgi@16.5-0\r\n    target: x86_64\r\n```\r\nNow I want to build `openmpi` with PGI, but `libpciaccess` can't be built with PGI, so I tell Spack to build it with GCC instead:\r\n```\r\n$ spack spec openmpi %pgi ^libpciaccess%gcc\r\nInput spec\r\n--------------------------------\r\nopenmpi%pgi\r\n    ^libpciaccess%gcc\r\n\r\nNormalized\r\n--------------------------------\r\nopenmpi%pgi\r\n    ^hwloc\r\n        ^libpciaccess%gcc\r\n            ^libtool\r\n                ^m4@1.4.6:\r\n            ^pkg-config@0.9.0:\r\n            ^util-macros\r\n\r\nConcretized\r\n--------------------------------\r\nopenmpi@2.0.1%pgi@16.5-0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\"+java~mxm~pmi+psm~psm2~slurm~sqlite3+thread_multiple+tm~verbs+vt arch=linux-centos6-x86_64\r\n    ^hwloc@1.11.4%pgi@16.5-0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\" arch=linux-centos6-x86_64\r\n        ^libpciaccess@0.13.4%gcc@6.1.0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\" arch=linux-centos6-x86_64\r\n            ^libtool@2.4.6%gcc@6.1.0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\" arch=linux-centos6-x86_64\r\n                ^m4@1.4.17%gcc@6.1.0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\"+sigsegv arch=linux-centos6-x86_64\r\n                    ^libsigsegv@2.10%gcc@6.1.0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\" arch=linux-centos6-x86_64\r\n            ^pkg-config@0.29.1%gcc@6.1.0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\"+internal_glib arch=linux-centos6-x86_64\r\n            ^util-macros@1.19.0%gcc@6.1.0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\" arch=linux-centos6-x86_64\r\n    ^jdk@8u92-linux-x64%pgi@16.5-0 cflags=\"-tp=haswell,sandybridge\" cxxflags=\"-tp=haswell,sandybridge\" fflags=\"-tp=haswell,sandybridge\" arch=linux-centos6-x86_64\r\n```\r\nThe problem is that although Spack will now correctly build libpciaccess and its dependencies with GCC, it is still trying to use the PGI compiler flags, which will fail.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2786",
+    "updated_at": "2017-03-17 04:07:36",
+    "created_at": "2017-01-09 21:57:33",
+    "closed_at": "2017-03-17 04:07:36",
+    "state": "closed",
+    "title": "Changing compiler in dependency does not change compiler flags",
+    "number": 2786,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers",
+        "concretization"
+    ],
+    "id": 199673446,
+    "html_url": "https://github.com/spack/spack/issues/2786",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Consider the following Spack Environments example.  (I know, it's hacked.  Both with extra printout, and the '-f' (force) option, which re-concretizes everything).\r\n\r\nThe point is... when we re-concretize, the hash *of our single spec* changes!  Digging down, I discovered that is because a new `Repo` associated with the environment is added to the `RepoPath` (`spack.repo`) the second time and not the first.  When things are re-concretized, the new `Repo` (`foo`) is used for the spec instead of the `builtin` repo.\r\n\r\nThis is wrong in two ways:\r\n1. The repo shouldn't change when one re-concretizes.\r\n2. A spec should have the same hash whether it was concretized as part of an environment, or not.  Otherwise, there can never be any sharing of builds between environments, and you might as well have a separate Spack instance for each environment!\r\n\r\nQuestions:\r\n\r\n1. What is the purpose of this design?  (I surmise it has something to do with saving the packages that were actually used to concretize, in a new environment?  In that case... if hashes are to remain stable, packages in the new environment have to have the same \"environment\" as packages in the original.)\r\n\r\n2. What do you think is the best way to fix it?  For now, I'm going to disable calls to `prepare_repository()`.\r\n\r\nThanks!\r\n-- Elizabeth\r\n\r\n\r\n\r\n```\r\n$ rm -rf /home2/rpfische/spack6/var/spack/environments/foo\r\n$ spack env foo create; spack env foo add zlib\r\n$ spack env foo concretize -f\r\n==> Using config scope at /home2/rpfische/spack6/var/spack/environments/foo/config\r\n('spack.repo', <class 'spack.repository.RepoPath'>, [[Repo 'foo' at '/tmp/tmptVmVZT/repo'], [Repo 'builtin' at '/home2/rpfische/spack6/var/spack/repos/builtin']])\r\nrepo_for_pkg(zlib) = builtin\r\n('yaml_text', '{zlib: {version: 1.2.11, arch: {platform: linux, platform_os: centos7, target: x86_64}, compiler: {name: gcc, version: 4.9.3}, namespace: builtin, parameters: {optimize: true, pic: true, shared: true, cflags: [], cppflags: [], cxxflags: [], fflags: [], ldflags: [], ldlibs: []}, concrete: true}}\\n')\r\n('dag_hash', 'qln4wqdtm7blidunpoi4ceut6w6pcspj', 'qln4wqdtm7blidunpoi4ceut6w6pcspj')\r\n\r\n$ spack env foo concretize -f\r\n==> Using config scope at /home2/rpfische/spack6/var/spack/environments/foo/config\r\n('spack.repo', <class 'spack.repository.RepoPath'>, [[Repo 'foo' at '/tmp/tmpVKSbjU/repo'], [Repo 'builtin' at '/home2/rpfische/spack6/var/spack/repos/builtin']])\r\nrepo_for_pkg(zlib) = foo\r\n('yaml_text', '{zlib: {version: 1.2.11, arch: {platform: linux, platform_os: centos7, target: x86_64}, compiler: {name: gcc, version: 4.9.3}, namespace: foo, parameters: {optimize: true, pic: true, shared: true, cflags: [], cppflags: [], cxxflags: [], fflags: [], ldflags: [], ldlibs: []}, concrete: true}}\\n')\r\n('dag_hash', '5py2eqrfedid3tn6enw76cxu6py7z3i5', '5py2eqrfedid3tn6enw76cxu6py7z3i5')\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7878",
+    "updated_at": "2018-04-26 16:36:24",
+    "created_at": "2018-04-23 22:03:25",
+    "closed_at": "2018-04-26 16:36:24",
+    "state": "closed",
+    "title": "Spack Environments: Bogus Repos Change Hashes",
+    "number": 7878,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments"
+    ],
+    "id": 316999727,
+    "html_url": "https://github.com/spack/spack/issues/7878",
+    "assignees": [],
+    "comments": 10
+}

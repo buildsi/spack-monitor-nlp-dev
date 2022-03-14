@@ -1,0 +1,20 @@
+{
+    "body": "I'm trying to use Spack on Blue Waters, which rolls its own [custom Python stack](https://bluewaters.ncsa.illinois.edu/python) called `bwpy`. This issue serves as a means of tracking bugs I've encountered so far when trying to use `bwpy` as an external package.\r\n\r\n1. The first problem is Spack's module parsing. The `bwpy` module contains:\r\n```console\r\n$ module show bwpy\r\n-------------------------------------------------------------------\r\n/sw/bw/modulefiles/bwpy/1.2.4:\r\n\r\nconflict\t boost \r\nconflict\t visit \r\nconflict\t vtk \r\nconflict\t bwpy \r\nconflict\t cmake \r\nconflict\t bwpy-mpi/0.3.0 \r\nsetenv\t\t BWPY_VERSION 1.2.4 \r\nsetenv\t\t BWPY_DIR /mnt/bwpy/single \r\nprepend-path\t PATH /opt/bwpy/bin \r\nprepend-path\t PATH /sw/bw/bwpy/mnt/bin \r\nsetenv\t\t BWPY_INCLUDE_PATH /mnt/bwpy/single/include \r\nsetenv\t\t BWPY_LIBRARY_PATH /mnt/bwpy/single/lib:/mnt/bwpy/single/usr/lib \r\nsetenv\t\t BWPY_MANPATH /mnt/bwpy/single/usr/share/man \r\nprepend-path\t MANPATH /mnt/bwpy/single/usr/share/man \r\nsetenv\t\t BWPY_PKG_PATH /mnt/bwpy/single/usr/lib/pkgconfig \r\nprepend-path\t PKG_CONFIG_PATH /mnt/bwpy/single/usr/lib/pkgconfig \r\nsetenv\t\t BWPY_BINARY_PATH /mnt/bwpy/single/bin:/mnt/bwpy/single/usr/bin \r\nprepend-path\t PATH /mnt/bwpy/single/bin:/mnt/bwpy/single/usr/bin \r\nsetenv\t\t BWPY_MODULEPATH /mnt/bwpy/single/usr/share/modulefiles \r\nprepend-path\t MODULEPATH /mnt/bwpy/single/usr/share/modulefiles \r\n-------------------------------------------------------------------\r\n```\r\nSpack detects the installation prefix as `/opt/bwpy/`, however, the correct installation prefix is `/sw/bw/bwpy/mnt`. How does Spack determine the installation prefix? For now I'm switching to specifying the installation prefix instead of the module file name.\r\n\r\n2. The second problem I've discovered is Spack's `spec['python'].command` support. We currently search for `python3` if we're using `python@3:`, but `bwpy` places several Python 3 executables in the same directory:\r\n```console\r\n$ l /sw/bw/bwpy/mnt/bin\r\nbash-wrapped  bwpy-wrapper  ipython   jupyter           jupyter-qtconsole  pip2.7  pypy    python2    python3.4  virtualenv\r\nbwpy-environ  eix           ipython2  jupyter-console   pip                pip3    pypy3   python2.7  python3.5\r\nbwpy-version  env-wrapped   ipython3  jupyter-notebook  pip2               pip3.5  python  python3    python3.6\r\n```\r\nA better solution would be to search for `python3.6`, then `python3`, then `python` if using `python@3.6.5` in `packages.yaml`.\r\n\r\n3. The third problem I've run into is that `spec['python'].command` returns the realpath of the executable it finds. With `bwpy`, `python` is simply a symlink to `bwpy-wrapper`, regardless of Python version. However, you can't run `bwpy-wrapper` directly, it must be invoked via `python`. The simple solution is to drop the realpath.\r\n\r\n4. I'm trying to install `gdal+python`, but none of the Python bindings correctly RPATH to the Python libraries. Not sure if this is a GDAL bug or a `bwpy` bug. I'm leaning towards `bwpy` bug.\r\n\r\nI can fix 2 and 3, but I'm not sure about the other two. @becker33 @scheibelp is one of you more familiar with how module files are parsed to locate the installation prefix?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/9154",
+    "updated_at": "2020-12-20 23:49:20",
+    "created_at": "2018-09-01 00:23:14",
+    "closed_at": "2020-12-20 23:49:19",
+    "state": "closed",
+    "title": "Better bwpy (Blue Waters python) support",
+    "number": 9154,
+    "milestone": null,
+    "labels": [
+        "python",
+        "modules"
+    ],
+    "id": 356155274,
+    "html_url": "https://github.com/spack/spack/issues/9154",
+    "assignees": [],
+    "comments": 10
+}

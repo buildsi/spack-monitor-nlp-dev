@@ -1,0 +1,20 @@
+{
+    "body": "The old `spec.format` method had two separate syntaxes. One was concise but very hard to read ('$_$@$%@+$+$=' would be an example). The other was more verbose, but the formatting names were not aligned with the variable names on the spec, which made it unnecessarily hard on users. Additionally, it had unnecessary `$`-signs on all of the format specifiers.\r\n\r\nThis PR replaces the old `spec.format` method with a new one with a single, self-documenting syntax that revolves around the names of the spec attributes.\r\n\r\nFrom the new `spec.format` documentation:\r\n\r\nUsing the ``{attribute}`` syntax, any field of the spec can be selected. Those attributes can be recursive. For example, `s.format({compiler.version})` will print the version of the compiler.\r\n\r\nCommonly used attributes of the Spec for format strings include:\r\n\r\n    name\r\n    version\r\n    compiler\r\n    compiler.name\r\n    compiler.version\r\n    compiler_flags\r\n    variants\r\n    architecture\r\n    architecture.platform\r\n    architecture.os\r\n    architecture.target\r\n    prefix\r\n\r\nSome additional special-case properties can be added:\r\n\r\n    hash[:len]    The DAG hash with optional length argument\r\n    spack_root    The spack root directory\r\n    spack_install The spack install directory\r\n\r\nThe ``^`` sigil can be used to access dependencies by name. `s.format({^mpi.name})` will print the name of the MPI implementation in the spec.\r\n\r\nThe ``@``, ``%``, ``arch=``, and ``/`` sigils can be used to include the sigil with the printed string. These sigils may only be used with the appropriate attributes, listed below:\r\n\r\n    @        ``{@version}``, ``{@compiler.version}``\r\n    %        ``{%compiler}``, ``{%compiler.name}``\r\n    arch=    ``{arch=architecture}``\r\n    /        ``{/hash}``, ``{/hash:7}``, etc\r\n\r\nThe ``@`` sigil may also be used for any other property named ``version``. Sigils printed with the attribute string are only printed if the attribute string is non-empty, and are colored according to the color of the attribute.\r\n\r\nSigils are not used for printing variants. Variants listed by name naturally print with their sigil. For example, ``spec.format('{variants.debug}')`` would print either ``+debug`` or ``~debug`` depending on the name of the variant. Non-boolean variants print as ``name=value``. To print variant names or values independently, use ``spec.format('{variants.<name>.name}')`` or ``spec.format('{variants.<name>.value}')``.\r\n\r\nSpec format strings use ``\\`` as the escape character. Use ``\\{`` and ``\\}`` for literal braces, and ``\\\\`` for the literal ``\\`` character. Also use ``\\$`` for the literal ``$`` to differentiate from previous, deprecated format string syntax.\r\n\r\nThe previous format strings are deprecated. They can still be accessed by the ``old_format`` method. The ``format`` method will call ``old_format`` if the character ``$`` appears un-escaped in the format string.\r\n\r\nArgs:\r\n\r\n    format_string (str): string containing the format to be expanded\r\n\r\nKeyword Args:\r\n\r\n    color (bool): True if returned string is colored\r\n    transform (dict): maps full-string formats to a callable that accepts a string and returns another one",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/10556",
+    "updated_at": "2019-04-18 04:16:17",
+    "created_at": "2019-02-08 22:07:28",
+    "closed_at": "2019-04-18 01:21:40",
+    "state": "closed",
+    "title": "Features: Improve Spec format strings",
+    "number": 10556,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "specs"
+    ],
+    "id": 408342462,
+    "html_url": "https://github.com/spack/spack/pull/10556",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,20 @@
+{
+    "body": "This is a hack to deal with the legacy cuda families for `paraview` as noted in #22970.  I haven't tested this on a cuda build, but it at least allows clingo to concretize.\r\n\r\nI imagine we will need to add in some of the logic like vtk-m to get this to work.  Ideally it would be nice to just drop this cuda family stuff in `paraview` and move to the gencode like the vast majority of other packages. Looking at `vtk-m` it seems that they use the gencode for defining the variant and then use a map to fulfill their own cmake args.  It would be nice if `paraview` would pursue the same model (assuming it's the same requirement), but I'm not sure how much of a burden that would be on the users. \r\n\r\nTo support both the quickest thing I could think of was to append the list of values. I guess we could also do an inverse of the  map `vtk-m` has and then change the spec value for the `cuda_arch` variant.",
+    "user": "psakievich",
+    "url": "https://api.github.com/repos/spack/spack/issues/23002",
+    "updated_at": "2021-11-04 13:11:46",
+    "created_at": "2021-04-15 02:55:53",
+    "closed_at": "2021-04-27 15:32:11",
+    "state": "closed",
+    "title": "hack for paraview clingo issue",
+    "number": 23002,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "concretizer-use-case"
+    ],
+    "id": 858426721,
+    "html_url": "https://github.com/spack/spack/pull/23002",
+    "assignees": [],
+    "comments": 3
+}

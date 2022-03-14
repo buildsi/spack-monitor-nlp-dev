@@ -1,0 +1,17 @@
+{
+    "body": "The need to provide `openmp` link flags came up in a couple of place, see https://github.com/LLNL/spack/pull/875 or https://github.com/LLNL/spack/pull/845 .\n\nDifferent compilers need different flags (see https://www.dartmouth.edu/~rc/classes/intro_openmp/compile_run.html ):\n\n-- GNU (gcc, g++, gfortran) :   `-fopenmp`\n-- Intel (icc ifort):   `-openmp`\n-- Portland Group (pgcc,pgCC,pgf77,pgf90) : `-mp`\n\nAs far as i can tell, the flags are the same for C/C++ and Fortran. So we don't need to discriminate between those cases.\n\nObviously, this must be related to `Compiler` class, and those flags are to be implemented in `$SPACK_ROOT/lib/spack/spack/compilers/clang.py` and alike.\n\n(1) First approach, example for `gcc`\n\n```\n    @classmethod\n    def openmp_link_flags(self):\n        return '-fopenmp'\n```\n\nand for `clang`\n\n```\n    @classmethod\n    def openmp_link_flags(self):\n        # test that this is Apple's clang and then...\n        raise InstallError('Clang does not support OpenMP!')\n        return ' '\n```\n\nThen inside the `package.py` it would be used where needed as (if I am not mistaken)\n\n```\nself.compiler.openmp_link_flags\n```\n\n(2) Second approach: I don't know if this is possible, but a more flexible alternative (in the spirit of https://github.com/LLNL/spack/pull/657) would be to have in compiler class\n\n```\ndef setup_dependent_package(self, module, dspec):\n   if `+openmp` in dspec\n      self.spec.openmp_link_flags = '-fopenmp`\n```\n\nShall we need to add more dynamic checks based on specs, it would be much easier with (2) approach, as far as i understand the whole framework.\n\nEither of this should be very straightforward to add, and I will be happy to give it a go if we agree on the approach.\n\n@tgamblin @mathstuf @eschnett @adamjstewart  @alalazo @citibeth  : what do you think?\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/876",
+    "updated_at": "2016-05-09 21:42:37",
+    "created_at": "2016-05-01 18:20:29",
+    "closed_at": "2016-05-09 21:42:37",
+    "state": "closed",
+    "title": "openmp link flags for compilers",
+    "number": 876,
+    "milestone": null,
+    "labels": [],
+    "id": 152325722,
+    "html_url": "https://github.com/spack/spack/issues/876",
+    "assignees": [],
+    "comments": 10
+}

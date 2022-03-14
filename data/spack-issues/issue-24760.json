@@ -1,0 +1,25 @@
+{
+    "body": "Binary package signature verification is currently implemented such that warnings are displayed which say, in effect, that a \"signature is not trusted\", even when signature verification succeeds using a key that a user has, in fact, *explicitly trusted*. These warnings come from GPG's assumption of a web of trust model, which is NOT the model of trust used by Spack. For this reason, Spack's default behavior should be to silence these warnings. The warnings are confusing to those not familiar with GPG's trust model. Even to those who are familiar with GPG's trust model, they are still confusing because why should Spack be warning me about a key that I have explicitly trusted via `spack gpg trust` or `spack buildcache keys -it` ?\r\n\r\nUsers who like seeing these messages can restore what is currently the default behavior by setting `config:suppress_gpg_warnings: true`.\r\n\r\nImportantly, binary package signature verification should, and does, fail if a user has not *explicitly trusted* the public key associated with the private key used to sign a binary, _regardless of the value of this configuration option._\r\n\r\n**New Behavior**\r\n```\r\n$> spack gpg trust <prl-key>\r\nOK\r\n\r\n$> spack install --cache-only zlib\r\n==> Installing zlib-1.2.11-hmubt3qr3rxmeglrozk6niu22dbj35um\r\n==> Fetching ...\r\n==> Extracting zlib-1.2.11-hmubt3qr3rxmeglrozk6niu22dbj35um from binary cache\r\ngpgconf: socketdir is '/run/user/0/gnupg'\r\n[+] /spack/opt/spack/linux-ubuntu20.04-cascadelake/gcc-9.3.0/zlib-1.2.11-hmubt3qr3rxmeglrozk6niu22dbj35um\r\n```\r\n\r\n**Old Behavior**\r\n```\r\n$> spack gpg trust <prl-key>\r\nOK\r\n\r\n$> spack install --cache-only zlib\r\n==> Installing zlib-1.2.11-hmubt3qr3rxmeglrozk6niu22dbj35um\r\n==> Fetching ...\r\n==> Extracting zlib-1.2.11-hmubt3qr3rxmeglrozk6niu22dbj35um from binary cache\r\ngpgconf: socketdir is '/run/user/0/gnupg'\r\ngpg: Signature made Wed 07 Jul 2021 09:07:12 AM PDT\r\ngpg:                using RSA key 7D344E2992071B0AAAE1EDB0E68DE2A80314303D\r\ngpg: Good signature from \"prl\" [unknown]\r\ngpg: WARNING: This key is not certified with a trusted signature!\r\ngpg:          There is no indication that the signature belongs to the owner.\r\nPrimary key fingerprint: 7D34 4E29 9207 1B0A AAE1  EDB0 E68D E2A8 0314 303D\r\n[+] /spack/opt/spack/linux-ubuntu20.04-cascadelake/gcc-9.3.0/zlib-1.2.11-hmubt3qr3rxmeglrozk6niu22dbj35um\r\n```\r\n\r\n@sameershende ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/24760",
+    "updated_at": "2021-09-01 09:26:22",
+    "created_at": "2021-07-07 19:24:55",
+    "closed_at": "2021-09-01 09:26:21",
+    "state": "closed",
+    "title": "gpg: silence binary package signature verification warnings for explicitly trusted keys",
+    "number": 24760,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "defaults",
+        "buildcache",
+        "binary-packages",
+        "utilities"
+    ],
+    "id": 939192889,
+    "html_url": "https://github.com/spack/spack/pull/24760",
+    "assignees": [
+        "haampie"
+    ],
+    "comments": 9
+}

@@ -1,0 +1,19 @@
+{
+    "body": "When attempting to install PGI 18.10, installation fails due to \"incorrect\" sha256sum. \r\n```\r\n==> Installing pgi\r\n==> Searching for binary cache of pgi\r\n==> Finding buildcaches in /apps/spack-mirror/build_cache\r\n==> No binary for pgi found: installing from source\r\n==> Warning: A dependency has updated CPATH, this may lead pkg-config to assume that the package is part of the system includes and omit it when invoked with '--cflags'.\r\n==> Fetching file:///apps/spack-mirror/pgi/pgi-18.10.tar.gz\r\n######################################################################## 100.0%\r\n==> Error: ChecksumError: sha256 checksum failed for /apps/spack/var/spack/stage/pgi-18.10-oypleqype33fcx6lqlgix43vgpbnfolu/pgilinux-2018-1810-x86_64.tar.gz\r\n    Expected 4cc24b1c7c7a1e4b3a72f3dc3318367fe75502f93585997f2cdd0c8cc7616fd7 but got 4b3ff83d2a13de6001bed599246eff8e63ef711b8952d4a9ee12efd666b3e326\r\n```\r\n\r\nNote that the MD5sum reported on PGI's community edition download site ( https://www.pgroup.com/support/download_community.php?file=pgi-community-linux-x64 ) is \r\n```\r\n0e1598c05aa8faeb84e351c0f68274c3\r\n```\r\n![screenshot from 2019-02-18 18-07-11](https://user-images.githubusercontent.com/11430768/52983368-16b51800-33a8-11e9-846f-db350e03c17c.png)\r\n\r\nThe md5sum of my download is\r\n```console\r\n$ md5sum /apps/spack-mirror/pgi/pgi-18.10.tar.gz \r\n0e1598c05aa8faeb84e351c0f68274c3  /apps/spack-mirror/pgi/pgi-18.10.tar.gz\r\n```\r\nI suspect the sha256sum in spack's PGI package file for 18.10 is incorrect.\r\n\r\n---\r\n\r\n### Steps to reproduce the issue\r\n\r\n\r\n1.  Download PGI Community Edition from https://www.pgroup.com/support/download_community.php?file=pgi-community-linux-x64\r\n2. Setup [install-directory]/spack/etc/spack/mirrors.yaml, e.g. add\r\n```\r\nmirrors:\r\n  local_filesystem: file:///apps/spack-mirror\r\n```\r\n3. Put pgi compilers tarball under `/apps/spack-mirror/pgi/pgi-18.10.tar.gz\r\n4. Attempt to install pgi-18.10\r\n```console\r\n$ spack install pgi@18.10\r\n```\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a\r\nLinux fluid-cloud-login1 3.10.0-957.5.1.el7.x86_64 #1 SMP Fri Feb 1 14:54:57 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.6.1810 (Core) \r\n``` \r\n\r\n\r\n",
+    "user": "fluidnumerics-joe",
+    "url": "https://api.github.com/repos/spack/spack/issues/10641",
+    "updated_at": "2019-11-21 16:27:09",
+    "created_at": "2019-02-19 01:11:00",
+    "closed_at": "2019-11-21 16:27:09",
+    "state": "closed",
+    "title": "Installation issue : PGI 18.10",
+    "number": 10641,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 411701635,
+    "html_url": "https://github.com/spack/spack/issues/10641",
+    "assignees": [],
+    "comments": 3
+}

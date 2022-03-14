@@ -1,0 +1,20 @@
+{
+    "body": "While debugging #8199, I discovered that `ctest_log_parser.py` has perfectly good support for detecting warnings in build logs, but that we weren't using it. Initially I modified things to always highlight both, but then I realized that with most compilers you're going to get >100 warnings no matter what you try to compile. I ended up compromising by only displaying warnings if no errors were found.\r\n\r\nI don't know if I've seen any build failures that didn't have a single error message, but I don't see a reason not to catch this if it does happen.\r\n\r\nTODO: It might speed up the parsing if we first check only for errors, then check for warnings iff no errors are found. Right now we check for both and throw away the warnings if errors are found.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8282",
+    "updated_at": "2018-08-22 12:46:36",
+    "created_at": "2018-05-25 17:11:42",
+    "closed_at": "2018-08-22 04:21:54",
+    "state": "closed",
+    "title": "Display warnings if no errors are found in build log",
+    "number": 8282,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "error-messages"
+    ],
+    "id": 326601589,
+    "html_url": "https://github.com/spack/spack/pull/8282",
+    "assignees": [],
+    "comments": 3
+}

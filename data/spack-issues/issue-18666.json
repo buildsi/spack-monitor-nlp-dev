@@ -1,0 +1,19 @@
+{
+    "body": "Charm++ for python\r\n\r\nInstallation notes:\r\n\r\n1) charm4py ships with its own charm++ tarball.  It really wants\r\nto use the version it ships with. It also builds charm++ in a special way to\r\nproduce libcharm.so (but not charmc, etc), so it does not seem\r\nworthwhile to try to hack to build using a spack installed charmpp.\r\n\r\n2) Originally, the installation was failing due to unresolved cuda\r\nsymbols when setup.py was doing a ctypes.CDLL of libcharm.so (in order\r\nto verify version?).  This appears to be due to the fact that\r\nlibcharm.so had undefined cuda symbols, but did not show libcudart.so as\r\na dependency (in e.g. ldd output).  To fix this, I had to add\r\nlibcudart.so explicitly when linking libcharm.so, but since setup.py\r\nuntars a tarball to build libcharm, the solution was a tad convoluted:\r\n2a) Add a patch in spack to py-charm4py which creates a patchfile\r\n\"spack-charm4py-setup.py.patch\" which will modify a Makefile file (after it\r\nis untarred) to add the flags in env var SPACK_CHARM4PY_EXTRALIBS to\r\nthe link command for libcharm.so\r\n2b) The spack patch file also patches setup.py to run patch using the\r\naforementioned patchfile to patch the Makefile after it is untarred, and\r\nsets the SPACK_CHARM4PY_EXTRALIBS variable appropriately in the setup\r\nenvironment.",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/18666",
+    "updated_at": "2020-10-12 16:35:18",
+    "created_at": "2020-09-14 16:43:17",
+    "closed_at": "2020-10-08 21:29:48",
+    "state": "closed",
+    "title": "py-charm4py: new package",
+    "number": 18666,
+    "milestone": null,
+    "labels": [
+        "new-package"
+    ],
+    "id": 701260020,
+    "html_url": "https://github.com/spack/spack/pull/18666",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Closes #25784 \r\n\r\nCurrently the autotools build system tries to pick up config.sub and\r\nconfig.guess files from the system (in /usr/share) on arm and power.\r\nThis is introduces an implicit system dependency which we can avoid by\r\ndistributing config.guess and config.sub files in a separate package,\r\nsuch as the new `gnuconfig` package which is very lightweight/text only\r\n(unlike automake where we previously pulled these files from as a\r\nbackup). This PR adds `gnuconfig` as an unconditional build dependency\r\nfor arm and power archs.\r\n\r\nIn case the user needs a system version of config.sub and config.guess,\r\nthey are free to mark `gnuconfig` as an external package with the prefix\r\npointing to the directory containing the config files:\r\n\r\n```yaml\r\n    gnuconfig:\r\n      externals:\r\n      - spec: gnuconfig@master\r\n        prefix: /usr/somewhere/config/files\r\n      buildable: false\r\n```\r\n\r\nApart from that, this PR gives some better instructions for users when\r\nreplacing config files goes wrong.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25865",
+    "updated_at": "2021-09-17 16:20:43",
+    "created_at": "2021-09-09 10:14:28",
+    "closed_at": "2021-09-17 16:07:35",
+    "state": "closed",
+    "title": "Use gnuconfig package for config file replacement",
+    "number": 25865,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "build-systems"
+    ],
+    "id": 992046806,
+    "html_url": "https://github.com/spack/spack/pull/25865",
+    "assignees": [],
+    "comments": 10
+}

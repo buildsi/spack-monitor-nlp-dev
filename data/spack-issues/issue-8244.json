@@ -1,0 +1,20 @@
+{
+    "body": "Tophat was failing to build with automake@1.16.1, it worked with the\r\nolder automake@1.15.1.  This commit adds a patch to Tophat's\r\n`src/Makefile.am` which cleans up a few things.  The result builds\r\nsuccessfully with both automake@1.15.1 and automake@1.16.1.  I have no\r\nway to check that the resulting builds Do The Right Thing.\r\n\r\nIt changes two things:\r\n\r\n- the original Makefile.am had a rule for `$(SAMPROG)` with no\r\n  actions, and since there was a directory there with a tempting name\r\n  the newer automake was trying to do something with it, but lacked\r\n  the appropriate clues.  Since that target is actually made as a side\r\n  effect of making the library (sigh...), it seems to work to just\r\n  give that rule something harmless to do (the Peter Principle\r\n  triumphs again...).\r\n\r\n- a bunch of the targets need a `libtophat.a` and `libgc.a`; the older\r\n  automake was probably able to guess what to do given the list of\r\n  sources but the newer automake apparently won't make the necessary\r\n  assumptions.  This patch wires up a simple rule and cleans up the\r\n  appropriate dependencies so that things work.\r\n\r\nWhile it may appear that I'm someone who understands automake, keep in\r\nmind that I only play such a person on a TV reality show.  YMMV.\r\n\r\nFixes #8025 ",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/8244",
+    "updated_at": "2018-05-24 17:07:24",
+    "created_at": "2018-05-22 18:53:39",
+    "closed_at": "2018-05-24 17:07:24",
+    "state": "closed",
+    "title": "Clean up tophat's src/Makefile.am",
+    "number": 8244,
+    "milestone": null,
+    "labels": [
+        "autotools",
+        "patch"
+    ],
+    "id": 325420769,
+    "html_url": "https://github.com/spack/spack/pull/8244",
+    "assignees": [],
+    "comments": 6
+}

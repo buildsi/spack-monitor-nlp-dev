@@ -1,0 +1,21 @@
+{
+    "body": "Without this:\r\n\r\n```\r\nlibtool: link: /gpfs/bbp.cscs....../sources/spack/lib/spack/env/xl/xlc -o .libs/gsl-histogram gsl-histogram.o  ./.libs/libgsl.so cblas/.libs/libgslcblas.so -lm -Wl,-rpath -Wl,/gpfs/bbp.cscs.ch/home/kumbhar/workarena/systems/lugviz/softwares/sources/spack/opt/spack/bgq-cnk-ppc64/xl-12.1/gsl-2.3-67yupbqwim25qvsok3zzqhokg2oa5vcc/lib\r\n/bgsys/drivers/ppcfloor/gnu-linux/powerpc64-bgq-linux/bin/ld: attempted static link of dynamic object `./.libs/libgsl.so'\r\nmake[2]: *** [gsl-histogram] Error 1\r\nmake[2]: *** Waiting for unfinished jobs....\r\n/bgsys/drivers/ppcfloor/gnu-linux/powerpc64-bgq-linux/bin/ld: attempted static link of dynamic object `./.libs/libgsl.so'\r\nmake[2]: *** [gsl-randist] Error 1\r\nmake[2]: Leaving directory `/tmp/kumbhar/spack-stage/spack-stage-SOq8Sf/gsl-2.3'\r\n```\r\n\r\nThis fix make sure to build shared as well as static libraries correctly : \r\n\r\n```\r\n$ ls /gpfs/bbp.cscs.....spack/opt/spack/bgq-cnk-ppc64/xl-12.1/gsl-2.3-67yupbqwim25qvsok3zzqhokg2oa5vcc/lib/\r\nlibgsl.a  libgslcblas.a  libgslcblas.la  libgslcblas.so  libgslcblas.so.0  libgslcblas.so.0.0.0  libgsl.la  libgsl.so  libgsl.so.19  libgsl.so.19.3.0  pkgconfig\r\n```\r\n\r\nEDIT:\r\n\r\n`bg-q` XL compilers do `static` linking by default. GSL builds both shared and static libraries and hence we need `qnostaticlink` flag.",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5205",
+    "updated_at": "2019-12-24 09:10:48",
+    "created_at": "2017-08-24 19:02:26",
+    "closed_at": "2019-11-11 17:47:16",
+    "state": "closed",
+    "title": "Fixed gsl issue while building on bg-q architecture",
+    "number": 5205,
+    "milestone": null,
+    "labels": [
+        "bgq",
+        "compilers",
+        "build-error"
+    ],
+    "id": 252698956,
+    "html_url": "https://github.com/spack/spack/pull/5205",
+    "assignees": [],
+    "comments": 2
+}

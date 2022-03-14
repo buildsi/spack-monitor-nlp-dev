@@ -1,0 +1,21 @@
+{
+    "body": "I have two packages `cactusext` installed:\n\n```\n$ spack find -l cactusext\n==> 2 installed packages.\n-- darwin-elcapitan-x86_64 / gcc@6.1.0-spack --------------------\nvyakp7b cactusext@master  lpdwn2k cactusext@master\n```\n\nThey are very similar (some details in their dependencies differ), and I need to distinguish between them via their spec. So I write:\n\n```\nspack view -d true symlink ~/spack/cactusdeps cactusext/lpdwn2k\n```\n\nbut this does not work:\n\n```\nTraceback (most recent call last):\n  File \"/Users/eschnett/src/spack/bin/spack\", line 179, in <module>\n    main()\n  File \"/Users/eschnett/src/spack/bin/spack\", line 157, in main\n    return_val = command(parser, args)\n  File \"/Users/eschnett/src/spack/lib/spack/spack/cmd/view.py\", line 286, in view\n    seeds = [spack.cmd.disambiguate_spec(s) for s in args.specs]\n  File \"/Users/eschnett/src/spack/lib/spack/spack/cmd/__init__.py\", line 136, in disambiguate_spec\n    matching_specs = spack.installed_db.query(spec)\n  File \"/Users/eschnett/src/spack/lib/spack/spack/database.py\", line 574, in query\n    if query_spec is any or rec.spec.satisfies(query_spec):\n  File \"/Users/eschnett/src/spack/lib/spack/spack/spec.py\", line 1712, in satisfies\n    other = self._autospec(other)\n  File \"/Users/eschnett/src/spack/lib/spack/spack/spec.py\", line 1691, in _autospec\n    spec = spack.spec.Spec(spec_like)\n  File \"/Users/eschnett/src/spack/lib/spack/spack/spec.py\", line 489, in __init__\n    raise ValueError(\"More than one spec in string: \" + spec_like)\nValueError: More than one spec in string: cactusext/lpdwn2k\n```\n\nI tried using more or fewer characters in the hash code, but that did not make a difference.\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/1267",
+    "updated_at": "2017-11-22 07:41:04",
+    "created_at": "2016-07-15 22:35:42",
+    "closed_at": "2017-11-22 07:41:04",
+    "state": "closed",
+    "title": "Cannot use hash in spec: `More than one spec in string`",
+    "number": 1267,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "hashes",
+        "specs"
+    ],
+    "id": 165889998,
+    "html_url": "https://github.com/spack/spack/issues/1267",
+    "assignees": [],
+    "comments": 2
+}

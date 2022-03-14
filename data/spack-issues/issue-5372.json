@@ -1,0 +1,20 @@
+{
+    "body": "When installing the default HDF5 (with defaults: `+fortran`, `+mpi`) with `clang@4.0.1` (and `gfortran@5.4.0` as `FC`), the linking of `libhdf5_fortran` fails on a missing `-lnuma` with the default `openmpi@2.1.1` during the `build` stage.\r\n\r\n```bash\r\nspack install hdf5 %clang@4.0.1\r\n```\r\n\r\nThis fixes it by adding `numactl` which ships `libnuma`.\r\n\r\nNote: Installs without MPI or Fortran succeeded already, so I only added it on `+mpi+fortran`.\r\n```bash\r\nspack install hdf5~mpi %clang@4.0.1\r\nspack install hdf5~fortran %clang@4.0.1\r\n```\r\n\r\n- [x] depends on ~~#5371~~",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/5372",
+    "updated_at": "2017-09-19 14:28:22",
+    "created_at": "2017-09-15 13:07:06",
+    "closed_at": "2017-09-19 02:32:52",
+    "state": "closed",
+    "title": "HDF5: Fortran MPI needs Numactl",
+    "number": 5372,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "mpi"
+    ],
+    "id": 258033318,
+    "html_url": "https://github.com/spack/spack/pull/5372",
+    "assignees": [],
+    "comments": 4
+}

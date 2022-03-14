@@ -1,0 +1,22 @@
+{
+    "body": "Assuming `gcc@4.4.7` is in `compilers.yaml`, the following `packages.yaml` work for `spack spec py-numpy`:\r\n```yaml\r\npackages:\r\n  python:\r\n    paths:\r\n      python@2.6.6: /usr\r\n    buildable: False\r\n```\r\n```yaml\r\npackages:\r\n  python:\r\n    paths:\r\n      python@2.6.6%gcc@4.4.7: /usr\r\n    buildable: False\r\n```\r\nEven if only a single GCC 4 is in `compilers.yaml`, the following `packages.yaml` results in the error message:\r\n```\r\n==> Error: The spec 'python' is configured as not buildable, and no matching external installs were found\r\n```\r\n```yaml\r\npackages:\r\n  python:\r\n    paths:\r\n      python@2.6.6%gcc@4: /usr\r\n    buildable: False\r\n```\r\nAll of the following `packages.yaml` cause `spack spec py-numpy` to hang indefinitely. An informative error message would be appreciated:\r\n```yaml\r\npackages:\r\n  python:\r\n    paths:\r\n      python@2.6.6%gcc: /usr\r\n    buildable: False\r\n```\r\n```yaml\r\npackages:\r\n  python:\r\n    paths:\r\n      python%gcc@4.4.7: /usr\r\n    buildable: False\r\n```\r\n```yaml\r\npackages:\r\n  python:\r\n    paths:\r\n      python: /usr\r\n    buildable: False\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3164",
+    "updated_at": "2019-12-06 08:43:29",
+    "created_at": "2017-02-16 21:08:41",
+    "closed_at": "2019-12-06 08:43:29",
+    "state": "closed",
+    "title": "External packages: bug when version is not specified",
+    "number": 3164,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "external-packages"
+    ],
+    "id": 208246933,
+    "html_url": "https://github.com/spack/spack/issues/3164",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

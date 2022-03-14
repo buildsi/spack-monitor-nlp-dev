@@ -1,0 +1,22 @@
+{
+    "body": "In https://github.com/spack/spack/pull/20078 I wanted to enable a `@run_after('install')` code section restricted by `@when('+doc')`.  I searched the spack packages with `grep -C1 '@run_after'` and found the only existing combination construction to be `@when/@run_after` in the OpenMPI and Nest packages:\r\n```console\r\n$ grep -C1 '@run_after' openmpi/package.py\r\n    @when('+wrapper-rpath')\r\n    @run_after('install')\r\n    def filter_rpaths(self):\r\n...\r\n```\r\n\r\nI couldn't find any documentation specifically about when/run_after, but another search for `run_after` leads me to [a warning in the custom build system](https://spack.readthedocs.io/en/latest/build_systems/custompackage.html?highlight=run_after%20when#testing) and https://github.com/spack/spack/issues/3833 . So it looks like MPI's `@when` restriction being ignored.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI added a post-install method to a fast-building package:\r\n```diff\r\ndiff --git a/var/spack/repos/builtin/packages/zlib/package.py b/var/spack/repos/\r\nindex 0d30f2d67..c1f849421 100644\r\n--- a/var/spack/repos/builtin/packages/zlib/package.py\r\n+++ b/var/spack/repos/builtin/packages/zlib/package.py\r\n@@ -53,3 +53,9 @@ def install(self, spec, prefix):\r\n         if self.run_tests:\r\n             make('check')\r\n         make('install')\r\n+\r\n+    @when('+shared')\r\n+    @run_after('install')\r\n+    def post_install(self):\r\n+        import llnl.util.tty as tty\r\n+        tty.warn(\"It ran, dingus\")\r\n```\r\n\r\nThe warning message prints when installing both `+shared` and `~shared`, which is not expected.\r\n\r\n### Error Message\r\n\r\nReversing the `@when/@run_after` lines succeeds when `+shared` but crashes after building and installing `~shared`:\r\n```\r\nTraceback (most recent call last):\r\n  File \"/projects/spack2020/lib/spack/spack/build_environment.py\", line 847, in _setup_pkg_and_run\r\n    return_value = function(pkg, kwargs)\r\n  File \"/projects/spack2020/lib/spack/spack/installer.py\", line 1674, in build_process\r\n    phase(pkg.spec, pkg.prefix)\r\n  File \"/projects/spack2020/lib/spack/spack/package.py\", line 113, in phase_wrapper\r\n    callback(instance)\r\n  File \"/projects/spack2020/lib/spack/spack/multimethod.py\", line 154, in __call__\r\n    [m[0] for m in self.method_list]\r\nNoSuchMethodError: Package Zlib does not support post_install called with zlib@1.2.11%gcc@10.2.0~optimize+pic~shared arch=linux-rhel7-haswell.  Options are: +shared\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.0-32-4609a12\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-rhel7-haswell\r\n* **Concretizer:** original\r\n```",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/20177",
+    "updated_at": "2021-12-31 13:35:17",
+    "created_at": "2020-11-30 16:17:46",
+    "closed_at": "2021-12-31 13:35:17",
+    "state": "closed",
+    "title": "@when and @run_after do not work together",
+    "number": 20177,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 753612664,
+    "html_url": "https://github.com/spack/spack/issues/20177",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

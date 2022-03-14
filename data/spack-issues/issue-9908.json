@@ -1,0 +1,21 @@
+{
+    "body": "When using python 3, flags randomised at build time resulting in multiple installs based on all possible combinations of multiple flags - issue arose as Ubuntu 18.04 doesn't include python2 in a base image.\r\n\r\n### Steps to reproduce the issue\r\n1. Not necessary on ubuntu 18.04 - but necessary on SLES 12 SP3 \r\nvim \\`which spack\\`\r\nchange:\r\n#!/usr/bin/env python\r\nto\r\n#!/usr/bin/env python3\r\n\r\n2. modify compilers.yaml\r\nspack config --scope defaults edit compilers\r\n#### modify gcc/default entry with e.g.\r\n    flags:\r\n       cppflags: -fPIC -mtune=native\r\n       cflags: -fPIC -mtune=native\r\n       cxxflags: -fPIC -mtune=native\r\n       fflags: -fPIC -mtune=native\r\n       ldflags: -fPIC -Wl,--as-needed\r\n\r\n#### install a package multiple times - e.g. more than 4 times in the above\r\nfor i in \\`seq 1 10\\` ; do spack install zlib; done\r\n\r\n#### expected results - 1 install, 9 already installed messages\r\n#### actual results - 4 installs of packages with different concretizations based on order of flags (easiest show by uninstall I think):\r\n\r\n### Error Message\r\n\r\nspack uninstall --all zlib\r\n==> The following packages will be uninstalled:\r\n\r\n    -- linux-ubuntu18.04-x86_64 / gcc@7.3.0 -------------------------\r\n    fj6ajxq zlib@1.2.11%gcc cflags=\"-fPIC -mtune=native\" cppflags=\"-fPIC -mtune=native\" cxxflags=\"-fPIC -mtune=native\" fflags=\"-fPIC -mtune=native\" ldflags=\"-Wl,--as-needed -fPIC\" +optimize+pic+shared\r\n    h227bca zlib@1.2.11%gcc cflags=\"-fPIC -mtune=native\" cppflags=\"-fPIC -mtune=native\" cxxflags=\"-fPIC -mtune=native\" fflags=\"-fPIC -mtune=native\" ldflags=\"-fPIC -Wl,--as-needed\" +optimize+pic+shared\r\n    gbbmeio zlib@1.2.11%gcc cflags=\"-mtune=native -fPIC\" cppflags=\"-mtune=native -fPIC\" cxxflags=\"-mtune=native -fPIC\" fflags=\"-mtune=native -fPIC\" ldflags=\"-Wl,--as-needed -fPIC\" +optimize+pic+shared\r\n    qn3j54v zlib@1.2.11%gcc cflags=\"-mtune=native -fPIC\" cppflags=\"-mtune=native -fPIC\" cxxflags=\"-mtune=native -fPIC\" fflags=\"-mtune=native -fPIC\" ldflags=\"-fPIC -Wl,--as-needed\" +optimize+pic+shared\r\n==> Do you want to proceed? [y/N] \r\n\r\n### Information on your system\r\n\r\ntested on:\r\nspack 0.11.2 and 0.12.0\r\nUbuntu 18.04 - python 3.6.7\r\nSLES 12 SP3 - python/3.5.1 python/3.6.1\r\nAlso SLES 12 SP3 - python/2.7.13 where everything works as expected.\r\n",
+    "user": "OH-AU",
+    "url": "https://api.github.com/repos/spack/spack/issues/9908",
+    "updated_at": "2018-11-28 18:23:40",
+    "created_at": "2018-11-21 03:45:17",
+    "closed_at": "2018-11-28 18:23:40",
+    "state": "closed",
+    "title": "Compiler flags have a random order",
+    "number": 9908,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 382943190,
+    "html_url": "https://github.com/spack/spack/issues/9908",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 9
+}

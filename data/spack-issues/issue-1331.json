@@ -1,0 +1,17 @@
+{
+    "body": "Before this change, MVAPICH2 would link to the system libpciaccess:\n\n```\n$ ldd mvapich2-2.2b-5wegbfinckfpgzpho7en62finq2g7qu7/lib/libmpi.so\n...\n    libpciaccess.so.0 => /usr/lib64/libpciaccess.so.0 (0x00002ac2e9c59000)\n...\n```\n\nAfter this change, MVAPICH2 now correctly links to Spack's libpciaccess:\n\n```\n$ ldd mvapich2-2.2b-safxp72yay4mzoahpdpt77sygczxvcmc/lib/libmpi.so\n...\n    libpciaccess.so.0 => /blues/gpfs/home/software/spack/opt/spack/linux-centos6-x86_64/intel-16.0.3/libpciaccess-0.13.4-u4kiiivsqq5st2tdlchz562mv7nietlj/lib/libpciaccess.so.0 (0x00002b6c04b5b000)\n...\n```\n\nThe need for this change is that I built mvapich2 on CentOS 6, which has `/usr/lib64/libpciaccess.so.0`, but it doesn't run on CentOS 5, which doesn't have libpciaccess.so.0 in that directory.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1331",
+    "updated_at": "2016-07-28 16:52:51",
+    "created_at": "2016-07-21 16:23:43",
+    "closed_at": "2016-07-28 16:52:51",
+    "state": "closed",
+    "title": "MVAPICH2 depends on libpciaccess",
+    "number": 1331,
+    "milestone": null,
+    "labels": [],
+    "id": 166861464,
+    "html_url": "https://github.com/spack/spack/pull/1331",
+    "assignees": [],
+    "comments": 2
+}

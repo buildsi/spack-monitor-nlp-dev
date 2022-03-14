@@ -1,0 +1,21 @@
+{
+    "body": "The following error seems to exist if there is a version of matplotlib installed with the system package manager. The spack version of the package does not work as expected. Based on the information [here](https://stackoverflow.com/questions/61864151/keyerror-scale-for-import-matplotlib-pyplot-as-plt), possibly spack isn't correctly linking the mpl_toolkits folder?\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install py-matplotlib\r\n$ spack load py-matplotlib\r\n$ python3 -c \"import matplotlib.pyplot\"\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\n  File \"/home/mersoj/spack/opt/spack/linux-ubuntu20.04-x86_64/gcc-9.3.0/py-matplotlib-3.3.3-hoj5zbtgg6ayuek2ce6sjouhqhh2pkkq/lib/python3.8/site-packages/matplotlib/pyplot.py\", line 43, in <module>\r\n    from matplotlib.figure import Figure, figaspect\r\n  File \"/home/mersoj/spack/opt/spack/linux-ubuntu20.04-x86_64/gcc-9.3.0/py-matplotlib-3.3.3-hoj5zbtgg6ayuek2ce6sjouhqhh2pkkq/lib/python3.8/site-packages/matplotlib/figure.py\", line 18, in <module>\r\n    from mpl_toolkits.mplot3d import Axes3D\r\n  File \"/usr/lib/python3/dist-packages/mpl_toolkits/mplot3d/__init__.py\", line 1, in <module>\r\n    from .axes3d import Axes3D\r\n  File \"/usr/lib/python3/dist-packages/mpl_toolkits/mplot3d/axes3d.py\", line 42, in <module>\r\n    class Axes3D(Axes):\r\n  File \"/usr/lib/python3/dist-packages/mpl_toolkits/mplot3d/axes3d.py\", line 50, in Axes3D\r\n    def __init__(\r\n  File \"/home/mersoj/spack/opt/spack/linux-ubuntu20.04-x86_64/gcc-9.3.0/py-matplotlib-3.3.3-hoj5zbtgg6ayuek2ce6sjouhqhh2pkkq/lib/python3.8/site-packages/matplotlib/docstring.py\", line 80, in dedent_interpd\r\n    return interpd(func)\r\n  File \"/home/mersoj/spack/opt/spack/linux-ubuntu20.04-x86_64/gcc-9.3.0/py-matplotlib-3.3.3-hoj5zbtgg6ayuek2ce6sjouhqhh2pkkq/lib/python3.8/site-packages/matplotlib/docstring.py\", line 40, in __call__\r\n    func.__doc__ %= self.params\r\nKeyError: 'scale'\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-31-a67bf0ca7\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-broadwell\r\n* **Concretizer:** original\r\n\r\npython is external system python 3.8.5 \r\n\r\n\r\n@adamjstewart\r\n\r\n### General information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [N/A] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "jacobmerson",
+    "url": "https://api.github.com/repos/spack/spack/issues/20043",
+    "updated_at": "2022-01-14 02:11:16",
+    "created_at": "2020-11-21 22:40:13",
+    "closed_at": "2022-01-14 02:11:16",
+    "state": "closed",
+    "title": "Installation issue: py-matplolib conflicts with system matplotlib",
+    "number": 20043,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 748116792,
+    "html_url": "https://github.com/spack/spack/issues/20043",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 2
+}

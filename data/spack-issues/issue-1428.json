@@ -1,0 +1,17 @@
+{
+    "body": "@mpbelhorn @robertdfrench @mamelara I think there is a typo in `lib/spack/spack/platforms/cray.py` that can cause an infinite recursion when spack calls `env/cc`. The change listed below fixed this problem for me.  Can you confirm that this is a bug and that my change is correct?\n\n```\ndiff --git a/lib/spack/spack/platforms/cray.py b/lib/spack/spack/platforms/cray.py\nindex 2a3b81c..0059b49 100644\n--- a/lib/spack/spack/platforms/cray.py\n+++ b/lib/spack/spack/platforms/cray.py\n@@ -98,7 +98,7 @@ class Cray(Platform):\n         cray_wrapper_names = join_path(spack.build_env_path, 'cray')\n         if os.path.isdir(cray_wrapper_names):\n             env.prepend_path('PATH', cray_wrapper_names)\n-            env.prepend_path('SPACK_ENV_PATHS', cray_wrapper_names)\n+            env.prepend_path('SPACK_ENV_PATH', cray_wrapper_names)\n\n     @classmethod\n     def detect(self):\n```\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/1428",
+    "updated_at": "2016-08-03 20:34:54",
+    "created_at": "2016-08-03 17:37:30",
+    "closed_at": "2016-08-03 20:34:54",
+    "state": "closed",
+    "title": "On Cray, infinite recursion when calling env/cc",
+    "number": 1428,
+    "milestone": null,
+    "labels": [],
+    "id": 169189462,
+    "html_url": "https://github.com/spack/spack/issues/1428",
+    "assignees": [],
+    "comments": 2
+}

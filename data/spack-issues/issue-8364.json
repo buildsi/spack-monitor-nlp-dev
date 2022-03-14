@@ -1,0 +1,22 @@
+{
+    "body": "[I hit the green \"submit\" button too quickly and had to edit this comment to add, well, all of it...]\r\n\r\nI'd like to explore adding the option of installing Python applications into Python virtualenvs, making their Python dependencies \"build\" only and giving them some of the robustness that rpath's bring to compiled applications (no need to depend on environment variables to find what they need at runtime).\r\n\r\nI've [mentioned this][1] on the Spack google group and gotten some feedback from @healther and @citibeth, but most of what the bits they discussed involved ways to set up the environment.  I believe that installing into virtualenvs is orthogonal to the work they pointed me at.\r\n\r\nI was recently exposed to [Homebrew's use of virtualenvs][2] when I submitted a Formula for `bumpversion`. \r\n\r\nThis PR/branch is a **hack** to demonstrate how it might behave.  It is **not** a final implementation.\r\n\r\nWith that said, in a clone with this branch checked out and nothing else installed, one can (tested on CentOS 7):\r\n\r\n```\r\nspack install py-virtualenv\r\nspack activate py-virtualenv\r\nspack install py-flake8\r\nspack install httpie\r\nspack install bumpversion\r\n```\r\n\r\nThe final 3 installations don't complete happily, but they finish the important POC bits.  In each prefix there will be a `libexec` directory (e.g. `.../spack-virtualenv/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/py-flake8-3.5.0-yqduo7ftn2ucmnamrn3lrlwkdsx7d4a7/libexec/`) that has a `bin` subdir that contains the application.  E.g.\r\n\r\n```\r\n/home/hartzell/tmp/spack-virtualenv/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/py-flake8-3.5.0-yqduo7ftn2ucmnamrn3lrlwkdsx7d4a7/libexec/bin/flake8\r\n```\r\n\r\nThat `flake8` will run with no special environment settings, in fact, adding that `bin` directory to the `PATH` is enough to run `spack flake8` (and then fix the uglies...).\r\n\r\nA final implementation (stealing from Homebrew) would link the applications into `prefix/bin`, keeping the `libexec` dir private.\r\n\r\nI had trouble finding a pleasant way to pass the fact that a virtualenv was being used from the top level item (e.g. `py-flake8`) into the other layers.  \r\n\r\nOne clean idea would be for the top level app to depend on Python and specify a variant to Python that included the name of the virtualenv.  I'm not sure how to get that to concretize cleanly with all of the dependencies, which are simply depending on Python.  Perhaps a virtual dependency?\r\n\r\nAlternatively, setting a boolean in the top-level application and figuring out how to pass the info down through its `do_install` and into the layers below seems to be the best bet.  Perhaps there's a way to adjust the `spec`'s or to pass alone the extra info.  It's tempting to do something with the Python package's `set_dependent_package`, but I couldn't figure it out nicely.\r\n\r\nI would *love* feedback on how this might happen.\r\n\r\nI think that python packages being installed into virtualenvs should have their prefix adjusted to point into the top level app's prefix (so that they don't clash with any real installs), they should be recorded in the db as part of a virtualenv install (or perhaps not as all).\r\n\r\n**In conclusion:** if this works, then applications can be self-contained and more reliable (avoiding e.g. the py-flake8 module loading issue).   The resulting packages will play nicely with Environments and etc....  It's complementary to Spack's other methods for handling add-on packages (environment modification, activation, views) and would still use Spack's package definitions, preserving reproducibility and etc...\r\n\r\n**Feedback?**\r\n\r\n\r\n\r\n[1]: https://groups.google.com/forum/#!topic/spack/FKWH-N02cEQ\r\n[2]: https://github.com/Homebrew/brew/blob/master/Library/Homebrew/language/python.rb",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/8364",
+    "updated_at": "2020-12-29 14:27:28",
+    "created_at": "2018-06-04 16:43:30",
+    "closed_at": "2020-12-28 22:44:57",
+    "state": "closed",
+    "title": "WIP: Install python applications into virtualenvs",
+    "number": 8364,
+    "milestone": null,
+    "labels": [
+        "python",
+        "revisit",
+        "proposal",
+        "environments"
+    ],
+    "id": 329134499,
+    "html_url": "https://github.com/spack/spack/pull/8364",
+    "assignees": [],
+    "comments": 13
+}

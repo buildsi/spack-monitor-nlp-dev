@@ -1,0 +1,21 @@
+{
+    "body": "Right now, we have the following configuration scopes:\r\n\r\n* ~/.spack/linux\r\n* ~/.spack\r\n* etc/spack/linux\r\n* etc/spack\r\n\r\nI may be biased because I only manage Linux clusters, but I don't find these configuration scopes very useful. I would find the following much more useful:\r\n\r\n* ~/.spack/linux-centos7-x86_64\r\n* ~/.spack\r\n* etc/spack/linux-centos7-x86_64\r\n* etc/spack\r\n\r\nI manage 2 clusters, one is CentOS 6 and the other is CentOS 7. These clusters provide different versions of the system installed packages. At the moment, it is impossible to use external packages on 2 different OSes without lying. I've tried:\r\n```yaml\r\npackages:\r\n  libtool:\r\n    paths:\r\n      libtool@2.4.2 arch=linux-centos7-x86_64: /usr\r\n      libtool@2.2.6b arch=linux-centos6-x86_64: /usr\r\n    buildable: False\r\n```\r\nbut this doesn't work (see #3508). I could lie and say that they are both the same version, but this won't work for packages that require a specific version, or if the packages are in different locations. Having more specific configuration scopes would make life much easier. We can still keep `~/.spack/linux` and `etc/spack/linux` if people really want them.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4427",
+    "updated_at": "2021-10-27 01:08:27",
+    "created_at": "2017-06-02 18:59:31",
+    "closed_at": "2021-10-27 01:08:27",
+    "state": "closed",
+    "title": "More specific configuration scopes",
+    "number": 4427,
+    "milestone": null,
+    "labels": [
+        "configuration"
+    ],
+    "id": 233270792,
+    "html_url": "https://github.com/spack/spack/issues/4427",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

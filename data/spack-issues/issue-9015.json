@@ -1,0 +1,20 @@
+{
+    "body": "There are several moments with `spack mirror create` that I would like to clarify.\r\n1. The first question is regarding the flag `--one-version-per-spec`. As far a I understand [get_matching_versions](https://github.com/spack/spack/blob/e04fb382b17ecab15ab7dffe3f92a4a282d4a256/lib/spack/spack/mirror.py#L104-L136) recieves a list of concrete specs, which means that there is only one matching version for each spec. So, it seems that we need to pass not only concrete specs but input specs (polished with the information from `packages.yaml`) as well for the flag to make sense. Correct?\r\n2. The second question is related to the first one. The following lines of code seem to be the reason for the flag not to work properly at all:\r\nhttps://github.com/spack/spack/blob/e04fb382b17ecab15ab7dffe3f92a4a282d4a256/lib/spack/spack/mirror.py#L118-L120\r\nAs far as I understand, if we limit the number of output versions, the function stops after checking the first `num_versions` versions. The problem is that not all version among the first `num_versions` potentially satisfy our spec and the condition should be something like\r\n    ```python\r\n    if num_versions and len(matching_spec) >= num_versions:\r\n        break\r\n    ```\r\n    You can try\r\n    ```console\r\n    $ spack mirror create mpich\r\n    ```\r\n3. The third question is regarding the fact that `spack mirror create` does not try to use `list_url`. Compare the results of\r\n    ```console\r\n    $ spack mirror create cdo\r\n    ```\r\n    and\r\n    ```console\r\n    $ spack fetch cdo\r\n    ```\r\n4. The last question is regarding the format of the command line. As far as I understand, the user can specify several specs at once. Specs can contain multivalue variants: `cdo grib2=grib-api`. Does `spack mirror create` parse several such specs correctly? For the command `spack env` we have a special separator `--` for this.\r\n\r\nThank you.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/9015",
+    "updated_at": "2018-12-16 18:15:23",
+    "created_at": "2018-08-17 15:19:27",
+    "closed_at": "2018-12-16 18:15:23",
+    "state": "closed",
+    "title": "Unexpected behaviour of 'spack mirror create'.",
+    "number": 9015,
+    "milestone": null,
+    "labels": [
+        "question",
+        "mirrors"
+    ],
+    "id": 351635753,
+    "html_url": "https://github.com/spack/spack/issues/9015",
+    "assignees": [],
+    "comments": 2
+}

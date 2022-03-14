@@ -1,0 +1,20 @@
+{
+    "body": "This fixes #12380 by configuring Clang to include the correct GCC version in its search paths if building with GCC.\r\n\r\nSee [this thread](http://clang-developers.42468.n3.nabble.com/Control-selected-GCC-installation-selected-libstdc-version-td4050363.html) for the relevant configure option.\r\n\r\n---\r\n\r\nBefore this change, the search directories for Clang seem to be using the system GCC instead of the 8.2 that it was compiled with:\r\n```console\r\n$ clang -print-search-dirs\r\nprograms: =/projects/spack/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-avafczo6dbasez3obndejep4rwbmwnrl/bin:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../x86_64-redhat-linux/bin\r\nlibraries: =/projects/spack/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-avafczo6dbasez3obndejep4rwbmwnrl/lib/clang/7.0.1:/usr/lib/gcc/x86_64-redhat-linux/4.8.5:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64:/lib/../lib64:/usr/lib/../lib64:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../..:/projects/spack/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-avafczo6dbasez3obndejep4rwbmwnrl/bin/../lib:/lib:/usr/lib\r\n```\r\n\r\n---\r\n\r\nAfter the change, \r\n\r\n```console\r\n$ $(spack location -i llvm)/bin/clang -print-search-dirs\r\nprograms: =/projects/spack2/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-rnw3lziolux2ylebsuof3laiqiqjhops/bin:/projects/spack2/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-8.2.0-3gf5hj6qpbqqh44sdsnueyyvbnjtbgnh/lib/gcc/x86_64-pc-linux-gnu/8.2.0/../../../../x86_64-pc-linux-gnu/bin\r\nlibraries: =/projects/spack2/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-rnw3lziolux2ylebsuof3laiqiqjhops/lib/clang/7.0.1:/projects/spack2/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-8.2.0-3gf5hj6qpbqqh44sdsnueyyvbnjtbgnh/lib/gcc/x86_64-pc-linux-gnu/8.2.0:/projects/spack2/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-8.2.0-3gf5hj6qpbqqh44sdsnueyyvbnjtbgnh/lib/gcc/x86_64-pc-linux-gnu/8.2.0/../../../../lib64:/lib/../lib64:/usr/lib/../lib64:/projects/spack2/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-8.2.0-3gf5hj6qpbqqh44sdsnueyyvbnjtbgnh/lib/gcc/x86_64-pc-linux-gnu/8.2.0/../../..:/projects/spack2/opt/spack/linux-rhel7-x86_64/gcc-8.2.0/llvm-7.0.1-rnw3lziolux2ylebsuof3laiqiqjhops/bin/../lib:/lib:/usr/lib\r\n```",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12381",
+    "updated_at": "2019-10-12 22:47:54",
+    "created_at": "2019-08-10 16:11:29",
+    "closed_at": "2019-08-11 17:40:13",
+    "state": "closed",
+    "title": "Use correct GCC installation when installing clang with GCC",
+    "number": 12381,
+    "milestone": null,
+    "labels": [
+        "gcc",
+        "clang"
+    ],
+    "id": 479281964,
+    "html_url": "https://github.com/spack/spack/pull/12381",
+    "assignees": [],
+    "comments": 1
+}

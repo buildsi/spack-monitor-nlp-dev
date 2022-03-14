@@ -1,0 +1,19 @@
+{
+    "body": "TL; DR: `spack edit` could be weird because it relied on `Popen` (via `Executable`), not `execv`\r\n\r\nThe problem:\r\n- `spack edit` previously used `spack.util.executable` `Executable` objects, and didn't `exec` the editor.\r\n- This meant that Spack was still running while your editor was, and it could lead to weird behavior\r\n- e.g. on Mac OS the builtin `emacs` will quit with \"Keyboard interrupt\" when you type `Ctrl-g` -- this is obviously not what we want\r\n\r\nThe fix:\r\n- [x] Fix all this by changing spack.util.editor to use `os.execv` instead of the Spack Executable object\r\n- [x] Add tests to make sure `editor()` works.\r\n\r\nThis slightly changes the behavior from #10898 (@chissg -- take a look).\r\n\r\nBefore, if you launched the editor and it exited 1, you'd try the next editor.  Now we'll only do that if there is a problem with `execv`.  I think that is fine, because you could launch `$VISUAL`, do edits, and `exit 1` for perfectly normal reasons, and then you would likely be surprised if Spack immediately went and launched `$EDITOR`.  I am hoping that @chissg was not relying on this behavior for something.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/11245",
+    "updated_at": "2019-04-23 02:17:01",
+    "created_at": "2019-04-21 00:48:32",
+    "closed_at": "2019-04-21 03:51:45",
+    "state": "closed",
+    "title": "spack edit: use execv instead of Executable",
+    "number": 11245,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 435460511,
+    "html_url": "https://github.com/spack/spack/pull/11245",
+    "assignees": [],
+    "comments": 0
+}

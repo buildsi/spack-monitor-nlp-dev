@@ -1,0 +1,20 @@
+{
+    "body": "It's strange that , recent `spack` version cannot show download url and process bar.\r\nI checked the code and found that `spack` don't print the log in fetch stage now.\r\n\r\nAnd I dumped the `curl_args` by this way ,and found `'-#'` option enabled for `curl`, which means it should print the `process bar` when curl some package.\r\n```\r\nindex fb8737389..5d3e64568 100644\r\n--- a/lib/spack/spack/fetch_strategy.py\r\n+++ b/lib/spack/spack/fetch_strategy.py\r\n@@ -342,6 +342,8 @@ def _fetch_from_url(self, url):\r\n         else:\r\n             curl_args.append('-sS')  # just errors when not.\r\n\r\n+        tty.msg(curl_args)\r\n+\r\n         connect_timeout = spack.config.get('config:connect_timeout', 10)\r\n\r\n         if self.extra_options:\r\n```\r\n\r\nBut the log I tested is that:\r\n```\r\n# spack install -v --keep-stage nicstat\r\n==> Installing nicstat\r\n==> ['-C', '-', '-o', '/tmp/root/spack-stage/build_cache/linux-centos8-aarch64-gcc-8.3.1-nicstat-1.95-wykopqo35367xqfw5lmlotytldtj7ygd.spec.yaml.part', '-f', '-D', '-', '-L', 'https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/build_cache/linux-centos8-aarch64-gcc-8.3.1-nicstat-1.95-wykopqo35367xqfw5lmlotytldtj7ygd.spec.yaml', '--stderr', '-', '-#']\r\n==> No binary for nicstat found: installing from source\r\n==> nicstat: Executing phase: 'edit'\r\n==> [2020-08-12-19:57:01.463389] Copying Makefile.Linux to makefile\r\n==> [2020-08-12-19:57:01.464149] FILTER FILE: makefile [replacing \"CMODEL =\\s+-m32\"]\r\n==> [2020-08-12-19:57:01.466012] FILTER FILE: makefile [replacing \"sudo\"]\r\n==> nicstat: Executing phase: 'build'\r\n==> [2020-08-12-19:57:01.469777] 'make' '-j8'\r\ngcc -O3     nicstat.c   -o nicstat\r\nmv nicstat `./nicstat.sh --bin-name`\r\n==> nicstat: Executing phase: 'install'\r\n==> [2020-08-12-19:57:02.797622] Installing . to /home/xiaojun/spack/opt/spack/linux-centos8-aarch64/gcc-8.3.1/nicstat-1.95-wykopqo35367xqfw5lmlotytldtj7ygd\r\n[+] /home/xiaojun/spack/opt/spack/linux-centos8-aarch64/gcc-8.3.1/nicstat-1.95-wykopqo35367xqfw5lmlotytldtj7ygd\r\n```\r\n\r\nSo, is that a bug or I missed something to enable curl log?",
+    "user": "darmac",
+    "url": "https://api.github.com/repos/spack/spack/issues/18016",
+    "updated_at": "2020-08-19 19:10:19",
+    "created_at": "2020-08-12 12:09:25",
+    "closed_at": "2020-08-19 19:10:19",
+    "state": "closed",
+    "title": "spack cannot show curl processor bar",
+    "number": 18016,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 677639725,
+    "html_url": "https://github.com/spack/spack/issues/18016",
+    "assignees": [],
+    "comments": 2
+}

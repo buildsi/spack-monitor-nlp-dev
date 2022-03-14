@@ -1,0 +1,23 @@
+{
+    "body": "Creating a package for gcc in our repo fnal_art that inherits from builtin.gcc\r\n\r\n```\r\nfrom spack.pkg.builtin.gcc import Gcc as BuiltinGcc\r\nclass Gcc(BuiltinGcc):\r\n\r\n    def patch(self):\r\n        BuiltinGcc.patch()\r\n\r\n    def install(self):\r\n        BuiltinGcc.install()\r\n\r\n```\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install fnal_art.gcc\r\n```\r\n\r\n### Error Message\r\n\r\n\r\n```console\r\n$ spack -d --stacktrace install fnal_art.gcc\r\nTraceback (most recent call last):\r\n  File \"/home/gartung/spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home/gartung/spack/lib/spack/spack/main.py\", line 696, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/home/gartung/spack/lib/spack/spack/main.py\", line 446, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/home/gartung/spack/lib/spack/spack/cmd/install.py\", line 263, in install\r\n    args.package, concretize=True, tests=tests)\r\n  File \"/home/gartung/spack/lib/spack/spack/cmd/__init__.py\", line 137, in parse_specs\r\n    spec.concretize(tests=tests)  # implies normalize\r\n  File \"/home/gartung/spack/lib/spack/spack/spec.py\", line 1924, in concretize\r\n    self._expand_virtual_packages(),\r\n  File \"/home/gartung/spack/lib/spack/spack/spec.py\", line 1832, in _expand_virtual_packages\r\n    candidates = concretizer.choose_virtual_or_external(spec)\r\n  File \"/home/gartung/spack/lib/spack/spack/concretize.py\", line 131, in choose_virtual_or_external\r\n    candidates = self._valid_virtuals_and_externals(spec)\r\n  File \"/home/gartung/spack/lib/spack/spack/concretize.py\", line 105, in _valid_virtuals_and_externals\r\n    if is_spec_buildable(cspec):\r\n  File \"/home/gartung/spack/lib/spack/spack/package_prefs.py\", line 230, in is_spec_buildable\r\n    allpkgs = get_packages_config()\r\n  File \"/home/gartung/spack/lib/spack/spack/package_prefs.py\", line 37, in get_packages_config\r\n    if spack.repo.path.is_virtual(pkg_name)]\r\n  File \"/home/gartung/spack/lib/spack/spack/repo.py\", line 681, in is_virtual\r\n    return pkg_name in self.provider_index\r\n  File \"/home/gartung/spack/lib/spack/spack/repo.py\", line 547, in provider_index\r\n    self._provider_index.merge(repo.provider_index)\r\n  File \"/home/gartung/spack/lib/spack/spack/repo.py\", line 950, in provider_index\r\n    return self.index['providers']\r\n  File \"/home/gartung/spack/lib/spack/spack/repo.py\", line 383, in __getitem__\r\n    self._build_all_indexes()\r\n  File \"/home/gartung/spack/lib/spack/spack/repo.py\", line 398, in _build_all_indexes\r\n    self.indexes[name] = self._build_index(name, indexer)\r\n  File \"/home/gartung/spack/lib/spack/spack/repo.py\", line 428, in _build_index\r\n    indexer.update(namespaced_name)\r\n  File \"/home/gartung/spack/lib/spack/spack/repo.py\", line 338, in update\r\n    self.index.update_package(pkg_fullname)\r\n  File \"/home/gartung/spack/lib/spack/spack/patch.py\", line 342, in update_package\r\n    partial_index = self._index_patches(pkg)\r\n  File \"/home/gartung/spack/lib/spack/spack/patch.py\", line 360, in _index_patches\r\n    patch_dict = patch.to_dict()\r\n  File \"/home/gartung/spack/lib/spack/spack/patch.py\", line 127, in to_dict\r\n    super(FilePatch, self).to_dict(),\r\n  File \"/home/gartung/spack/lib/spack/spack/patch.py\", line 93, in to_dict\r\n    'sha256': self.sha256,\r\n  File \"/home/gartung/spack/lib/spack/spack/patch.py\", line 122, in sha256\r\n    self._sha256 = checksum(hashlib.sha256, self.path)\r\n  File \"/home/gartung/spack/lib/spack/spack/util/crypto.py\", line 96, in checksum\r\n    with open(filename, 'rb') as file:\r\nIOError: [Errno 2] No such file or directory: '/home/gartung/spack/var/spack/repos/fnal-art/packages/gcc/stack_t.patch'\r\n```\r\n\r\n### Information on your system\r\n\r\n Scientific Linux 7 (RHEL7 ) with system python\r\n",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/11844",
+    "updated_at": "2019-07-20 01:08:06",
+    "created_at": "2019-06-25 16:27:01",
+    "closed_at": "2019-07-20 01:08:06",
+    "state": "closed",
+    "title": "Inheriting a builtin package definition with locally stored patches leads to \"No such file\" error",
+    "number": 11844,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium",
+        "patch"
+    ],
+    "id": 460523031,
+    "html_url": "https://github.com/spack/spack/issues/11844",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 2
+}

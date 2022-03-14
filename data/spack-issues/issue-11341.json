@@ -1,0 +1,26 @@
+{
+    "body": "If I add a binary mirror with the `patchelf` executable packaged as a binary Spack enters an infinite recursion when trying to install specs - I assume `patchelf` needs `patchelf` to relocate itself. Must be on a system with no available `patchelf`.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ # Create a trusted signature\r\n$ spack gpg create --export public.key <Your name> <Your e-mail>\r\n$ spack gpg trust public.key\r\n\r\n$ # Create the relevant binary packages\r\n$ spack install zlib\r\n$ spack install patchelf\r\n$ mkdir mirror\r\n$ spack buildcache create -d $(pwd)/mirror zlib\r\n$ spack buildcache create -d $(pwd)/mirror patchelf\r\n\r\n$ # Reinstall specs from binary packages\r\n$ spack mirror add bugrepo $(pwd)/mirror\r\n$ spack uninstall -ay\r\n$ spack install zlib\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack install zlib\r\n==> Installing zlib\r\n==> Searching for binary cache of zlib\r\n==> Finding buildcaches in /mirror/build_cache\r\n==> Finding buildcaches in /home/mculpo/tmp/cscs-software-management/mirror/build_cache\r\n==> Installing zlib from binary cache\r\n==> Already downloaded /home/mculpo/tmp/cscs-software-management/spack/var/spack/stage/build_cache/linux-ubuntu18.04-x86_64-gcc-8.2.0-zlib-1.2.11-ivqu252fvh7r5iar6zwx4fmeoxiykln7.spack\r\n==> Relocating package from\r\n  /home/mculpo/tmp/cscs-software-management/spack/opt/spack to /home/mculpo/tmp/cscs-software-management/spack/opt/spack.\r\n==> Installing patchelf\r\n==> Searching for binary cache of patchelf\r\n[...]\r\n==> Installing patchelf\r\n==> Searching for binary cache of patchelf\r\n==> Installing patchelf from binary cache\r\n==> Already downloaded /home/mculpo/tmp/cscs-software-management/spack/var/spack/stage/build_cache/linux-ubuntu18.04-x86_64-gcc-8.2.0-patchelf-0.9-5ux5vemei3v356shntc5ipq73joriolw.spack\r\ngpg: Signature made gio 02 mag 2019 08:40:34 CEST\r\ngpg:                using RSA key A361C8BC7A344C7E281C41BA957053A1C033DBA0\r\ngpg: Good signature from \"Massimiliano Culpo (Key used to sign packages for the Software Management Course) <massimiliano.culpo@epfl.ch>\" [ultimate]\r\n==> Relocating package from\r\n  /home/mculpo/tmp/cscs-software-management/spack/opt/spack to /home/mculpo/tmp/cscs-software-management/spack/opt/spack.\r\n==> Error: maximum recursion depth exceeded while calling a Python object\r\n```\r\n\r\n### Information on your system\r\n\r\nThe only relevant information is that the system must not have a `patchelf` executable available.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11341",
+    "updated_at": "2019-05-02 18:45:07",
+    "created_at": "2019-05-02 06:52:46",
+    "closed_at": "2019-05-02 15:03:19",
+    "state": "closed",
+    "title": "Infinite recursion when installing from binary cache",
+    "number": 11341,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 439448648,
+    "html_url": "https://github.com/spack/spack/issues/11341",
+    "assignees": [
+        "tgamblin",
+        "scheibelp",
+        "gartung",
+        "becker33"
+    ],
+    "comments": 11
+}

@@ -1,0 +1,22 @@
+{
+    "body": "@tgamblin \r\n\r\nSummary\r\n---------\r\nA package (openmpi) was concretized with the wrong version, even though I requested that version in `packages.yaml`.  The right version can be made to appear if it is put on the command line instead.\r\n\r\nTo Reproduce\r\n--------------\r\n1. Create your `~/.spack/packages.yaml` file like so:\r\n```\r\npackages:\r\n    openmpi:\r\n        version: [1.10.3]\r\n```\r\n\r\n2. As expected:\r\n```\r\n$ spack spec openmpi | grep openmpi\r\nopenmpi\r\nopenmpi@1.10.3%gcc@4.9.3~cuda fabrics= ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple~ucx+vt arch=linux-centos7-x86_64 \r\n```\r\n\r\n3. **BUG:**  Should be 1.10.3 (hdf5 contains no constraints on version):\r\n```\r\n$ spack spec hdf5 | grep openmpi\r\n    ^openmpi@3.0.1%gcc@4.9.3~cuda fabrics= ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple~ucx+vt arch=linux-centos7-x86_64 \r\n```\r\n\r\n4. Putting the version on the command line, instead of `packages.yaml` can temporarily fix the bug:\r\n```\r\n$ spack spec hdf5+mpi^openmpi@1.10.3 | grep openmpi\r\n    ^openmpi@1.10.3\r\n    ^openmpi@1.10.3%gcc@4.9.3~cuda fabrics= ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple~ucx+vt arch=linux-centos7-x86_64 \r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7950",
+    "updated_at": "2022-03-10 09:22:57",
+    "created_at": "2018-05-01 03:25:00",
+    "closed_at": "2022-03-10 09:22:56",
+    "state": "closed",
+    "title": "Virtual Deps: packages.yaml versions not respected",
+    "number": 7950,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "virtual-dependencies"
+    ],
+    "id": 319104833,
+    "html_url": "https://github.com/spack/spack/issues/7950",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

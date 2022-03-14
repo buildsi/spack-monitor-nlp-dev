@@ -1,0 +1,24 @@
+{
+    "body": "Looks like https://github.com/spack/spack/pull/8136 broke compile wrappers. \r\nAt least I can not build `cmake` anymore, neither the `3.13.3` that I already had installed nor `3.13.4`. Most likely it's the same for any C++11 package.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install cmake\r\n```\r\n\r\n### Error Message\r\n\r\n\r\n```console\r\n==> Installing cmake\r\n==> Searching for binary cache of cmake\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for cmake found: installing from source\r\n==> Warning: A dependency has updated CPATH, this may lead pkg-config to assume that the package is part of the system includes and omit it when invoked with '--cflags'.\r\n==> Using cached archive: /Users/davydden/spack/var/spack/cache/cmake/cmake-3.13.3.tar.gz\r\n==> Staging archive: /Users/davydden/spack/var/spack/stage/cmake-3.13.3-i26zpy4o6pqnllgbe5jj4exhbem2wohw/cmake-3.13.3.tar.gz\r\n==> Created stage in /Users/davydden/spack/var/spack/stage/cmake-3.13.3-i26zpy4o6pqnllgbe5jj4exhbem2wohw\r\n==> Applied patch /Users/davydden/spack/var/spack/repos/builtin/packages/cmake/cmake-macos-add-coreservices.patch\r\n==> Building cmake [Package]\r\n==> Executing phase: 'bootstrap'\r\n==> Error: ProcessError: Command exited with status 7:\r\n    './bootstrap' '--prefix=/Users/davydden/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.0-apple/cmake-3.13.3-i26zpy4o6pqnllgbe5jj4exhbem2wohw' '--parallel=8' '--system-libs' '--no-system-jsoncpp' '--no-qt-gui' '--' '-DCMAKE_USE_OPENSSL=ON'\r\n\r\n1 error found in build log:\r\n     1    ==> Executing phase: 'bootstrap'\r\n     2    ==> [2019-02-14-10:34:31.020304] './bootstrap' '--prefix=/Users/davydden/spack/opt/spack/darwin-mojave-x86_64/clang-10.0.0-apple/cmake-3.13.3-i26zpy4o6pqnllgbe5jj4exhbem2wohw' '--parallel=8' '--system-libs' '--no-system-jsoncpp' '--no-qt-gui' '--' '-DCMAKE_USE_\r\n          OPENSSL=ON'\r\n     3    ---------------------------------------------\r\n     4    CMake 3.13.3, Copyright 2000-2018 Kitware, Inc. and Contributors\r\n     5    C compiler on this system is: /Users/davydden/spack/lib/spack/env/clang/clang\r\n     6    ---------------------------------------------\r\n  >> 7    Error when bootstrapping CMake:\r\n     8    Cannot find a C++ compiler that supports both C++11 and the specified C++ flags.\r\n     9    Please specify one using environment variable CXX.\r\n     10   The C++ flags are \"\".\r\n     11   They can be changed using the environment variable CXXFLAGS.\r\n     12   See cmake_bootstrap.log for compilers attempted.\r\n     13   ---------------------------------------------...\r\n```\r\n\r\n[spack-build.out.zip](https://github.com/spack/spack/files/2864322/spack-build.out.zip)\r\n\r\nI do not set any flags from Spack configs.\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. macOS 10.14.3.\r\n\r\n```\r\n$ clang --version\r\nApple LLVM version 10.0.0 (clang-1000.11.45.5)\r\nTarget: x86_64-apple-darwin18.2.0\r\nThread model: posix\r\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\r\n```\r\n\r\n@scheibelp @becker33 ping.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/10601",
+    "updated_at": "2019-02-14 16:35:41",
+    "created_at": "2019-02-14 09:40:08",
+    "closed_at": "2019-02-14 16:35:41",
+    "state": "closed",
+    "title": "broken compiler wrappers?",
+    "number": 10601,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS"
+    ],
+    "id": 410209680,
+    "html_url": "https://github.com/spack/spack/issues/10601",
+    "assignees": [
+        "tgamblin",
+        "scheibelp",
+        "becker33"
+    ],
+    "comments": 3
+}

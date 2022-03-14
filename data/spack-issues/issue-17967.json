@@ -1,0 +1,20 @@
+{
+    "body": "On my system I have the gcc compiler located in both `/usr/bin/gcc` and `/bin/gcc`. \r\n\r\n`which gcc` points to `/usr/bin/gcc`, and indeed `/usr/bin` occurs before `/bin` in my `$PATH`.\r\n\r\nSpack however adds `/bin/gcc` as a gcc compiler when I run `spack compiler find`.\r\n\r\nI guess historically there was some reason to return the list of compilers in a reversed order in `arguments_to_detect_version_fn`, but the current logic in `find_compilers` keeps a flat list and filters that, passes it to `make_compiler_list` which does a stable sort, and then takes the first working compiler from the list. So that means the order should not be reversed.\r\n\r\nThis problem came up in https://github.com/spack/spack/issues/17932",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/17967",
+    "updated_at": "2020-08-12 11:44:25",
+    "created_at": "2020-08-10 07:58:57",
+    "closed_at": "2020-08-12 11:38:09",
+    "state": "closed",
+    "title": "Make spack compiler find respect $PATH order",
+    "number": 17967,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "bugfix"
+    ],
+    "id": 675944234,
+    "html_url": "https://github.com/spack/spack/pull/17967",
+    "assignees": [],
+    "comments": 2
+}

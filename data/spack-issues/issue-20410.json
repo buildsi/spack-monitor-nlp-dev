@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nI got this error by running this command:\r\n\r\n```console\r\n$ spack install cairo\r\n```\r\n\r\nI'm using gcc 10.2.0 and running the command using bash -- other packages using the same build system work fine.\r\n\r\n### Error Message\r\n\r\n```console\r\n ==> cairo: Executing phase: 'build'\r\n ==> Error: Exception occurred in writer daemon!\r\n Traceback (most recent call last):\r\n   File \"/usr/workspace/spack/lib/spack/llnl/util/tty/log.py\", line 763, in _writer_daemon\r\n     line = _retry(in_pipe.readline)()\r\n   File \"/usr/workspace/spack/lib/spack/llnl/util/tty/log.py\", line 825, in wrapped\r\n     return function(*args, **kwargs)\r\n   File \"/usr/lib64/python3.6/encodings/ascii.py\", line 26, in decode\r\n     return codecs.ascii_decode(input, self.errors)[0]\r\n UnicodeDecodeError: 'ascii' codec can't decode byte 0xce in position 232: ordinal not in range(128)\r\n ==> Error: ProcessError: Command exited with status -13:\r\n     'make' '-j16'\r\n```\r\n\r\nRunning with --debug gives:\r\n\r\n```console\r\nTraceback (most recent call last):\r\n  File \"/usr/workspace/spack/lib/spack/spack/build_environment.py\", line 851, in _setup_pkg_and_run\r\n    return_value = function(pkg, kwargs)\r\n  File \"/usr/workspace/spack/lib/spack/spack/installer.py\", line 1673, in build_process\r\n    phase(pkg.spec, pkg.prefix)\r\n  File \"/usr/workspace/spack/lib/spack/spack/package.py\", line 109, in phase_wrapper\r\n    phase(spec, prefix)\r\n  File \"/usr/workspace/spack/lib/spack/spack/build_systems/autotools.py\", line 344, in build\r\n    inspect.getmodule(self).make(*self.build_targets)\r\n  File \"/usr/workspace/spack/lib/spack/spack/build_environment.py\", line 139, in __call__\r\n    return super(MakeExecutable, self).__call__(*args, **kwargs)\r\n  File \"/usr/workspace/spack/lib/spack/spack/util/executable.py\", line 198, in __call__\r\n    proc.returncode, long_msg)\r\nspack.util.executable.ProcessError: Command exited with status -13:\r\n    'make' '-j16'\r\n==> [2020-12-15-10:54:06.380905] Flagging cairo-1.16.0-ns6mrdoarewzmfkneuq7xjv7ed74ck32 as failed: ProcessError: Command exited with status -13:\r\n    'make' '-j16'\r\n==> [2020-12-15-10:54:06.438865] ChildError: ProcessError: Command exited with status -13:\r\n    'make' '-j16'\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-230-86ae63b\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-thunderx2\r\n* **Concretizer:** original\r\n\r\n* gcc 10.2.0 installed with spack - maybe something related to how gcc formats output in newer versions, or a weird character in one of the cairo source files?\r\n\r\nI'm currently trying to build it on another system using gcc 4.9.3; if that works I'll try a copy of gcc 10.2.0 on the other system and see if it starts failing. Given that some languages could be using fancy unicode characters like smiley faces (or diacritics) as part of their output, the logger seems like it should be able to ignore them without making a package build fail.\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n\r\n",
+    "user": "nightlark",
+    "url": "https://api.github.com/repos/spack/spack/issues/20410",
+    "updated_at": "2020-12-15 20:48:37",
+    "created_at": "2020-12-15 19:11:16",
+    "closed_at": "2020-12-15 20:48:37",
+    "state": "closed",
+    "title": "Logger dies (fails package build) when it encounters non-ascii character",
+    "number": 20410,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 768052597,
+    "html_url": "https://github.com/spack/spack/issues/20410",
+    "assignees": [],
+    "comments": 2
+}

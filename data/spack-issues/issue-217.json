@@ -1,0 +1,19 @@
+{
+    "body": "I am running into a few issues. This all stems from my attempt to deprecate the py-pil package, which is the Python Imaging Library, and instead create a py-pillow package, with pillow being a fork/replacement of PIL. I also updated packages that depended on PIL and this led to errors building mesa because it didn't properly depend on py-libxml2. I noticed, however, that the libxml2 package (which py-libxml2 depends on) can build the python bindings, thus deprecating py-libxml2. libxml2+python appears to build OK on it's own, but I have found 2 issues:\n\n1) libxml2+python will install the python bindings directly into the python installation rather than the libxml2 prefix. Furthermore, activating libxml2+python will link all the libxml2 files, even those not necessary for python. The latter can probably be fixed easily with some ignore directives.\n\n2) when installing the py-basemap package I get the following error:\n\n==> Building libxml2.\nTraceback (most recent call last):\n  File \"/nfs/tmp2/lee218/spack/lib/spack/spack/build_environment.py\", line 278, in fork\n    function()\n  File \"/nfs/tmp2/lee218/spack/lib/spack/spack/package.py\", line 812, in real_work\n    self.install(self.spec, self.prefix)\n  File \"/nfs/tmp2/lee218/spack/var/spack/packages/libxml2/package.py\", line 20, in install\n    python_arg = \"--with-python=%s\" % spec['python'].prefix\n  File \"/nfs/tmp2/lee218/spack/lib/spack/spack/spec.py\", line 1419, in **getitem**\n    raise KeyError(\"No spec with name %s in %s\" % (name, self))\nKeyError: 'No spec with name python in libxml2@2.9.2%gcc@4.4.7+python=chaos_5_x86_64_ib^xz@5.2.2%gcc@4.4.7=chaos_5_x86_64_ib^zlib@1.2.8%gcc@4.4.7=chaos_5_x86_64_ib'\n==> Error: Installation process had nonzero exit code.\n\nThe dependence chain to get to the error above is fairly convoluted. It looks like I can install libxml2+python directly, I can install a package (i.e. mesa) that depends_on('libxml2+python'), and I can even install a package (i.e., py-pandas) that depends on mesa, but py-matplotlib+gui fails with the above error.\n",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/217",
+    "updated_at": "2015-12-15 03:54:58",
+    "created_at": "2015-12-03 23:50:31",
+    "closed_at": "2015-12-15 03:54:58",
+    "state": "closed",
+    "title": "Various issues with python packages",
+    "number": 217,
+    "milestone": null,
+    "labels": [],
+    "id": 120299399,
+    "html_url": "https://github.com/spack/spack/issues/217",
+    "assignees": [
+        "lee218llnl"
+    ],
+    "comments": 12
+}

@@ -1,0 +1,22 @@
+{
+    "body": "We should consider splitting Clang and Apple Clang into separate compilers, like `%clang` and `%apple`.\r\n\r\n### Rationale\r\n\r\nI'm trying to build the latest version of `scikit-learn`, which recently added an OpenMP dependency. Apple Clang currently does not come with OpenMP support by default, so I need to add a dependency on `llvm-openmp`. However, there is currently no way to check whether Clang or Apple Clang are in use via the spec.\r\n\r\nSeveral other packages need to know whether we are using Clang or Apple Clang:\r\n\r\n- fftw\r\n- hpgmg\r\n- libceed\r\n- m4\r\n- openblas\r\n- py-scikit-learn\r\n- qt\r\n- sundials\r\n- valgrind\r\n- vtk\r\n- xios\r\n- yaml-cpp\r\n\r\n### Description\r\n\r\nThe only current workaround is to use the following spec:\r\n```python\r\nwhen='%clang platform=darwin'\r\n```\r\nHowever, this does not work if you install Clang yourself on macOS.\r\n\r\n@davydden ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12011",
+    "updated_at": "2020-06-25 16:18:49",
+    "created_at": "2019-07-13 17:15:18",
+    "closed_at": "2020-06-25 16:18:49",
+    "state": "closed",
+    "title": "Split Clang and Apple Clang into separate compilers",
+    "number": 12011,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "compilers",
+        "proposal",
+        "clang"
+    ],
+    "id": 467745234,
+    "html_url": "https://github.com/spack/spack/issues/12011",
+    "assignees": [],
+    "comments": 6
+}

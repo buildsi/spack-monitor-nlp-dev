@@ -1,0 +1,23 @@
+{
+    "body": "I'm trying to build parmetis%intel@17.0.1 ^openmpi@2.1.1.  The compiler and MPI are external packages.\r\n\r\n`compiler.yaml` uses `extra_rpaths` to allow Intel/17.0.1 to work:\r\n\r\n```\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: [/usr/projects/hpcsoft/toss3/common/intel-clusterstudio/2017.1.024/compilers_and_libraries_2017/linux/lib/intel64]\r\n    flags: {}\r\n    modules:\r\n      - intel/17.0.1\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /usr/projects/hpcsoft/toss3/common/intel-clusterstudio/2017.1.024/compilers_and_libraries_2017/linux/bin/intel64/icc\r\n      cxx: /usr/projects/hpcsoft/toss3/common/intel-clusterstudio/2017.1.024/compilers_and_libraries_2017/linux/bin/intel64/icpc\r\n      f77: /usr/projects/hpcsoft/toss3/common/intel-clusterstudio/2017.1.024/compilers_and_libraries_2017/linux/bin/intel64/ifort\r\n      fc: /usr/projects/hpcsoft/toss3/common/intel-clusterstudio/2017.1.024/compilers_and_libraries_2017/linux/bin/intel64/ifort\r\n    spec: intel@17.0.1\r\n    target: x86_64\r\n```\r\n\r\n`packages.yaml` specifies MPI as an external package:\r\n\r\n```\r\npackages:\r\n  openmpi:\r\n    version: [2.1.1]\r\n    paths:\r\n       openmpi@2.1.1%intel@17.0.1 arch=linux-rhel7-x86_64: /usr/projects/hpcsoft/toss3/snow/openmpi/2.1.1-intel-17.0.1\r\n    buildable: False\r\n```\r\n\r\nSetting the `extra_rpaths` in `compiler.yaml` allows me to build metis, but parmetis fails with: `The C compiler \"/usr/projects/hpcsoft/toss3/snow/openmpi/2.1.1-intel-17.0.1/bin/mpicc\" is not able to compile a simple test program.`\r\n\r\nAdding `--dirty` to the spack install command allows the build to work.  The only significance between the clean and dirty build is the removal of `LD_LIBRARY_PATH` for the clean build, Is there a way to tell spack to use `extra_rpaths` when the compiler is an MPI compiler wrapper?  Or is there a way to set extra environment/rpath information in `packages.yaml`?  \r\n\r\nAny suggestions (other than always using `--dirty`) for solving this?    \r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/5137",
+    "updated_at": "2017-08-25 18:02:37",
+    "created_at": "2017-08-17 04:22:26",
+    "closed_at": "2017-08-25 18:02:37",
+    "state": "closed",
+    "title": "How do I set extra_rpaths for MPI compile wrappers?",
+    "number": 5137,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers",
+        "mpi"
+    ],
+    "id": 250825883,
+    "html_url": "https://github.com/spack/spack/issues/5137",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 10
+}

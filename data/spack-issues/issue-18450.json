@@ -1,0 +1,23 @@
+{
+    "body": "When I run `spack test` on macOS, the `relocate.py` tests always fail.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack test lib/spack/spack/test/relocate.py\r\n...\r\nFAIL lib/spack/spack/test/relocate.py::test_replace_prefix_bin\r\nFAIL lib/spack/spack/test/relocate.py::test_relocate_elf_binaries_absolute_paths\r\nFAIL lib/spack/spack/test/relocate.py::test_relocate_elf_binaries_relative_paths\r\nFAIL lib/spack/spack/test/relocate.py::test_make_elf_binaries_relative\r\nFAIL lib/spack/spack/test/relocate.py::test_relocate_text_bin\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\nE                                  spack.util.executable.ProcessError: Command exited with status 1:\r\nE                                      '/usr/bin/gcc' '-Wl,--disable-new-dtags' '-Wl,-rpath=/usr/lib:/usr/lib64' '/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-41/test_replace_prefix_bin0/main.c' '-o' '/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-41/test_replace_prefix_bin0/main.x'\r\n\r\nlib/spack/spack/util/executable.py:189: ProcessError\r\n-------------------------------------------------------------------------- Captured stderr call --------------------------------------------------------------------------\r\nld: unknown option: --disable-new-dtags\r\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\r\n```\r\nThe problem is that these tests assume that `/usr/bin/gcc` is actually GCC. On macOS, `/usr/bin/gcc` is actually a symlink to the Apple Clang compilers, which don't accept the `--disable-new-dtags` flag. We either need to check if `/usr/bin/gcc` is actually GCC, or disable the tests entirely on macOS.\r\n\r\nI don't think this error is caught by our CI because we don't have patchelf installed. We should install that in our CI to catch these kind of bugs.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4-580-42a04f5d6c\r\n* **Python:** 3.7.8\r\n* **Platform:** darwin-catalina-ivybridge\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n@gartung ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/18450",
+    "updated_at": "2020-09-01 19:49:06",
+    "created_at": "2020-09-01 17:58:59",
+    "closed_at": "2020-09-01 19:49:06",
+    "state": "closed",
+    "title": "Relocate tests fails on macOS",
+    "number": 18450,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "tests",
+        "binary-packages",
+        "triage"
+    ],
+    "id": 690337826,
+    "html_url": "https://github.com/spack/spack/issues/18450",
+    "assignees": [],
+    "comments": 11
+}

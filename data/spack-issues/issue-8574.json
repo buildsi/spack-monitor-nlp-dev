@@ -1,0 +1,22 @@
+{
+    "body": "@scottwittenburg: this is the class for specifying products of specs that I was mentioning.  There are some docs in here; some parts need a lot of refactoring, but other parts describe the file format and what it does.  \r\n\r\nTake a look at those and see if you can work this into your PR to specify what releases should look like.  currently, the format has two ways to specify the same thing.  You can use `packages` and `compilers` sections, or you can just have lists of `spec`s.  I think the latter should be sufficient so I'm tempted to take out the packages/compilers sections. The `include` and `exclude` lines would still be useful (for including/excluding by matching).\r\n\r\nThe schema format should probably should be renamed to something other than `test-suite` as it's useful for both releases and for tests.  If you can come up with a generic name that would be great.\r\n\r\nI think the way to start with this would be to have a YAML file that describes what is to be released, so that you can get an initial list of specs to check against in #8451.\r\n\r\n@zackgalbreath: there are some docs in here on how to use `spack install --log-format` that should probably be separated out, as well.  Maybe we could have a separate doc PR on CDash support?\r\n\r\n- add `CombinatorialSpecSet` in `spack.util.spec_set` module.\r\n  - class is iterable and encaspulated YAML parsing and validation.\r\n\r\n- Add a schema format for test-suites (which you can instantiate `CombinatorialSpecSet`s from)\r\n\r\n- YAML format supports:\r\n  - test-suite format has a `matrix` section, which can contain multiple lists of specs, generated different ways. Including:\r\n    - specs: a raw list of specs.\r\n    - packages: a list of package names and versions\r\n    - compilers: a list of compiler names and versions\r\n\r\n  - All of the elements of `matrix` are dimensions for the build matrix;\r\n    we take the cartesian product of these lists of specs to generate a\r\n    build matrix.  This means we can add things like [^mpich, ^openmpi]\r\n    to get builds with different MPI versions.  It also means we can\r\n    multiply the build matrix out with lots of different parameters.\r\n\r\n- Bug fixes:\r\n  - [x] fix bug with constraining an anonymous spec by name, add a test.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/8574",
+    "updated_at": "2019-06-30 00:11:04",
+    "created_at": "2018-06-26 10:39:34",
+    "closed_at": "2019-06-30 00:02:28",
+    "state": "closed",
+    "title": "add CombinatorialSpecSet class for taking cross-products of Specs.",
+    "number": 8574,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "tests",
+        "releases",
+        "don't-merge-yet"
+    ],
+    "id": 335759020,
+    "html_url": "https://github.com/spack/spack/pull/8574",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I have an `etc/spack/packages.yaml` looks like this (lines elided):\r\n\r\n```yaml\r\npackages:\r\n  all:\r\n    compiler: [gcc@5.4.0, gcc@4.8.5, gcc@4.8.3]\r\n  ack:\r\n    version: [2.16]\r\n[...]\r\n  emacs:\r\n    version: [25.1]\r\n    variants: +X\r\n[...]\r\n  go:\r\n    version: [1.8]\r\n    # tests have two false positives, user_namespaces and threads/exceptions\r\n    variants: ~test\r\n  hdf5:\r\n    version: [1.10.0-patch1]\r\n[...]\r\n```\r\n\r\nAs a control, I can `spack spec emacs` and it reports:\r\n\r\n```\r\nConcretized\r\n--------------------------------\r\nemacs@25.1%gcc@5.4.0+X toolkit=gtk arch=linux-centos7-x86_64\r\n```\r\n\r\nIf I change the emacs version to `25.2`, then I get \r\n\r\n```\r\nConcretized\r\n--------------------------------\r\nemacs@25.2%gcc@5.4.0+X toolkit=gtk arch=linux-centos7-x86_64\r\n```\r\n\r\nso I'm using the right file, and etc...\r\n\r\nIn spite of the constraint to version 1.8 in the yaml file, `spack spec go` sez:\r\n\r\n```\r\nConcretized\r\n--------------------------------\r\ngo@1.8.1%gcc@5.4.0 arch=linux-centos7-x86_64\r\n```\r\n\r\n`spack spec go@1.8` sez:\r\n\r\n```\r\nConcretized\r\n--------------------------------\r\ngo@1.8%gcc@5.4.0 arch=linux-centos7-x86_64\r\n```\r\n\r\nso the version seems to exist, and etc...\r\n\r\nIf I change the go constraint in the yaml file to `1.7.5`, I get:\r\n\r\n```\r\nConcretized\r\n--------------------------------\r\ngo@1.7.5%gcc@5.4.0 arch=linux-centos7-x86_64\r\n```\r\n\r\nWhich kind of leaves my marbles rolling around on the floor.\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4133",
+    "updated_at": "2017-07-31 20:11:09",
+    "created_at": "2017-05-05 01:05:57",
+    "closed_at": "2017-07-31 20:11:09",
+    "state": "closed",
+    "title": "packages.yaml can't set version for go (problem with 2 vs 3 digit version numbers?)",
+    "number": 4133,
+    "milestone": null,
+    "labels": [],
+    "id": 226448858,
+    "html_url": "https://github.com/spack/spack/issues/4133",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

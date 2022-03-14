@@ -1,0 +1,20 @@
+{
+    "body": "- Allows hashes to be specified after other parts of the spec\r\n- Does not allow other parts of the spec to be specified after the hash\r\n- The hash must either end input or be followed by another separate spec\r\n       - The next spec cannot be an anonymous spec (it must start with a package name or a hash)\r\n\r\nSee #2769 (after it was merged) for further discussion of this interface addition. That discussion resulted in the specification\r\n```\r\npython                     # 1 spec\r\n/abc123                    # 1 spec\r\npython /abc123             # 1 spec\r\n/456789                    # 1 spec\r\npython /abc123 /456789     # 2 specs\r\npython /456789 /abc123     # 2 specs\r\n/abc123 /456789            # 2 specs\r\n/456789 /abc123            # 2 specs\r\n/456789 /abc123 python     # 3 specs\r\n```\r\nassuming `abc123` and `456789` are both hashes of different python specs.\r\n ",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/2889",
+    "updated_at": "2017-03-21 23:34:05",
+    "created_at": "2017-01-20 02:07:51",
+    "closed_at": "2017-01-26 04:38:11",
+    "state": "closed",
+    "title": "Another parser fix",
+    "number": 2889,
+    "milestone": null,
+    "labels": [
+        "hashes",
+        "specs"
+    ],
+    "id": 202029460,
+    "html_url": "https://github.com/spack/spack/pull/2889",
+    "assignees": [],
+    "comments": 1
+}

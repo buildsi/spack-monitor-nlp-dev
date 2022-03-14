@@ -1,0 +1,23 @@
+{
+    "body": "This adds a new capability for Spack packages, allowing them to describe their library and include installation subdirectories so dependent packages can find them.  This was motivated by libelf, which was installing header files to PREFIX/include/libelf/, which other packages weren't finding.\r\n\r\nMore specifically, packages can now set the `include_paths` and `lib_paths` package-scope variables to new locations (they currently default to `['include']` and `['lib', 'lib64']`).  For packages that do this, it will affect their own `RPATH`'ing to their library install location, and it will affect how dependent packages search for their libraries and include files.\r\n\r\nThis pull request breaks this down into several parts:\r\n- Refactors the code that computes include, library, and rpath directory locations so it lives in `build_environment.py` rather than the compiler wrappers.  A secondary goal here is to also allow us to eventually do a better job at filtering out system include and library directories (which hasn't been written yet).\r\n- Rewrites large swaths of the cc test to accommodate this refactoring (the test was making assumptions about how Spack communicates with its compiler wrappers).\r\n- Adds the new `lib_paths` and `include_paths` feature, plus documentation.\r\n- Moves libelf to use the new include_paths feature.  Nothing uses `lib_paths` yet, but it's there.",
+    "user": "mplegendre",
+    "url": "https://api.github.com/repos/spack/spack/issues/2645",
+    "updated_at": "2019-02-13 23:38:15",
+    "created_at": "2016-12-19 23:40:20",
+    "closed_at": "2019-02-13 23:38:15",
+    "state": "closed",
+    "title": "Allow packages to set set the paths where they install library and include files",
+    "number": 2645,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "dependencies",
+        "build-environment",
+        "rpath",
+        "linking"
+    ],
+    "id": 196549094,
+    "html_url": "https://github.com/spack/spack/pull/2645",
+    "assignees": [],
+    "comments": 10
+}

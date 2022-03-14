@@ -1,0 +1,19 @@
+{
+    "body": "Okay, I have no idea why I'm the only one who seems to have encountered this bug, but I can reliably reproduce it with Python 3.6.4 on macOS 10.13.3 and with Python 2.7.13 on CentOS 6.9.\r\n\r\nI decided to run the full test suite today for the first time in a long time and discovered that the `test_find_with_globbing` unit test doesn't pass for me. After closer inspection, my `matches` and `expected` look like:\r\n```\r\nMatches:  ['/Users/Adam/spack/lib/spack/spack/test/data/directory_search/a/foobar.txt', '/Users/Adam/spack/lib/spack/spack/test/data/directory_search/c/bar.txt', '/Users/Adam/spack/lib/spack/spack/test/data/directory_search/b/bar.txp']\r\nExpected: ['/Users/Adam/spack/lib/spack/spack/test/data/directory_search/a/foobar.txt', '/Users/Adam/spack/lib/spack/spack/test/data/directory_search/b/bar.txp', '/Users/Adam/spack/lib/spack/spack/test/data/directory_search/c/bar.txt']\r\n```\r\nThe entries are correct, they are just in different orders. The code for `find` uses a dictionary to store matches, which results in a non-deterministic ordering. Interestingly, the code for `find` contains the following comments:\r\n```python\r\n# The variable here is **on purpose** a defaultdict. The idea is that       \r\n# we want to poke the filesystem as little as possible, but still maintain  \r\n# stability in the order of the answer. Thus we are recording each library  \r\n# found in a key, and reconstructing the stable order later.                \r\nfound_files = collections.defaultdict(list)\r\n```\r\nand:\r\n```python\r\n# The variable here is **on purpose** a defaultdict as os.list_dir          \r\n# can return files in any order (does not preserve stability)               \r\nfound_files = collections.defaultdict(list)\r\n```\r\nBased on the comment, perhaps the author was mixing up `defaultdict` and `OrderedDict`? This PR gets the unit tests to pass.\r\n\r\nP.S. There's a Software Engineering Professor here at UIUC by the name of Darko Marinov. He has a really neat tool called [NonDex](https://github.com/TestingResearchIllinois/NonDex). It's basically a fork of Java where the ordering from hash maps is not only unspecified but actually random. This catches bugs that occur in newer versions of Java where the ordering has changed. According to [his paper](http://mir.cs.illinois.edu/marinov/publications/Gyori17PhD.pdf), a prototype exists for Python as well. It would be interesting to run Spack's unit tests with this to see where things break.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/7652",
+    "updated_at": "2018-04-04 13:40:20",
+    "created_at": "2018-03-31 01:43:40",
+    "closed_at": "2018-04-04 05:27:18",
+    "state": "closed",
+    "title": "Fix bug in test_find_with_globbing unit test",
+    "number": 7652,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 310202842,
+    "html_url": "https://github.com/spack/spack/pull/7652",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,19 @@
+{
+    "body": "This PR adds basic support for cxx11/cxx14 flags for Apple Clang with version checking, cxx14 flag support for Intel, and a small version correction in GCC's cxx14 flags. Version checks and flags used much of the logic/lore from CMake's standard setting so I believe the flags to be robust, but possibly conservative (earlier compiler versions than selected might provide some support).\r\n\r\nAll spack unit and flake8 tests seem to pass, though I couldn't see any obvious place to add or extend actual unit tests on setting these flags. Let me know if there's a good way or place to do this. I've been able to test by hand with gcc's 4.5 through 4.9, Intel 13 and 15, but only Xcode/Apple LLVM 8. This is only visually confirming that `self.compiler.cxx{11,14}_flag` has the right value though. \r\n\r\nThis is a WIP given the above caveats, and also because I wondered about also adding a new `cxx17_flag` property in `lib/spack/spack/compiler.py` with overrides for GNU and Clang. These only provide partial support as yet, but current versions do allow the `-std=c++1z` flag. It's easy enough to add, but obviously needs discussion.",
+    "user": "drbenmorgan",
+    "url": "https://api.github.com/repos/spack/spack/issues/2539",
+    "updated_at": "2019-06-13 15:28:06",
+    "created_at": "2016-12-09 17:51:52",
+    "closed_at": "2016-12-13 21:15:10",
+    "state": "closed",
+    "title": "Better cxx11/14/17 flags for GNU/Clang/Intel",
+    "number": 2539,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 194657126,
+    "html_url": "https://github.com/spack/spack/pull/2539",
+    "assignees": [],
+    "comments": 2
+}

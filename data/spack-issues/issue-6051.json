@@ -1,0 +1,19 @@
+{
+    "body": "This is on MacOS high sierra\r\n\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ sw_vers \r\nProductName:\tMac OS X\r\nProductVersion:\t10.13\r\nBuildVersion:\t17A405\r\n\r\n\r\nI see spack is using the wrapper lib/spack/env/clang/clang instead of /usr/bin/clang\r\n\r\nPerhaps there is a valid reason for this. But I have 2 issues with it:\r\n\r\n1. It behaves differently than /usr/bin/clang. Why?\r\n\r\n```\r\n     17    checking for gcc... /Users/balay/spack/lib/spack/env/clang/clang\r\n     18    checking whether the C compiler works... yes\r\n     19    checking for C compiler default output file name... a.out\r\n     20    checking for suffix of executables...\r\n  >> 21    checking whether we are cross compiling... configure: error: in `/private/var/folders/b2/4wzkzbgs3d91kqp1dw47wq940000gn/T/balay/spack-stage/spack-stage-4h3G7M/pkg-config-0.29.2':\r\n  >> 22    configure: error: cannot run C compiled programs.\r\n\r\n```\r\n\r\nconfig.log for this build has:\r\n```\r\nconftest.c:11:10: fatal error: 'stdio.h' file not found\r\n#include <stdio.h>\r\n         ^~~~~~~~~\r\n1 error generated.\r\n```\r\n\r\nHowever /usr/bin/clang works.\r\n\r\n```\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ cat conftest.c \r\n#include <stdio.h>\r\nint main(void)\r\n{return 0;}\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ clang conftest.c \r\nbalay@ipro^~/spack(xsdk-0.3.0) $ \r\n```\r\n\r\n2. I cannot run this wrapper outside spack to reproduce issues [by manual build of packages or trying to compile test code]\r\n\r\n```\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ /Users/balay/spack/lib/spack/env/clang/clang conftest.c \r\nSpack compiler must be run from Spack! Input 'SPACK_PREFIX' is missing.\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ export SPACK_PREFIX=$PWD\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ /Users/balay/spack/lib/spack/env/clang/clang conftest.c \r\nSpack compiler must be run from Spack! Input 'SPACK_ENV_PATH' is missing.\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ export SPACK_ENV_PATH=$PWD\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ /Users/balay/spack/lib/spack/env/clang/clang conftest.c \r\nSpack compiler must be run from Spack! Input 'SPACK_DEBUG_LOG_DIR' is missing.\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ export SPACK_DEBUG_LOG_DIR=$PWD\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ /Users/balay/spack/lib/spack/env/clang/clang conftest.c \r\nSpack compiler must be run from Spack! Input 'SPACK_COMPILER_SPEC' is missing.\r\nbalay@ipro^~/spack(xsdk-0.3.0) $ \r\n```\r\nand so on... How do I invoke this wrapper for manual verification?\r\n\r\n \r\nI see Spack doc says 'xcode-select --install' is required. I guess this will resolve this error.\r\nhttp://spack.readthedocs.io/en/latest/getting_started.html?highlight=xcode-select\r\n\r\nBut I'm able to install various packages without it. So Its not clear to me why this wrapper has more requirements than /usr/bin/clang. Previously I've seen this requirement for external compilers - like pgi - or clang installed by brew - but in this case - I'm using clang from XCode.\r\n\r\nNote: the following works [when it fails via spack]:\r\n```\r\nbalay@ipro^~/spack/var/spack/stage/pkg-config-0.29.2-zggrhmtc22dolyoug5ylkrknom2e3vda/pkg-config-0.29.2 $ CC=/usr/bin/clang ./configure --enable-shared --with-internal-glib\r\n\r\n```\r\n\r\n",
+    "user": "balay",
+    "url": "https://api.github.com/repos/spack/spack/issues/6051",
+    "updated_at": "2017-11-02 16:19:24",
+    "created_at": "2017-10-31 15:51:28",
+    "closed_at": "2017-11-02 16:19:24",
+    "state": "closed",
+    "title": "clang wrapper behaves differently than clang on OSX",
+    "number": 6051,
+    "milestone": null,
+    "labels": [
+        "xSDK"
+    ],
+    "id": 270012355,
+    "html_url": "https://github.com/spack/spack/issues/6051",
+    "assignees": [],
+    "comments": 21
+}

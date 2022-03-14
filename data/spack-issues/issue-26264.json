@@ -1,0 +1,26 @@
+{
+    "body": "Modification:\r\n- [x] Add a `spack.util.parallel` package to gather together code related to using pool of processes\r\n- [x] Use a process pool to concretize environments on linux\r\n- [x] Set the number of processes explicitly based on a simple heuristic: `min(available_cpus, 16)`\r\n- [x] Add a new hash type to be used *only* to pickle specs\r\n\r\nIt seems quite difficult to avoid adding a new hash type to have a representation of a spec that incorporates test dependencies. This might be revisited when we'll be unifying the different hash types. In any case the \"process hash\" should not be used anywhere else than in `Spec.__reduce__`.\r\n\r\nAdding a process pool on macOS will be addressed in a following PR, since it has a few challenges of its own and this PR is sufficient to trim 15 mins. out of every e4s pipeline generation job.\r\n\r\nHere's an example of how errors in worker processes are reported using the machinery introduced in this PR:\r\n\r\n<details>\r\n\r\n<summary> Example stacktrace </summary>\r\n\r\n```console\r\n[PID=232] LockTimeoutError: Timed out waiting for a write lock.\r\nTASK STACKTRACE:\r\n  File \"/builds/spack/spack/lib/spack/spack/environment/environment.py\", line 2012, in _concretize_task\r\n    value = _concretize_from_constraints(spec_constraints, tests)\r\n  File \"/builds/spack/spack/lib/spack/spack/environment/environment.py\", line 1989, in _concretize_from_constraints\r\n    return s.concretized(tests=tests)\r\n  File \"/builds/spack/spack/lib/spack/spack/spec.py\", line 2678, in concretized\r\n    clone.concretize(tests=tests)\r\n  File \"/builds/spack/spack/lib/spack/spack/spec.py\", line 2640, in concretize\r\n    self._new_concretize(tests)\r\n  File \"/builds/spack/spack/lib/spack/spack/spec.py\", line 2610, in _new_concretize\r\n    result = spack.solver.asp.solve([self], tests=tests)\r\n  File \"/builds/spack/spack/lib/spack/spack/solver/asp.py\", line 1691, in solve\r\n    return driver.solve(setup, specs, dump, models, timers, stats, tests)\r\n  File \"/builds/spack/spack/lib/spack/spack/solver/asp.py\", line 396, in solve\r\n    answers = builder.build_specs(tuples)\r\n  File \"/builds/spack/spack/lib/spack/spack/solver/asp.py\", line 1647, in build_specs\r\n    spack.spec.Spec.ensure_no_deprecated(s)\r\n  File \"/builds/spack/spack/lib/spack/spack/spec.py\", line 2586, in ensure_no_deprecated\r\n    with spack.store.db.read_transaction():\r\n  File \"/builds/spack/spack/lib/spack/llnl/util/lock.py\", line 685, in __enter__\r\n    self._as = self._acquire_fn()\r\n  File \"/builds/spack/spack/lib/spack/spack/database.py\", line 1054, in _read\r\n    with lk.WriteTransaction(self.lock):\r\n  File \"/builds/spack/spack/lib/spack/llnl/util/lock.py\", line 684, in __enter__\r\n    if self._enter() and self._acquire_fn:\r\n  File \"/builds/spack/spack/lib/spack/llnl/util/lock.py\", line 720, in _enter\r\n    return self._lock.acquire_write(self._timeout)\r\n  File \"/builds/spack/spack/lib/spack/llnl/util/lock.py\", line 448, in acquire_write\r\n    wait_time, nattempts = self._lock(fcntl.LOCK_EX, timeout=timeout)\r\n  File \"/builds/spack/spack/lib/spack/spack/util/lock.py\", line 32, in _lock\r\n    return super(Lock, self)._lock(op, timeout)\r\n  File \"/builds/spack/spack/lib/spack/llnl/util/lock.py\", line 316, in _lock\r\n    .format(lock_type[op]))\r\n```\r\n\r\n</details>",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/26264",
+    "updated_at": "2021-10-19 15:39:38",
+    "created_at": "2021-09-27 13:03:51",
+    "closed_at": "2021-10-19 15:09:34",
+    "state": "closed",
+    "title": "Speed-up environment concretization on linux with a process pool",
+    "number": 26264,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "modules",
+        "fetching",
+        "virtual-dependencies",
+        "tests",
+        "environments",
+        "utilities",
+        "gitlab"
+    ],
+    "id": 1008124762,
+    "html_url": "https://github.com/spack/spack/pull/26264",
+    "assignees": [],
+    "comments": 27
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\nDespite\r\n\r\ncat .spack/packages.yaml \r\n```\r\npackages:\r\n    openssl:\r\n        externals:\r\n        - spec: openssl@1.1.1k\r\n          prefix: /usr\r\n          buildable: False\r\n```\r\n\r\nspack installs the preferred version of libssl 1.1.1m when used in other packages.  This then means that I can't run the system provided, (say) emacs once a spack package using libssl is loaded:\r\n\r\n```\r\n$ emacs -nw\r\n# it worked\r\n$ spack load cmake\r\n$ emacs -nw\r\nemacs: symbol lookup error: /lib64/libk5crypto.so.3: undefined symbol: EVP_KDF_ctrl, version OPENSSL_1_1_1b\r\n``` \r\nIn the present case this is a RHEL system and I believe that like several providers they backport fixes without increasing the version number.  My sysadmin confirms we have the \"correct\" library installed.\r\n\r\nNote that spack can \"see\" the packages file correctly:\r\n```\r\nspack install openssl@1.1.1k\r\n==> Warning: using \"openssl@1.1.1k\" which is a deprecated version\r\n[+] /usr (external openssl-1.1.1k-ocr4wa5bbnnwbalbgvu7mdmrzp3xihl6)\r\n```\r\n\r\nThe override used to work. I believe an override of the deprecation feature is needed as an option in the packages file. An official documented workaround would also help.\n\n### Information on your system\n\n* **Spack:** 0.17.1-772-675210bd8b\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n\n\n### Additional information\n\n`spack maintainers openssl` returns empty.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "prckent",
+    "url": "https://api.github.com/repos/spack/spack/issues/28362",
+    "updated_at": "2022-01-12 23:52:29",
+    "created_at": "2022-01-11 19:12:29",
+    "closed_at": "2022-01-12 23:52:29",
+    "state": "closed",
+    "title": "libssl version not overriden by packages.yaml ; incompatibility with all system libssl clients then results",
+    "number": 28362,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1099527887,
+    "html_url": "https://github.com/spack/spack/issues/28362",
+    "assignees": [],
+    "comments": 6
+}

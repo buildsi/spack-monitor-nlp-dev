@@ -1,0 +1,17 @@
+{
+    "body": "When using the py-pygtk package to run a graphical application, I was receiving hundreds of warning messages about missing gtk icons, and some buttons were blank.\r\n\r\nA set of stock icons are normally embedded in one of the gtkplus libraries by processing a directory of icon image files. The program used for the processing, `gtk-update-icon-cache`, is built as part of gtkplus. The program was running without error, but when I checked the output file, the size was much smaller than I expected, suggesting that the icons were not being included.\r\n\r\nIt turns out that `gtk-update-icon-cache` was trying to find the database of mime types, but was excluding the system database in `/usr/share/mime`. The reason was that some of the spack dependencies set the environment variable `XDG_DATA_DIRS`, which has the side-effect of disabling the default search path for gtkplus applications.\r\n\r\nAlthough I could have appended `/usr/share/mime` to `XDG_DATA_DIRS`, I chose to create a new spack package (shared-mime-info) so that gtkplus could list it as a dependency.\r\n\r\nAfter reinstalling gtkplus (with shared-mime-info) and py-pygtk, my graphical application worked as expected.",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/4511",
+    "updated_at": "2017-06-23 14:01:10",
+    "created_at": "2017-06-15 04:04:49",
+    "closed_at": "2017-06-23 14:01:09",
+    "state": "closed",
+    "title": "Gtkplus icons",
+    "number": 4511,
+    "milestone": null,
+    "labels": [],
+    "id": 236071589,
+    "html_url": "https://github.com/spack/spack/pull/4511",
+    "assignees": [],
+    "comments": 0
+}

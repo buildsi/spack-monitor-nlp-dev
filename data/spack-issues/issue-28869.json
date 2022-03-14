@@ -1,0 +1,22 @@
+{
+    "body": "### Summary\n\nSince 13.2.0, Trilinos is removing UVM options for CUDA build because of the performance issues.  \r\n\r\n\r\nSee line 736-:\r\n```\r\n            if '+cuda' in spec:\r\n                options.extend([\r\n                    define_kok_enable('CUDA_UVM', True),\r\n                    define_kok_enable('CUDA_LAMBDA', True),\r\n                    define_kok_enable('CUDA_RELOCATABLE_DEVICE_CODE', 'cuda_rdc')\r\n                ])\r\n                arch_map = Kokkos.spack_cuda_arch_map\r\n                options.extend(\r\n                    define(\"Kokkos_ARCH_\" + arch_map[arch].upper(), True)\r\n                    for arch in spec.variants['cuda_arch'].value\r\n                )\r\n```\r\n\r\nI suggest disabling UVM option for 13.2 or later.\n\n### Rationale\n\n_No response_\n\n### Description\n\n_No response_\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "keitat",
+    "url": "https://api.github.com/repos/spack/spack/issues/28869",
+    "updated_at": "2022-02-14 09:54:15",
+    "created_at": "2022-02-10 18:43:25",
+    "closed_at": "2022-02-14 09:54:15",
+    "state": "closed",
+    "title": "Spack-Trilinos needs dialing UVM option for CUDA",
+    "number": 28869,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1130660727,
+    "html_url": "https://github.com/spack/spack/issues/28869",
+    "assignees": [
+        "sethrj",
+        "keitat"
+    ],
+    "comments": 2
+}

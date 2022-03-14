@@ -1,0 +1,19 @@
+{
+    "body": "Hi all,\r\nI was trying to install Intel parallel studio professional 2017.4, with spack and I am getting the following error:\r\n```bash\r\n==> Fetching file:///CEDAR/group/hpc/Software/intel-parallel-studio/intel-parallel-studio-professional.2017.4.tgz\r\n######################################################################## 100.0%\r\n==> Staging archive: /ROWAN/group/prod/LINUX_WORKSTATION/acs/spack/var/spack/stage/intel-parallel-studio-professional.2017.4-hgzj4lg3d3cfr5hy3s75x2t7vywqgwtf/parallel_studio_xe_2017_update4.tgz\r\n==> Created stage in /ROWAN/group/prod/LINUX_WORKSTATION/acs/spack/var/spack/stage/intel-parallel-studio-professional.2017.4-hgzj4lg3d3cfr5hy3s75x2t7vywqgwtf\r\n==> No patches needed for intel-parallel-studio\r\n==> Building intel-parallel-studio [IntelPackage]\r\n==> Found already existing license /ROWAN/group/prod/LINUX_WORKSTATION/acs/spack/etc/spack/licenses/intel/license.lic\r\n==> Executing phase : 'configure'\r\n==> Executing phase : 'install'\r\n==> Error: IOError: [Errno 2] No such file or directory: '/prod/acs/spack_prod/spack/linux-centos7-x86_64/intel-17.0.4/intel-parallel-studio-professional.2017.4-hgzj4lg3d3cfr5hy3s75x2t7vywqgwtf/../../../../../../../ROWAN/group/prod/LINUX_WORKSTATION/acs/spack_prod/spack/linux-centos7-x86_64/intel-17.0.4/intel-parallel-studio-professional.2017.4-hgzj4lg3d3cfr5hy3s75x2t7vywqgwtf/compilers_and_libraries_2017.4.196/linux/bin/intel64/icc.cfg'\r\n/ROWAN/group/prod/LINUX_WORKSTATION/acs/spack/var/spack/repos/builtin/packages/intel-parallel-studio/package.py:415, in rpath_configuration:\r\n     406      @run_after('install')\r\n     407      def rpath_configuration(self):\r\n     408          spec = self.spec\r\n     409  \r\n     410          if '+rpath' in spec:\r\n     411              lib_dir = os.path.join(self.prefix, self.lib_dir)\r\n     412              for compiler in ['icc', 'icpc', 'ifort']:\r\n     413                  cfgfilename = os.path.join(\r\n     414                      self.prefix, self.bin_dir, '{0}.cfg'.format(compiler))\r\n  >> 415                  with open(cfgfilename, 'w') as f:\r\n     416                      f.write('-Xlinker -rpath -Xlinker {0}\\n'.format(lib_dir))\r\n\r\nSee build log for details:\r\n  /local/cjn/.spack/var/spack/stage/spack-stage/spack-stage-NYw4d9/parallel_studio_xe_2017_update4/spack-build.out\r\n```\r\noutput and env files are attached.\r\nAny ideas anyone?\r\n\r\ncheers,\r\nChris\r\n(spack downloaded from git on 17th August)\r\n\r\n[spack-build.out.txt](https://github.com/LLNL/spack/files/1245617/spack-build.out.txt)\r\n[silent.cfg.txt](https://github.com/LLNL/spack/files/1245616/silent.cfg.txt)\r\n[spack-build.env.txt](https://github.com/LLNL/spack/files/1245618/spack-build.env.txt)\r\n",
+    "user": "cnelson3",
+    "url": "https://api.github.com/repos/spack/spack/issues/5189",
+    "updated_at": "2018-02-16 01:27:26",
+    "created_at": "2017-08-23 13:53:16",
+    "closed_at": "2018-02-16 01:27:26",
+    "state": "closed",
+    "title": "intel parallel studio professional 2017.4 failing to install",
+    "number": 5189,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 252291451,
+    "html_url": "https://github.com/spack/spack/issues/5189",
+    "assignees": [],
+    "comments": 5
+}

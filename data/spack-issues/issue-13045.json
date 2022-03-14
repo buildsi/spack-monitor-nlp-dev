@@ -1,0 +1,22 @@
+{
+    "body": "Today I pulled the newest commits from the spack dev branch (since I was affected by [this](https://github.com/spack/spack/pull/12962) bug and now executing setup-env.sh leads to this error:\r\n\r\n```\r\n$ $SPACK_ROOT/share/spack/setup-env.sh \r\n\r\n==> Warning: specifying a \"dotkit\" module root has no effect [support for dotkit module files has been dropped]\r\nTraceback (most recent call last):\r\n  File \"/apps/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/apps/spack/lib/spack/spack/main.py\", line 651, in main\r\n    print_setup_info(*args.print_shell_vars.split(','))\r\n  File \"/apps/spack/lib/spack/spack/main.py\", line 598, in print_setup_info\r\n    module_to_roots[name].append(path)\r\nKeyError: 'dotkit'\r\n\r\n```\r\nThe warning is also shown when running just \"spack list\", here is the (relevant) output with the \"-d --stacktrace\" option:\r\n\r\n```\r\n$ spack -d --stacktrace list\r\n\r\nlib/spack/spack/config.py:684 ==> [2019-10-04-08:09:48.160306] Reading config file /apps/spack/etc/spack/defaults/modules.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-10-04-08:09:48.169278] Reading config file /apps/spack/etc/spack/defaults/linux/modules.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-10-04-08:09:48.172336] Reading config file /home/anselmam/.spack/modules.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-10-04-08:09:48.177407] Reading config file /apps/spack/etc/spack/defaults/config.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-10-04-08:09:48.191328] Reading config file /home/anselmam/.spack/config.yaml\r\nlib/spack/spack/schema/__init__.py:93 ==> [2019-10-04-08:09:48.204053] Warning: specifying a \"dotkit\" module root has no effect [support for dotkit module files has been dropped]\r\nlib/spack/spack/cmd/__init__.py:101 ==> [2019-10-04-08:09:48.206996] Imported list from built-in commands\r\nlib/spack/spack/cmd/__init__.py:101 ==> [2019-10-04-08:09:48.207759] Imported list from built-in commands\r\nlib/spack/spack/config.py:684 ==> [2019-10-04-08:09:48.218166] Reading config file /apps/spack/etc/spack/defaults/repos.yaml\r\n```\r\n\r\nAfterwards spack does not change my $MODULEPATH, so the modules created by spack are not available with \"module av\", if I don't adjust my $MODULEPATH manually.\r\n\r\n### Information on your system\r\n 1. Arch linux\r\n 2. lmod for loading module files\r\n",
+    "user": "mathsen",
+    "url": "https://api.github.com/repos/spack/spack/issues/13045",
+    "updated_at": "2019-10-05 06:42:22",
+    "created_at": "2019-10-04 06:13:18",
+    "closed_at": "2019-10-05 06:42:22",
+    "state": "closed",
+    "title": "Warning: specifying a \"dotkit\" module root has no effect",
+    "number": 13045,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 502448271,
+    "html_url": "https://github.com/spack/spack/issues/13045",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

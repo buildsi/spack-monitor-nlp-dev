@@ -1,0 +1,19 @@
+{
+    "body": "When a build fails, it seems that spack is losing track of some installs:\n\n```\n==> freetype is already installed in /Users/kitware/code/depot/group-bld/spack/src/opt/spack/darwin-yosemite-x86_64/clang-7.0.2-apple/freetype-2.5.3-7o6h6oqs55ndcejmrnrtxg2l6ic4xo5l\nTraceback (most recent call last):\n  File \"bin/spack\", line 192, in <module>\n    main()\n  File \"bin/spack\", line 169, in main\n    return_val = command(parser, args)\n  File \"/Users/kitware/code/depot/group-bld/spack/src/lib/spack/spack/cmd/install.py\", line 92, in install\n    explicit=True)\n  File \"/Users/kitware/code/depot/group-bld/spack/src/lib/spack/spack/package.py\", line 934, in do_install\n    dirty=dirty)\n  File \"/Users/kitware/code/depot/group-bld/spack/src/lib/spack/spack/package.py\", line 1085, in do_install_dependencies\n    dep.package.do_install(**kwargs)\n  File \"/Users/kitware/code/depot/group-bld/spack/src/lib/spack/spack/package.py\", line 915, in do_install\n    rec = spack.installed_db.get_record(self.spec)\n  File \"/Users/kitware/code/depot/group-bld/spack/src/lib/spack/spack/database.py\", line 78, in converter\n    return function(self, spec_like, *args, **kwargs)\n  File \"/Users/kitware/code/depot/group-bld/spack/src/lib/spack/spack/database.py\", line 526, in get_record\n    key = self._get_matching_spec_key(spec, **kwargs)\n  File \"/Users/kitware/code/depot/group-bld/spack/src/lib/spack/spack/database.py\", line 521, in _get_matching_spec_key\n    raise KeyError(\"No such spec in database! %s\" % spec)\nKeyError: 'No such spec in database! freetype@2.5.3%clang@7.0.2-apple arch=darwin-yosemite-x86_64^libpng@1.6.24%clang@7.0.2-apple arch=darwin-yosemite-x86_64^zlib@1.2.8%clang@7.0.2-apple arch=darwin-yosemite-x86_64'\n```\n\nA `spack reindex` fixes things.\n",
+    "user": "mathstuf",
+    "url": "https://api.github.com/repos/spack/spack/issues/1891",
+    "updated_at": "2016-10-03 19:32:21",
+    "created_at": "2016-10-03 19:02:24",
+    "closed_at": "2016-10-03 19:32:21",
+    "state": "closed",
+    "title": "Spack loses track of installs when a build fails",
+    "number": 1891,
+    "milestone": null,
+    "labels": [
+        "duplicate"
+    ],
+    "id": 180719183,
+    "html_url": "https://github.com/spack/spack/issues/1891",
+    "assignees": [],
+    "comments": 2
+}

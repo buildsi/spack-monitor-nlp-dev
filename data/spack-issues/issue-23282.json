@@ -1,0 +1,19 @@
+{
+    "body": "p4est build fails.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install -j30 --only dependencies dealii\r\n```\r\n\r\nThis is the top level error\r\n\r\n```\r\nlibtool: compile:  /home/c.praveen_052/Applications/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.0/mpich-3.4.1-ufau2ub53s75hutxdrtb7qbm4ctqf5qx/bin/mpicc -DHAVE_CONFIG_H -I. -I./config -I./src -I./iniparser -I./libb64 -DSC_LOG_PRIORITY=SC_LP_ESSENTIAL -O2 -MT src/libsc_la-sc_containers.lo -MD -MP -MF src/.deps/libsc_la-sc_containers.Tpo -c src/sc_containers.c -o src/libsc_la-sc_containers.o >/dev/null 2>&1\r\nsrc/sc_v4l2.c: In function 'sc_v4l2_device_format':\r\nsrc/sc_v4l2.c:276:10: error: 'struct v4l2_pix_format' has no member named 'ycbcr_enc'\r\n   vd->pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;\r\n          ^~\r\nsrc/sc_v4l2.c:276:24: error: 'V4L2_YCBCR_ENC_DEFAULT' undeclared (first use in this function); did you mean 'V4L2_PRIORITY_DEFAULT'?\r\n   vd->pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;\r\n                        ^~~~~~~~~~~~~~~~~~~~~~\r\n                        V4L2_PRIORITY_DEFAULT\r\nsrc/sc_v4l2.c:276:24: note: each undeclared identifier is reported only once for each function it appears in\r\nsrc/sc_v4l2.c:277:10: error: 'struct v4l2_pix_format' has no member named 'quantization'\r\n   vd->pix->quantization = V4L2_QUANTIZATION_DEFAULT;\r\n          ^~\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n* **Spack:** 0.16.1-2400-42af3c1\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-rhel7-skylake_avx512\r\n* **Concretizer:** original\r\n\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n```console\r\npackages:\r\n   hdf5:\r\n      variants: +fortran +cxx +hl\r\n   petsc:\r\n      variants: +mumps +suite-sparse +p4est\r\n   dealii:\r\n      variants: ~python\r\n   trilinos:\r\n      variants: +rol\r\n   all:\r\n      providers:\r\n         mpi: [mpich]\r\n```\r\n\r\n### Additional information\r\n\r\n * [spack-build-env.txt](https://github.com/spack/spack/files/6384520/spack-build-env.txt)\r\n * [spack-build-out.txt](https://github.com/spack/spack/files/6384515/spack-build-out.txt)\r\n\r\n\r\n@davydden\r\n\r\n### General information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "cpraveen",
+    "url": "https://api.github.com/repos/spack/spack/issues/23282",
+    "updated_at": "2021-06-16 05:46:19",
+    "created_at": "2021-04-27 12:40:43",
+    "closed_at": "2021-06-16 05:46:19",
+    "state": "closed",
+    "title": "p4est 2.3.1 fails to build on RHEL",
+    "number": 23282,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 868807284,
+    "html_url": "https://github.com/spack/spack/issues/23282",
+    "assignees": [],
+    "comments": 2
+}

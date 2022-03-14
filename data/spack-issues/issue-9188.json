@@ -1,0 +1,21 @@
+{
+    "body": "As a packager I want `spack buildcache` to be able to analyze the DAG of an installed package and show which nodes are relocatable so that I could get a quantitative idea on how many packages encode their install prefix in e.g. `.rodata`.\r\n\r\n### Rationale\r\n\r\nThis is a follow up from https://github.com/spack/spack/issues/7123#issuecomment-417880181 and discussion below. The proposal basically boils down to have a new sub-command:\r\n```\r\n$ spack buildcache preview <installed package>\r\n```\r\nthat shows to users which nodes are relocatable and which are not.\r\n\r\n### Description\r\n\r\nAn example output might be something like:\r\n```console\r\n$ spack buildcache --help\r\nusage: spack buildcache [-h] SUBCOMMAND ...\r\n\r\ncreate, download and install binary packages\r\n\r\npositional arguments:\r\n  SUBCOMMAND  buildcache sub-commands\r\n    create    create a binary package from an existing install\r\n    install   install from a binary package\r\n    list      list binary packages available from mirrors\r\n    preview   analyzes an installed package and reports whether \r\n              executables and libraries are relocatable\r\n    keys      get public keys available on mirrors\r\n\r\noptional arguments:\r\n  -h, --help  show this help message and exit\r\n\r\n$ spack buildcache preview hdf5 ^mpich\r\nRelocatable packages\r\n--------------------------------\r\n[+]  hdf5@1.10.3%gcc@8.0.1~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe arch=linux-ubuntu18.04-x86_64 \r\n[+]      ^mpich@3.2.1%gcc@8.0.1 device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=linux-ubuntu18.04-x86_64 \r\n[-]      ^zlib@1.2.11%gcc@8.0.1+optimize+pic+shared arch=linux-ubuntu18.04-x86_64 \r\n```\r\nmeaning that `hdf5` and `mpich` are relocatable, while `zlib` is not. *Note that the example is a mock and I didn't look for real into these three packages as I did for `pkgconf` and `ncurses`.*\r\n\r\n### Additional information\r\n\r\nWaiting for feedback before implementing this. Feel free to close if you consider this not necessary.\r\n\r\n@gartung @tgamblin @scheibelp @becker33 @mathstuf @bryonbean ",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9188",
+    "updated_at": "2019-02-28 21:36:48",
+    "created_at": "2018-09-07 07:59:00",
+    "closed_at": "2019-02-28 21:36:48",
+    "state": "closed",
+    "title": "Show to user which packages might be relocated",
+    "number": 9188,
+    "milestone": null,
+    "labels": [
+        "proposal",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 357960265,
+    "html_url": "https://github.com/spack/spack/issues/9188",
+    "assignees": [],
+    "comments": 6
+}

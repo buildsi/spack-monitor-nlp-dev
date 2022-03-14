@@ -1,0 +1,25 @@
+{
+    "body": "We want to make `--reuse` the default concretization strategy, but to do that we need to have some configuration so that users can revert if they need to.  Also, the concretizer is going to grow to have many more options, and we really need some structured place to specify them.\r\n\r\nWe currently have a couple places where concretizer options are specified (aside from the preferences in `packages.yaml`):\r\n1. The `config:concretizer` option. This chooses the solver (`clingo` or `original`).\r\n2. The `concretization` option in environments. This is not a top-level config section -- it's just for environments.\r\n\r\nExtending either of these is awkward -- both are simple strings and we'd need to deprecate (or work around) the old config options to expand them into more extensive YAML options.  Also, we'd eventually like to have one place where concretizer configuration is specified.\r\n\r\nTo avoid overlapping with either of these and to allow the most extensibility in the future, this adds a new `concretizer` config section that can be used in and outside of environments. There are two options right now: `reuse` and `minimal`.  This can expand later.  My expectation is that we will soon deprecate `config:concretizer` and warn when the user doesn't use `clingo`, and we will eventually (sometime later) move the `together` / `separately` options from `concretization` into the top-level `concretizer` section.\r\n\r\n`concretizer.yaml` currently looks like this:\r\n\r\n```yaml\r\nconcretizer:\r\n  # Whether to consider installed packages or packages from buildcaches when\r\n  # concretizing specs. If `true`, we'll try to use as many installs/binaries\r\n  # as possible, rather than building. If `false`, we'll always give you a fresh\r\n  # concretization.\r\n  reuse: false\r\n```\r\n\r\nStay tuned for additional options like `--minimal`.\r\n\r\nAnd there are *two* options on `spack install`, `spack spec`, etc.:\r\n\r\n```\r\nconcretizer arguments:\r\n  --fresh               do not reuse installed deps; build newest configuration\r\n  --reuse               reuse installed dependencies/buildcaches when possible\r\n```\r\n\r\n`--fresh` is there for when we make `--reuse` the default.  I could not think of a more intuitive way to express what Spack's default install routine, but here is the rationale -- see if you like it:\r\n\r\n1. Most package managers would call Spack's current default an \"upgrade\" install -- it prefers the latest versions.  However, it's more than that -- it looks at whatever preferences you've set up, and it may change variants and things based on what's in the repo.  So `--upgrade` didn't fully capture it (you might be \"side-grading\" or just re-concretizing).\r\n2. The default install tends to create new builds.  I thought about `--new` for \"new installation\", but it might also reuse if there's a hash match, so `--new` didn't seem completely right.\r\n3. People who do not like `--reuse`  -- e.g., people with CI use cases or nix/guix purists -- would call the default Spack install \"deterministic\", because it doesn't consider installation state.  It's reproducible for the same spack version and packages.  `--deterministic` and `--reproducible` seem too technical.\r\n\r\nSo I settled on `--fresh`, because I think it captures what we're doing -- making a fresh install from the latest packages.  It also gives us a term we can use pretty easily.\r\n\r\nWhen we make `--reuse` the default, it'll make more sense, as Spack will tend to reuse what you already have, and you may want to start with a completely `--fresh` install once those installations become too old.\r\n\r\nThere are a few additional technical refactors in here to make this stuff easier; the details of those are in the commit messages.\r\n\r\n- [x] refactor `spack.solver.asp.solve()` into a class\r\n- [x] add a `concretizer` config section and default `concretizer.yaml`\r\n- [x] fix up how we handle mock configuration in `conftest.py`\r\n- [x] introduce a `ConfigSetAction` to automatically set config options with `argparse`\r\n- [x] introduce `add_concretizer_args()` method to make concretizer arg handling consistent across commands\r\n- [x] rework call chain from commands -> solver to reduce the number of arguments and rely on config\r\n- [x] introduce `--fresh` concretizer arg\r\n- [x] docs",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/28468",
+    "updated_at": "2022-02-17 15:12:43",
+    "created_at": "2022-01-17 21:25:40",
+    "closed_at": "2022-02-16 18:17:19",
+    "state": "closed",
+    "title": "Add a top-level `concretizer` config scope and `--fresh` option",
+    "number": 28468,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "concretization",
+        "documentation",
+        "defaults",
+        "tests",
+        "commands",
+        "environments"
+    ],
+    "id": 1106272202,
+    "html_url": "https://github.com/spack/spack/pull/28468",
+    "assignees": [],
+    "comments": 16
+}

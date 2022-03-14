@@ -1,0 +1,20 @@
+{
+    "body": "Adding new package py-deeptools, along with dependencies that are new: py-pysam, py-py2bit, and py-pybigwig.\r\n\r\nBcftools is also included in this with a fix, needed for py-pysam as well as the bcftools build itself. Without the dependency 'xz', the build failed with:\r\n```\r\nmake[1]: Entering directory `/tmp/las_thoma15/spack-stage/spack-stage-3CIvLV/bcftools-1.4/htslib-1.4'\r\ngcc -g -Wall -O2 -I.  -c -o kfunc.o kfunc.c\r\ngcc -g -Wall -Wc++-compat -O2 -I. -Ihtslib-1.4 -DPLUGINPATH=\\\"/opt/rit/app/spack/linux-rhel7-x86_64/gcc-7.1.0/bcftools-1.4-7mpshlw27x5dqzy6zjsqxvjobfr7wrj2/libexec/bcftools\\\" -I.   -c -o main.o main.c\r\ngcc  -o test/test-rbuf test/test-rbuf.o -lm -lz -ldl \r\ngcc -g -Wall -O2 -I.  -c -o knetfile.o knetfile.c\r\ngcc -g -Wall -O2 -I.  -c -o kstring.o kstring.c\r\ngcc -g -Wall -O2 -I.  -c -o bcf_sr_sort.o bcf_sr_sort.c\r\ngcc -g -Wall -O2 -I.  -c -o bgzf.o bgzf.c\r\ngcc -g -Wall -O2 -I.  -c -o errmod.o errmod.c\r\ngcc -g -Wall -O2 -I.  -c -o faidx.o faidx.c\r\ngcc -g -Wall -O2 -I.  -c -o hfile.o hfile.c\r\ngcc -g -Wall -O2 -I.  -c -o hfile_net.o hfile_net.c\r\necho '#define HTS_VERSION \"1.4\"' > version.h\r\ngcc -g -Wall -O2 -I.  -c -o md5.o md5.c\r\ngcc -g -Wall -O2 -I.  -c -o multipart.o multipart.c\r\ngcc -g -Wall -O2 -I.  -c -o probaln.o probaln.c\r\ngcc -g -Wall -O2 -I.  -c -o realn.o realn.c\r\ngcc -g -Wall -O2 -I.  -c -o regidx.o regidx.c\r\ngcc -g -Wall -O2 -I.  -c -o sam.o sam.c\r\ngcc -g -Wall -O2 -I.  -c -o synced_bcf_reader.o synced_bcf_reader.c\r\ngcc -g -Wall -O2 -I.  -c -o vcf_sweep.o vcf_sweep.c\r\ngcc -g -Wall -O2 -I.  -c -o tbx.o tbx.c\r\ngcc -g -Wall -O2 -I.  -c -o textutils.o textutils.c\r\ngcc -g -Wall -O2 -I.  -c -o thread_pool.o thread_pool.c\r\ngcc -g -Wall -O2 -I.  -c -o vcf.o vcf.c\r\ngcc -g -Wall -O2 -I.  -c -o vcfutils.o vcfutils.c\r\ngcc -g -Wall -O2 -I.  -c -o cram/cram_codecs.o cram/cram_codecs.c\r\ngcc -g -Wall -O2 -I.  -c -o cram/cram_decode.o cram/cram_decode.c\r\ngcc -g -Wall -O2 -I.  -c -o cram/cram_encode.o cram/cram_encode.c\r\ngcc -g -Wall -O2 -I.  -c -o cram/cram_external.o cram/cram_external.c\r\ngcc -g -Wall -O2 -I.  -c -o cram/cram_index.o cram/cram_index.c\r\ngcc -g -Wall -O2 -I.  -c -o cram/cram_io.o cram/cram_io.c\r\ngcc -g -Wall -O2 -I.  -c -o cram/cram_samtools.o cram/cram_samtools.c\r\ncram/cram_io.c:60:10: fatal error: lzma.h: No such file or directory\r\n #include <lzma.h>\r\n          ^~~~~~~~\r\ncompilation terminated.\r\nmake[1]: *** [cram/cram_io.o] Error 1\r\nmake[1]: *** Waiting for unfinished jobs....\r\nmake[1]: Leaving directory `/tmp/las_thoma15/spack-stage/spack-stage-3CIvLV/bcftools-1.4/htslib-1.4'\r\nmake: *** [htslib-1.4/libhts.a] Error 2\r\n```\r\nA similar error was produced when building py-pysam when I had not had bcftools listed as a dependency. Adding xz to bcftools and bcftools to py-sam fixed this issue and all built successfully. This issue has been previously reported on the bcftools github: [https://github.com/samtools/bcftools/issues/570](url)\r\nas well as a mention in this issue: [https://github.com/samtools/bcftools/issues/581](url).\r\n\r\nI did only include xz as a dependency for bcftools in version 1.4, in case the issue is fixed in future versions and lzma is not required by default. I can most definitely change any of this on request! ",
+    "user": "akthoma",
+    "url": "https://api.github.com/repos/spack/spack/issues/4717",
+    "updated_at": "2017-11-21 15:46:33",
+    "created_at": "2017-07-11 15:56:52",
+    "closed_at": "2017-07-14 03:02:09",
+    "state": "closed",
+    "title": "py-deeptools: new package and dependencies",
+    "number": 4717,
+    "milestone": null,
+    "labels": [
+        "new-package",
+        "python"
+    ],
+    "id": 242098592,
+    "html_url": "https://github.com/spack/spack/pull/4717",
+    "assignees": [],
+    "comments": 0
+}

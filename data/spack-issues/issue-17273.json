@@ -1,0 +1,20 @@
+{
+    "body": "TL; DR, when I built a Docker image w/ bcl2fastq, compiled with a Spack-built gcc@8.4.0 starting from the Container docs page's `spack.yaml`, running the result fails for lack of various compiler libraries.\r\n\r\nAs a hack, including gcc@8.4.0 in the list of packages (and rebuilding it) works.\r\n\r\n---\r\n\r\nMy general pattern with Spack is to build a gcc (usually @8.4.0 these days) and then use that to compile all of the things that I need.\r\n\r\nI've tried to take that approach as I learn to use `spack containerize` (Docker, at the moment) things.  I've attempted a small optimization by extending the centos-7.dockerfile so that instead of running `spack speck hdf5+mpi` (what's the reason for that, anyway?) it:\r\n\r\n- adds a packages.yaml file that prefers gcc@8.4.0;\r\n- builds gcc@8.40; and\r\n- adds it to the compiler list\r\n\r\nbut I think I'd see the same behavior if I just built the compiler as the first step of the container build.\r\n\r\nI started from the [Container docs example spack.yaml](https://spack.readthedocs.io/en/latest/containers.html#environment-configuration), swapped the packages for `bcl2fastq` and commented out the bit that includes `libgomp`.\r\n\r\nTurns out that that fails to run because it *needs* `libgomp` (funny that the package that I was practicing with also uses it...).  In my normal tree it picks up the library from within the gcc@8.4.0 package install.\r\n\r\nI re-enabled loading `libcomp` as an external package.  The resulting image failed to run due to C (or C++) libraries not being the correct version.\r\n\r\nMy \"solution\" is to build and install both `bcl2fastq2` and `gcc@8.4.0` in the image, the compiler bits get linked into `/opt/view` and the various environment variables that are set seem to be sufficient to allow the various libraries to be found.\r\n\r\nIt won't be the end of the world if I have to include the compiler in every image, but I will be sad if I need to rebuild it (so that it can land in `/opt/software`) every time.\r\n\r\nAre folks that are using `containerize` just using the OS compilers or ???\r\n\r\n**Thanks!**",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/17273",
+    "updated_at": "2020-10-15 21:55:27",
+    "created_at": "2020-06-26 15:32:42",
+    "closed_at": "2020-10-15 21:55:26",
+    "state": "closed",
+    "title": "Problem container-izing builds with Spack-built compilers, what's the good practice?",
+    "number": 17273,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 646343674,
+    "html_url": "https://github.com/spack/spack/issues/17273",
+    "assignees": [],
+    "comments": 8
+}

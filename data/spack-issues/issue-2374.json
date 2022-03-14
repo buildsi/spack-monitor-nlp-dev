@@ -1,0 +1,21 @@
+{
+    "body": "I was building application with spack and it was failing at runtime. The issue was following:\r\n\r\nSuppose I have a package (with `non-standard` build process) and that invokes following compilation command from some wrapper scripts: \r\n\r\n```bash\r\nmpicc -I/gpfs/some-path/hdf5-1.8.10  xyz.c\r\n```\r\nAs `hdf5` include path is added at the beginning, the expectation is that compiler will prefer that path for header files search.\r\n\r\nNow this package has dependency with `python` and I thought I should use system version:\r\n\r\n```\r\n   python:\r\n       paths:\r\n           python@2.6.6: /usr\r\n       .....\r\n```\r\n\r\nWhen I was installing this application with `spack install -v`, I was seeing compilation commands as : \r\n```bash\r\nmpicc -I/gpfs/some-path/hdf5-1.8.10  xyz.c\r\n```\r\nThis looks fine. But I didn't understand **why** `hdf5-1.8.5` headers were used (which is installed user `/usr`).\r\n\r\nThen I started looking into compiler wrappers, I see following:\r\n\r\n```bash\r\n# Read spack dependencies from the path environment variable\r\nIFS=':' read -ra deps <<< \"$SPACK_DEPENDENCIES\"\r\nfor dep in \"${deps[@]}\"; do\r\n   # Prepend include directories\r\n   if [[ -d $dep/include ]]; then\r\n       if [[ $mode == cpp || $mode == cc || $mode == as || $mode == ccld ]]; then\r\n           args=(\"-I$dep/include\" \"${args[@]}\")\r\n       fi\r\n   fi\r\n```\r\nSo spack look at dependencies and **prepends** the header paths! With debug output I see the compilation command becomes:\r\n\r\n```bash\r\nmpicc -I/usr/include -I/gpfs/some-path/hdf5-1.8.10 xyz.c\r\n```\r\nNow curious about : \r\n* why the include paths are **prepended** ?\r\n* if we explicitly specify include path using `-I`, we can't guarantee that order?\r\n\r\nI agree this is a particular case using `hdf5` which has this header version dependency. It's clear to me now what's going on and how to workaround. But wonder if  users will be easily identify issues in such cases.",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2374",
+    "updated_at": "2019-12-03 13:47:55",
+    "created_at": "2016-11-21 19:29:00",
+    "closed_at": "2019-12-03 13:47:54",
+    "state": "closed",
+    "title": "Compiler wrappers in spack, include path order and external packages from /usr",
+    "number": 2374,
+    "milestone": null,
+    "labels": [
+        "question",
+        "compilers",
+        "external-packages"
+    ],
+    "id": 190812599,
+    "html_url": "https://github.com/spack/spack/issues/2374",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "This PR makes 2 changes to the openmpi package.\r\n\r\n1. Adds a conflict for scheduler=loadleveler for openmpi >=3 as that is no longer a valid configure option.\r\n\r\n1. Makes the behavior of the value of 'auto' for fabrics and schedulers defer to the openmpi configure script.\r\n\r\n    The default for the fabrics variant is 'auto' if verbs is not detected.\r\n    The default for the schedulers variant is 'auto'. In both cases, if/when\r\n    the default is 'auto' the effect is to actually set the variants to\r\n    'none'. This is because all of the possible values in the respective\r\n    lists pass the `--without-...` option to configure.\r\n    \r\n    I believe the intent was to have those variants defer to the openmpi\r\n    configure and let it determine and use what it finds available on the\r\n    system. This is useful given that the required installations of fabrics\r\n    and schedulers are likely to be installed outside of spack.\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/11431",
+    "updated_at": "2019-05-26 04:48:44",
+    "created_at": "2019-05-13 15:36:57",
+    "closed_at": "2019-05-21 00:52:18",
+    "state": "closed",
+    "title": "Openmpi default for fabrics/schedulers=auto behavior",
+    "number": 11431,
+    "milestone": null,
+    "labels": [
+        "mpi",
+        "conflicts"
+    ],
+    "id": 443467553,
+    "html_url": "https://github.com/spack/spack/pull/11431",
+    "assignees": [],
+    "comments": 11
+}

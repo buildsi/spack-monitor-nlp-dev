@@ -1,0 +1,24 @@
+{
+    "body": "I have never used `spack env activate` in my life.  I don't ever want environments activate.  And yet, Spack automagically activates the environment in `$CWD` if I'm working from within that environment's directory.  As a result, commands that would otherwise be environment-free end up adversely affecting the environment I'm working on.  That non-intuitive behavior has repeatedly interrupted my workflow and confused me.  As a result, I have now routinely learned to write `spack --no-env` whenever I want a command to run without an environment.  (And if I want it to run with an environment, I use `spack -e`).  Activating the environment in `$CWD` is an anti-feature that should be removed.\r\n\r\n**The *only* time Spack should activate an environment is when you use *spack env activate*!!**\r\n\r\n### Steps to reproduce the issue\r\n\r\nCreate (but don't activate) an environment.  Then go to that environment's home directory and run `spack install`.  Notice how Spack has changed your environment's `spack.yaml` file.  For example:\r\n\r\n```\r\n$ spack env status\r\n==> Using spack.yaml in current directory: /import/unsupported/TWOWAY/spack/var/spack/environments/tw-chinook\r\n$ spack install libxt\r\ndo_install <spack.pkg.builtin.libxt.Libxt object at 0x255add0> None install_deps=True\r\n==> libxt is already installed in /import/unsupported/TWOWAY/spack/opt/spack/linux-centos6-x86_64/intel-18.5.274/libxt-1.1.5-gycpi5krvp57nqeynkzviwxogqfpsuk3\r\n==> libxt@1.1.5 : marking the package explicit\r\nchinook00:~/spack/environments/tw-chinook$ less spack.yaml \r\nchinook00:~/spack/environments/tw-chinook$ git diff spack.yaml\r\ndiff --git a/var/spack/environments/tw-chinook/spack.yaml b/var/spack/environments/tw-chinook/spack.yaml\r\nindex 977c85c3c..6521d6021 100644\r\n--- a/var/spack/environments/tw-chinook/spack.yaml\r\n+++ b/var/spack/environments/tw-chinook/spack.yaml\r\n@@ -79,6 +79,8 @@ spack:\r\n     spec: chrpath\r\n   - setup: []\r\n     spec: patchelf\r\n+  - setup: []\r\n+    spec: libxt\r\n   mirrors: {}\r\n   modules:\r\n     enable: []\r\n$ cd ..\r\nchinook00:~/spack/environments$ spack env status\r\n==> No active environment\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/15850",
+    "updated_at": "2020-06-26 22:20:16",
+    "created_at": "2020-04-03 15:29:58",
+    "closed_at": "2020-06-26 22:20:16",
+    "state": "closed",
+    "title": "Silent Automagic Environment Activation",
+    "number": 15850,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "discussion",
+        "triage",
+        "breaking-change"
+    ],
+    "id": 593464133,
+    "html_url": "https://github.com/spack/spack/issues/15850",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 5
+}

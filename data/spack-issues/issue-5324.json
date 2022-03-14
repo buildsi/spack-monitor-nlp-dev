@@ -1,0 +1,17 @@
+{
+    "body": "Caffe's CMakeList.txt has:\r\n\r\n```\r\nset(python_version \"2\" CACHE STRING \"Specify which Python version to use\")\r\n```\r\n\r\nIf we are compiling caffe with `python@3:`, then caffe finds python from `/usr/bin/`:\r\n\r\n```\r\n-- Could NOT find PythonInterp: Found unsuitable version \"2.6.6\", but required is at least \"2.7\" (found /usr/bin/python2)\r\n-- Could NOT find PythonLibs: Found unsuitable version \"2.6.6\", but required is at least \"2.7\" (found /usr/lib64/libpython2.6.so)\r\n-- To find NumPy Python interpretator is required to be found.\r\n-- Could NOT find NumPy (missing: NUMPY_INCLUDE_DIR NUMPY_VERSION) (Required is at least version \"1.7.1\")\r\n....\r\n--\r\n-- Configuring done\r\nCMake Error at CMakeLists.txt:104 (add_dependencies):\r\n  The dependency target \"pycaffe\" of target \"pytest\" does not exist.\r\n```\r\n\r\nthis patch make sure correct python is detected : \r\n\r\n```\r\n-- Found PythonInterp: /gpfs/bbp.cscs.ch/scratch/gss/bgq/kumbhar-adm/SPACK_HOME/install_home/bbpviz/install/linux-rhel6-x86_64/gcc-5.3.0/python-3.5.2-khm3cldd/bin/python3 (found suitable version \"3.5.2\", minimum required is \"3.0\")\r\n-- Found PythonLibs: /gpfs/bbp.cscs.ch/scratch/gss/bgq/kumbhar-adm/SPACK_HOME/install_home/bbpviz/install/linux-rhel6-x86_64/gcc-5.3.0/python-3.5.2-khm3cldd/lib/libpython3.5m.so (found suitable version \"3.5.2\", minimum required is \"3.0\")\r\n-- Found NumPy: /gpfs/bbp.cscs.ch/scratch/gss/bgq/kumbhar-adm/SPACK_HOME/install_home/bbpviz/install/linux-rhel6-x86_64/gcc-5.3.0/py-numpy-1.13.1-qpfzvjyh/lib/python3.5/site-packages/numpy/core/include (found suitable version \"1.13.1\", minimum required is \"1.7.1\")\r\n```",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5324",
+    "updated_at": "2017-09-10 23:54:20",
+    "created_at": "2017-09-09 17:53:35",
+    "closed_at": "2017-09-10 07:28:40",
+    "state": "closed",
+    "title": "Fix caffe build issue with python 3",
+    "number": 5324,
+    "milestone": null,
+    "labels": [],
+    "id": 256454934,
+    "html_url": "https://github.com/spack/spack/pull/5324",
+    "assignees": [],
+    "comments": 0
+}

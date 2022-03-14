@@ -1,0 +1,17 @@
+{
+    "body": "---\n\nSo here are my current notes for where things need to be changed to facilitate different types of dependencies. By no means exhaustive since this is a breadth-first search from `depends_on` to one or two levels for what needs modification/inspection. The API seems to make lines easy to draw (`pkg.dependencies` will need to be a method, but there aren't _too_ many uses of that).\n\nLooking through, it looks as though the best storage is `Dict[name, (spec, reason)]` rather than `Dict[reason, Dict[name, spec]]` (as I started in the one commit when playing around with the `depends_on` code).\n\nAre there any other dep types that would matter other than build-time and run-time (run-time for a library being a dep from netcdf onto hdf5 due to a link dependency)? The only bits I saw were \"we need it to build\" and \"we need it to use it\" dependencies.\n\n@tgamblin\n",
+    "user": "mathstuf",
+    "url": "https://api.github.com/repos/spack/spack/issues/378",
+    "updated_at": "2016-07-15 07:29:17",
+    "created_at": "2016-01-19 22:18:51",
+    "closed_at": "2016-07-15 07:29:17",
+    "state": "closed",
+    "title": "dependency types",
+    "number": 378,
+    "milestone": null,
+    "labels": [],
+    "id": 127552207,
+    "html_url": "https://github.com/spack/spack/pull/378",
+    "assignees": [],
+    "comments": 44
+}

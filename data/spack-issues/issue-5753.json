@@ -1,0 +1,19 @@
+{
+    "body": "with https://github.com/LLNL/spack/pull/5752 `slepc` will correctly have\r\n```\r\ndepends_on('petsc@3.7:3.7.7', when='@3.7.1:3.7.4')\r\n```\r\nso I expected the current stable release of `slepc@3.7.4` to result in `petsc@3.7.7`, yet this does not happen:\r\n\r\n```\r\n$ spack spec -I dealii\r\nInput spec\r\n--------------------------------\r\n     dealii\r\n\r\nNormalized\r\n--------------------------------\r\n     dealii\r\n         ^blas\r\n         ^bzip2\r\n         ^cmake\r\n         ^lapack\r\n         ^muparser\r\n         ^suite-sparse\r\n         ^tbb\r\n         ^zlib\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    petsc@3.8.0%clang@9.0.0-apple+boost~complex~debug+double+hdf5+hypre~int64+metis+mpi+mumps+shared+superlu-dist~trilinos arch=darwin-highsierra-x86_64\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    slepc@3.7.4%clang@9.0.0-apple+arpack arch=darwin-highsierra-x86_64\r\n        ^python@2.7.14%clang@9.0.0-apple+pic~shared~tk~ucs4 arch=darwin-highsierra-x86_64\r\n            ^bzip2@1.0.6%clang@9.0.0-apple+shared arch=darwin-highsierra-x86_64\r\n            ^ncurses@6.0%clang@9.0.0-apple~symlinks arch=darwin-highsierra-x86_64\r\n                ^pkg-config@0.29.2%clang@9.0.0-apple+internal_glib arch=darwin-highsierra-x86_64\r\n            ^openssl@1.0.2k%clang@9.0.0-apple arch=darwin-highsierra-x86_64\r\n                ^zlib@1.2.11%clang@9.0.0-apple+pic+shared arch=darwin-highsierra-x86_64\r\n            ^readline@7.0%clang@9.0.0-apple arch=darwin-highsierra-x86_64\r\n            ^sqlite@3.20.0%clang@9.0.0-apple arch=darwin-highsierra-x86_64\r\n\r\n\r\nslepc requires petsc version 3.7:3.7.7, but spec asked for 3.8.0\r\n```\r\n\r\nSo it looks like `petsc` got settled with `3.8.0` before trying to concretize `slepc`. \r\nNot sure if it's a bug or limitation of the current concretizer. \r\n\r\n@tgamblin @scheibelp ping\r\n\r\np.s. a workaround is to add to `~/.spack/packages.yaml`:\r\n```\r\n  petsc:\r\n     version: [3.7.7]\r\n```\r\n\r\nFor completeness, here are my settings:\r\n```\r\npackages:\r\n  all:\r\n    compiler: [clang, gcc]\r\n    providers:\r\n      mpi: [openmpi]\r\n      blas: [openblas]\r\n      lapack: [openblas]\r\n      scalapack: [netlib-scalapack]\r\n  cmake:\r\n    version: [3.9.0]\r\n  suite-sparse:\r\n    variants: ~tbb\r\n  boost:\r\n    variants: +thread+system+serialization+iostreams+mpi+python\r\n  petsc:\r\n    variants: +mumps\r\n  dealii:\r\n    version: [develop]\r\n    variants: +doc+optflags+adol-c+nanoflann+sundials+assimp\r\n  metis:\r\n    variants: +real64\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/5753",
+    "updated_at": "2020-11-01 21:19:55",
+    "created_at": "2017-10-13 12:00:29",
+    "closed_at": "2020-11-01 21:19:54",
+    "state": "closed",
+    "title": "version constraints are somewhat not respected and break concretizer",
+    "number": 5753,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 265264871,
+    "html_url": "https://github.com/spack/spack/issues/5753",
+    "assignees": [],
+    "comments": 5
+}

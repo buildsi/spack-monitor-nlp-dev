@@ -1,0 +1,20 @@
+{
+    "body": "I'm getting an error trying to install moab (I stripped out the trilinos requirement). it's possible the packages.yaml file isn't correct\n\nsarich@titan-ext2:/ccs/proj/cli112/sarich/spack> ./bin/spack  install moab%pgi\n\nTraceback (most recent call last):\n  File \"./bin/spack\", line 192, in <module>\n    main()\n  File \"./bin/spack\", line 169, in main\n    return_val = command(parser, args)\n  File \"/autofs/nccs-svm1_proj/cli112/sarich/spack/lib/spack/spack/cmd/install.py\", line 79, in install\n    specs = spack.cmd.parse_specs(args.packages, concretize=True)\n  File \"/autofs/nccs-svm1_proj/cli112/sarich/spack/lib/spack/spack/cmd/**init**.py\", line 106, in parse_specs\n    spec.concretize()  # implies normalize\n  File \"/autofs/nccs-svm1_proj/cli112/sarich/spack/lib/spack/spack/spec.py\", line 1266, in concretize\n    self._expand_virtual_packages(),\n  File \"/autofs/nccs-svm1_proj/cli112/sarich/spack/lib/spack/spack/spec.py\", line 1183, in _expand_virtual_packages\n    spec)\n  File \"/autofs/nccs-svm1_proj/cli112/sarich/spack/lib/spack/spack/concretize.py\", line 116, in choose_virtual_or_external\n    candidates = self._valid_virtuals_and_externals(spec)\n  File \"/autofs/nccs-svm1_proj/cli112/sarich/spack/lib/spack/spack/concretize.py\", line 108, in _valid_virtuals_and_externals\n    usable.sort(cmp=cmp_externals)\n  File \"/autofs/nccs-svm1_proj/cli112/sarich/spack/lib/spack/spack/concretize.py\", line 96, in cmp_externals\n    return candidates.index(a) - candidates.index(b)\nValueError: mpich@7.4.0%pgi@15.7.0 arch=cray-CNL-interlagos is not in list\n\nMy packages.yaml:\n\n```\npackages:\n  mpich:\n    modules:\n      mpich@7.4.0%pgi@15.7.0 arch=cray-CNL-interlagos: cray-mpich\n    buildable: False\n  netcdf:\n    modules:\n      netcdf@4.4.0%pgi@15.7.0 arch=cray-CNL-interlagos: cray-netcdf-hdf5parallel/4.4.0\n    buildable: False\n  hdf5:\n    modules:\n      hdf5@1.8.16%pgi@15.7.0 arch=cray-CNL-interlagos: cray-hdf5/1.8.16\n    buildable: False\n  all:\n    compiler: [pgi@15.7.0]\n    providers:\n      mpi: [mpich, openmpi]\n      blas: [openblas]\n      lapack: [openblas]\n```\n",
+    "user": "sarich",
+    "url": "https://api.github.com/repos/spack/spack/issues/1865",
+    "updated_at": "2019-12-06 07:19:28",
+    "created_at": "2016-09-27 18:21:11",
+    "closed_at": "2019-12-06 07:19:28",
+    "state": "closed",
+    "title": "Error installing moab on titan, not recognizing mpich module",
+    "number": 1865,
+    "milestone": null,
+    "labels": [
+        "xSDK",
+        "external-packages"
+    ],
+    "id": 179573010,
+    "html_url": "https://github.com/spack/spack/issues/1865",
+    "assignees": [],
+    "comments": 7
+}

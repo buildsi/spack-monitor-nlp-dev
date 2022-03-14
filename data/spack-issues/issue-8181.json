@@ -1,0 +1,20 @@
+{
+    "body": "Add access to the master tree for dyninst 10.0 master, but make the dyninst release 9.3.2 preferred, as to not impact anyone.   Also, fix issues related to trying to build dyninst due to dyninst's transition away from libelf and libdwarf as they move to elfutils and elfutils dwarf.   From comments I added to the dyninst package.py file:\r\n```\r\n+    # Dyninst depends on libelf and libdwarf prior to 9.3.0\r\n+    # Dyninst depends on elfutils and libdwarf from 9.3.0 to but\r\n+    # not including 10.0.alpha\r\n+    # Dyninst depends on elfutils and elfutils libdw from 10.0.alpha onwards\r\n+    # elf@0 is an abstaction for libelf\r\n+    # elf@1 is an abstaction for elfutils\r\n```\r\nSo, the changes in the spack files reflect this.\r\nAlso, since the preferred version for elfutils was set to 0.163 because of it not playing well with dyninst.  I believe this preferred setting can be removed.  I built dyninst 9.2.0, 9.3.0, 9.3.2, and 10.0.alpha with elfutils@0.170 with no problems.   0.163 will not build with gcc-7.+ compilers which creates a headache because the preferred setting was set to 0.163.\r\n",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/8181",
+    "updated_at": "2019-05-20 14:39:20",
+    "created_at": "2018-05-18 02:02:55",
+    "closed_at": "2018-06-13 12:16:45",
+    "state": "closed",
+    "title": "Add new dyninst version for develop and fix issues with libelf, libdwarf, elfutils and elfutils-libdw.so",
+    "number": 8181,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "libraries"
+    ],
+    "id": 324245144,
+    "html_url": "https://github.com/spack/spack/pull/8181",
+    "assignees": [],
+    "comments": 40
+}

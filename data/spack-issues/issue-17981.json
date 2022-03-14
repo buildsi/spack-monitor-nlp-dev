@@ -1,0 +1,20 @@
+{
+    "body": "When building `spack install llvm`, it creates a cmake file:\r\n\r\nhttps://github.com/llvm/llvm-project/blob/master/llvm/lib/Support/CMakeLists.txt#L1\r\n\r\nwhich is installed to e.g.\r\n\r\n```\r\nopt/spack/linux-ubuntu20.04-zen2/gcc-9.3.0/llvm-10.0.0-576xf5b5mlqxsskl45ucl3xxxmjxssio/lib/cmake/llvm\r\n```\r\nIt contains certain strict dependencies on 'system libraries':\r\n\r\n```\r\n$ grep tinfo LLVMExports.cmake \r\n  INTERFACE_LINK_LIBRARIES \"z;rt;dl;tinfo;-lpthread;m;/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen2/gcc-9.3.0/z3-4.8.7-qiwh5wxz2mdknzv4gef7lwxxdnlf5ycx/lib/libz3.so;LLVMDemangle\"\r\n```\r\nonly `z3` has a proper path to the spack installed lib.\r\n\r\nIn my case I was building rocBLAS, which uses this LLVM target, links against the system version of `libtinfo.so`, but gets an RPATH to the spack-version of it, and therefore it fails at runtime.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/17981",
+    "updated_at": "2021-10-11 15:49:26",
+    "created_at": "2020-08-10 23:09:34",
+    "closed_at": "2021-10-07 16:08:46",
+    "state": "closed",
+    "title": "LLVM's support lib cmake targets have dependencies on system libs (zlib, ncurses/tinfo)",
+    "number": 17981,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 676469312,
+    "html_url": "https://github.com/spack/spack/issues/17981",
+    "assignees": [],
+    "comments": 8
+}

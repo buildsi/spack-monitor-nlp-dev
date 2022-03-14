@@ -1,0 +1,17 @@
+{
+    "body": "`openblas` really drives me nuts. Apparently, the solution of this PR https://github.com/LLNL/spack/pull/751 was not enough. It seems that if the fortran compiler is not in the path (i.e. build by Spack and is used as `f77: /path/to/spack/opt/spack/darwin-x86_64/clang-7.3.0-apple/gcc-5.3.0-ctakkbfikm76kcnssbb3gv53mlrwldbl/bin/gfortran`) then `openblas` does not pick it up\n\n```\nOpenBLAS: Detecting fortran compiler failed. Cannot compile LAPACK. Only compile BLAS.\n```\n\nPreviously it seemed to work for me because I had `gfortran` from `homebrew` in path. Now I removed homebrew completely and thereby discovered this issue.\n\nI noticed that `openblas` has `cmake` config, maybe it's time to use that to avoid the buggy make scripts?\n\n@tgamblin ideas?\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/846",
+    "updated_at": "2016-07-05 14:23:18",
+    "created_at": "2016-04-27 11:06:24",
+    "closed_at": "2016-07-05 14:23:17",
+    "state": "closed",
+    "title": "openblas fails to pick up fortran compiler from Spack",
+    "number": 846,
+    "milestone": null,
+    "labels": [],
+    "id": 151359043,
+    "html_url": "https://github.com/spack/spack/issues/846",
+    "assignees": [],
+    "comments": 9
+}

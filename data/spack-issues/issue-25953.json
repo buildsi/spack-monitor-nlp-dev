@@ -1,0 +1,27 @@
+{
+    "body": "This PR prevents an `IndexError: pop from empty list` in `version.py`, thereby allowing processing to proceed. (Note that this PR does NOT address the fetch issue in the  `cudnn` package that occurs after version processing.)\r\n\r\nMotivation:\r\nThere was an issue reported in the packaging slack channel that I could reproduce with the following:\r\n\r\n```\r\n$ spack -d install cudnn@7.1\r\n...\r\n  File \"/usr/WS1/dahlgren/releases/spack/var/spack/repos/builtin/packages/cudnn/package.py\", line 222, in url_for_version\r\n    elif version >= Version('7.0'):\r\n  File \"/usr/WS1/dahlgren/releases/spack/lib/spack/spack/version.py\", line 304, in __getitem__\r\n    string_arg.pop()  # We don't need the last separator\r\nIndexError: pop from empty list\r\n```\r\n\r\nThe install process proceeds with the fix BUT does not complete successfully but as follows:\r\n\r\n```\r\n$ spack install cudnn@7.1\r\n==> Warning: gcc@8.3.1 cannot build optimized binaries for \"cascadelake\". Using best target possible: \"skylake_avx512\"\r\n==> Warning: Missing a source id for cudnn@7.1\r\n==> Installing cudnn-7.1-mcpbvxsum7p2g3nk2fudvov3pywpzmo6\r\n==> No binary for cudnn-7.1-mcpbvxsum7p2g3nk2fudvov3pywpzmo6 found: installing from source\r\n==> Warning: There is no checksum on file to fetch cudnn@7.1 safely.\r\n==>   Fetch anyway? [y/N] y\r\n==> Error: FetchError: All fetchers failed\r\n\r\n/usr/WS1/dahlgren/releases/spack/lib/spack/spack/package.py:1376, in do_fetch:\r\n       1373\r\n       1374        self.stage.create()\r\n       1375        err_msg = None if not self.manual_download else self.download_instr\r\n  >>   1376        start_time = time.time()\r\n       1377        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1378        self._fetch_time = time.time() - start_time\r\n       1379\r\n```",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/25953",
+    "updated_at": "2021-10-20 18:15:13",
+    "created_at": "2021-09-14 23:15:57",
+    "closed_at": "2021-10-08 08:36:55",
+    "state": "closed",
+    "title": "Bugfix: Don't pop an empty version string_arg",
+    "number": 25953,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "tests",
+        "versions",
+        "build",
+        "bugfix",
+        "core"
+    ],
+    "id": 996512884,
+    "html_url": "https://github.com/spack/spack/pull/25953",
+    "assignees": [
+        "alalazo",
+        "becker33"
+    ],
+    "comments": 8
+}

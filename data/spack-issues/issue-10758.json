@@ -1,0 +1,19 @@
+{
+    "body": "When executing `spack create` with an archive URL spack will sometimes miss versions passed on the command line:\r\n\r\n```\r\n$ spack create -n r-abn 'https://cran.r-project.org/src/contrib/abn_1.3.tar.gz'\r\n==> Using specified package name: 'r-abn'\r\n==> Warning: Spack will not check SSL certificates. You need to update your Python to enable certificate verification.\r\n==> Warning: Spack will not check SSL certificates. You need to update your Python to enable certificate verification.\r\n==> Found 11 versions of r-abn:\r\n  \r\n  1.2    https://cran.r-project.org/src/contrib/Archive/abn/abn_1.2.tar.gz\r\n  1.0.2  https://cran.r-project.org/src/contrib/Archive/abn/abn_1.0.2.tar.gz\r\n  1.0    https://cran.r-project.org/src/contrib/Archive/abn/abn_1.0.tar.gz\r\n  0.86   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.86.tar.gz\r\n  0.85   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.85.tar.gz\r\n  0.83   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.83.tar.gz\r\n  0.82   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.82.tar.gz\r\n  0.8    https://cran.r-project.org/src/contrib/Archive/abn/abn_0.8.tar.gz\r\n  0.7    https://cran.r-project.org/src/contrib/Archive/abn/abn_0.7.tar.gz\r\n  ...\r\n  0.3-1  https://cran.r-project.org/src/contrib/Archive/abn/abn_0.3-1.tar.gz\r\n\r\n==> How many would you like to checksum? (default is 1, q to abort) \r\n```\r\n\r\nThis patch modifies the link search in `find_versions_of_archive` to include the initial archive_url in the set of potential archive paths. Spack then finds all of the versions:\r\n\r\n```\r\n$ spack create -n r-abn 'https://cran.r-project.org/src/contrib/abn_1.3.tar.gz'                                                                                                                                                                                                                                                                                                                                     \r\n==> Using specified package name: 'r-abn'\r\n==> Warning: Spack will not check SSL certificates. You need to update your Python to enable certificate verification.\r\n==> Warning: Spack will not check SSL certificates. You need to update your Python to enable certificate verification.\r\n==> Found 12 versions of r-abn:\r\n  \r\n  1.3    https://cran.r-project.org/src/contrib/abn_1.3.tar.gz\r\n  1.2    https://cran.r-project.org/src/contrib/Archive/abn/abn_1.2.tar.gz\r\n  1.0.2  https://cran.r-project.org/src/contrib/Archive/abn/abn_1.0.2.tar.gz\r\n  1.0    https://cran.r-project.org/src/contrib/Archive/abn/abn_1.0.tar.gz\r\n  0.86   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.86.tar.gz\r\n  0.85   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.85.tar.gz\r\n  0.83   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.83.tar.gz\r\n  0.82   https://cran.r-project.org/src/contrib/Archive/abn/abn_0.82.tar.gz\r\n  0.8    https://cran.r-project.org/src/contrib/Archive/abn/abn_0.8.tar.gz\r\n  ...\r\n  0.3-1  https://cran.r-project.org/src/contrib/Archive/abn/abn_0.3-1.tar.gz\r\n\r\n==> How many would you like to checksum? (default is 1, q to abort)\r\n```",
+    "user": "codeandkey",
+    "url": "https://api.github.com/repos/spack/spack/issues/10758",
+    "updated_at": "2019-03-13 01:19:47",
+    "created_at": "2019-02-28 20:38:14",
+    "closed_at": "2019-03-13 01:19:47",
+    "state": "closed",
+    "title": "Expand link search in find_versions_of_archive",
+    "number": 10758,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 415812547,
+    "html_url": "https://github.com/spack/spack/pull/10758",
+    "assignees": [],
+    "comments": 2
+}

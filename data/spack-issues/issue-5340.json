@@ -1,0 +1,21 @@
+{
+    "body": "build on Ubuntu 16 + gcc 5.4.0:\r\n\r\n- [x] `spack install openblas multithreading=none`\r\n- [x] `spack install openblas multithreading=pthreads`\r\n- [x] `spack install openblas multithreading=openmp`\r\n- [x] `spack install atlas multithreading=none`\r\n- [x] `spack install atlas multithreading=pthreads`\r\n- [x] `spack install intel-mkl multithreading=none`\r\n- [x] `spack install intel-mkl multithreading=openmp`\r\n- [x] `spack install elemental`\r\n\r\nmacOS Sierra + clang + gfortran:\r\n- [x] `spack install openblas multithreading=none`\r\n- [x] `spack install openblas multithreading=pthreads `\r\n- [x] `spack install mumps+mpi ^intel-mkl ^mpich`\r\n\r\nin the later case for externally provided `intel-mkl@2018.0.128` in `opt/intel` we have:\r\n```\r\nLIBBLAS = -L/opt/intel/mkl/lib -L/usr/lib -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lpthread -lm -ldl\r\nSCALAP = -L/opt/intel/mkl/lib -lmkl_scalapack_lp64 -lmkl_blacs_mpich_lp64\r\n```\r\n\r\n- [x] `spack install dealii+mpi~sundials ^intel-mkl ^mpich`\r\n\r\n```\r\n$ otool -L /Users/davydden/spack/opt/spack/darwin-sierra-x86_64/clang-8.1.0-apple/dealii-develop-n6julmgj2gj6twxodwe275zys4ily3fw/lib/libdeal_II.dylib  | grep \"mkl\"\r\n\t@rpath/libmkl_scalapack_lp64.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n\t@rpath/libmkl_blacs_mpich_lp64.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n\t@rpath/libmkl_intel_lp64.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n\t@rpath/libmkl_core.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n\t@rpath/libmkl_sequential.dylib (compatibility version 0.0.0, current version 0.0.0)\r\n```\r\n\r\np.s. `none` value is there as we need at least two values.\r\n\r\nfixes https://github.com/LLNL/spack/issues/1697",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/5340",
+    "updated_at": "2017-12-19 12:04:42",
+    "created_at": "2017-09-12 11:20:19",
+    "closed_at": "2017-09-23 20:27:43",
+    "state": "closed",
+    "title": "blas_lapack: add multithreading variant consistent in all implementations.",
+    "number": 5340,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "ready",
+        "blas-lapack-scalapack"
+    ],
+    "id": 257007429,
+    "html_url": "https://github.com/spack/spack/pull/5340",
+    "assignees": [],
+    "comments": 5
+}

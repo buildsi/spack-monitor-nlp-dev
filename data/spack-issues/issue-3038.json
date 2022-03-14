@@ -1,0 +1,17 @@
+{
+    "body": "Trying to install py-matplotlib via spack for python 2.7.13 with ucs4 (don't know if the latter will be important, but it lead to some headaches already)\r\n\r\nThe following scenario leads to the failure:\r\n```\r\nspack install py-matplotlib@2.0.0 +animation +ipython +latex +qt ^python+ucs4\r\n```\r\nafter fixing the texlive md5 (is there a way to say -n only for texlive?) the installation goes through but now doing the following:\r\n```\r\nspack load -r py-matplotlib@2.0.0\r\nipython\r\nimport Python 2.7.13 (default, Feb  1 2017, 17:14:18) \r\nType \"copyright\", \"credits\" or \"license\" for more information.\r\n\r\nIPython 5.1.0 -- An enhanced Interactive Python.\r\n?         -> Introduction and overview of IPython's features.\r\n%quickref -> Quick reference.\r\nhelp      -> Python's own help system.\r\nobject?   -> Details about 'object', use 'object??' for extra details.\r\n\r\nIn [1]: import matplotlib\r\n\r\nIn [2]: matplotlib.use('Agg')\r\n\r\nIn [3]: import matplotlib.pyplot as plt\r\n\r\nIn [4]: plt.figure()\r\nIllegal instruction\r\n```\r\n\r\nAfter some googleing I found the following:\r\n```\r\ngdb --args python -c 'import matplotlib.pyplot as plt; plt.figure()'\r\nTraceback (most recent call last):\r\n  File \"/wang/environment/software/jessie/spack/2017-01-26/opt/spack/linux-debian8-x86_64/gcc-4.9.2/py-matplotlib-2.0.0-vqmkcvk7carv6uwdb55rvd2uyxlliedf/lib/python2.7/site-packages/site.py\", line 73, in <module>\r\n    __boot()\r\n  File \"/wang/environment/software/jessie/spack/2017-01-26/opt/spack/linux-debian8-x86_64/gcc-4.9.2/py-matplotlib-2.0.0-vqmkcvk7carv6uwdb55rvd2uyxlliedf/lib/python2.7/site-packages/site.py\", line 34, in __boot\r\n    imp.load_module('site', stream, path, descr)\r\n  File \"/usr/lib/python2.7/site.py\", line 563, in <module>\r\n    main()\r\n  File \"/usr/lib/python2.7/site.py\", line 545, in main\r\n    known_paths = addusersitepackages(known_paths)\r\n  File \"/usr/lib/python2.7/site.py\", line 272, in addusersitepackages\r\n    user_site = getusersitepackages()\r\n  File \"/usr/lib/python2.7/site.py\", line 247, in getusersitepackages\r\n    user_base = getuserbase() # this will also set USER_BASE\r\n  File \"/usr/lib/python2.7/site.py\", line 237, in getuserbase\r\n    USER_BASE = get_config_var('userbase')\r\n  File \"/usr/lib/python2.7/sysconfig.py\", line 582, in get_config_var\r\n    return get_config_vars().get(name)\r\n  File \"/usr/lib/python2.7/sysconfig.py\", line 528, in get_config_vars\r\n    _init_posix(_CONFIG_VARS)\r\n  File \"/usr/lib/python2.7/sysconfig.py\", line 412, in _init_posix\r\n    from _sysconfigdata import build_time_vars\r\n  File \"/usr/lib/python2.7/_sysconfigdata.py\", line 6, in <module>\r\n    from _sysconfigdata_nd import *\r\nImportError: No module named _sysconfigdata_nd\r\n```\r\n\r\nhowever I don't know what this is trying to tell me or where I would start to fix this.\r\n\r\nCan anyone reproduce this issue?",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/3038",
+    "updated_at": "2017-02-15 08:38:12",
+    "created_at": "2017-02-06 15:44:56",
+    "closed_at": "2017-02-15 08:38:12",
+    "state": "closed",
+    "title": "py-matplotlib use leads to Illeagal instruction failure",
+    "number": 3038,
+    "milestone": null,
+    "labels": [],
+    "id": 205623456,
+    "html_url": "https://github.com/spack/spack/issues/3038",
+    "assignees": [],
+    "comments": 6
+}

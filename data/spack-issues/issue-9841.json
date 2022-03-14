@@ -1,0 +1,20 @@
+{
+    "body": "All, I'm coming back to trying `spack` after a long time away with a goal to getting a working ESMF build for GEOS, a model I help maintain, after attending some SC18 sessions. All the new features look amazing!\r\n\r\nSo, before, I was using `spack` with `tcsh` and I even contributed some code for the `setup-env.csh` script. But I've migrated to use `bash` on my macOS laptop because `bash` is infinitely better. However, I seem to be stuck at, oh, the second step of installation after cloning. My guess is it's due to my current macOS + Homebrew + lmod setup, but I'm not sure what I did.  My prompt? I'm baffled. To wit:\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n[mathomp4:~/spack] develop 3m30s \u00b1 . share/spack/setup-env.sh\r\nusage: dirname path\r\nusage: dirname path\r\nbash: total: No such file or directory\r\n```\r\n\r\nWell, that's not great. But I've [seen issues like that on macOS before](https://stackoverflow.com/questions/1308823/os-x-bash-dirname). So, my first thought is I should try using GNU `dirname` instead of the macOS BSD `dirname`. I link the `gdirname` from Homebrew into `~/bin/dirname` and:\r\n\r\n```console\r\n[mathomp4:~/spack] develop 3m1s \u00b1 . share/spack/setup-env.sh\r\ndirname: invalid option -- 'r'\r\nTry 'dirname --help' for more information.\r\ndirname: missing operand\r\nTry 'dirname --help' for more information.\r\nbash: total: No such file or directory\r\n```\r\nWell, nuts. Obviously I've done something very bad to my bash environment, but I'm not sure what. Any ideas?\r\n\r\n\r\n### Information on your system\r\n\r\nOS: macOS 10.13.6\r\nShell: bash GNU bash, version 4.4.23(1)-release\r\n\r\nAlso: I moved away my (I'm guessing) old `.spack` directory which had `packages.yaml` and `modules.yaml` just in case it was the issue.\r\n\r\n",
+    "user": "mathomp4",
+    "url": "https://api.github.com/repos/spack/spack/issues/9841",
+    "updated_at": "2018-11-19 18:35:16",
+    "created_at": "2018-11-13 23:47:03",
+    "closed_at": "2018-11-19 18:35:16",
+    "state": "closed",
+    "title": "Issues sourcing setup-env.sh on macOS",
+    "number": 9841,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "shell-support"
+    ],
+    "id": 380474400,
+    "html_url": "https://github.com/spack/spack/issues/9841",
+    "assignees": [],
+    "comments": 4
+}

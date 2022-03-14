@@ -1,0 +1,19 @@
+{
+    "body": "The patch `spack-changes.patch` does not apply cleanly to older versions of visit (e.g. version `2.13.3`).\r\n\r\n@sethrj I think you created this patch file in commit 4b400d503216cbc6b56f5f7231a9ed288d43fb96.  Should its application be limited to `visit@3.0.1`? Something like this?\r\n\r\n```diff\r\n    variant('python', default=True, description='Enable Python support')\r\n    variant('mpi',    default=True, description='Enable parallel engine')\r\n\r\n-    patch('spack-changes.patch')\r\n+    patch('spack-changes.patch', when='@3.0:3.0.1')\r\n    patch('nonframework-qwt.patch', when='^qt~framework platform=darwin')\r\n    patch('parallel-hdf5.patch', when='+hdf5+mpi')\r\n\r\n\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install visit@2.13.3 % gcc@9.2.0\r\n\r\n==> Staging archive: /tmp/kellyt/spack-stage/spack-stage-visit-2.13.3-nfr7ef3zy3z7zf4olkj2mqcmcwg3wj2f/visit2.13.3.tar.gz\r\n==> Created stage in /tmp/kellyt/spack-stage/spack-stage-visit-2.13.3-nfr7ef3zy3z7zf4olkj2mqcmcwg3wj2f\r\n2 out of 2 hunks FAILED -- saving rejects to file src/CMakeLists.txt.rej\r\n==> Patch /ccs/opt/vendors/spack-0.14.2/var/spack/repos/builtin/packages/visit/spack-changes.patch failed.\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/ccs/opt/vendors/spack-0.14.2/var/spack/repos/builtin/packages/visit/spack-changes.patch' '-d' '.'\r\n==> Error: Failed to install visit due to ChildError: ProcessError: Command exited with status 1:\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack arch\r\nlinux-rhel7-sandybridge\r\n\r\n$ cat /etc/redhat-release \r\nRed Hat Enterprise Linux Workstation release 7.8 (Maipo)\r\n\r\n$ cpuinfo | grep \"model name\" | sort -u\r\nmodel name\t: Intel(R) Xeon(R) CPU E5-4620 0 @ 2.20GHz\r\n```\r\n\r\nI'm using spack version 0.14.2.\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/16243",
+    "updated_at": "2021-05-24 22:42:46",
+    "created_at": "2020-04-22 20:02:48",
+    "closed_at": "2021-05-24 22:21:19",
+    "state": "closed",
+    "title": "Installation issue: Visit",
+    "number": 16243,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 605034773,
+    "html_url": "https://github.com/spack/spack/issues/16243",
+    "assignees": [],
+    "comments": 4
+}

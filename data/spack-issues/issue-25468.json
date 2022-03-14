@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce\n\nUsing a conda installation of Python:\r\n```console\r\n$ ls -1 /anaconda/envs/azureml_py38/lib/libpython*\r\n/anaconda/envs/azureml_py38/lib/libpython3.9.so\r\n/anaconda/envs/azureml_py38/lib/libpython3.9.so.1.0\r\n/anaconda/envs/azureml_py38/lib/libpython3.so\r\n$ spack spec whatever\r\n```\n\n### Error message\n\n```\r\n==> Installing clingo-bootstrap-spack-6x4yakqlis7abi3z66nc2x6t5rjgohk6\r\n==> No binary for clingo-bootstrap-spack-6x4yakqlis7abi3z66nc2x6t5rjgohk6 found: installing from source\r\n==> Error: RuntimeError: Unable to locate libpython3.9.a libraries in /anaconda/envs/azureml_py38/lib\r\n\r\n/home/t-astewart/spack/var/spack/repos/builtin/packages/python/package.py:830, in libs:\r\n        827                return LibraryList(os.path.join(frameworkprefix, ldlibrary))\r\n        828            else:\r\n        829                msg = 'Unable to locate {0} libraries in {1}'\r\n  >>    830                raise RuntimeError(msg.format(ldlibrary, libdir))\r\n        831        else:\r\n        832            library = self.get_config_var('LIBRARY')\r\n        833\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.2-3949-d00fc55e41\r\n* **Python:** 3.9.6\r\n* **Platform:** linux-ubuntu18.04-haswell\r\n* **Concretizer:** clingo\r\n\r\nPretty sure this is a bug in the Python package (me, @skosukhin), but pinging @alalazo so he is aware.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/25468",
+    "updated_at": "2021-08-27 01:55:24",
+    "created_at": "2021-08-17 21:03:43",
+    "closed_at": "2021-08-27 01:55:24",
+    "state": "closed",
+    "title": "Anaconda Python: unable to locate python libraries",
+    "number": 25468,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "triage"
+    ],
+    "id": 973064073,
+    "html_url": "https://github.com/spack/spack/issues/25468",
+    "assignees": [],
+    "comments": 11
+}

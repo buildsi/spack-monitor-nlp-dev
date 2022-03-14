@@ -1,0 +1,21 @@
+{
+    "body": "Have been trying to create a buildcache for portable environment and the whole buildcache functionality doesn't work as documented.\r\n\r\nStarted trying to package out boost with `spack buildcache create boost`\r\nThis fails with an error:\r\n```==> Error: [Errno 2] No such file or directory: '<$SPACK_ROOT>/opt/spack/linux-sles12-x86_64/gcc-7.2.0/boost-1.63.0-lepwxyngcwiivbis2gvggxngkjhsjhd2'```\r\n\r\nThe error is correct as the directory `boost-1.63.0-lepwxyngcwiivbis2gvggxngkjhsjhd2` doesn't exist. Boost is installed at `boost-1.63.0-3l45zb24jjzwivmhnkgbgndoucpxohug` with a different hash.\r\n\r\nUninstalling and re-installing boost generates a version of boost with the expected hash. So First issue is that buildcache doesn't automatically detect installed versions based of installed hashes, it generates a hash assuming the hashes will always be the same. This is consistently an issue with every package I have installed locally, and if possible I wish to avoid recompiling everything to get the expected hashes.\r\n\r\nOnce I got the boost package installed in the buildcache, I attempted to install from it into a new location.  Adding the mirror worked, and I was able to see the contents of the buildcache with `spack buildcache list` things looked good until I ran into issues installing boost\r\n```\r\nspack buildcache install /wyl62l4\r\n==> Finding buildcaches in /root/spack-mirror-2017-10-02/build_cache\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-boost-1.63.0-lepwxyngcwiivbis2gvggxngkjhsjhd2.spec.yaml\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-mpfr-3.1.5-sxoaffureu2zj4tjnrbbfzktl3vf32ax.spec.yaml\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-gcc-7.2.0-wyl62l4lbawns6cjntruajnzatoecuvy.spec.yaml\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-bzip2-1.0.6-ejldscwmg5ltjxhb4ll37bl7myybgobk.spec.yaml\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-gmp-6.1.2-5wp563sq5oe7wxl4lel6y3kpanunq7mk.spec.yaml\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-zlib-1.2.11-k42mytqk6ezpgtzrbh5iqmb6emp6goil.spec.yaml\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-isl-0.18-r3s5yefuumrznazcclg2h5seqv6mezzd.spec.yaml\r\n==> Already downloaded /root/spack/var/spack/stage/build_cache/linux-sles12-x86_64-gcc-7.2.0-mpc-1.0.3-dmiz2vxk276mz4m5l2tj35pe2qfjulk6.spec.yaml\r\n==> Installing buildcache for dependency spec zlib@1.2.11%gcc@7.2.0+pic+shared arch=linux-sles12-x86_64\r\n==> Fetching file:///root/spack-mirror-2017-10-02/build_cache/linux-sles12-x86_64/gcc-7.2.0/zlib-1.2.11/linux-sles12-x86_64-gcc-7.2.0-zlib-1.2.11-k42mytqk6ezpgtzrbh5iqmb6emp6goil.spack\r\ncurl: (37) Couldn't open file /root/spack-mirror-2017-10-02/build_cache/linux-sles12-x86_64/gcc-7.2.0/zlib-1.2.11/linux-sles12-x86_64-gcc-7.2.0-zlib-1.2.11-k42mytqk6ezpgtzrbh5iqmb6emp6goil.spack\r\n==> Fetching from file:///root/spack-mirror-2017-10-02/build_cache/linux-sles12-x86_64/gcc-7.2.0/zlib-1.2.11/linux-sles12-x86_64-gcc-7.2.0-zlib-1.2.11-k42mytqk6ezpgtzrbh5iqmb6emp6goil.spack failed.\r\n==> Error: Download of binary cache file for spec zlib@1.2.11%gcc@7.2.0+pic+shared arch=linux-sles12-x86_64  failed.\r\n```\r\n\r\nIt appears that when the build caches are generated the full set of files needed for installing them isn't created.",
+    "user": "daveh86",
+    "url": "https://api.github.com/repos/spack/spack/issues/5676",
+    "updated_at": "2018-03-02 18:51:42",
+    "created_at": "2017-10-10 00:22:08",
+    "closed_at": "2018-03-02 18:51:42",
+    "state": "closed",
+    "title": "Spack buildcaches don't function as documented",
+    "number": 5676,
+    "milestone": null,
+    "labels": [
+        "buildcache"
+    ],
+    "id": 264062564,
+    "html_url": "https://github.com/spack/spack/issues/5676",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

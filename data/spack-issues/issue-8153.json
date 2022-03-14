@@ -1,0 +1,20 @@
+{
+    "body": "This fixes a bug in the Tcl/Tk installation #8151.  Previously, the recipe for `tk` would erroneously pick up the system-installed `tcl.h` file.  This \"worked\" for newer systems that had TCL 8.6 installed.  The bug was unmasked building on SLES 11, which comes with an older version of TCL.\r\n\r\nLong story short, the `tcl` build references the original sources upon install, and the `tk` build requires the `tcl` sources.  TCL sources were installed following the example of #4102.  If the user installs with `spack install --source`, then the sources would be copied twice.  This should not be a serious problem.\r\n\r\n\r\n@junghans @davydden @tgamblin from #4083:\r\n> Do we need a global variant, which modifies the hash for no reason related to the artifact, or would it make sense to just make this an install option\r\n\r\nNote that this is a case in which the presence of the source is structural, not an install option.  If it were optional (it's not), then a `+source` variant would be warranted here.\r\n\r\n\r\n*** In addition, a `make install-headers` was added, as per advice for TCL 8.6\r\n\r\n#",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/8153",
+    "updated_at": "2018-06-08 18:27:33",
+    "created_at": "2018-05-16 15:27:20",
+    "closed_at": "2018-06-08 18:10:41",
+    "state": "closed",
+    "title": "tcl: Install sources",
+    "number": 8153,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "update-package"
+    ],
+    "id": 323672061,
+    "html_url": "https://github.com/spack/spack/pull/8153",
+    "assignees": [],
+    "comments": 15
+}

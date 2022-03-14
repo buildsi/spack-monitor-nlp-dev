@@ -1,0 +1,20 @@
+{
+    "body": "Suppose we have shared file system for `linux-centos7-ppc64le` (power8) and `linux-centos7-x86_64` system. When I check installed packages I see packages from both architectures:\r\n\r\n```\r\n$ spack find\r\n==> 55 installed packages.\r\n-- linux-centos7-ppc64le / gcc@4.8.5 ----------------------------\r\nautoconf@system  cmake@3.8.1  ncurses@system          neuron@master    openmpi@2.0.2      py-appdirs@1.4.3  py-packaging@16.8  .....\r\n\r\n-- linux-centos7-ppc64le / xl@14.1 ------------------------------\r\nautoconf@system  cmake@3.8.1         hdf5@1.8.18    mod2c@develop           neurodamus@develop  openmpi@2.0.2             pkg-config@0.29.1     zlib@1.2.8 ....\r\n\r\n\r\n-- linux-centos7-x86_64 / intel@17.0.1 --------------------------\r\nautoconf@system  cmake@2.8.12  intelmpi@develop  mvapich2@2.2  neurodamus@hippocampus  ....\r\n```\r\nNow when I do `spack module refresh` I end up with:\r\n\r\n```\r\nmus/hippocampus-intel-ocno]\r\nTraceback (most recent call last):\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/bin/spack\", line 81, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/lib/spack/spack/main.py\", line 552, in main\r\n    return _main(command, parser, args, unknown)\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/lib/spack/spack/main.py\", line 444, in _main\r\n    return _invoke_spack_command(command, parser, args, unknown_args)\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/lib/spack/spack/main.py\", line 355, in _invoke_spack_command\r\n    return_val = command(parser, args)\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/lib/spack/spack/cmd/module.py\", line 267, in module\r\n    callbacks[args.subparser_name](module_type, specs, args)\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/lib/spack/spack/cmd/module.py\", line 251, in refresh\r\n    x.write(overwrite=True)\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/lib/spack/spack/modules.py\", line 394, in write\r\n    package.setup_dependent_package(self.pkg.module, self.spec)\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/var/spack/repos/builtin/packages/intelmpi/package.py\", line 37, in setup_dependent_package\r\n    bindir = self.get_bin_dir()\r\n  File \"/gpfs/homeb/pcp0/pcp0043/spack/var/spack/repos/builtin/packages/intelmpi/package.py\", line 20, in get_bin_dir\r\n    raise RuntimeError('No suitable Intel MPI bindir found')\r\nRuntimeError: No suitable Intel MPI bindir found\r\n```\r\nThe `Intel MPI` module is available on `x86_64` login node and not `power8`. It seems like currently `refresh` command is trying to regenerate all modules. Is there any way to say just refresh modules for specific architecture? Or any other solution to avoid this issue?\r\n",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5218",
+    "updated_at": "2017-08-27 18:54:48",
+    "created_at": "2017-08-25 23:19:05",
+    "closed_at": "2017-08-27 18:54:48",
+    "state": "closed",
+    "title": "Issue with spack module refresh and multiple architectures with shared filesystem",
+    "number": 5218,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "commands"
+    ],
+    "id": 253039061,
+    "html_url": "https://github.com/spack/spack/issues/5218",
+    "assignees": [],
+    "comments": 2
+}

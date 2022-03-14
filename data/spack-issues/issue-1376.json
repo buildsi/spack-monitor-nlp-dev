@@ -1,0 +1,17 @@
+{
+    "body": "This PR provides a platform to generically cover all Cray systems is introduced to avoid having\nspecific platforms for each of XK (XE, XT), XC, and future systems using CrayPE\nand CNL.\n\nThe platform searches for 'front_end' and 'back_end' targets, in order, from:\n- Environment variables 'SPACK_FRONT_END' and 'SPACK_BACK_END'\n- A spack configuration file 'targets.yaml'\n- Parsing `/etc/bash.bashrc.local` for first loaded CrayPE CPU target.\n\nIf a back_end target is not found through one of these methods, an exception is\nraised. Otherwise, the back_end is set as the default target. The shell init\nscript search is based on recommendations in Crayports case #144359.\n\nExistence of a `targets.yaml` configuration file is optional and only eases identifying a cray front_end target.\n\nNo automagic way of determining front_end targets has been found (to date) so if\na front_end is not specified through configuration, it is ignored which should\nleave a spack instance in a consistent state.\n",
+    "user": "mpbelhorn",
+    "url": "https://api.github.com/repos/spack/spack/issues/1376",
+    "updated_at": "2016-08-01 22:56:00",
+    "created_at": "2016-07-27 15:28:51",
+    "closed_at": "2016-08-01 22:40:11",
+    "state": "closed",
+    "title": "Olcf/unified cray platform",
+    "number": 1376,
+    "milestone": null,
+    "labels": [],
+    "id": 167883521,
+    "html_url": "https://github.com/spack/spack/pull/1376",
+    "assignees": [],
+    "comments": 21
+}

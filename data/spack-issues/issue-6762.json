@@ -1,0 +1,20 @@
+{
+    "body": "\r\n`spack install octave+qt` brings in `mesa` which fails to build. I will see if I can make it work with `mesa~swrender+llvm`, it seems [homebrew](https://github.com/Linuxbrew/homebrew-xorg/blob/master/mesa.rb) builds it with `llvm`.\r\n\r\n### Expected Result\r\n\r\nto have `octave+qt` installed.\r\n\r\n### Actual Result\r\n\r\n```\r\n==> Installing mesa\r\n==> Using cached archive: /Users/davydden/spack/var/spack/cache/mesa/mesa-17.2.3.tar.xz\r\n==> Staging archive: /Users/davydden/spack/var/spack/stage/mesa-17.2.3-qwuw3fcw3a4xnxqykptvnaoryreq7fls/mesa-17.2.3.tar.xz\r\n==> Created stage in /Users/davydden/spack/var/spack/stage/mesa-17.2.3-qwuw3fcw3a4xnxqykptvnaoryreq7fls\r\n==> No patches needed for mesa\r\n==> Building mesa [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8'\r\n\r\n7 errors found in build log:\r\n     [ ... ]\r\n     5272  1 warning generated.\r\n     5273    CCLD     nir/libnir.la\r\n     5274    CXXLD    glsl/libglsl.la\r\n     5275    CXXLD    spirv2nir\r\n     5276  ld: warning: ld: warning: ignoring file ../../src/util/.libs/libmesautil.a, file was built for archive which is not the architecture being linked (x86_64): ../../src/util/.libs/libmesautil.aignoring file nir/.libs/libnir.a, file was built for archive which is not the architecture being linked (x86_64): nir/.libs/libnir.a\r\n     5277\r\n  >> 5278  Undefined symbols for architecture x86_64:\r\n     5279    \"_nir_print_shader\", referenced from:\r\n     5280        _main in spirv2nir-spirv2nir.o\r\n     5281    \"_spirv_to_nir\", referenced from:\r\n     5282        _main in spirv2nir-spirv2nir.o\r\n     5283  ld: symbol(s) not found for architecture x86_64\r\n  >> 5284  clang: error: linker command failed with exit code 1 (use -v to see invocation)\r\n  >> 5285  make[4]: *** [spirv2nir] Error 1\r\n     5286  make[4]: *** Waiting for unfinished jobs....\r\n  >> 5287  make[3]: *** [all] Error 2\r\n  >> 5288  make[2]: *** [all-recursive] Error 1\r\n  >> 5289  make[1]: *** [all] Error 2\r\n  >> 5290  make: *** [all-recursive] Error 1\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install octave+qt\r\n```\r\n\r\n### Information on your system\r\n\r\nmacOS High Sierra 10.13.2.\r\n\r\nrelevant part of `packages.yaml`:\r\n```\r\n  octave:\r\n    variants: +gnuplot+arpack+suitesparse+qrupdate\r\n```\r\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/6762",
+    "updated_at": "2017-12-22 20:55:01",
+    "created_at": "2017-12-22 20:53:41",
+    "closed_at": "2017-12-22 20:55:01",
+    "state": "closed",
+    "title": "mesa fails to build on macOS",
+    "number": 6762,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 284250345,
+    "html_url": "https://github.com/spack/spack/issues/6762",
+    "assignees": [],
+    "comments": 1
+}

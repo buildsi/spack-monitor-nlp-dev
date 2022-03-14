@@ -1,0 +1,19 @@
+{
+    "body": "fixes #15803\r\n\r\nRationale : As explained in https://github.com/spack/spack/pull/15186#issuecomment-591701729\r\n\r\nI had to add `-lpthread` as without this I was getting errors regarding undefined symbols. I temporarily commented out the `backend=mpi provides` as this was causing concretization errors (when building with `+openmpi/pmix` as specified in `namd` instructions). What would be the long term fix for this ? \r\n\r\nSuccessfully built spec documented [here](https://pastebin.com/N6X365Xa).\r\n\r\nSanity check : \r\n```\r\n[sajid@xrmlite ~]$ cd $(spack location -i /5pq)/bin\r\n[sajid@xrmlite bin]$ ./charmrun ./namd2\r\n\r\nRunning on 1 processors:  ./namd2\r\ncharmrun>  /usr/bin/setarch x86_64 -R  mpirun -np 1  ./namd2\r\nThis version of Spack (openmpi ~legacylaunchers schedulers=slurm)\r\nis installed without the mpiexec/mpirun commands to prevent\r\nunintended performance issues. See https://github.com/spack/spack/pull/10340\r\nfor more details.\r\n^C\r\n```\r\n\r\nRequesting @matthiasdiener for review !\r\n",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/15666",
+    "updated_at": "2020-07-01 22:59:41",
+    "created_at": "2020-03-25 02:20:24",
+    "closed_at": "2020-05-11 23:27:40",
+    "state": "closed",
+    "title": "[wip] charmpp : fix build prefix, introduce new property charmarch",
+    "number": 15666,
+    "milestone": null,
+    "labels": [],
+    "id": 587395300,
+    "html_url": "https://github.com/spack/spack/pull/15666",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 27
+}

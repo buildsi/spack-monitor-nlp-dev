@@ -1,0 +1,17 @@
+{
+    "body": "##### Rationale\n\nThis PR adds a `forward` keyword to the `depends_on` and `extends` directives to enable the forwarding of a variant from a dependent to a direct dependency. Forwarding is taken into consideration only if nothing was explicitly specified about the forwarded variant in the dependency.\n##### Modifications\n- [x] added a `forward` keyword to `depends_on` and `extends`\n- [x] added unit tests for the new feature\n- [ ] added documentation for the new feature\n- [x] modified the netlib stack to forward the variants `shared` and `debug`\n- [x] fix the failing unit tests (Package vs. Spec creation order)\n##### Examples\n\n```\n$ spack install netlib-lapack+shared\n==> Forwarding variant \"shared\" from package netlib-lapack to package netlib-blas : +shared\n==> Installing netlib-lapack\n...\n$ spack install netlib-scalapack\n==> Forwarding variant \"shared\" from package netlib-scalapack to package netlib-lapack : +shared\n==> Forwarding variant \"shared\" from package netlib-lapack to package netlib-blas : +shared\n==> Installing netlib-scalapack\n...\n$ spack install netlib-scalapack+shared ^ netlib-lapack~shared\n==> Forwarding variant \"shared\" from package netlib-lapack to package netlib-blas : ~shared\n\n```\n##### Implementation notes\n\nI had originally some issues with regression tests, due to the fact that I was modifying directly a dictionary in `spec.package` that was shared among multiple specs. As I couldn't find a way of copying the dictionary during `__init__`, I made it a property to compute it lazily the first time it's needed. I am not sure this is the best approach in terms of clarity. Hints on alternative ways to accomplish the same thing are welcome.\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/391",
+    "updated_at": "2020-05-14 11:04:11",
+    "created_at": "2016-01-22 13:29:33",
+    "closed_at": "2016-06-20 19:18:46",
+    "state": "closed",
+    "title": "enhancement proposal : variant forwarding",
+    "number": 391,
+    "milestone": null,
+    "labels": [],
+    "id": 128157190,
+    "html_url": "https://github.com/spack/spack/pull/391",
+    "assignees": [],
+    "comments": 12
+}

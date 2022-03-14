@@ -1,0 +1,19 @@
+{
+    "body": "Lammps build failed with an error message \"No spec with name lapack in lammps...\".   I tried to specify `openblas` dependecy to it, but spec said \"\".\r\n\r\n```\r\n$ spack purge; spack clean lammps; spack install lammps %gcc@6 ^openmpi\r\n==> Installing lammps\r\n==> openmpi is externally installed in /lustre/spack/tools/linux-centos7-x86_64/gcc-6.\r\n3.0/openmpi-2.0.2-wo3vh6hf2b64jhmlbvnapkaxlhkaxc2l\r\n==> fftw is already installed in /lustre/spack/sandybridge/linux-centos7-x86_64/gcc-6.\r\n3.0/fftw-3.3.6-pl1-bh5rh3gb7ab4swojghpvs6gn6pq45n2j\r\n==> Using cached archive: /tmp/rpm/spack_source_cache/lammps/lammps-2016.11.17.tar.gz\r\n==> Staging archive: /home/rpm/spack/var/spack/stage/lammps-2016.11.17-6s45pe4moej4nci\r\nmakgqx5qzh5juxzjj/stable_17Nov2016.tar.gz\r\n==> Created stage in /home/rpm/spack/var/spack/stage/lammps-2016.11.17-6s45pe4moej4nci\r\nmakgqx5qzh5juxzjj\r\n==> No patches needed for lammps\r\n==> Building lammps [MakefilePackage]\r\n==> Executing phase : 'edit'\r\n==> Executing phase : 'build'\r\n==> Error: KeyError: 'No spec with name lapack in lammps@2016.11.17%gcc@6.3.0+lib+manybody~meam~rigid~user-atc~user-nc-dump~voronoi arch=linux-centos7-x86_64 ^fftw@3.3.6-pl1%gcc@6.3.0+float+long_double+mpi+openmp~pfft_patches~quad arch=linux-centos7-x86_64 ^openmpi@2.0.2%gcc@6.3.0~java~mxm+pmi~psm~psm2+slurm~sqlite3~thread_multiple~tm+verbs+vt arch=linux-centos7-x86_64'\r\n/home/rpm/spack/var/spack/repos/builtin/packages/lammps/package.py:169, in build_user_atc:\r\n     145      def build_user_atc(self):\r\n     146          with working_dir('lib/atc'):\r\n     147              filter_file(r'CC =.*',\r\n     148                          'CC = {0}'.format(self.compiler.cxx),\r\n     149                          'Makefile.icc')\r\n     150\r\n     151              mpi_include = self.spec['mpi'].prefix.include\r\n     152\r\n     153              filter_file(r'CCFLAGS = *',\r\n     154                          'CCFLAGS = -I{0} '.format(mpi_include),\r\n     155                          'Makefile.icc')\r\n     156\r\n     157              filter_file('LINK =.*',\r\n     158                          'LINK = {0}'.format(self.compiler.cxx),\r\n     159                          'Makefile.icc')\r\n     160\r\n     161              make('lib', '-f', 'Makefile.icc')\r\n     162              with open('Makefile.lammps', 'w') as fh:\r\n     163                  lapack_blas = (self.spec['lapack'].libs +\r\n     164                                 self.spec['blas'].libs)\r\n     165                  makefile = [\r\n     166                      'user-atc_SYSINC =',\r\n     167                      'user-atc_SYSLIB = {0}'.format(lapack_blas.ld_flags),\r\n     168                      'user-atc_SYSPATH = ']\r\n  >> 169                  fh.write('\\n'.join(makefile))\r\n\r\nSee build log for details:\r\n  /tmp/rpm/spack_stage/spack-stage/spack-stage-hezeAV/lammps-stable_17Nov2016/spack-build.out\r\n\r\n$ spack purge; spack clean lammps; spack install lammps %gcc@6 ^openmpi ^openblas\r\n==> Error: lammps does not depend on openblas\r\n```",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/3524",
+    "updated_at": "2017-09-11 18:49:12",
+    "created_at": "2017-03-23 02:35:11",
+    "closed_at": "2017-09-11 18:47:31",
+    "state": "closed",
+    "title": "Failed to build lammps",
+    "number": 3524,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 216270978,
+    "html_url": "https://github.com/spack/spack/issues/3524",
+    "assignees": [],
+    "comments": 8
+}

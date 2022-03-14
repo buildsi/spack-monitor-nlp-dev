@@ -1,0 +1,20 @@
+{
+    "body": "### Summary\r\n\r\nI am trying out the recently released `gcc@8.1.0`, but I can't build `valgrind@3.13.0` with it.  I'm looking for help or hints about how to debug this build issue. I'm not familiar with `usban` features in gcc.\r\n\r\n### Actual Result\r\n\r\nValgrind fails to build due to errors of the form (extracted from spack-build.out):\r\n\r\n```\r\nmv -f .deps/memcheck_amd64_linux-mc_main.Tpo .deps/memcheck_amd64_linux-mc_main.Po\r\n../coregrind/link_tool_exe_linux 0x580000\r\n\r\n00 /scratch/vendors/spack.20180425/lib/spack/env/gcc/gcc     -o memcheck-amd64-linux -m64 -O2 -g -std=gnu99 -Wall -Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes -Wmissing-declarations -Wcast-align -Wcast-qual -Wwrite-strings -Wempty-body -Wformat -Wformat-security -Wignored-qualifiers -Wmissing-parameter-type -Wold-style-declaration -fno-stack-protector -fsanitize=undefined -fno-sanitize=alignment -fno-strict-aliasing -fno-builtin  -fomit-frame-pointer -O2 -static -nodefaultlibs -nostartfiles -u _start  -m64 memcheck_amd64_linux-mc_leakcheck.o memcheck_amd64_linux-mc_malloc_wrappers.o memcheck_amd64_linux-mc_main.o memcheck_amd64_linux-mc_translate.o memcheck_amd64_linux-mc_machine.o memcheck_amd64_linux-mc_errors.o ../coregrind/libcoregrind-amd64-linux.a ../VEX/libvex-amd64-linux.a -lgcc \r\nmemcheck_amd64_linux-mc_leakcheck.o: In function `compare_MC_Chunks':\r\n/tmp/kellyt/spack-stage/spack-stage-qiFafU/valgrind-3.13.0/memcheck/mc_leakcheck.c:254: undefined reference to `__ubsan_handle_type_mismatch_v1'\r\n/tmp/kellyt/spack-stage/spack-stage-qiFafU/valgrind-3.13.0/memcheck/mc_leakcheck.c:256: undefined reference to `__ubsan_handle_pointer_overflow'\r\n```\r\n\r\nI've not encountered this error before and I haven't had much success finding relevant information about ubsan and so I am looking for any hints that other spack users can provide.  Is this related to the `sanitize` build options?\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install -v valgrind % gcc@8.1.0\r\n```\r\n\r\n### Information on your system\r\n\r\n* Red Hat Enterprise Linux Workstation release 7.5 (Maipo)\r\n* [spack-build.out.txt](https://github.com/spack/spack/files/1986292/spack-build.out.txt)\r\n* [spack-build.env.txt](https://github.com/spack/spack/files/1986293/spack-build.env.txt)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/8071",
+    "updated_at": "2019-05-25 22:05:05",
+    "created_at": "2018-05-09 03:33:13",
+    "closed_at": "2019-05-25 22:05:05",
+    "state": "closed",
+    "title": "valgrind % gcc@8.1.0 is broken",
+    "number": 8071,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "gcc"
+    ],
+    "id": 321418733,
+    "html_url": "https://github.com/spack/spack/issues/8071",
+    "assignees": [],
+    "comments": 2
+}

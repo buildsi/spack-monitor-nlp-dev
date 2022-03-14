@@ -1,0 +1,19 @@
+{
+    "body": "Intersection of versions currently seems broken for cases where one version is a prefix of another:\r\n\r\n```bash\r\n$ spack python\r\nSpack version 0.16.1\r\nPython 3.9.2, Linux x86_64\r\n>>> from spack.version import ver\r\n>>> ver(\"11.2\").satisfies(ver(\"11\"))\r\nTrue\r\n>>> ver(\"11\").satisfies(ver(\"11.2\"))\r\nFalse\r\n>>> ver(\"11.2\") in ver(\"11\")\r\nTrue\r\n>>> ver(\"11\") in ver(\"11.2\")\r\nFalse\r\n>>> ver(\"11\").overlaps(ver(\"11.2\"))\r\nTrue\r\n>>> ver(\"11.2\").overlaps(ver(\"11\"))\r\nTrue\r\n>>> ver(\"11\").intersection(ver(\"11.2\"))\r\n[]\r\n>>> ver(\"11.2\").intersection(ver(\"11\"))\r\n[]\r\n>>> exit()\r\n```\r\n\r\nEven though, '11' and '11.2' overlap, they don't intersect. Also, while '11.2' satisfies '11', they don't intersect.",
+    "user": "BenWeber42",
+    "url": "https://api.github.com/repos/spack/spack/issues/22941",
+    "updated_at": "2021-04-28 14:28:09",
+    "created_at": "2021-04-12 17:39:45",
+    "closed_at": "2021-04-28 14:28:09",
+    "state": "closed",
+    "title": "Fix intersection if a version is a prefix of another",
+    "number": 22941,
+    "milestone": null,
+    "labels": [
+        "versions"
+    ],
+    "id": 856200071,
+    "html_url": "https://github.com/spack/spack/pull/22941",
+    "assignees": [],
+    "comments": 1
+}

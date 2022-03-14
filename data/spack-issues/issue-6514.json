@@ -1,0 +1,19 @@
+{
+    "body": "nothing is installable as spack always asks for pkgconf.\r\n\r\n### Expected Result\r\n\r\n```\r\nspack spec vim\r\n```\r\n\r\nShould show something meaningful...\r\n\r\n### Actual Result\r\n\r\nWhat happened instead\r\n\r\n```\r\n$ spack spec vim\r\nInput spec\r\n--------------------------------\r\nvim\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Package pkgconfig not found.\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\ngit checkout on 02371d2ace7c366f0b0b6332010323d478bc7652 (the latest develop branch as of this ticket) and run the above\r\n\r\n### Information on your system\r\n\r\ncentos7 with\r\n\r\npackages.yaml\r\n```\r\npackages:\r\n  cuda:\r\n    version: [8.0.61, 8.0.44]\r\n  cudnn:\r\n    version: [5.1, 6.0]\r\n  gcc:\r\n    version: [6.3.0]\r\n    variants: ~binutils\r\n  hwloc:\r\n    variants: +cuda\r\n  llvm:\r\n    version: [3.9.1]\r\n  octave:\r\n    variants: +curl+fftw+arpack+gnuplot+suitesparse+zlib+llvm\r\n  openmpi:\r\n    version: [1.10.6]\r\n    variants: +cuda +slurm\r\n  python:\r\n    version: [3.4.3]\r\n```\r\n\r\nmodules.yaml\r\n```\r\nmodules:\r\n  tcl:\r\n    all:\r\n      suffixes:\r\n        '^python@3': python3\r\n        '^python@2': python2\r\n```\r\n",
+    "user": "jcftang",
+    "url": "https://api.github.com/repos/spack/spack/issues/6514",
+    "updated_at": "2017-11-29 22:10:32",
+    "created_at": "2017-11-29 10:50:23",
+    "closed_at": "2017-11-29 20:57:53",
+    "state": "closed",
+    "title": "Regression in spack, nothing is installable as spack always asks for pkgconf",
+    "number": 6514,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 277708567,
+    "html_url": "https://github.com/spack/spack/issues/6514",
+    "assignees": [],
+    "comments": 11
+}

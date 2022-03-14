@@ -1,0 +1,19 @@
+{
+    "body": "@tgamblin @svenevs This fixes the bug I introduced in #3195.\r\n\r\nBased on the `CHANGES.rst` that comes with `setuptools`:\r\n```\r\nv34.0.0\r\n-------\r\n\r\n* #581: Instead of vendoring the growing list of\r\n  dependencies that Setuptools requires to function,\r\n  Setuptools now requires these dependencies just like\r\n  any other project. Unlike other projects, however,\r\n  Setuptools cannot rely on ``setup_requires`` to\r\n  demand the dependencies it needs to install because\r\n  its own machinery would be necessary to pull those\r\n  dependencies if not present (a bootstrapping problem).\r\n  As a result, Setuptools no longer supports self upgrade or\r\n  installation in the general case. Instead, users are\r\n  directed to use pip to install and upgrade using the\r\n  ``wheel`` distributions of setuptools.\r\n\r\n  Users are welcome to contrive other means to install\r\n  or upgrade Setuptools using other means, such as\r\n  pre-installing the Setuptools dependencies with pip\r\n  or a bespoke bootstrap tool, but such usage is not\r\n  recommended and is not supported.\r\n\r\n  As discovered in #940, not all versions of pip will\r\n  successfully install Setuptools from its pre-built\r\n  wheel. If you encounter issues with \"No module named\r\n  six\" or \"No module named packaging\", especially\r\n  following a line \"Running setup.py egg_info for package\r\n  setuptools\", then your pip is not new enough.\r\n\r\n  There's an additional issue in pip where setuptools\r\n  is upgraded concurrently with other source packages,\r\n  described in pip #4253. The proposed workaround is to\r\n  always upgrade Setuptools first prior to upgrading\r\n  other packages that would upgrade Setuptools.\r\n```\r\nit looks like `setuptools` no longer supports any installation method aside from `pip`. All of its dependencies use `setuptools`, making it very difficult to build from source. I had to hack a couple packages to provide a fallback (`distutils.core`) so that they could build without setuptools. I'll see if I can get these patches merged upstream.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3198",
+    "updated_at": "2017-03-24 22:10:00",
+    "created_at": "2017-02-21 01:07:08",
+    "closed_at": "2017-02-21 02:09:03",
+    "state": "closed",
+    "title": "Fix setuptools bootstrapping now that dependencies are no longer vendored",
+    "number": 3198,
+    "milestone": null,
+    "labels": [
+        "python"
+    ],
+    "id": 209015925,
+    "html_url": "https://github.com/spack/spack/pull/3198",
+    "assignees": [],
+    "comments": 12
+}

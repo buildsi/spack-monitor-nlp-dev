@@ -1,0 +1,25 @@
+{
+    "body": "Using `spack@develop` checked out at:\r\n* `52959528a2cb7e7e9b213efd1243a078502ac708`\r\n* `Thu Oct 29 21:29:39 2020 +0100`\r\n\r\nThis checkout *includes* commit `sbang: vendor sbang`\r\n\r\n`Automake` build fails due to non-functional `autoconf` when `install_tree: $padding:128`\r\n\r\n```\r\n$> spack install automake\r\n....\r\n==> Installing automake\r\n==> Using cached archive: /opt/spack/var/spack/cache/_source-cache/archive/b2/b2f361094b410b4acbf4efba7337bdb786335ca09eb2518635a09fb7319ca5c1.tar.gz\r\n==> automake: Executing phase: 'autoreconf'\r\n==> automake: Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/tmp/root/spack-stage/spack-stage-automake-1.16.2-lu2sautwpii24tkqbbo2at3gfju2zki7/spack-src/configure' '--prefix=/spack_path_placeholder/spack_path_placeholder/spack_path_placeholder/spack_path_placeholder/spack_path_placeholder/spack_path_pl/linux-ubuntu18.04-ppc64le/gcc-7.5.0/automake-1.16.2-lu2sautwpii24tkqbbo2at3gfju2zki7'\r\n\r\n1 error found in build log:\r\n     17    checking for byacc... no\r\n     18    checking for bison... no\r\n     19    checking for lex... no\r\n     20    checking for flex... no\r\n     21    checking whether autoconf is installed... yes\r\n     22    checking whether autoconf works... no\r\n  >> 23    configure: error: The installed version of autoconf does not work.\r\n     24        Please check config.log for error messages before this one.\r\n\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-automake-1.16.2-lu2sautwpii24tkqbbo2at3gfju2zki7/spack-build-out.txt\r\n```\r\n\r\nFrom `config.log` (full log attached below): \r\n\r\n```\r\n...\r\nconfigure:3027: cd conftest && autoconf -o /dev/null conftest.ac\r\n/bin/sh: 0: Can't open /spack_path_placeholder/spack_path_placeholder/spack_path_placeholder/spack_path_placeholder/spack_path_placeholder/s\r\nconfigure:3030: $? = 127\r\nconfigure:3039: result: no\r\n...\r\n```\r\n\r\nLooks like autoconf test line is being truncated due to padding?\r\n\r\nConfig log: [automake-config.log.txt](https://github.com/spack/spack/files/5466377/automake-config.log.txt)\r\nBuild log: [automake-build-out.txt](https://github.com/spack/spack/files/5466374/automake-build-out.txt)\r\n\r\n@becker33 @tgamblin @scottwittenburg ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/19629",
+    "updated_at": "2020-11-13 00:08:56",
+    "created_at": "2020-10-30 16:35:30",
+    "closed_at": "2020-11-13 00:08:56",
+    "state": "closed",
+    "title": "autoconf build partially non-functional when install_tree is padded (sbang ??)",
+    "number": 19629,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "ecp",
+        "triage",
+        "e4s",
+        "sbang"
+    ],
+    "id": 733331052,
+    "html_url": "https://github.com/spack/spack/issues/19629",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 4
+}

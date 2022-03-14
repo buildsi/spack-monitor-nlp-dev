@@ -1,0 +1,19 @@
+{
+    "body": "Fixes #9613, fixes #3209.\r\n\r\nRemove the spack wrapper directories from PATH for the bootstrap step.\r\nThis was breaking the build for Cray (and other cross-compile) because\r\nbjam was built for the BE and died on SIGILL on the FE.\r\n\r\nThis only affects building bjam.  The boost libraries are still built\r\nthe normal spack way with the spack wrappers.\r\n\r\n----------\r\n\r\nI wrote the patch to apply to Cray, without a variant.  Technically,\r\nthis patch (or something similar) would be needed on any cross-\r\ncompile, anywhere BE code would not run on the FE.\r\n\r\nBut Cray is the only example I could find that actually fell over.\r\n(It seems to work on Blue Gene without this fix.)  So, I decided that\r\nboost already has enough variants.  But if spack supports a true cross\r\ncompile, then this will be needed on all cross compiles.  (It would even\r\nbe harmless to just always apply the patch.)\r\n\r\nI've checked that the patch applies cleanly to boost 1.39 to 1.69.\r\nThe bootstrap.sh script never changes.\r\n\r\nBut before 1.39, bootstrap.sh was named 'configure'.  (Same file, it\r\nwas renamed between 1.38 and 1.39.)  So, if you want to build a very\r\nold boost on Cray, then you'll need the same patch for the file\r\n'configure.'  (I decided not to bother.)\r\n\r\nBtw, I think the boost recipe is broken for :1.38 because it doesn't\r\nunderstand that the bootstrap.sh script used to be called 'configure'.\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/10295",
+    "updated_at": "2019-01-11 00:34:12",
+    "created_at": "2019-01-09 21:11:45",
+    "closed_at": "2019-01-11 00:34:06",
+    "state": "closed",
+    "title": "boost: fix the bjam build for Cray",
+    "number": 10295,
+    "milestone": null,
+    "labels": [
+        "cray"
+    ],
+    "id": 397563977,
+    "html_url": "https://github.com/spack/spack/pull/10295",
+    "assignees": [],
+    "comments": 3
+}

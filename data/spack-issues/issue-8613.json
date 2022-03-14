@@ -1,0 +1,20 @@
+{
+    "body": "This PR includes the following changes:\r\n\r\n- [x] Added JDK 10\r\n- [x] Changed the JDK version numbers according to the consensus reached in #2284\r\n- [x] Added `spec['java'].home` and `spec['java'].libs`, similar to #3367\r\n- [x] Added a check to prevent people from installing JDK on macOS\r\n- [x] Set `CLASSPATH` for all Java extensions\r\n- [ ] Made `java` extendable\r\n\r\nThe last point is still a work in progress. Bugs I've discovered so far:\r\n\r\n1. It is not possible to write `extends('java')`, you have to write `extends('jdk')` or `extends('icedtea')`. It seems that virtual providers are not extendable. This is important not only for Java, but also for Python. Someday we would like Python to become a virtual provider for CPython, Intel Python, PyPy, IronPython, etc. See #7966.\r\n2. Packages cannot `extend` multiple packages: #987.\r\n3. In order to activate/deactive a Java extension, we need to symlink all `*.jar` files to `spec['java'].lib.ext`. How do I do this? I only know how to merge the two installation prefixes. I guess I could start installing `.jar` files to `prefix.lib.ext` instead of `prefix`...\r\n\r\n@hartzell I was looking through #4386. I'm guessing you have a lot more Java experience than me. Can you take a look at this?\r\n@snehring It looks like you wrote the `icedtea` package. Is it actually working? Would you like me to make similar changes to `icedtea` as well, so things like `spec['java'].home` and `spec['java'].libs` work no matter what Java provider you are using?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8613",
+    "updated_at": "2018-08-28 19:43:16",
+    "created_at": "2018-06-29 15:21:02",
+    "closed_at": "2018-08-28 18:35:14",
+    "state": "closed",
+    "title": "Major overhaul of Java packages",
+    "number": 8613,
+    "milestone": null,
+    "labels": [
+        "extensions",
+        "java"
+    ],
+    "id": 337039823,
+    "html_url": "https://github.com/spack/spack/pull/8613",
+    "assignees": [],
+    "comments": 11
+}

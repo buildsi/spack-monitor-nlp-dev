@@ -1,0 +1,21 @@
+{
+    "body": "Resolves #8802.\r\n\r\n- previously, output could be confusing when deptypes were only shown for one dependent when a node had *multiple* dependents\r\n\r\n- merge the dependency types instead, so all the ways a node is depended on are shown\r\n\r\n- also fix default coverage of `Spec.tree()`: it previously defaulted to cover only build and link dependencies, but this is a holdover from when those were the only types.\r\n\r\nExample spec:\r\n```\r\n$ spack graph a\r\no  a\r\n|\\\r\no |  c\r\n| o  b\r\n|/\r\no  d\r\n\r\n$ spack  spec -t --cover edges a\r\n[    ]  a@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[ lr ]      ^b@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[b   ]          ^d@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[ lr ]      ^c@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[ lr ]          ^d@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n```\r\n\r\nBefore this (`--cover nodes` is the default):\r\n```\r\n$ spack spec -t --cover nodes a\r\n[    ]  a@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[ lr ]      ^b@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[b   ]          ^d@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[ lr ]      ^c@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64\r\n```\r\n\r\nAfter this (compare deptypes on d):\r\n\r\n```\r\n$ spack spec -t --cover nodes a\r\n[    ]  a@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[ lr ]      ^b@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[blr ]          ^d@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64 \r\n[ lr ]      ^c@1.0%clang@8.1.0-apple arch=darwin-highsierra-x86_64\r\n```\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/8821",
+    "updated_at": "2018-07-30 04:07:46",
+    "created_at": "2018-07-28 19:36:23",
+    "closed_at": "2018-07-29 18:54:21",
+    "state": "closed",
+    "title": "spec: `Spec.tree()` merges deptypes when only covering nodes",
+    "number": 8821,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "dependencies",
+        "commands"
+    ],
+    "id": 345473481,
+    "html_url": "https://github.com/spack/spack/pull/8821",
+    "assignees": [],
+    "comments": 0
+}

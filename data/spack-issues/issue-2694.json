@@ -1,0 +1,21 @@
+{
+    "body": "The function `_merge_yaml()` was buggy because objects within two separate `dict` trees could be aliased together.  In my example case, I had `id(dest['packages']['all']['versions']) == id(dest['packages']['ibmisc']['versions'])` because both were initially equal to the empty list `[]`.  When `_merge_yaml()` appended to one list, it appeneded to both --- producing surprising (and wrong) results.\r\n\r\n@tgamblin Can you please check this PR to see if there are any other places that need a similar fix?\r\n\r\nTo see the bug in action without this patch, use the following `packages.yaml` files:\r\n\r\n```\r\netc/spack/defaults/packages.yaml:\r\n-----------------------------------\r\npackages:\r\n  ibmisc:\r\n\r\n  all:\r\n    compiler: [gcc, intel, pgi, clang, xl, nag]\r\n    providers:\r\n      mpi: [openmpi, mpich]\r\n      blas: [openblas]\r\n      lapack: [openblas]\r\n      pil: [py-pillow]\r\n```\r\n```\r\n~/.spack/packages.yaml\r\n------------------------\r\npackages:\r\n  ibmisc:\r\n    version: [develop]\r\n```\r\nThen try `spack config get packages`, which yields surprising results:\r\n```\r\n$ spack config get packages\r\npackages:\r\n  all:\r\n    buildable: true\r\n    compiler:\r\n    - gcc\r\n    - intel\r\n    - pgi\r\n    - clang\r\n    - xl\r\n    - nag\r\n    modules: {}\r\n    paths: {}\r\n    providers:\r\n      blas:\r\n      - openblas\r\n      lapack:\r\n      - openblas\r\n      mpi:\r\n      - openmpi\r\n      - mpich\r\n      pil:\r\n      - py-pillow\r\n    version:\r\n    - develop     # <<< This is wrong... should be []\r\n  ibmisc:\r\n    buildable: true\r\n    compiler: []\r\n    modules: {}\r\n    paths: {}\r\n    providers: {}\r\n    version:\r\n    - develop\r\n```\r\n\r\nThis will cause the `@develop` version to be (wrongly) used on any package where it's possible; for example on `hypre`:\r\n```\r\n$ spack spec hypre\r\nhypre@develop%gcc@4.9.3+internal-superlu+shared arch=linux-centos7-x86_64\r\n    ^openblas@0.2.19%gcc@4.9.3~openmp+pic+shared arch=linux-centos7-x86_64\r\n    ^openmpi@1.10.1%gcc@4.9.3~java~mxm~pmi~psm~psm2~slurm~sqlite3~thread_multiple~tm~verbs+vt arch=linux-centos7-x86_64\r\n        ^hwloc@1.11.4%gcc@4.9.3 arch=linux-centos7-x86_64\r\n            ^libpciaccess@0.13.4%gcc@4.9.3 arch=linux-centos7-x86_64\r\n                ^libtool@2.4.6%gcc@4.9.3 arch=linux-centos7-x86_64\r\n                    ^m4@1.4.17%gcc@4.9.3+sigsegv arch=linux-centos7-x86_64\r\n                        ^libsigsegv@2.10%gcc@4.9.3 arch=linux-centos7-x86_64\r\n                ^pkg-config@0.29.1%gcc@4.9.3+internal_glib arch=linux-centos7-x86_64\r\n                ^util-macros@1.19.0%gcc@4.9.3 arch=linux-centos7-x86_64\r\n```",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2694",
+    "updated_at": "2018-05-27 11:57:46",
+    "created_at": "2016-12-31 01:56:59",
+    "closed_at": "2018-05-27 11:57:46",
+    "state": "closed",
+    "title": "Bugs when Merging Configurations",
+    "number": 2694,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "concretization"
+    ],
+    "id": 198212403,
+    "html_url": "https://github.com/spack/spack/pull/2694",
+    "assignees": [],
+    "comments": 12
+}

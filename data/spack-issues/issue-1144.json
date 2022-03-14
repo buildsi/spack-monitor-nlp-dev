@@ -1,0 +1,17 @@
+{
+    "body": "We might want to ignore this until #1135... But just an FYI `spack module refresh` is broken:\n\n```\n==> Regenerating tcl module files.\nTraceback (most recent call last):\n  File \"/apps/spack/bin/spack\", line 179, in <module>\n    main()\n  File \"/apps/spack/bin/spack\", line 157, in main\n    return_val = command(parser, args)\n  File \"/apps/spack/lib/spack/spack/cmd/module.py\", line 101, in module\n    module_refresh()\n  File \"/apps/spack/lib/spack/spack/cmd/module.py\", line 92, in module_refresh\n    if os.path.isdir(cls.path):\nAttributeError: type object 'TclModule' has no attribute 'path'\n```\n\n@tgamblin Is there a reason why we took out `{TclModule,Dotkit}.path`, in a15aee5 for the mock testing changes? `cmd/module.py` needs the `path` [here](https://github.com/LLNL/spack/blob/eb388306fde0f636e595b5ac5eae37a3c5850f4b/lib/spack/spack/cmd/module.py#L92).\n",
+    "user": "mwilliammyers",
+    "url": "https://api.github.com/repos/spack/spack/issues/1144",
+    "updated_at": "2016-06-29 21:50:45",
+    "created_at": "2016-06-29 21:49:08",
+    "closed_at": "2016-06-29 21:50:31",
+    "state": "closed",
+    "title": "module refresh broken",
+    "number": 1144,
+    "milestone": null,
+    "labels": [],
+    "id": 163034820,
+    "html_url": "https://github.com/spack/spack/issues/1144",
+    "assignees": [],
+    "comments": 1
+}

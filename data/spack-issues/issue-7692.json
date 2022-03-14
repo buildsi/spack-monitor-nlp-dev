@@ -1,0 +1,20 @@
+{
+    "body": "Depends on #7774.  Merge once that's in.\r\n\r\nThis adds an option to `config.yaml` that enables and disables locking.  This is intended to allow people on filesystems that do not support locking to use Spack more easily.\r\n\r\n```yaml\r\n  # When set to true, concurrent instances of Spack will use locks to\r\n  # avoid modifying the install tree, database file, etc. If false, Spack\r\n  # will disable all locking, but you must NOT run concurrent instances\r\n  # of Spack.  For filesystems that don't support locking, you should set\r\n  # this to false and run one Spack at a time, but otherwise we recommend\r\n  # enabling locks.\r\n  locks: true\r\n```\r\n\r\nYou can also now run `spack -L ...` to disable locking:\r\n\r\n```console\r\n$ spack help -a\r\n...\r\noptional arguments:\r\n...\r\n  -l, --enable-locks    force spack to use filesystem locking\r\n  -L, --disable-locks   force spack to disable filesystem locking\r\n```\r\n\r\nThis isn't recommended, but sometimes it's the only option.\r\n\r\nYou can ignore the first commit, which simplifies some import madness to make disabling locks possible.  The second two add the actual feature.\r\n\r\n@cyrush @junghans @ianfoster",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/7692",
+    "updated_at": "2018-06-16 18:22:32",
+    "created_at": "2018-04-08 08:13:19",
+    "closed_at": "2018-05-18 21:41:04",
+    "state": "closed",
+    "title": "config and command-line options to disable locking",
+    "number": 7692,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "locking"
+    ],
+    "id": 312283901,
+    "html_url": "https://github.com/spack/spack/pull/7692",
+    "assignees": [],
+    "comments": 5
+}

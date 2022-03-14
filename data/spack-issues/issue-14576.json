@@ -1,0 +1,21 @@
+{
+    "body": "There are a few issues with building py-torch. \r\n\r\n1. The package recipe sets `+mkldnn` by default and depends on `intel-mkl-dnn`. However, the build actually builds the in-tree mkldnn\r\n```\r\n[265/2458] Building CXX object third_party/ideep/mkl-dnn/src/CMakeFiles/mkldnn.dir/cpu/rnn/ref_postgemm_gru.cpp.o\r\n[292/2458] Building CXX object third_party/ideep/mkl-dnn/src/CMakeFiles/mkldnn.dir/cpu/rnn/ref_postgemm_gru_lbr.cpp.o\r\n[313/2458] Building CXX object third_party/ideep/mkl-dnn/src/CMakeFiles/mkldnn.dir/cpu/rnn/ref_postgemm_lstm.cpp.o\r\n[524/2458] Building CXX object third_party/ideep/mkl-dnn/src/CMakeFiles/mkldnn.dir/cpu/rnn/ref_postgemm_rnn.cpp.o\r\n[905/2458] Building CXX object third_party/ideep/mkl-dnn/src/CMakeFiles/mkldnn.dir/cpu/rnn/rnn_utils.cpp.o\r\n[986/2458] Building CXX object third_party/ideep/mkl-dnn/src/CMakeFiles/mkldnn.dir/cpu/rnn/ref_rnn.cpp.o\r\n[994/2458] Linking CXX static library lib/libmkldnn.a\r\n```\r\n2. When `~caffe2` is set, `BUILD_CAFFE2_MOBILE` is still set to ON. This may be okay but not sure if that was the intent of the caffe2 variant.\r\n3. The build fails when `+caffe2` is set.\r\n```console\r\n3 errors found in build log:\r\n     2312     #warning \"host_defines.h is an internal header file and must not be used directly.  This file will be removed in a\r\n             future CUDA release.  Please use cuda_runtime_api.h or cuda_runtime.h instead.\"\r\n     2313      ^~~~~~~\r\n     2314    /opt/packages/gpjohnsn/apps/linux-centos7-broadwell/gcc-8.3.0/eigen-3.3.7-byl22ahrj5dv4lmcxzh3iudtqor3q24k/include/e\r\n             igen3/Eigen/src/Core/arch/CUDA/Half.h(302): warning: calling a __host__ function from a __host__ __device__ function\r\n              is not allowed\r\n     2315\r\n     2316    /opt/packages/gpjohnsn/apps/linux-centos7-broadwell/gcc-8.3.0/eigen-3.3.7-byl22ahrj5dv4lmcxzh3iudtqor3q24k/include/e\r\n             igen3/Eigen/src/Core/arch/CUDA/Half.h(305): warning: calling a __host__ function from a __host__ __device__ function\r\n              is not allowed\r\n     2317\r\n  >> 2318    /opt/packages/gpjohnsn/apps/linux-centos7-broadwell/gcc-8.3.0/eigen-3.3.7-byl22ahrj5dv4lmcxzh3iudtqor3q24k/include/e\r\n             igen3/Eigen/src/Core/arch/CUDA/PacketMathHalf.h(233): error: no suitable conversion function from \"__half\" to \"unsig\r\n             ned short\" exists\r\n     2319\r\n  >> 2320    /opt/packages/gpjohnsn/apps/linux-centos7-broadwell/gcc-8.3.0/eigen-3.3.7-byl22ahrj5dv4lmcxzh3iudtqor3q24k/include/e\r\n             igen3/Eigen/src/Core/arch/CUDA/PacketMathHalf.h(267): error: no suitable conversion function from \"__half\" to \"unsig\r\n             ned short\" exists\r\n     2321\r\n     2322    2 errors detected in the compilation of \"/tmp/tmpxft_0000c7f1_00000000-13_rsqrt_op.compute_35.cpp1.ii\".\r\n  >> 2323    CMake Error at torch_generated_rsqrt_op.cu.o.Release.cmake:281 (message):\r\n     2324      Error generating file\r\n     2325      /dev/shm/gpjohnsn/spack-stage-py-torch-1.4.0-23jvdwla5padn5pcam62k6rzovczeyhe/spack-src/build/caffe2/CMakeFiles/to\r\n             rch.dir/operators/./torch_generated_rsqrt_op.cu.o\r\n     2326\r\n     2327\r\n     2328    [1082/2458] Building NVCC (Device) object caffe2/CMakeFiles/torch.dir/operators/torch_generated_resize_3d_op.cu.o\r\n     2329    [1083/2458] Building NVCC (Device) object caffe2/CMakeFiles/torch.dir/__/aten/src/THC/torch_generated_THCTensorIndex\r\n             .cu.o \r\n```\r\n\r\n---\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux argon-build.hpc 3.10.0-862.14.4.el7.x86_64 #1 SMP Wed Sep 26 15:12:11 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.5.1804 (Core)\r\n``` \r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14576",
+    "updated_at": "2020-01-25 04:57:17",
+    "created_at": "2020-01-21 02:03:35",
+    "closed_at": "2020-01-25 04:57:17",
+    "state": "closed",
+    "title": "build issues with py-torch",
+    "number": 14576,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 552584248,
+    "html_url": "https://github.com/spack/spack/issues/14576",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 6
+}

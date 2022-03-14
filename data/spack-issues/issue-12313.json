@@ -1,0 +1,24 @@
+{
+    "body": "The way Spack Environments were explained to me was that if you maintained a project on GitHub, you could add a `spack.yaml` file to your repo that lists its dependencies. Then you could clone the project, cd into the directory, and run `spack install` or `spack concretize; spack install` to install all of its dependencies. However, `spack concretize` appears to modify `spack.yaml`, a file which is likely to be under version control. No other Spack command that I know of reorganizes your configuration files, and `spack concretize` certainly shouldn't either.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cat spack.yaml\r\nspack:\r\n  specs:\r\n  - 'gdal+python'\r\n  - 'python@3:+sqlite3'\r\n  - 'py-earthengine-api'\r\n  - 'py-flake8'\r\n  - 'py-matplotlib'\r\n  - 'py-numpy'\r\n  - 'py-pandas'\r\n  - 'py-pytest@3.9:'\r\n  - 'py-scikit-learn'\r\n  - 'py-scipy@0.14:'\r\n  - 'py-tables'\r\n  - 'py-torch@0.4:'\r\n  - 'py-torchvision'\r\n$ spack concretize\r\n...\r\n$ cat spack.yaml\r\nspack:\r\n  specs:\r\n  - gdal+python\r\n  - python@3:+sqlite3\r\n  - py-earthengine-api\r\n  - py-flake8\r\n  - py-matplotlib\r\n  - py-numpy\r\n  - py-pandas\r\n  - 'py-pytest@3.9:'\r\n  - py-scikit-learn\r\n  - 'py-scipy@0.14:'\r\n  - py-tables\r\n  - 'py-torch@0.4:'\r\n  - py-torchvision\r\n  config: {}\r\n  mirrors: {}\r\n  modules:\r\n    enable: []\r\n  packages: {}\r\n  repos: []\r\n  upstreams: {}\r\n  definitions: []\r\n  view:\r\n    default:\r\n      root: /Users/Adam/Documents/UIUC/Research/Crops/crop_classification/.spack-env/view\r\n      projections: {}\r\n```\r\nRemoving quotes on specs containing `:` is one thing, but adding a root that is computer-specific makes it possible to maintain this file under version control.\r\n\r\n@tgamblin @citibeth ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12313",
+    "updated_at": "2019-11-03 23:46:42",
+    "created_at": "2019-08-07 20:28:11",
+    "closed_at": "2019-11-03 23:46:42",
+    "state": "closed",
+    "title": "spack concretize reorganizes spack.yaml",
+    "number": 12313,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "impact-medium",
+        "environments"
+    ],
+    "id": 478124366,
+    "html_url": "https://github.com/spack/spack/issues/12313",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 11
+}

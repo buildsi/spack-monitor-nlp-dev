@@ -1,0 +1,19 @@
+{
+    "body": "Spack sometimes generates a different hashes with identical specs. Printing the spec yaml shows the ```patches``` list gets reordered.\r\n\r\nI haven't found a way to consistently reproduce it.\r\n\r\n```\r\nspack spec -y /wm7jo6a\r\n\r\nspec:\r\n- m4:\r\n    version: 1.4.18\r\n    arch:\r\n      platform: linux\r\n      platform_os: centos7\r\n      target: x86_64\r\n    compiler:\r\n      name: gcc\r\n      version: 4.8.5\r\n    namespace: builtin\r\n    parameters:\r\n      patches:\r\n      - 3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00\r\n      - c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e\r\n      - fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8\r\n      sigsegv: true\r\n      cflags: []\r\n      cppflags: []\r\n      cxxflags: []\r\n      fflags: []\r\n      ldflags: []\r\n      ldlibs: []\r\n    patches:\r\n    - 3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00\r\n    - fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8\r\n    - c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e\r\n    dependencies:\r\n      libsigsegv:\r\n        hash: qpmaxx6z62df4s4hwyehdwptv6kmrfhf\r\n        type:\r\n        - build\r\n        - link\r\n    hash: wm7jo6alnjydyimqrfzouolsfjv5y7ej\r\n- libsigsegv:\r\n    version: '2.11'\r\n    arch:\r\n      platform: linux\r\n      platform_os: centos7\r\n      target: x86_64\r\n    compiler:\r\n      name: gcc\r\n      version: 4.8.5\r\n    namespace: builtin\r\n    parameters:\r\n      cflags: []\r\n      cppflags: []\r\n      cxxflags: []\r\n      fflags: []\r\n      ldflags: []\r\n      ldlibs: []\r\n    hash: qpmaxx6z62df4s4hwyehdwptv6kmrfhf\r\n```\r\n\r\n```\r\nspack spec -y /hhsvnb\r\n\r\nspec:\r\n- m4:\r\n    version: 1.4.18\r\n    arch:\r\n      platform: linux\r\n      platform_os: centos7\r\n      target: x86_64\r\n    compiler:\r\n      name: gcc\r\n      version: 4.8.5\r\n    namespace: builtin\r\n    parameters:\r\n      patches:\r\n      - 3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00\r\n      - c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e\r\n      - fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8\r\n      sigsegv: true\r\n      cflags: []\r\n      cppflags: []\r\n      cxxflags: []\r\n      fflags: []\r\n      ldflags: []\r\n      ldlibs: []\r\n    patches:\r\n    - c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e\r\n    - 3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00\r\n    - fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8\r\n    dependencies:\r\n      libsigsegv:\r\n        hash: qpmaxx6z62df4s4hwyehdwptv6kmrfhf\r\n        type:\r\n        - build\r\n        - link\r\n    hash: hhsvnbbpgbjmyko773df2mzmp5knybru\r\n- libsigsegv:\r\n    version: '2.11'\r\n    arch:\r\n      platform: linux\r\n      platform_os: centos7\r\n      target: x86_64\r\n    compiler:\r\n      name: gcc\r\n      version: 4.8.5\r\n    namespace: builtin\r\n    parameters:\r\n      cflags: []\r\n      cppflags: []\r\n      cxxflags: []\r\n      fflags: []\r\n      ldflags: []\r\n      ldlibs: []\r\n    hash: qpmaxx6z62df4s4hwyehdwptv6kmrfhf\r\n```\r\n",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/10851",
+    "updated_at": "2019-03-28 18:25:45",
+    "created_at": "2019-03-11 15:41:19",
+    "closed_at": "2019-03-28 18:25:45",
+    "state": "closed",
+    "title": "Inconsistent Spec hash due to patch ordering",
+    "number": 10851,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 419539346,
+    "html_url": "https://github.com/spack/spack/issues/10851",
+    "assignees": [],
+    "comments": 4
+}

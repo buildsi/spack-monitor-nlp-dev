@@ -1,0 +1,21 @@
+{
+    "body": "SourceForge downloads have an optional `/download` suffix. This appears to be messing up the offset reported to `spack url parse`:\r\n```\r\n$ spack url parse https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable2-13.tar.gz/download\r\n==> Parsing URL: https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable2-13.tar.gz/download\r\n\r\n==> Matched version regex  3: r'^[a-zA-Z+-]*(\\\\d[\\\\da-zA-Z-]*)$'\r\n==> Matched  name   regex  7: r'^([A-Za-z\\\\d+\\\\._-]+)$'\r\n\r\n==> Detected:\r\n    https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable2-13.tar.gz/download\r\n                                                                   --------~~~~\r\n    name:    argtable\r\n    version: 2-13\r\n\r\n==> Substituting version 9.9.9b:\r\n    https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable9.9.9b.tar.gz/download\r\n                                                                   --------~~~~~~\r\n```\r\n```\r\n$ spack url parse https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable2-13.tar.gz\r\n==> Parsing URL: https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable2-13.tar.gz\r\n\r\n==> Matched version regex  3: r'^[a-zA-Z+-]*(\\\\d[\\\\da-zA-Z-]*)$'\r\n==> Matched  name   regex  7: r'^([A-Za-z\\\\d+\\\\._-]+)$'\r\n\r\n==> Detected:\r\n    https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable2-13.tar.gz\r\n                                                                           --------~~~~\r\n    name:    argtable\r\n    version: 2-13\r\n\r\n==> Substituting version 9.9.9b:\r\n    https://sourceforge.net/projects/argtable/files/argtable/argtable-2.13/argtable9.9.9b.tar.gz\r\n                                                                           --------~~~~~~\r\n```\r\nThe URL is still substituted correctly, so this is a pretty minor issue. But I wanted to record it before I forget. I'll try to fix this tomorrow.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4413",
+    "updated_at": "2017-06-09 06:53:41",
+    "created_at": "2017-06-01 03:19:27",
+    "closed_at": "2017-06-09 06:53:41",
+    "state": "closed",
+    "title": "spack url parse offset incorrect for SourceForge downloads",
+    "number": 4413,
+    "milestone": null,
+    "labels": [
+        "url-parsing"
+    ],
+    "id": 232755047,
+    "html_url": "https://github.com/spack/spack/issues/4413",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 0
+}

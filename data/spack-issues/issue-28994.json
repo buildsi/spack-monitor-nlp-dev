@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nCurrently on develop:\r\n\r\n```\r\nspack spec spfft+rocm\r\n```\r\n\r\npicks up rocm 4.3.1, but 4.5.2 is the latest. When I add `^hip@4.5:` I do get 4.5.2. The solve output shows it prefers 4.3.1 because of the following:\r\n\r\n```diff\r\n--- spfft+rocm\r\n+++ spfft+rocm ^hip@4.5:\r\n\r\n    Priority  Criterion                                            Installed  ToBuild\r\n    1         number of packages to build (vs. reuse)                      -        0\r\n    2         deprecated versions used                                     0        0\r\n    3         version weight                                               0        0\r\n    4         number of non-default variants (roots)                       0        0\r\n    5         preferred providers for roots                                0        0\r\n    6         default values of variants not being used (roots)            0        1\r\n-   7         number of non-default variants (non-roots)                   0        0\r\n+   7         number of non-default variants (non-roots)                   0        1\r\n    8         preferred providers (non-roots)                              0        1\r\n    9         compiler mismatches                                          0        0\r\n    10        OS mismatches                                                0        0\r\n    11        non-preferred OS's                                           0        0\r\n-   12        version badness                                              0       26\r\n+   12        version badness                                              0        4\r\n    13        default values of variants not being used (non-roots)        0        2\r\n    14        non-preferred compilers                                      0        0\r\n    15        target mismatches                                            0        0\r\n    16        non-preferred targets                                        0        0\r\n\r\n\r\n```\r\nso without the `^hip@4.5:` constraint it manages to find a way to do without \"non-default variants\", except I don't see any difference in variant values when I compare the concrete specs (using #28885). And default values don't depend on versions as far as I can tell. The only \"variants\" that change are patches, but this might be a red herring.\r\n\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-1229-5235315a51\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n* **Concretizer:** clingo",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/28994",
+    "updated_at": "2022-02-16 13:43:31",
+    "created_at": "2022-02-16 11:10:09",
+    "closed_at": "2022-02-16 13:43:31",
+    "state": "closed",
+    "title": "criterion \"number of non-default variants (non-roots)\" seems incorrect",
+    "number": 28994,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1139870950,
+    "html_url": "https://github.com/spack/spack/issues/28994",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

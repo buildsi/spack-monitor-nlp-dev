@@ -1,0 +1,22 @@
+{
+    "body": "The process of updating the index of a binary mirror involves iterating over the spec.yaml files in the mirror and adding each one to a temporary database, then writing out the database using db._write_to_file(). There has been an issue observed when updating the index of binary mirrors which was only reproducible with a large mirror with a lot of versions of the various specs in the environment. The issue resulted in the regenerated index having full hash values on specs not matching the full hashes in the individual spec.yaml files from which the index was built.\r\n\r\nDebugging the problem indicated that a spec could be added to the db as a dependency of something else (possibly an old or out of date spec.yaml), and then when it's again encountered directly (not as a dependency, but because we read its spec.yaml and added it explicitly), the database code would find the dag hash already present and not overwrite it.\r\n\r\nThis PR changes how `spack buildcache update-index` works by checking each spec.yaml to see if it's dependencies' full hashes were changed (the spec.yaml for the dependency is considered to be the source of truth regarding the full hash of the dependency).  If we find any mismatches between the full hash of  a dependency in a parent spec.yaml and the full hash in the dependency spec.yaml, we fix up the parent by splicing in the correct dependency specs, and then push the spliced parent spec.yaml to the mirror.  Once we have fixed up all the spec yamls on the mirror, we then update the buildcache index.  The end result is that the full hash of the root spec in each spec.yaml matches the full hash of the corresponding dag hash in the index.\r\n\r\nThis depends on #24795",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/24811",
+    "updated_at": "2021-07-10 06:49:09",
+    "created_at": "2021-07-09 20:18:10",
+    "closed_at": "2021-07-10 06:49:09",
+    "state": "closed",
+    "title": "Ensure consistency of buildcache spec.yaml files and buildcache index",
+    "number": 24811,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "binary-packages"
+    ],
+    "id": 941041406,
+    "html_url": "https://github.com/spack/spack/pull/24811",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,19 @@
+{
+    "body": "The documentation states that Spack builds R without the recommmened\r\npackages, with Spack handling the build of those packages to satisfy\r\ndependencies. From the docs:\r\n\r\n> Spack explicitly adds the --without-recommended-packages flag to\r\n> prevent the installation of these packages. Due to the way Spack\r\n> handles package activation (symlinking packages to the R installation\r\n> directory), pre-existing recommended packages will cause conflicts for\r\n> already-existing files. We could either not include these recommended\r\n> packages in Spack and require them to be installed through\r\n> --with-recommended-packages, or we could not install them with R and\r\n> let users choose the version of the package they want to install. We\r\n> chose the latter.\r\n\r\nHowever, this is not what Spack is actually doing. The\r\n`--without-recommended` configure option is not passed to R and\r\ntherefore those packages are built. This prevents R extension activation\r\nfrom working as files in the recommended packages installed with R will\r\nblock linking of file from the respective `r-` packages.\r\n\r\nThis PR adds the `--without-recommended` flag to the configure options\r\nof the R package. This will then have the Spack R build match what is\r\ndocumented.",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/12015",
+    "updated_at": "2020-02-26 19:47:37",
+    "created_at": "2019-07-14 01:04:09",
+    "closed_at": "2019-11-28 02:58:13",
+    "state": "closed",
+    "title": "Build R without recommended packages",
+    "number": 12015,
+    "milestone": null,
+    "labels": [
+        "R"
+    ],
+    "id": 467781919,
+    "html_url": "https://github.com/spack/spack/pull/12015",
+    "assignees": [],
+    "comments": 8
+}

@@ -1,0 +1,21 @@
+{
+    "body": "fixes #6314 \r\n\r\nTo sum up the issue: `multi-valued` variants with default set to `None` were not parsable from the command line, as `None` was converted to the empty string.\r\n\r\nThis PR solves the problem by sanitizing all the packages against having `None` as a default value, and allows for the more declarative syntax discussed in the issue.\r\n\r\nThe implementation is based on the possibility that the `variant` directive now has to accept as the `values` argument an object that could prescribe its own default value or other settings. A declarative style can be maintained using a [fluent interface](https://en.wikipedia.org/wiki/Fluent_interface) to set these embedded arguments in such an object.\r\n\r\nA few packages have been modified to show how the new (optional) syntax looks like.\r\n\r\n**Example output with this PR**\r\n```console\r\n# The default value can now be specified explicitly\r\n$ spack spec openmpi fabrics=auto\r\nInput spec\r\n--------------------------------\r\nopenmpi fabrics=auto\r\n\r\nConcretized\r\n--------------------------------\r\nopenmpi@3.1.2%gcc@8.0.1~cuda+cxx_exceptions fabrics=auto ~java~legacylaunchers~memchecker~pmi schedulers=auto ~sqlite3~thread_multiple+vt arch=linux-ubuntu18.04-x86_64\r\n...\r\n\r\n# We can easily write a custom error message\r\n$ spack spec openmpi fabrics=auto,psm\r\nInput spec\r\n--------------------------------\r\nopenmpi fabrics=auto,psm\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: the value 'auto' is mutually exclusive with any of the other values [openmpi, variant 'fabrics']\r\n\r\n$ spack spec mvapich2 process_managers=slurm,gforker\r\nInput spec\r\n--------------------------------\r\nmvapich2 process_managers=gforker,slurm\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: 'slurm' or 'auto' cannot be activated along with other process managers [mvapich2, variant 'process_managers']\r\n\r\n# Finally let's suppose I left `default=None` in a new package, here's what happens\r\n# (This will fail the package_sanity unit test on Travis)\r\n$ spack spec mvapich2 \r\nInput spec\r\n--------------------------------\r\nmvapich2\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: either a default was not explicitly set, or 'None' was used [mvapich2, variant 'ch3_rank_bits']\r\n```\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9481",
+    "updated_at": "2019-01-05 09:06:27",
+    "created_at": "2018-10-10 14:24:12",
+    "closed_at": "2019-01-05 03:02:35",
+    "state": "closed",
+    "title": "Complex variants might use a more declarative style",
+    "number": 9481,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 368692219,
+    "html_url": "https://github.com/spack/spack/pull/9481",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 16
+}

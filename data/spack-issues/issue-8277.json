@@ -1,0 +1,21 @@
+{
+    "body": "Okay, I swear this is the last bug I've noticed in our build error messages (so far).\r\n\r\nSpack uses its own special color code syntax of the form `@color{text}`. The problem is that if `text` contains the `}` character, Spack prematurely ends the color environment. \r\n\r\nAccording to the [documentation for the color module](http://spack.readthedocs.io/en/latest/llnl.util.tty.html#module-llnl.util.tty.color), you can escape `}` using `}}` to avoid this problem. This works, however, you end up with `}}` in your output. Also, `color.cescape` doesn't escape this value by default.\r\n\r\nMy solution was to escape `}` in `color.cescape` and remove it later in `colorize`. I have no idea if this is the right thing to do. According to the docs, escaping `}` should only be necessary when using the `@color{text}` syntax, not when using `@colortext@.`. I wasn't sure how to check for that, so I didn't.\r\n\r\n### Before\r\n\r\n<img width=\"947\" alt=\"screen shot 2018-05-25 at 10 45 17 am\" src=\"https://user-images.githubusercontent.com/12021217/40554220-a08da7c6-600a-11e8-8f7a-0a69fad93b53.png\">\r\n\r\n### After\r\n\r\n<img width=\"956\" alt=\"screen shot 2018-05-25 at 10 45 41 am\" src=\"https://user-images.githubusercontent.com/12021217/40554225-a5cd6000-600a-11e8-9502-b46823d7721c.png\">\r\n\r\nNote: these screenshots were captured with #8271. Otherwise, the output would highlight the wrong line and you wouldn't even notice this bug.\r\n\r\nI've noticed this problem in both package errors (where lines from `package.py` are displayed) and build errors (where lines from `spack-build.out` are displayed). I'm sure this problem occurs elsewhere. Aside from `spack url` where we care about the index of the match, I can't think of anywhere where we _wouldn't_ want to always `cescape`.\r\n\r\nP.S. This keeps getting more and more hacky. I'm wondering if we shouldn't use an existing external module for color support with magical things like \"unit tests\" and \"other users to detect bugs\". As far as I know, none of this logic is tested anywhere.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8277",
+    "updated_at": "2018-06-03 16:58:33",
+    "created_at": "2018-05-25 16:08:02",
+    "closed_at": "2018-06-03 04:02:29",
+    "state": "closed",
+    "title": "Fix coloring of error messages containing '}' symbol",
+    "number": 8277,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "error-messages",
+        "color"
+    ],
+    "id": 326583157,
+    "html_url": "https://github.com/spack/spack/pull/8277",
+    "assignees": [],
+    "comments": 5
+}

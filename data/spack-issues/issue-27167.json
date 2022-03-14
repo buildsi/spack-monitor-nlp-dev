@@ -1,0 +1,21 @@
+{
+    "body": "I am currently experimenting with using environments as development environments, and I have an environment with roughly 50 root specs, with about 20 of them being local dev packages, i.e.\r\n\r\n```yaml\r\nspack:\r\n  specs: \r\n    - lcio\r\n  # about 50 other packages here\r\n  develop:\r\n    lcio:\r\n      path: /path/to/local/git/repo\r\n      spec: lcio@master\r\n    # another 20 of these\r\n```\r\nThis seems to work as expected, i.e. changing a dev package will result in a rebuild of the package itself and all its dependents via `spack install`. The problem I ran into was that it takes quite long (order of 15 - 20 minutes) for spack to figure out which packages need to be built again. This is also the case when there were no changes at all.\r\n\r\nI have tracked this down to the fact that `Environment._spec_needs_overwrite` is called over and over again with the same specs, because when figuring out which packages to rebuild, spack walks the complete DAGs of all root packages (and then recursively the DAGs of dependencies as far as I can tell). This becomes quite expensive, because for dev packages it will actually start to compare timestamps of the source files with the installation time stamp. Simply memoizing the results for a given spec avoids having to check specs multiple times in different dependency graphs.\r\n\r\nFor me the observable behavior is unchanged. I have timed a `spack install` with and without these changes, where all packages were up to date, i.e. only the \"overhead\" (figuring out which packages to build, recreating the view, etc..) but no actual build is measured. Times before:\r\n```console\r\nreal\t19m21,477s\r\nuser\t17m20,906s\r\nsys\t1m58,962s\r\n```\r\nwith memoizing:\r\n```console\r\nreal\t1m49,284s\r\nuser\t1m46,653s\r\nsys\t0m2,568s\r\n```",
+    "user": "tmadlener",
+    "url": "https://api.github.com/repos/spack/spack/issues/27167",
+    "updated_at": "2021-11-29 17:34:24",
+    "created_at": "2021-11-02 19:19:37",
+    "closed_at": "2021-11-29 17:34:24",
+    "state": "closed",
+    "title": "Speed up install of environments with dev packages",
+    "number": 27167,
+    "milestone": null,
+    "labels": [
+        "environments"
+    ],
+    "id": 1042725546,
+    "html_url": "https://github.com/spack/spack/pull/27167",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 6
+}

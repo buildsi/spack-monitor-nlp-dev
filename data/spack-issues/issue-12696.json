@@ -1,0 +1,19 @@
+{
+    "body": "Hey all,\r\nso I've been trying to use spack to build my toolchain using a custom libc (as it's either that or using bazel to get a recent working tensorflow-gpu version on our \"old\" SL7-cluster). After trying to build libc with system/spack compilers for a while, but always getting RPATH related errors (which google didn't help with anymore), I tried crosstools-ng to build a full toolchain with a \"matching\" version of gcc+glibc (no real cross-compiler, though that should work nicely when looking at my experience).\r\nThis approach proved working near perfectly, setting Xflags in the compilers.yaml like the following (instructing the linker to link against the new libc)\r\n```\r\n -O3 -fPIC --sysroot=/home/x-tools/x86_64-linux-gnu/x86_64-linux-gnu/sysroot/\r\n -Wl,--rpath=/home/x-tools/x86_64-linux-gnu/x86_64-linux-gnu/sysroot/lib\r\n -Wl,--dynamic-linker=/home/x-tools/x86_64-linux-gnu/x86_64-linux-gnu/sysroot/lib/ld-linux-x86-64.so.2\r\n```\r\nUnfortunately I soon discovered during stack compilation that there is still something wrong with that: all libraries, which are linked and in turn depend on other libraries are not properly linking, giving errors similar to:\r\n```\r\nconfigure:74329: /<spack-compiler-wrapper>/gcc -o conftest -O3 -DNDEBUG -finline-functions -fno-strict-aliasing -fexceptions -mcx16 -pthr\r\nead   -I<spack-installdir>/gcc-cross/zlib-1.2.11-52hxcr6qwhqyxpgdtb3f7zd7dmdtmjgo/include  -I/home/ga67xeb/spack_\r\nmain/opt/spack/linux-scientific7-x86_64/gcc-cross/hwloc-1.11.11-wf2fifhwgqn3uwhqnfnt7f7rjq2jkn7u/include   -L/home/ga67xeb/spack_main/opt/spack/linux-scie\r\nntific7-x86_64/gcc-cross/zlib-1.2.11-52hxcr6qwhqyxpgdtb3f7zd7dmdtmjgo/lib -fexceptions  -L<spack-installdir>/gcc-\r\ncross/hwloc-1.11.11-wf2fifhwgqn3uwhqnfnt7f7rjq2jkn7u/lib conftest.c -lhwloc  -lm -lutil  -lz  >&5\r\n<ct-ng-compiler>lib/gcc/x86_64-linux-gnu/8.3.0/../../../../x86_64-linux-gnu/bin/ld: warning: libnuma.so.1, needed by <spack-installdir>/gcc-cross/hwloc-1.11.11-wf2fifhwgqn3uwhqnfnt7f7rjq2jkn7u/lib/libhwloc.so, not found (try using -rpath or -rpath-link)\r\n# and it doesn't find the appropriate symbols\r\n<ct-ng-compiler>lib/gcc/x86_64-linux-gnu/8.3.0/../../../../x86_64-linux-gnu/bin/ld: <spack-installdir>/gcc-cross/hwloc-1.11.11-wf2fifhwgqn3uwhqnfnt7f7rjq2jkn7u/lib/libhwloc.so: undefined reference to `xmlDocSetRootElement@LIBXML2_2.4.30'\r\n```\r\nnow, I could add a hook/new function to the package class, which is traversing all the dependencies of dependencies and adding the respective `-Wl,-rpath-link=path/to/lib`-portions, which should work, but is not really clean (and it doesn't work with openmpi (likely related to that https://github.com/open-mpi/ompi/issues/1089)).\r\n\r\nNow the question is: does anyone know some fancy flag for the linker, which remediates this, without going down the \"if you crosscompile, add all the -rpath-link\"-road?\r\n\r\nSeems related to: https://stackoverflow.com/questions/24598047/why-does-ld-need-rpath-link-when-linking-an-executable-against-a-so-that-needs?answertab=votes#tab-top",
+    "user": "flxmr",
+    "url": "https://api.github.com/repos/spack/spack/issues/12696",
+    "updated_at": "2019-09-04 14:59:45",
+    "created_at": "2019-09-04 09:10:21",
+    "closed_at": "2019-09-04 14:59:09",
+    "state": "closed",
+    "title": "Dealing with secondary dependencies when using a nonstandard-libc/crosscompiler",
+    "number": 12696,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 489036808,
+    "html_url": "https://github.com/spack/spack/issues/12696",
+    "assignees": [],
+    "comments": 1
+}

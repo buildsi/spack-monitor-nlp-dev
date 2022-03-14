@@ -1,0 +1,21 @@
+{
+    "body": "Looking at this output from `spack info zlib`...\r\n\r\n```\r\nVariants:\r\n    Name [Default]    Allowed values    Description\r\n    pic [on]                  True, False          Produce position-independent code (for shared libs)\r\n    shared [on]            True, False          Enables the build of shared libraries.\r\n```\r\n\r\nI notice the inconsistency between the `Default` values (on/off) and the `Allowed` values. Now, normal variants are in the python code itself set as either `True` or `False`. But, there is no need for `spack info` to use _exactly_ the same verbiage in its output. On the other hand, I think it should be consistent too.\r\n\r\nI am happy to adjust code but don't honestly know what the preferred output would be...\r\n\r\n```\r\nVariants:\r\n    Name [Default]    Allowed values    Description\r\n    pic [on]                  on, off          Produce position-independent code (for shared libs)\r\n    shared [on]            on, off          Enables the build of shared libraries.\r\n```\r\n\r\nor\r\n\r\n```\r\nVariants:\r\n    Name [Default]    Allowed values    Description\r\n    pic [True]              True, False         Produce position-independent code (for shared libs)\r\n    shared [False]       True, False          Enables the build of shared libraries.\r\n```\r\n\r\nor, using just `T` or `F` saves a lot of horizontal real estate\r\n\r\n```\r\nVariants:\r\n    Name [Def]    Allowed    Description\r\n    pic [T]             T, F           Produce position-independent code (for shared libs)\r\n    shared [F]       T, F           Enables the build of shared libraries.\r\n```\r\n\r\nor\r\n\r\n```\r\nVariants:\r\n    Name [Def]    Allowed values    Description\r\n    pic [+]              +, ~                 Produce position-independent code (for shared libs)\r\n    shared [~]        +, ~                 Enables the build of shared libraries.\r\n```\r\n\r\nI kinda like this latter one as it uses spack command line speak.\r\n",
+    "user": "markcmiller86",
+    "url": "https://api.github.com/repos/spack/spack/issues/5487",
+    "updated_at": "2020-04-23 19:59:57",
+    "created_at": "2017-09-26 18:17:02",
+    "closed_at": "2020-04-23 17:43:06",
+    "state": "closed",
+    "title": "on/off vs. True/False consistency in spack info output",
+    "number": 5487,
+    "milestone": null,
+    "labels": [
+        "proposal"
+    ],
+    "id": 260720273,
+    "html_url": "https://github.com/spack/spack/issues/5487",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

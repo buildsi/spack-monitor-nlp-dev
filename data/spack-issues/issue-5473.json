@@ -1,0 +1,23 @@
+{
+    "body": "I'm on a Linux system and I use external packages for the compiler and MPI. The compiler works fine, but a very simply TPL won't build due to MPI issues (actually *hwloc*). This is a new issue that appeared over the last few weeks.\r\n\r\n```\r\n% spack install parmetis % intel@17.0.4 ^ openmpi@1.10.5\r\n==> openmpi@1.10.5 : has external module in openmpi/1.10.5\r\n==> openmpi@1.10.5 : is actually installed in /usr/projects/hpcsoft/toss3/snow/openmpi/1.10.5-intel-17.0.4\r\n==> openmpi@1.10.5 : generating module file\r\n==> Error: 'No spec with name hwloc in openmpi@1.10.5%intel@17.0.4~cuda fabrics=verbs ~java schedulers= ~sqlite3~thread_multiple+vt arch=linux-rhel7-x86_64'\r\n```\r\n\r\n* packages.yaml\r\n```\r\npackages:\r\n  openmpi:\r\n    version: [1.10.5]\r\n    modules:\r\n      openmpi@1.10.5: openmpi/1.10.5\r\n```\r\n\r\n* The spec seems happy:\r\n\r\n```\r\n% spack spec parmetis % intel@17.0.4 ^ openmpi@1.10.5\r\nInput spec\r\n--------------------------------\r\nparmetis%intel@17.0.4\r\n    ^openmpi@1.10.5\r\n\r\nNormalized\r\n--------------------------------\r\nparmetis%intel@17.0.4\r\n    ^cmake@2.8:\r\n    ^metis@5:\r\n    ^openmpi@1.10.5\r\n        ^hwloc\r\n            ^pkg-config\r\n\r\nConcretized\r\n--------------------------------\r\nparmetis@4.0.3%intel@17.0.4~debug~gdb+shared arch=linux-rhel7-x86_64 \r\n    ^cmake@3.9.0%intel@17.0.4~doc+ncurses+openssl+ownlibs~qt arch=linux-rhel7-x86_64 \r\n    ^metis@5.1.0%intel@17.0.4~debug~gdb~int64~real64+shared arch=linux-rhel7-x86_64 \r\n    ^openmpi@1.10.5%intel@17.0.4~cuda fabrics=verbs ~java schedulers= ~sqlite3~thread_multiple+vt arch=linux-rhel7-x86_64 \r\n```\r\n\r\nAlso:\r\n* Using `--dirty` doesn't help.\r\n* Same error with different versions of openmpi.\r\n* I'm not sure why spack needs to know about hwloc since only the MPI dependency needs it and MPI is *external*.\r\n\r\nSuggestions or workarounds are welcome.",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/5473",
+    "updated_at": "2017-09-29 16:23:14",
+    "created_at": "2017-09-25 22:04:58",
+    "closed_at": "2017-09-29 16:23:14",
+    "state": "closed",
+    "title": "MPI as external package not working",
+    "number": 5473,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules"
+    ],
+    "id": 260429450,
+    "html_url": "https://github.com/spack/spack/issues/5473",
+    "assignees": [
+        "scheibelp",
+        "alalazo"
+    ],
+    "comments": 10
+}

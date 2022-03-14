@@ -1,0 +1,25 @@
+{
+    "body": "Spack breaks when installing an environment that contains python + a package that fails to build.\r\n\r\n### Steps to reproduce the issue\r\n\r\nAssume that you have a package \"somepackage\" that fails to build with spack (in my case this was a one my own python packages that would fail in the setup.py script for some reasons). Do the following to break spack:\r\n\r\n```console\r\n$ spack env create myenv\r\n$ spack env activate myenv\r\n$ spack add python\r\n$ spack add somepackage\r\n$ spack install # this will install everything (including python) up to somepackage, which will fail to install, as expected\r\n```\r\nAfter this series of commands, all spack commands will fail with a RuntimeError from python indicating:\r\n```\r\nRuntimeError: Unable to locate python command in /projects/spack/var/spack/environments/myenv/.spack-env/view/bin\r\n```",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/15884",
+    "updated_at": "2020-05-07 09:30:10",
+    "created_at": "2020-04-05 20:07:11",
+    "closed_at": "2020-05-07 09:30:10",
+    "state": "closed",
+    "title": "Spack breaking when installing Python in an environment",
+    "number": 15884,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "python",
+        "workaround",
+        "impact-medium",
+        "environments"
+    ],
+    "id": 594620656,
+    "html_url": "https://github.com/spack/spack/issues/15884",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 3
+}

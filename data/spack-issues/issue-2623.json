@@ -1,0 +1,17 @@
+{
+    "body": "This PR should fix #2466 and without touching a lot of code. The basic ideas:\r\n\r\n- directives now are lazy, and used just to capture the values passed to them\r\n- a list of commands stemming from directives gets stored in the class being created\r\n- these commands are executed at `Meta.__init__` time if the class being created comes from a package repository (if not it's just code that has been factored into a common base)\r\n\r\nThis also means that `DictWrapper` and `inspect.stack` are not used anymore, as we defer code execution to a later time where `pkg` is already available. ~*Currently this PR supports only single inheritance*~\r\n\r\n##### Modifications\r\n\r\n- [x] directives can be inherited \r\n- [x] multiple inheritance of base classes containing directives is supported\r\n- [x] tests that stress the new functionality",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/2623",
+    "updated_at": "2016-12-28 20:37:03",
+    "created_at": "2016-12-18 22:22:57",
+    "closed_at": "2016-12-28 20:37:03",
+    "state": "closed",
+    "title": "Directive inheritance: laziness for the win",
+    "number": 2623,
+    "milestone": null,
+    "labels": [],
+    "id": 196303314,
+    "html_url": "https://github.com/spack/spack/pull/2623",
+    "assignees": [],
+    "comments": 8
+}

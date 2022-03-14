@@ -1,0 +1,17 @@
+{
+    "body": "Due to differences in how the -qstrict flag is handled in the f77 and\r\nf90 XL compilers, we created some uniformity by using the -qstrict\r\nFortran compiler flag by default. The package files can undo the default\r\nsetting by using the -qfree option (as the last option wins.)\r\nThe problem occurs when cmake builds test programs to detect compiler\r\ncapabilities, as it uses the default flags.  Consequently, f90 test\r\nprograms in free form will fail to build with the -qstrict flag.\r\n\r\nThis commit changes the free form for the cmake test programs to strict\r\nform, to allow the use of both f77 and f90 compilers.\r\n\r\nInstall cmake under spack for XL compilers as follows:\r\n\r\nspack install cmake%xl_r+openssl+ncurses^openssl%gcc^ncurses%gcc\r\n\r\nThis will build openssl and ncurses with the gcc compiler (there is\r\nno openssl and ncurses code in the final math library) and cmake with\r\nthe xl(_r) compiler.",
+    "user": "serbanmaerean",
+    "url": "https://api.github.com/repos/spack/spack/issues/2949",
+    "updated_at": "2017-01-30 21:37:19",
+    "created_at": "2017-01-27 20:21:43",
+    "closed_at": "2017-01-30 21:37:19",
+    "state": "closed",
+    "title": "Update cmake to work with the IBM XL compilers (xl and xl_r)",
+    "number": 2949,
+    "milestone": null,
+    "labels": [],
+    "id": 203730852,
+    "html_url": "https://github.com/spack/spack/pull/2949",
+    "assignees": [],
+    "comments": 6
+}

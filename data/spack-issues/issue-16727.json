@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\nUsing a spack.yaml with the following container fields:\r\n\r\n```\r\n  container:\r\n    format: docker\r\n    base:\r\n      image: 'ubuntu:18.04'\r\n      spack: '0.14.2'\r\n```\r\n\r\nRun\r\n\r\n```console\r\n$ spack containerize\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack containerize\r\nTraceback (most recent call last):\r\n  File \"/spack/lib/spack/spack/environment.py\", line 407, in validate\r\n    spack.schema.Validator(spack.schema.env.schema).validate(validate_data)\r\n  File \"/spack/lib/spack/external/jsonschema/validators.py\", line 114, in validate\r\n    raise error\r\njsonschema.exceptions.ValidationError: '0.14.2' is not one of ['develop', '0.14', '0.14.0']\r\n\r\nFailed validating 'enum' in schema['patternProperties']['^env|spack$']['properties']['container']['properties']['base']['properties']['spack']:\r\n    {'enum': ['develop', '0.14', '0.14.0'], 'type': 'string'}\r\n\r\nOn instance['spack']['container']['base']['spack']:\r\n    '0.14.2'\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\nThis did not work for me on 0.14.2.\r\n\r\n```\r\nspack debug report\r\nusage: spack debug [-h] SUBCOMMAND ...\r\nspack debug: error: argument SUBCOMMAND: invalid choice: 'report' choose from:\r\n    create-db-tarball\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "mc-allen",
+    "url": "https://api.github.com/repos/spack/spack/issues/16727",
+    "updated_at": "2020-05-27 17:21:16",
+    "created_at": "2020-05-19 18:55:15",
+    "closed_at": "2020-05-27 17:21:16",
+    "state": "closed",
+    "title": "Cannot use spack containerize with spack 0.14.2 version",
+    "number": 16727,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 621209650,
+    "html_url": "https://github.com/spack/spack/issues/16727",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

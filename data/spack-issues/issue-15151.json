@@ -1,0 +1,22 @@
+{
+    "body": "Hi guys,\r\n\r\nOn our local Frankencluster, I've noticed an odd inconsistency with Spack's arch detection. This cluster is composed of many flavors of x86_64, Power 9, and ARM nodes, all running CentOS Linux release 7.7.1908 (Core). My particular issue is with our x86_64 nodes.\r\n\r\nExample 1: On node cn123, with a fresh Spack instance:\r\n```\r\n[quellyn@cn123 cn123]$ git clone https://github.com/spack/spack.git\r\nCloning into 'spack'...\r\nremote: Enumerating objects: 9, done.\r\nremote: Counting objects: 100% (9/9), done.\r\nremote: Compressing objects: 100% (4/4), done.\r\nremote: Total 197245 (delta 6), reused 5 (delta 5), pack-reused 197236\r\nReceiving objects: 100% (197245/197245), 72.96 MiB | 31.81 MiB/s, done.\r\nResolving deltas: 100% (87768/87768), done.\r\nChecking out files: 100% (5637/5637), done.\r\n[quellyn@cn123 cn123]$ source ./spack/share/spack/setup-env.sh \r\n[quellyn@cn123 cn123]$ echo $SPACK_ROOT\r\n/home/quellyn/Scratch/cn123/spack\r\n[quellyn@cn123 cn123]$ spack arch\r\nlinux-centos7-haswell\r\n```\r\nThe node itself agrees with this assessment:\r\n```\r\n[quellyn@cn123 cn123]$ cat /sys/devices/cpu/caps/pmu_name \r\nhaswell\r\n\r\n[quellyn@cn123 cn123]$ grep Intel /proc/cpuinfo | sort -u\r\nmodel name\t: Intel(R) Xeon(R) CPU E5-2660 v3 @ 2.60GHz\r\nvendor_id\t: GenuineIntel\r\n```\r\n\r\n#####\r\n\r\nExample 2: On node cn141, with a fresh Spack instance:\r\n```\r\n[quellyn@cn141 cn141]$ git clone https://github.com/spack/spack.git\r\nCloning into 'spack'...\r\nremote: Enumerating objects: 9, done.\r\nremote: Counting objects: 100% (9/9), done.\r\nremote: Compressing objects: 100% (4/4), done.\r\nremote: Total 197245 (delta 6), reused 5 (delta 5), pack-reused 197236\r\nReceiving objects: 100% (197245/197245), 72.96 MiB | 35.81 MiB/s, done.\r\nResolving deltas: 100% (87768/87768), done.\r\nChecking out files: 100% (5637/5637), done.\r\n[quellyn@cn141 cn141]$ source ./spack/share/spack/setup-env.sh \r\n[quellyn@cn141 cn141]$ echo $SPACK_ROOT\r\n/home/quellyn/Scratch/cn141/spack\r\n[quellyn@cn141 cn141]$ spack arch\r\nlinux-centos7-nehalem\r\n```\r\n\r\nBut this node disagrees with Spack; it thinks it's a Haswell also:\r\n```\r\n[quellyn@cn141 cn141]$ cat /sys/devices/cpu/caps/pmu_name\r\nhaswell\r\n[quellyn@cn141 cn141]$                 \r\n[quellyn@cn141 cn141]$ grep Intel /proc/cpuinfo | sort -u\r\nmodel name\t: Intel(R) Xeon(R) CPU E5-2660 v3 @ 2.60GHz\r\nvendor_id\t: GenuineIntel\r\n```\r\n\r\n#####\r\n\r\nI'm afraid I don't understand the magic of Spack's arch detection well enough to even start looking for a root cause. If you could give me a hint as to where to start that would be great.\r\n\r\nThanks!\r\nQuellyn\r\n\r\nP.S. This is my first time opening an issue; please let me know if I've left something out.\r\n\r\n\r\n",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/15151",
+    "updated_at": "2020-02-27 13:57:55",
+    "created_at": "2020-02-21 16:53:41",
+    "closed_at": "2020-02-21 18:18:51",
+    "state": "closed",
+    "title": "Incorrect arch detection",
+    "number": 15151,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "microarchitectures"
+    ],
+    "id": 569069546,
+    "html_url": "https://github.com/spack/spack/issues/15151",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

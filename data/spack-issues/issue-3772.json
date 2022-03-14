@@ -1,0 +1,19 @@
+{
+    "body": "On a system where the native python is version 2.6, the serf package in spack fails to build. I found that adding a `depends_on('python')` to the serf package fixed the problem, because scons then uses the spack-built `python@2.7` at run-time, matching the version used during installation of scons.\r\n\r\nI am not sure why it is necessary to add an explicit dependency on python, when scons is installed as a python package. Shouldn't all python extension packages imply a run-time dependency on python? And similarly for extensions of perl, R, etc.?",
+    "user": "mjwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/3772",
+    "updated_at": "2017-05-04 17:32:51",
+    "created_at": "2017-04-10 01:27:17",
+    "closed_at": "2017-05-04 17:32:51",
+    "state": "closed",
+    "title": "serf: scons requires same python for build and run",
+    "number": 3772,
+    "milestone": null,
+    "labels": [
+        "dependencies"
+    ],
+    "id": 220516500,
+    "html_url": "https://github.com/spack/spack/pull/3772",
+    "assignees": [],
+    "comments": 7
+}

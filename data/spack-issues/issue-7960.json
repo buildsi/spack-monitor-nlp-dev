@@ -1,0 +1,20 @@
+{
+    "body": "@adamjstewart @healther \r\n\r\nThis PR makes #7103 optional.  I believe #7103 is not a good idea for the following reasons:\r\n\r\n1. It is not the way the Python distro does things.   `python3` is the standard name for the Python3 executable, and `python`, according to the standard, always means Python2.  By default, Spack installations should conform to the standard.\r\n\r\n2. It does weird things to my Spack.  Consider what I did:\r\n   1. Download Spack, start using it.  (Spack running with my System's /usr/bin/ptyhon).\r\n   2. Install my software stack, which includes Python3\r\n   3. Do a `module load` of my software stack.\r\n   4. All of a sudden, the `spack` command is now running with Python3, not Python2.  What horrible inconsistencies might that cause, AFTER I've built a lot of stuff?  (To be fair, Spack works with Python3 too.  But it still makes me nervous).\r\n\r\n3. It breaks some builds.  I have builds that assume, as per the standard, that  \"python\" means Python2.  (Admittedly, these builds should probably be fixed to use the `python2` executable).\r\n\r\nAnyway... I think it's best to leave the symlinking as optional.  So now there's a `python+symlink` variant.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/7960",
+    "updated_at": "2018-05-02 22:01:45",
+    "created_at": "2018-05-01 20:03:38",
+    "closed_at": "2018-05-02 19:26:31",
+    "state": "closed",
+    "title": "make symlinking python3->python optional",
+    "number": 7960,
+    "milestone": null,
+    "labels": [
+        "ready",
+        "update-package"
+    ],
+    "id": 319309205,
+    "html_url": "https://github.com/spack/spack/pull/7960",
+    "assignees": [],
+    "comments": 13
+}

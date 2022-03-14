@@ -1,0 +1,21 @@
+{
+    "body": "I'm not sure of the correct protocol to do this, so decided to make a stab and hopefully it works or I'm told the correct way...\r\n\r\nThe `maxdims` and `maxvars` variants for the NetCDF package were, to the best of my knowledge, only ever used for the Exodus library in the SEACAS package (which I maintain).  In versions of NetCDF prior to 4.4.0, Exodus required that the `NC_MAX_DIMS` and `NC_MAX_VARS` be increased over the default values.  This requirement was removed in 4.4.0 and later.\r\n\r\nI do not know of any way to make a variant depend on the version and since the `maxdims` and `maxvars` variants are integer values and not boolean, then every build of NetCDF will have  these variants.  Typically `maxdims=1024 maxvars=8192` and the build will patch the `netcdf.h` include file for every build even though it is (almost) never needed. \r\n\r\nThe SEACAS package has a NetCDF version requirement of >4.6.2, so it no longer specifies the `maxdims` or `maxvars` variant and I could find no other package in spack that uses this variant either, so removal should not break anything *in* spack.  However, there is no guarantee that some other external package doesn't use the variant, so I'm not sure of the correct way to remove the variant.  \r\n\r\nFor this PR, I simply removed the variants.  If there is a way to specify use of the variant tied to a specific version, I couldn't find it anywhere...",
+    "user": "gsjaardema",
+    "url": "https://api.github.com/repos/spack/spack/issues/15524",
+    "updated_at": "2020-03-28 14:28:42",
+    "created_at": "2020-03-17 19:17:05",
+    "closed_at": "2020-03-28 02:55:05",
+    "state": "closed",
+    "title": "netcdf-c: remove maxdims and maxvars variant",
+    "number": 15524,
+    "milestone": null,
+    "labels": [
+        "variants"
+    ],
+    "id": 583240514,
+    "html_url": "https://github.com/spack/spack/pull/15524",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

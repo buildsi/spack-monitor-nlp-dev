@@ -1,0 +1,19 @@
+{
+    "body": "When ParaView is built without Qt support (which is the default), the dependency on `libxt` is dropped. However, CMake later complains that it cannot find `X11_Xt_LIB`.\r\n\r\nMy current workaround for the issue is to always include the Xt dependency:\r\n\r\n```\r\n-    depends_on('libxt', when='+qt')\r\n+    depends_on('libxt')\r\n```\r\n\r\nCompilation works fine after this change. However, could there be a way to drop the Xt dependency (which needs X11) after all?\r\n\r\n### Expected Result\r\n\r\nPackage would compile without Xt library.\r\n\r\n### Actual Result\r\n\r\nXt library is still required for compilation.\r\n\r\n```\r\n     1229    -- Found X11: /usr/lib64/libX11.so\r\n  >> 1230    CMake Error at VTK/Rendering/OpenGL2/CMakeLists.txt:190 (message):\r\n     1231      X11_Xt_LIB could not be found.  Required for VTK X lib.\r\n```\r\n\r\nCMake finds system-wide X11 installation which is lacking Xt.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install paraview@5.3.0~qt\r\n```\r\n\r\n### Information on your system\r\n\r\nI used `linux-centos7-x86_64` with `gcc@7.3.0`.\r\n",
+    "user": "BergFlo",
+    "url": "https://api.github.com/repos/spack/spack/issues/7322",
+    "updated_at": "2019-12-04 17:53:12",
+    "created_at": "2018-02-22 08:50:38",
+    "closed_at": "2019-12-04 17:53:12",
+    "state": "closed",
+    "title": "Dependency issue with paraview~qt and libxt",
+    "number": 7322,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 299266102,
+    "html_url": "https://github.com/spack/spack/issues/7322",
+    "assignees": [],
+    "comments": 1
+}

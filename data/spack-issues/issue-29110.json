@@ -1,0 +1,22 @@
+{
+    "body": "IntelPackage queries compiler support libraries (libomp) before compiler modules are loaded. These paths are then added as rpaths.\r\n\r\n```python\r\n==> [2022-02-21-19:44:20.434120] 'cc' '--print-file-name' 'libgomp.so'\r\nTraceback (most recent call last):\r\n  File \"/path/to/spack/bin/spack\", line 98, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/path/to/spack/lib/spack/spack/main.py\", line 900, in main\r\n    return _main(argv)\r\n  File \"/path/to/spack/lib/spack/spack/main.py\", line 883, in _main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/path/to/spack/lib/spack/spack/main.py\", line 553, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/path/to/spack/lib/spack/spack/cmd/build_env.py\", line 16, in build_env\r\n    env_utility.emulate_env_utility('build-env', 'build', args)\r\n  File \"/path/to/spack/lib/spack/spack/cmd/common/env_utility.py\", line 67, in emulate_env_utility\r\n    build_environment.setup_package(spec.package, args.dirty, context)\r\n  File \"/path/to/spack/lib/spack/spack/build_environment.py\", line 787, in setup_package\r\n    set_wrapper_variables(pkg, env_mods)\r\n  File \"/path/to/spack/lib/spack/spack/build_environment.py\", line 449, in set_wrapper_variables\r\n    update_compiler_args_for_dep(dspec)\r\n  File \"/path/to/spack/lib/spack/spack/build_environment.py\", line 421, in update_compiler_args_for_dep\r\n    dep_link_dirs.extend(query.libs.directories)\r\n  File \"/path/to/spack/lib/spack/spack/spec.py\", line 948, in __get__\r\n    value = f()\r\n  File \"/path/to/spack/lib/spack/spack/spec.py\", line 937, in <lambda>\r\n    callbacks_chain.append(lambda: getattr(pkg, self.attribute_name))\r\n  File \"/path/to/spack/lib/spack/spack/build_systems/intel.py\", line 993, in libs\r\n    result = self.blas_libs + result\r\n  File \"/path/to/spack/lib/spack/spack/build_systems/intel.py\", line 785, in blas_libs\r\n    threading_engine_libs = self.openmp_libs\r\n  File \"/path/to/spack/lib/spack/spack/build_systems/intel.py\", line 692, in openmp_libs\r\n    raise Exception(omp_lib_path)\r\nException: /opt/gcc/8.1.0/snos/lib/gcc/x86_64-suse-linux/8.1.0/../../../../lib64/libgomp.so\r\n```\r\n\r\nOn Cray where `cc` is clang by default, this means it picks up clang's compiler support libraries, which are in turn from some old GCC:\r\n\r\n```console\r\n$ cc --version\r\nCray clang version 12.0.3  (58badb8c0532a8b5fadda356f3c5fa8499b4918d)\r\nTarget: x86_64-unknown-linux-gnu\r\nThread model: posix\r\nInstalledDir: /opt/cray/pe/cce/12.0.3/cce-clang/x86_64/share/../bin\r\n\r\n$ cc --print-file-name libgomp.so\r\n/opt/gcc/8.1.0/snos/lib/gcc/x86_64-suse-linux/8.1.0/../../../../lib64/libgomp.so\r\n```\r\n\r\nAnd its directory contains `/opt/gcc/8.1.0/snos/lib64/libstdc++.so.6.0.25`, but the compiler registered in spack should use `/opt/gcc/9.3.0/snos/lib64/libstdc++.so.6.0.28`.\r\n\r\nThen when you compile anything C++17 like a hello world `std::filesystem`, linking fails.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/29110",
+    "updated_at": "2022-03-10 22:14:18",
+    "created_at": "2022-02-21 18:51:19",
+    "closed_at": "2022-03-10 22:14:18",
+    "state": "closed",
+    "title": "IntelPackage gets compiler wrong",
+    "number": 29110,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1146129955,
+    "html_url": "https://github.com/spack/spack/issues/29110",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

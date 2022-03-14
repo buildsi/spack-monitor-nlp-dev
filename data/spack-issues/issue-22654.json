@@ -1,0 +1,17 @@
+{
+    "body": "This pull request is akin to https://github.com/spack/spack/pull/22283, but goes in a different direction to, instead of printing the attributes as lists, just display a colored diff of the spec string, formatted. It also adds a strikeout option to the tty color util. ~I'm opening it separately because I'm not convinced it's really better than the first - showing the attributes, verbatim, that are different has less visual clutter than printing an entire spec string that the user has to make sense of via color. I think it was discussed that this could eventually be a tree, but for the same reasons (namely visual complexity) I'm worried this would be too much for most cases except for very simple ones with mostly the same dependencies. So my suggestion is to first add this version to 1. see how people like it, and 2. not hold back any longer on being able to add a spack diff analyzer (although this also depends on the spack monitor PR for the analyzers) and we can test the tree functionality separately, and try to get feedback if people would want it.~  It looks like the following:\r\n\r\nI tried cutting up the strings themselves to find overlap, but I think it's more straight forward to cross out the entire thing and show the new/old. Note that because it's based off of #22283, all the same commits are here.\r\n\r\n![image](https://user-images.githubusercontent.com/814322/113066273-7bdaba80-9177-11eb-8dbc-10d80506f5eb.png)\r\n\r\n**Update**: I'm going to create a diff.py module with a Diff that can accept two specs, and then hold the facts (for generation of json) or to generate this colored output, and then we can use it also with the spack diff analyzer. Something like:\r\n\r\n```python\r\nimport spack.diff\r\n\r\n# Create a new diff\r\ndiff = spack.diff.Diff(spec1, spec2)\r\n\r\n# jump json facts\r\ndiff.json()\r\n\r\n# Get any subset of data values\r\ndiff.intersect\r\n\r\n# these could have better names\r\ndiff.a_not_b\r\ndiff.b_not_a\r\n\r\n# print the diff colored (what we have now)\r\nprint(diff)\r\n\r\n# print the diff tree\r\nprint(diff.tree())\r\n```\r\nWill do tomorrow!",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/22654",
+    "updated_at": "2021-07-24 21:38:58",
+    "created_at": "2021-03-30 22:50:55",
+    "closed_at": "2021-07-24 21:38:58",
+    "state": "closed",
+    "title": "Add/spack diff colored",
+    "number": 22654,
+    "milestone": null,
+    "labels": [],
+    "id": 845410430,
+    "html_url": "https://github.com/spack/spack/pull/22654",
+    "assignees": [],
+    "comments": 17
+}

@@ -1,0 +1,19 @@
+{
+    "body": "subj\r\n```\r\n==> Error: NoSuchMethodError: Package PkgConfig does not support setup_dependent_environment called with pkg-config arch=cray-None-None.  Options are: pkg-config arch=cray-None-None\r\n/home/denis/spack/lib/spack/spack/build_environment.py:567, in child_execution:\r\n     547      def child_execution(child_connection, input_stream):\r\n     548          try:\r\n     549              setup_package(pkg, dirty=dirty)\r\n     550              function(input_stream)\r\n     551              child_connection.send(None)\r\n     552          except StopIteration as e:\r\n     553              # StopIteration is used to stop installations\r\n     554              # before the final stage, mainly for debug purposes\r\n     555              tty.msg(e.message)\r\n     556              child_connection.send(None)\r\n     557          except:\r\n     558              # catch ANYTHING that goes wrong in the child process\r\n     559              exc_type, exc, tb = sys.exc_info()\r\n     560  \r\n     561              # Need to unwind the traceback in the child because traceback\r\n     562              # objects can't be sent to the parent.\r\n     563              tb_string = traceback.format_exc()\r\n     564  \r\n     565              # build up some context from the offending package so we can\r\n     566              # show that, too.\r\n  >> 567              package_context = get_package_context(tb)\r\n     568  \r\n     569              build_log = None\r\n     570              if hasattr(pkg, 'log_path'):\r\n     571                  build_log = pkg.log_path\r\n     572  \r\n     573              # make a pickleable exception to send to parent.\r\n     574              msg = \"%s: %s\" % (str(exc_type.__name__), str(exc))\r\n     575  \r\n     576              ce = ChildError(msg, tb_string, build_log, package_context)\r\n     577              child_connection.send(ce)\r\n     578  \r\n     579          finally:\r\n     580              child_connection.close()\r\n\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/3412",
+    "updated_at": "2017-03-11 13:48:36",
+    "created_at": "2017-03-11 09:15:32",
+    "closed_at": "2017-03-11 13:48:36",
+    "state": "closed",
+    "title": "pkg-config is broken on a fresh Ubuntu",
+    "number": 3412,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 213517519,
+    "html_url": "https://github.com/spack/spack/issues/3412",
+    "assignees": [],
+    "comments": 3
+}

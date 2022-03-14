@@ -1,0 +1,25 @@
+{
+    "body": "Using `spack@develop` (d43522deeb4af2f435aaa920c266f8282a815f72 from 6-Oct-2020) on `JLSE Iris` and it *looks* like `Intel@2020.09.15.001` is being misidentified as an Intel < 11.1, and is thus unable to use `cxx11_flag` ??\r\n\r\n```\r\n$> spack compilers\r\n...\r\n-- intel opensuse_leap15-x86_64 ---------------------------------\r\nintel@2020.09.15.001\r\n```\r\n\r\n```\r\n$> spack install superlu-dist%intel ^m4%gcc\r\n...\r\n==> Installing superlu-dist\r\n==> No binary for superlu-dist found: installing from source\r\n==> Error: UnsupportedCompilerFlag: intel (< 11.1) does not support the C++11 standard (as compiler.cxx11_flag).\r\n    If you think it should, please edit the compiler.intel subclass to implement the cxx11_flag property and submit a pull request or issue.\r\n\r\n/home/eugeneswalker/spack/var/spack/repos/builtin/packages/superlu-dist/package.py:89, in flag_handler:\r\n         86    def flag_handler(self, name, flags):\r\n         87        flags = list(flags)\r\n         88        if name == 'cxxflags':\r\n  >>     89            flags.append(self.compiler.cxx11_flag)\r\n         90        if name == 'cflags' and '%pgi' not in self.spec:\r\n         91            flags.append('-std=c99')\r\n         92        return (None, None, flags)\r\n```\r\n\r\nAny ideas?\r\n\r\n@becker33 @shahzebsiddiqui @frankwillmore ",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/19216",
+    "updated_at": "2020-10-16 15:08:22",
+    "created_at": "2020-10-07 02:07:58",
+    "closed_at": "2020-10-08 18:36:19",
+    "state": "closed",
+    "title": "Intel 2020.09.15.001 misidentified as Intel<11.1?",
+    "number": 19216,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "intel",
+        "ecp",
+        "triage",
+        "e4s",
+        "alcf"
+    ],
+    "id": 716138914,
+    "html_url": "https://github.com/spack/spack/issues/19216",
+    "assignees": [],
+    "comments": 4
+}

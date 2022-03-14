@@ -1,0 +1,20 @@
+{
+    "body": "Per https://sourceware.org/pipermail/libc-announce/2020/000029.html sys/sysctl.h has been removed from glibc 2.32 and later. Furthermore, since kernel 5.5 the sysctl function has failed with ENOSYS. Removing this include allows the installation to complete on newer OSes. \r\n\r\nsysctl was only ever called in one function in one file, that function is as follows:\r\n```\r\n#ifdef HW_PHYSMEM\r\n\r\nuint64\r\ngetMemorySize(void) {\r\n  uint64  physMemory = 0;\r\n\r\n  int     mib[2] = { CTL_HW, HW_PHYSMEM };\r\n  size_t  len    = sizeof(uint64);\r\n\r\n  errno = 0;\r\n\r\n  if (sysctl(mib, 2, &physMemory, &len, NULL, 0) != 0)\r\n    //  failed to get memory size, so what?\r\n    fprintf(stderr, \"sysctl() failed to return CTL_HW, HW_PHYSMEM: %s\\n\", strerror(errno)), exit(1);\r\n\r\n  if (len != sizeof(uint64)) {\r\n#ifdef HW_MEMSIZE\r\n    mib[1] = HW_MEMSIZE;\r\n    len = sizeof(uint64);\r\n    if (sysctl(mib, 2, &physMemory, &len, NULL, 0) != 0 || len != sizeof(uint64))\r\n#endif\r\n       //  wasn't enough space, so what?\r\n       fprintf(stderr, \"sysctl() failed to return CTL_HW, HW_PHYSMEM: %s\\n\", strerror(errno)), exit(1);\r\n  }\r\n\r\n  return(physMemory);\r\n}\r\n\r\n#else\r\n\r\nuint64\r\ngetMemorySize(void) {\r\n  uint64  physPages  = sysconf(_SC_PHYS_PAGES);\r\n  uint64  pageSize   = sysconf(_SC_PAGESIZE);\r\n  uint64  physMemory = physPages * pageSize;\r\n\r\n  fprintf(stderr, \"PHYS_PAGES = \" F_U64 \"\\n\", physPages);\r\n  fprintf(stderr, \"PAGE_SIZE  = \" F_U64 \"\\n\", pageSize);\r\n  fprintf(stderr, \"MEMORY     = \" F_U64 \"\\n\", physMemory);\r\n\r\n  return(physMemory);\r\n}\r\n\r\n#endif\r\n```\r\nThe version of the function that calls sysctl is only included if HW_PHYSMEM is set, which I do not believe it is by default. So this PR shouldn't actually change anything functionally in the code, just fix build errors for newer OSes.",
+    "user": "snehring",
+    "url": "https://api.github.com/repos/spack/spack/issues/26173",
+    "updated_at": "2021-12-17 17:59:45",
+    "created_at": "2021-09-22 20:00:29",
+    "closed_at": "2021-10-04 15:59:01",
+    "state": "closed",
+    "title": "masurca: removing sys/sysctl.h include",
+    "number": 26173,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "update-package"
+    ],
+    "id": 1004721664,
+    "html_url": "https://github.com/spack/spack/pull/26173",
+    "assignees": [],
+    "comments": 3
+}

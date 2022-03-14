@@ -1,0 +1,24 @@
+{
+    "body": "I get an error when trying to use the new clingo concretizer with an invalid keyword argument.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec python # same issue trying to get any spec \r\n```\r\n\r\n### Error Message\r\n```console\r\n$ spack -d --stacktrace spec python\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-11-21-18:02:36.921608] Imported spec from built-in commands\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-11-21-18:02:36.922823] Imported spec from built-in commands\r\nInput spec\r\n--------------------------------\r\npython\r\n\r\nConcretized\r\n--------------------------------\r\nlib/spack/spack/config.py:907 ==> [2020-11-21-18:02:36.930440] Reading config file /home/mersoj/spack/etc/spack/defaults/config.yaml\r\nlib/spack/spack/config.py:907 ==> [2020-11-21-18:02:36.962138] Reading config file /home/mersoj/.spack/config.yaml\r\nlib/spack/spack/config.py:907 ==> [2020-11-21-18:02:36.972896] Reading config file /home/mersoj/spack/etc/spack/defaults/repos.yaml\r\nlib/spack/spack/config.py:907 ==> [2020-11-21-18:02:37.231508] Reading config file /home/mersoj/.spack/linux/compilers.yaml\r\nlib/spack/spack/config.py:907 ==> [2020-11-21-18:02:37.247611] Reading config file /home/mersoj/spack/etc/spack/defaults/packages.yaml\r\nlib/spack/spack/config.py:907 ==> [2020-11-21-18:02:37.282880] Reading config file /home/mersoj/.spack/packages.yaml\r\nTraceback (most recent call last):\r\n  File \"/home/mersoj/spack/bin/spack\", line 66, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/home/mersoj/spack/lib/spack/spack/main.py\", line 762, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/home/mersoj/spack/lib/spack/spack/main.py\", line 490, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/home/mersoj/spack/lib/spack/spack/cmd/spec.py\", line 102, in spec\r\n    spec.concretize()\r\n  File \"/home/mersoj/spack/lib/spack/spack/spec.py\", line 2469, in concretize\r\n    self._new_concretize(tests)\r\n  File \"/home/mersoj/spack/lib/spack/spack/spec.py\", line 2445, in _new_concretize\r\n    result = spack.solver.asp.solve([self], tests=tests)\r\n  File \"/home/mersoj/spack/lib/spack/spack/solver/asp.py\", line 1838, in solve\r\n    return driver.solve(setup, specs, dump, models, timers, stats, tests)\r\n  File \"/home/mersoj/spack/lib/spack/spack/solver/asp.py\", line 643, in solve\r\n    solve_result = self.control.solve(\r\nTypeError: 'on_core' is an invalid keyword argument for this function\r\n```\r\n\r\n### Information on your system\r\n* **Spack:** 0.16.0-32-4609a126b\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-broadwell\r\n* **Concretizer:** clingo\r\n\r\n```console\r\n$ clingo --version\r\nclingo version 5.4.0\r\nAddress model: 64-bit\r\n\r\nlibclingo version 5.4.0\r\nConfiguration: with Python 3.8.5, without Lua\r\n\r\nlibclasp version 3.3.5 (libpotassco version 1.1.0)\r\nConfiguration: WITH_THREADS=1\r\nCopyright (C) Benjamin Kaufmann\r\n\r\nLicense: The MIT License <https://opensource.org/licenses/MIT>\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "jacobmerson",
+    "url": "https://api.github.com/repos/spack/spack/issues/20044",
+    "updated_at": "2021-07-22 17:51:08",
+    "created_at": "2020-11-21 23:06:35",
+    "closed_at": "2021-07-22 17:50:45",
+    "state": "closed",
+    "title": "Issue with clingo concretizer",
+    "number": 20044,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "unreproducible",
+        "concretization",
+        "documentation"
+    ],
+    "id": 748120656,
+    "html_url": "https://github.com/spack/spack/issues/20044",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

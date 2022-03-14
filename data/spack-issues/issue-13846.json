@@ -1,0 +1,21 @@
+{
+    "body": "Reproducer:\r\n\r\n`spack spec hwloc ^libxml2+python` or replace `hwloc` with any other package that depends on `libxml2`\r\n\r\n```\r\nbash-4.2$ ./bin/spack spec conduit ^libxml2+python\r\nInput spec\r\n--------------------------------\r\nconduit\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: maximum recursion depth exceeded while calling a Python object\r\n```\r\nCore issue:\r\n `libxml2` depends on `python` which depends on `libxml2` through `gettext`. \r\n\r\n@becker33 ",
+    "user": "mclarsen",
+    "url": "https://api.github.com/repos/spack/spack/issues/13846",
+    "updated_at": "2020-01-29 20:39:56",
+    "created_at": "2019-11-22 18:54:31",
+    "closed_at": "2020-01-29 20:39:56",
+    "state": "closed",
+    "title": "Circular dependency in libxml2 causes recursion error when global variant set",
+    "number": 13846,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 527360197,
+    "html_url": "https://github.com/spack/spack/issues/13846",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

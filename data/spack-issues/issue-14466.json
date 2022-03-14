@@ -1,0 +1,21 @@
+{
+    "body": "`spack install` command  calls spack.package.try_install_from_binary_cache() which calls spack.binary_distribution.get_specs(). \r\n\r\nspack.binary_distribution.get_specs() was modified in \r\nhttps://github.com/spack/spack/pull/13002\r\nto allow listing and installing buildcaches for macOS on a linux host.\r\n\r\nIn the case where a mirror contains buildcaches for multiple OSes the spack install command can spend more time downloading all of the specs from the build_cache directory than it takes to install the buildcache. The is especially true when using pipelines and the buildcache download directory is cleared between steps.\r\n\r\nI will modify the get_specs() command to accept a filter option and pass the current OS as the filter option when get_specs() is called from spack.package.try_install_from_binary_cache()\r\n",
+    "user": "gartung",
+    "url": "https://api.github.com/repos/spack/spack/issues/14466",
+    "updated_at": "2020-01-28 02:06:31",
+    "created_at": "2020-01-11 20:52:35",
+    "closed_at": "2020-01-28 02:06:31",
+    "state": "closed",
+    "title": "spack.binary_distribution.get_specs() should accept an arch filter option",
+    "number": 14466,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 548478888,
+    "html_url": "https://github.com/spack/spack/issues/14466",
+    "assignees": [],
+    "comments": 4
+}

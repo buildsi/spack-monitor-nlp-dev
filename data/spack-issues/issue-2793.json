@@ -1,0 +1,19 @@
+{
+    "body": "```\r\n$ spack spec py-configparser\r\n...\r\npy-configparser@3.5.0%gcc@6.1.0 arch=linux-centos6-x86_64\r\n    ^py-ordereddict@1.1%gcc@6.1.0 arch=linux-centos6-x86_64\r\n        ^python@2.6.999%gcc@6.1.0+tk~ucs4 arch=linux-centos6-x86_64\r\n            ^bzip2@1.0.6%gcc@6.1.0 arch=linux-centos6-x86_64\r\n            ^ncurses@6.0%gcc@6.1.0 arch=linux-centos6-x86_64\r\n            ^openssl@1.0.2j%gcc@6.1.0 arch=linux-centos6-x86_64\r\n                ^zlib@1.2.10%gcc@6.1.0+pic arch=linux-centos6-x86_64\r\n            ^readline@6.3%gcc@6.1.0 arch=linux-centos6-x86_64\r\n            ^sqlite@3.8.5%gcc@6.1.0 arch=linux-centos6-x86_64\r\n            ^tcl@8.6.5%gcc@6.1.0 arch=linux-centos6-x86_64\r\n            ^tk@8.6.5%gcc@6.1.0~X arch=linux-centos6-x86_64\r\n    ^py-setuptools@25.2.0%gcc@6.1.0 arch=linux-centos6-x86_64\r\n```\r\nWhy is it choosing `python@2.6.999` here? I see two places where we went wrong.\r\n\r\nFirst of all, `py-configparser` doesn't depend on `py-ordereddict` _unless_ we are building with Python 2.6. Spack should still default to the latest version of Python 2.7.\r\n\r\nSecond, the following doesn't fare any better:\r\n```\r\n$ spack spec py-ordereddict\r\n...\r\npy-ordereddict@1.1%gcc@6.1.0 arch=linux-centos6-x86_64\r\n    ^python@2.6.999%gcc@6.1.0+tk~ucs4 arch=linux-centos6-x86_64\r\n        ^bzip2@1.0.6%gcc@6.1.0 arch=linux-centos6-x86_64\r\n        ^ncurses@6.0%gcc@6.1.0 arch=linux-centos6-x86_64\r\n        ^openssl@1.0.2j%gcc@6.1.0 arch=linux-centos6-x86_64\r\n            ^zlib@1.2.10%gcc@6.1.0+pic arch=linux-centos6-x86_64\r\n        ^readline@6.3%gcc@6.1.0 arch=linux-centos6-x86_64\r\n        ^sqlite@3.8.5%gcc@6.1.0 arch=linux-centos6-x86_64\r\n        ^tcl@8.6.5%gcc@6.1.0 arch=linux-centos6-x86_64\r\n        ^tk@8.6.5%gcc@6.1.0~X arch=linux-centos6-x86_64\r\n```\r\nThis is also choosing `python@2.6.999` even though it should be choosing the latest version of Python 2.6 in Spack.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2793",
+    "updated_at": "2018-11-24 20:18:33",
+    "created_at": "2017-01-10 15:51:16",
+    "closed_at": "2018-11-24 20:18:33",
+    "state": "closed",
+    "title": "Concretization broken for version ranges",
+    "number": 2793,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 199857699,
+    "html_url": "https://github.com/spack/spack/issues/2793",
+    "assignees": [],
+    "comments": 6
+}

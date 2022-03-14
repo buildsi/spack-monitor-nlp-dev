@@ -1,0 +1,17 @@
+{
+    "body": "I'm putting together a package for the open source [shiny server](https://github.com/rstudio/shiny-server).  It subclasses CMakePackage, sets a custom build dir and otherwise seems unremarkable, though there's still more to be done.\r\n\r\nThe install step fails thusly:\r\n\r\n```\r\n-- Installing: /rss/spack-20161101/opt/spack/linux-centos7-x86_64/gcc-5.4.0/shiny-server-2016-11-04-iwyadliuj7yuyoxpu5dlgneaxq3ydlkv/shiny-server/manual.test/test-serialized.js\r\n-- Installing: /rss/spack-20161101/opt/spack/linux-centos7-x86_64/gcc-5.4.0/shiny-server-2016-11-04-iwyadliuj7yuyoxpu5dlgneaxq3ydlkv/shiny-server/manual.test/loadtest.js\r\n-- Installing: /rss/spack-20161101/opt/spack/linux-centos7-x86_64/gcc-5.4.0/shiny-server-2016-11-04-iwyadliuj7yuyoxpu5dlgneaxq3ydlkv/shiny-server/manual.test/test-worker-registry.js\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8' 'install'\r\n/rss/spack-20161101/lib/spack/spack/build_systems/cmake.py:118, in install:\r\n     115      def install(self, spec, prefix):\r\n     116          \"\"\"...and the final `make install` after cmake\"\"\"\r\n     117          with working_dir(self.build_directory()):\r\n  >> 118              inspect.getmodule(self).make('install')\r\n\r\nSee build log for details:\r\n  /tmp/hartzelg/spack-stage/spack-stage-fpoltW/shiny-server/spack-build.out\r\n```\r\n\r\nIf I check the spack-build.out file it simply dead-ends, its last line is the `-- Installing ... test-worker-registry.js` line in the console output.  The spack-build.out file is about 3700 lines, but I can share it if it's useful.  Reading through it I don't see any obvious failures upstream but....\r\n\r\n[Here is a Gist](https://gist.github.com/hartzell/e04bb728f6c51443c2a69fc33fe68845) of the spack-build.out file after running it through `grep -v Installing`.\r\n\r\nI'm not a cmake wiz and the google doesn't have any obvious hints what might make the install step return a status == 2.\r\n\r\nDoes it ring any bells?",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2439",
+    "updated_at": "2019-12-03 14:22:28",
+    "created_at": "2016-11-29 21:14:55",
+    "closed_at": "2019-12-03 14:22:28",
+    "state": "closed",
+    "title": "Help re: install failure in new CMakePackage-based package that exits with status=2",
+    "number": 2439,
+    "milestone": null,
+    "labels": [],
+    "id": 192401035,
+    "html_url": "https://github.com/spack/spack/issues/2439",
+    "assignees": [],
+    "comments": 1
+}

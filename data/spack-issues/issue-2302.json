@@ -1,0 +1,20 @@
+{
+    "body": "@tgamblin \r\n\r\nSuppose I'm going to build (or have built) a package manually using the `spack setup` stuff.  Typically when I do that, I invent a fake version, I like to use `@local`.  (Unlike `@develop`, Spack does absolutely nothing special with `@local`).  These fake versions are not being picked up from `packages.yaml`.  Witness:\r\n\r\nGood:\r\n```\r\n$ spack spec libxml2\r\nlibxml2@2.9.4%gcc@4.9.3~python arch=linux-centos7-x86_64\r\n    ^xz@5.2.2%gcc@4.9.3 arch=linux-centos7-x86_64\r\n    ^zlib@1.2.8%gcc@4.9.3 arch=linux-centos7-x86_64\r\n```\r\n\r\nNow I want to setup libxml2 for manually compile... Good:\r\n```\r\n$ spack spec libxml2@local\r\nlibxml2@local%gcc@4.9.3~python arch=linux-centos7-x86_64\r\n    ^xz@5.2.2%gcc@4.9.3 arch=linux-centos7-x86_64\r\n    ^zlib@1.2.8%gcc@4.9.3 arch=linux-centos7-x86_64\r\n```\r\n\r\nSuppose I want to set up libxml2 and xz for manual compile:  Good:\r\n```\r\n$ spack spec libxml2@local ^xz@local\r\nlibxml2@local%gcc@4.9.3~python arch=linux-centos7-x86_64\r\n    ^xz@local%gcc@4.9.3 arch=linux-centos7-x86_64\r\n    ^zlib@1.2.8%gcc@4.9.3 arch=linux-centos7-x86_64\r\n```\r\n\r\nBut... suppose I put the following in my `packages.yaml`:\r\n```\r\npackages:\r\n    xz:\r\n        version: [local]\r\n```\r\n\r\nThis is not picked up, and I get the same as if it were not there:\r\n```\r\n$ spack spec libxml2@local\r\nlibxml2@local%gcc@4.9.3~python arch=linux-centos7-x86_64\r\n    ^xz@5.2.2%gcc@4.9.3 arch=linux-centos7-x86_64\r\n    ^zlib@1.2.8%gcc@4.9.3 arch=linux-centos7-x86_64\r\n```\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2302",
+    "updated_at": "2020-11-01 15:58:19",
+    "created_at": "2016-11-11 02:45:16",
+    "closed_at": "2020-11-01 15:58:18",
+    "state": "closed",
+    "title": "packages.yaml versions only used if they exist.",
+    "number": 2302,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization"
+    ],
+    "id": 188672436,
+    "html_url": "https://github.com/spack/spack/issues/2302",
+    "assignees": [],
+    "comments": 2
+}

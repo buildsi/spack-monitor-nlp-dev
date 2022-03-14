@@ -1,0 +1,19 @@
+{
+    "body": "Hello,\r\n\r\nThis issue continued  this one #21763) which want to set additionnal path for a Paraview plugin project.\r\n \r\nI have a project which is a paraview plugin and i need to set the PV_PLUGIN_PATH variable to make it available in paraview.\r\n\r\nTo detect my project as a plugin, Paraview need the full path to spack/opt/.../project/lib( or lib64)/paraview-<version of paraview>/plugin/project.\r\n\r\nAs when i install my plugin I did not know which is the paraview version associated, I need to make this path generic.\r\nTo this end I try to add in my recipe\r\n\r\n    def setup_run_environment(self, env):\r\n        env.prepend_path('PV_PLUGIN_PATH', join_path(self.prefix, 'lib*', '**', 'plugins','project'))\r\n\r\nHowever, the regular expression usage is not detected when i run paraview which say to me \"searching plugins in spack/opt/.../project/lib*/**/plugin/project.\".\r\nWhen i try to echo this path it works fine:\r\n\r\n> echo $PV_PLUGIN_PATH\r\n> spack/opt/.../project/lib64/paraview-5.9/plugin/project.\r\n\r\nIn short, I need to evaluate this regular expression during the module generation, and if possible in the setup_run_environment method. Is it possible ?\r\n\r\nThanks\r\nElo\u00efse",
+    "user": "Billae",
+    "url": "https://api.github.com/repos/spack/spack/issues/21907",
+    "updated_at": "2021-02-25 13:05:20",
+    "created_at": "2021-02-24 13:06:47",
+    "closed_at": "2021-02-25 13:05:20",
+    "state": "closed",
+    "title": "Evaluate Regular expression in setup_run_environment",
+    "number": 21907,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 815460803,
+    "html_url": "https://github.com/spack/spack/issues/21907",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,22 @@
+{
+    "body": "I'm curious as to how other people are actually using `lmod` with `spack`.  Initially I thought to myself \"hey since I've built all this cool stuff and it's tuned to this rig, may as well use it!\"  I made an \"uber-module\" that basically loads in everything possible.  Doing so results in errors such as `man man` -> `MANPATH too long` or worse, silent errors on `PKG_CONFIG_PATH` because the entry shows up at the end.\r\n\r\nI had initially just ignored it since I can live without man pages, or purge if I really need one.  Today I finally realized that the `PKG_CONFIG_PATH` thing is a bigger problem, but ultimately caused by the same thing (too many paths getting prepended by loading in all of these modules).\r\n\r\nClearly loading every single package always may not really be smart.  I'm just curious if there is any high level thoughts on what should be loaded vs what is not necessary.  For example, if I build `opencv+python`, then I'll want to make sure that I load both `opencv` and the `python` that was used to build it.  Eigen as well, and a few others like the image libraries, sure.  But e.g. a full blown `spack module loads -m lmod -r opencv %gcc` brings in way more than I actually need, meaning that if I load all of the dependencies of the core packages I *actually* want, I'll exceed the linux path lengths.\r\n\r\nAny wisdom on how to select which ones should / should not be loaded?",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/6093",
+    "updated_at": "2019-02-06 14:32:20",
+    "created_at": "2017-11-02 00:53:23",
+    "closed_at": "2019-02-06 12:03:53",
+    "state": "closed",
+    "title": "lmod and path lengths advice",
+    "number": 6093,
+    "milestone": null,
+    "labels": [
+        "question",
+        "modules"
+    ],
+    "id": 270498978,
+    "html_url": "https://github.com/spack/spack/issues/6093",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

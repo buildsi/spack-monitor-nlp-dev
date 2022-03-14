@@ -1,0 +1,19 @@
+{
+    "body": "This is related to the construction of the rust package in #982, there are no options for handling submodules in the git fetcher at the moment.  I went to create this, but there are enough options for how to handle it as to convince me to start a discussion first.  Options:\n1.  Just add `--recursive` to clone when requested\n   - This is the simplest, longest supported option, but it means cloning the entirety of all submodules, which is painful when one of them is LLVM or similar\n2.  Add an option that causes `git submodule update --init --recursive` to be run after clone\n   - Basically equivalent to the first option, but could include `--depth` if it's a new enough git, but `--depth` may fail on some versions and repositories if the commit in question is not within that depth\n3. Something else:\n   - There could always be per-directory submodule handling, a separate command... whatever, any thoughts?\n",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/983",
+    "updated_at": "2017-04-22 04:59:30",
+    "created_at": "2016-05-22 18:26:04",
+    "closed_at": "2017-04-22 04:59:30",
+    "state": "closed",
+    "title": "GitFetchStrategy has no direct support for required submodules",
+    "number": 983,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 156165360,
+    "html_url": "https://github.com/spack/spack/issues/983",
+    "assignees": [],
+    "comments": 1
+}

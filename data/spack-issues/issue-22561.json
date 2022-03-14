@@ -1,0 +1,20 @@
+{
+    "body": "**Spack version: 0.16.1**\r\n\r\nI just noticed that if I don't use `--fail-fast` then `spack install` returns 0 even on a failure.\r\n\r\nFor example:\r\n```\r\n$ spack install gdal@3.2.0 ^netcdf-c@4.7.4~mpi ^hdf5@1.10.7~mpi %gcc@8.3.1 ; echo $?\r\n[+] /scratch/mack8/a/amaji/spack-test-20210324/apps/openjdk/1.8.0_222-b10-gcc-10.2.0-a42p7n2\r\n[+] /scratch/mack8/a/amaji/spack-test-20210324/apps/libiconv/1.16-gcc-10.2.0-zmywoh3\r\n[+] /scratch/mack8/a/amaji/spack-test-20210324/apps/berkeley-db/18.1.40-gcc-10.2.0-eqrj2d5\r\n...\r\n...\r\n==> Installing hdf-4.2.15-jddomeby47nactrtben375by26yrdg7o\r\n==> No binary for hdf-4.2.15-jddomeby47nactrtben375by26yrdg7o found: installing from source\r\n==> Using cached archive: /scratch/mack8/a/amaji/spack-test-20210324/downloads/_source-cache/archive/db/dbeeef525af7c2d01539906c28953f0fdab7dba603d1bc1ec4a5af60d002c459.tar.gz\r\n==> hdf: Executing phase: 'autoreconf'\r\n==> hdf: Executing phase: 'configure'\r\n==> hdf: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j128'\r\n\r\n3 errors found in build log:\r\n     21     checking for config unknown-linux-gnu... no\r\n     22     checking for config unknown-linux-gnu... no\r\n     23     checking for config x86_64-linux-gnu... no\r\n     24     checking for config x86_64-linux-gnu... no\r\n     25     checking for config x86_64-unknown... no\r\n     26     checking for config linux-gnu... found\r\n  >> 27     gfortran: error: unrecognized command-line option '-V'\r\n  >> 28     gfortran: fatal error: no input files\r\n     29     compilation terminated.\r\n     30     checking whether make sets $(MAKE)... (cached) yes\r\n     31     checking for gcc... /scratch/mack8/a/amaji/spack-test-20210324/framework/spack/lib/spack/env/gcc/gcc\r\n     32     checking whether the C compiler works... yes\r\n     33     checking for C compiler default output file name... a.out\r\n     34     checking for suffix of executables...\r\n\r\n     ...\r\n\r\n     490    \r\n     491      132 |       mgsnatt = mgisattr(riid, name, nt, count, data, len(name))\r\n     492          |                                                2\r\n     493    ......\r\n     494      155 |       mgsattr = mgisattr(riid, name, nt, count, data, len(name))\r\n     495          |                                                1\r\n  >> 496    Error: Type mismatch between actual argument at (1) and actual argument at (2) (CHARACTER(0)/INTEGER(4)).\r\n     497    mv -f .deps/cnone.Tpo .deps/cnone.Plo\r\n     498    make[3]: *** [Makefile:679: mfgrff.lo] Error 1\r\n     499    make[3]: *** Waiting for unfinished jobs....\r\n     500    mv -f .deps/dfutil.Tpo .deps/dfutil.Plo\r\n     501    mv -f .deps/dfufp2if.Tpo .deps/dfufp2if.Plo\r\n     502    mv -f .deps/cdeflate.Tpo .deps/cdeflate.Plo\r\n\r\nSee build log for details:\r\n  /tmp/amaji/spack-stage-hdf-4.2.15-jddomeby47nactrtben375by26yrdg7o/spack-build-out.txt\r\n\r\n[+] /scratch/mack8/a/amaji/spack-test-20210324/apps/py-numpy/1.19.4-gcc-10.2.0-ssip2is\r\n[+] /scratch/mack8/a/amaji/spack-test-20210324/apps/libgeotiff/1.5.1-gcc-10.2.0-57qigv7\r\n0\r\n```\r\n\r\nIf I use `--fail-fast` then the exit code is 1 as expected. Can we please have this behavior fixed?\r\n\r\n\r\n",
+    "user": "amaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/22561",
+    "updated_at": "2021-03-26 19:24:14",
+    "created_at": "2021-03-25 21:30:35",
+    "closed_at": "2021-03-26 19:24:14",
+    "state": "closed",
+    "title": "Spack install returns 0 even on failure",
+    "number": 22561,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 841323844,
+    "html_url": "https://github.com/spack/spack/issues/22561",
+    "assignees": [],
+    "comments": 6
+}

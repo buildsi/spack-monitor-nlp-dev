@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install charmpp +omp +tcp\r\n[...]\r\n==> [2019-11-08-15:19:03.454033] Copying /home/SPACK2019/opt/spack/linux-centos7-haswell/gcc-9.2.0/charmpp-6.9.0-cggfedjx662ktsjiybvlh4rhgk3cumys/examples/collide/collidecharm/Makefile to /home/SPACK2019/opt/spack/linux-centos7-haswell/gcc-9.2.0/charmpp-6.9.0-cggfedjx662ktsjiybvlh4rhgk3cumys/examples/collide/collidecharm/Makefile.tmp\r\n==> Warning: Module file already exists : skipping creation\r\nfile : /home/SPACK2019/share/spack/modules/linux-centos7-haswell/charmpp-6.9.0-gcc-9.2.0-cggfedj\r\nspec : charmpp@6.9.0%gcc@9.2.0 backend=netlrts build-target=LIBS ~cuda+omp~papi+production~pthreads+shared+smp~syncft+tcp~tracing arch=linux-centos7-haswell\r\n==> Error: OSError: [Errno 2] No such file or directory: '/home/SPACK2019/opt/spack/linux-centos7-haswell/gcc-9.2.0/charmpp-6.9.0-cggfedjx662ktsjiybvlh4rhgk3cumys/doc'\r\n\r\n/home/SPACK2019/lib/spack/spack/package.py:1718, in build_process:\r\n       1715                    echo = logger.echo\r\n       1716                    self.log()\r\n       1717\r\n  >>   1718                # Run post install hooks before build stage is removed.\r\n       1719                spack.hooks.post_install(self.spec)\r\n       1720\r\n       1721            # Stop timer.\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nCentOS7, recent checkout of spack.\r\n\r\n### Additional information\r\n\r\n```console\r\n$ spack spec --install-status charmpp +omp +tcp \r\nInput spec\r\n--------------------------------\r\n -   charmpp+omp+tcp\r\n\r\nConcretized\r\n--------------------------------\r\n -   charmpp@6.9.0%gcc@9.2.0 backend=netlrts build-target=LIBS ~cuda+omp~papi+production~pthreads+shared+smp~syncft+tcp~tracing arch=linux-centos7-haswell\r\n```\r\n\r\nWhat's puzzling me is that the module file has already been created, despite of the failing build...",
+    "user": "steffen-AEI",
+    "url": "https://api.github.com/repos/spack/spack/issues/13648",
+    "updated_at": "2019-11-13 12:15:57",
+    "created_at": "2019-11-08 14:33:29",
+    "closed_at": "2019-11-11 23:47:48",
+    "state": "closed",
+    "title": "charmpp build failing in post_install",
+    "number": 13648,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 520047394,
+    "html_url": "https://github.com/spack/spack/issues/13648",
+    "assignees": [],
+    "comments": 4
+}

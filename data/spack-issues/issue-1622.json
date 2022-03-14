@@ -1,0 +1,23 @@
+{
+    "body": "@tgamblin \nThe problem was that things \"don't work.\"  See below for an (eventual) summary of how I got it working.\n\nTo simplify things, I've hacked my `openmpi/package.py` as follows:\n\n```\n#    version('2.0.0', 'cdacc800cb4ce690c1f1273cb6366674')\n#    version('1.10.3', 'e2fe4513200e2aaa1500b762342c674b')\n#    version('1.10.2', 'b2f43d9635d2d52826e5ef9feb97fd4c')\n    version('1.10.1', 'f0fcd77ed345b7eafb431968124ba16e')\n    version('1.10.0', '280cf952de68369cebaca886c5ce0304')\n    version('1.8.8', '0dab8e602372da1425e9242ae37faf8c')\n    version('1.6.5', '03aed2a4aa4d0b27196962a2a65fc475')\n...\n#    provides('mpi@:2.2', when='@1.6.5')\n#    provides('mpi@:3.0', when='@1.7.5:')\n    provides('mpi@:3.0', when='@1.10.1:')\n#    provides('mpi@:3.1', when='@2.0.0:')\n```\n\n`spack spec mpi` gives the right answer: `openmpi@1.10.1%gcc@5.3.0~mxm~pmi~psm~psm2~slurm~sqlite3~thread_multiple~tm+verbs+vt arch=linux-SuSE11-x86_64\n`\n\nHOWEVER... now I put the following in my `packages.yaml` file:\n\n```\n    openmpi:\n        paths:\n            openmpi@1.10.1: /usr/local/other/SLES11.3/openmpi/1.10.1/gcc-5.3\n        buildable: False\n```\n\nThis causes `spack spec mpi` to crash:\n\n```\nTraceback (most recent call last):\n  File \"/home/rpfische/spack2/bin/spack\", line 184, in <module>\n    main()\n  File \"/home/rpfische/spack2/bin/spack\", line 161, in main\n    return_val = command(parser, args)\n  File \"/gpfsm/dnb53/rpfische/spack2/lib/spack/spack/cmd/spec.py\", line 57, in spec\n    spec.concretize()\n  File \"/gpfsm/dnb53/rpfische/spack2/lib/spack/spack/spec.py\", line 1252, in concretize\n    self._expand_virtual_packages(),\n  File \"/gpfsm/dnb53/rpfische/spack2/lib/spack/spack/spec.py\", line 1169, in _expand_virtual_packages\n    spec)\n  File \"/gpfsm/dnb53/rpfische/spack2/lib/spack/spack/concretize.py\", line 129, in choose_virtual_or_external\n    candidates = self._valid_virtuals_and_externals(spec)\n  File \"/gpfsm/dnb53/rpfische/spack2/lib/spack/spack/concretize.py\", line 121, in _valid_virtuals_and_externals\n    usable.sort(cmp=cmp_externals)\n  File \"/gpfsm/dnb53/rpfische/spack2/lib/spack/spack/concretize.py\", line 108, in cmp_externals\n    bi = candidates.index(b)\nValueError: list.index(x): x not in list\n```\n\nI added some debugging printout to see what's going on:\n\n```\n        def cmp_externals(a, b):\n            if a.name != b.name and (not a.external or a.external_module and\n                                     not b.external and b.external_module):\n                # We're choosing between different providers, so\n                # maintain order from provider sort\n                print('candidates', candidates)\n                print('a', a)\n                print('b', b, type(b))\n                ai = candidates.index(a)\n                print('ai', ai)\n                print('aa', [a == x for x in candidates])\n                print('bb', [b == x for x in candidates])\n                bi = candidates.index(b)\n                return ai - bi\n```\n\nI also did:\n\n```\nrm -rf ~/.spack/cache\n```\n\nHere's the output:\n\n```\ncandidates [openmpi@1.10.1:, mpich@1:, mpich@3:, intel-parallel-studio@cluster:+mpi, mvapich2@2.0:, mvapich2@1.9]\na mpich@1:\nb openmpi@1.10.1 <class 'spack.spec.Spec'>\nai 1\naa [False, True, False, False, False, False]\nbb [False, False, False, False, False, False]\n```\n\nNotice that `openmpi@1.10.1: != openmpi@1.10.1`!  Hmm, maybe there's a problem with the colon.  So I changed `package.py` to:\n\n```\n    provides('mpi@:3.0', when='@1.10.1')\n```\n\nThen deleted the cache and tried again.  Same result; now `openmpi@1.10.1 != openmpi@1.10.1`.\n\nThe key here seems to be that the `openmpi@1.10.1` read from `packages.yaml` is incompatible with the same from elsewhere.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1622",
+    "updated_at": "2017-01-15 04:29:20",
+    "created_at": "2016-08-24 22:48:42",
+    "closed_at": "2017-01-15 04:08:36",
+    "state": "closed",
+    "title": "[Bug] Namespace=None in packages.py, prevents proper comparison between Specs.",
+    "number": 1622,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "external-packages"
+    ],
+    "id": 173076248,
+    "html_url": "https://github.com/spack/spack/issues/1622",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 4
+}

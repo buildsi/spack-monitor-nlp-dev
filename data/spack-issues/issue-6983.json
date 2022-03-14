@@ -1,0 +1,19 @@
+{
+    "body": "When running `spack install -f <absolute path>` the first component of the path is treated as a spec to be installed.\r\n\r\n### Expected Result\r\n\r\nTo have the spec contained in the `yaml` file built and installed.\r\n\r\n### Actual Result\r\n\r\nThe `install` command understands the first component of the absolute path as a spec to be installed.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec --yaml zlib > /tmp/zlib.yaml\r\n$ spack install -f /tmp/zlib.yaml\r\n==> Error: No installed spec matches the hash: 'tmp'\r\n```\r\n\r\nIf the same spec is specified as a relative file path, everything works as expected:\r\n\r\n```console\r\n$ spack spec --yaml zlib > /tmp/zlib.yaml\r\n$ cd /tmp\r\n$ spack install -f zlib.yaml\r\n==> Installing zlib\r\n...\r\n==> Successfully installed zlib\r\n```\r\n\r\n### Information on your system\r\n\r\nObserved on `python-2.7.14 arch=darwin-highsierra-x86_64` but reproduced on a bunch of dockerized distros (Ubuntu LTS, Centos7).\r\n",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/6983",
+    "updated_at": "2018-01-29 08:22:42",
+    "created_at": "2018-01-18 08:44:31",
+    "closed_at": "2018-01-29 08:22:42",
+    "state": "closed",
+    "title": "Error with install -f <absolute path to yaml file>",
+    "number": 6983,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 289547123,
+    "html_url": "https://github.com/spack/spack/issues/6983",
+    "assignees": [],
+    "comments": 1
+}

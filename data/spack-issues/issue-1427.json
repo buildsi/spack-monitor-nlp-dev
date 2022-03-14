@@ -1,0 +1,20 @@
+{
+    "body": "As @adamjstewart wrote in his PR:\n\n\"\"\"\n\nI don't think this actually works. The package is linked to MPI properly:\n\n$ ldd py-meep-1.4.2-ikjdpnikleqeaxvncnag37bhhdnfafoj/lib/python2.7/site-packages/_meep_mpi.so \n...\n    libmpi.so.20 => /blues/gpfs/home/software/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-6.1.0/openmpi-2.0.0-tapt7aozvnpq4m7tf7cbsa5zefy4kc6s/lib/libmpi.so.20 (0x00002b0cbd86b000)\n...\n\nbut when I import it:\n\n$ python\nPython 2.7.12 (default, Jul 21 2016, 15:23:03) \n[GCC 6.1.0] on linux2\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n\n> > > import meep_mpi\n> > > Neither libmpi.so.0 nor libmpi.so found. Fatal error.\n> > > Traceback (most recent call last):\n> > >   File \"<stdin>\", line 1, in <module>\n> > >   File \"/soft/spack-0.9.1/opt/spack/linux-centos6-x86_64/gcc-6.1.0/python-2.7.12-hfkksvc2jgtlvkjagr33k6khrnj7yfqt/lib/python2.7/site-packages/meep_mpi.py\", line 5088, in <module>\n> > >     raise e\n> > > OSError: libmpi.so: cannot open shared object file: No such file or directory\n\nit can't find MPI.\n\nBy the way, if I add MPI to my LD_LIBRARY_PATH, py-meep finds it, so I don't think this problem should hold up the PR.\n\n\"\"\"\n\nSPACK packages should not rely on LD_LIBRARY_PATH\n",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/1427",
+    "updated_at": "2019-12-09 16:08:52",
+    "created_at": "2016-08-03 17:08:39",
+    "closed_at": "2019-12-09 16:08:51",
+    "state": "closed",
+    "title": "py-meep does not properly find MPI",
+    "number": 1427,
+    "milestone": null,
+    "labels": [
+        "python",
+        "rpath"
+    ],
+    "id": 169183456,
+    "html_url": "https://github.com/spack/spack/issues/1427",
+    "assignees": [],
+    "comments": 4
+}

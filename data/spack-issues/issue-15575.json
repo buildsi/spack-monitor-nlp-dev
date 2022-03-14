@@ -1,0 +1,20 @@
+{
+    "body": "\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.0-279-7a1fc75\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ EXPORT SPACK_DEPENDENCIES=\"\"\r\n$ spack setup xdmf3@local\r\n```\r\n\r\nThe first line is needed to work around another issue (#10715), which is unrelated. `xdmf3` is an arbitrary choice of package -- any CMakePackage that does not specify a url  (but a git repo) will show the problem.\r\n\r\n### Error Message\r\n\r\n```\r\n==> Warning: Missing a source id for xdmf3@local\r\n==> Warning: Missing a source id for spectrum-mpi@10.3.1.2-20200121\r\n==> Error: Can't extrapolate a URL for version local because package xdmf3 defines no URLs\r\n```\r\nWhat I think happens is that Spack is trying to find a tarball for the version `local`, but doesn't know where to look. If the `package.py` specifies a url, it'll look for an appropriately named tarball there, but proceeds anyway if it cannot find one, which is expected behavior (I believe). However, if there is no url to try, it fails as seen above. \r\n\r\nThe problem can be worked around by adding a fake url to the `package.py`. It only affects `spack setup` -- `spack install` works fine (because there one uses a valid version).\r\n\r\n\r\n### Information on your system\r\n\r\nSummit or Ubuntu 18.04\r\n\r\n",
+    "user": "germasch",
+    "url": "https://api.github.com/repos/spack/spack/issues/15575",
+    "updated_at": "2020-09-02 01:07:49",
+    "created_at": "2020-03-19 17:53:10",
+    "closed_at": "2020-09-02 01:07:49",
+    "state": "closed",
+    "title": "`spack setup` does not work for packages without a url field",
+    "number": 15575,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 584592907,
+    "html_url": "https://github.com/spack/spack/issues/15575",
+    "assignees": [],
+    "comments": 0
+}

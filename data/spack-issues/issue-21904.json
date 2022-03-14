@@ -1,0 +1,21 @@
+{
+    "body": "Align oneapi spack packages to oneapi component directories in the install tree. \r\n\r\nThis PR replaces #21821.\r\n\r\n@scheibelp @frankwillmore @glennpj \r\n\r\nWIP in title to indicate this needs cleanup and is published for feedback\r\n\r\nPending items:\r\n\r\n* versioning requirements for dependencies\r\n\r\n\r\n\r\n## Background on oneAPI\r\n\r\n### File layout\r\n\r\nThe standard oneapi install has a single prefix with one directory for each component: compiler, mkl, tbb, etc, and a subdirectory for each version. Each of the components has an associated standalone installer. A standalone installer contains the actual component + any dependencies. The dependencies are packaged as a subset of the full component and placed in the same location as they are placed in the full standalone. For example, the OMP runtime is part of the compiler package, so since MKL needs OMP, the MKL standalone installer places a compiler directory in the root which contains runtimes libraries but not the actual compiler. Installing MKL followed by compiler has the same result as installing compiler followed by MKL.\r\n\r\n### Environment\r\n\r\nEach component has a vars.sh script which sets LD_LIBRARY_PATH, MPATH, CPATH, PATH, etc. Many of the components have dependencies on other components: MKL depends on OMP  in compiler & TBB for a parallel runtime. Components find each other through these same environment variables, not by relative navigation. Dependencies also come with vars.sh script. To use MKL, you source the vars.sh for MKL, TBB, and compiler. The oneapi root contains a setvars.sh that sources all the vars.sh under the root.\r\n\r\n## Spack oneapi design\r\n\r\nThere is one spack package for every oneapi component directory, which comes from a single oneapi standalone. When a oneapi component has a dependence on another oneapi component, the spack package will have a depends_on. For example MKL depends_on TBB and the compiler.\r\n\r\n### Naming\r\n\r\nPackage names are: intel-oneapi-X: intel-oneapi-mkl, intel-oneapi-mpi, intel-oneapi-compilers\r\n\r\n### Runtime environment\r\n\r\nRuntime environment is setup from the vars.sh for the component. Since the standalone installer may install the actual component and dependencies in the same prefix, MKL would have a vars.sh for itself, as well as compiler and tbb directories with their own vars.sh. The vars.sh of dependencies are ignored. We only use the vars.sh for the mkl spack package. This avoids the problem where there might be multiple copies of tbb runtime across MKL, DAL, \u2026 and not having control over which one is loaded.\r\n\r\n### Version dependence\r\n\r\nWhen a component depends on a runtime library in another component, it requires whatever was the latest of the dependence at the time of release of the depending component. It is always OK to use a newer dependence. It may work to use an older dependence, but we do not test for that.\r\n\r\n### Compiler\r\n\r\nThe compiler is an exception to the one component, one spack package, one installer rule. The compiler is in 2 component directories: compiler & dev-utilities and is distributed in 2 installers: fortran and cpp. The spack package for the compiler treats all this as a single unit. It always installs both compilers and it always loads both components.\r\n",
+    "user": "rscohn2",
+    "url": "https://api.github.com/repos/spack/spack/issues/21904",
+    "updated_at": "2021-03-09 03:35:41",
+    "created_at": "2021-02-24 12:22:27",
+    "closed_at": "2021-03-09 03:35:40",
+    "state": "closed",
+    "title": "oneapi standalones",
+    "number": 21904,
+    "milestone": null,
+    "labels": [
+        "ecp",
+        "e4s",
+        "oneapi"
+    ],
+    "id": 815428013,
+    "html_url": "https://github.com/spack/spack/pull/21904",
+    "assignees": [],
+    "comments": 27
+}

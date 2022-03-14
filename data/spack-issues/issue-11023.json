@@ -1,0 +1,23 @@
+{
+    "body": "I distribute instructions to my users about building spack packages. I include a copy of `packages.yaml` which users are instructed to copy to `~/.spack`. This file lists many versions of system installed packages, which depend on many compilers.\r\n\r\nThe issue is, the spack concretize picks a compiler version from the packages.yaml without checking if that compiler is available in the user's compilers.yaml.\r\n\r\n### Steps to reproduce the issue\r\n\r\nFor a new spack user:\r\n\r\n```console\r\n$ spack compiler find\r\n==> Added 2 new compilers to /g/g0/gonsie/.spack/linux/compilers.yaml\r\n    gcc@4.9.3      intel@18.0.1\r\n\r\n$ cat > ~/.spack/packages.yaml <<EOT\r\npackages:\r\n  libarchive:\r\n    buildable: False\r\n    paths:\r\n      libarchive : /usr/\r\n  openmpi:\r\n    buildable: false\r\n  mvapich2:\r\n    paths:\r\n      mvapich2@2.2%gcc@4.9.3 arch=linux-rhel7-x86_64: /usr/tce/packages/mvapich2/mvapich2-2.2-gcc-4.9.3/\r\n      mvapich2@2.2%intel@18.0.1 arch=linux-rhel7-x86_64: /usr/tce/packages/mvapich2/mvapich2-2.2-intel-18.0.1/\r\n      mvapich2@2.3%gcc@7.3.0 arch=linux-rhel7-x86_64: /usr/tce/packages/mvapich2/mvapich2-2.3-gcc-7.3.0/\r\n      mvapich2@2.3%gcc@7.1.0 arch=linux-rhel7-x86_64: /usr/tce/packages/mvapich2/mvapich2-2.3-gcc-7.1.0/\r\n    buildable: false\r\n  cmake:\r\n    paths:\r\n      cmake@3.9.2 arch=linux-rhel7-x86_64: /usr/tce/packages/cmake/cmake-3.9.2/\r\n    buildable: false\r\nEOT\r\n\r\n$ spack spec mpifileutils\r\nInput spec\r\n--------------------------------\r\nmpifileutils\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: No compilers with spec gcc@7.1.0 found for operating system rhel7 and target x86_64.\r\nRun 'spack compiler find' to add compilers....\r\n```\r\n\r\nWhat is very strange is that spack indicates it is expecting gcc@7.1.0, *always*. There is no ordering within the packages.yaml file that I can do to change this error.\r\n\r\nI have a workaround (mpifileutils%gcc@4.9.3) but this is super weird. \r\n\r\n----\r\nEdits: typos",
+    "user": "gonsie",
+    "url": "https://api.github.com/repos/spack/spack/issues/11023",
+    "updated_at": "2022-03-10 13:04:15",
+    "created_at": "2019-03-26 22:43:52",
+    "closed_at": "2022-03-10 13:03:14",
+    "state": "closed",
+    "title": "concretizer not using available compiler version from packages.yaml",
+    "number": 11023,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low",
+        "fixed-by-new-concretizer"
+    ],
+    "id": 425681381,
+    "html_url": "https://github.com/spack/spack/issues/11023",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

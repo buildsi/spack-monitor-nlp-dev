@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\nThe current recipe for _parmetis_ allows conflicting optimization levels to appear on the compile line in a way that isn't expected. For example: `spack -d install parmetis%gcc cflags=\"-O3 -march=native\"` doesn't compile with the expected CFLAGS.  I expect to see compile lines similar to this:\r\n\r\n```\r\n/usr/bin/gcc -O3 -march=native <include directives and defines> -o file.o -c file.c\r\n```\r\n\r\n### Actual Result\r\n\r\n```\r\n/usr/bin/gcc -O3 -march=native <include directives and defines> -O2 -g -DNDEBUG -o file.o -c file.c\r\n```\r\n\r\nBecause `-O2` is listed after `-O3` the optimization is not what I expect.  I believe the `-O2 -g -DNDEBUG` flags are inserted by _CMake_ as they are the default `CMAKE_C_FLAGS_RELWITHDEBINFO` values for gcc.\r\n\r\n### Possible solution\r\n\r\nIf `SPACK_CFLAGS` is set in the build environment, then zero-out the cmake defaulted `CMAKE_C_FLAGS_XXX` variables.  #6839 demonstrates this model for _metis_ and #6860 demonstrates this for _parmetis_, but I think it should be included in `CMakePackage` (possibly via the `flag_handler` function).\r\n\r\n### Related Issues\r\n\r\n#6640 \r\n#6749\r\n#6839 \r\n#6860 \r\n  \r\n  \r\n  ",
+    "user": "KineticTheory",
+    "url": "https://api.github.com/repos/spack/spack/issues/6858",
+    "updated_at": "2019-05-09 14:21:28",
+    "created_at": "2018-01-08 23:35:52",
+    "closed_at": "2019-05-09 14:21:28",
+    "state": "closed",
+    "title": "Parmetis (CMakePackage) doesn't always respect cflags",
+    "number": 6858,
+    "milestone": null,
+    "labels": [
+        "cmake"
+    ],
+    "id": 286923961,
+    "html_url": "https://github.com/spack/spack/issues/6858",
+    "assignees": [],
+    "comments": 5
+}

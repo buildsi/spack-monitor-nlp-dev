@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #15620.\r\n\r\nThis resolves the second issue in #15620 by reworking #14682.\r\n\r\nWith the addition of #13100, people are going to try to run Spack in the background more often.  This makes Spack handle that situation gracefully, the way a good POSIX program should.\r\n\r\nSpecifically:\r\n1. When `spack install` is running, we disable echo and canonical input so that users can type `v` to toggle build output.  We do that in a safe way now, so that it does not generate `SIGTTOU` in the background (#14682 did this).\r\n\r\n2. We properly disable keyboard input mode when Spack is placed in the background, and re-enable it when Spack is in the foreground.  This means that if you Ctrl-Z a spack install, your terminal won't be left in a weird state.\r\n\r\n3. ~~Spack won't write verbose install output in the background.  This is mostly because we already write a log file -- that's what the log is for (if this is controversial, we can re-enable it, but it's fairly convenient to be able to ctrl-Z/bg/fg a running spack install without getting build spew).~~\r\n\r\n   We'll continue writing verbose output when Spack is in the background. If you have `stty +tostop` on, it'll end up stopping the build when you try to run in the background, unless you redirect output. This is normal POSIX behavior, and it allows you to `spack install -v &> log.txt &`, which our users do.  You may want this for parallel build output as well.\r\n\r\n4. Spack works fine when stopped in the background or when running in the background.\r\n\r\n(2) is handled mostly with signal handlers (the way things like `vi` and `emacs` do it) -- see the code for how that's done -- it's a bit tricky in Python, as Python did not support blocking signals with masks until 3.8.  It turns out we can still make it work.\r\n\r\nThis means you can do stuff like this (use `libiconv` b/c the build is long but not too long, and `--overwrite` to test it multiple times):\r\n```console\r\nspack install --overwrite -y libiconv\r\n...\r\n[type v]\r\nchecking for /Users/gamblin2/src/spack/lib/spack/env/clang/clang option to produce PIC... -fno-common -DPIC\r\nchecking if /Users/gamblin2/src/spack/lib/spack/env/clang/clang PIC flag -fno-common -DPIC works... yes\r\nchecking if /Users/gamblin2/src/spack/lib/spack/env/clang/clang static flag -static works... no\r\n[Ctrl-Z]\r\n\r\n[1]+  Stopped                 spack install --overwrite -y libiconv\r\n$ bg\r\n[1]+ spack install --overwrite -y libiconv &\r\nchecking for archiver @FILE support... no\r\nchecking for strip... strip\r\n$ fg\r\nspack install --overwrite -y libiconv\r\nchecking for ranlib... ranlib\r\nchecking for gawk... no\r\n...\r\n==> 29825: libiconv: Successfully installed libiconv\r\n  Fetch: 0.02s.  Build: 1m 10.03s.  Total: 1m 10.04s.\r\n[+] /Users/gamblin2/src/spack/opt/spack/darwin-mojave-x86_64/clang-11.0.0-apple/libiconv-1.16-jg6ekuhbklculym7pyjpx6l5jetym7wp\r\n```\r\n\r\nYou should be able to do any combination of transitions and have output work as you expect, e.g.:\r\n\r\n1. start in foreground, ctrl-z, fg, v, ctrl-z, fg, v, v, v, ctrl-z, bg, fg, v\r\n2. start in background, fg, v, ctrl-z, fg, v, v, v, ctrl-z, bg, fg, v\r\n\r\nI think that covers all the transitions.  Maybe @adamjstewart can try hard to break it.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/15723",
+    "updated_at": "2020-04-15 18:25:32",
+    "created_at": "2020-03-28 03:15:03",
+    "closed_at": "2020-04-15 18:05:42",
+    "state": "closed",
+    "title": "`spack install` gracefully handles foreground/background",
+    "number": 15723,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "bugfix"
+    ],
+    "id": 589497967,
+    "html_url": "https://github.com/spack/spack/pull/15723",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 19
+}

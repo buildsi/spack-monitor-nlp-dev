@@ -1,0 +1,17 @@
+{
+    "body": "Ok, long history lesson for this package:\r\n\r\n1. @eschnett discovered that `ncurses` wouldn't build for him and added `CPPFLAGS=-p` to fix this. #3361 \r\n\r\n2. A couple users report that this breaks the build when using the Intel compilers. @jrood-nrel changed it so that the `CPPFLAGS=-p` flag is only used when building with GCC. #3404\r\n\r\n3. Of course, the problem is really with the system awk installation, not with the GCC compiler. @eschnett removes `CPPFLAGS=-p` and instead adds a dependency on `gawk` which seems to work. #3425 \r\n\r\n4. I take a look at the `gawk` package and realize that it has a link dependency on `gettext` which has a link dependency on `ncurses`. In order to add the proper dependencies without creating a circular dependency, I substitute the `gawk` dependency for `mawk`, which has no dependencies. #3481 \r\n\r\n5. Turns out `mawk` builds just fine with clang, but crashes whenever you run it. This means that you can't build `ncurses` or anything that depends on it (like `python`). #3647 \r\n\r\nI happen to like being able to build `python` on macOS, so we need to fix this. The way I see it, we have two options:\r\n\r\n1. Patch `ncurses` so that it can build with the weird system `awk` that @eschnett encountered.\r\n\r\n2. Patch `mawk` so that it can be built properly with clang.\r\n\r\nI can't reproduce the `awk` bug that @eschnett encountered, so that might be difficult. And I'm not sure how much the `mawk` devs care about macOS support. This PR removes the `mawk` dependency but doesn't really offer an alternative solution for the original problem. Anyone want to help me out here?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3782",
+    "updated_at": "2017-04-14 14:38:18",
+    "created_at": "2017-04-10 21:15:17",
+    "closed_at": "2017-04-14 14:38:14",
+    "state": "closed",
+    "title": "Remove mawk dependency from ncurses",
+    "number": 3782,
+    "milestone": null,
+    "labels": [],
+    "id": 220772882,
+    "html_url": "https://github.com/spack/spack/pull/3782",
+    "assignees": [],
+    "comments": 15
+}

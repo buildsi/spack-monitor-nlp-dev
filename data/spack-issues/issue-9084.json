@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install mpich@3.2.1%gcc@8.2.0 cflags=\"-mtune=knl -march=knl\" cxxflags=\"-mtune=knl -march=knl\" fflags=\"-mtune=knl -march=knl\"  device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=linux-centos7-x86_64\r\n```\r\n\r\nproduces\r\n```\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/soft/packaging/spack/var/spack/stage/mpich-3.2.1-skhis6nt34sffs5ohnrv36jhjtv6um7i/mpich-3.2.1/configure' '--prefix=/soft/packaging/spack/builds/linux-centos7-x86_64/gcc-8.2.0/mpich-3.2.1-skhis6nt34sffs5\r\nohnrv36jhjtv6um7i' '--enable-shared' '--with-pm=hydra' '--with-pmi=yes' '--enable-romio' '--without-ibverbs' '--with-device=ch3:nemesis:tcp'\r\n\r\n1 error found in build log:\r\n     419    checking for type of weak symbol alias support... pragma weak\r\n     420    checking whether __attribute__ ((weak)) allowed... yes\r\n     421    checking whether __attribute__ ((weak_import)) allowed... yes\r\n     422    checking whether __attribute__((weak,alias(...))) allowed... yes\r\n     423    checking for multiple weak symbol support... yes\r\n     424    checking for shared library (esp. rpath) characteristics of CC... done (results in src/env/cc_shlib.conf)\r\n  >> 425    configure: error: F90 and F90FLAGS are replaced by FC and FCFLAGS respectively in this configure, please unset F90/F90FLAGS and set FC/FCFLAGS instead and rerun configure again.\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux kingly 3.10.0-693.21.1.el7.x86_64 #1 SMP Wed Mar 7 19:03:37 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.4.1708 (Core)\r\n``` \r\n### Attempt at resolution\r\n\r\nIt looked like a similar configure issue in mvapich was solved in PR https://github.com/spack/spack/pull/8698. That said, attempting to do the same for mpich failed. After adding: \r\n```python\r\n    def setup_environment(self, spack_env, run_env):\r\n        # mpich configure fails when F90 and F90FLAGS are set\r\n        spec = self.spec\r\n        spack_env.unset('F90')\r\n        spack_env.unset('F90FLAGS')\r\n```\r\nto the `package.py` failed to unset `F90` which was set by the spack produced gcc@8.2.0 module. Changing `compilers.yaml` not to use the module seemed to solve the issue, though now `F90` is unset when other packages seek it out.\r\n\r\n\r\n\r\n",
+    "user": "wscullin",
+    "url": "https://api.github.com/repos/spack/spack/issues/9084",
+    "updated_at": "2018-09-06 00:28:40",
+    "created_at": "2018-08-23 18:59:42",
+    "closed_at": "2018-09-06 00:28:40",
+    "state": "closed",
+    "title": "mpich@3.2.1 does not configure as F90 and F90FLAGS are set",
+    "number": 9084,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error",
+        "mpi"
+    ],
+    "id": 353511243,
+    "html_url": "https://github.com/spack/spack/issues/9084",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nThe following segfaults when `config:shared_linking == rpath` (default value):\r\n\r\n```\r\n$ spack install sirius+cuda\r\n$ spack load sirius\r\n$ nvprof sirius.scf\r\n```\r\nbut it works fine with `config:shared_linking == runpath`. Also other profilers segfault: `ncu sirius.scf` and `nsys sirius.scf`. Just running `sirius.scf` works fine.\r\n\r\nThis is because spack seems to misconfigure a path that most likely propagates to the nvidia profiler tools, whereas it does not affect runpath because that is limited to direct dependencies. When building a package that depends on cuda, spack generates the `SPACK_RPATH_DIRS` variable that contains a path to the CUDA stubs folder:\r\n\r\n```\r\nSPACK_RPATH_DIRS=.....:/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/cuda-10.2.89-5sqjnk2pe3bwluyrcw3afah4ohgbxsqn/targets/x86_64-linux/lib/stubs:....\r\n```\r\n\r\nThis ends up in the rpath, which is incorrect:\r\n\r\n```\r\n$ readelf -d `which sirius.scf` | grep stubs\r\n 0x000000000000000f (RPATH)              Library rpath: [......:/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/cuda-10.2.89-5sqjnk2pe3bwluyrcw3afah4ohgbxsqn/targets/x86_64-linux/lib/stubs:......]\r\n```\r\n\r\n(On a related note, the documentation is also [giving the advice to add directories of linked libraries to the RPATH](https://spack.readthedocs.io/en/latest/workflows.html#write-the-cmake-build) using `CMAKE_INSTALL_RPATH_USE_LINK_PATH`, which has the same problem of inadvertently adding stub libraries to the RPATH. It seems the pytorch people have been running into this problem as well: https://github.com/pytorch/pytorch/pull/37737. Maybe we should rewrite that section to avoid having these issues.)\r\n\r\n\r\n### Additional information\r\n\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/17607",
+    "updated_at": "2020-09-29 00:57:17",
+    "created_at": "2020-07-20 23:32:05",
+    "closed_at": "2020-07-24 15:02:59",
+    "state": "closed",
+    "title": "CUDA stubs directory ends up in rpath, making NVIDIA profiling tools segfault",
+    "number": 17607,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cuda",
+        "triage"
+    ],
+    "id": 662375549,
+    "html_url": "https://github.com/spack/spack/issues/17607",
+    "assignees": [],
+    "comments": 2
+}

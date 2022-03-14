@@ -1,0 +1,19 @@
+{
+    "body": "Setting `OpenSSL` to `buildable=False` does not work.\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Set the following in your `packages.py`:\r\n```\r\n    # Recommended for security reasons\r\n    # Do not install OpenSSL as non-root user.\r\n    openssl:\r\n        paths:\r\n            openssl@1.0.1h: /usr\r\n        version: [1.0.1h]\r\n        buildable: False\r\n```\r\nThis is fully correct on a Mac (try `which openssl`).\r\n\r\n2. Try `spack spec python@3.7`.  I get the error in `concretize.py` line 100:\r\n```\r\n==> Error: The spec 'openssl' is configured as not buildable, and no matching external installs were found\r\n```\r\n\r\nLooking further, I added the following debugging to `concretize.py`:\r\n```\r\n        # For each candidate package, if it has externals, add those\r\n        # to the usable list.  if it's not buildable, then *only* add\r\n        # the externals.\r\n        usable = []\r\n        for cspec in candidates:\r\n            if is_spec_buildable(cspec):\r\n                usable.append(cspec)\r\n\r\n            externals = spec_externals(cspec)\r\n            print('eeeeeeeeeeexternals', cspec, externals)\r\n            for ext in externals:\r\n                if ext.satisfies(spec):\r\n                    usable.append(ext)\r\n```\r\nFrom this, I learned that the `externals` variable never seems to get populated (at least not on my system):\r\n```\r\nInput spec\r\n--------------------------------\r\npython@3.7\r\n\r\nConcretized\r\n--------------------------------\r\neeeeeeeeeeexternals python@3.7 ^bzip2 ^diffutils ^gdbm ^libffi ^ncurses ^openssl@1.0.2: ^perl@5.14.0: ^pkgconfig ^readline ^sqlite ^zlib []\r\neeeeeeeeeeexternals bzip2 ^diffutils []\r\neeeeeeeeeeexternals diffutils []\r\neeeeeeeeeeexternals libffi []\r\neeeeeeeeeeexternals ncurses ^pkgconfig []\r\neeeeeeeeeeexternals pkg-config []\r\neeeeeeeeeeexternals pkgconf []\r\neeeeeeeeeeexternals python@3.7 ^bzip2 ^diffutils ^gdbm ^libffi ^ncurses ^openssl@1.0.2: ^perl@5.14.0: ^pkgconf ^readline ^sqlite ^zlib []\r\neeeeeeeeeeexternals bzip2 ^diffutils []\r\neeeeeeeeeeexternals diffutils []\r\neeeeeeeeeeexternals libffi []\r\neeeeeeeeeeexternals ncurses ^pkgconf []\r\neeeeeeeeeeexternals pkgconf []\r\neeeeeeeeeeexternals openssl@1.0.2: ^gdbm ^ncurses ^perl@5.14.0: ^pkgconf ^readline ^zlib []\r\n==> Error: The spec 'openssl' is configured as not buildable, and no matching external installs were found\r\n```\r\n### Information on your system\r\n\r\nmacOS 10.13.6\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10329",
+    "updated_at": "2020-09-15 19:17:57",
+    "created_at": "2019-01-12 22:13:07",
+    "closed_at": "2019-01-12 23:39:50",
+    "state": "closed",
+    "title": "No Externals Actually Found",
+    "number": 10329,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 398597070,
+    "html_url": "https://github.com/spack/spack/issues/10329",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #2638.\r\n\r\nWe've had some nice spec format string syntax since #10556 ([documented here](https://spack.readthedocs.io/en/latest/spack.html#spack.spec.Spec.format)), and people have asked for easier ways to parse `spack find` output.\r\n\r\nI've added two options to `spack find` to address this:\r\n\r\n- [x] `spack find --format`\r\n    You can provide a format string to `spack find`, as in #10556, and you can print out exactly those parts of the spec you want, one per line, with no frills:\r\n\r\n    ```console\r\n    $ spack find --format \"{name}-{version}-{hash}\"\r\n    autoconf-2.69-icynozk7ti6h4ezzgonqe6jgw5f3ulx4\r\n    automake-1.16.1-o5v3tc77kesgonxjbmeqlwfmb5qzj7zy\r\n    bzip2-1.0.6-syohzw57v2jfag5du2x4bowziw3m5p67\r\n    bzip2-1.0.8-zjny4jwfyvzbx6vii3uuekoxmtu6eyuj\r\n    cmake-3.15.1-7cf6onn52gywnddbmgp7qkil4hdoxpcb\r\n    ```\r\n\r\n    See the docs for more details.\r\n\r\n- [x] `spack find --json`\r\n    You can get JSON records for each result of `spack find`, in a format that is easily parsed with tools like [jq](https://stedolan.github.io/jq/).  `spack find --json` also works with `-d` if you want the dependencies included in the output.\r\n\r\n    ```console\r\n    $ spack find --json sqlite@3.28.0\r\n    [\r\n     {\r\n      \"name\": \"sqlite\",\r\n      \"hash\": \"3ws7bsihwbn44ghf6ep4s6h4y2o6eznv\",\r\n      \"version\": \"3.28.0\",\r\n      \"arch\": {\r\n       \"platform\": \"darwin\",\r\n       \"platform_os\": \"mojave\",\r\n       \"target\": \"x86_64\"\r\n      },\r\n      \"compiler\": {\r\n       \"name\": \"clang\",\r\n       \"version\": \"10.0.0-apple\"\r\n    ...\r\n    ```\r\n- [x] Refactor `spack.cmd.display_specs` and `spack find` so that any options can be used together with `-d`.  This cleans up the display logic considerably, as there are no longer multiple \"modes\".\r\n- [x] docs\r\n- [x] tests\r\n- [x] tab completion",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/12677",
+    "updated_at": "2019-09-03 02:28:32",
+    "created_at": "2019-09-02 03:37:05",
+    "closed_at": "2019-09-03 02:24:49",
+    "state": "closed",
+    "title": "Add machine-readable options to `spack find`",
+    "number": 12677,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "refactoring",
+        "tests",
+        "commands"
+    ],
+    "id": 487978427,
+    "html_url": "https://github.com/spack/spack/pull/12677",
+    "assignees": [],
+    "comments": 9
+}

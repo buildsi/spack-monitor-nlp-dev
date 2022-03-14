@@ -1,0 +1,23 @@
+{
+    "body": "fixes #25043\r\n\r\nThis PR adds two patches for use when building intel-tbb%nvhpc, as per #25043\r\n\r\nOne should remove compiler flags not recognized by nvhpc.  (I have not thoroughly tested as I have --noswitcherror set on my nvhpc compilers, but did not see any warnings in final spack-build-out.txt).  Also note that the  \"-flifetime-dse=1\" flag is supposed to work around a bug in intel-tbb (see https://bugs.archlinux.org/task/49898), so that bug might be present still (but as nvc++ has no equivalent option that I can find, I do not see any way around it).  (And the patch is only applied when using %nvhpc, so should not affect non %nvhpc builds)\r\n\r\nThe second patch (also only applied for %nvhpc) adds the --no_preincludes when nvc++ is being called as a preprocessor (-E option); this should prevent the pre-included headers from messing up the production of ld version scripts, etc.",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/25044",
+    "updated_at": "2021-08-03 15:21:36",
+    "created_at": "2021-07-22 20:43:03",
+    "closed_at": "2021-08-03 11:35:32",
+    "state": "closed",
+    "title": "Intel tbb nvhpc issues",
+    "number": 25044,
+    "milestone": null,
+    "labels": [
+        "intel",
+        "patch",
+        "update-package"
+    ],
+    "id": 951038903,
+    "html_url": "https://github.com/spack/spack/pull/25044",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

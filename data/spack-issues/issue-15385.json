@@ -1,0 +1,19 @@
+{
+    "body": "I am trying to build openblas 0.2.20 with Spack 0.14 and it is failing with the following error (any gcc/intel compiler, Intel haswell/skylake, CentOS7):\r\n```\r\n8245    x86_64: invalid option -- 'r'\r\n     8246    x86_64: Try `x86_64 --help' for more information.\r\n  >> 8247    make[2]: *** [../../libopenblas_haswellp-r0.2.20.a] Error 1\r\n     8248    make[2]: Leaving directory `/tmp/amaji/spack-stage-openblas-0.2.20-jlc5tqmg57npedtcykkilsizxroxa55f/spack-src/la\r\n             pack-netlib/SRC'\r\n  >> 8249    make[1]: *** [lapacklib] Error 2\r\n     8250    make[1]: Leaving directory `/tmp/amaji/spack-stage-openblas-0.2.20-jlc5tqmg57npedtcykkilsizxroxa55f/spack-src/la\r\n             pack-netlib'\r\n  >> 8251    make: *** [netlib] Error 2\r\n```\r\nThe Make arguments passed by Spack are:\r\n```\r\n==> [2020-03-04-15:13:34.969668, 34009] 'make' 'CC=/scratch/rice/a/amaji/spack-test-20200303/framework/spack/lib/spack/env/gcc/gcc' 'FC=/scratch/rice/a/amaji/spack-test-20200303/framework/spack/lib/spack/env/gcc/gfortran' 'MAKE_NO_J=1' 'ARCH=x86_64' 'TARGET=HASWELL' 'USE_OPENMP=1' 'USE_THREAD=1' 'libs' 'netlib' 'shared'\r\n```\r\nI suspect, in older Openblas there is no `ARCH=x86_64` argument. This is forcing use of `x86_64 -ru` instead of `ar -ru` like this:\r\n```\r\nx86_64 -ru ../../libopenblas_haswellp-r0.2.20.a sbdsvdx.o spotrf2.o sgetrf2.o sgbbrd.o sgbcon.o sgbequ.o sgbrfs.o sgbsv.o sgbsvx.o sgbtf2.o sgbtrf.o sgbtrs.o sgebak.o sgebal.o sgebd2.o sgebrd.o sgecon.o sgeequ.o sgees.o sgeesx.o sgeev.o sgeevx.o sgehd2.o sgehrd.o sgelq2.o sgelqf.o sgels.o sgelsd.o sgelss.o sgelsy.o sgeql2.o sgeqlf.o sgeqp3.o sgeqr2.o sgeqr2p.o sgeqrf.o sgeqrfp.o sgerfs.o sgerq2.o sgerqf.o sgesc2.o .........\r\n```\r\nIf I remove `ARCH=x86_64` from the make arguments, things build fine. I suspect the following commit introduced this behavior.\r\nhttps://github.com/spack/spack/commit/ca6e75c9f678ecf603354531cfec68ab4a121def\r\n\r\nCan you please take a look and fix this? Openblas 0.2.20 was building fine in Spack 0.13.x. \r\n\r\nOn an unrelated issue, \r\nI patched the Openblas package in my custom_packages directory and installed it with spack. \r\n```\r\n$ spack find -lp openblas@0.2.20 %gcc@4.8.5\r\n==> 1 installed package\r\n-- linux-centos7-haswell / gcc@4.8.5 ----------------------------\r\nouzv3uh openblas@0.2.20  /scratch/rice/a/amaji/spack-test-20200303/apps/openblas/0.2.20-gcc-4.8.5-ouzv3uh\r\n```\r\nIf I try to install openblas again spack detects the previous install.\r\n```\r\n$ spack install openblas@0.2.20 %gcc@4.8.5\r\n[+] /scratch/rice/a/amaji/spack-test-20200303/apps/openblas/0.2.20-gcc-4.8.5-ouzv3uh\r\n```\r\nBut if Spack is trying to install a package that depends on `openblas@0.2.20` such as `r` (same variant and everything) it tries to reinstall openblas. Even weirder thing is that it is ignoring my `custom_packages` definition of openblas package and trying to use the openblas from `var/spack/repos/builtin` and fails again! This may be somewhat related to the concretization bug https://github.com/spack/spack/issues/15384\r\n\r\nAm I missing something? Why does Spack use different openblas package definitions (custom_packages vs. builtin) for explicit install vs. implicit install?\r\n",
+    "user": "amaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/15385",
+    "updated_at": "2020-03-10 17:43:44",
+    "created_at": "2020-03-07 20:32:23",
+    "closed_at": "2020-03-10 17:40:51",
+    "state": "closed",
+    "title": "Openblas 0.2.20 and lower won't build in Spack-0.14.0",
+    "number": 15385,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 577396395,
+    "html_url": "https://github.com/spack/spack/issues/15385",
+    "assignees": [],
+    "comments": 14
+}

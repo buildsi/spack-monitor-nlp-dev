@@ -1,0 +1,20 @@
+{
+    "body": "### Problem\r\n\r\nFunctions annotated with `@llnl.util.lang.memoized` cannot accept keyword arguments. Separately, memoized functions that are called with unhashable arguments are simply called directly, without being memoized. I think this is incorrect behavior -- we should require that arguments to memoized functions are hashable.\r\n\r\n### Solution\r\n\r\n- Support keyword arguments in methods annotated by `@memoized`.\r\n- Raise an `UnhashableArguments` exception if the arguments to a memoized function are unhashable instead of silently failing to memoize.\r\n\r\n#### Note\r\n\r\nIt's possible to dive much much deeper into memoization configuration: see e.g. https://github.com/pantsbuild/pants/blob/c0d68a8d7523e54b98a0751854f9f84b3641144c/src/python/pants/util/memo.py#L20-L26. For now, we just emulate the linked `equal_args()` construct.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/21722",
+    "updated_at": "2022-03-02 19:12:15",
+    "created_at": "2021-02-17 10:18:38",
+    "closed_at": "2022-03-02 19:12:15",
+    "state": "closed",
+    "title": "make @llnl.util.lang.memoized support kwargs",
+    "number": 21722,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "utilities"
+    ],
+    "id": 810047697,
+    "html_url": "https://github.com/spack/spack/pull/21722",
+    "assignees": [],
+    "comments": 1
+}

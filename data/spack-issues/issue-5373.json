@@ -1,0 +1,21 @@
+{
+    "body": "GitHub releases with additional `.tar.gz` source archive uploads to their actual tag tend to return random selections of which archive shall be taken. Related to  #5356\r\n\r\nThis fixes it for protobuf with a hack to prioritize *GitHub Source Archives* over *additional release artifacts*. The interesting observation is also, that the pick from the `list_url` is also *not deterministic*.\r\n\r\nI would propose to rewrite `lib/spack/spack/util/web` to use for pages, links and versions an ordered dict to get at least determinism into the version url fetching.\r\n\r\nBefore (note the wrong pick in the `3.3.0` & `3.4.0` release!):\r\n```\r\n$ spack checksum protobuf\r\n==> Found 10 versions of protobuf:\r\n\r\n  3.4.1     https://github.com/google/protobuf/archive/v3.4.1.tar.gz\r\n  3.4.0rc3  https://github.com/google/protobuf/archive/v3.4.0rc3.tar.gz\r\n  3.4.0rc2  https://github.com/google/protobuf/archive/v3.4.0rc2.tar.gz\r\n  3.4.0rc1  https://github.com/google/protobuf/archive/v3.4.0rc1.tar.gz\r\n  3.4.0     https://github.com/google/protobuf/releases/download/v3.4.0/protobuf-ruby-3.4.0.tar.gz\r\n  3.3.2     https://github.com/google/protobuf/archive/v3.3.2.tar.gz\r\n  3.3.1     https://github.com/google/protobuf/archive/v3.3.1.tar.gz\r\n  3.3.0rc1  https://github.com/google/protobuf/archive/v3.3.0rc1.tar.gz\r\n  3.3.0     https://github.com/google/protobuf/releases/download/v3.3.0/protobuf-ruby-3.3.0.tar.gz\r\n  3.2.1     https://github.com/google/protobuf/archive/v3.2.1.tar.gz\r\n```\r\n\r\nNow:\r\n```\r\n$ spack checksum protobuf\r\n==> Found 10 versions of protobuf:\r\n  \r\n  3.4.1     https://github.com/google/protobuf/archive/v3.4.1.tar.gz\r\n  3.4.0rc3  https://github.com/google/protobuf/archive/v3.4.0rc3.tar.gz\r\n  3.4.0rc2  https://github.com/google/protobuf/archive/v3.4.0rc2.tar.gz\r\n  3.4.0rc1  https://github.com/google/protobuf/archive/v3.4.0rc1.tar.gz\r\n  3.4.0     https://github.com/google/protobuf/archive/v3.4.0.tar.gz\r\n  3.3.2     https://github.com/google/protobuf/archive/v3.3.2.tar.gz\r\n  3.3.1     https://github.com/google/protobuf/archive/v3.3.1.tar.gz\r\n  3.3.0rc1  https://github.com/google/protobuf/archive/v3.3.0rc1.tar.gz\r\n  3.3.0     https://github.com/google/protobuf/archive/v3.3.0.tar.gz\r\n  3.2.1     https://github.com/google/protobuf/archive/v3.2.1.tar.gz\r\n```",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/5373",
+    "updated_at": "2017-09-25 21:51:36",
+    "created_at": "2017-09-15 15:37:36",
+    "closed_at": "2017-09-25 17:47:56",
+    "state": "closed",
+    "title": "Fix Protobuf URLs",
+    "number": 5373,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "fetching",
+        "url-parsing"
+    ],
+    "id": 258081824,
+    "html_url": "https://github.com/spack/spack/pull/5373",
+    "assignees": [],
+    "comments": 7
+}

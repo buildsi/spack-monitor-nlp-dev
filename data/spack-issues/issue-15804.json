@@ -1,0 +1,21 @@
+{
+    "body": "Either the OpenSSL URL schema has changed, or a micro-revision bump caused the existing URL to become invalid.\r\n\r\n### Spack version\r\n\r\n```console\r\n$ spack --version\r\n0.14.1-449-a4b3edd68\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install openssl\r\n==> 16620: Installing openssl\r\n==> Fetching http://www.openssl.org/source/openssl-1.1.1e.tar.gz\r\n################################################################################################################################ 100.0% -=O=-          #       #       #         #\r\ncurl: (22) The requested URL returned error: 404 Not Found\r\n==> Failed to fetch file from URL: http://www.openssl.org/source/openssl-1.1.1e.tar.gz\r\n    URL http://www.openssl.org/source/openssl-1.1.1e.tar.gz was not found!\r\n```\r\n\r\n### Additional information\r\n\r\nThe `url` property on the package definition is *only* valid for the latest version of each series:\r\n```python\r\n    url = \"http://www.openssl.org/source/openssl-1.1.1d.tar.gz\"\r\n    list_url = \"http://www.openssl.org/source/old/\"\r\n```\r\nolder version URLs look like `http://www.openssl.org/source/old/1.1.1/openssl-1.1.1d.tar.gz`.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/15804",
+    "updated_at": "2020-04-01 17:35:08",
+    "created_at": "2020-04-01 15:30:30",
+    "closed_at": "2020-04-01 17:33:36",
+    "state": "closed",
+    "title": "Fetch error: OpenSSL",
+    "number": 15804,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible",
+        "fetching"
+    ],
+    "id": 592006093,
+    "html_url": "https://github.com/spack/spack/issues/15804",
+    "assignees": [],
+    "comments": 3
+}

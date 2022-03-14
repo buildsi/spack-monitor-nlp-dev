@@ -1,0 +1,22 @@
+{
+    "body": "Closes https://github.com/spack/spack/pull/10651 (This is an alternative to #10651 but attempts to confer the comment-preserving behavior of ruamel to the objects returned by spack_yaml when parsing yaml)\r\n\r\nThis updates the configuration loading/dumping logic (now called load_config/dump_config) in spack_yaml to preserve comments (by using ruamel.yaml's RoundTripLoader). This has two effects:\r\n\r\n* environment spack.yaml files expect to retain comments, which load_config now supports. By using load_config, users can now use the ':' override syntax that was previously unavailable for environment configs (but was available for other config files).\r\n* config files now retain user comments by default (although in cases where Spack updates/overwrites config, the comments can still be removed).\r\n\r\nDetails:\r\n\r\n* Subclasses `RoundTripLoader`/`RoundTripDumper` to parse yaml into ruamel's `CommentedMap` and analogous data structures\r\n* Applies filename info directly to ruamel objects in cases where the updated loader returns those\r\n* Copies management of sections in `SingleFileScope` from #10651 to allow overrides to occur\r\n* Updates the loader/dumper to handle the processing of overrides by specifically checking for the `:` character\r\n  * Possibly the most controversial aspect, but without that, the parsed objects have to be reconstructed (i.e. as was done in `mark_overrides`). It is possible that `mark_overrides` could remain and a deep copy will not cause problems, but IMO that's generally worth avoiding.\r\n  * This is also possibly controversial because Spack YAML strings can include `:`. My reckoning is that this only occurs for version specifications, so it is safe to check for `endswith(':') and not ('@' in string)`\r\n  * As a consequence, this PR ends up reserving spack yaml functions load_config/dump_config exclusively for the purpose of storing spack config",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/11602",
+    "updated_at": "2019-10-28 18:44:33",
+    "created_at": "2019-06-01 01:09:49",
+    "closed_at": "2019-10-23 13:29:50",
+    "state": "closed",
+    "title": "Preserve comments for Spack yaml objects",
+    "number": 11602,
+    "milestone": null,
+    "labels": [
+        "environments",
+        "yaml"
+    ],
+    "id": 451027966,
+    "html_url": "https://github.com/spack/spack/pull/11602",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

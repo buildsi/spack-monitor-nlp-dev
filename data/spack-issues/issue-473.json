@@ -1,0 +1,17 @@
+{
+    "body": "Added a simple way to configure a site to use a particular choice for virtual packages, while maintainig backwards compatibility.  It may be used by putting in spack/**init**.py, for example:\n\n```\n choose_hints = {'mpi' : 'openmpi'}\n from spack.concretize import DefaultConcretizer\n concretizer = DefaultConcretizer(choose_hints=choose_hints)\n```\n\nThis produces the following result:\n\n```\n$ spack spec netcdf\n\nConcretized\n------------------------------\n  netcdf@4.4.0%gcc@4.9.3~fortran~hdf4+mpi=linux-x86_64\n      ^curl@7.46.0%gcc@4.9.3=linux-x86_64\n          ^zlib@1.2.8%gcc@4.9.3=linux-x86_64\n      ^hdf5@1.8.16%gcc@4.9.3~cxx~debug+fortran+mpi+shared~szip~threadsafe+unsupported=linux-x86_64\n          ^openmpi@1.10.2%gcc@4.9.3~psm~tm~verbs=linux-x86_64\n              ^hwloc@1.11.2%gcc@4.9.3=linux-x86_64\n                  ^libpciaccess@0.13.4%gcc@4.9.3=linux-x86_64\n                      ^libtool@2.4.6%gcc@4.9.3=linux-x86_64\n```\n\non branches efischer/160301-ChooseHints, origin/efischer/160301-ChooseHints\nbranches efischer/160301-ChooseHints, origin/efischer/160301-ChooseHints\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/473",
+    "updated_at": "2016-03-02 23:38:57",
+    "created_at": "2016-03-02 04:38:29",
+    "closed_at": "2016-03-02 20:58:28",
+    "state": "closed",
+    "title": "Added easy site configuration to choose virtual package implementations",
+    "number": 473,
+    "milestone": null,
+    "labels": [],
+    "id": 137771148,
+    "html_url": "https://github.com/spack/spack/pull/473",
+    "assignees": [],
+    "comments": 2
+}

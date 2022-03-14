@@ -1,0 +1,23 @@
+{
+    "body": "- The first commit aims to fetch the correct tarballs.\r\n- The second one fixes the dependency.\r\n\r\n---\r\n\r\nThe first one may need some explanation. Currently, `form` executables installed via Spack do not know revision information correctly. Indeed, the build dates are printed:\r\n```\r\n# form@4.2.1\r\n$ form -v\r\nFORM 4.2 (Oct  2 2021) 64-bits\r\n  0.00 sec out of 0.00 sec\r\n```\r\n```\r\n# form@4.1-20131025\r\n$ form -v\r\nFORM 4.1 (Oct  2 2021) 64-bits\r\n  0.00 sec out of 0.00 sec\r\n```\r\nThis is because the fetched tarballs are not intended to be used for build and do not contain detailed revision information. You see some warnings about the revision information on running `spack install -v form@4.2.1`:\r\n```\r\n========================================================================\r\nFailed to determine the revision of the source code.\r\n\r\nThe reason may be\r\n  - this is neither a source distribution (containing the configure\r\n    script) nor a cloned Git repository,\r\n  - this is a shallow clone and no version tags are reachable,\r\n  - some required utilities (e.g., git) are missing.\r\n\r\nSource distributions and some binaries can be found in:\r\n\r\n  http://www.nikhef.nl/~form/maindir/binaries/binaries.html\r\n  https://github.com/vermaseren/form/releases\r\n\r\nThe latest source code can be cloned by:\r\n\r\n  git clone https://github.com/vermaseren/form.git\r\n\r\nYou can continue the build, but binaries will not contain the revision\r\ninformation.\r\n========================================================================\r\n```\r\nAfter applying the first commit, `form` prints the revision information correctly:\r\n```\r\n# form@4.2.1\r\n$ form -v\r\nFORM 4.2.1 (Nov 21 2018, v4.2.1) 64-bits\r\n  0.00 sec out of 0.00 sec\r\n```\r\n```\r\n# form@4.1-20131025\r\n$ form -v\r\nFORM 4.1 (Oct 25 2013) 64-bits\r\n  0.00 sec out of 0.00 sec\r\n```",
+    "user": "tueda",
+    "url": "https://api.github.com/repos/spack/spack/issues/26425",
+    "updated_at": "2021-10-03 08:50:00",
+    "created_at": "2021-10-02 17:48:19",
+    "closed_at": "2021-10-03 08:45:33",
+    "state": "closed",
+    "title": "Fix the FORM package",
+    "number": 26425,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "update-package",
+        "maintainers",
+        "new-variant"
+    ],
+    "id": 1014121716,
+    "html_url": "https://github.com/spack/spack/pull/26425",
+    "assignees": [],
+    "comments": 8
+}

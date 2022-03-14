@@ -1,0 +1,19 @@
+{
+    "body": "Gromacs version 2020 fails to build with cmake>3.15.2 and openmpi.\r\nThe error message is ``g++: error: unrecognized command line option '-fexceptions -pthread'; did you mean '-fexceptions'`` and is due to cmake adding compiler arguments with quotes.\r\nA similar issue has been reported in #15097.\r\n\r\n### Spack version\r\n0.14.0-165-146589e\r\n\r\n### Additional information\r\n\r\nThere seem to be three options to deal with the issue:\r\n\r\n1. ignore as the Gromacs developers fixed the issue in version 2020.1; #15399 is the PR to upgrade the Gromacs version in Spack\r\n2. include the upstream fix (https://github.com/gromacs/gromacs/commit/7d0829a3cbc3d3bbb8e0bb7e6d104e2d2165336f) in Spack for Gromacs-2020 as patch\r\n3. add ``conflicts('cmake@3.15.3:' when='@2020')`` or similarly ``depends_on('cmake@:3.15.2', when='@2020')``\r\n\r\n@junghans, @marvinbernhardt: what do you prefer? In case of 2. or 3. I could provide a PR.",
+    "user": "tz-rrze",
+    "url": "https://api.github.com/repos/spack/spack/issues/15408",
+    "updated_at": "2020-03-09 17:36:14",
+    "created_at": "2020-03-09 17:15:37",
+    "closed_at": "2020-03-09 17:35:55",
+    "state": "closed",
+    "title": "gromacs-2020 fails to build with cmake>3.15.2 and openmpi",
+    "number": 15408,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 578063071,
+    "html_url": "https://github.com/spack/spack/issues/15408",
+    "assignees": [],
+    "comments": 1
+}

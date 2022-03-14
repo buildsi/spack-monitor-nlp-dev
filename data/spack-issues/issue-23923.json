@@ -1,0 +1,22 @@
+{
+    "body": "After installation of a package (e.g., `gcc`) in an environment, creating a new environment and installing `gcc` fails to build a view properly.\r\n\r\nManually running `spack concretize` will build the view.\r\n\r\nSee https://spackpm.slack.com/archives/C5W7NKZJT/p1621993202213500?thread_ts=1621870255.145500&cid=C5W7NKZJT for discussion log.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env create test\r\n[...]\r\n$ spack env activate test\r\n[...]\r\n$ spack install gcc\r\n[...]\r\n$ spack env deactivate\r\n[...]\r\n$ spack env create test2\r\n==> Updating view at /nfs/data/spack/var/spack/environments/test2/.spack-env/view\r\n==> Created environment 'test2' in /nfs/data/spack/var/spack/environments/test2\r\n==> You can activate this environment with:\r\n==>   spack env activate test2\r\n$ spack env activate test2\r\n$ spack install gcc\r\n==> All of the packages are already installed\r\n$ which gcc\r\n/usr/bin/gcc\r\n$ spack concretize\r\n$ which gcc\r\n/nfs/data/spack/var/spack/environments/proteus/.spack-env/view/bin/gcc\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.2-2821-d46e49ef7a\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-debian10-thunderx2\r\n* **Concretizer:** original\r\n```\r\n\r\n```console\r\n[ldalessa]:/data/spack/etc/spack$ cat *.yaml\r\nconfig:\r\n  install_tree:\r\n    root: /data/spack/opt/spack\r\npackages:\r\n  all:\r\n    target: [\"aarch64\"]\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "ldalessa",
+    "url": "https://api.github.com/repos/spack/spack/issues/23923",
+    "updated_at": "2021-12-22 05:41:08",
+    "created_at": "2021-05-26 02:23:13",
+    "closed_at": "2021-12-21 17:41:12",
+    "state": "closed",
+    "title": "environment view fails to build properly (requires explicit concretize)",
+    "number": 23923,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 901644392,
+    "html_url": "https://github.com/spack/spack/issues/23923",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

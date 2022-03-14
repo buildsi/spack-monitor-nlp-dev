@@ -1,0 +1,19 @@
+{
+    "body": "I got the following error when installing `aspell` with Fujitsu compiler on `aarch64`.\r\n```\r\n  >> 1013    ./common/errors.hpp:26:38: error: redeclaration of 'aerror_bad_fil\r\n             e_format' with a different type: 'const acommon::ErrorInfo *const'\r\n              vs 'const struct AspellErrorInfo *const'\r\n     1014    extern \"C\" const ErrorInfo * const   aerror_bad_file_format;\r\n     1015                                         ^\r\n     1016    ./interfaces/cc/aspell.h:249:47: note: previous declaration is her\r\n             e\r\n     1017    extern const struct AspellErrorInfo * const   aerror_bad_file_form\r\n             at;\r\n```\r\n'aerror_bad_file_format' for C++ is already defined in `./common/errors.hpp`. `./interfaces/cc/aspell.h` is a header file shared by C and C++, so I think that it must be modified so that it does not redefine errors when referenced as C++.\r\n\r\nOriginal `darwin.patch` is only applied to darwin platform, but this error can be got in other environments. So, I renamed 'darwin.patch' and apply it to all targets. If there is a problem, please let me know about countermeasures.",
+    "user": "t-karatsu",
+    "url": "https://api.github.com/repos/spack/spack/issues/14206",
+    "updated_at": "2019-12-19 00:02:07",
+    "created_at": "2019-12-18 06:25:00",
+    "closed_at": "2019-12-18 23:10:05",
+    "state": "closed",
+    "title": "aspell: Rename 'darwin.patch' and apply it to all targets.",
+    "number": 14206,
+    "milestone": null,
+    "labels": [
+        "patch"
+    ],
+    "id": 539477121,
+    "html_url": "https://github.com/spack/spack/pull/14206",
+    "assignees": [],
+    "comments": 0
+}

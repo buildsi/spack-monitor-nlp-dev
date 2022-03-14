@@ -1,0 +1,20 @@
+{
+    "body": "The error\r\n```\r\n==> Staging archive: spack/var/spack/stage/go-bootstrap-1.4-bootstrap-20161024-j7p5gfmaldbmlrbial3te2jaafz3qfla/go1.4-bootstrap-20161024.tar.gz\r\n==> Created stage in spack/var/spack/stage/go-bootstrap-1.4-bootstrap-20161024-j7p5gfmaldbmlrbial3te2jaafz3qfla\r\n==> Ran patch() for go-bootstrap\r\n==> Building go-bootstrap [Package]\r\n==> Executing phase : 'install'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/bin/bash' 'all.bash'\r\nspack/var/spack/repos/builtin/packages/go-bootstrap/package.py:78, in install:\r\n     74       def install(self, spec, prefix):\r\n     75           env['CGO_ENABLED'] = '0'\r\n     76           bash = which('bash')\r\n     77           with working_dir('src'):\r\n  >> 78               bash('{0}.bash'.format('all' if '+test' in spec else 'make'))\r\n     79\r\n     80           try:\r\n     81               os.makedirs(prefix)\r\n     82           except OSError:\r\n     83               pass\r\n     84           for f in glob.glob('*'):\r\n     85               if os.path.isdir(f):\r\n     86                   shutil.copytree(f, os.path.join(prefix, f))\r\n     87               else:\r\n     88                   shutil.copy2(f, os.path.join(prefix, f))\r\n\r\nSee build log for details:\r\n  /tmp/spack-stage/spack-stage-1fOnnB/go/spack-build.out\r\n```\r\n\r\nspack-build.out\r\n```\r\n...\r\nok      testing/quick   0.035s\r\nok      text/scanner    0.010s\r\nok      text/tabwriter  0.008s\r\nok      text/template   0.037s\r\nok      text/template/parse     0.013s\r\n--- FAIL: TestParseInLocation (0.00s)\r\n        format_test.go:202: ParseInLocation(Feb 01 2013 AST, Baghdad) = 2013-02-01 00:00:00 +0000 AST, want 2013-02-01 00:00:00 +0300 +03\r\nFAIL\r\nFAIL    time    2.395s\r\nok      unicode 0.016s\r\nok      unicode/utf16   0.004s\r\n```\r\n\r\nRelated issue: https://github.com/golang/go/issues/19457",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/3796",
+    "updated_at": "2017-04-21 22:18:57",
+    "created_at": "2017-04-11 15:31:07",
+    "closed_at": "2017-04-21 22:18:57",
+    "state": "closed",
+    "title": "go-bootstrap build failure in Centos 7",
+    "number": 3796,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "tests"
+    ],
+    "id": 220991433,
+    "html_url": "https://github.com/spack/spack/issues/3796",
+    "assignees": [],
+    "comments": 3
+}

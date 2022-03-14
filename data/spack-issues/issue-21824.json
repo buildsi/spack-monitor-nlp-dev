@@ -1,0 +1,22 @@
+{
+    "body": "Using `spack@develop` (4bd8cd1916f1c9961bc069d922989318683961a3 from `Sat Feb 20 01:52:34 2021 -0700`)\r\n\r\nI finally got around to regenerating the index for our E4S build cache. It finished OK after ~6.5 hours.\r\n\r\nHowever:\r\n```\r\n$> spack mirror add e4s https://cache.e4s.io\r\n\r\n$> spack mirror list\r\ne4s             https://cache.e4s.io\r\nspack-public    https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/\r\n\r\n$> spack buildcache list\r\n==> Error: '<' not supported between instances of 'tuple' and 'str'\r\n\r\n$> time spack -d buildcache list\r\n==> [2021-02-20-09:13:09.554279] Imported buildcache from built-in commands\r\n==> [2021-02-20-09:13:09.563540] Imported buildcache from built-in commands\r\n==> [2021-02-20-09:13:09.565552] Reading config file /opt/spack/etc/spack/defaults/config.yaml\r\n==> [2021-02-20-09:13:09.598465] Reading config file /opt/spack/etc/spack/defaults/mirrors.yaml\r\n==> [2021-02-20-09:13:09.600657] Reading config file /root/.spack/mirrors.yaml\r\n==> [2021-02-20-09:13:09.716182] Cached index for https://cache.e4s.io already up to date\r\n==> [2021-02-20-09:13:09.770970] Unable to read index hash https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/build_cache/index.json.hash\r\n  Download failed: HTTP Error 404: Not Found\r\n  1\r\n==> [2021-02-20-09:13:09.771410] Fetching index from https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/build_cache/index.json\r\n==> [2021-02-20-09:13:09.832981] Unable to read index https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/build_cache/index.json\r\n  Download failed: HTTP Error 404: Not Found\r\n  1\r\n==> [2021-02-20-09:13:09.838269] DATABASE LOCK TIMEOUT: 3s\r\n==> [2021-02-20-09:13:09.838426] PACKAGE LOCK TIMEOUT: No timeout\r\nTraceback (most recent call last):\r\n  File \"/opt/spack/bin/spack\", line 71, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/opt/spack/lib/spack/spack/main.py\", line 762, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/opt/spack/lib/spack/spack/main.py\", line 490, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/opt/spack/lib/spack/spack/cmd/buildcache.py\", line 798, in buildcache\r\n    args.func(args)\r\n  File \"/opt/spack/lib/spack/spack/cmd/buildcache.py\", line 512, in listspecs\r\n    specs = bindist.update_cache_and_get_specs()\r\n  File \"/opt/spack/lib/spack/spack/binary_distribution.py\", line 1436, in update_cache_and_get_specs\r\n    binary_index.update()\r\n  File \"/opt/spack/lib/spack/spack/binary_distribution.py\", line 341, in update\r\n    self.regenerate_spec_cache(clear_existing=spec_cache_clear_needed)\r\n  File \"/opt/spack/lib/spack/spack/binary_distribution.py\", line 145, in regenerate_spec_cache\r\n    self._associate_built_specs_with_mirror(cached_index_path,\r\n  File \"/opt/spack/lib/spack/spack/binary_distribution.py\", line 162, in _associate_built_specs_with_mirror\r\n    spec_list = db.query_local(installed=False)\r\n  File \"/opt/spack/lib/spack/spack/database.py\", line 1477, in query_local\r\n    return sorted(self._query(*args, **kwargs))\r\n  File \"/opt/spack/lib/spack/llnl/util/lang.py\", line 254, in <lambda>\r\n    lambda s, o: o is not None and s._cmp_key() < o._cmp_key())\r\n  File \"/opt/spack/lib/spack/llnl/util/lang.py\", line 254, in <lambda>\r\n    lambda s, o: o is not None and s._cmp_key() < o._cmp_key())\r\n  File \"/opt/spack/lib/spack/llnl/util/lang.py\", line 254, in <lambda>\r\n    lambda s, o: o is not None and s._cmp_key() < o._cmp_key())\r\nTypeError: '<' not supported between instances of 'tuple' and 'str'\r\n\r\nreal\t0m7.197s\r\nuser\t0m6.586s\r\nsys\t0m0.409s\r\n```\r\n\r\n@becker33 \r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/21824",
+    "updated_at": "2021-03-24 20:08:11",
+    "created_at": "2021-02-20 17:15:43",
+    "closed_at": "2021-03-24 20:08:11",
+    "state": "closed",
+    "title": "buildcache list: '<' not supported between instances of 'tuple' and 'str'",
+    "number": 21824,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "buildcache",
+        "triage",
+        "e4s"
+    ],
+    "id": 812664920,
+    "html_url": "https://github.com/spack/spack/issues/21824",
+    "assignees": [],
+    "comments": 0
+}

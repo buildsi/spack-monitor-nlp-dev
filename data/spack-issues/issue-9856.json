@@ -1,0 +1,19 @@
+{
+    "body": "############ I use spack command, \r\n\r\nSpack install mumps%intel+complex+double+float~int64+metis+mpi+parmetis+ptscotch+scotch ~shared\r\n\r\nI get an error when building static libs of MUMPS. \r\n\r\n############ The error is as below, \r\n\r\n-------------------------------------------------------------------------------------\r\n     24    ar vrlibpord.a graph.o gbipart.o gbisect.o ddcreate.o ddbisect.o nestdiss.o multisector.o gelim.o bucket.o tree.o symbfac.o interface.o sort.o minpriority.o\r\n     25    ar: two different operation options specified\r\n     26    Makefile:28: recipe for target 'libpord.a' failed\r\n  >> 27    make[2]: *** [libpord.a] Error 1\r\n     28    make[2]: Leaving directory '/tmp/MUMPS_5.1.1/PORD/lib'\r\n     29    Makefile:66: recipe for target 'lib/libpord.a' failed\r\n  >> 30    make[1]: *** [lib/libpord.a] Error 2\r\n     31    make[1]: Leaving directory '/tmp/MUMPS_5.1.1'\r\n     32    Makefile:22: recipe for target 's' failed\r\n  >> 33    make: *** [s] Error 2\r\n-------------------------------------------------------------------------------------\r\n\r\n############ Platform and user environment\r\n\r\nSUSE Linux Enterprise Server 12 (x86_64) \r\nLinux x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n############ Additional information\r\n\r\n--> Enabling shared option on is no problem. \r\n\r\n--> Spack spec -I is below,\r\n\r\n     mumps%intel+complex+double+float~int64+metis+mpi+parmetis+ptscotch+scotch~shared\r\n         ^bison%gcc\r\n         ^cmake%gcc\r\n         ^flex%intel\r\n         ^gettext%gcc\r\n         ^help2man%gcc\r\n         ^m4%gcc\r\n         ^metis%intel~int64~real64+shared\r\n         ^parmetis%intel+shared\r\n         ^pkgconf%gcc\r\n         ^scotch%intel\r\n\r\n############ Possible solution or Bug??? \r\n\r\nI had to change  spack/var/spack/repos/builtin/packages/mumps/package.py file line 263, from \r\n'AR = ar vr' to 'AR = ar vr '. I inserted a space after vr that solved the error I mentioned above. After changing it, everything worked as it should be. \r\n\r\n--> Can you confirm if it is a bug or some feature intended? \r\n\r\n--> Also, Is there a way to build examples of MUMPS via spack install? \r\n\r\n  ",
+    "user": "hpcnpatel",
+    "url": "https://api.github.com/repos/spack/spack/issues/9856",
+    "updated_at": "2020-03-17 16:47:45",
+    "created_at": "2018-11-15 14:25:31",
+    "closed_at": "2020-03-17 16:47:45",
+    "state": "closed",
+    "title": "MUMPS -shared build error",
+    "number": 9856,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 381183894,
+    "html_url": "https://github.com/spack/spack/issues/9856",
+    "assignees": [],
+    "comments": 1
+}

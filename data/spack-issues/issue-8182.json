@@ -1,0 +1,19 @@
+{
+    "body": "I've been meaning to do this for years, but kept forgetting.\r\n\r\nSpack has these really useful `install` and `install_tree` commands for copying files and directories to the installation directory. The only problem is that `install_tree` crashed if the directory you were trying to install to already existed (for example, if you wanted to copy everything in the current directory to `prefix`). See https://github.com/spack/spack/pull/8126/files#r188393176 for an example error message.\r\n\r\nThis PR replaces the call to [`shutil.copytree`](https://docs.python.org/3/library/shutil.html#shutil.copytree) with a call to [`distutils.dir_util.copy_tree`](https://docs.python.org/3.6/distutils/apiref.html#distutils.dir_util.copy_tree). As far as I can tell, these functions are largely the same, except that `distutils.dir_util.copy_tree` works when the destination directory already exists and `shutil.copytree` does not. If you know of any other important differences, please let me know.\r\n\r\nAlso replaced dozens of calls to `shutil` and `distutils.dir_util` with `install` and `install_tree`. Note that I didn't test any of these package installations, so a careful review would be appreciated.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8182",
+    "updated_at": "2018-05-26 15:46:24",
+    "created_at": "2018-05-18 02:42:26",
+    "closed_at": "2018-05-26 15:46:23",
+    "state": "closed",
+    "title": "[WIP] install_tree can install into an existing directory structure",
+    "number": 8182,
+    "milestone": null,
+    "labels": [
+        "WIP"
+    ],
+    "id": 324251086,
+    "html_url": "https://github.com/spack/spack/pull/8182",
+    "assignees": [],
+    "comments": 12
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Why are there any dependencies for Eigen at all?  It's a header only library and the installed CMake scripts do not encode the backend choices (dependencies) that are currently used.\r\n\r\n### The Installation\r\n\r\n```cmake\r\nset (EIGEN3_DEFINITIONS  \"\")\r\nset (EIGEN3_INCLUDE_DIR  \"${PACKAGE_PREFIX_DIR}/include/eigen3\")\r\nset (EIGEN3_INCLUDE_DIRS \"${PACKAGE_PREFIX_DIR}/include/eigen3\")\r\nset (EIGEN3_ROOT_DIR     \"${PACKAGE_PREFIX_DIR}\")\r\n```\r\n\r\n`EIGEN3_DEFINITIONS` (as far as I know) would be for setting something like `EIGEN_MAX_ALIGN_BYTES=0` (e.g. for Win32).  But in reality, I rarely see any build systems that use Eigen even reference `EIGEN3_DEFINITIONS`.\r\n\r\nWhen a user of Eigen wants to enable a specific backend, they must find / include / link with it themselves.  For example, [the FFT backend](http://eigen.tuxfamily.org/index.php?title=EigenFFT):\r\n\r\n> - compiling code with preprocessor definition `EIGEN_FFTW_DEFAULT`\r\n> - linking with FFTW libraries e.g. `-lfftw3 -lfftw3f -lfftw3l`\r\n\r\nEven if it were possible, Spack shouldn't change this behavior either (by somehow enabling `EIGEN_FFTW_DEFAULT` or linking flags in the installed CMake / pkg-config scripts).  I've always *interpreted* this setup as \"pay for what you use\" at it's beautiful C++ core.\r\n\r\nSince it's a header only library, Eigen places tuning / optimization / backend choice responsibilities on the user.  For example, [the user is responsible for compilation flags related to vectorization](http://eigen.tuxfamily.org/index.php?title=FAQ#How_can_I_enable_vectorization.3F).\r\n\r\n### Why Keep the Spack Dependencies\r\n\r\nProjects that depend on Eigen and **also** use / enable a specific backend will always have it available.  For example, `fftw` will currently be installed and available for any dependent of Eigen during the build phase.\r\n\r\n### Why Get Rid of the Dependencies\r\n\r\nIt takes a long time to install a header only library, and currently not all possible backends are even encoded in Spack.  For example, `superlu` and `intel-mkl` could also be variants for [external solvers](https://eigen.tuxfamily.org/dox/group__TopicSparseSystems.html#title3).\r\n\r\nIt would take some doing and testing, but I think the backend choices should be removed entirely from Eigen.  The responsibility should be on the package that depends on Eigen instead.  For example the `vpfft` package also currently depends on `fftw`.  It doesn't look like that package actually uses the Eigen FFT code, but if it did then that package would be responsible.\r\n\r\nIn practice, if a library is using a specific back end, their build system would already be setup to search for / use it.\r\n\r\nBasically, to remove them, we would need to inspect the current `dependents` of the `eigen` package and make sure that they are going to work correctly still.  I am more than willing to get work started on this, but ideally people familiar with a given package could also review.",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/7554",
+    "updated_at": "2019-02-06 12:09:19",
+    "created_at": "2018-03-22 00:52:52",
+    "closed_at": "2019-02-06 12:09:18",
+    "state": "closed",
+    "title": "[discussion] Change Eigen to have no dependencies?",
+    "number": 7554,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "discussion"
+    ],
+    "id": 307468331,
+    "html_url": "https://github.com/spack/spack/issues/7554",
+    "assignees": [],
+    "comments": 10
+}

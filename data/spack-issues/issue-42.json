@@ -1,0 +1,19 @@
+{
+    "body": "I ran into issues building python using spack on OSX 10.9, using either gcc or clang (Xcode 5.1) see below for the gory details, here is one solution to the problem:\n\nIf I explicitly set the MACOSX_DEPLOYMENT_TARGET env var to my OSX version (10.9), I avoid the problem. Given this solution, I am not sure if this is something that should go into the spack python package script, or if it could be resolved better in your compiler wrappers.  In build_visit, we always set the osx deployment target to avoid issues with various libraries - it may be good practice also to do so in the spack compiler wrappers. \n\nHere is the main symptom that occurs: python\u2019s configure checks fail and report the size of all of the integer types :\n\nchecking for uid_t in sys/types.h... yes\nchecking for uint32_t... yes\nchecking for uint32_t... yes\nchecking for uint64_t... yes\nchecking for uint64_t... yes\nchecking for int32_t... yes\nchecking for int32_t... yes\nchecking for int64_t... yes\nchecking for int64_t... yes\nchecking for ssize_t... yes\nchecking size of int... 0\nchecking size of long... 0\nchecking size of void *... 0\nchecking size of short... 0\nchecking size of float... 0\nchecking size of double... 0\nchecking size of fpos_t... 0\nchecking size of size_t... configure: error: in `/private/var/folders/wj/jjhjt_0d3kg1vmk56d5bq_38001kr8/T/spack-stage/spack-stage-r5wJGI/Python-2.7.8':\nconfigure: error: cannot compute sizeof (size_t)\nSee`config.log' for more details\n==> Error: command './configure --prefix=/Users/harrison37/Work/uberenv/spack/opt/macosx_10.9_x86_64/gcc@4.2.1/python@2.7.8 --without-gcc --enable-shared' returned error code 77\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/42",
+    "updated_at": "2016-10-11 15:51:01",
+    "created_at": "2015-05-11 21:45:23",
+    "closed_at": "2016-10-11 15:51:01",
+    "state": "closed",
+    "title": "Spack fails to build python on OSX 10.9",
+    "number": 42,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 75369642,
+    "html_url": "https://github.com/spack/spack/issues/42",
+    "assignees": [],
+    "comments": 24
+}

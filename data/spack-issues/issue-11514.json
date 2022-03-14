@@ -1,0 +1,19 @@
+{
+    "body": "I discovered several places in `version.py` where we were checking to see if a version evaluated as True when we really meant to check if a version is not None.\r\n\r\nFor example, `VersionRange(2, 1)` raised an \"Invalid version range\" ValueError, but `VersionRange(2, 0)` did not. Also, during string conversion, `VersionRange(0, 0)` and `VersionRange(None, None)` were equivalent.\r\n\r\nFrom PEP-8:\r\n\r\n> Comparisons to singletons like None should always be done with is or is not, never the equality operators.\r\n> \r\n> Also, beware of writing if x when you really mean if x is not None -- e.g. when testing whether a variable or argument that defaults to None was set to some other value. The other value might have a type (such as a container) that could be false in a boolean context!",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/11514",
+    "updated_at": "2020-01-23 21:03:00",
+    "created_at": "2019-05-18 21:51:49",
+    "closed_at": "2020-01-23 21:02:57",
+    "state": "closed",
+    "title": "Check \"if version is not None\", not \"if version\"",
+    "number": 11514,
+    "milestone": null,
+    "labels": [
+        "versions"
+    ],
+    "id": 445757594,
+    "html_url": "https://github.com/spack/spack/pull/11514",
+    "assignees": [],
+    "comments": 7
+}

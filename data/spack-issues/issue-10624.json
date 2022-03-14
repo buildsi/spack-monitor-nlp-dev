@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install ior+ncmpi\r\n...\r\n    293    /home/robl/work/soft/mpich/bin/mpicc  -g -O2   -o ior ior.o utilities.o parse_options.o aiori-POSIX.o aiori-MPIIO.o  aiori-NCMPI.o  -lpnetcdf -lm\r\n  >> 294    /usr/bin/ld: cannot find -lpnetcdf\r\n  >> 295    collect2: error: ld returned 1 exit status\r\n     296    Makefile:404: recipe for target 'ior' failed\r\n  >> 297    make[2]: *** [ior] Error 1\r\n     298    make[2]: Leaving directory '/tmp/robl/spack-stage/spack-stage-9s5EYg/ior-3.0.1/src'\r\n     299    Makefile:308: recipe for target 'all' failed\r\n  >> 300    make[1]: *** [all] Error 2\r\n     301    make[1]: Leaving directory '/tmp/robl/spack-stage/spack-stage-9s5EYg/ior-3.0.1/src'\r\n     302    Makefile:361: recipe for target 'all-recursive' failed\r\n  >> 303    make: *** [all-recursive] Error 1\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a\r\nLinux hodor 4.15.0-45-generic #48-Ubuntu SMP Tue Jan 29 16:28:13 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Ubuntu 18.04.2 LTS\r\n``` \r\n### Additional information\r\n\r\nIn my packages.yaml file I have made my own build of MPICH a system package:\r\n\r\n```  mpich:\r\n        paths:\r\n            mpich@master: /home/robl/work/soft/mpich\r\n```\r\n\r\nMore information about spack: \r\n```console\r\n$ spack spec --install-status ior+ncmpi\r\nInput spec\r\n--------------------------------\r\n -   ior+ncmpi\r\n\r\nConcretized\r\n--------------------------------\r\n -   ior@3.0.1%gcc@7.3.0~hdf5+ncmpi arch=linux-ubuntu18.04-x86_64 \r\n[+]      ^autoconf@2.69%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64 \r\n[+]      ^automake@1.15.1%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64 \r\n[+]      ^libtool@2.4.6%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64 \r\n[+]          ^m4@1.4.18%gcc@7.3.0 patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,c0a408fbffb7255fcc75e26bd8edab116fc81d216bfd18b473668b7739a4158e,fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8 +sigsegv arch=linux-ubuntu18.04-x86_64 \r\n[+]              ^libsigsegv@2.11%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64 \r\n[+]      ^mpich@master%gcc@7.3.0 device=ch3 +hydra netmod=tcp +pmi+romio~verbs arch=linux-ubuntu18.04-x86_64 \r\n[+]      ^parallel-netcdf@1.11.0%gcc@7.3.0+cxx+fortran+pic arch=linux-ubuntu18.04-x86_64 \r\n...\r\n\r\n\r\nAs suggested, I rebuilt the package with the following options:\r\n```console\r\n$ spack -d install -j 1 ior+ncmpi\r\n...\r\n\r\nand am attaching the generated files.  The generated files show no -L flags for parallel-netcdf.\r\n\r\n[spack-cc-ior-7kzsppv.out.log](https://github.com/spack/spack/files/2870769/spack-cc-ior-7kzsppv.out.log)\r\n[spack-cc-ior-7kzsppv.in.log](https://github.com/spack/spack/files/2870770/spack-cc-ior-7kzsppv.in.log)\r\n\r\n",
+    "user": "roblatham00",
+    "url": "https://api.github.com/repos/spack/spack/issues/10624",
+    "updated_at": "2019-02-15 23:21:36",
+    "created_at": "2019-02-15 20:34:26",
+    "closed_at": "2019-02-15 23:21:36",
+    "state": "closed",
+    "title": "Installation issue: IOR fails to find pnetcdf libraries",
+    "number": 10624,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 410933150,
+    "html_url": "https://github.com/spack/spack/issues/10624",
+    "assignees": [],
+    "comments": 2
+}

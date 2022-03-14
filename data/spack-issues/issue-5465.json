@@ -1,0 +1,19 @@
+{
+    "body": "My recent update to `git` (#5430) requires that `pcre` be built with `+jit`.\r\n\r\nNow I'm unable to build `shiny-server`.  It depends on `git` (which depends on `pcrc+jit`) and on `pcre`.\r\n\r\n```\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    pcre@8.40%gcc@5.4.0~jit+utf arch=linux-centos7-x86_64\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    git@2.14.1%gcc@5.4.0 arch=linux-centos7-x86_64\r\n\r\n\r\ngit requires pcre variant +jit, but spec asked for ~jit\r\n```\r\n\r\nI can fix it for my case by defaulting to `pcre+jit` in my `etc/spack/packages.yaml` file, but I'm not sure that's the right thing for the project.\r\n\r\nSuggestions?",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/5465",
+    "updated_at": "2020-11-01 21:27:12",
+    "created_at": "2017-09-25 14:52:37",
+    "closed_at": "2020-11-01 21:27:12",
+    "state": "closed",
+    "title": "git requires pcre+jit, shiny server requires git and prce -> unsatisfiable constraint",
+    "number": 5465,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 260306002,
+    "html_url": "https://github.com/spack/spack/issues/5465",
+    "assignees": [],
+    "comments": 6
+}

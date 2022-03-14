@@ -1,0 +1,23 @@
+{
+    "body": "This appears to be an extension of #20055 - I have been able to reproduce this with a handful of `CudaPackage`s.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec -I ginkgo%clang@foo+cuda\r\n```\r\n\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    spec: clang@foo\r\n    paths:\r\n      cc: /usr/tce/packages/clang/clang-9.0.0/bin/clang\r\n      cxx: /usr/tce/packages/clang/clang-9.0.0/bin/clang++\r\n      f77:\r\n      fc:\r\n    target: ppc64le\r\n    operating_system: rhel7\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\nspack/lib/spack/spack/util/executable.py:162 ==> [2020-12-03-06:52:04.720236] '/usr/tce/packages/clang/clang-9.0.0/bin/clang' '--version'\r\n\r\n==> The following constraints are unsatisfiable:\r\n  :- node(\"ginkgo\"),variant_value(\"ginkgo\",\"cuda\",\"True\"),node_compiler(\"ginkgo\",\"clang\"),node_compiler_version_satisfies(\"ginkgo\",\"clang\",\":5\"),node(\"cuda\"),version_satisfies(\"cuda\",\"11.0.2:\"),node_platform(\"cuda\",\"linux\"),node_target_satisfies(\"cuda\",\"ppc64le:\"),not external(\"ginkgo\").\r\n  compiler_version(\"clang\",\"foo\")\r\n  declared_dependency(\"ginkgo\",\"cuda\",\"build\") :- node(\"ginkgo\"),variant_value(\"ginkgo\",\"cuda\",\"True\").\r\n  external_only(\"cuda\")\r\n  node_compiler_version_hard(\"ginkgo\",\"clang\",\"foo\")\r\n  node_platform_default(\"linux\")\r\n  root(\"ginkgo\")\r\n  target(\"power8le\")\r\n  target(\"power9le\")\r\n  target(\"ppc64le\")\r\n  variant(\"ginkgo\",\"cuda\")\r\n  variant_set(\"ginkgo\",\"cuda\",\"True\")\r\n  version_declared(\"cuda\",\"10.1.243\",3)\r\n  version_declared(\"cuda\",\"10.2.89\",2)\r\n  version_declared(\"cuda\",\"11.1.0\",0)\r\n  version_satisfies(\"cuda\",\"9:\") :- depends_on(\"ginkgo\",\"cuda\"),node(\"ginkgo\"),variant_value(\"ginkgo\",\"cuda\",\"True\").\r\n==> Error: ginkgo%clang@foo+cuda does not satisfy unknown\r\n\r\n```\r\n\r\nIt looks like it queries the version (per the fix in #20099) but the `node_compiler_version_hard` looks like it might need to contain the \"real\" version.\r\n\r\nConcretization succeeds if `foo` is changed to the real version, `9.0.0`.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.0-148-05848c87c\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-power9le\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "joshessman-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/20231",
+    "updated_at": "2021-09-17 13:22:55",
+    "created_at": "2020-12-03 14:55:09",
+    "closed_at": "2021-09-17 13:22:55",
+    "state": "closed",
+    "title": "Clingo concretizer does not support numeric versions in CUDA packages",
+    "number": 20231,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 756267563,
+    "html_url": "https://github.com/spack/spack/issues/20231",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Follows is the key to fix hypre/package.py to build with shared libraries:\n\n@psaravan:\n\nRob Falgout rfalgout@llnl.gov added the comment:\n\nHi Elizabeth,\n\nSorry, it wasn't clear from your email (unless I missed something) if you were a developer or a user, and the problem seemed like it could be related to spack.\n\nAnyhow, it looks to me like the issue is that you are setting the CC environment variable to 'gcc', so the hypre configure script does not look for an mpi compiler, it just uses the one you provide.  When using a non-mpi compiler, you need to add the mpi library and include file information to the configure line:\n\n  --with-MPI-include=DIR\n  --with-MPI-libs=LIBS\n  --with-MPI-lib-dirs=DIRS\n\nI'm not exactly sure how you are passing the openmpi path information to hypre.  If it's through a CFLAGS environment variable, then that might appear after the MPI stuff.\n\nHope this helps.  Let me know.\n\nLog file of erroneous build:\n\n[hypre-package.txt](https://github.com/LLNL/spack/files/163873/hypre-package.txt)\n[log.txt](https://github.com/LLNL/spack/files/163870/log.txt)\n[environ.txt](https://github.com/LLNL/spack/files/163871/environ.txt)\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/512",
+    "updated_at": "2016-03-14 01:55:15",
+    "created_at": "2016-03-08 20:03:35",
+    "closed_at": "2016-03-14 01:55:15",
+    "state": "closed",
+    "title": "Fix hypre/package.py: Not linking MPI properly",
+    "number": 512,
+    "milestone": null,
+    "labels": [],
+    "id": 139379204,
+    "html_url": "https://github.com/spack/spack/issues/512",
+    "assignees": [],
+    "comments": 2
+}

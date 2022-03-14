@@ -1,0 +1,23 @@
+{
+    "body": "I was trying to build py-tensorflow and it was failing along the way when trying to build bazel. I was getting a java out of memory error:\r\n\r\nThe system is out of resources.\r\nConsult the following stack trace for details.\r\njava.lang.OutOfMemoryError: Java heap space\r\n\tat com.sun.tools.javac.code.Scope$ImportScope.makeEntry(Scope.java:530)\r\n\tat com.sun.tools.javac.code.Scope.enter(Scope.java:220)\r\n\tat com.sun.tools.javac.comp.MemberEnter$4.importFrom(MemberEnter.java:326)\r\n\tat com.sun.tools.javac.comp.MemberEnter$4.run(MemberEnter.java:334)\r\n\tat com.sun.tools.javac.comp.Annotate.flush(Annotate.java:143)\r\n\tat com.sun.tools.javac.comp.Annotate.enterDone(Annotate.java:129)\r\n\tat com.sun.tools.javac.comp.Enter.complete(Enter.java:512)\r\n\tat com.sun.tools.javac.comp.Enter.main(Enter.java:471)\r\n\tat com.sun.tools.javac.main.JavaCompiler.enterTrees(JavaCompiler.java:982)\r\n\tat com.sun.tools.javac.main.JavaCompiler.enterTreesIfNeeded(JavaCompiler.java:965)\r\n\tat com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing(JavacProcessingEnvironment.java:1242)\r\n\tat com.sun.tools.javac.main.JavaCompiler.processAnnotations(JavaCompiler.java:1170)\r\n\tat com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:856)\r\n\tat com.sun.tools.javac.main.Main.compile(Main.java:523)\r\n\tat com.sun.tools.javac.main.Main.compile(Main.java:381)\r\n\tat com.sun.tools.javac.main.Main.compile(Main.java:370)\r\n\tat com.sun.tools.javac.main.Main.compile(Main.java:361)\r\n\tat com.sun.tools.javac.Main.compile(Main.java:56)\r\n\tat com.sun.tools.javac.Main.main(Main.java:42)\r\n\r\n\r\nThis happened when trying to build against openjdk@1.8.0. I did some tinkering and found that if I removed the restriction of depending on java@8, that I was able to get bazel@0.26.1 to build with openjdk@11.0.2. I can submit a PR to such effect, but I would rather consult with folks to see if there really is a java@8 dependency or if that dependency is isolated to particular versions of bazel.",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/14058",
+    "updated_at": "2020-08-06 17:02:03",
+    "created_at": "2019-12-09 16:59:51",
+    "closed_at": "2020-08-06 17:02:03",
+    "state": "closed",
+    "title": "Bazel Java requirement",
+    "number": 14058,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "java",
+        "bazel"
+    ],
+    "id": 535060890,
+    "html_url": "https://github.com/spack/spack/issues/14058",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

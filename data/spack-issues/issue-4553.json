@@ -1,0 +1,19 @@
+{
+    "body": "I've tried using spack like described in the getting started, and I'm getting the error `configure: error: installation or configuration problem: C compiler cannot create executables.` The full error message I got in `build.out` is:\r\n```\r\n==> '/ufs/home/eates/spack/var/spack/stage/libelf-0.8.13-dabkko6td6l6fr5lzsvyiengzkcsqrfx/libelf-0.8.13/configure' '--prefix=/ufs/home/eates/spack/opt/spack/c\r\nray-CNL-ivybridge/gcc-4.8.0/libelf-0.8.13-dabkko6td6l6fr5lzsvyiengzkcsqrfx' '--enable-shared' '--disable-dependency-tracking' '--disable-debug'\r\ncreating cache ./config.cache\r\nchecking whether make sets ${MAKE}... yes\r\nchecking for gcc... /ufs/home/eates/spack/lib/spack/env/gcc/gcc\r\nchecking whether the C compiler (/ufs/home/eates/spack/lib/spack/env/gcc/gcc  ) works... no\r\nconfigure: error: installation or configuration problem: C compiler cannot create executables.\r\n```\r\n\r\nAfterwards, I tried setting `compilers.yaml` and `packages.yaml` to these:\r\n```\r\neates@system:~> cat ~/.spack/compilers.yaml \r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: \r\n        - 'PrgEnv-cray'\r\n        - 'cce/8.5.6'\r\n    operating_system: CNL\r\n    spec: 'cce@8.5.6'\r\n    paths:\r\n        cc: cc\r\n        cxx: CC\r\n        f77: ftn\r\n        fc: ftn\r\n    target: any\r\n```\r\n```eates@system:~> cat ~/.spack/packages.yaml \r\npackages:\r\n    mpich:\r\n        modules: \r\n            cray-mpich@7.5.1%cce@8.5.6 arch=cray-CNL-ivybridge: cray-mpich/7.5.1\r\n        buildable: False\r\n    all:\r\n        compiler: [cce@8.5.6]\r\n        providers:\r\n            mpi: [mpich@7.5.1]\r\n```\r\nand the error I'm getting is very similar:\r\n```\r\n==> '/ufs/home/eates/spack/var/spack/stage/libelf-0.8.13-hmy3w4e2ce5bq64fs2rbdm3cukmoe2mv/libelf-0.8.13/configure' '--prefix=/ufs/home/eates/spack/opt/spack/cray-CNL-ivybridge/cce-8.5.6/libelf-0.8.13-hmy3w4e2ce5bq64fs2rbdm3cukmoe2mv' '--enable-shared' '--disable-dependency-tracking' '--disable-debug'\r\nloading cache ./config.cache\r\nchecking whether make sets ${MAKE}... yes\r\nchecking for gcc... /ufs/home/eates/spack/lib/spack/env/cc\r\nchecking whether the C compiler (/ufs/home/eates/spack/lib/spack/env/cc  ) works... no\r\nconfigure: error: installation or configuration problem: C compiler cannot create executables.\r\n```\r\nI can run `configure` on some other tarballs that I download when the `$PATH` is correctly set, and I don't really understand what's going wrong with the configure that spack is running. I can't use `~/spack/lib/spack/env/cc` from the terminal, and I ran out of ideas. I've also tried setting `paths` to whole paths as I saw in some other issue here, but that didn't solve the issue.",
+    "user": "EmreAtes",
+    "url": "https://api.github.com/repos/spack/spack/issues/4553",
+    "updated_at": "2017-06-26 23:48:39",
+    "created_at": "2017-06-20 14:03:41",
+    "closed_at": "2017-06-26 23:48:39",
+    "state": "closed",
+    "title": "Problem setting up in a Cray system",
+    "number": 4553,
+    "milestone": null,
+    "labels": [
+        "cray"
+    ],
+    "id": 237220927,
+    "html_url": "https://github.com/spack/spack/issues/4553",
+    "assignees": [],
+    "comments": 7
+}
