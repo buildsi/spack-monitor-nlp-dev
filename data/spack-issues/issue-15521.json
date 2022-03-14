@@ -1,0 +1,21 @@
+{
+    "body": "If I run `spack spec hdf5` I get a different list of dependencies than if I run `spack spec hdf5+mpi` even though the variants specified for hdf5 match between the two.  This is with spack master, but also happens with spack v0.14.0.  This is on a MacOS Mojave system:\r\n```\r\n(base) s1041980:spack(master)> spack spec hdf5\r\nInput spec\r\n--------------------------------\r\nhdf5\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: clang@10.0.1-apple cannot build optimized binaries for \"skylake\". Using best target possible: \"x86_64\"\r\nhdf5@1.10.6%clang@10.0.1-apple~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe arch=darwin-mojave-x86_64\r\n    ^charmpp@6.10.0%clang@10.0.1-apple backend=gni build-target=AMPI ~cuda~omp~papi+production~pthreads+shared+smp~syncft~tcp~tracing arch=darwin-mojave-x86_64\r\n    ^zlib@1.2.11%clang@10.0.1-apple+optimize+pic+shared arch=darwin-mojave-x86_64\r\n\r\n(base) s1041980:spack(master)> spack spec hdf5+mpi\r\nInput spec\r\n--------------------------------\r\nhdf5+mpi\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: clang@10.0.1-apple cannot build optimized binaries for \"skylake\". Using best target possible: \"x86_64\"\r\nhdf5@1.10.6%clang@10.0.1-apple~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe arch=darwin-mojave-x86_64\r\n    ^openmpi@4.0.2%clang@10.0.1-apple~cuda+cxx_exceptions fabrics=none ~java~legacylaunchers~memchecker patches=073477a76bba780c67c36e959cd3ee6910743e2735c7e76850ffba6791d498e4 ~pmi schedulers=none ~sqlite3~thread_multiple+vt arch=darwin-mojave-x86_64\r\n    ^zlib@1.2.11%clang@10.0.1-apple+optimize+pic+shared arch=darwin-mojave-x86_64\r\n```\r\nNote that the concretized list for hdf5 is the same for both specs, but one requires `charmpp` and one requires `openmpi`.  I'm not sure what is causing this since there is no explicit dependence on `charmpp` in the hdf5 package file.\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.0-33-58d3b5776\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack <command1> <spec>\r\n$ spack <command2> <spec>\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n<!--If Spack reported an error, provide the error message. If it did not report an error\r\nbut the output appears incorrect, provide the incorrect output. If there was no error\r\nmessage and no output but the result is incorrect, describe how it does not match\r\nwhat you expect. To provide more information you might re-run the commands with \r\nthe additional -d/--stacktrace flags:\r\n```console\r\n$ spack -d --stacktrace <command1> <spec>\r\n$ spack -d --stacktrace <command2> <spec>\r\n...\r\n```\r\nthat activate the full debug output. \r\n-->\r\n\r\n### Information on your system\r\n<!--\r\nThis includes:\r\n\r\n 1. which platform you are using\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\n\r\n-->\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!--\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "gsjaardema",
+    "url": "https://api.github.com/repos/spack/spack/issues/15521",
+    "updated_at": "2020-03-18 17:55:06",
+    "created_at": "2020-03-17 18:42:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "HDF5 spec includes charmpp",
+    "number": 15521,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 583221755,
+    "html_url": "https://github.com/spack/spack/issues/15521",
+    "assignees": [],
+    "comments": 0
+}

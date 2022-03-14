@@ -1,0 +1,23 @@
+{
+    "body": "@tz-rrze @adamjstewart \r\n\r\nIn the last PR on QE, this change was made:\r\nhttps://github.com/spack/spack/pull/15276/commits/5811e34f43907d9e7ec46866f2862721a6ed826b\r\n\r\nBut now QE falsely thinks that there is a conflict:\r\n```\r\n(flake8) [naromero@naromero-desktop packages (QMCPACK_PPCONVERT)]$ spack spec quantum-espresso ^intel-mkl\r\nInput spec\r\n--------------------------------\r\nquantum-espresso\r\n    ^intel-mkl\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Conflicts in concretized spec \"quantum-espresso@6.5%gcc@8.3.0~elpa~epw hdf5=none +mpi~openmp+patch patches=b1aa3179ee1c069964fb9c21f3b832aebeae54947ce8d3cc1a74e7b154c3c10f +scalapack arch=linux-ubuntu18.04-westmere/m6bo4iu\"\r\n\r\nList of matching conflicts for spec:\r\n\r\n    quantum-espresso@6.5%gcc@8.3.0~elpa~epw hdf5=none +mpi~openmp+patch patches=b1aa3179ee1c069964fb9c21f3b832aebeae54947ce8d3cc1a74e7b154c3c10f +scalapack arch=linux-ubuntu18.04-westmere\r\n        ^intel-mkl@2019.0.117%gcc@8.3.0~ilp64+shared threads=none arch=linux-ubuntu18.04-westmere\r\n        ^openmpi@3.1.5%gcc@8.3.0~cuda+cxx_exceptions fabrics=none ~java~legacylaunchers~memchecker~pmi schedulers=none ~sqlite3~thread_multiple+vt arch=linux-ubuntu18.04-westmere\r\n            ^hwloc@1.11.11%gcc@8.3.0~cairo~cuda~gl+libxml2~nvml+pci+shared arch=linux-ubuntu18.04-westmere\r\n                ^libpciaccess@0.13.5%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                    ^libtool@2.4.6%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                        ^m4@1.4.18%gcc@8.3.0 patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00,fc9b61654a3ba1a8d6cd78ce087e7c96366c290bc8d2c299f09828d793b853c8 +sigsegv arch=linux-ubuntu18.04-westmere\r\n                            ^libsigsegv@2.12%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                    ^pkgconf@1.6.3%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                    ^util-macros@1.19.1%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                ^libxml2@2.9.9%gcc@8.3.0~python arch=linux-ubuntu18.04-westmere\r\n                    ^libiconv@1.16%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                    ^xz@5.2.4%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                    ^zlib@1.2.11%gcc@8.3.0+optimize+pic+shared arch=linux-ubuntu18.04-westmere\r\n                ^numactl@2.0.12%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                    ^autoconf@2.69%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                        ^perl@5.30.1%gcc@8.3.0+cpanm+shared+threads arch=linux-ubuntu18.04-westmere\r\n                            ^gdbm@1.18.1%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                                ^readline@8.0%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n                                    ^ncurses@6.2%gcc@8.3.0~symlinks+termlib arch=linux-ubuntu18.04-westmere\r\n                    ^automake@1.16.1%gcc@8.3.0 arch=linux-ubuntu18.04-westmere\r\n\r\n1. \"^mkl+ilp64\" conflicts with \"quantum-espresso\" [Quantum ESPRESSO does not support MKL 64-bit integer variant]\r\n```\r\nI think the change was made because intel parallel studio is also a mkl provider. Is this an issue with the concretizer, the way the conflict is expressed or something else.",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/15613",
+    "updated_at": "2020-04-07 18:18:16",
+    "created_at": "2020-03-21 00:41:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Last QE PR generates an incorrect conflct for intel-mkl",
+    "number": 15613,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 585394947,
+    "html_url": "https://github.com/spack/spack/issues/15613",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 3
+}

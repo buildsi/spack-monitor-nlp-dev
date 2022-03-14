@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nAfter https://github.com/spack/spack/pull/24639\r\n\r\n```\r\nIn [2]: spack.spec.Spec('mpich@3.1,3.1.1:3.1.2')\r\n---------------------------------------------------------------------------\r\nAttributeError                            Traceback (most recent call last)\r\n~/spack/lib/spack/spack/cmd/python.py in <module>\r\n----> 1 spack.spec.Spec('mpich@3.1,3.1.1:3.1.2')\r\n\r\n~/spack/lib/spack/spack/spec.py in __init__(self, spec_like, normal, concrete, external_path, external_modules)\r\n   1092 \r\n   1093         if isinstance(spec_like, six.string_types):\r\n-> 1094             spec_list = SpecParser(self).parse(spec_like)\r\n   1095             if len(spec_list) > 1:\r\n   1096                 raise ValueError(\"More than one spec in string: \" + spec_like)\r\n\r\n~/spack/lib/spack/spack/parse.py in parse(self, text)\r\n    151     def parse(self, text):\r\n    152         self.setup(text)\r\n--> 153         return self.do_parse()\r\n    154 \r\n    155 \r\n\r\n~/spack/lib/spack/spack/spec.py in do_parse(self)\r\n   4687             # Cannot do lookups for versions in anonymous specs\r\n   4688             # Only allow concrete versions using git for now\r\n-> 4689             if spec.name and spec.versions.concrete and spec.version.is_commit:\r\n   4690                 pkg = spec.package\r\n   4691                 if hasattr(pkg, 'git'):\r\n\r\nAttributeError: 'VersionRange' object has no attribute 'is_commit'\r\n```\r\n\r\nBefore https://github.com/spack/spack/pull/24639\r\n\r\n```\r\nIn [1]: spack.spec.Spec('mpich@3.1,3.1.1:3.1.2')\r\nOut[1]: mpich@3.1:3.1\r\n```\r\n\r\nNote that this is technically incorrect, since it should be a version list of a concrete version and a range. This also hits yet another bug in spack, namely:\r\n\r\n```\r\nIn [2]: spack.spec.Spec('mpich@3.1,3.1.1:3.1.2').versions.concrete\r\nOut[2]: Version('3.1')\r\n```\r\n\r\n:/ ",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26482",
+    "updated_at": "2021-10-04 21:17:15",
+    "created_at": "2021-10-04 17:32:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "v.concrete does not mean isinstance(v, Version)",
+    "number": 26482,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1015442786,
+    "html_url": "https://github.com/spack/spack/issues/26482",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 4
+}

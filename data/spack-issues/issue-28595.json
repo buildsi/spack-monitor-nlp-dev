@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nFor example, the util-linux-uuid package defines\r\n```    @property\r\n    def headers(self):\r\n        return find_headers('uuid', self.prefix, recursive=True)\r\n```\r\nwhich is supposed to tell spack that the include path should be <install_path>/include/uuid.  This is respected by the pkg-config .pc file produced by spack:  `Cflags: -I${includedir}/uuid` but not by the environment variables, e.g.\r\n```\r\n$ echo $INCLUDE\r\n...:/gpfs/alpine/csc299/proj-shared/ckelly/chimbuko_1_25_22/spack/spack/opt/spack/linux-rhel8-power9le/gcc-9.1.0/util-linux-uuid-2.36.2-wwnknlydny7h2jjrqw3ujkejmyphvfpm/include:...\r\n```\r\n\r\nTo reproduce: set ~/.spack/modules.yaml to include\r\n```\r\nmodules:\r\n prefix_inspections:\r\n   lib: [LIBRARY_PATH]\r\n   lib64: [LIBRARY_PATH]\r\n   include:\r\n     - C_INCLUDE_PATH\r\n     - CPLUS_INCLUDE_PATH\r\n     - INCLUDE\r\n```\r\nthen `spack install util-linux-uuid` and `echo $INCLUDE`\n\n### Error message\n\n```\r\n$ echo $INCLUDE\r\n...:/gpfs/alpine/csc299/proj-shared/ckelly/chimbuko_1_25_22/spack/spack/opt/spack/linux-rhel8-power9le/gcc-9.1.0/util-linux-uuid-2.36.2-wwnknlydny7h2jjrqw3ujkejmyphvfpm/include:...\r\n```\r\nexpect\r\n```\r\n$ echo $INCLUDE\r\n...:/gpfs/alpine/csc299/proj-shared/ckelly/chimbuko_1_25_22/spack/spack/opt/spack/linux-rhel8-power9le/gcc-9.1.0/util-linux-uuid-2.36.2-wwnknlydny7h2jjrqw3ujkejmyphvfpm/include/uuid:...\r\n```\n\n### Information on your system\n\nSummit\r\n\r\n```\r\n[ckelly@login5.summit 2nodes_42clients_40shards]$ spack debug report\r\n* **Spack:** 0.17.1-957-bed3a69498\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-power9le\r\n* **Concretizer:** clingo\r\n```\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "giltirn",
+    "url": "https://api.github.com/repos/spack/spack/issues/28595",
+    "updated_at": "2022-01-25 20:11:01",
+    "created_at": "2022-01-25 20:11:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack compilation env variable setting (e.g. INCLUDE, C_INCLUDE_PATH) does not respect @property def headers",
+    "number": 28595,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1114315723,
+    "html_url": "https://github.com/spack/spack/issues/28595",
+    "assignees": [],
+    "comments": 0
+}

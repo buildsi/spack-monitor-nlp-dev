@@ -1,0 +1,21 @@
+{
+    "body": "Spack already has sanity checks for packages with non-existing dependencies. We should add checks for the situation in which package `A` depends on `B@1.2.3:+foo` but package B either does not have any versions in that range or does not have a `+foo` variant.\r\n\r\n### Rationale\r\n\r\nMany (the majority?) of the failing GitLab CI problems lately have been caused by a PR being merged that adds a new version of a package, but the dependencies were not updated with new versions or variants. By adding a test for this, we can prevent a lot of possible CI failures.\r\n\r\nFor years, we've been recommending that contributors submit a separate PR for each package they modify. While this makes reviewing much easier, it also allows package updates that depend on one another to be merged in the wrong order. Even if a contributor explicitly mentions that a PR depends on another PR being merged first (uncommon), if I enable auto-merge, I no longer have control over the order in which PRs get merged. Good tests would prevent this.\r\n\r\n### Description\r\n\r\nThis seems like something that could be done in https://github.com/spack/spack/blob/develop/lib/spack/spack/test/package_sanity.py",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/24901",
+    "updated_at": "2021-07-30 14:38:07",
+    "created_at": "2021-07-15 03:59:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Sanity checks for missing package versions/variants",
+    "number": 24901,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "tests",
+        "ci"
+    ],
+    "id": 944974333,
+    "html_url": "https://github.com/spack/spack/issues/24901",
+    "assignees": [],
+    "comments": 5
+}

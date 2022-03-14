@@ -1,0 +1,22 @@
+{
+    "body": "It appears that `prefix: /` in `packages.yaml` can cause Spack to traverse the entire file system.\r\n\r\nFor example, on an Ubuntu 20.04 system, `spack external find` nondeterministically locates `xz` as having prefix either `/` or `/usr` (though I don't think there's anything specific to `xz` here, just for minimality since `packages.yaml` seemingly must have at least one package).  The former case is problematic:\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ git clone https://github.com/spack/spack.git\r\n$ cd spack\r\n$ spack compiler find --scope=site\r\n$ spack external find xz --scope=site\r\n# assume spack chooses `/`,\r\n# or edit `etc/spack/packages.yaml` as follows:\r\npackages:\r\n  xz:\r\n    externals:\r\n    - spec: xz@5.2.4\r\n      prefix: /\r\n$ spack install python@3.8.10\r\n ...\r\n==> Ran patch() for python\r\n```\r\n\r\nAt this point the build appears to hang, and `strace` reveals calls to `lstat` on files in my `/projects` directory, which is immense.\r\n\r\n### Information on your system\r\n\r\n```\r\n* **Spack:** 0.16.2-3199-383d4cc84c\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-broadwell\r\n* **Concretizer:** original\r\n```\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "bcdarwin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24418",
+    "updated_at": "2021-06-22 12:31:49",
+    "created_at": "2021-06-18 21:40:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Use of `prefix: /` in `packages.yaml` seemingly causes traversal of entire file system",
+    "number": 24418,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "external-packages",
+        "libraries",
+        "triage"
+    ],
+    "id": 925224481,
+    "html_url": "https://github.com/spack/spack/issues/24418",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,24 @@
+{
+    "body": "Hello,\r\n\r\nI have following in `packages.yaml`:\r\n\r\n```\r\n    python:\r\n        paths:\r\n            python@2.7.9 arch=bgq-cnk-ppc64: /soft/interpreters/python-2.7.9/powerpc64-bgq-linux/\r\n            python@2.7.11 arch=bgq-cnk-ppc64: /gpfs/mira-fs0/pro.../python-2.7.11-bgq/\r\n        version: [2.7.9, 2.7.11]\r\n        buildable: False\r\n```\r\n\r\nConsider simple dependency in `ninja` package : \r\n\r\n```\r\n    depends_on('python', type=('build', 'run'))\r\n```\r\n\r\nAnd I get:\r\n\r\n```\r\nspack spec ninja\r\nInput spec\r\n--------------------------------\r\nninja\r\n\r\nNormalized\r\n--------------------------------\r\nninja\r\n    ^python\r\n        ^bzip2\r\n        ^ncurses\r\n            ^pkg-config\r\n        ^openssl\r\n            ^zlib\r\n        ^readline\r\n        ^sqlite\r\n\r\nConcretized\r\n--------------------------------\r\nninja@1.7.2%xl@12.1 arch=bgq-cnk-ppc64\r\n    ^python@2.7.11%xl@12.1+shared~tk~ucs4 arch=bgq-cnk-ppc64\r\n```\r\n\r\nSpack should prefer `2.7.9`  over `2.7.11`?",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5110",
+    "updated_at": "2019-02-01 00:01:31",
+    "created_at": "2017-08-15 19:38:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Version preferences in packages.yaml ignored?",
+    "number": 5110,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "concretization",
+        "external-packages"
+    ],
+    "id": 250415606,
+    "html_url": "https://github.com/spack/spack/issues/5110",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 11
+}

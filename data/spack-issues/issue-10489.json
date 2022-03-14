@@ -1,0 +1,21 @@
+{
+    "body": "Spack is being considered to help build and run supercomputing software ecosystems within a container.  Recently, Docker has added the capability of multistage builds in composing Dockerfiles, which could be a good fit in constructing container images which only have the necessary toolkits to execute a given HPC app or task, rather than the full build-time requirements.   In this, it would be ideal to have a Spack command which returns a delimited list of the link and runtime requirements for the currently built stack. \r\n\r\nInstead of a list, perhaps this should export a set of binary files that Spack can install directly? \r\nNOTE: flexible on specific Spack syntax.\r\n\r\n### Rationale\r\nThis capability will allow for container builds to most effectively leverage Spack for controlling build and  run-time container images.  The result would be a container with only the minimal running environment necessary.\r\n\r\n\r\n### Description\r\nExample Dockerfile:\r\n```\r\n#BUILD container\r\nFROM toss-3.3:x86_64 as build\r\n...\r\nRUN apt-get install foo\r\nRUN spack install bar zlib\r\n...\r\nWORKDIR /mybuilddir\r\nCOPY myapp_source.tar.gz\r\nRUN ./configure && make \r\nRUN spack get-runtime >> /spack/spack_runtimes_deps.txt\r\n\r\n#RUNTIME container\r\nFROM toss_minimal:latest \r\nRUN apk --no-cache add ca-certificates\r\nCOPY --from=build /spack/spack_runtimes_deps.txt\r\nRUN spack install <<  /spack/spack_runtimes_deps.txt\r\n\r\nWORKDIR /opt/myapp\r\nCOPY --from=build /mybuilddir/app .\r\nCMD [\"./opt/myapp/app\"]  \r\n\r\n```\r\n\r\n### Additional information\r\n\r\nMulti-stage builds:  https://docs.docker.com/develop/develop-images/multistage-build/\r\n\r\n\r\n-----\r\n",
+    "user": "ajyounge",
+    "url": "https://api.github.com/repos/spack/spack/issues/10489",
+    "updated_at": "2020-02-07 09:44:55",
+    "created_at": "2019-01-31 20:00:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack determine runtime and linking dependencies from build",
+    "number": 10489,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "environments",
+        "containers"
+    ],
+    "id": 405413866,
+    "html_url": "https://github.com/spack/spack/issues/10489",
+    "assignees": [],
+    "comments": 3
+}

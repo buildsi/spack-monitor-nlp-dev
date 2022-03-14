@@ -1,0 +1,23 @@
+{
+    "body": "#7939 introduced an unintended concretization bug. Now, most packages that depend on `elf` fail to concretize on macOS.\r\n\r\n```console\r\n$ spack spec automaded\r\n==> Error: libelf@0.8.13%clang@9.0.0-apple arch=darwin-highsierra-x86_64 does not satisfy elf@1\r\n$ spack spec callpath\r\n==> Error: libelf@0.8.13%clang@9.0.0-apple arch=darwin-highsierra-x86_64 does not satisfy elf@1\r\n$ spack spec dyninst\r\n==> Error: libelf@0.8.13%clang@9.0.0-apple arch=darwin-highsierra-x86_64 does not satisfy elf@1\r\n$ spack spec extrae\r\n==> Error: libelf@0.8.13%clang@9.0.0-apple arch=darwin-highsierra-x86_64 does not satisfy elf@1\r\n$ spack spec mitos\r\n==> Error: libelf@0.8.13%clang@9.0.0-apple arch=darwin-highsierra-x86_64 does not satisfy elf@1\r\n$ spack spec mpileaks\r\n==> Error: libelf@0.8.13%clang@9.0.0-apple arch=darwin-highsierra-x86_64 does not satisfy elf@1\r\n$ spack spec stat\r\n==> Error: libelf@0.8.13%clang@9.0.0-apple arch=darwin-highsierra-x86_64 does not satisfy elf@1\r\n```\r\nThis is also causing the documentation tests to fail.\r\n```\r\nWARNING: Unexpected return code 1 from command 'spack --profile graph dyninst'\r\nWARNING: Unexpected return code 1 from command 'spack graph mpileaks'\r\nWARNING: Unexpected return code 1 from command 'spack graph --deptype=all mpileaks'\r\nWARNING: Unexpected return code 1 from command 'spack graph --dot mpileaks'\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8401",
+    "updated_at": "2020-11-01 02:32:10",
+    "created_at": "2018-06-06 13:18:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Most packages that depend on elf fail to concretize on macOS",
+    "number": 8401,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "concretization",
+        "virtual-dependencies"
+    ],
+    "id": 329863793,
+    "html_url": "https://github.com/spack/spack/issues/8401",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

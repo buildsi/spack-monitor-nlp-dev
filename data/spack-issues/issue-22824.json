@@ -1,0 +1,21 @@
+{
+    "body": "It would be nice to have an option to apply additional modifications to the environment when an external package is in use. We already have it for compilers, so the required logic is already more or less implemented.\r\n\r\n### Rationale\r\n\r\nThis would help to customize the existing modules. For example, some packages need to run `srun` either at the configure time (to make sure that the provided MPI implementation does not suffer some particular bugs) or when running tests. A common assumption is that `srun -n 4 ./executable` does the job. There are cases, though, when this does not work. On one of the systems I have to specify an account, a constraint and a partition:\r\n```console\r\nsrun -A some_account -C some_constraint -p some_partition -n 4 ./executable\r\n```\r\n\r\nThis could be solved with the requested feature as follows:\r\n```yaml\r\npackages:\r\n  cray-mpich:\r\n    buildable: false\r\n    externals:\r\n    - spec: cray-mpich@7.7.16\r\n      modules:\r\n      - cray-mpich/7.7.16\r\n      environment:\r\n        set:\r\n          SLURM_ACCOUNT: some_account\r\n          SLURM_CONSTRAINT: some_constraint\r\n          SLURM_PARTITION: some_partition\r\n```\r\n\r\nand `srun -n 4 ./executable` would work.\r\n\r\n### Description\r\n\r\nThe current way to solve this problem is to create an additional module and append it to the list of loaded modules. This is not very convenient though.\r\n\r\n### Additional information\r\nWe need to discuss whether the environment modifications should affect the hash. This makes sense for the modules since we normally get the prefix from them but I don't think we should try to guess the prefix based on the environment modifications.\r\n\r\n\r\n### General information\r\n\r\n- [ ] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/22824",
+    "updated_at": "2021-12-14 15:32:45",
+    "created_at": "2021-04-07 11:07:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow for environment modifications by the external packages",
+    "number": 22824,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 852293156,
+    "html_url": "https://github.com/spack/spack/issues/22824",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

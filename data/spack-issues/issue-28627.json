@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nAfter the upgrade from v0.16.0 to v0.17.1, I have noticed that my previous solution with `setup_run_environment` overriding of child-package classes does not work. For some packages I used to create a package in the local repository and overriding/creating `setup_run_environment`: \r\n```python\r\nfrom spack.pkg.builtin.expackage import ExPackage as BaseExPackage\r\n\r\nclass ExPackage(BaseExPackage):\r\n    \"\"\"Example Package\"\"\"\r\n    def setup_run_environment(self, env):\r\n        env.set('TESTVAR','TESTVAL')\r\n```\r\nHowever, the `setup_run_environment` is not being executed when the package is loaded (also when a module file is created). \r\nAnd I see from the `spack info expackage` output that the package file is being used, as it prints the correct \"Example Package\" info. \r\n\r\nAs another solution I started to set the function of the Base Package, which works: \r\n```python\r\nfrom spack.pkg.builtin.expackage import ExPackage as BaseExPackage\r\n\r\nclass ExPackage(BaseExPackage):\r\n    \"\"\"Example Package\"\"\"\r\n    def setup_run_environment(self, env):\r\n        env.set('TESTVAR','TESTVAL')\r\n\r\n    BaseExPackage.setup_run_environment = setup_run_environment\r\n```\r\nI wanted to ask, if such behavior is intended or the newer version of Spack explicitly calls `setup_run_environment` function from particular class? Or am I missing something? \r\n\r\nThank you in advance! \n\n### Error message\n\n_No response_\n\n### Information on your system\n\n* **Spack:** 0.17.1\r\n* **Python:** 3.9.0\r\n* **Platform:** linux-scientific7-cascadelake\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "A33a",
+    "url": "https://api.github.com/repos/spack/spack/issues/28627",
+    "updated_at": "2022-01-27 09:59:22",
+    "created_at": "2022-01-27 09:59:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Package `setup_run_environment` overriding changed",
+    "number": 28627,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1116005475,
+    "html_url": "https://github.com/spack/spack/issues/28627",
+    "assignees": [],
+    "comments": 0
+}

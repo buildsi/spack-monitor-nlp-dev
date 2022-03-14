@@ -1,0 +1,25 @@
+{
+    "body": "If B is a build-only dependency of A, and C is a build-only dependency of B, then C shouldn't be required by A if B already exists. However, with the `clingo` concretizer, C still shows up in the concretization of A even when B is already built.\r\n\r\nThis is mainly a problem when trying to manually specify an existing build-only dependency for a package, e.g. an already installed external or an out-of-date package whose daughter dependency has changed.\r\n\r\n### Steps to reproduce the issue\r\n\r\nWith clingo:\r\n```console\r\n$ spack spec -I hdf5@1.12: ^cmake/457disr\r\nInput spec\r\n--------------------------------\r\n -   hdf5@1.12:\r\n[+]      ^cmake@3.20.3%apple-clang@12.0.5~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=darwin-bigsur-x86_64\r\n[+]          ^ncurses@6.2%apple-clang@12.0.5~symlinks+termlib abi=none arch=darwin-bigsur-x86_64\r\n[+]          ^openssl@1.1.1k%apple-clang@12.0.5~docs+systemcerts arch=darwin-bigsur-x86_64\r\n[+]              ^zlib@1.2.11%apple-clang@12.0.5+optimize+pic+shared arch=darwin-bigsur-x86_64\r\n\r\nConcretized\r\n--------------------------------\r\n -   hdf5@1.12.1%apple-clang@12.0.5+cxx+fortran+hl~ipo~java~mpi+shared~szip~threadsafe+tools api=default build_type=RelWithDebInfo arch=darwin-bigsur-x86_64\r\n[+]      ^cmake@3.20.3%apple-clang@12.0.5~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=darwin-bigsur-x86_64\r\n[+]          ^ncurses@6.2%apple-clang@12.0.5~symlinks+termlib abi=none arch=darwin-bigsur-x86_64\r\n[+]              ^pkgconf@1.7.4%apple-clang@12.0.5 arch=darwin-bigsur-x86_64\r\n[+]          ^openssl@1.1.1k%apple-clang@12.0.5~docs+systemcerts arch=darwin-bigsur-x86_64\r\n -               ^perl@5.34.0%apple-clang@12.0.5+cpanm+shared+threads arch=darwin-bigsur-x86_64\r\n[+]                  ^berkeley-db@18.1.40%apple-clang@12.0.5+cxx~docs+stl patches=b231fcc4d5cff05e5c3a4814f6a5af0e9a966428dc2176540d2c05aff41de522 arch=darwin-bigsur-x86_64\r\n[+]                  ^bzip2@1.0.8%apple-clang@12.0.5~debug~pic+shared arch=darwin-bigsur-x86_64\r\n[+]                      ^diffutils@3.7%apple-clang@12.0.5 arch=darwin-bigsur-x86_64\r\n[+]                          ^libiconv@1.16%apple-clang@12.0.5 arch=darwin-bigsur-x86_64\r\n[+]                  ^gdbm@1.19%apple-clang@12.0.5 arch=darwin-bigsur-x86_64\r\n[+]                      ^readline@8.1%apple-clang@12.0.5 arch=darwin-bigsur-x86_64\r\n[+]                  ^zlib@1.2.11%apple-clang@12.0.5+optimize+pic+shared arch=darwin-bigsur-x86_64\r\n```\r\n\r\nWith **original** concretizer:\r\n```\r\n$ spack spec -I hdf5@1.12: ^cmake/457disr\r\nInput spec\r\n--------------------------------\r\n -   hdf5@1.12:\r\n[+]      ^cmake@3.20.3%apple-clang@12.0.5~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=darwin-bigsur-x86_64\r\n[+]          ^ncurses@6.2%apple-clang@12.0.5~symlinks+termlib abi=none arch=darwin-bigsur-x86_64\r\n[+]          ^openssl@1.1.1k%apple-clang@12.0.5~docs+systemcerts arch=darwin-bigsur-x86_64\r\n[+]              ^zlib@1.2.11%apple-clang@12.0.5+optimize+pic+shared arch=darwin-bigsur-x86_64\r\n\r\nConcretized\r\n--------------------------------\r\n[+]  hdf5@1.12.1%apple-clang@12.0.5+cxx+fortran+hl~ipo~java~mpi+shared~szip~threadsafe+tools api=default build_type=RelWithDebInfo arch=darwin-bigsur-x86_64\r\n[+]      ^cmake@3.20.3%apple-clang@12.0.5~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=darwin-bigsur-x86_64\r\n[+]          ^ncurses@6.2%apple-clang@12.0.5~symlinks+termlib abi=none arch=darwin-bigsur-x86_64\r\n[+]          ^openssl@1.1.1k%apple-clang@12.0.5~docs+systemcerts arch=darwin-bigsur-x86_64\r\n[+]              ^zlib@1.2.11%apple-clang@12.0.5+optimize+pic+shared arch=darwin-bigsur-x86_64\r\n[+]      ^pkgconf@1.7.4%apple-clang@12.0.5 arch=darwin-bigsur-x86_64\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.2-3486-6d22e9cd7b\r\n* **Python:** 3.8.5\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** clingo\r\n* ```\r\n* \r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/24842",
+    "updated_at": "2022-01-06 14:54:18",
+    "created_at": "2021-07-12 16:39:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "clingo: transitive build dependencies are not ignored",
+    "number": 24842,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low",
+        "buildcache",
+        "concretizer-use-case"
+    ],
+    "id": 942242477,
+    "html_url": "https://github.com/spack/spack/issues/24842",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

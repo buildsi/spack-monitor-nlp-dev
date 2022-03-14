@@ -1,0 +1,20 @@
+{
+    "body": "The Lmod template, share/spack/templates/modules/modulefile.lua, defines the loading of the dependencies that a given module may have with\r\n{% block autoloads %}\r\n{% for module in autoload %}\r\nif not isloaded(\"{{ module }}\") then\r\n{% if verbose %}\r\n    LmodMessage(\"Autoloading {{ module }}\")\r\n{% endif %}\r\n    load(\"{{ module }}\")\r\nend\r\n{% endfor %}\r\n{% endblock %}\r\n\r\nwhich results with syntax like\r\nif not isloaded(\"linux-centos7-nehalem/python/3.8.6\") then\r\n    load(\"linux-centos7-nehalem/python/3.8.6\")\r\nend\r\n\r\nThe effect of the load() function on unload of the parent module is to unconditionally unload this dependent module. This may have the undesired effect of unloading a dependent module that may be a dependence of another loaded module. The depends_on() function is better suited for this situation, the dependent module will not get unloaded if other loaded module has it listed as a dependncy. See https://lmod.readthedocs.io/en/latest/098_dependent_modules.html for details on difference between load() and depends_on().\r\n\r\nI suggest to change from load() to depends_on(), as:\r\n{% block autoloads %}\r\n{% for module in autoload %}\r\n{% if verbose %}\r\n    LmodMessage(\"Autoloading {{ module }}\")\r\n{% endif %}\r\ndepends_on(\"{{ module }}\")\r\n{% endfor %}\r\n{% endblock %}\r\n\r\nwhich in our concrete example above would also result in a simpler syntax:\r\ndepends_on(\"linux-centos7-nehalem/python/3.8.6\")\r\n\r\nThanks,\r\nMartin",
+    "user": "mcuma",
+    "url": "https://api.github.com/repos/spack/spack/issues/24259",
+    "updated_at": "2021-06-11 06:42:25",
+    "created_at": "2021-06-10 23:19:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Change Lmod template syntax for dependencies",
+    "number": 24259,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "modules"
+    ],
+    "id": 918040622,
+    "html_url": "https://github.com/spack/spack/issues/24259",
+    "assignees": [],
+    "comments": 0
+}

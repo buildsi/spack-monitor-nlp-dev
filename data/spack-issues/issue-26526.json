@@ -1,0 +1,22 @@
+{
+    "body": "If you use spack environments with includes, you get warnings of this type:\r\n\r\n```\r\nWarning: included configuration files should be updated manually [files=${SPACK_SYSTEM_CONFIG_PATH}/packages.yaml]\r\n```\r\n\r\n*every* time the environment is persisted to disk.\r\n\r\nThis is quite annoying, cause it looks like something is wrong with how you're using environments.\r\n\r\nThe thing is that during `env.write()`, Spack checks if the environment file is of some outdated format, which imho should not bother about included config in the first place. It's really about the environment file itself, not about external config.\r\n\r\nSo, it'd be better not to warn.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26526",
+    "updated_at": "2021-10-07 14:07:21",
+    "created_at": "2021-10-05 11:04:59",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Don't warn about includes when persisting an environment",
+    "number": 26526,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "environments"
+    ],
+    "id": 1016187064,
+    "html_url": "https://github.com/spack/spack/pull/26526",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 0
+}

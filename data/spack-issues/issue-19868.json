@@ -1,0 +1,23 @@
+{
+    "body": "Value of SPACK_SYSTEM_DIRS env. variable exported for compiler/linker wrappers\r\nis constant and does not include all relevant system directories. This causes incorrect linking\r\nof libraries installed both by system and spack, e.g. this configure check in spack package\r\nfails when checking presence of libXt (dependency properly declared in package.py)\r\nbecause some system paths precede those of spack package dependencies:\r\n```console\r\n$ cat t.c\r\n#include <X11/Intrinsic.h>\r\n int main () { (void)XtToolkitInitialize (); return 0; }\r\n$ icc -o t t.c -lXt\r\nld: //lib/x86_64-linux-gnu/libSM.so.6: undefined reference to `uuid_unparse_lower@UUID_1.0'\r\nld: //lib/x86_64-linux-gnu/libSM.so.6: undefined reference to `uuid_generate@UUID_1.0'\r\n```\r\nTypically, various subdirectories of {,/usr}/lib/{,gcc/}x86_64-linux-gnu are missing\r\n(wrapper compares exact paths without normalization except trailing slash), but exact set\r\ndepends on toolchain used (I would prefer having configurable toolchain property),\r\ne.g. on Debian10 system gcc uses following when linking\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib\r\n-L/lib/x86_64-linux-gnu\r\n-L/lib/../lib\r\n-L/usr/lib/x86_64-linux-gnu\r\n-L/usr/lib/../lib\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8/../../..\r\n\r\nwhile  icc 19 from spack package uses\r\n-L<spack_install_dir>/cluster.2019.4-intel-tgd5yn/compilers_and_libraries_2019.4.243/linux/compiler/lib/intel64_lin\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../x86_64-linux-gnu/\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib64\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../../lib/\r\n-L/lib/x86_64-linux-gnu/\r\n-L/lib/../lib64\r\n-L/lib/../lib/\r\n-L/usr/lib/x86_64-linux-gnu/\r\n-L/usr/lib/../lib64\r\n-L/usr/lib/../lib/\r\n-L/usr/lib/gcc/x86_64-linux-gnu/8/../../../\r\n\r\n\r\n\r\n",
+    "user": "zsalvet",
+    "url": "https://api.github.com/repos/spack/spack/issues/19868",
+    "updated_at": "2021-08-11 16:19:15",
+    "created_at": "2020-11-11 21:51:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "SPACK_SYSTEM_DIRS does not include all necessary paths",
+    "number": 19868,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "triage"
+    ],
+    "id": 741095291,
+    "html_url": "https://github.com/spack/spack/issues/19868",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

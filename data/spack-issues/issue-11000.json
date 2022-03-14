@@ -1,0 +1,19 @@
+{
+    "body": "\r\nThis is a small thing.  I'm not blocked on it or anything.  But it\r\nmakes sense and does have its use case.\r\n\r\nRight now, there is `url_for_version()` for constructing a complicated\r\nURL from its version.  A quick grep through the packages directory\r\nshows about 140 packages that use this.\r\n\r\nCould we add `url_for_resource()` for packages that use resources with a\r\ncomplicated URL that varies by version?\r\n\r\nNote: a package has only one URL per version, but it may have many\r\nresources (see llvm).  So, I guess you'd want the signature to look\r\nsomething like:\r\n\r\n```\r\ndef url_for_resource(self, version, name):\r\n```\r\n\r\nwhere `name` is a string.  `version` is actually a class, but I'm\r\nguessing `name` is probably just a string.\r\n\r\nI would use this for hpcviewer.  Grepping the packages directory, I\r\ncount 77 unique packages that use at least one resource.  I don't\r\nspeak for llvm, but the llvm package has long tables of URLs and\r\nchecksums, they might use it.\r\n\r\nI could try copying the code for `url_for_version()` into the Resource\r\nclass, but I'm not that confident that I'd hook it up correctly.\r\n\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/11000",
+    "updated_at": "2019-03-22 20:45:49",
+    "created_at": "2019-03-22 20:45:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "feature request:  url_for_resource()",
+    "number": 11000,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 424393060,
+    "html_url": "https://github.com/spack/spack/issues/11000",
+    "assignees": [],
+    "comments": 0
+}

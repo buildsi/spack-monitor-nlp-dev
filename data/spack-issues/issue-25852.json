@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nI'm not sure how to replicate this issue generally but any package that has spack test support and a specific cmake requirement might be subject. \r\n\r\nIn a 'clean' environment (where the correct cmake is not loaded manually) `spack test <package>` may use a system-provided or otherwise incorrect cmake, resulting in test components that rely on cmake to fail to build. If doing `spack test `as a batch where there are multiple packages with incompatible cmake versions I don't believe there is a workaround.\r\n\r\nThis PR addresses this issue: https://github.com/spack/spack/pull/24424\r\n@tldahlgren \n\n### Error message\n\n_No response_\n\n### Information on your system\n\n* **Spack:** 0.16.2-4192-c2a6ccbea8\r\n* **Python:** 3.6.13\r\n* **Platform:** cray-sles15-zen2\r\n* **Concretizer:** original\r\n\r\n```\r\n[wspear@login1.spock build]$  /usr/bin/cmake --version\r\ncmake version 3.17.0\r\n\r\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\r\n[wspear@login1.spock build]$ which cmake\r\n/autofs/nccs-svm1_proj/csc439/wspear/spock/spack-e4s-21.08-gcc-10.3.0/opt/spack/cray-sles15-x86_64/gcc-10.3.0/cmake-3.20.5-buohxldhbe7xzsyhnt76m5tanfjbmnty/bin/cmake\r\n[wspear@login1.spock build]$ cmake --version\r\ncmake version 3.20.5\r\n\r\nCMake suite maintained and supported by Kitware (kitware.com/cmake).\r\n```\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/25852",
+    "updated_at": "2021-10-04 18:44:04",
+    "created_at": "2021-09-08 22:23:21",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack test may use incorrect cmake",
+    "number": 25852,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 991580515,
+    "html_url": "https://github.com/spack/spack/issues/25852",
+    "assignees": [],
+    "comments": 1
+}

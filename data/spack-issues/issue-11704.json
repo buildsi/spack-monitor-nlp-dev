@@ -1,0 +1,22 @@
+{
+    "body": "I really don't know enough about `ld`, but is spack meant to be using the system `ld`, or one that it builds/provides itself?\r\n\r\nAnyway: this worked as\r\n\r\n```\r\nspack install openmpi@3.1.4 %gcc@8.3.0\r\nspack install openmpi@3.1.4 %intel@19.0.3 ^rdma-core%gcc@8.3.0\r\n```\r\n\r\nAnd is only failing with pgi.\r\n\r\n```\r\nspack install openmpi@3.1.4 %pgi@19.4\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install openmpi@3.1.4 %pgi@19.4\r\n[...]\r\n==> Installing pkgconf\r\n==> Searching for binary cache of pkgconf\r\n==> Finding buildcaches in /curc/mirror/spack/build_cache\r\n==> No binary for pkgconf found: installing from source\r\n==> Using cached archive: /curc/sw/spack-experimental/var/spack/cache/pkgconf/pkgconf-1.6.0.tar.xz\r\n==> Staging archive: /curc/sw/spack-experimental/var/spack/stage/pkgconf-1.6.0-jtg3tkwrtfmkwgo353t22slflj5ey2em/pkgconf-1.6.0.tar.xz\r\n==> Created stage in /curc/sw/spack-experimental/var/spack/stage/pkgconf-1.6.0-jtg3tkwrtfmkwgo353t22slflj5ey2em\r\n==> No patches needed for pkgconf\r\n==> Building pkgconf [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16'\r\n\r\n1 error found in build log:\r\n     122      CC       libpkgconf/parser.lo\r\n     123      CC       cli/pkgconf-main.o\r\n     124      CC       cli/pkgconf-getopt_long.o\r\n     125      CC       cli/pkgconf-renderer-msvc.o\r\n     126      CCLD     libpkgconf.la\r\n     127    /bin/ld: anonymous version tag cannot be combined with other versio\r\n            n tags\r\n  >> 128    make: *** [libpkgconf.la] Error 2\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux shas0136 3.10.0-693.37.4.el7.x86_64 #1 SMP Fri Aug 10 12:34:55 EDT 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Red Hat Enterprise Linux Server release 7.4 (Maipo)\r\n``` \r\n\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /curc/sw/spack-experimental/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/pgi-19.4-lprd2a7fgdcunzt4nini67zq5mnttomm/linux86-64/19.4/bin/pgcc\r\n      cxx: null\r\n      f77: /curc/sw/spack-experimental/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/pgi-19.4-lprd2a7fgdcunzt4nini67zq5mnttomm/linux86-64/19.4/bin/pgfortran\r\n      fc: /curc/sw/spack-experimental/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/pgi-19.4-lprd2a7fgdcunzt4nini67zq5mnttomm/linux86-64/19.4/bin/pgf90\r\n    spec: pgi@19.4\r\n    target: x86_64\r\n```\r\n",
+    "user": "anderbubble",
+    "url": "https://api.github.com/repos/spack/spack/issues/11704",
+    "updated_at": "2020-02-05 08:54:03",
+    "created_at": "2019-06-14 05:12:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: pkgconfig",
+    "number": 11704,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "triage"
+    ],
+    "id": 456063526,
+    "html_url": "https://github.com/spack/spack/issues/11704",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

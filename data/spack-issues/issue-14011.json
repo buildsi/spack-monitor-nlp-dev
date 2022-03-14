@@ -1,0 +1,24 @@
+{
+    "body": "My colleague is a physicist and because they are living in CA, decided to get a Mac because that's hip and cool. Their colleague Axel told them \"use Spack, it provides all you'll ever need!\", so they followed the [quickstart](https://spack.io/about/#install-spack) guide:\r\n\r\n```\r\ngit clone https://github.com/spack/spack.git\r\n. spack/share/spack/setup-env.sh\r\nspack install hdf5\r\n```\r\n\r\nThey did not succeed because they don't have Fortran compilers yet.\r\n\r\n### Steps to reproduce the issue\r\n\r\nFollowing the commands above, a typical Mac user, but also all people working with freshly installed Linux distributions will try to install the hdf5 package. The hdf5 package implicitly depends on `+mpi` which concretizes to `openmpi` which depends on a fortran compiler.\r\n\r\nLong story short: if people use Spack to install HPC software, e.g. for local development on their laptops, then they will need either directly or transitively MPI packages to compile. If `+mpi` is the default in spack, then so is a dependency on a Fortran compiler. Even our default example `spack install hdf5` shows that. Fortran compilers are not available on default systems and most software does not need it, we just pull it through MPI.\r\n\r\nShould we extend our quickstart guide to bootstrap a full GCC?\r\nShould we extend our docs of [core dependencies](https://spack.readthedocs.io/en/latest/getting_started.html)?\r\nThe long-term solution is probably to fix the variants of virtual dependencies to allow a Fortran-free build of most things that don't actually need it?\r\n\r\n### Error Message\r\n\r\n```\r\n...\r\n==> No patches needed for openmpi\r\n==> Building openmpi [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Error: InstallError: OpenMPI requires both C and Fortran compilers!\r\n\r\n/home/vsts/work/1/s/spack/var/spack/repos/builtin/packages/openmpi/package.py:385, in die_without_fortran:\r\n        382        # avoid delayed build errors in dependents.\r\n        383        if (self.compiler.f77 is None) or (self.compiler.fc is None):\r\n        384            raise InstallError(\r\n  >>    385                'OpenMPI requires both C and Fortran compilers!'\r\n        386            )\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\nTry the quick-start guide with any fresh system, such as\r\n- any cloud instance, e.g. Azure for macOS\r\n- any newly bought Mac with Xcode in place\r\n- a freshly installed Ubuntu ",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/14011",
+    "updated_at": "2019-12-10 17:58:30",
+    "created_at": "2019-12-06 04:54:52",
+    "closed_at": "None",
+    "state": "open",
+    "title": "macOS: Spack Quickstart",
+    "number": 14011,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "documentation",
+        "virtual-dependencies",
+        "mpi",
+        "workflow"
+    ],
+    "id": 533745766,
+    "html_url": "https://github.com/spack/spack/issues/14011",
+    "assignees": [],
+    "comments": 1
+}

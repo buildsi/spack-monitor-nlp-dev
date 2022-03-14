@@ -1,0 +1,21 @@
+{
+    "body": "This was discussed/mentioned in the #2037. In short, when I specify module in `compilers.yaml` and if that module is setting some ENV variables like `LD_LIBRARY_PATH` then those are not preserved.\n\nSummary:\n\npramodk:\n\n> if I specify modules in compilers.yaml, does all env variables from those modules will be set and preserved during build? Or this also requires --dirty ?\n\ntgamblin:\n\n> @pramodk: if you specify modules in the compilers.yaml file, they should be imported into the build environment even without --dirty. Spack has (as of the Cray support) the ability to load modules just in the build environment.\n> @mamelara @becker33: do you know why that might not be working? This is on a Linux machine -- did you test there?\n\npramodk:\n\n> In my testing it's not working as expected. Here is detailed example (x86_redhat_cluster):\n> \n> I have `gcc` module which looks like this:\n> \n> ``` bash\n> module show gcc/4.9.0\n> -------------------------------------------------------------------\n> /home/modulefiles/gcc/4.9.0:\n> \n> \n> \n> module-whatis  Loads gcc 4.9.0 to your environment variables\n> module         load mpc/1.0.2\n> module         load mpfr/3.1.2\n> module         load gmp/5.1.3\n> prepend-path   PATH /home//tools/gcc/gcc-4.9.0/install/bin\n> prepend-path   LD_LIBRARY_PATH /home//tools/gcc/gcc-4.9.0/install/lib64\n> prepend-path   LD_RUN_PATH /home//tools/gcc/gcc-4.9.0/install/lib64\n> prepend-path   CPATH /home//tools/gcc/gcc-4.9.0/install/include\n> prepend-path   SEARCH_DIR /home//tools/gcc/gcc-4.9.0/install/lib64\n> ```\n> \n> If I use that above compiler directly (without loading module), I get following error:\n> \n> ```\n> /home//tools/gcc/gcc-4.9.0/install/bin/gcc example.c\n> /home/tools/gcc/gcc-4.9.0/install/bin/../libexec/gcc/x86_64-unknown-linux-gnu/4.9.0/cc1: error while loading shared libraries: libmpc.so.3: cannot open shared object file: No such file or directory\n> ```\n> \n> So `LD_LIBRARY_PATH` is not set for `mpc` and hence the error which is expected.\n> \n> Now I add entry into `compilers.yaml` as:\n> \n> ``` bash\n> - compiler:\n>     modules: [gcc/4.9.0, mpc/1.0.2, mpfr/3.1.2, gmp/5.1.3]\n>     operating_system: redhat6\n>     paths:\n>       cc: /home/tools/gcc/gcc-4.9.0/install/bin/gcc\n>       cxx: /home/tools/gcc/gcc-4.9.0/install/bin/g++\n>       f77: /home/tools/gcc/gcc-4.9.0/install/bin/gfortran\n>       fc: /home/tools/gcc/gcc-4.9.0/install/bin/gfortran\n>     spec: gcc@4.9.0\n> ```\n> \n> (I also tried adding only gcc/4.9.0).\n> \n> If I try to build a package, I see following error in `pack-build.out`:\n> \n> ``` bash\n> $ spack install -v  testpkg %gcc@4.9.0\n>   /home/tools/gcc/gcc-4.9.0/install/bin/../libexec/gcc/x86_64-unknown-linux-gnu/4.9.0/cc1:\n>   error while loading shared libraries: libmpc.so.3: cannot open shared\n>   object file: No such file or directory\n> ```\n> \n> I haven't loaded any module or set any path yet. But if I just run with `--dirty` flag:\n> \n> ``` bash\n> spack install -v --dirty testpkg %gcc@4.9.0\n> ```\n> \n> Now the package build successfully! My understanding was that the `--dirty` flag will be only useful if I load any modules or set any env variables.\n> \n> If I check `spack-build.env` in above two cases, `LD_LIBRARY_PATH` is set properly / preserved if I use `--dirty` flag (even without loading any module or setting path explicitly). \n",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/2056",
+    "updated_at": "2018-04-13 11:36:32",
+    "created_at": "2016-10-19 19:39:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": " Specifying modules in compilers.yaml doesn't preserve ENV variables",
+    "number": 2056,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 184054932,
+    "html_url": "https://github.com/spack/spack/issues/2056",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 19
+}

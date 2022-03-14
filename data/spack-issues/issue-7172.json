@@ -1,0 +1,20 @@
+{
+    "body": "On darwin, spack is sort of a disaster because it treats darwin like it's GNU Linux and builds a GNU toolchain, but the OS is BSD-based with some GPLv2 stuff thrown in here or there, and differences between some of the BSD and GNU tools cause linking problems.\r\n\r\nSpack's first attempt at constructing a build toolchain was to go the all-GNU route. Let's call this Version 1.\r\n\r\nI attempted to fix this in #7060 because it broke `subversion`. Mistakes notwithstanding, the idea was to symlink `libtool` to `glibtool` and `libtoolize` to `glibtoolize`. This fixes `subversion`, but then breaks a number of other packages. Let's call this Version 2.\r\n\r\nIn addition to the breakage caused by #7060, I attempted to fix this again via #7073, which just installs `glibtool` and `glibtoolize`. This satisfies build systems that detect Darwin and explicitly look for the GNU tools in these paths (`subversion`, among others). It also satisfies any build system that detects Apple's BSD `libtool` on its own, but it breaks any `AutotoolsPackage` that calls `autoconf` and expects to find `libtool` in the `binutils` prefix, notably `gcc`. (See #7140, #7163.) Let's call this Version 3.\r\n\r\nIt seems to me like a better way forward would look like:\r\n\r\n- [x] Make a `cctools` package from https://opensource.apple.com/source/cctools/cctools-895/, using [MacPorts](https://github.com/macports/macports-ports/blob/master/devel/cctools/Portfile) and [Homebrew](https://github.com/Homebrew/homebrew-core/blob/master/Formula/cctools.rb) packages as guides. This package would install Apple's toolchain into the spack tree because if spack and OpenGL have taught me anything, it's that forcing users to configure external packages is a nightmare, and having a package that just reinstalls system utilities is way less painful.\r\n\r\n- [x] Decide how spack is going to distinguish between BSD and GNU versions of the above in the \r\n\"version\" field of a spec of virtual packages providing `autoconf`, etc. Some build systems seem unaffected by using either version. Other build systems crash and burn if the wrong one is used. This distinction determines how to enforce the BSD vs GNU constraint during concretization.\r\n\r\n- [x] ~~Rename existing GNU build tools: e.g., `autoconf` -> `gnu-autoconf`~~\r\n\r\n- [x] ~~Make `autoconf`, etc., virtual packages~~\r\n\r\n- [x] ~~Add `provides` directives to `cctools`, GNU build tools, and other any BSD versions of build tools around (`bmake` is one, I believe), using the versioning scheme decided above~~\r\n\r\n- [ ] Profit?\r\n\r\nGiven the amount of work involved, and the fact that it's going to affect a lot of stuff, I figured it might be a good idea to run this by some of the core devs first before doing anything.\r\n\r\n@tgamblin @alalazo @davydden @adamjstewart ",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/7172",
+    "updated_at": "2019-12-13 11:43:28",
+    "created_at": "2018-02-02 21:26:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[RFC] Proposal: make autoconf, automake, bintools, libtool virtual packages to fix reports of darwin libtool breakage",
+    "number": 7172,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "proposal"
+    ],
+    "id": 294028405,
+    "html_url": "https://github.com/spack/spack/issues/7172",
+    "assignees": [],
+    "comments": 4
+}

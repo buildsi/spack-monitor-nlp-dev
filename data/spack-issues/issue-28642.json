@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nThis is technically a runtime issue but the build template seems most appropriate.\r\n\r\n```console\r\n$ git clone git://github.com/spack/spack.git\r\n$ cd spack\r\n$ git checkout 28ea1bab\r\n$ spack install py-scipy\r\n$ spack load py-scipy\r\n$ python3 -c 'import scipy.linalg.interpolative'\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\n  File \"/home/bdarwin/git/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/py-scipy-1.7.3-7rqcu6qrver6dhtikicct6gxlgv3cn7z/lib/python3.9/site-packages/scipy/linalg/interpolative.py\", line 385, in <module>\r\n    import scipy.linalg._interpolative_backend as backend\r\n  File \"/home/bdarwin/git/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/py-scipy-1.7.3-7rqcu6qrver6dhtikicct6gxlgv3cn7z/lib/python3.9/site-packages/scipy/linalg/_interpolative_backend.py\", line 34, in <module>\r\n    import scipy.linalg._interpolative as _id\r\nImportError: /home/bdarwin/git/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/py-scipy-1.7.3-7rqcu6qrver6dhtikicct6gxlgv3cn7z/lib/python3.9/site-packages/scipy/linalg/_interpolative.cpython-39-x86_64-linux-gnu.so: undefined symbol: _ZGVdN4v_cos\r\n```\r\n\r\ncc @adamjstewart \r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-978-28ea1bab68\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-skylake\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n(Note the build succeeds.)\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7953091/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7953092/spack-build-env.txt)\r\n\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "bcdarwin",
+    "url": "https://api.github.com/repos/spack/spack/issues/28642",
+    "updated_at": "2022-01-28 16:11:19",
+    "created_at": "2022-01-27 18:43:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: py-scipy (undefined symbol at runtime)",
+    "number": 28642,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1116620637,
+    "html_url": "https://github.com/spack/spack/issues/28642",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

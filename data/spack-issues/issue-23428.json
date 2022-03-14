@@ -1,0 +1,20 @@
+{
+    "body": "Tried to reinstall a package with spack install --overwrite and it failed to find \"cmake\" which was a build dependency.  \r\n\r\nThis happens with either concretizer turned on.\r\n\r\n### Steps to reproduce the issue\r\n\r\n* Make sure you do not have \"cmake\" in your path.\r\n* fresh install of spack v0.16.1\r\n* Install mysql (if you don't have it already)\r\n* Try to re-install mysql with --overwrite\r\n\r\n```console\r\n$ which cmake\r\n/usr/bin/which: no cmake in (...)\r\n$ spack install mysql@5.7.27\r\n...\r\n$ spack find --long mysql\r\n==> 1 installed package\r\n-- linux-scientific7-ivybridge / gcc@4.8.5 ----------------------\r\nxhxn7te mysql@5.7.27\r\n\r\n$ spack install --overwrite mysql/xhxn7te    # hash from above\r\n==> The following package specs will be reinstalled:\r\n\r\n-- linux-scientific7-x86_64 / gcc@9.3.0 -------------------------\r\neuf24m3 mysql@8.0.19%gcc +client_only~ipo build_type=RelWithDebInfo cxxstd=17\r\n==> Do you want to proceed? [y/N] y\r\n...\r\n==> mysql: Executing phase: 'cmake'\r\n==> Error: ProcessError: cmake: No such file or directory\r\n...\r\n```\r\n\r\nSo in the plain \"spack install\" case, it *did* find add cmake to the build environment\r\nbut in the --overwrite case it didn't.    \r\n\r\nYou can work around this by \"spack load\"-ing the build dependencies before doing\r\nthe spack install --overwrite  in the case of cmake, but this doesn't solve all build \r\ndependency issues.\r\n\r\n\r\n### Information on your system\r\n\r\n$ spack debug report\r\n* **Spack:** 0.16.1\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-scientific7-ivybridge\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output [debug_out.txt](https://github.com/spack/spack/files/6423251/debug_out.txt)\r\n\r\n\r\n",
+    "user": "marcmengel",
+    "url": "https://api.github.com/repos/spack/spack/issues/23428",
+    "updated_at": "2022-01-11 03:47:16",
+    "created_at": "2021-05-04 18:35:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack install --overwrite doesn't put build dependencies in build environment",
+    "number": 23428,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 875727844,
+    "html_url": "https://github.com/spack/spack/issues/23428",
+    "assignees": [],
+    "comments": 3
+}

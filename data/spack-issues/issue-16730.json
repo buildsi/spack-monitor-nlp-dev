@@ -1,0 +1,24 @@
+{
+    "body": "Having recently installed spack on a system with `lmod` and built packages with it I was confused that `module avail` showed no modules. After asking for help on slack I discovered that `setup-env.sh` only sets `MODULEPATH` for `tcl`. I suggested on Slack that the module tutorial wasn't very clear about `lmod` use but having just gone back and reread the it `Hierarchical Module Files` section is actually fairly clear, but the details for lmod get a bit lost in a) the length of it and b) issues elsewhere.\r\n\r\nThings which are confusing:\r\n- [Using module files via Spack](https://spack.readthedocs.io/en/latest/module_file_support.html#using-module-files-via-spack) suggests to me that `lmod` should \"just work\" with no configuration:\r\n  > If you have installed a supported module system you should be able to run either `module avail` or `use -l spack` to see what module files have been installed.\r\n- [Shell support](https://spack.readthedocs.io/en/latest/module_file_support.html#id2) says:\r\n  > To enable additional Spack commands for loading and unloading module files, and to add the correct path to MODULEPATH, you need to source the appropriate setup file in the $SPACK_ROOT/share/spack directory.\r\n  \r\n  with no mention that actually this only applies to `tcl`.\r\n\r\nAdditionally the module tutorial:\r\n- [starts with](https://spack-tutorial.readthedocs.io/en/latest/tutorial_modules.html#build-a-module-tool) `lmod`\r\n- says in that section:\r\n  > Now we can re-source the setup file and Spack modules will be put in our module path\r\n- [shows](https://spack-tutorial.readthedocs.io/en/latest/tutorial_modules.html#non-hierarchical-module-files) `module avail` working without changes to `MODULEPATH` - admittedly this is for non-hierarchical modules, but it is using `lmod`.\r\n\r\n\r\nI also note (although its not strictly related) that the module tutorial [says](https://spack-tutorial.readthedocs.io/en/latest/tutorial_modules.html#add-a-new-compiler) that `spack load`\r\n> employed the module files generated automatically by Spack. \r\n\r\nwhich I understand is not true.\r\n\r\nIts hard to provide a clean paragraph change which fixes the above, but from a new user point-of-view I think the list of things needed to know to get `lmod` working as expected (i.e. hierarchically, because that's how lmod is generally used I believe):\r\n- `${SPACK_ROOT}/etc/spack/modules.yaml` needs to have `lmod:` or maybe `lmod::` in it.\r\n- You need to load the compiler(s) you want to use, then run  `spack compiler add`.\r\n- You must define at least one Core (i.e. os-defined) compiler in `modules.yaml`, to form the entry point for the heirarchy.\r\n- You need to run something like this to add Spack's modules into `lmod`:\r\n  \r\n      module use ${SPACK_ROOT}/share/spack/lmod/linux-centos7-x86_64/Core/\r\n\r\n- You need to rebuild Spack's modules using\r\n\r\n      spack module lmod refresh --delete-tree -y\r\n\r\n  (I think?)\r\n",
+    "user": "sjpb",
+    "url": "https://api.github.com/repos/spack/spack/issues/16730",
+    "updated_at": "2020-05-27 08:36:20",
+    "created_at": "2020-05-19 19:35:27",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`lmod` integration unclear in module documentation",
+    "number": 16730,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "documentation",
+        "modules",
+        "impact-low"
+    ],
+    "id": 621233267,
+    "html_url": "https://github.com/spack/spack/issues/16730",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

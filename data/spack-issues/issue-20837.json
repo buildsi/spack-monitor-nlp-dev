@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install julia@master\r\n...\r\n```\r\nalso `spack install julia`, `spack install julia@1.4.0` etc.\r\n\r\n### Information on your system\r\n\r\nTested on both `linux-debian9-x86_64` and `linux-centos7-haswell`.\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.0-510-2f19346c9\r\n* **Python:** 3.5.3\r\n* **Platform:** linux-debian9-zen2 __(but using `arch=linux-debian9-x86_64`)__\r\n* **Concretizer:** original\r\n$ spack debug report\r\n* **Spack:** 0.16.0-510-2f19346\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-haswell\r\n* **Concretizer:** original\r\n```\r\n\r\nCompiler gcc@10.2.0 built with itself (bootstrapped from system-provided gcc). Python 3.8.7 available within SPACK.\r\n\r\n### Additional information\r\n\r\nError messages varying, perhaps due to unavailable components?\r\n\r\nE.g., `spack install julia@master arch=linux-debian9-x86_64`:\r\n```\r\n(...)\r\n==> julia: Executing phase: 'install'\r\n==> Error: Exception occurred in writer daemon!\r\nTraceback (most recent call last):\r\n  File \"/.auto/home/SPACK2021/lib/spack/llnl/util/tty/log.py\", line 768, in _writer_daemon\r\n    line = _retry(in_pipe.readline)()\r\n  File \"/.auto/home/SPACK2021/lib/spack/llnl/util/tty/log.py\", line 830, in wrapped\r\n    return function(*args, **kwargs)\r\n  File \"/usr/lib/python3.5/encodings/ascii.py\", line 26, in decode\r\n    return codecs.ascii_decode(input, self.errors)[0]\r\nUnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 6: ordinal not in range(128)\r\n==> Error: ProcessError: Command exited with status -13:\r\n    'make' '-j16'\r\n\r\n3 warnings found in build log:\r\n(... irrelevant for now, it seems)\r\n```\r\nthis looks like `/usr/bin/python3`, 3.5.3 in Stretch, was used instead of Spack's `python`?\r\n\r\nRunning the same command on `linux-centos7-haswell`,\r\n```\r\n(...)\r\n==> julia: Executing phase: 'install'\r\n==> Error: Exception occurred in writer daemon!\r\nTraceback (most recent call last):\r\n  File \"/home/SPACK2021/lib/spack/llnl/util/tty/log.py\", line 782, in _writer_daemon\r\n    log_file.write(_strip(line))\r\n  File \"/home/SPACK2021/lib/spack/llnl/util/tty/log.py\", line 69, in _strip\r\n    return _escape.sub('', line)\r\nUnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 9: ordinal not in range(128)\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8' 'install'\r\n\r\n3 warnings found in build log:\r\n(...)\r\n```\r\ni.e., no reference to \"where this came from\".\r\nWhatever injects UTF-8 there... is, in the end, this a Spack issue and not a Julia one??\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt]()\r\n* [spack-build-env.txt]()\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n@glennpj\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "steffen-AEI",
+    "url": "https://api.github.com/repos/spack/spack/issues/20837",
+    "updated_at": "2021-04-12 14:57:03",
+    "created_at": "2021-01-13 16:16:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: \"julia\" does not build with gcc@10.2.0",
+    "number": 20837,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "python2"
+    ],
+    "id": 785242628,
+    "html_url": "https://github.com/spack/spack/issues/20837",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

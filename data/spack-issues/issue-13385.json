@@ -1,0 +1,20 @@
+{
+    "body": "A new command `spack upgrade $SPEC` which can be called explicitly on a single package or via `spack upgrade --all` on all packages, which have been installed **explicitly**. It will invoke the ordinary installation process but in addition to the original installation process it will keep track of implicit dependencies and will remove them if they become obsolete (i.e. a new version is installed during this call and there are no dependents anymore).\r\n\r\n### Rationale\r\n\r\nIf you regularly pull/update your spack repository, new versions and variants of packages become available. Since the concretizer does not reuse already installed dependencies aggressively (cf. #311), your spack installation may become pretty bloated over time, if a more up-to-date version of a dependency is installed but the old one is still kept. This is less of a problem on a system, which must be guaranteed stable, which is why updates are not pulled on a regular basis. But if you update your spack installation regularly and install new versions of packages, the amount of old obsolete implicit dependencies increases. \r\nCurrently my workflow  looks like this:\r\n- Pull updates from spack repo\r\n- Uninstall package A\r\n- Reinstall the latest version of package A (degree of bloatiness might increase due to abandoned implicit dependencies)\r\n- After some time delete the whole local spack installation and reinstall every package I need (to get rid of obsolete packages \"automatically\")\r\n\r\nYou can tidy up you spack installation by hand but this becomes cumbersome if updates are installed regularly. Especially `spack upgrade --all` should give some relief.\r\n\r\n### Description\r\n\r\nIf the upgrade  of $SPEC (or all explicit packages) is triggered, Spack installs $SPEC while keeping track of the associated dependencies. If there is a new version available for a dependency it will be installed as usual. If the dependency has been installed explicitly or has an explicit dependent, which is not upgraded (and will therefore still depend on it afterwards), the common procedure of `spack install $SPEC` is performed. But if the dependency is only implicit and after executing the upgrade there are no dependents anymore (because they now depend on the updated dependency), it will be removed automatically.\r\n\r\nThe responsibility to update the spack installation by pulling from the remote repository still lies with the user, the command does not affect the git infrastructure. \r\n\r\n\r\n### Additional information\r\nIssue #7409 has a similar title and in the beginning also proposes a spack upgrade command. But a) it has another rationale to silently replace dependencies which suffer from some kind of flaw (i.e. the exchange is hidden) and b) the associated PR #12933 changes the command name to `deprecate`.\r\n\r\nI also think a flag could be helpful that the upgrade process automatically removes old versions of the upgraded package so that there is only one instance of a package (-> less bloatiness)\r\n\r\n\r\n--- \r\nIf you think that spack could benefit from such a command I would be happy to give it a try.",
+    "user": "JSquar",
+    "url": "https://api.github.com/repos/spack/spack/issues/13385",
+    "updated_at": "2019-10-23 19:48:10",
+    "created_at": "2019-10-23 00:55:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Proposal: Add command to upgrade packages and remove dropped implicit dependencies ",
+    "number": 13385,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "concretization"
+    ],
+    "id": 511008341,
+    "html_url": "https://github.com/spack/spack/issues/13385",
+    "assignees": [],
+    "comments": 3
+}

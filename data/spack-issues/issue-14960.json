@@ -1,0 +1,22 @@
+{
+    "body": "As a maintainer I want a workflow to check PRs and validate sha256 checksums of any new version added to any package so that I don't have to do it manually.\r\n\r\n### Rationale\r\n\r\nMost of the PRs we get involve only updates to packages and many of them contribute only new versions of a package since most of the time the underlying recipe doesn't need any modification. Reviewing such PRs manually might be time consuming if the checksums are double checked, or risk introducing faulty `sha256` if they're not. Having a workflow that checks if `sha256` checksums match the corresponding tarball might help a lot in that respect.\r\n\r\n### Description\r\n\r\nI think the simplest solution is to setup a Github Action workflow, maybe backed by some narrow scoped developer command (similar to `spack flake8`). The command should:\r\n- Look for new versions of packages introduced in the PR\r\n- Keep track of any change to URLs\r\n- Try to download the new packages and check their `sha256`\r\n\r\nIdeally, the job should FAIL in case at least one package could be downloaded and `sha256` doesn't match. In all other cases it should PASS.\r\n\r\nThe workflow should also post a comment to the PR reporting:\r\n- All the packages that couldn't be checked (timeout, fetching errors, etc.)\r\n- All the changes in URLs\r\n\r\nin order to help the reviewer.\r\n\r\n### Additional information\r\n\r\nOpened this proposal for discussion, so comments are welcome.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/14960",
+    "updated_at": "2020-02-14 10:46:18",
+    "created_at": "2020-02-14 10:46:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Check sha256 of new tarballs automatically",
+    "number": 14960,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "discussion",
+        "proposal",
+        "ci"
+    ],
+    "id": 565247328,
+    "html_url": "https://github.com/spack/spack/issues/14960",
+    "assignees": [],
+    "comments": 0
+}

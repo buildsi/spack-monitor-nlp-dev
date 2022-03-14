@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\nWhen I run `spack compiler find` it doesn't appear to successfully locate the IBM XL Fortran compilers via the module I have loaded.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ module list\r\nCurrently Loaded Modules:\r\n  1) xl/2021.03.11   2) spectrum-mpi/rolling-release   3) cuda/10.1.243   4) StdEnv (S)\r\n\r\n  Where:\r\n   S:  Module is Sticky, requires --force to unload or purge\r\n```\r\n```console\r\n$ spack clean --all\r\n$ rm ~/.spack/linux/*\r\n$ git clone git@github.com:spack/spack.git\r\n$ cd spack\r\n$ source ./share/spack/setup-env.sh\r\n```\r\n```console\r\n$ spack compiler find\r\n\r\n==> Added 7 new compilers to /g/g12/quellyn/.spack/linux/compilers.yaml\r\n    xl_r@16.1  xl@16.1  pgi@20.4  gcc@4.9.3  gcc@4.8.5  clang@11.0.1  clang@6.0.0\r\n==> Compilers are defined in the following files:\r\n    /g/g12/quellyn/.spack/linux/compilers.yaml\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n\r\nWhen I examine my `~/.spack/compilers.yaml`, I see that `spack` could not find paths to the IBM Fortran compilers:\r\n```console\r\n- compiler:\r\n    spec: xl@16.1\r\n    paths:\r\n      cc: /usr/tce/packages/xl/xl-2021.03.11/bin/xlc\r\n      cxx: /usr/tce/packages/xl/xl-2021.03.11/bin/xlC\r\n      f77: null\r\n      fc: null\r\n    flags:\r\n      fflags: -qzerosize\r\n    operating_system: rhel7\r\n    target: ppc64le\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n- compiler:\r\n    spec: xl_r@16.1\r\n    paths:\r\n      cc: /usr/tce/packages/xl/xl-2021.03.11/bin/xlc_r\r\n      cxx: /usr/tce/packages/xl/xl-2021.03.11/bin/xlC_r\r\n      f77: null\r\n      fc: null\r\n    flags:\r\n      fflags: -qzerosize\r\n    operating_system: rhel7\r\n    target: ppc64le\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```console\r\n[quellyn@rzansel61:spack]$ spack debug report\r\n* **Spack:** 0.16.2-3693-e5bbb6e5b4\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-power9le\r\n* **Concretizer:** original\r\n```\r\n\r\nThe above output is from an attempt on the LLNL RZAnsel machine. I have also reproduced this problem on a similar Power9 Linux + IBM XL platform here at LANL (i.e., Darwin).\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n[spack-command-debug-output.txt](https://github.com/spack/spack/files/6887731/spack-command-debug-output.txt)\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/25112",
+    "updated_at": "2021-07-28 15:37:16",
+    "created_at": "2021-07-27 18:11:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack compiler find` cannot locate IBM XL Fortran compilers",
+    "number": 25112,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 954138769,
+    "html_url": "https://github.com/spack/spack/issues/25112",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

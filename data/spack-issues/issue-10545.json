@@ -1,0 +1,20 @@
+{
+    "body": "Is there a way to \"change\" a package underlying a long chain of dependencies, without recompiling the whole chain, e.g. because of a missing small compilation detail?\r\n\r\n### Rationale\r\n\r\nOn a new HPC cluster, I installed some common scientific packages requested, openmpi and on top of it other packages.  \r\nThen I noticed I forgot to build openmpi with support to PBS (and I faced issue #10542).  \r\nThe packages depending on openmpi compiled correctly, since they didn't need that feature, and I've only noticed the missing feature when submitting a test job to a queue.\r\n\r\n### Description\r\n\r\nIs there a (automatic) way to \"substitute\" a package to another? I guess not, because spack builds everything with rpath, so manually changing the hashes in the index file and in `.spack/spec.yaml` packages wouldn't have been sufficient. Adding a symbolic link from the openmpi-dir-without-the-feature to the openmpi-dir-with-the-feature may have solved.\r\n\r\nHave you ever faced this issue? Did you manage to solve it without recompiling the whole chain?\r\n\r\nPS: I've seen #2247 only when I've already done writing this. I don't know whether this is related, and that thread has lots of links, and is now 3 years old.\r\nAre there any news?",
+    "user": "bebosudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10545",
+    "updated_at": "2020-02-07 09:48:43",
+    "created_at": "2019-02-07 16:24:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Can we change a dependency (adding an un-related variant or *flags) without recompiling dependents?",
+    "number": 10545,
+    "milestone": null,
+    "labels": [
+        "question",
+        "discussion"
+    ],
+    "id": 407784270,
+    "html_url": "https://github.com/spack/spack/issues/10545",
+    "assignees": [],
+    "comments": 0
+}

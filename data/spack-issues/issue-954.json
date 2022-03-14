@@ -1,0 +1,23 @@
+{
+    "body": "Despite this chunk of Compiler from compiler.py, there are, in fact, compiled languages other than c, c++ and fortran77/90...\n\n``` python\nclass Compiler(object):\n    \"\"\"This class encapsulates a Spack \"compiler\", which includes C,\n       C++, and Fortran compilers.  Subclasses should implement\n       support for specific compilers, their possible names, arguments,\n       and how to identify the particular type of compiler.\"\"\"\n\n    # Subclasses use possible names of C compiler\n    cc_names = []\n\n    # Subclasses use possible names of C++ compiler\n    cxx_names = []\n\n    # Subclasses use possible names of Fortran 77 compiler\n    f77_names = []\n\n    # Subclasses use possible names of Fortran 90 compiler\n    fc_names = []\n```\n\nIt would be good if there were a way to register a new language group, rather than having only hard-coded languages.  Specifically I would want to add support for go, rust, maybe objective c, probably haskell at some point, almost all of which support multiple compiler implementations, some of which may be available externally.  Golang is actually the perfect example, the \"go\" package needs a go compiler to bootstrap, but can support either gccgo or the plan-9 descendant compilers.  The only way to make this work right now is to have go depend on the gcc package, which will probably have to grow a golang variant at some point.\n",
+    "user": "trws",
+    "url": "https://api.github.com/repos/spack/spack/issues/954",
+    "updated_at": "2018-04-13 08:25:27",
+    "created_at": "2016-05-14 20:34:21",
+    "closed_at": "None",
+    "state": "open",
+    "title": "languages that have compilers hard-coded",
+    "number": 954,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "dependencies",
+        "proposal"
+    ],
+    "id": 154874317,
+    "html_url": "https://github.com/spack/spack/issues/954",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

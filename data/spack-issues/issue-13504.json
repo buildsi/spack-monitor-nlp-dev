@@ -1,0 +1,24 @@
+{
+    "body": "Looks like something is wrong with modules from `openfoam`. If I generate module files, spack shows an error for `openfoam` package:\r\n\r\n```\r\n==> Warning: Quotes in command arguments can confuse scripts like configure.\r\n  The following arguments may cause problems when executed:\r\n      source /spack/opt/spack/linux-centos7-skylake_avx512/gcc-9.2.0/openfoam-1906-gf5sdxweeqsj2awgyc5bu2uy5grudvmf/etc/bashrc &> /dev/null && python -c \"import os, json; print(json.dumps(dict(os.environ)))\"\r\n  Quotes aren't needed because spack doesn't use a shell.\r\n  Consider removing them\r\n==> OpenFOAM bashrc env: /spack/opt/spack/linux-centos7-skylake_avx512/gcc-9.2.0/openfoam-1906-gf5sdxweeqsj2awgyc5bu2uy5grudvmf/etc/bashrc\r\n==> Warning: Quotes in command arguments can confuse scripts like configure.\r\n  The following arguments may cause problems when executed:\r\n      source /spack/opt/spack/linux-centos7-skylake_avx512/gcc-9.2.0/openfoam-1906-gf5sdxweeqsj2awgyc5bu2uy5grudvmf/etc/bashrc &> /dev/null && python -c \"import os, json; print(json.dumps(dict(os.environ)))\"\r\n  Quotes aren't needed because spack doesn't use a shell.\r\n  Consider removing them\r\n==> OpenFOAM bashrc env: /spack/opt/spack/linux-centos7-skylake_avx512/gcc-9.2.0/openfoam-1906-gf5sdxweeqsj2awgyc5bu2uy5grudvmf/etc/bashrc\r\n```\r\n\r\nwhen loading a module, I get from `lmod`:\r\n```\r\ninvalid command\r\nname \"\"\r\n```\r\nor from `environment modules`:\r\n```\r\nModule ERROR: invalid command name \"\"\r\n```\r\n\r\nThis has to do with \r\n```\r\nprepend-path BASH_FUNC__module_raw() \"() {  unset _mlshdbg;\r\n...blahblahblah...\r\n}\"\r\n```\r\nIf I manually delete it, I can at least load modules and get environment variables set correctly.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/13504",
+    "updated_at": "2020-06-25 08:23:46",
+    "created_at": "2019-10-30 12:29:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "openfoam: broken modules (with zsh)",
+    "number": 13504,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "workaround",
+        "impact-low"
+    ],
+    "id": 514630058,
+    "html_url": "https://github.com/spack/spack/issues/13504",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

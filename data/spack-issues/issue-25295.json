@@ -1,0 +1,21 @@
+{
+    "body": "### Summary\r\n\r\nI am writing a Spack package that needs to describe how to call `cpp` to pre-process some Fortran code. A good way of doing so is to call GCC's cpp with the `-traditional` argument, and I'm indeed building the package with `%gcc`. However, I don't see a way to tell Spack to use GCC's cpp.\r\n\r\nThe `self.compiler` object does not have a property `cpp_names`.\r\n\r\nWhen I just call `cpp`, then Spack forwards this to the system `cpp`. I'm using MacOS, where this is usually Apple's cpp.\r\n\r\nThe underlying problem is that GCC's cpp and Apple's cpp behave differently for token pasting, i.e. to concatenate two tokens. There are two ways to do so, the ANSI and the old-style K&R way.\r\n\r\n```\r\n$ /opt/local/bin/cpp --version\r\ncpp (MacPorts gcc11 11.2.0_1) 11.2.0\r\n```\r\n\r\nANSI C, GCC:\r\n```\r\n#define CONCAT(a,b) a##b\r\nCONCAT(hello,world)\r\n# 0 \"<stdin>\"\r\n# 0 \"<built-in>\"\r\n# 0 \"<command-line>\"\r\n# 1 \"<stdin>\"\r\n\r\nhelloworld\r\n```\r\n\r\nK&R C, GCC:\r\n```\r\n$ /opt/local/bin/cpp -traditional\r\n#define CONCAT(a,b) a/**/b\r\nCONCAT(hello,world)\r\n# 0 \"<stdin>\"\r\n# 0 \"<built-in>\"\r\n# 0 \"<command-line>\"\r\n# 1 \"<stdin>\"\r\n\r\nhelloworld\r\n```\r\n\r\nNeither works with Apple's cpp:\r\n```\r\n$ cpp --version\r\nApple clang version 12.0.0 (clang-1200.0.32.29)\r\n$ cpp\r\n#define CONCAT(a,b) a##b\r\nCONCAT(hello,world)\r\n# 1 \"<stdin>\"\r\n# 1 \"<built-in>\" 1\r\n# 1 \"<built-in>\" 3\r\n# 365 \"<built-in>\" 3\r\n# 1 \"<command line>\" 1\r\n# 1 \"<built-in>\" 2\r\n# 1 \"<stdin>\" 2\r\n\r\nhello##world\r\n```\r\n\r\nK&R, Apple CPP:\r\n```\r\n$ cpp -traditional\r\n#define CONCAT(a,b) a/**/b\r\nCONCAT(hello,world)\r\n# 1 \"<stdin>\"\r\n# 1 \"<built-in>\" 1\r\n# 1 \"<built-in>\" 3\r\n# 365 \"<built-in>\" 3\r\n# 1 \"<command line>\" 1\r\n# 1 \"<built-in>\" 2\r\n# 1 \"<stdin>\" 2\r\n\r\nhello world\r\n```\r\n\r\n\r\n\r\n### Rationale\r\n\r\nGCC's cpp will remove the space between two tokens; you can either use ANSI token pasting (`##`) or the unofficial K&R empty comment trick (`/**/`). Apple's cpp does neither! Token pasting doesn't remove the `##` operator (I assume the compiler will do that later?), and it doesn't fall for the K&R trick (but still accepts the `-traditional` option, I don't know why).\r\n\r\n\r\n### Description\r\n\r\nI think Spack should have a mechanism to access the compiler's `cpp` binary. Falling back to a system binary leads to problems since they behave differently on different systems.\r\n\r\nAn alternative would be a `cpp` package that one could install. That would be overkill, since e.g. GCC already provides a `cpp` binary.\r\n\r\n### Additional information\r\n\r\n$ spack --version\r\n0.16.2-3818-c178000d18\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/25295",
+    "updated_at": "2021-08-11 21:21:22",
+    "created_at": "2021-08-06 13:13:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Access GCC's cpp",
+    "number": 25295,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 962726576,
+    "html_url": "https://github.com/spack/spack/issues/25295",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

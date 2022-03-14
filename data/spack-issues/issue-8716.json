@@ -1,0 +1,20 @@
+{
+    "body": "@lee218llnl @adamjstewart \r\n\r\n## Back Story\r\n\r\npy-basemap (at least with Python3) is problematic because it uses namespace packages.  This problem was solved in #1964 with a post-install patch.  Since then, #3835 came up with a different solution that did not need the post-install patch.  And we all seemed to agree at the time it was a good and elegant solution.\r\n\r\n## The Problem\r\n\r\nUnfortunately... the original problem from #1964 has reared its ugly head again:\r\n\r\n```\r\n[rpfische@gs611-gibbs stieglitz]$ python3 -c 'from mpl_toolkits.axes_grid1 import make_axes_locatable'\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\nImportError: No module named 'mpl_toolkits.axes_grid1'\r\n[rpfische@gs611-gibbs stieglitz]$ python3 -c 'import mpl_toolkits.basemap'\r\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\n  File \"/home2/rpfische/spack6/opt/spack/linux-centos7-x86_64/gcc-4.9.3/py-basemap-1.0.7-fpu2nxnadqokntqdzweoinytf6wuu5bx/lib/python3.5/site-packages/mpl_toolkits/basemap/__init__.py\", line 31, in <module>\r\n    from mpl_toolkits.axes_grid1 import make_axes_locatable\r\nImportError: No module named 'mpl_toolkits.axes_grid1'\r\n[rpfische@gs611-gibbs stieglitz]$ python3 --version\r\nPython 3.5.2\r\n```\r\n\r\nNote that I'm running Python by `module loading` a bunch of Spack-generated modules, rather than using `spack activate`.\r\n\r\n## What To Do?\r\n\r\nAny ideas on a way forward?  From my local point of view, it looks like the patch from #1964 actually is required, at least in some cases.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/8716",
+    "updated_at": "2021-05-20 17:24:09",
+    "created_at": "2018-07-16 15:03:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "py-basemap broken again",
+    "number": 8716,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "python"
+    ],
+    "id": 341556766,
+    "html_url": "https://github.com/spack/spack/issues/8716",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,25 @@
+{
+    "body": "This is a placeholder bug, hopefully it'll save folks a bit of time.\r\n\r\nThere are a couple of rust packages, including `bat`, that depend on onig/onig_sys, that fail with errors like the following:\r\n\r\n```\r\n   Compiling onig_sys v69.2.0\r\nerror: failed to run custom build command for `onig_sys v69.2.0`\r\n\r\nCaused by:\r\n  process didn't exit successfully: `/tmp/george.hartzell/spack-stage/spack-stage-bat-0.12.1-dwomjln4rqjvhzclufu6ib2p3cu7v5lr/spack-src/target/release/build/onig_sys-40e748545d4c894e/build-script-build` (exit code: 101)\r\n--- stdout\r\ncargo:warning=couldn't execute `llvm-config --prefix` (error: No such file or directory (os error 2))\r\ncargo:warning=set the LLVM_CONFIG_PATH environment variable to a valid `llvm-config` executable\r\n\r\n--- stderr\r\nthread 'main' panicked at 'Unable to find libclang: \"couldn\\'t find any valid shared libraries matching: [\\'libclang.so\\', \\'libclang-*.so\\', \\'libclang.so.*\\'], set the `LIBCLANG_PATH` environment variable to a path where one of these files can be found (invalid: [])\"', /compbio/home/george.hartzell/.cargo/registry/src/github.com-1ecc6299db9ec823/bindgen-0.50.1/src/lib.rs:1711:13\r\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\r\n\r\nwarning: build failed, waiting for other jobs to finish...\r\nerror: failed to compile `bat v0.12.1 (/tmp/george.hartzell/spack-stage/spack-stage-bat-0.12.1-dwomjln4rqjvhzclufu6ib2p3cu7v5lr/spack-src)`, intermediate artifacts can be found at `/tmp/george.hartzell/spack-stage/spack-stage-bat-0.12.1-dwomjln4rqjvhzclufu6ib2p3cu7v5lr/spack-src/target`\r\n\r\nCaused by:\r\n  build failed\r\n```\r\n\r\nThe onig/onig_sys crates are shims to the C based oniguruma library.  They use bits of `libclang` to build the shim layer at build time.  I've played with \r\n\r\nThere's an issue upstream in the bat project that addresses it, https://github.com/sharkdp/bat/issues/650, and at some point it'll get fixed.\r\n\r\nIn the meantime, you can fix it by adding a `depends_on('llvm')` but it's kind of hard to swallow a two-plus hour build of llvm so that I can see pretty colors in my files....\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/16298",
+    "updated_at": "2020-05-28 04:58:14",
+    "created_at": "2020-04-24 23:41:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "bat build fails, waiting on upstream fix",
+    "number": 16298,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "impact-low",
+        "rust"
+    ],
+    "id": 606639000,
+    "html_url": "https://github.com/spack/spack/issues/16298",
+    "assignees": [
+        "hartzell",
+        "scheibelp"
+    ],
+    "comments": 15
+}

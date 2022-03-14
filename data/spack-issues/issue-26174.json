@@ -1,0 +1,21 @@
+{
+    "body": "This PR enables the rocm and rocm-smi variants for papi package.\r\nThis papi code refers to rocm rpm packages using PAPI_ROCM_ROOT which needs to be set.\r\neg - export PAPI_ROCM_ROOT=/opt/rocm\r\nI have tested with spack install papi+rocm+rocm_smi and tested a few binaries like papi_native_avail, papi_mem_info etc\r\n\r\nAs per the README provided inside papi, it is also required to set the below - AQLPROFILE_READ_API ROCP_METRICS ROCPROFILER_LOG and HSA_VEN_AMD_AQLPROFILE_LOG \r\nas like below \r\nexport PAPI_ROCM_ROOT=/opt/rocm\r\nexport ROCP_METRICS=$PAPI_ROCM_ROOT/rocprofiler/lib/metrics.xml\r\nexport ROCPROFILER_LOG=1\r\nexport HSA_VEN_AMD_AQLPROFILE_LOG=1\r\nexport AQLPROFILE_READ_API=1\r\n\r\nI am trying to use the spack rocm packages like hip, hsa-rocr-dev, rocprofiler-dev so that we can build and link to *.so but due to hardcoded paths to /opt/rocm in the rules.rocm ,rules.rocm_smi, the build fails. this i plan to resolve sooner .\r\nCFLAGS += -I$(PAPI_ROCM_ROOT)/hsa/include/hsa\r\nCFLAGS += -I$(PAPI_ROCM_ROOT)/rocprofiler/include\r\n ",
+    "user": "srekolam",
+    "url": "https://api.github.com/repos/spack/spack/issues/26174",
+    "updated_at": "2021-10-06 21:42:02",
+    "created_at": "2021-09-22 20:49:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add rocm and rocm-smi variant for papi package",
+    "number": 26174,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 1004761471,
+    "html_url": "https://github.com/spack/spack/pull/26174",
+    "assignees": [],
+    "comments": 13
+}

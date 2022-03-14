@@ -1,0 +1,19 @@
+{
+    "body": "When an upstream repo defines a package, it is not available locally. This leads to an `UnknownPackageError` during concretization. This PR is a possible workaround, though I would be happy to close this PR in favor of a better solution.\r\n\r\nThe issue is this:\r\n\r\n- A Spack install tree, say `/spack/opt/spack`, contains an additional package. In my case our cluster administrator has added a custom package for [healpix](https://healpix.jpl.nasa.gov) because Spack didn't have one at the time.\r\n- I cloned a new Spack, say in `/home/spack`, and added `/spack/opt/spack` as an upstream.\r\n- When I now run `spack concretize` I get an `UnknownPackageError`:\r\n\r\n```\r\n==> [2021-12-30-15:18:30.484112] UnknownPackageError: Package 'chealpix' not found in repository '/spack/var/spack/repos/builtin'\r\n==> [2021-12-30-15:18:30.484215] Error: Package 'chealpix' not found in repository '/spack/var/spack/repos/builtin'\r\nTraceback (most recent call last):\r\n  File \"/spack/lib/spack/spack/main.py\", line 900, in main\r\n    return _main(argv)\r\n  File \"/spack/lib/spack/spack/main.py\", line 883, in _main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/spack/lib/spack/spack/main.py\", line 553, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/spack/lib/spack/spack/cmd/concretize.py\", line 39, in concretize\r\n    concretized_specs = env.concretize(\r\n  File \"/spack/lib/spack/spack/environment/environment.py\", line 1115, in concretize\r\n    return self._concretize_together(tests=tests, reuse=reuse)\r\n  File \"/spack/lib/spack/spack/environment/environment.py\", line 1155, in _concretize_together\r\n    concrete_specs = spack.concretize.concretize_specs_together(\r\n  File \"/spack/lib/spack/spack/concretize.py\", line 746, in concretize_specs_together\r\n    return _concretize_specs_together_new(*abstract_specs, **kwargs)\r\n  File \"/spack/lib/spack/spack/concretize.py\", line 755, in _concretize_specs_together_new\r\n    result = spack.solver.asp.solve(abstract_specs, **concretization_kwargs)\r\n  File \"/spack/lib/spack/spack/solver/asp.py\", line 2053, in solve\r\n    return driver.solve(\r\n  File \"/spack/lib/spack/spack/solver/asp.py\", line 621, in solve\r\n    answers = builder.build_specs(tuples)\r\n  File \"/spack/lib/spack/spack/solver/asp.py\", line 1995, in build_specs\r\n    spack.spec.Spec.inject_patches_variant(root)\r\n  File \"/spack/lib/spack/spack/spec.py\", line 2535, in inject_patches_variant\r\n    pkg_deps = dspec.parent.package_class.dependencies\r\n  File \"/spack/lib/spack/spack/spec.py\", line 1305, in package_class\r\n    return spack.repo.path.get_pkg_class(self.fullname)\r\n  File \"/spack/lib/spack/spack/repo.py\", line 647, in get_pkg_class\r\n    return self.repo_for_pkg(pkg_name).get_pkg_class(pkg_name)\r\n  File \"/spack/lib/spack/spack/repo.py\", line 1107, in get_pkg_class\r\n    module = self._get_pkg_module(pkg_name)\r\n  File \"/spack/lib/spack/spack/repo.py\", line 1067, in _get_pkg_module\r\n    raise UnknownPackageError(pkg_name, self)\r\nspack.repo.UnknownPackageError: Package 'chealpix' not found in repository '/spack/var/spack/repos/builtin'\r\n```\r\n\r\nThis is `spack debug report`:\r\n\r\n* **Spack:** 0.17.1-677-c2e1a12cdf\r\n* **Python:** 3.8.7\r\n* **Platform:** linux-centos7-haswell\r\n* **Concretizer:** clingo\r\n",
+    "user": "nilsvu",
+    "url": "https://api.github.com/repos/spack/spack/issues/28187",
+    "updated_at": "2022-01-03 10:42:17",
+    "created_at": "2021-12-30 14:48:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Work around an `UnknownPackageError` with upstream repos",
+    "number": 28187,
+    "milestone": null,
+    "labels": [],
+    "id": 1091148851,
+    "html_url": "https://github.com/spack/spack/pull/28187",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

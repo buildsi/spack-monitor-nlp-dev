@@ -1,0 +1,22 @@
+{
+    "body": "In #8263, I added a patch for JasPer needed to build GDAL:\r\n```python\r\ndepends_on('jasper@1.900.1', patches=patch('uuid.patch'), when='+jasper')\r\n```\r\nHowever, it seems like Spack is trying to apply this patch to GDAL itself:\r\n```console\r\n$ spack install gdal~jasper\r\n...\r\n==> Installing gdal\r\n==> Using cached archive: /Users/Adam/spack/var/spack/cache/gdal/gdal-2.3.0.tar.xz\r\n==> Staging archive: /Users/Adam/spack/var/spack/stage/gdal-2.3.0-wagxrqcruikkh4yi32oziad4ucvyj4pe/gdal-2.3.0.tar.xz\r\n==> Created stage in /Users/Adam/spack/var/spack/stage/gdal-2.3.0-wagxrqcruikkh4yi32oziad4ucvyj4pe\r\nThe text leading up to this was:\r\n--------------------------\r\n|diff -Naur jasper-1.900.1/src/libjasper/jp2/jp2_cod.c jasper-1.900.1.uuid/src/libjasper/jp2/jp2_cod.c\r\n|--- jasper-1.900.1/src/libjasper/jp2/jp2_cod.c\t2007-01-19 15:43:05.000000000 -0600\r\n|+++ jasper-1.900.1.uuid/src/libjasper/jp2/jp2_cod.c\t2007-03-06 07:49:58.000000000 -0600\r\n--------------------------\r\nFile to patch: \r\nSkip this patch? [y] \r\n5 out of 5 hunks ignored\r\nThe text leading up to this was:\r\n--------------------------\r\n|diff -Naur jasper-1.900.1/src/libjasper/jp2/jp2_cod.h jasper-1.900.1.uuid/src/libjasper/jp2/jp2_cod.h\r\n|--- jasper-1.900.1/src/libjasper/jp2/jp2_cod.h\t2007-01-19 15:43:05.000000000 -0600\r\n|+++ jasper-1.900.1.uuid/src/libjasper/jp2/jp2_cod.h\t2007-03-06 07:49:58.000000000 -0600\r\n--------------------------\r\nFile to patch: \r\nSkip this patch? [y] \r\n3 out of 3 hunks ignored\r\nThe text leading up to this was:\r\n--------------------------\r\n|diff -Naur jasper-1.900.1/src/libjasper/jp2/jp2_enc.c jasper-1.900.1.uuid/src/libjasper/jp2/jp2_enc.c\r\n|--- jasper-1.900.1/src/libjasper/jp2/jp2_enc.c\t2007-01-19 15:43:05.000000000 -0600\r\n|+++ jasper-1.900.1.uuid/src/libjasper/jp2/jp2_enc.c\t2007-03-06 07:49:58.000000000 -0600\r\n--------------------------\r\nFile to patch: \r\nSkip this patch? [y] \r\n5 out of 5 hunks ignored\r\n==> Patch uuid.patch failed.\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/usr/bin/patch' '-s' '-p' '1' '-i' '/Users/Adam/spack/var/spack/repos/builtin/packages/gdal/uuid.patch' '-d' '.'\r\n==> Error: [Errno 2] No such file or directory: '/Users/Adam/spack/var/spack/stage/gdal-2.3.0-wagxrqcruikkh4yi32oziad4ucvyj4pe/gdal-2.3.0/spack-build.out'\r\n```\r\nThis patch should be applied to `jasper`, not to `gdal`. In fact, it shouldn't be applied at all since I'm explicitly disabling the `jasper` variant.\r\n\r\n@scheibelp Can you take a look at this? I checked out the commits before and after #8272 but it didn't seem to be the cause of this bug. I swear I didn't have this problem when I wrote #8263 (because the patch wasn't being applied, to `gdal` or to `jasper`).",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/8475",
+    "updated_at": "2018-06-15 19:36:48",
+    "created_at": "2018-06-14 13:34:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Dependency patch being applied to dependent",
+    "number": 8475,
+    "milestone": null,
+    "labels": [
+        "python3",
+        "patch"
+    ],
+    "id": 332405550,
+    "html_url": "https://github.com/spack/spack/issues/8475",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

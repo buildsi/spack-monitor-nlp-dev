@@ -1,0 +1,23 @@
+{
+    "body": "This PR partially reverts #23485 as it introduced a performance regression\r\nin `spack env activate`. The test from that PR is still there and passing.\r\n\r\nThe current logic of `spack env activate` is as follows:\r\n\r\n1. collect root specs\r\n2. add root specs + transitive run type deps of root specs to a list\r\n3. call `environment_modifications_for_spec` for every spec of this list\r\n\r\nHowever, `environment_modifications_for_spec` also processes run type\r\ndependencies of the spec, so we're doing a lot of redundant work,\r\nresulting in O(n^2) processed specs given `n` of them in\r\na chain like `a` <- `b` <- ... <- `z`\r\n\r\nThis PR drops step 2, so that we call\r\n`environment_modifications_for_spec` only on the root specs, and this\r\nfunction will process the run type deps for us anyways.\r\n\r\nGiven an environment like this:\r\n\r\n```yaml\r\nspack:\r\n  specs:\r\n  - py-flake8\r\n  - py-matplotlib\r\n  - py-isort\r\n  - py-sphinx\r\n  - py-six\r\n  - py-ipython\r\n```\r\n\r\nThis is the time spent on `activate` before and after:\r\n\r\n**Before**:\r\n\r\n```\r\nIn [1]: from spack.main import SpackCommand\r\nIn [2]: env = SpackCommand('env')\r\nIn [3]: %timeit env('activate', '--sh', '.')\r\n2.56 s \u00b1 11.4 ms per loop (mean \u00b1 std. dev. of 7 runs, 1 loop each)\r\n```\r\n\r\n**After**:\r\n\r\n```\r\nIn [1]: from spack.main import SpackCommand\r\nIn [2]: env = SpackCommand('env')\r\nIn [3]: %timeit env('activate', '--sh', '.')\r\n820 ms \u00b1 6.22 ms per loop (mean \u00b1 std. dev. of 7 runs, 1 loop each)\r\n```\r\n\r\nwhich is 68% less.\r\n\r\nThe diff of `spack env activate --sh .` is the same except for the order of paths in `PYTHONPATH`, but note that the logic introduced in #23485 didn't walk over the deps in post order: `root_spec.traverse(deptype='run', root=True)` which seems to be a mistake? (@scheibelp). Anyways, that's gone with this pr.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25755",
+    "updated_at": "2022-03-08 08:51:07",
+    "created_at": "2021-09-02 13:16:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Only load root specs in env (de)activate",
+    "number": 25755,
+    "milestone": null,
+    "labels": [
+        "build-environment",
+        "environments"
+    ],
+    "id": 986713937,
+    "html_url": "https://github.com/spack/spack/pull/25755",
+    "assignees": [
+        "adamjstewart",
+        "becker33"
+    ],
+    "comments": 5
+}

@@ -1,0 +1,25 @@
+{
+    "body": "Some old concrete `spec.yaml` files in binary mirrors may appear without `full_hash` or `package_hash`, and when spack encounters these (for example, when running `spack buildcache update-index` on a mirror with old binaries), it tries to compute those hashes, even though it already decided it should not when it set `_hashes_final = True`.  When this happens, spack can easily discover that a patch present at the time the `spec.yaml` was written is no longer present in the repository, at which point it crashes with an error similar to the following:\r\n\r\n```\r\nspack.patch.NoSuchPatchError: Couldn't find patch for package builtin.mpfr with sha256: 66a5d58364113a21405fc53f4a48f4e8\r\n```\r\n\r\nThis PR solves the problem by making sure spack does not attempt to re-compute hashes when the `_hashes_final` property is set to `True`.  Instead, spack will just take the `dag_hash` and use it for any of the unknown hashes.\r\n\r\nThis PR also make sure that going forward, the `spack.lock` files will contain all the hashes for each spec, as otherwise if we were to reconstitute specs from the `spack.lock` after this change, those hashes would be lost forever.  However, the lockfile is still keyed on build hash.\r\n\r\nTODO:\r\n\r\n- [ ] remove build provenance (build_spec = None) after splicing, be sure DAG hash doesn't change\r\n- [ ] update jobs to read/write `json` specs instead of `yaml` \r\n- [ ] remove old yaml from mirror whenever you update `yaml` -> `json`",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/25708",
+    "updated_at": "2021-10-07 15:49:52",
+    "created_at": "2021-08-31 00:59:54",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Do not try to compute hashes of concrete specs from yaml",
+    "number": 25708,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "environments",
+        "binary-packages"
+    ],
+    "id": 983334200,
+    "html_url": "https://github.com/spack/spack/pull/25708",
+    "assignees": [
+        "tgamblin",
+        "becker33"
+    ],
+    "comments": 6
+}

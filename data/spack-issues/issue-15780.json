@@ -1,0 +1,24 @@
+{
+    "body": "Okay, this one is weird. I'm trying to install `gmt`, but the checksum fails for `mpfr` (which happens to have a patch), then Spack tries to install `intltool` (which also happens to have a patch), but uses the `mpfr` patch instead of the `intltool` patch and fails.\r\n\r\n### Spack version\r\n```console\r\n$ spack --version\r\n0.14.1-442-77e1384\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gmt+ghostscript\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack install gmt+ghostscript\r\n...\r\n==> 16131: Installing mpfr\r\n==> Using cached archive: /data/keeling/a/adamjs5/spack/var/spack/cache/_source-cache/archive/c0/c05e3f02d09e0e9019384cdd58e0f19c64e6db1fd6f5ecf77b4b1c61ca253acc.tar.bz2\r\n==> Fetching https://www.mpfr.org/mpfr-4.0.2/allpatches\r\n######################################################################## 100.0%\r\n==> Error: ChecksumError: sha256 checksum failed for /tmp/adamjs5/spack-stage/spack-stage-uutEId/allpatches\r\n    Expected f2d2a530acb5e70e1a9d5b80881dbb4a504d56535c4bc103d83e0bb630172029 but got e6965057845fbd7ec03ea79897934a159db047bc1956996ae091f30e5d820415\r\n...\r\n==> 16131: Installing intltool\r\n==> Using cached archive: /data/keeling/a/adamjs5/spack/var/spack/cache/_source-cache/archive/67/67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd.tar.gz\r\n==> Using cached archive: /data/keeling/a/adamjs5/spack/var/spack/cache/_source-cache/archive/ca/ca9d6562f29f06c64150f50369a24402b7aa01a3a0dc73dce55106f3224330a1\r\n==> Staging archive: /tmp/adamjs5/spack-stage/spack-stage-intltool-0.51.0-nvpmgeomkaxd6wzc6uwqyci6p2qsvw6q/intltool-0.51.0.tar.gz\r\n==> Created stage in /tmp/adamjs5/spack-stage/spack-stage-intltool-0.51.0-nvpmgeomkaxd6wzc6uwqyci6p2qsvw6q\r\nThe text leading up to this was:\r\n--------------------------\r\n|diff -Naurd mpfr-4.0.2-a/VERSION mpfr-4.0.2-b/VERSION\r\n|--- mpfr-4.0.2-a/VERSION\t2019-01-31 20:29:48.000000000 +0000\r\n|+++ mpfr-4.0.2-b/VERSION\t2019-06-02 17:05:36.157226621 +0000\r\n--------------------------\r\nFile to patch: \r\nSkip this patch? [y] \r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack arch\r\nlinux-scientific6-westmere\r\n$ python -V\r\nPython 2.6.6\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/15780",
+    "updated_at": "2020-05-14 10:43:58",
+    "created_at": "2020-03-31 16:03:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Failing build causes patch to be applied to other spec in DAG",
+    "number": 15780,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "specs",
+        "patch",
+        "triage"
+    ],
+    "id": 591229627,
+    "html_url": "https://github.com/spack/spack/issues/15780",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 8
+}

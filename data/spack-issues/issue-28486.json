@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\n> spack env create glm-test\r\n> spack install glm\r\n> cat CMakeLists.txt\r\ncmake_minimum_required(VERSION 3.17)\r\nproject(test LANGUAGES C CXX)\r\nfind_package(glm REQUIRED)\r\nadd_executable(test main.cpp)\r\ntarget_link_libraries(test glm::glm)\r\n\r\n> cat main.cpp\r\n#include <glm/vec3.hpp>\r\nint main(){}\r\n> cmake -H. -Bbuild\r\n> cd build && make VERBOSE=1\r\n...\r\n/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  -isystem /Users/ptb/gitrepos/spack/var/spack/environments/glm-test/.spack-env/view/lib64 -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11.6 -MD -MT CMakeFiles/test.dir/main.cpp.o -MF CMakeFiles/test.dir/main.cpp.o.d -o CMakeFiles/test.dir/main.cpp.o -c /Users/ptb/gitrepos/glm-test/main.cpp\r\n/Users/ptb/gitrepos/glm-test/main.cpp:1:10: fatal error: 'glm/vec3.hpp' file not found\r\n#include <glm/vec3.hpp>\r\n         ^~~~~~~~~~~~~~\r\n1 error generated.\r\n\r\n```\n\n### Information on your system\n\n* **Spack:** 0.17.1-878-58c598ffe6\r\n* **Python:** 3.9.9\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** clingo\n\n### Additional information\n\nGLM is a weird beast in that it removed it's cmake build system at some point and more recently added it back in (though an updated release with cmake hasn't been done yet.). The spack recipe compensates for the lack of proper cmake support but it's adding the wrong directory as an include target.  \r\n\r\n`find_package` located `/Users/ptb/gitrepos/spack/var/spack/environments/glm-test/.spack-env/view/lib64` as the include directory when it should have been `/Users/ptb/gitrepos/spack/var/spack/environments/glm-test/.spack-env/view/include`\r\n\r\nI plan on submitting a PR that adds a version of glm that tracks the development branch where this upstream problem has been fixed but it would be nice if there were a way to patch things on the spack side for the released versions as well  \n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "pbrady",
+    "url": "https://api.github.com/repos/spack/spack/issues/28486",
+    "updated_at": "2022-01-18 17:34:28",
+    "created_at": "2022-01-18 17:34:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: glm",
+    "number": 28486,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1107183133,
+    "html_url": "https://github.com/spack/spack/issues/28486",
+    "assignees": [],
+    "comments": 0
+}

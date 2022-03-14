@@ -1,0 +1,22 @@
+{
+    "body": "I am using netCDF library in running GEOS-Chem.  I did so by following the instruction in this [link](http://wiki.seas.harvard.edu/geos-chem/index.php/Installing_libraries_for_GEOS-Chem#For_more_information).  The specific package I installed was \"netcdf-fortran\".   My fortran compiler is PGI Fortran.  The compiling process of the GEOS-Chem version 12.3.2 with my setting went ok (shown in attached log)  [GC_12.3.2.merra2_4x5_Hg.log.mp.zip](https://github.com/spack/spack/files/3209191/GC_12.3.2.merra2_4x5_Hg.log.mp.zip)\r\nUpon execution, I got an error message that says \"error while loading shared libraries: libnetcdff.so.6: cannot open shared object file: No such file or directory\" \r\nDespite the fact that the file exists in the location for netCDF libraries.  I'm not sure if this is too specific an issue for the spack community but if  anyone can  suggest some way to solve my issue I'd appreciate it very much.\r\n\r\n### Steps to reproduce the issue\r\nwin@win-desktop:/media/HDD/GC/rundir/myrun/merra2_4x5_Hg$ make -j4 mp\r\nmake[1]: Entering directory '/media/HDD/GC/rundir/myrun/merra2_4x5_Hg'\r\nrm -f trac_avg.merra2_4x5_Hg.201601010000*.mp\r\nrm -f \"./GC_12.3.2.merra2_4x5_Hg.log.mp\"\r\nrm -f geos.mp\r\nrm -f GEOSChem.Restart.20160102_0000z.nc4*.mp\r\nrm -f \"HEMCO.log\".mp\r\nrm -f \"/media/HDD/GC/rundir/myrun/merra2_4x5_Hg/lastbuild\".mp\r\nrm -f *.nc4.mp\r\nrm -f HEMCO_restart*.mp\r\nrm -f diaginfo.dat tracerinfo.dat\r\nmake[1]: Leaving directory '/media/HDD/GC/rundir/myrun/merra2_4x5_Hg'\r\ncp -f ./CodeDir/bin/geos geos.mp\r\n./geos.mp >> \"./GC_12.3.2.merra2_4x5_Hg.log.mp\"\r\n./geos.mp: error while loading shared libraries: libnetcdff.so.6: cannot open shared object file: No such file or directory\r\nMakefile:417: recipe for target 'mp' failed\r\nmake: *** [mp] Error 127\r\n\r\n\r\n### Platform and user environment\r\n\r\nI am using OS:\r\n\r\nLinux win-desktop 4.18.0-20-generic #21~18.04.1-Ubuntu SMP Wed May 8 08:43:37 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\nDescription:\tUbuntu 18.04.2 LTS\r\n\r\nHere is the compilers.yaml\r\n[compilers.yaml.zip](https://github.com/spack/spack/files/3209173/compilers.yaml.zip)\r\n\r\n\r\n### Additional information\r\n\r\nI attach the netcdf-fortran install status here \r\n[netcdf-fortran_install-status.zip](https://github.com/spack/spack/files/3209246/netcdf-fortran_install-status.zip)\r\n\r\n",
+    "user": "wintriv",
+    "url": "https://api.github.com/repos/spack/spack/issues/11535",
+    "updated_at": "2019-07-13 04:52:03",
+    "created_at": "2019-05-22 20:47:48",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: netCDF -- cannot open shared object file libnetcdff.so.6",
+    "number": 11535,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "triage"
+    ],
+    "id": 447335989,
+    "html_url": "https://github.com/spack/spack/issues/11535",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

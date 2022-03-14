@@ -1,0 +1,21 @@
+{
+    "body": " \r\nIn trying to trace the origin of a compiler setting being picked up by the concretizer, I noticed that spack config blame was merging settings from:\r\n\r\n`$SPACK_ROOT/etc/spack/packages.yaml `\r\n\r\n---and---\r\n\r\n`$SPACK_ROOT/etc/spack/defaults/packages.yaml \r\n`\r\n\r\non the same line of the report, thus mistakenly attributing a setting from the former file to the latter file. Below versions of cce and clang are picked up from the former but attributing them to the latter:\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack config blame packages |grep gcc\r\n/lus/theta-fs0/software/spack/spack-dev/etc/spack/**defaults**/packages.yaml:18      compiler: [intel, gcc, **cce@9.0.2**, **clang@5.0**, pgi, clang, xl, nag, fj]\r\n$ grep gcc ~/spack-dev/etc/spack/packages.yaml \r\n    compiler: [ intel, gcc, cce@9.0.2, clang@5.0 ]\r\n$ grep gcc ~/spack-dev/etc/spack/defaults/packages.yaml \r\n    compiler: [gcc, intel, pgi, clang, xl, nag, fj]\r\n```\r\n\r\n### Information on your system\r\n \r\nALCF Theta.  \r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [N/A] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [N/A] I have run the failing commands in debug mode and reported the output\r\n  \r\n \r\n",
+    "user": "frankwillmore",
+    "url": "https://api.github.com/repos/spack/spack/issues/16870",
+    "updated_at": "2020-05-30 18:38:21",
+    "created_at": "2020-05-29 21:22:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack config blame is erroneously reporting the origin of a compiler setting",
+    "number": 16870,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 627546088,
+    "html_url": "https://github.com/spack/spack/issues/16870",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,22 @@
+{
+    "body": "This PR introduces a single hook runner handling all hooks, instead of one hook runner per hook. That way it's much easier to turn them off or replace them with a no-op runner.\r\n\r\nAllows one to disable hooks in tests more easily:\r\n\r\n```python\r\nwith spack.hooks.use_hook_runner(spack.hooks.HookRunner()):\r\n   install_something()\r\n```\r\n\r\nOr implement a new hook \"runner\" that merely logs events, so that you\r\ncan test hooks being triggered / events being emitted without having to execute those:\r\n\r\n```python\r\nclass NoopHookRunner(object):\r\n    events = []\r\n    def __call__(self, hook_name, *args, **kwargs):\r\n        events.append(hook_name)\r\n\r\nnoop_hook_runner = NoopHookRunner()\r\n\r\nwith spack.hooks.use_hook_runner(noop_hook_runner):\r\n  do_something_complicated()\r\n\r\nassert 'on_install_failure' in noop_hook_runner.events\r\n```\r\n\r\nEdit: note that our automatic hook searching/enabling stuff doesn't make sense when we also require a particular order of execution; at that point we can better just list the names in order. It's not like hooks get added every other day...\r\n\r\n---\r\n\r\nI think it's beyond the scope of this PR to do more than refactoring the hooks themselves, but as follow-up action items, I can think of:\r\n- enabling a dummy hook runner by default in tests\r\n- move the environment view updating & log symlinking to hooks",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25573",
+    "updated_at": "2021-08-25 07:18:46",
+    "created_at": "2021-08-23 21:04:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Make it easier to switch out the hook runner",
+    "number": 25573,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "tests",
+        "commands",
+        "environments"
+    ],
+    "id": 977457152,
+    "html_url": "https://github.com/spack/spack/pull/25573",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Even though I still didn't manage to reproduce the behavior in a minimal example, here is what we observed: \r\n\r\n```\r\n$ spack load --dependencies py-cython py-pytest py-setuptools cmake py-multiarray py-numpy py-matplotlib \"^python +ucs4\"\r\n$ module list 2>&1 | grep mock\r\n 17) py-mock-2.0.0-gcc-4.9.2-itikmwv\r\n 76) py-mock-2.0.0-gcc-4.9.2-5lzv2ds\r\n```\r\nand\r\n```\r\n$ spack find -fdv /5lzv2ds > out5lzv\r\n$ spack find -fdv /itikmwv > outitik\r\n$ diff out5lzv outitik \r\n3c3\r\n<         ^py-pbr@1.10.0%gcc cflags=\"-O2 -march=core2 -pipe\" cxxflags=\"-O2 -march=core2 -pipe\" fflags=\"-O2 -march=core2 -pipe\" \r\n---\r\n>         ^py-pbr@1.8.1%gcc cflags=\"-O2 -march=core2 -pipe\" cxxflags=\"-O2 -march=core2 -pipe\" fflags=\"-O2 -march=core2 -pipe\"\r\n```\r\n\r\nMy guess is that this problem occured, because ```py-pbr``` got a new version between the install of two of the loaded packages, so that one of those now depends on ```@1.8.1``` and the other on ```@1.10.0```.  \r\n\r\nThere are now two questions: \r\n1. Is this intended behavior? I.e. should a package with ```depends_on(\"py-pbr@1.8:\")``` resolve to ```py-pbr@1.8.1``` or to ```@1.10.0``` if ```py-pbr@1.8.1``` is already installed and ```@1.8.1``` and ```@1.10.0``` are known to ```spack```?\r\n2. Should ```spack load``` perform a sanity check, i.e. check that the modules that are loaded only contain exactly one module per package?\r\n\r\nIn our case this wasn't a problem, and manually unloading ```py-pbr@1.8.1``` made the environment consistent. However, that may not always be possible (think about ```depends_on(\"A@:1.10\")``` and ```depends_on(\"A@0.9:\")```). I'll mark #3827 as WIP until question 2) is answered.",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/4189",
+    "updated_at": "2020-09-29 07:36:03",
+    "created_at": "2017-05-10 07:57:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Question: Dependency resolution",
+    "number": 4189,
+    "milestone": null,
+    "labels": [
+        "question",
+        "modules"
+    ],
+    "id": 227595977,
+    "html_url": "https://github.com/spack/spack/issues/4189",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,19 @@
+{
+    "body": "\r\nThis is a request for a new feature and discussion.\r\n\r\nI'd like to allow packages to set the preferences (defaults) for\r\nvariants in their dependency packages and do so from their\r\n`package.py` file.  Of course, this can be done now in `packages.yaml`\r\nor the command line, but allowing this in `package.py` has some\r\nadvantages.\r\n\r\nFor example, my project (hpctoolkit) depends on libunwind, and\r\nlibunwind has a variant `xz` to support xz/lzma compressed symbol\r\ntables, with default False.  Of course, hpctoolkit will run either\r\nway, but normally we prefer with `xz` on.  Right now, what I have is:\r\n\r\n```\r\n  depends_on('libunwind@1.4: +xz')\r\n```\r\n\r\nBut this is a hard constraint.  You can't turn off `xz` without\r\nediting `package.py`.  I'd rather turn this into a soft preference\r\nwith something like:\r\n\r\n```\r\n  depends_on('libunwind@1.4:', prefer='+xz')\r\n```\r\n\r\nThat way, the default for libunwind remains False, but if you're\r\nbuilding libunwind as part of hpctoolkit, then the default is True.\r\nOf course, I can't go around and reset the defaults for all of our\r\ndependency packages just to suit my needs.\r\n\r\nSo why not use `packages.yaml`?  We could, and in fact, we do\r\ndistribute a `packages.yaml` file, mostly as a reference point.  But\r\nthe file is long and it's tedious to review it for every new machine.\r\n\r\nRight now, I'm confronted with a dilemma: I can leave off `+xz` and\r\nmake everyone use our `packages.yaml` file, or else they won't build\r\nhpctoolkit the way we want.  Or, I can require `+xz` which is\r\nheavy-handed and inflexible.  With this feature, I can make the\r\none-button `spack install hpctoolkit` almost always produce the right\r\nspec, but still allow flexibility when needed.\r\n\r\nTheoretically, I could add an `xz` variant to hpctoolkit and set the\r\ndefault there, but that's really awkward and adds a duplicate variant,\r\njust because the default doesn't suit my needs.\r\n\r\nNote: the precedence of `prefer='+xz'` should be next to last.  It\r\nshould override the default in the dependency package, but you should\r\nbe able to override it from `packages.yaml` or the command line.\r\n\r\n@becker33  Is this possible?  A good idea?",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/16909",
+    "updated_at": "2020-06-03 10:01:23",
+    "created_at": "2020-06-02 20:39:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow packages to set default variants in dependencies",
+    "number": 16909,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 629498561,
+    "html_url": "https://github.com/spack/spack/issues/16909",
+    "assignees": [],
+    "comments": 1
+}

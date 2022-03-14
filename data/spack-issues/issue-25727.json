@@ -1,0 +1,21 @@
+{
+    "body": "Allow use of spec format strings in module suffixes, enabling simplification of projections.\r\n\r\nInstead of adding a suffix for each package+version combination we're interested in:\r\n```yaml\r\nmodules:\r\n  tcl:\r\n    all:\r\n      suffixes:\r\n        ^python@2.7.12: 'python-2.7.12'\r\n        ^python@3.9.6: 'python-3.9.6'\r\n        ^openmpi@4.0.3: 'openmpi-4.0.3'\r\n```\r\nor a projection for each potential combination of packages:\r\n```yaml\r\nmodules:\r\n  tcl:\r\n    projections:\r\n      all: '{compiler.name}-{compiler.version}/{name}/{version}'\r\n      ^python ^mpi: '{compiler.name}-{compiler.version}/{name}/{version}-{^python.name}-{^python.version}-{^mpi.name}-{^mpi.version}'\r\n      ^mpi: '{compiler.name}-{compiler.version}/{name}/{version}-{^mpi.name}-{^mpi.version}'\r\n      ^python: '{compiler.name}-{compiler.version}/{name}/{version}-python-{^python.version}'\r\n```\r\n\r\nWith spec formatting for suffixes we can simplify this to:\r\n```yaml\r\nmodules:\r\n  tcl:\r\n    projections:\r\n      all: '{compiler.name}-{compiler.version}/{name}/{version}'\r\n    all:\r\n      suffixes:\r\n        ^python: '{^python.name}-{^python.version}'\r\n        ^mpi: '{^mpi.name}-{^mpi.version}'\r\n```",
+    "user": "Prepultrue",
+    "url": "https://api.github.com/repos/spack/spack/issues/25727",
+    "updated_at": "2021-10-07 14:02:32",
+    "created_at": "2021-09-01 05:49:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Modules: Allow spec formatting in suffixes",
+    "number": 25727,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 984686581,
+    "html_url": "https://github.com/spack/spack/pull/25727",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 0
+}

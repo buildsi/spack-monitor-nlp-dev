@@ -1,0 +1,21 @@
+{
+    "body": "This change introduces several features to improve the installation of packages written in Rust.\r\n\r\nFixes #16045 \r\n\r\ncc @adamjstewart @hartzell @ax3l \r\n\r\n# Automatic Vendoring of Cargo Dependencies\r\nThis change introduces the ability automatically vendor cargo dependencies by way of the new `cargo_manifest` directive.\r\n\r\nIf the cargo package has locked its dependencies via a \"Cargo.lock\" file, that is considered to sufficiently check the dependencies for purposes of spack's checksum validation. If there is no \"Cargo.lock\" file, the user will be prompted to disable checksums, and the `--no-checksum` flag is respected\r\n\r\nI still need to implement the caching of the vendored dependencies to support mirroring. See TODO.\r\n\r\n## TODO\r\n- [x] Add support for caching of cargo dependencies\r\n- [x] `.cargo/config` must include non-crates.io sources\r\n  - `.cargo/config` file should be derived from the output of `cargo vendor`.\r\n  - Particularly necessary for packages from non-crates.io sources, since they may include dependencies via version control\r\n- [x] Fix bug with cargo package as being listed as \"already staged\"\r\n  - This happens because the `CargoStage` expands the root stage during its own fetch\r\n  - EDIT: Just output a message indicating why the package is being staged early.\r\n\r\n## Limitations\r\nCurrently only supports vendoring from a single cargo manifest per-package. Perhaps this should be expanded, but I think it's pretty rare for a single package to vendor Cargo dependencies from multiple, disjoint manifests.\r\n\r\n# `CargoPackage`\r\nThis PR also includes a new `CargoPackage` base class, which stream-lines building cargo packages. This automatically implements `build` and `install`.\r\n\r\nThis is NOT implemented using `cargo install` because it only installs bin targets. However, I suspect a common case will be to also install dynamic and static libraries with a C interface. Therefore, I manually implement the install for all \"bin\", \"staticlib\", and \"cdylib\" targets.\r\n\r\nAdditionally, I provide a new `crates_io` fetch strategy. This makes it possible to directly import packages from \"crates.io\", which is the first-party package repository for Rust. The goal is to streamline import of Rust packages that people want to use.\r\n\r\n## TODO\r\n- [x] Make it easy to specify cargo features via spack variants.\r\n\r\n## Limitations\r\nIn the future, it may be necessary to provide a way to specify the targets which will be installed.\r\n\r\n# Miscellania\r\nImplemented `cargo checksum` for `crates_io` packages.\r\n\r\nFixed a bug in `_determine_extension` to respect `fetcher.extension`.\r\n\r\nAdd `ytop` package.\r\n\r\nUpdate `bat`, `fd-find`, `ripgrep`, and `rust-bindgen` packages to use `CargoPackage`.\r\n\r\n## TODO\r\n- [x] Documentation: https://spack.readthedocs.io/en/latest/build_systems.html\r\n- [x] Testing",
+    "user": "AndrewGaspar",
+    "url": "https://api.github.com/repos/spack/spack/issues/16185",
+    "updated_at": "2021-05-19 13:16:06",
+    "created_at": "2020-04-20 16:25:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Improvements to building \"cargo\" packages",
+    "number": 16185,
+    "milestone": null,
+    "labels": [
+        "fetching",
+        "build-systems",
+        "cargo"
+    ],
+    "id": 603366503,
+    "html_url": "https://github.com/spack/spack/pull/16185",
+    "assignees": [],
+    "comments": 18
+}

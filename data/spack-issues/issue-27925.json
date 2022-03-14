@@ -1,0 +1,20 @@
+{
+    "body": "The intent of this PR is to allow for generalized variables that can be used throughout the `spack.yaml` file.  For example, if I have several externals installed in the same location it would be nice to just use a variable or alias to specify them, especially if the path is long, or I want to be able to switch it later. As I iterated over this concept it dawned on me that YAML already has this exact functionality through anchors and aliases.  \r\n\r\nThis PR creates a dedicated place to define anchors in the `spack.yaml` file.  I imagine allowing a wider variety of schema in this section as time goes on, but for starters I'm just doing an array of strings which can be used to generate a list of variables (anchors really) which can then be used throughout the `spack.yaml`\r\n\r\nA couple of issues:\r\n\r\n1. I'm not sure if these anchors will propogate to includes files.\r\n2. During concretization spack's process overwrites all the aliases and anchors with the anchor values.  This is a broader issue, but I'm interested to see if I can just turn this behavior off for yaml anchors as part of this PR. \r\n\r\npinging @becker33 (initial discussion of this idea on slack) @scheibelp (wisdom reagarding the overwriting issues) @tgamblin (I see your name in the git history next to all the code containing the work `anchor`) ",
+    "user": "psakievich",
+    "url": "https://api.github.com/repos/spack/spack/issues/27925",
+    "updated_at": "2021-12-15 06:37:18",
+    "created_at": "2021-12-11 06:49:48",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add a section for generic yaml anchors in spack.yaml",
+    "number": 27925,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "environments"
+    ],
+    "id": 1077423204,
+    "html_url": "https://github.com/spack/spack/pull/27925",
+    "assignees": [],
+    "comments": 0
+}

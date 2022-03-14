@@ -1,0 +1,27 @@
+{
+    "body": "This is a breaking change for a couple reasons:\r\n\r\n1. `setup_dependent_run_environment` is removed\r\n2. `setup_dependent_package` is not called anymore in a 'run' context (it's targeted to modify a package before install)\r\n2. Module files default to loading direct run dependencies (and they load theirs etc)\r\n3. Module files don't autoload link-type dependencies, only run-type deps (maybe this is controversial? but the idea is that there's no need to load link type deps since libraries already know to locate their dependencies through rpath; if more is required, then the dep type should really be run, not link) -- edit: temporarily reverted so that those tests continue to pass...\r\n\r\n---\r\n\r\nCurrently we have `setup_dependent_run_environment`, which has a couple issues:\r\n\r\n1. Unclear what goes in `setup_dependent_run_environment` and what goes in `setup_run_environment` (see all the modified packages, the function is usually duplicated or doesn't need the dependent at all).\\*\r\n2. Unclear what goes in `setup_dependent_run_environment` and what goes in `setup_dependent_build_environment`.\r\n3. Unclear when it is called and in what order\r\n4. The main use case seems abuse: it's often used to traverse dependencies of the dependent, which makes loading an indivicual spec `O(n)` complexity, meaning that `spack load` which includes dependencies take `O(n^2)` in number of specs.\r\n\r\n## Todo for packages\r\n- [x] Bring back PYTHONPATH\r\n- [ ] Check if there are Python packages not calling super() in setup_run_environment\r\n- [ ] Bring back CLASSPATH\r\n- [ ] Bring back PERL5LIB\r\n- [ ] Bring back R_LIBS\r\n- [ ] Bring back LUAPATH\r\n- [ ] Fix npm\r\n- [ ] add/fix tests\r\n\r\n## Modules\r\n\r\nIt seems the intent of `setup_dependent_run_environment` has to do with module files. It was created to allow a dependency to inject variables into a module file of the dependent. So, a module file for a Python package could set up the `PYTHONPATH` for its transitive runtime python-dependencies. This really is a flawed idea. For a package to run, we need to call `setup_run_environment` of all transitive run-time deps. So even if the generated module files contains all the PYTHONPATHs, it is still entirely broken if one of the dependencies sets critical variables in `setup_run_environment`. What really has to happen is: every module file ONLY takes the env modifications of its `setup_run_environment` (which with this pr trivially includes `PYTHONPATH` for the current package only), and we use lmod's `depends_on` to pull in required runtime dependencies (I don't know about tcl).\r\n\r\nWith this PR we generate lmod files like this:\r\n\r\n```lua\r\nwhatis([[Name : py-flake8]])\r\nwhatis([[Version : 3.8.2]])\r\nwhatis([[Target : zen2]])\r\nwhatis([[Short description : Flake8 is a wrapper around PyFlakes, pep8 and Ned Batchelder's McCabe script.]])\r\n\r\nhelp([[Flake8 is a wrapper around PyFlakes, pep8 and Ned Batchelder's McCabe\r\nscript.]])\r\n\r\n\r\ndepends_on(\"py-entrypoints/0.3-zisvctw\")\r\ndepends_on(\"py-mccabe/0.6.1-urwvc4i\")\r\ndepends_on(\"py-pycodestyle/2.6.0-yhhzmza\")\r\ndepends_on(\"py-pyflakes/2.2.0-y26eegz\")\r\ndepends_on(\"py-setuptools/57.4.0-folza24\")\r\ndepends_on(\"python/3.8.11-4li4ogj\")\r\n\r\nprepend_path(\"LD_LIBRARY_PATH\", \"/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.3.0/py-flake8-3.8.2-iv36zrgcvjhtati4v5vjaryl7hvnhb2w/lib\", \":\")\r\nprepend_path(\"PATH\", \"/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.3.0/py-flake8-3.8.2-iv36zrgcvjhtati4v5vjaryl7hvnhb2w/bin\", \":\")\r\nprepend_path(\"CMAKE_PREFIX_PATH\", \"/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.3.0/py-flake8-3.8.2-iv36zrgcvjhtati4v5vjaryl7hvnhb2w/\", \":\")\r\nprepend_path(\"PYTHONPATH\", \"/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.3.0/py-flake8-3.8.2-iv36zrgcvjhtati4v5vjaryl7hvnhb2w/lib/python3.8/site-packages\", \":\")\r\n```\r\n\r\n## Todo for modules:\r\n\r\n- [ ] regenerating modules files should probably regenerate recursively\r\n- [ ] add/fix tests\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26031",
+    "updated_at": "2022-03-08 08:51:24",
+    "created_at": "2021-09-17 11:25:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Remove setup_dependent_run_environment in favor of setup_run_environment",
+    "number": 26031,
+    "milestone": null,
+    "labels": [
+        "python",
+        "R",
+        "documentation",
+        "modules",
+        "build-environment",
+        "tests",
+        "update-package",
+        "build-systems",
+        "breaking-change"
+    ],
+    "id": 999246381,
+    "html_url": "https://github.com/spack/spack/pull/26031",
+    "assignees": [],
+    "comments": 1
+}

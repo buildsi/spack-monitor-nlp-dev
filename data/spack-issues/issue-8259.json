@@ -1,0 +1,19 @@
+{
+    "body": "If you want to report a build error for some package, or a bug in core please use the following template as a guideline:\r\n\r\n-----\r\n\r\nI want to create a mirror but it fails with the bellow error!\r\n\r\n### Expected Result\r\n\r\nA brand new mirror with all archives into it.\r\n\r\n### Actual Result\r\n```console\r\n# time spack mirror create\r\n==> No safe (checksummed) versions for package spectrum-mpi\r\n==> Error: An unsatisfiable variant constraint has been detected for spec:\r\n\r\n    hdf5@1.10.1%gcc@4.8.5~cxx~debug+fortran~hl+mpi+pic+shared~szip~threadsafe arch=linux-centos7-x86_64 \r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    petsc@develop%gcc@4.8.5+boost clanguage=C ~complex~debug+double+hdf5+hypre~int64+metis+mpi~mumps+shared~suite-sparse+superlu-dist~trilinos arch=linux-centos7-x86_64 \r\n        ^hypre@develop~int64~internal-superlu\r\n            ^openblas@0.2.20%gcc@4.8.5 cpu_target= ~ilp64+pic+shared threads=none ~virtual_machine arch=linux-centos7-x86_64 \r\n        ^sowing@1.1.23-p1%gcc@4.8.5 arch=linux-centos7-x86_64 \r\n        ^superlu-dist@develop~int64\r\n            ^metis@5:\r\n                ^cmake@3.11.2%gcc@4.8.5~doc+ncurses+openssl+ownlibs~qt arch=linux-centos7-x86_64 \r\n                    ^ncurses@6.1%gcc@4.8.5~symlinks~termlib arch=linux-centos7-x86_64 \r\n                        ^pkgconf@1.4.2%gcc@4.8.5 arch=linux-centos7-x86_64 \r\n                    ^openssl@1.0.2n%gcc@4.8.5+systemcerts arch=linux-centos7-x86_64 \r\n                        ^zlib@1.2.11%gcc@4.8.5+optimize+pic+shared arch=linux-centos7-x86_64 \r\n            ^openmpi@3.1.0%gcc@4.8.5~cuda fabrics= ~java~memchecker~pmi schedulers= ~sqlite3~thread_multiple+vt arch=linux-centos7-x86_64 \r\n                ^hwloc@:1.999\r\n                ^numactl\r\n                    ^autoconf\r\n                        ^m4@1.4.6:\r\n                        ^perl\r\n                            ^gdbm\r\n                                ^readline@7.0%gcc@4.8.5 arch=linux-centos7-x86_64 \r\n                    ^automake\r\n                    ^libtool\r\n            ^parmetis\r\n\r\n\r\npetsc requires hdf5 variant +hl, but spec asked for ~hl\r\n\r\nreal    0m45.923s\r\nuser    0m45.062s\r\nsys     0m3.379s\r\n\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ git clone \r\n$ . spack/share/spack/setup-env.sh\r\n$ spack mirror create\r\n```\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. which platform you are using: `CentOS Linux release 7.4.1708 (Core)`, kernel: 3.10.0-693.el7.x86_64, \r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.): Nothing custom\r\n 3. The commit checked out by git clone was `8f3d717`\r\n\r\n-----\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!",
+    "user": "dhilst",
+    "url": "https://api.github.com/repos/spack/spack/issues/8259",
+    "updated_at": "2018-05-24 16:12:27",
+    "created_at": "2018-05-23 20:17:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Unable to create mirror (unsatisfiable variant contraint ... hdf5@1.10.1",
+    "number": 8259,
+    "milestone": null,
+    "labels": [
+        "mirrors"
+    ],
+    "id": 325857590,
+    "html_url": "https://github.com/spack/spack/issues/8259",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Using both the `@when` and `@run_after` decorator on the same method results in weird errors, depending on the order in which they're used.\r\n\r\n### Steps to reproduce the issue\r\n\r\nUse both decorators on the same method, like:\r\n```python\r\n@run_after('configure')\r\n@when('platform=darwin')\r\ndef filter_rt(self):\r\n    # Don't link with -lrt; the system has no (and needs no) librt                                                                        \r\n    filter_file(r' -lrt$', '', 'Makefile')\r\n```\r\n\r\n### Error Message\r\n\r\nReporting the error description from a conversation with \"Sly\" on Slack:\r\n\r\n> I've tried it with the Git package by putting the two decorators on different lines.  Having the `@run_after('install')` first results in the function trying to run even when the variant is not included and erroring out with `Error: NoSuchMethodError: Package Git does not support install_subtree called with git@2.19.1%gcc@7.4.0~subtree~tcltk`.  Having the `@when('+variantX')` is first, it always runs the function and installs the functionality, regardless of whether the variant is included or not.  The only way I've gotten to work in an expected manner is just having `@run_after('install')` and having an `if '+variantX' in self.spec:` conditional inside the function.\r\n\r\n### Information on your system\r\n\r\nShould not be relevant",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/12736",
+    "updated_at": "2019-09-27 22:01:09",
+    "created_at": "2019-09-06 11:01:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "\"run_after\" and \"when\" decorator are incompatible with each other",
+    "number": 12736,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 490266375,
+    "html_url": "https://github.com/spack/spack/issues/12736",
+    "assignees": [],
+    "comments": 1
+}

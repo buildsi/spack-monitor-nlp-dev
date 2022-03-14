@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nI want a simpler way to propagate variants between packages. The default behavior is to not do this, which makes sense, but in many cases it is desired to propagate variants to dependencies.\n\n### Rationale\n\nCurrently propagating package variants is a bit of a pain as each flag must be individually specified on and off.\r\n\r\n```python\r\ndepends_on('hdf5+mpi', when='+hdf5+mpi')\r\ndepends_on('hdf5~mpi', when='+hdf5~mpi')\r\n```\r\n\r\nThis becomes very verbose as the number of variants increases. And with the old concretizer it is even more verbose as it is required to use the Cartesian product (ref. https://github.com/spack/spack/blob/c4e50c9efbc0c99ae272e27387a33fdc5f4aea23/var/spack/repos/builtin/packages/ecp-data-vis-sdk/package.py#L47).\n\n### Description\n\nA possible solution to this is currently being implemented to replace the method mentioned above. It is incomplete as it is now for general use.\r\n\r\nhttps://github.com/kwryankrattiger/spack/blob/42453310b81ce8c1ce7c29bbd0ee031a086a1abe/var/spack/repos/builtin/packages/ecp-data-vis-sdk/package.py#L49\r\n\r\nThe idea here is to pass a list or map of variants to be propagated and the function takes care of adding the appropriate variations. It is far less verbose and is clear from the signature what is happening.\n\n### Additional information\n\nBasing this on the latest develop as of Aug 20.\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "kwryankrattiger",
+    "url": "https://api.github.com/repos/spack/spack/issues/25545",
+    "updated_at": "2021-10-12 23:28:41",
+    "created_at": "2021-08-20 15:03:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add option to depends_on to automatically propagate package variants to dependencies",
+    "number": 25545,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 975692083,
+    "html_url": "https://github.com/spack/spack/issues/25545",
+    "assignees": [],
+    "comments": 4
+}

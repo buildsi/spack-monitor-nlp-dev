@@ -1,0 +1,19 @@
+{
+    "body": "I was thinking about adding this to the discussion in #4155 but it quickly expanded in scope so I decided to open a new issue.\r\n\r\nWe ran into problems with requiring an older `py-setuptools` when installing e.g. `py-flake8`. The restriction was introduced by me in #3757. However I'm not really sure whether that approach ever actually solved the problem...\r\nRemoving the restriction in `py-backports-shutil-get-terminal-size/package.py` (i.e. building with `py-setuptools@35.0.2`) still gives a useable `ipython` (`spack load -r py-ipython && ipython` does not fail to start). \r\n\r\nThere are a number of issues that I suspect relate to this #7001, #5908, #4154, and I suspect I didn't find all of them.\r\nMy current understanding, inferred from reading multiple discussion around problems with different failure points, is that the problem comes up if you have multiple namespace packages installed and the first one you are looking at is not the one you are looking for. I think this is the reason why a ipython-only install works (although I have as of now been unable to break it).\r\n\r\nMy current proposal would be to revert #3757 as it does not seem to do us much good. The larger problem though is still unsolved. One point where this breakage can be observed would be `py-flake8` a `spack load -r py-flake8 && flake8` fails with `ImportError: No module named backports.configparser` and even though @adamjstewart put it in the documentation it's still an unsatifying state. \r\nMy problem is that I don't really know where to start digging as I feel quite out of my depth here. As we are only using `view`s anyway, this does not really seem to break anything in production, but that seems to be due to some `backports`-package doing the right thing and the others being able to piggy back, with me having no idea which ones we can't remove from our views.\r\n\r\nPinging for comments/ideas: @adamjstewart @scheibelp @luigi-calori @hartzell @lee218llnl @grondo all of you ran into similar problems",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/7370",
+    "updated_at": "2021-11-08 17:20:38",
+    "created_at": "2018-03-02 09:14:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Python backports namespace",
+    "number": 7370,
+    "milestone": null,
+    "labels": [
+        "python"
+    ],
+    "id": 301699687,
+    "html_url": "https://github.com/spack/spack/issues/7370",
+    "assignees": [],
+    "comments": 10
+}

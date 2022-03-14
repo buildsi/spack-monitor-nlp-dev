@@ -1,0 +1,21 @@
+{
+    "body": "### Summary\r\n\r\nGCC is able to support OpenACC and OpenMP target offload on AMD GPUs starting from version 10.\r\nhttps://gcc.gnu.org/wiki/OpenACC\r\nhttps://gcc.gnu.org/wiki/Offloading\r\nIt would be nice if Spack provides an option to compile this version.\r\nThe compilation steps are outlined here:\r\nhttps://gcc.gnu.org/wiki/Offloading#How_to_try_offloading_enabled_GCC\r\nIn short, pull in LLVM source tarball and compile some of the utilities, rename them to GCC-conforming names, and use them to build the offloading backend.\r\n\r\n### Rationale\r\n\r\nAFAIK the only ways to get `amdgcn` offloading-enabled GCC 10 are\r\n- Compiling from sources following the above instructions\r\n- Getting them precompiled from the distro, e.g. [Debian](https://packages.debian.org/bullseye/gcc-10-offload-amdgcn), [Ubuntu](https://packages.ubuntu.com/focal/gcc-10-offload-amdgcn), [openSUSE](https://software.opensuse.org/package/cross-amdgcn-gcc10)\r\n\r\nIt would be awesome if Spack can provide this offloading backend too.\r\n\r\n### Description\r\n\r\nI can start a PR for this feature, but I think I'll need additional help so this issue can serve as the discussion thread.\r\nIt would be added as a new variant to `gcc` spec, which would depend on `llvm-amdgpu` and/or `rocm-clang-ocl`.\r\n\r\n### Additional information\r\n\r\n```\r\n$ spack --version\r\n0.17.1-1331-882ebc85d8\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "wyphan",
+    "url": "https://api.github.com/repos/spack/spack/issues/29300",
+    "updated_at": "2022-03-08 21:29:36",
+    "created_at": "2022-03-02 18:54:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "GCC support for AMD GCN offloading / ROCm for OpenACC and OpenMP target offload",
+    "number": 29300,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1157570050,
+    "html_url": "https://github.com/spack/spack/issues/29300",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

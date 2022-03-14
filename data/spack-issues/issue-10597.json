@@ -1,0 +1,20 @@
+{
+    "body": "In issue #3153 to work around Cray's hacky craype-mic-knl Spack added the code \r\n\r\n```python\r\n        for mod in pkg.compiler.modules:\r\n            # Fixes issue https://github.com/spack/spack/issues/3153\r\n            if os.environ.get(\"CRAY_CPU_TARGET\") == \"mic-knl\":\r\n                load_module(\"cce\")\r\n            load_module(mod)\r\n```\r\nthis leads to the default version of `cce` always being loaded into the build environment. I'll prepare a pull request in a bit, but I think additional logic may be required to unload `cce` if not explicitly called for:\r\n\r\n```python\r\n        for mod in pkg.compiler.modules:\r\n            # Fixes issue https://github.com/spack/spack/issues/3153\r\n            if os.environ.get(\"CRAY_CPU_TARGET\") == \"mic-knl\":\r\n                load_module(\"cce\")\r\n            load_module(mod)\r\n\r\n        if not \"cce\" in pkg.compiler.modules:\r\n            unload_module(\"cce\")\r\n```\r\n\r\nto prevent side-effects.",
+    "user": "wscullin",
+    "url": "https://api.github.com/repos/spack/spack/issues/10597",
+    "updated_at": "2022-03-10 10:58:30",
+    "created_at": "2019-02-14 00:30:25",
+    "closed_at": "None",
+    "state": "open",
+    "title": "installation issue: unintended side-effects due to Cray mic-knl fix",
+    "number": 10597,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray"
+    ],
+    "id": 410068499,
+    "html_url": "https://github.com/spack/spack/issues/10597",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "(This is very preliminary and I don't recommend even trying to use this at this point, but it covers some of the most essential changes that need to be made)\r\n\r\nChanges which allow for a single system-installed Spack, with an installation root maintained by a system admin and an installation root maintained by a user (but for example admins can set config values that apply to any user of the Spack instance). Overall this is intended to allow admins to deploy an instance of Spack which looks like any other system-installed tool.\r\n\r\nThis includes:\r\n\r\n* Move module roots to install tree root (not strictly required but in general for users they need to be located outside the Spack prefix)\r\n  * This means that users no longer have to specify upstream module roots as shown in https://spack.readthedocs.io/en/v0.14.1/chain.html\r\n* Add config scope associated with the install tree itself (this allows admins to assign specific permissions to the packages installed that are meant to be available to all users)\r\n* (5/20/20) Environments are stored in the install root. This allows users with a shared Spack instance to make their own environments. This does not allow admins of the shared Spack instance to provide environments (that could be handled in a later PR)\r\n* (5/20/20) For now it is assumed that users would not need to manage their own GPG keys: they would use the admin-created/added keys to sign new binary caches or to install them.\r\n\r\nTODOs:\r\n\r\n- [ ] Testing\r\n- [x] Move download cache to `~` (users can't store cached archives in the Spack prefix)\r\n\r\nNon-essential TODOs:\r\n\r\n- [ ] It came up that indices (e.g. the provider cache) should be instanced on a per-install-tree basis, that is important for correctness in general but is not essential to this PR\r\n- [ ] If users of shared Spack could access the download cache used by the admins, this would reduce downloads and space used across all users of the shared Spack instance. For now, admins can create mirrors and add them to the config that users see.\r\n\r\nSee also: #11871",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/15939",
+    "updated_at": "2020-11-02 19:48:55",
+    "created_at": "2020-04-08 07:24:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[WIP] Chaining shared Spack",
+    "number": 15939,
+    "milestone": null,
+    "labels": [
+        "spack-chains"
+    ],
+    "id": 596365856,
+    "html_url": "https://github.com/spack/spack/pull/15939",
+    "assignees": [],
+    "comments": 1
+}

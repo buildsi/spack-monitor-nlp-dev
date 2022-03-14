@@ -1,0 +1,19 @@
+{
+    "body": "I am trying remove some hard coded library paths from Makefiles in a custom software project, and use LIBRARY_PATH instead. When I do so, g++ picks up boost libs located under /lib64 first, breaking the build. Wondering if others have nay experience  with this, and what the most elegant quick fix would be\r\n\r\nAfter activating spack environment, we look at how g++ searches for libs:\r\n```\r\n[sbulut@ws-067 ]$ g++ -print-search-dirs | sed 's/:/\\n/g'                                                                                                                                                    \r\n...\r\nlibraries\r\n...\r\n/disk/myspackenv/.spack-env/view/lib/../lib64/\r\n...\r\n/lib/../lib64/\r\n/usr/lib/../lib64/\r\n...\r\n/disk/myspackenv/.spack-env/view/lib/\r\n```\r\nSince on Centos7, boost is installed under /lib64, system boost libs are prioritized over spack env libs, almost all of which installed under `/disk/myspackenv/.../lib`. hence this breaks my custom the software build. \r\n\r\nI found the following discussions relevant: \r\n- https://github.com/spack/spack/issues/2617\r\n- https://stackoverflow.com/questions/12419363/why-does-g-look-in-library-path-lib64-and-where-is-this-documented\r\n\r\nIn order to solve this problem, I am thinking about the following quick fixes:\r\n- symlink everything under `/myspackenv/.../lib` to `/myspackenv/.../lib64` (disadvantage: this symlinking is a manual process, and works against automated reproduceability of a spack env)\r\n- create extra lib symlinks and add these to LIBRARY_PATH (haven't tried this yet)\r\n```\r\nln -s /myspackenv/.../lib /myspackenv/.../libfix/lib\r\nln -s /myspackenv/.../lib /myspackenv/.../libfix/lib64\r\nexport LIBRARY_PATH=/myspackenv/.../libfix/lib:$LIBRARY_PATH\r\n```\r\nI am wondering if one can add custom paths to be exported in a given spack env so that I won't have to do the above export line every time I activate the spack env.\r\n\r\nAlso, can there be a permanent solution for this?",
+    "user": "Sinan81",
+    "url": "https://api.github.com/repos/spack/spack/issues/14260",
+    "updated_at": "2019-12-21 01:10:48",
+    "created_at": "2019-12-21 00:31:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "gcc prioritises system /lib64 libs over spack env /lib by default",
+    "number": 14260,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 541256167,
+    "html_url": "https://github.com/spack/spack/issues/14260",
+    "assignees": [],
+    "comments": 0
+}

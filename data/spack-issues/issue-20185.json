@@ -1,0 +1,20 @@
+{
+    "body": "@tgamblin\r\n@samcmill this is how we are thinking to support it (this is more of an FYI, it doesn't require any action on your part)\r\n\r\n(Note that we assume that most users won't want to enable this functionality as it specifically applies to concerns about public mirrors like the `spack-public` source mirror, the default behavior introduced here should produce the same results for organization-internal mirrors)\r\n\r\n* `spack buildcache create` and `spack mirror create` now both have a `--public` flag that is used when the user wants to create a public buildcache or mirror.\r\n* Packages can set `redistribute_source = False` in their definition to ensure that they are excluded from public mirrors\r\n  * Likewise, they can also set `redistribute_binary = False` to avoid creating binary caches for public mirrors\r\n  * These options are set independently: the user must explicitly set both to `False` if the source/binary should both be excluded\r\n* Users creating private mirrors (the default) will still include these packages\r\n* (12/4) Note that Spack caches downloads locally, and this does not interfere with that\r\n\r\nTODO\r\n\r\n- [x] Fix `PackageBase` class declaration (`RedistributionMixin` should not have to be an argument to `with_metaclass`) EDIT: I consider this addressed because the six documentation recommends putting all base classes in the `with_metaclass` invocation, although I still don't know why that is necessary\r\n- [x] test exclusion of packages from source mirror (both as a root and as a dependency)\r\n- [x] test exclusion of packages from binary mirror (both as a root and as a dependency)",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/20185",
+    "updated_at": "2021-03-12 20:14:30",
+    "created_at": "2020-11-30 21:49:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Mirrors: skip packages with special licensing",
+    "number": 20185,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "licenses"
+    ],
+    "id": 753828675,
+    "html_url": "https://github.com/spack/spack/pull/20185",
+    "assignees": [],
+    "comments": 3
+}

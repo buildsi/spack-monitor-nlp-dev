@@ -1,0 +1,22 @@
+{
+    "body": "I have an OSX system with the Xcode tools installed, and with macports installed.  Currently, there are no compilers selected under port select:\r\n\r\n```bash\r\nkhuck@OACISS-MacBook-Air:~$ sudo port select --summary\r\nPassword:\r\nName         Selected          Options\r\n====         ========          =======\r\nclang        none              mp-clang-8.0 mp-clang-9.0 none\r\ncython       none              cython37 none\r\nflake8       flake8-38         flake8-38 none\r\ngcc          none              mp-gcc9 none\r\nllvm         none              mp-llvm-8.0 mp-llvm-9.0 none\r\n...\r\n```\r\n\r\nWhen I pull a fresh spack from the repo, and perform the spack setup, it fails to configure compilers correctly (cc and cxx are not set):\r\n\r\n```bash\r\nkhuck@OACISS-MacBook-Air:~$ source spack-mine/share/spack/setup-env.sh\r\nkhuck@OACISS-MacBook-Air:~$ spack compiler find\r\n==> Added 3 new compilers to /Users/khuck/.spack/darwin/compilers.yaml\r\n    clang@11.0.0-apple  clang@9.0.1  clang@8.0.1\r\n==> Compilers are defined in the following files:\r\n    /Users/khuck/.spack/darwin/compilers.yaml\r\nkhuck@OACISS-MacBook-Air:~$ spack config edit compilers\r\nkhuck@OACISS-MacBook-Air:~$ head .spack/darwin/compilers.yaml \r\ncompilers:\r\n- compiler:\r\n    spec: clang@11.0.0-apple\r\n    paths:\r\n      cc:\r\n      cxx:\r\n      f77: /opt/local/bin/gfortran-mp-9\r\n      fc: /opt/local/bin/gfortran-mp-9\r\n    flags: {}\r\n    operating_system: catalina\r\n```\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.0-316-42db14358\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nkhuck@OACISS-MacBook-Air:~$ rm -rf $HOME/.spack\r\nkhuck@OACISS-MacBook-Air:~$ source spack-mine/share/spack/setup-env.sh\r\nkhuck@OACISS-MacBook-Air:~$ spack compiler find\r\nkhuck@OACISS-MacBook-Air:~$ spack config edit compilers  # confirm that cc, cxx are not set\r\n```\r\n\r\n### Error Message\r\n\r\nn/a\r\n\r\n### Information on your system\r\n\r\n```\r\n$ uname -a\r\nDarwin OACISS-MacBook-Air.local 19.3.0 Darwin Kernel Version 19.3.0: Thu Jan  9 20:58:23 PST 2020; root:xnu-6153.81.5~1/RELEASE_X86_64 x86_64\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "khuck",
+    "url": "https://api.github.com/repos/spack/spack/issues/15608",
+    "updated_at": "2020-04-07 18:17:31",
+    "created_at": "2020-03-20 21:10:15",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack compiler find fails on OSX",
+    "number": 15608,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 585328963,
+    "html_url": "https://github.com/spack/spack/issues/15608",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 5
+}

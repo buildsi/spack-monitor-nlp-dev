@@ -1,0 +1,21 @@
+{
+    "body": "Trying to use any kind of sanitizer (e.g.: `-fsanitize=address`) with the `llvm@9.0.0` produced by `spack@af65146ef69fcde10d53b2ee12f82a9c28361e23`, I get the following error messages by the linker complaining about broken ELF sections:\r\n\r\n```\r\nasan_preinit.cc.o: unable to initialize decompress status for section .debug_info\r\nlibclang_rt.asan-x86_64.a: member libclang_rt.asan-x86_64.a(asan_preinit.cc.o) in archive is not an object\r\n```\r\n### Steps to reproduce the issue\r\n\r\nThe issue has been observed on all the systems I'm currently using `spack` on (several flavours of `rhel` and `ubuntu`), but I'm able to consistently reproduce it using [this Dockerfile](https://gist.github.com/nazavode/7e6974d2c02394277ccd8e919b90ca26) and the following steps:\r\n\r\n```console\r\n$ docker run -ti spack bash\r\nspacker@c4670bdb5fee:~$ source /spack/share/spack/setup-env.sh\r\nspacker@c4670bdb5fee:~$ spack load llvm\r\nspacker@c4670bdb5fee:~$ echo \"int main(){}\" > main.c\r\nspacker@c4670bdb5fee:~$ clang -fsanitize=address main.c \r\n/usr/bin/ld: /spack/opt/spack/linux-ubuntu18.04-skylake/gcc-7.4.0/llvm-9.0.0-qtuly6r6joyoqun54yier5k3sujcqkzb/lib/clang/9.0.0/lib/linux/libclang_rt.asan-x86_64.a(asan_preinit.cc.o): unable to initialize decompress status for section .debug_info\r\n/usr/bin/ld: /spack/opt/spack/linux-ubuntu18.04-skylake/gcc-7.4.0/llvm-9.0.0-qtuly6r6joyoqun54yier5k3sujcqkzb/lib/clang/9.0.0/lib/linux/libclang_rt.asan-x86_64.a(asan_preinit.cc.o): unable to initialize decompress status for section .debug_info\r\n/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-7.4.0/llvm-9.0.0-qtuly6r6joyoqun54yier5k3sujcqkzb/lib/clang/9.0.0/lib/linux/libclang_rt.asan-x86_64.a: member /spack/opt/spack/linux-ubuntu18.04-skylake/gcc-7.4.0/llvm-9.0.0-qtuly6r6joyoqun54yier5k3sujcqkzb/lib/clang/9.0.0/lib/linux/libclang_rt.asan-x86_64.a(asan_preinit.cc.o) in archive is not an object\r\nclang-9: error: linker command failed with exit code 1 (use -v to see invocation)\r\n```\r\n\r\nTrying to strip the offending debug info section from objects leads to a similar issue with another ELF section (just a warning this time) but finally the linker fails with a quite suspicious `__asan_version_mismatch_check_v8` missing symbol:\r\n\r\n```console\r\nspacker@c4670bdb5fee:~$ strip /spack/opt/spack/linux-ubuntu18.04-skylake/gcc-7.4.0/llvm-9.0.0-qtuly6r6joyoqun54yier5k3sujcqkzb/lib/clang/9.0.0/lib/linux/libclang_rt.asan-x86_64.a\r\nspacker@c4670bdb5fee:~$ clang -fsanitize=address main.c \r\n/usr/bin/ld: error in /spack/opt/spack/linux-ubuntu18.04-skylake/gcc-7.4.0/llvm-9.0.0-qtuly6r6joyoqun54yier5k3sujcqkzb/lib/clang/9.0.0/lib/linux/libclang_rt.asan-x86_64.a(asan_allocator.cc.o)(.eh_frame); no .eh_frame_hdr table will be created.\r\n\r\n[omissis, lots of warnings]\r\n\r\n/tmp/main-894c8c.o: In function `asan.module_ctor':\r\nmain.c:(.text+0x12): undefined reference to `__asan_init'\r\nmain.c:(.text+0x17): undefined reference to `__asan_version_mismatch_check_v8'\r\nclang-9: error: linker command failed with exit code 1 (use -v to see invocation)\r\n```\r\n",
+    "user": "nazavode",
+    "url": "https://api.github.com/repos/spack/spack/issues/13413",
+    "updated_at": "2021-03-04 17:28:25",
+    "created_at": "2019-10-24 08:27:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "LLVM: broken sanitizer objects in installed archives",
+    "number": 13413,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 511788353,
+    "html_url": "https://github.com/spack/spack/issues/13413",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

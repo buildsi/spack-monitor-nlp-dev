@@ -1,0 +1,20 @@
+{
+    "body": "@chuckatkins @demarle \r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install -v m4%intel@19.0.4\r\n...\r\nchecking how to link with libsigsegv... -lsigsegv\r\nchecking whether locale.h conforms to POSIX:2001... yes\r\nchecking whether struct lconv is properly defined... yes\r\nchecking whether lseek detects pipes... libhugetlbfs [tt-fey1:17513]: WARNING: Hugepage size 2097152 unavailablelibhugetlbfs [tt-fey1:17517]: WARNING: Hugepage size 2097152 unavailableyes\r\nchecking whether NAN macro works... yes\r\nchecking whether HUGE_VAL works... yes\r\nchecking whether mbrtowc handles incomplete characters... yes\r\nchecking whether mbrtowc works as well as mbtowc... yes\r\nchecking whether mbrtowc handles a NULL pwc argument... yes\r\nchecking whether mbrtowc handles a NULL string argument... yes\r\n\r\n```\r\n\r\nHangs here indefinitely. Note the Hugepage warning.\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux tt-fey1 4.12.14-150.38-default #1 SMP Mon Oct 7 10:54:05 UTC 2019 (3106fa5) x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tSUSE Linux Enterprise Server 15\r\n``` \r\n\r\n### Additional information\r\n\r\nIf I unload craype-hugepages, I am able to pass the configure stage for m4 in Spack.\r\n\r\nWith the same environment (module craype-hugepages2M loaded), I am able to successfully configure m4 manually with the following command retrieved from spack install -v output:\r\n```\r\n./configure --prefix=$SPACK_INSTALL/cray-cnl7-haswell/intel-19.0.4/m4-1.4.18-c5mla6oqweqcple76rgkgryc6zwqw26k --enable-c++ CFLAGS=-no-gcc --with-libsigsegv-prefix=$SPACK_INSTALL/cray-cnl7-haswell/intel-19.0.4/libsigsegv-2.12-jwh3oecolgcv6qdxguvnvtiugadd7tdi\r\n```\r\nThere is no hugepage warning when configuring manually.",
+    "user": "EthanS94",
+    "url": "https://api.github.com/repos/spack/spack/issues/14923",
+    "updated_at": "2020-05-01 07:58:17",
+    "created_at": "2020-02-12 21:51:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "m4 configure hangs indefinitely with intel@19.0.4 and craype-hugepages2M",
+    "number": 14923,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "build-error"
+    ],
+    "id": 564297148,
+    "html_url": "https://github.com/spack/spack/issues/14923",
+    "assignees": [],
+    "comments": 3
+}

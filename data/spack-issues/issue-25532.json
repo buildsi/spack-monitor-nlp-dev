@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nCreate an env in `cd $(mktemp -d)`:\r\n\r\n```yaml\r\nspack:\r\n  view: true\r\n  specs: [zlib]\r\n  config:\r\n    install_tree:\r\n      root: ./here\r\n```\r\n\r\nRun `spack python`\r\n\r\n```python\r\nIn [1]: from spack.environment import Environment, activate\r\nIn [2]: e = Environment(\".\")\r\nIn [3]: activate(e)\r\nIn [4]: e.concretize()\r\nIn [5]: e.install_all()\r\nIn [6]: e.all_specs()\r\nOut[7]: []\r\n```\r\n\r\nAnd `all_specs()` is empty, because `install_all()` rereads the spack.yaml file from disk right here: \r\n\r\nhttps://github.com/spack/spack/blob/d52a1b8279bb7515669ae3bc6cf6dd5f6f6fca08/lib/spack/spack/environment.py#L1534\r\n\r\nand no spack.lock was stored because I didn't call `e.write()` anywhere.\r\n\r\nIt'd be great if these simple operations did not depend on the filesystem at all... Clearly views write to the environment, but arbitrarily \"clearing\" the current environment and de-serializing it from disk is very unexpected.\r\n\r\n### Error message\r\n\r\nnone\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3959-220a87812c\r\n* **Python:** 3.8.11\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n* **Concretizer:** clingo\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25532",
+    "updated_at": "2022-02-02 22:28:33",
+    "created_at": "2021-08-20 10:03:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environments reread, which complicates scripting",
+    "number": 25532,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 975461933,
+    "html_url": "https://github.com/spack/spack/issues/25532",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

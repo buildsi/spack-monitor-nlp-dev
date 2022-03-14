@@ -1,0 +1,17 @@
+{
+    "body": "ruby-JIT needs callable MJIT_CC path in runtime.\r\n\r\nNormally JIT uses CC path with compiled.  [ruby configure.ac](https://github.com/ruby/ruby/blob/dfd029c9627b96f5bfc7ece2b61d5019131d83b2/configure.ac#L336)\r\nbut `lib/spack/spack/env/cc` can't call directly.\r\n\r\n\r\ncurrent:\r\n\r\n```\r\n$ ruby --jit --jit-verbose=1 /tmp/bench.rb\r\nSpack compiler must be run from Spack! Input 'SPACK_ENV_PATH' is missing.\r\nMJIT warning: Making precompiled header failed on compilation. Stopping MJIT worker...\r\n```\r\n\r\nfixed:\r\n```\r\n$ ruby --jit --jit-verbose=1 /tmp/bench.rb\r\nJIT success (53.3ms): block (4 levels) in <main>@/tmp/bench.rb:9 -> /tmp/_ruby_mjit_p13565u1.c\r\nJIT success (95.1ms): block (3 levels) in <main>@/tmp/bench.rb:8 -> /tmp/_ruby_mjit_p13565u2.c\r\nJIT success (58.6ms): block (5 levels) in <main>@/tmp/bench.rb:16 -> /tmp/_ruby_mjit_p13565u3.c\r\nJIT success (848.0ms): @<internal:kernel>:89 -> /tmp/_ruby_mjit_p13565u4.c\r\nSuccessful MJIT finish\r\n```",
+    "user": "holrock",
+    "url": "https://api.github.com/repos/spack/spack/issues/21842",
+    "updated_at": "2021-02-22 08:58:14",
+    "created_at": "2021-02-22 08:58:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "ruby: set JIT compiler path",
+    "number": 21842,
+    "milestone": null,
+    "labels": [],
+    "id": 813291545,
+    "html_url": "https://github.com/spack/spack/pull/21842",
+    "assignees": [],
+    "comments": 0
+}

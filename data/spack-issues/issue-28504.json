@@ -1,0 +1,28 @@
+{
+    "body": "For a long time, Spack has used a coarser hash to identify packages than it likely should. Packages are identified by `dag_hash()`, which includes only link and run dependencies. Build dependencies are stripped before hashing, and we have notincluded hashes of build artifacts or the `package.py` files used to build.  This means the DAG hash actually doesn't represent all the things Spack can build, and it reduces reproducibility.\r\n\r\nWe did this because, in the early days, users were (rightly) annoyed when a new version of CMake, autotools, or some other build dependency would necessitate a rebuild of their entire stack. Coarsening the hash avoided this issue and enabled a modicum of stability when only reusing packages by hash match.\r\n\r\nNow that we have `--reuse`, we don't need to be so careful. Users can avoid unnecessary rebuilds much more easily, and we can add more provenance to the spec without worrying that frequent hash changes will cause too many rebuilds.\r\n\r\nThis PR makes the following changes:\r\n\r\n- [x] Make `Spec.dag_hash()` include build, run, and link dependencides and the package hash (it is now equivalent to `full_hash()`).\r\n- [x] Add a `runtime_hash()` method that has the same behavior as the old `dag_hash()`.\r\n\r\nIt also adds some bugfixes for problems discovered during the switch:\r\n\r\n- [x] Don't add a `package_hash()` in `to_node_dict()` unless the spec is concrete (fixes breaks on abstract specs)\r\n- [x] Don't add source ids to the package hash for packages without a known fetch strategy (may mock packages are like this).\r\n- [x] Change how `Spec.patches` is memoized. Using `llnl.util.lang.memoized` on `Spec` objects causes specs to be stored in a `dict`, which means they need a hash.  But, `dag_hash()` now includes patch `sha256`'s via the package hash, which can lead to infinite recursion.\r\n\r\nRemaining todo:\r\n\r\n- [ ] update environment/environment.py:\r\n  - [x] use dag_hash (which is really now full_hash) instead of build_hash as lockfile key \r\n  - [ ] include all other hashes in each node dict?\r\n  - [x] update 'lockfile-version' and 'specfile-version'\r\n  - [x] handle reading old versions\r\n\r\n- [x] update spec.py:\r\n  - [x] increment _spec_dict_version\r\n  - [x] when reading from previous spec dict version:\r\n    - [x] value found under 'hash' gets stored in any missing values on spec object\r\n  - [x] change docstrings around meaning of hashes\r\n\r\n - [ ] update buildcache.py + binary_distribution.py\r\n   - [x] fix checking needs_rebuild:\r\n   - [x] get_mirrors_for_spec must change\r\n   - [ ] implement a re-index method to:\r\n     - [ ] read all the spec.json on the mirror and just write them back out, spec.py changes handle the rest\r\n     - [ ] then do the equivalent of a \"spack buildcache update-index\"\r\n\r\n- [ ] installer.py and cmd/instally.py:\r\n  - [x] remove the --require-full-hash-match option and logic\r\n  - [ ] Todd: anytime we had to look at dag hash vs full hash and compare, remove it\r\n\r\n- [x] update database.py:\r\n  - [ ] update hashes written with each spec\r\n    - [x] remove full_hash?\r\n    - [ ] ~add build_hash and runtime_hash~",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/28504",
+    "updated_at": "2022-03-13 23:25:00",
+    "created_at": "2022-01-19 09:20:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Switch to using full hash everywhere",
+    "number": 28504,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "new-version",
+        "hashes",
+        "tests",
+        "commands",
+        "environments",
+        "binary-packages",
+        "gitlab"
+    ],
+    "id": 1107848754,
+    "html_url": "https://github.com/spack/spack/pull/28504",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 14
+}

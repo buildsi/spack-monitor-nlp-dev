@@ -1,0 +1,22 @@
+{
+    "body": "Intel 19.1.0 installs successfully, but fails with linker errors when building simple C programs e.g.\r\n\r\n```\r\n$ icc hello.c                                                                                                                                                                                                                                                 \r\nld: cannot find -limf                                                                                                                                                                                                                                                                     \r\nld: cannot find -lsvml                                                                                                                                                                                                                                                                    \r\nld: cannot find -lirng                                                                                                                                                                                                                                                                    \r\nld: cannot find -lipgo                                                                                                                                                                                                                                                                    \r\nld: cannot find -ldecimal                                                                                                                                                                                                                                                                 \r\nld: cannot find -lcilkrts                                                                                                                                                                                                                                                                 \r\nld: cannot find -lirc                                                                                                                                                                                                                                                                     \r\nld: cannot find -lsvml\r\n```\r\n\r\nThe needed libraries are in `<root>/compilers_and_libraries_2020.0.166/linux/compiler/lib/intel64_lin`, and the spack-generated module appends that path to `LD_LIBRARY_PATH`. I've found that putting the search path in `LIBRARY_PATH` solves the issue e.g.\r\n\r\n```\r\n$ spack load intel@19.1.0\r\n$ export LIBRARY_PATH=`<root>/compilers_and_libraries_2020.0.166/linux/compiler/lib/intel64_lin:$LIBRARY_PATH`\r\n$ icc hello.c\r\n```",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/14581",
+    "updated_at": "2020-01-25 02:50:32",
+    "created_at": "2020-01-21 17:49:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Intel compiler fails with linking error",
+    "number": 14581,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 553033592,
+    "html_url": "https://github.com/spack/spack/issues/14581",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

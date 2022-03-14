@@ -1,0 +1,23 @@
+{
+    "body": "with modified `arpack-ng` by `depends_on('blas+openmp')` I see\n\n```\n$ spack spec arpack-ng\nInput spec\n------------------------------\n  arpack-ng\n\nNormalized\n------------------------------\n  arpack-ng\n      ^blas+openmp\n      ^lapack\n\nConcretized\n------------------------------\n  arpack-ng@3.4.0%clang@7.3.0-apple~mpi+shared arch=darwin-elcapitan-x86_64\n      ^cmake@3.6.1%clang@7.3.0-apple~doc+ncurses+openssl~ownlibs~qt arch=darwin-elcapitan-x86_64\n          ^bzip2@1.0.6%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n          ^curl@7.50.1%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n              ^openssl@1.0.2h%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n                  ^zlib@1.2.8%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n          ^expat@2.2.0%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n          ^libarchive@3.2.1%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n              ^libxml2@2.9.4%clang@7.3.0-apple~python arch=darwin-elcapitan-x86_64\n                  ^xz@5.2.2%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n              ^lz4@131%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n              ^lzma@4.32.7%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n              ^lzo@2.09%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n              ^nettle@3.2%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n                  ^gmp@6.1.1%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n                      ^m4@1.4.17%clang@7.3.0-apple+sigsegv arch=darwin-elcapitan-x86_64\n                          ^libsigsegv@2.10%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n          ^ncurses@6.0%clang@7.3.0-apple arch=darwin-elcapitan-x86_64\n      ^openblas@0.2.18%clang@7.3.0-apple+fpic~openmp+shared arch=darwin-elcapitan-x86_64\n```\n\nNote `~openmp` in openblas.\n\nWhen both `blas` and `lapack` are requested to have `openmp`:\n\n```\n$ spack spec arpack-ng\nInput spec\n------------------------------\n  arpack-ng\n\nNormalized\n------------------------------\n  arpack-ng\n      ^blas+openmp\n      ^lapack+openmp\n\nConcretized\n------------------------------\n==> Error: Package lapack not found in repository [Repo 'builtin' at '/Users/davydden/spack/var/spack/repos/builtin']\n```\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/1712",
+    "updated_at": "2019-05-15 08:53:38",
+    "created_at": "2016-09-02 17:22:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "variants in virtual packages are not passed to providers",
+    "number": 1712,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "dependencies",
+        "virtual-dependencies"
+    ],
+    "id": 174808907,
+    "html_url": "https://github.com/spack/spack/issues/1712",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,17 @@
+{
+    "body": "Fixes (for the original concretizer) #21311 #4635 #5110 #8082\r\nSupersedes my previous attempt to fix this #4956\r\n\r\n\r\nIntroduces a number of tests:\r\n1. `test_external_package_and_compiler_preferences` extended and enabled for the `original` concretizer;\r\n2. `test_external_package_without_version` not related directly to the modifications of this PR but shows a bug in the ASP-based concretizer;\r\n3. `test_preferred_compiler_with_externals` checks that we respect the compiler preferences when the input spec does not specify a compiler;\r\n4. `test_preferred_compiler_latest_version_with_externals` checks that we repect the preferred version of the compiler and take the latest one if the compiler preference list does not specify versions;\r\n5. `test_preferred_compiler_with_lesser_external_version` checks that we prefer an older version of an external with the preferred compiler over a newer version with less preferred compiler (the ASP-based concretizer does not agree with that);\r\n6. `test_ignore_externals_with_non_preferred_compilers` checks that we prefer to build a buildable external if none of its specs satisfies the preferred compiler (not supported yet by both concretizers);\r\n7. `test_ignore_externals_with_invalid_compilers` checks that we ignore externals with compilers/arcitechtures that are not listed in `compilers.yaml` (partially implemented for the `original` concretizer, not supported by the ASP-based one);\r\n8. `test_preferred_external_without_compiler_version`, `test_preferred_external_without_compiler` and `test_preferred_external_without_version` check that we prefer a less conctrained (in terms of compiler and version) external (the last one is not supported by the ASP-based concretizer);\r\n9. `test_preferred_external_version` checks that we respect the version preference list when choosing an external.\r\n\r\nThis obviously needs a discussion.\r\n\r\n@alalazo",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/22614",
+    "updated_at": "2021-03-30 06:57:31",
+    "created_at": "2021-03-29 16:35:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Respect compiler preferences when choosing externals (original concretizer)",
+    "number": 22614,
+    "milestone": null,
+    "labels": [],
+    "id": 843549807,
+    "html_url": "https://github.com/spack/spack/pull/22614",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nEnsure that the clang compiler is **not** a mixed toolchain in compilers.yaml:\r\n\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    spec: apple-clang@12.0.0\r\n    paths:\r\n      cc: /usr/bin/clang\r\n      cxx: /usr/bin/clang++\r\n      f77: null\r\n      fc: null\r\n    operating_system: catalina\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n```console\r\n$ spack install llvm\r\n...\r\n  >> 3736    clang: error: the clang compiler does not support '-march=skylake'\r\n  >> 3737    make[2]: *** [projects/compiler-rt/lib/builtins/CMakeFiles/clang_r\r\n             t.builtins_arm64_osx.dir/comparetf2.c.o] Error 1\r\n```\r\nMake the clang compiler a mixed toolchain (in my case, I build gcc and copy the f77 & fc lines)\r\n```console\r\n$ spack install llvm\r\n==> No binary for llvm-11.1.0-capkkllvmkkcl3wkyviaegdqxwxw5xfq found: installing from source\r\n==> Warning: Missing a source id for apple-libuuid@1353.100.2\r\n==> Warning: microarchitecture specific optimizations are not supported yet on mixed compiler toolchains [check apple-clang@12.0.0 for further details]\r\n...\r\n```\r\nSuccess\r\n### Information on your system\r\nmacOS catalina, 10.15.7\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.0-2323-a568903a64\r\n* **Python:** 3.7.9\r\n* **Platform:** darwin-catalina-skylake\r\n* **Concretizer:** original\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/6325976/spack-build-out.txt)\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n@naromero77\r\n@trws\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "renderdude",
+    "url": "https://api.github.com/repos/spack/spack/issues/23036",
+    "updated_at": "2022-01-18 22:01:53",
+    "created_at": "2021-04-16 14:51:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: LLVM fails on MacOS with clang and microarchitecture flags",
+    "number": 23036,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "clang",
+        "microarchitectures"
+    ],
+    "id": 859886716,
+    "html_url": "https://github.com/spack/spack/issues/23036",
+    "assignees": [],
+    "comments": 15
+}

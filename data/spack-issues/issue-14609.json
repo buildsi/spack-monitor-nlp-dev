@@ -1,0 +1,19 @@
+{
+    "body": "Packages should be able to update submodules conditionally, based on variants.\r\n\r\n### Rationale\r\n\r\nSome packages have many submodules, some very large (eg, test suites).  Not all package variants will need all submodules.  But, spack's current submodule approach is to update all submodules, unconditionally.  In my particular case, we have several submodules, each > 10 Gb, that are optional.\r\n\r\nIt is possible to add a function to a package that updates the package's submodules and decorate that function with `run_before` or `run_after`, eg\r\n\r\n```python\r\n@run_before(\"cmake\")\r\ndef update_submodules(self):\r\n    with working_dir(self.stage.source_path):\r\n        if \"+variant-a\" in self.spec:\r\n            git(\"submodule\", \"update\", \"variant-a\")\r\n        ...\r\n```\r\n\r\nThe problem is, this function will not be called by `spack mirror ...` or `spack fetch`.  I put in the following hack that does what I need, but a native spack solution would be best.\r\n\r\n```python\r\nclass MyPackage(CMakePackage):\r\n   ...\r\n    def _make_stage(self):\r\n        stage = super(MyPackage, self)._make_stage()\r\n        assert isinstance(stage, StageComposite)\r\n        assert isinstance(stage[0], Stage)\r\n        # monkey-patch the stage's fetch method to use ours\r\n        stage[0].fetch = my_fetch(self).__get__(stage[0], Stage)\r\n        return stage\r\n\r\n    def update_submodules(self):\r\n        with working_dir(self.stage.source_path):\r\n            git_submodule = Executable(\"git submodule\")\r\n            git_submodule(\"init\")\r\n            if \"+variant-a\" in self.spec:\r\n                git_submodule(\"update\", \"variant-a\")\r\n            if \"variant-b\" in self.spec:\r\n                git_submodule(\"update\", \"variant-b\")\r\n\r\n\r\ndef my_fetch(package):\r\n    def fetch(stage, mirror_only=False):\r\n        Stage.fetch(stage, mirror_only=mirror_only)\r\n        package.update_submodules()\r\n    return fetch\r\n```",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/14609",
+    "updated_at": "2020-01-23 17:15:00",
+    "created_at": "2020-01-23 16:51:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Update package submodules conditionally based on variant",
+    "number": 14609,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 554280309,
+    "html_url": "https://github.com/spack/spack/issues/14609",
+    "assignees": [],
+    "comments": 0
+}

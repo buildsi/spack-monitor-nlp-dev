@@ -1,0 +1,19 @@
+{
+    "body": "There is no way to set `expand=False` at the package-level. Install crashes immediately with:\r\n```\r\n==> Error: AttributeError: 'NoneType' object has no attribute 'lstrip'\r\n/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/package.py:702, in _make_root_stage:\r\n     700      def _make_root_stage(self, fetcher):\r\n     701          # Construct a mirror path (TODO: get this out of package.py)\r\n  >> 702          mp = spack.mirror.mirror_archive_path(self.spec, fetcher)\r\n     703          # Construct a path where the stage should build..\r\n     704          s = self.spec\r\n     705          stage_name = \"%s-%s-%s\" % (s.name, s.version, s.dag_hash())\r\n     706  \r\n     707          def download_search():\r\n     708              dynamic_fetcher = fs.from_list_url(self)\r\n     709              return [dynamic_fetcher] if dynamic_fetcher else []\r\n     710  \r\n     711          stage = Stage(fetcher, mirror_path=mp, name=stage_name, path=self.path,\r\n     712                        search_fn=download_search)\r\n     713          return stage\r\n\r\n```\r\nIf you set `expand=False` at the version level and try to fetch a non-checksummed version, you get:\r\n```\r\n$ spack fetch cuda@1.2.3\r\n==> Warning: There is no checksum on file to fetch cuda@1.2.3 safely.\r\n  Fetch anyway? [y/N] y\r\n==> Fetching with no checksum.\r\n  Add a checksum or use --no-checksum to skip this check.\r\nTraceback (most recent call last):\r\n  File \"/soft/spack-0.10.0/bin/spack\", line 212, in <module>\r\n    main(sys.argv)\r\n  File \"/soft/spack-0.10.0/bin/spack\", line 208, in main\r\n    _main(args, unknown)\r\n  File \"/soft/spack-0.10.0/bin/spack\", line 174, in _main\r\n    return_val = command(parser, args)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/cmd/fetch.py\", line 65, in fetch\r\n    package.do_fetch()\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/package.py\", line 943, in do_fetch\r\n    self.stage.fetch(mirror_only)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/package.py\", line 743, in stage\r\n    self._stage = self._make_stage()\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/package.py\", line 723, in _make_stage\r\n    stage = self._make_root_stage(fetcher)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/package.py\", line 702, in _make_root_stage\r\n    mp = spack.mirror.mirror_archive_path(self.spec, fetcher)\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/mirror.py\", line 81, in mirror_archive_path\r\n    spec.name, mirror_archive_filename(spec, fetcher, resourceId))\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/mirror.py\", line 56, in mirror_archive_filename\r\n    ext = ext or spec.package.versions[spec.package.version].get(\r\nKeyError: Version('1.2.3')\r\n```",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2739",
+    "updated_at": "2018-04-13 14:44:49",
+    "created_at": "2017-01-04 20:52:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Fetching doesn't work that well when expand=False",
+    "number": 2739,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 198807950,
+    "html_url": "https://github.com/spack/spack/issues/2739",
+    "assignees": [],
+    "comments": 5
+}

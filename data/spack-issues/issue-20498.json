@@ -1,0 +1,19 @@
+{
+    "body": "I am building a container with spack installed there, this is the Dockerfile\r\n\r\n```\r\n# Build stage with Spack pre-installed and ready to be used\r\nFROM spack/ubuntu-bionic:0.16.0 as builder\r\n\r\n# Copy the spack.yaml file with the specs into the container\r\nCOPY spack.yaml /opt/spack-environment/spack.yaml\r\n\r\n# Install the software, remove unnecessary deps\r\nRUN cd /opt/spack-environment && spack env activate . && spack install -v --fail-fast && spack gc -y\r\n\r\n# Strip all the binaries\r\nRUN find -L /opt/view/* -type f -exec readlink -f '{}' \\; | \\\r\n    xargs file -i | \\\r\n    grep 'charset=binary' | \\\r\n    grep 'x-executable\\|x-archive\\|x-sharedlib' | \\\r\n    awk -F: '{print $1}' | xargs strip -s\r\n\r\n# Modifications to the environment that are necessary to run\r\nRUN cd /opt/spack-environment && \\\r\n    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh\r\n\r\n\r\n# Bare OS image to run the installed executables\r\nFROM ubuntu:18.04\r\n\r\nCOPY --from=builder /opt/spack-environment /opt/spack-environment\r\nCOPY --from=builder /opt/software /opt/software\r\nCOPY --from=builder /opt/view /opt/view\r\nCOPY --from=builder /etc/profile.d/z10_spack_environment.sh /etc/profile.d/z10_spack_environment.sh\r\n\r\n\r\n\r\nENTRYPOINT [\"/bin/bash\", \"--rcfile\", \"/etc/profile\", \"-l\"]\r\n\r\n```\r\n\r\nWhen trying to install \"less\" from the copied ```spack.yaml``` file it does not work.\r\n\r\nThis is the minimum ```spack.yaml``` file to reproduce the problem\r\n```\r\nspack:\r\n  concretization: separately\r\n\r\n  config:\r\n    install_tree: /opt/software\r\n\r\n  packages:\r\n    all:\r\n      target: [x86_64]\r\n\r\n  specs:\r\n  - less@551\r\n\r\n  view: /opt/view\r\n```\r\n\r\n### Information on your system\r\n* **Spack:** 0.16.0-199-5b1739da7\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-ubuntu18.04-skylake\r\n* **Concretizer:** original\r\n\r\nThis is how I try to build the container image\r\n```\r\ndocker build --no-cache --cpuset-cpus 0-3 -t base:0.16.0 .\r\n```\r\n\r\n### General information\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files  --- do not know how to to this since it stops at the creation of the container image\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "tachidok",
+    "url": "https://api.github.com/repos/spack/spack/issues/20498",
+    "updated_at": "2020-12-21 22:52:04",
+    "created_at": "2020-12-21 22:52:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: less",
+    "number": 20498,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 772513258,
+    "html_url": "https://github.com/spack/spack/issues/20498",
+    "assignees": [],
+    "comments": 0
+}

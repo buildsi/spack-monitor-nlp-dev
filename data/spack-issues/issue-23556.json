@@ -1,0 +1,17 @@
+{
+    "body": "I've got a simple code implemented in lots of different programming models. We've got a CMake build system where you say:\r\n```\r\ncmake -Bbuild -H. -DMODEL=<model>  <model_specific_flags>\r\n```\r\n\r\nIn Spack, I can create a package that inherits from `CMakePackage` and include a simple variant:\r\n```\r\n    variant('model', default='omp', description='Programming Model',\r\n            values=('omp', 'sycl', 'cuda', ........), multi=False)\r\n```\r\nand then pass the selection to CMake:\r\n```\r\n    def cmake_args(self):\r\n        return [self.define_from_variant('MODEL', 'model'),]\r\n```\r\n\r\nIt might be convenient to inherit from the different package types depending on the variant value. For instance, if I chose `model=cuda` I might want to use the `CUDAPackage`, and with `model=sycl` I might want to *sometimes* use the the Intel OneAPI compiler and inherit from `IntelOneapiPackage` (sometimes I might want to use a different SYCL compiler).\r\n\r\nI think I'm missing somewhere here, so hopefully you can advise on the best way to enable this selection in a Spack package for the application. Thanks!\r\n\r\n",
+    "user": "tomdeakin",
+    "url": "https://api.github.com/repos/spack/spack/issues/23556",
+    "updated_at": "2022-02-02 12:55:00",
+    "created_at": "2021-05-11 11:02:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Question: Variant selecting different package parent types",
+    "number": 23556,
+    "milestone": null,
+    "labels": [],
+    "id": 886895837,
+    "html_url": "https://github.com/spack/spack/issues/23556",
+    "assignees": [],
+    "comments": 3
+}

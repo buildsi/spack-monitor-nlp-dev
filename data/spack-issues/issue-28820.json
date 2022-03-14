@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nWe discussed this at last week's meeting (2/2).  @tgamblin thought\r\nit was a good idea.  So, I'm following up in the hope that Todd will\r\neither write this or assign it to someone.\r\n\r\nMotivation:\r\n\r\n1. clingo has a lot of freedom in choosing versions and variants to\r\nfind an \"optimal\" solution.\r\n\r\n2. `packages.yaml` are only preferences, not hard requirements, so it\r\nis possible that clingo may go against some preference.\r\n\r\n3. some packages have very long specs, so if clingo does violate some\r\npreference, it's easy to miss.\r\n\r\nFeature request:\r\n\r\n`spack spec` (and probably also install) should print a warning if it\r\nchooses a solution that violates any preference specifically requested\r\nby the user (from packages.yaml, command line, etc).\r\n\r\nCall a solution \"ideal\" (not necessarily unique) if it obeys every\r\npreference specified by the user.  The solution from spack spec is\r\ncalled \"optimal,\" that is, a valid solution that minimizes badness.\r\n\r\nThe request is that spack should diff the optimal solution (it's\r\nchoice) with an ideal solution and warn about any choice that is not\r\nideal.  This much doesn't apply to default variants, unless\r\nspecifically requested.\r\n\r\nI suggest this much should always generate a warning.\r\n\r\n----------\r\n\r\nFor bonus points, add some option (--warn-default) that also warns\r\nabout any solution that uses a non-default version or variant, whether\r\nexplicitly requested or not.\r\n\r\n----------\r\n\r\nThis is beyond the scope, but I think spack spec/install could use an\r\noption that turns all soft preferences into hard requirements, so that\r\nclingo must obey them or else fail.\r\n\r\n----------\r\n\r\nI'm not exactly sure what spack considers a hard requirement versus a\r\nsoft request.  I guess a `package.py` file is hard, but it surprised\r\nme that `packages.yaml` is only a soft preference.  Not sure about the\r\ncommand line.\r\n\r\nThe point of this request is that spack should be explicit about any\r\ndifference between what is requested and what is built.\r\n\r\n\n\n### Rationale\n\nThese may be relevant, I didn't check that closely.\r\n#27085, #26585\n\n### Description\n\n_No response_\n\n### Additional information\n\n$ spack debug report\r\n* **Spack:** 0.11.2-16373-93afaa85d3\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/28820",
+    "updated_at": "2022-02-11 09:32:36",
+    "created_at": "2022-02-08 06:23:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack spec should warn about any preference not taken",
+    "number": 28820,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1126842609,
+    "html_url": "https://github.com/spack/spack/issues/28820",
+    "assignees": [],
+    "comments": 3
+}

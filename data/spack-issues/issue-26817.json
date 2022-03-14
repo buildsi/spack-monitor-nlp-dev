@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nI would like to install the new version of the newly added package damask:\r\n\r\n`spack install damask@3.0.0-alpha5%gcc`\r\n\r\nafter it is installed I would like to load and import it to python as following:\r\n\r\n`spack load damask@3.0.0-alpha5%gcc`\r\n\r\nissuing `echo $PYTHONPATH | grep damask` yields no results, in spite of the 3.0.0-alpha5 dependency argument in  damask/package.py containing the argument type='run'.\r\n\r\nthe commands \r\n\r\n```\r\nspack install damask@3.0.0-alpha4%gcc\r\nspack load damask@3.0.0-alpha4%gcc\r\n```\r\n\r\nin turn add a path to damask  to my pythonpath.\r\n\r\nThe package.py of damask looks as following:\r\n\r\n```\r\nclass Damask(BundlePackage):\r\n\r\n    homepage = \"https://damask3.mpie.de\"\r\n\r\n    maintainers = ['MarDieh']\r\n\r\n    version('3.0.0-alpha5')\r\n\r\n    depends_on('damask-grid@3.0.0-alpha5', when='@3.0.0-alpha5', type='run')\r\n    depends_on('damask-mesh@3.0.0-alpha5', when='@3.0.0-alpha5', type='run')\r\n    depends_on('py-damask@3.0.0-alpha5',   when='@3.0.0-alpha5', type='run')\r\n```\r\n\r\n### Error message\r\n\r\nThere is no damask entry in pythonpath after loading the module damask@3.0.0-alpha5%gcc\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-4246-1b633e1ca4\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-sandybridge\r\n* **Concretizer:** original\r\n\r\n\r\n### General information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "dmentock",
+    "url": "https://api.github.com/repos/spack/spack/issues/26817",
+    "updated_at": "2021-10-19 21:37:25",
+    "created_at": "2021-10-19 14:20:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Module not being added to $PYTHONPATH after issuing spack load",
+    "number": 26817,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1030372824,
+    "html_url": "https://github.com/spack/spack/issues/26817",
+    "assignees": [],
+    "comments": 4
+}

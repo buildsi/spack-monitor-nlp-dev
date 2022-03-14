@@ -1,0 +1,24 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack test -k test_install_sbang\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n___________________________________________________________________________ test_install_sbang ___________________________________________________________________________\r\n\r\ninstall_mockery = None\r\n\r\n    def test_install_sbang(install_mockery):\r\n        sbang_path = sbang.sbang_install_path()\r\n        sbang_bin_dir = os.path.dirname(sbang_path)\r\n    \r\n        assert sbang_path.startswith(spack.store.layout.root)\r\n        assert not os.path.exists(sbang_bin_dir)\r\n    \r\n        sbang.install_sbang()\r\n>       check_sbang_installation()\r\n\r\nlib/spack/spack/test/sbang.py:214: \r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\n\r\n    def check_sbang_installation():\r\n        sbang_path = sbang.sbang_install_path()\r\n        sbang_bin_dir = os.path.dirname(sbang_path)\r\n        assert sbang_path.startswith(spack.store.layout.root)\r\n    \r\n        assert os.path.exists(sbang_path)\r\n        assert fs.is_exe(sbang_path)\r\n    \r\n        status = os.stat(sbang_path)\r\n>       assert (status.st_mode & 0o777) == 0o755\r\nE       assert (33260 & 511) == 493\r\nE        +  where 33260 = os.stat_result(st_mode=33260, st_ino=8806497878, st_dev=16777220, st_nlink=1, st_uid=501, st_gid=20, st_size=2930, st_atime=1605241429, st_mtime=1605241429, st_ctime=1605241429).st_mode\r\n\r\nlib/spack/spack/test/sbang.py:200: AssertionError\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.15.4-1925-ca3b912703\r\n* **Python:** 3.8.6\r\n* **Platform:** darwin-catalina-ivybridge\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n```console\r\n$ umask\r\n0027\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/19892",
+    "updated_at": "2021-12-08 00:40:33",
+    "created_at": "2020-11-13 04:25:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "sbang test failure: test_install_sbang",
+    "number": 19892,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "triage",
+        "sbang"
+    ],
+    "id": 742130940,
+    "html_url": "https://github.com/spack/spack/issues/19892",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 1
+}

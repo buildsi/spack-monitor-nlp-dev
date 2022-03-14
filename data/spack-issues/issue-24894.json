@@ -1,0 +1,26 @@
+{
+    "body": "Adds `spack external read-cray-manifest`, which reads a json file that describes a set of package DAGs. The parsed results are stored directly in the database. A user can see these installed specs with `spack find` (like any installed spec). The easiest way to use them right now as dependencies is to run `spack spec ... ^/hash-of-external-package`.\r\n\r\nChanges include:\r\n\r\n* `spack external read-cray-manifest --file <path/to/file>` will add all specs described in the file to Spack's installation DB and will also install described compilers to the compilers configuration (the expected format of the file is described in this PR as well including examples of the file)\r\n* Database records now may include an \"origin\" (the command added in this PR registers the origin as \"external-db\"). In the future, it is assumed users may want to be able to treat installs registered with this command differently (e.g. they may want to uninstall all specs added with this command)\r\n* Hash properties are now always preserved when copying specs if the source spec is concrete\r\n  * I don't think the hashes of installed-and-concrete specs should change and this was the easiest way to handle that\r\n  * also specs that are concrete preserve their `.normal` property when copied (external specs may mention compilers that are not registered, and without this change they would fail in `normalize` when calling `validate_or_raise`)\r\n  * it might be this should only be the case if the spec was installed\r\n\r\nTODOs\r\n\r\n- [x] Improve testing\r\n- [x] Specifically mark DB records added with this command (so that users can do something like \"uninstall all packages added with `spack read-external-db`)\r\n  * This is now possible with `spack uninstall --all --origin=external-db` (this will remove all specs added from manifest files)\r\n- [x] Strip variants that are listed in json entries but don't actually exist for the package",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/24894",
+    "updated_at": "2022-03-14 21:36:25",
+    "created_at": "2021-07-14 20:27:15",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add command for reading a json-based DB description",
+    "number": 24894,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "tests",
+        "commands",
+        "new-command",
+        "new-variant"
+    ],
+    "id": 944771299,
+    "html_url": "https://github.com/spack/spack/pull/24894",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 7
+}

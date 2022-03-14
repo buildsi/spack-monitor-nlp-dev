@@ -1,0 +1,19 @@
+{
+    "body": "Hi,\r\n\r\nI am trying to customize the CPATH for a specifc package (namely libtirpc) and I am not sure how to do that properly.\r\n\r\nThe rational is that I want both `.../include` and `.../include/tirpc` to be added to the `CPATH`, similarly to what is already done for the `headers` property of that package:\r\nhttps://github.com/spack/spack/blob/8149048a78ebbcdb46719eab5209e51bdeb3f86d/var/spack/repos/builtin/packages/libtirpc/package.py#L30-L38\r\n\r\nThere are a few possibles ways that don't completely feel like a good idea:\r\n1. I could add a `prefix_inspections` but it will apply to all packages so I have to hope it won't be triggered by another package.\r\n2. modifying the package to add a `setup_run_environment` is possible but that means having a custom version of the package since it is probably not something that everybody will want (depending on which `prefix_inspections` they have configured).\r\n\r\nI can imagine a few other options that seem better to me and that I would be willing to provide a PR for:\r\n1. being able to define `prefix_inspections` per module similarly to what is currently possible for `environment` or `suffixes`.\r\n2. being able to refer to the install prefix in the `environment` section so that environment variables that depend on the install prefix can be set/appended/prepended.\r\n\r\nAm I missing something here? How would you do handle that?\r\n\r\nBest,\r\nR\u00e9mi",
+    "user": "RemiLacroix-IDRIS",
+    "url": "https://api.github.com/repos/spack/spack/issues/25780",
+    "updated_at": "2021-09-06 07:19:34",
+    "created_at": "2021-09-03 12:31:25",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Modules: how to properly customize the CPATH for some specific packages",
+    "number": 25780,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 987724896,
+    "html_url": "https://github.com/spack/spack/issues/25780",
+    "assignees": [],
+    "comments": 0
+}

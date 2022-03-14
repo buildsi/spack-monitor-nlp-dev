@@ -1,0 +1,24 @@
+{
+    "body": "If a spec string with partial architecture (platform + OS + target) information is parsed, information on its platform is added based on the current host if not present. I would expect the platform to remain `None` if further information is not given. \r\n\r\n### Steps to reproduce the issue\r\n\r\n```python\r\n>>> import spack.spec\r\n>>> s = spack.spec.Spec('zlib target=x86_64')\r\n>>> str(s)\r\n'zlib arch=linux-None-x86_64'\r\n>>> s.architecture.platform\r\n'linux'\r\n```\r\n\r\n### Error Message\r\n\r\nThere's no error message, but I would expect:\r\n```python\r\n>>> import spack.spec\r\n>>> s = spack.spec.Spec('zlib target=x86_64')\r\n>>> str(s)\r\n'zlib arch=None-None-x86_64'\r\n>>> s.architecture.platform\r\n'None'\r\n```\r\n\r\n### Information on your system\r\n\r\nThis happens regardless of the system. The line that does this is:\r\n\r\nhttps://github.com/spack/spack/blob/1ed44f20f255f63b9e75e739a8bbe6911f4e1664/lib/spack/spack/spec.py#L4657\r\n\r\nby calling this function:\r\n\r\nhttps://github.com/spack/spack/blob/1ed44f20f255f63b9e75e739a8bbe6911f4e1664/lib/spack/spack/spec.py#L1249-L1259\r\n\r\n### Additional information\r\n\r\nThis issue is relevant in the context of bootstrapping from binaries, where we may want to check if something installed or available matches a spec string that may not be built on the current architecture (but is compatible, e.g. `linux` and `cray`).\r\n\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/22800",
+    "updated_at": "2021-04-06 12:38:55",
+    "created_at": "2021-04-06 11:56:21",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spec platform information is inferred when parsing",
+    "number": 22800,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "platform-support",
+        "triage",
+        "architectures",
+        "bootstrap"
+    ],
+    "id": 851350216,
+    "html_url": "https://github.com/spack/spack/issues/22800",
+    "assignees": [],
+    "comments": 1
+}

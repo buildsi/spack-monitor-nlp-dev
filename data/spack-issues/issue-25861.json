@@ -1,0 +1,19 @@
+{
+    "body": "Since reading files over the network is highly IO bound, it seems like a good candidate for multi-threading (even with the GIL).  This PR uses a threadpool to fetch spec yamls and read them, in an attempt to speed up the `spack buildcache update-index` command.  Even though much of the time in that method is spent checking and splicing the spec.yaml files on the mirror, this is fairly low-hanging fruit and could make a big difference on mirrors with a lot of spec.yaml files to fetch.\r\n\r\nTODO:\r\n\r\n- [ ] Evaluate whether the thread method is doing too much cpu work\r\n- [ ] Try to measure the speedup compared to fetching the spec.yaml files in serial",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/25861",
+    "updated_at": "2021-09-10 17:55:45",
+    "created_at": "2021-09-09 02:11:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "buildcache: parallelize fetching spec yamls",
+    "number": 25861,
+    "milestone": null,
+    "labels": [
+        "binary-packages"
+    ],
+    "id": 991682915,
+    "html_url": "https://github.com/spack/spack/pull/25861",
+    "assignees": [],
+    "comments": 1
+}

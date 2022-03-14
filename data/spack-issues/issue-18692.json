@@ -1,0 +1,25 @@
+{
+    "body": "I managed to create an environment that cannot be installed.\r\nThe problems seems to come from the `build_system` intel when a package depends en scalapack in en environment. The `spec_root` spec is not pointing to the proper spec and the blacs library cannot be determine since `spec_root` is not the proper spec depending on `mpi`\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env create test\r\n$ spack --env test add superlu%intel ^intel-mkl ^cmake@3.16.5\r\n$ spack --env test add mumps%intel ^intel-mkl ^intel-mpi\r\n$ spack --env test concretize\r\n$ speck --env test install\r\n```\r\n\r\nIf you do the add in the other order, mumps fist superlu after it works fine.\r\nI did not manage to make the installation fail outside of the environment\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack --debug --stacktrace --env test install\r\n...\r\nlib/spack/spack/installer.py:1145 ==> [2020-09-16-16:52:01.220771] mumps: Executing phase: 'install'\r\nlib/spack/spack/error.py:55 ==> [2020-09-16-16:52:01.411345] Error: InstallError: Cannot find a BLACS library for the given MPI.\r\n\r\n/home/richart/test/arvine/spack.v1/lib/spack/spack/build_systems/intel.py:824, in scalapack_libs:\r\n        821            blacs_lib = 'libmkl_blacs_intelmpi'\r\n        822        elif '^mpt' in spec_root:\r\n        823            blacs_lib = 'libmkl_blacs_sgimpt'\r\n  >>    824        else:\r\n        825            raise_lib_error('Cannot find a BLACS library for the given MPI.')\r\n        826\r\n        827        int_suff = '_' + self.intel64_int_suffix\r\n\r\nSee build log for details:\r\n  /home/richart/test/arvine.v1/tmp/spack-stage-mumps-5.3.3-5nzshjpdnu5kojx3t5jeoiqufn6w53cb/spack-build-out.txt\r\n\r\nTraceback (most recent call last):\r\n  File \"/home/richart/test/arvine/spack.v1/lib/spack/spack/build_environment.py\", line 846, in child_process\r\n    return_value = function()\r\n  File \"/home/richart/test/arvine/spack.v1/lib/spack/spack/installer.py\", line 1150, in build_process\r\n    phase(pkg.spec, pkg.prefix)\r\n  File \"/home/richart/test/arvine/spack.v1/lib/spack/spack/package.py\", line 108, in phase_wrapper\r\n    phase(spec, prefix)\r\n  File \"/home/richart/test/arvine/spack.v1/var/spack/repos/builtin/packages/mumps/package.py\", line 262, in install\r\n  File \"/home/richart/test/arvine/spack.v1/var/spack/repos/builtin/packages/mumps/package.py\", line 199, in write_makefile_inc\r\n    if '+ptscotch' in self.spec or '+scotch' in self.spec:\r\n  File \"/home/richart/test/arvine/spack.v1/lib/spack/spack/spec.py\", line 877, in __get__\r\n    value = f()\r\n  File \"/home/richart/test/arvine/spack.v1/lib/spack/spack/spec.py\", line 864, in <lambda>\r\n    callbacks_chain.append(lambda: getattr(pkg, specialized_name))\r\n  File \"/home/richart/test/arvine/spack.v1/lib/spack/spack/build_systems/intel.py\", line 825, in scalapack_libs\r\n    raise_lib_error('Cannot find a BLACS library for the given MPI.')\r\n  File \"/home/richart/test/arvine/spack.v1/lib/spack/spack/build_systems/intel.py\", line 48, in raise_lib_error\r\n    raise InstallError(\"\\n\\t\".join(str(i) for i in args))\r\nspack.installer.InstallError: Cannot find a BLACS library for the given MPI.\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-skylake_avx512\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "nrichart",
+    "url": "https://api.github.com/repos/spack/spack/issues/18692",
+    "updated_at": "2022-01-06 13:32:26",
+    "created_at": "2020-09-16 15:21:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environment with package depending on scalapack and concretized with `intel-mkl`",
+    "number": 18692,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "blas-lapack-scalapack",
+        "intel",
+        "impact-low",
+        "environments"
+    ],
+    "id": 702857882,
+    "html_url": "https://github.com/spack/spack/issues/18692",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\n@alalazo Could we rethink the fix from #26718 and #26740 ?\r\n\r\nThe problem is that the fix breaks another concretization that I need,\r\nnamely, `hpctoolkit +rocm`.  The problem is that hpctoolkit +rocm has\r\ntwo dependencies, `llvm-amdgpu` and `hsa-rocr-dev` that both require\r\nspecifically `libelf`, and hpctoolkit requires `elfutils`.\r\n\r\nI understand this is an advanced use case.  `elfutils` and `libelf`\r\nare both providers for the virtual package `elf`.  The original\r\nconcretizer would never allow both of these in the same DAG.  But in\r\nthis case, the two uses of elf are separate.  The part of hpctoolkit\r\nthat uses elf does not call ROCM and there is no actual conflict.\r\n\r\nTherefore, this should be allowed, at least by some means, even if\r\nhpctoolkit has to sign a waiver that says, \"I promise there is no\r\nactual conflict with the two elf providers.\"\r\n\r\nI can see where DAGs get bigger and virtual providers become more\r\ncommon that this issue will become more common.\r\n\r\nping @becker33 @tgamblin \r\n\r\n### Error message\r\n\r\nI tracked this down to the commit from #26740.\r\n\r\n```\r\ncommit eded8f48dc629a5f3a72acf9c134731f8b89606c\r\nAuthor: Massimiliano Culpo <massimiliano.culpo@gmail.com>\r\nDate:   Thu Oct 14 23:06:41 2021 +0200\r\n\r\n    ASP-based solver: add a rule for version uniqueness in virtual packages (#26740)\r\n\r\ncommit d9d0ceb726b301d68fd649f395fb94134b6f7943\r\nAuthor: Christoph Junghans <junghans@lanl.gov>\r\nDate:   Thu Oct 14 13:17:02 2021 -0600\r\n\r\n    add  py-pyh5md and update py-espressopp (#26746)\r\n```   \r\n\r\nYou can see the problem with `spack spec hpctoolkit +rocm`.\r\n(I'm leaving out large parts of the output.)\r\n\r\n```\r\n$ spack spec hpctoolkit +rocm    # d9d0ceb726b3\r\n...\r\nhpctoolkit@2021.05.15%gcc@8.4.1\r\n    ^dyninst@11.0.1%gcc@8.4.1\r\n        ^elfutils@0.185%gcc@8.4.1\r\n    ^hip@4.3.1%gcc@8.4.1\r\n        ^comgr@4.3.1%gcc@8.4.1\r\n            ^llvm-amdgpu@4.3.1%gcc@8.4.1\r\n                ^libelf@0.8.13%gcc@8.4.1\r\n        ^hip-rocclr@4.3.1%gcc@8.4.1\r\n            ^hsa-rocr-dev@4.3.1%gcc@8.4.1\r\n                ^libelf@0.8.13%gcc@8.4.1\r\n\r\nNote: the above includes both elfutils and libelf.\r\n\r\n$ spack spec hpctoolkit +rocm    # eded8f48dc62\r\n...\r\n  condition(1377)\r\n  condition(419)\r\n  imposed_constraint(1377,\"version_satisfies\",\"elf\",\"0\")\r\n  imposed_constraint(419,\"version_satisfies\",\"elf\",\"1\")\r\n  virtual(\"elf\")\r\n==> Error: hpctoolkit+rocm does not satisfy unknown\r\nerror: spack spec hpctoolkit +rocm failed\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.3-5133-f45ef21e37\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/27157",
+    "updated_at": "2021-12-15 21:05:54",
+    "created_at": "2021-11-02 16:17:06",
+    "closed_at": "None",
+    "state": "open",
+    "title": "clingo should allow two providers in the same DAG",
+    "number": 27157,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1042564344,
+    "html_url": "https://github.com/spack/spack/issues/27157",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

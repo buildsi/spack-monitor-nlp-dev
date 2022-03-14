@@ -1,0 +1,23 @@
+{
+    "body": "AutoTool packages are inconconsistent in handling user flags. Some use `set_build_environment` to declare `VAR=VAL` arguments, or declare those variables in `configure_args`. When doing this, the package usually does not append `spec.compiler[cflags]` or other relevant spack flags.\r\n\r\nSpack provides some tooling to handling variables set in `setup_build_environment`, but because of the flexibility in Autotools, this does not result in consistent behavior\r\n\r\nE.g., See Issue #14430. And Related #19052\r\n\r\nThis patch provides some sanity checking to configure arguments and enforces that user flags get added.\r\n\r\nThis patch does not (yet) attempt to remove duplicate flags.\r\n\r\nThis patch lays the ground work for supporting a CMake-like `build_type` parameter - and having those args consistently applied.\r\n\r\nFor now, this patch has the variant for `build_type` declared, but the flag handling is not added (Given the code, adding these flags would be simple)",
+    "user": "jjellio",
+    "url": "https://api.github.com/repos/spack/spack/issues/22779",
+    "updated_at": "2021-09-30 21:24:33",
+    "created_at": "2021-04-05 15:05:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "AutoTools: Improve user flag handling",
+    "number": 22779,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "autotools",
+        "update-package",
+        "build-systems",
+        "new-variant"
+    ],
+    "id": 850431674,
+    "html_url": "https://github.com/spack/spack/pull/22779",
+    "assignees": [],
+    "comments": 19
+}

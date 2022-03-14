@@ -1,0 +1,20 @@
+{
+    "body": "It would be great to have environment aliases. I.e. `spack env alias myenv someexistingenv` would create a symbolic link _myenv_ pointing to _someexistingenv_, so that `spack env activate myenv` would activate `someexistingenv`.\r\n\r\n### Rationale\r\n\r\nI have the following use case: I have installed spack on a project directory of a supercomputer, accessible to myself and a handful of people who are users of whatever software I have installed in this spack. I periodically install a new environment for them with, for example, the name `myenv08042020`. The name is always `myenv` followed by the date (in European format) when the environment was built. I do not erase older environments because (1) maybe there is a bug in the new environment I've installed and I want to be able to revert back to an older one, and (2) I want to be able to reuse dependencies that haven't been updated from one environment to another.\r\n\r\nThe users have a bunch of scripts in which they have to do `spack env activate myenv08042020` (or whatever environment is the latest one). Hence every time I release a new environment, I have to tell them to change their scripts.\r\n\r\nIt would be great if I could just create an alias `myenv` pointing to whatever environment I want them to use at a given moment. They would just keep `spack env activate myenv` in their scripts.\r\n\r\n### Description\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\nSee thee solution above. The only alternative I have found so far is to give the users some bash code that does essentially a `spack env list | grep myenv` and pick the last line, put it in a variable `envname` and do `spack env activate $envname`. This is not ideal because it necessarily picks the latest environment, which may not be the one I want them to use.\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\n\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\nI'm using the develop branch of spack, up to date as of the date of this feature request.\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/15945",
+    "updated_at": "2020-04-09 10:56:44",
+    "created_at": "2020-04-08 10:43:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environment alias",
+    "number": 15945,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "environments"
+    ],
+    "id": 596482721,
+    "html_url": "https://github.com/spack/spack/issues/15945",
+    "assignees": [],
+    "comments": 2
+}

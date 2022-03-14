@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\n\nI am using a Spack environment of the form:\r\n\r\n```\r\nspack:\r\n  # variations of this environment can be controlled via environment variables during `spack env create`\r\n  definitions:\r\n  # CUDA\r\n  - cuda: []\r\n  - cuda: [cuda, blaspp +cuda, lapackpp ^blaspp +cuda]\r\n    when: env.get(\"SPACK_STACK_USE_CUDA\", \"1\") == \"1\"\r\n  specs:\r\n  - adios2\r\n  - blaspp\r\n  - ccache\r\n  - cmake\r\n  - fftw\r\n  - hdf5\r\n  - lapackpp\r\n  - mpi\r\n  - pkgconfig\r\n  - $cuda\r\n```\r\n\r\nI think this should work, as the `spec`s are similar to what I write in `depends_on` for the `warpx` package.\r\nIn particular, would expect that the concretizer picks the `+cuda` variant of `blaspp`. But instead, it concretizes out two versions of `blaspp` (`+cuda` is not a default variant) and then collides in creating the final environment.\r\n\r\nThe work-around I have to do is:\r\n```\r\nspack:\r\n  # variations of this environment can be controlled via environment variables during `spack env create`\r\n  definitions:\r\n  # CUDA\r\n  - cuda: []\r\n  - cuda: [cuda, blaspp +cuda, lapackpp ^blaspp +cuda]\r\n    when: env.get(\"SPACK_STACK_USE_CUDA\", \"\") == \"1\"\r\n  - cuda: [cuda, blaspp, lapackpp]\r\n    when: env.get(\"SPACK_STACK_USE_CUDA\", \"\") != \"1\"\r\n  specs:\r\n  - adios2\r\n  - ccache\r\n  - cmake\r\n  - fftw\r\n  - hdf5\r\n  - mpi\r\n  - pkgconfig\r\n  - $cuda\r\n```\n\n### Error message\n\n```\r\n==> Updating view at spack/var/spack/environments/warpx-lxplus-cuda-py/.spack-env/view\r\n==> Error: Package merge blocked by file: spack/var/spack/environments/warpx-lxplus-cuda-py/.spack-env/._view/lguqkqwqj5twvkl5tonmcwbv3ivpaflh/.spack/blaspp/spec.json\r\n```\n\n### Information on your system\n\nAny linux.\r\n\r\n* **Spack:** 0.17.1-930-f6d6153410\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-skylake\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/28617",
+    "updated_at": "2022-01-26 21:26:13",
+    "created_at": "2022-01-26 20:58:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environment Concretization w/ Definitions",
+    "number": 28617,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "environments",
+        "triage"
+    ],
+    "id": 1115494544,
+    "html_url": "https://github.com/spack/spack/issues/28617",
+    "assignees": [],
+    "comments": 1
+}

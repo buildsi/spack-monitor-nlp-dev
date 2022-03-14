@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\n\nOriginally reported by @haampie on Slack.\r\n\r\nWhen setting:\r\n```yaml\r\nconfig:\r\n  url_fetch_method: curl\r\n```\r\nThe use of `curl` is not honored if installing a binary package. In that case this portion of the code:\r\n\r\nhttps://github.com/spack/spack/blob/5208fcf1ea135b4500c38fbc7dba44e8558994bd/lib/spack/spack/binary_distribution.py#L444-L453\r\n\r\nis unconditionally using `urllib`. We should probably have some common API implemented both based on `urllib` and `curl` and dispatch to the one selected by the user.\n\n### Error message\n\nThe error message is not important here. What is important though is that if, for any reason, `urlib` needs to be avoided then installing from the buildcache will still use it to retrieve the index files.\n\n### Information on your system\n\n* **Spack:** 0.17.1-1070-5208fcf1ea\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-icelake\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/28753",
+    "updated_at": "2022-02-03 16:30:49",
+    "created_at": "2022-02-03 16:05:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installing from a buildcache doesn't honor \"config:url_fetch_method:curl\"",
+    "number": 28753,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "fetching",
+        "buildcache",
+        "triage"
+    ],
+    "id": 1123267540,
+    "html_url": "https://github.com/spack/spack/issues/28753",
+    "assignees": [],
+    "comments": 2
+}

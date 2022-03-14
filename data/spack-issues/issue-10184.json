@@ -1,0 +1,20 @@
+{
+    "body": "On ALCF/Theta - I'm using the default compiler - and specifying it via packages.yaml\r\n```\r\n  all:\r\n    providers:\r\n      mpi: [mpich]\r\n      blas: [intel-mkl]\r\n      lapack: [intel-mkl]\r\n    compiler: [intel@18.0.0.128]\r\n```\r\nWith some packages - this specified compiler gets used:\r\n\r\n```\r\nbalay@thetalogin6:~/spack> spack build_env mfem bash\r\nbalay@thetalogin6:~/spack> which icc\r\n/gpfs/mira-home/balay/spack/lib/spack/env/intel/icc\r\nbalay@thetalogin6:~/spack> icc --version\r\nicc (ICC) 18.0.0 20170811\r\nCopyright (C) 1985-2017 Intel Corporation.  All rights reserved.\r\n```\r\nBut with other packages - a different version of compiler gets used\r\n\r\n```\r\nbalay@thetalogin6:~/spack> spack build_env hypre bash\r\nbalay@thetalogin6:~/spack> which icc\r\n/gpfs/mira-home/balay/spack/lib/spack/env/intel/icc\r\nbalay@thetalogin6:~/spack> icc --version\r\nicc (ICC) 18.0.2 20180210\r\nCopyright (C) 1985-2018 Intel Corporation.  All rights reserved.\r\n```\r\nThe compilers are specified in compilers.yaml via modules. \r\n\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules:\r\n    - PrgEnv-intel\r\n    - intel/18.0.0.128\r\n    operating_system: cnl6\r\n    paths:\r\n      cc: cc\r\n      cxx: CC\r\n      f77: ftn\r\n      fc: ftn\r\n    spec: intel@18.0.0.128\r\n    target: any\r\n```\r\nAnd this module should set the PATH to:\r\n\r\n```\r\nbalay@thetalogin6:~/spack> which icc\r\n/opt/intel/compilers_and_libraries_2018.0.128/linux/bin/intel64/icc\r\n```\r\n\r\nAnd I noticed for some reason - /opt/intel/bin gets added to PATH in the second case - which I think is the reason for the wrong compiler being used.\r\n\r\n```\r\nbalay@thetalogin6:~/spack> echo $PATH\r\n/gpfs/mira-home/balay/spack/lib/spack/env/cray:/gpfs/mira-home/balay/spack/lib/spack/env:/gpfs/mira-home/balay/spack/lib/spack/env/case-insensitive:/gpfs/mira-home/balay/spack/lib/spack/env/intel:/opt/intel/bin:/opt/intel/bin:/opt/cray/pe/mpt/7.7.3/gni/bin:/opt/intel/compilers_and_libraries_2018.0.128/linux/bin/intel64:/opt/intel/compilers_and_libraries_2018.0.128/linux/mpi/intel64/bin:/opt/intel/debugger_2017/gdb/intel64_mic/bin:/opt/cray/pe/cce/8.7.6/binutils/x86_64/x86_64-pc-linux-gnu/bin:/opt/cray/pe/cce/8.7.6/binutils/cross/x86_64-aarch64/aarch64-linux-gnu/../bin:/opt/cray/pe/cce/8.7.6/utils/x86_64/bin:/opt/cray/pe/perftools/7.0.4/bin:/opt/cray/pe/papi/5.6.0.4/bin:/opt/cray/rca/2.2.18-6.0.6.0_19.14__g2aa4f39.ari/bin:/opt/cray/alps/6.6.1-6.0.6.1_4.1__ga6396bb.ari/sbin:/opt/cray/job/2.2.3-6.0.6.0_9.47__g6c4e934.ari/bin:/opt/cray/pe/craype/2.5.15/bin:/home/balay/spack/bin:/opt/xalt/bin:/soft/buildtools/trackdeps/bin:/opt/modulefiles/nompirun/bin:/opt/cray/pe/modules/3.2.11.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games:/dbhome/db2cat/sqllib/bin:/dbhome/db2cat/sqllib/adm:/dbhome/db2cat/sqllib/misc:/usr/lib/mit/bin:/usr/lib/mit/sbin:/home/balay/bin:/opt/cray/pe/bin\r\nbalay@thetalogin6:~/spack> /opt/intel/bin/icc --version\r\nicc (ICC) 18.0.2 20180210\r\nCopyright (C) 1985-2018 Intel Corporation.  All rights reserved.\r\n\r\n````\r\n\r\nAny idea how I can debug this? Or prevert spack from picking up /opt/intel/bin/icc?",
+    "user": "balay",
+    "url": "https://api.github.com/repos/spack/spack/issues/10184",
+    "updated_at": "2022-03-10 10:37:42",
+    "created_at": "2018-12-23 20:33:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "theta: wrong compiler version used for some packages in build.",
+    "number": 10184,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray"
+    ],
+    "id": 393778646,
+    "html_url": "https://github.com/spack/spack/issues/10184",
+    "assignees": [],
+    "comments": 1
+}

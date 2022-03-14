@@ -1,0 +1,19 @@
+{
+    "body": "This is an initial attempt to blacken Spack, but it's not ready to be merged.  The goal of this is to see if black will break anything for 2.6 if we make 2.7 one of the target python versions.\r\n\r\nBlack seems to add a considerable number of lines, especially to packages, as it wraps `version()` directives, which are almost always too long due to the `sha256` argument. I'm wondering if we can somehow exclude just those, since there are tons of them in Spack.  One option would be to use `#fmt: off` and `#fmt: on` around them, or `#fmt: skip` on the same line, but it's not clear how to get that into `black` as we did for `flake8`.\r\n\r\nOn a similar note, the overlong lines left after `black` formatting used to be covered by our exceptions in `flake8`.  I wonder how easy it is to get those back -- probably need to tweak the `flake8` filters, but it's easier to do that than to modify black.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24718",
+    "updated_at": "2022-01-30 21:56:41",
+    "created_at": "2021-07-06 08:44:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Format all of Spack with black",
+    "number": 24718,
+    "milestone": null,
+    "labels": [
+        "style"
+    ],
+    "id": 937661540,
+    "html_url": "https://github.com/spack/spack/pull/24718",
+    "assignees": [],
+    "comments": 20
+}

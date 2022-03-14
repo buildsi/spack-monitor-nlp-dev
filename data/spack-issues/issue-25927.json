@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\nOn spock, the cray system. using the system cray-mpich as an external compiler like this in packages.yaml:\r\n\r\n```\r\npackages:\r\n    mpich:\r\n      buildable: false\r\n      externals:\r\n      - spec: mpich@3.4.2\r\n        #prefix: /opt/cray/pe/mpich/8.1.7/ofi/gnu/9.1 #\r\n        prefix: /opt/cray/pe/mpich/8.1.7/ofi/crayclang/10.0\r\n        modules:\r\n        - cray-mpich/8.1.7\r\n        - craype-network-ofi\r\n```\r\n\r\nspack install conduit fails like\r\n\r\n```\r\n     30    -- Enable FindMPI:  ON\r\n     31    -- Could NOT find MPI_C (missing: MPI_C_LIB_NAMES) (found version \"3.1\")\r\n     32    -- Found MPI_CXX: /gpfs/alpine/csc439/scratch/wspear/spack/lib/spack/env/case-insensitive/CC (found version \"3.1\")\r\n  >> 33    CMake Error at /gpfs/alpine/csc439/scratch/wspear/spack/opt/spack/cray-sles15-x86_64/gcc-10.3.0/cmake-3.20.5-75wbmgevhkcmtaeubtrxgh7rfvqf6ul7/share/cmake-3.20/Modules/FindPackageHandleStandardA\r\n           rgs.cmake:230 (message):\r\n     34      Could NOT find MPI (missing: MPI_C_FOUND) (found version \"3.1\")\r\n```\r\nMaybe related to other mpi configuration issues on this platform: https://github.com/spack/spack/issues/25612\n\n### Information on your system\n\n* **Spack:** 0.16.2-4235-fca81c2ac8\r\n* **Python:** 3.6.13\r\n* **Platform:** cray-sles15-zen2\r\n* **Concretizer:** original\r\n\n\n### Additional information\n\nMight be same as: https://github.com/spack/spack/issues/19551\r\n\r\n@cyrush \r\n[spack-build-env.txt](https://github.com/spack/spack/files/7157817/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7157818/spack-build-out.txt)\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/25927",
+    "updated_at": "2022-01-26 00:23:37",
+    "created_at": "2021-09-13 23:06:59",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: conduit",
+    "number": 25927,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 995417567,
+    "html_url": "https://github.com/spack/spack/issues/25927",
+    "assignees": [],
+    "comments": 4
+}

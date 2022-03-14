@@ -1,0 +1,22 @@
+{
+    "body": "Spack errors on 'detected uninstalled dependency' error when trying to reinstall a stack where an external package was registered as having been built with a given compiler and the `package.py` file for that compiler changed since the previous build.\r\n\r\n### Steps to reproduce the issue\r\n1. Specify a dependency of a package to use an external package (e.g. Slurm or pkg-config%pgi).\r\n2. Install a stack the installs the compiler as well as a dependency of the above external package.\r\n3. Uninstall all packages from the stack\r\n4. Modify the compiler's `package.py` file\r\n5. Reinstall the stack\r\n\r\n### Example Error Message\r\n```\r\n==> Error: Detected uninstalled dependencies for pkg-config: {'pgi'}\r\n==> Error: Cannot proceed with pkg-config: 1 uninstalled dependency: pgi\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n-bash-4.2$ spack debug report\r\n* **Spack:** 0.14.2-700-395e91d\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-broadwell\r\n```\r\n\r\nExample external package specifications used.\r\n```\r\n    slurm:\r\n      paths:\r\n        slurm@19.05.5: /usr\r\n      buildable: false\r\n      version: []\r\n      target: []\r\n      compiler: []\r\n      modules: {}\r\n      providers: {}\r\n    pkg-config:\r\n      paths:\r\n        pkg-config@0.27.1.system%pgi@19.10: /usr/bin\r\n      buildable: true\r\n      version: []\r\n      target: []\r\n      compiler: []\r\n      modules: {}\r\n      providers: {}\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "nicholas-sly",
+    "url": "https://api.github.com/repos/spack/spack/issues/16244",
+    "updated_at": "2021-02-19 12:33:08",
+    "created_at": "2020-04-22 20:49:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "'install_missing_compilers' Detected uninstalled dependency error",
+    "number": 16244,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 605065375,
+    "html_url": "https://github.com/spack/spack/issues/16244",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

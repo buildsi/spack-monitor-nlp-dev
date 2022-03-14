@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-protobuf@3.11.0+cpp^protobuf@3.7.1 \r\n\r\n     79    /usr/WS2/blake14/spack/lib/spack/env/gcc/gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -fPIC -I. -I../src -I/usr/WS2/bla\r\n           ke14/spack/opt/spack/linux-rhel7-haswell/gcc-7.3.0/python-3.7.2-hjq7r62afhtjaulxqp47ncqzcebi5xis/include/python3.7m -c google/protobuf/pyext/repeate\r\n           d_composite_container.cc -o build/temp.linux-x86_64-3.7/google/protobuf/pyext/repeated_composite_container.o -Wno-write-strings -Wno-invalid-offseto\r\n           f -Wno-sign-compare -Wno-unused-variable -std=c++11\r\n  >> 80    google/protobuf/pyext/repeated_composite_container.cc:49:10: fatal error: google/protobuf/stubs/map_util.h: No such file or directory\r\n     81     #include <google/protobuf/stubs/map_util.h>\r\n     82              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     83    compilation terminated.\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux 3.10.0 SMP x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tRed Hat Enterprise Linux Server release 7.7 (Maipo)\r\n``` \r\n\r\n### Additional information\r\n\r\nReading the source, the py-protobuf is trying to read a header file that doesn't exist in that version of protobuf.  This implies that the two packages are linked somehow.\r\n\r\nReading the equivalent debian packages, it seems py-protobuf and protobuf come from the same [source package](https://packages.debian.org/source/sid/protobuf).  Does this imply that protobuf and py-protobuf should be merged? ",
+    "user": "rblake-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/14528",
+    "updated_at": "2022-01-10 17:31:31",
+    "created_at": "2020-01-16 01:07:06",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: py-protobuf",
+    "number": 14528,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 550515025,
+    "html_url": "https://github.com/spack/spack/issues/14528",
+    "assignees": [
+        "scheibelp",
+        "adamjstewart"
+    ],
+    "comments": 7
+}

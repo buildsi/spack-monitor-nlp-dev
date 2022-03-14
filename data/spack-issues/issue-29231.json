@@ -1,0 +1,23 @@
+{
+    "body": "With #29228 and #29229 in, the `spack install neovim` fails with:\r\n```\r\n     1022    undef: _tigetstr\r\n     1023    undef: _cur_term\r\n     1024    undef: _setupterm\r\n  >> 1025    Undefined symbols for architecture arm64:\r\n     1026      \"_tigetstr\", referenced from:\r\n     1027          _try_load_terminfo_key in libtermkey.a(driver-ti.o)\r\n     1028      \"_cur_term\", referenced from:\r\n     1029          _load_terminfo in libtermkey.a(driver-ti.o)\r\n     1030      \"_setupterm\", referenced from:\r\n     1031          _new_driver in libtermkey.a(driver-ti.o)\r\n     1032          _load_terminfo in libtermkey.a(driver-ti.o)\r\n     1033    ld: symbol(s) not found for architecture arm64\r\n```\r\nWhile linking the `nvim` executable. These symbols seem to be coming from `ncurses`, but linking `ncurses` explicitly didn't seem to fix it. However, the current PR fixes it. One must turn off `termlib` in `ncurses` and then one must explicitly link it. Then `nvim` builds just fine. I am opening this PR as a Draft, because the `+termlib` seems hardwired in `lua`, so I don't know how to fix this properly. Also just adding `ncurses` in the cmake for `neovim` doesn't feel right, one should explicitly depend on `ncurses` and then find it using cmake. I don't have time to work on that. But this PR might be helpful to others to finish this work. Either way, neovim seems to work fine now.",
+    "user": "certik",
+    "url": "https://api.github.com/repos/spack/spack/issues/29231",
+    "updated_at": "2022-02-26 18:29:58",
+    "created_at": "2022-02-25 21:30:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Fix neovim install on M1",
+    "number": 29231,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "patch",
+        "update-package",
+        "new-variant"
+    ],
+    "id": 1150898412,
+    "html_url": "https://github.com/spack/spack/pull/29231",
+    "assignees": [],
+    "comments": 5
+}

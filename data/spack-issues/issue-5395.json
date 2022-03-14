@@ -1,0 +1,20 @@
+{
+    "body": "When we install PGI compiler with:\r\n\r\n```\r\nspack install pgi %gcc@4.9.3\r\n```\r\n\r\nwe have to create configuration file to tell PGI compiler to use headers from this new GCC (and not the system one which is typically old).\r\n\r\nHere is info copied from [discussion thread](https://www.pgroup.com/userforum/viewtopic.php?t=4664&sid=0a63c9aca1273976b6273bbd8d7dbba0):\r\n\r\n```\r\npgc++ does support C++11. However as you suspect, we need a GNU version installed,\r\nsuch as 4.8.2, that also supports C++11 in order to use the C++11 standard library. \r\n\r\nIf 4.8.2 was not the default GNU version used when the PGI compilers were installed,\r\nyou'll need to create a new PGI configuration file that points to the updated GNU.\r\nThis is done by running the \"makelocalrc\" script found in your installation's build\r\ndirectory and setting the gcc, g++, and gfortran versions to use. \r\n\r\nFor example: \r\n\r\n/opt/pgi/linux86-64/15.3/bin/makelocalrc /opt/pgi/linux86-64/15.3/bin -gcc /path/to/gcc-4.8.2/bin/gcc -gpp /path/to/gcc-4.8.2/bin/g++ -g77 /path/to/gcc-4.8.2/bin/gfortran -x -net\r\n\r\n\r\nThe \"-net\" flag will create a \"localrc.<hostname>\" file in the PGI install's bin\r\ndirectory with the correct configuration information. Without \"-net\", the \"localrc\"\r\nfile will be overwritten. \r\n\r\n\"localrc\" is the default configuration to be used by the compilers. A \"localrc.<hostname>\"\r\nis the configuration for a particular host. In both cases, all users will get this configuration\r\n\r\n```",
+    "user": "pramodskumbhar",
+    "url": "https://api.github.com/repos/spack/spack/issues/5395",
+    "updated_at": "2017-10-07 15:33:45",
+    "created_at": "2017-09-19 14:36:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Improve PGI compiler installation (with C++11 support)",
+    "number": 5395,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "pgi"
+    ],
+    "id": 258844856,
+    "html_url": "https://github.com/spack/spack/issues/5395",
+    "assignees": [],
+    "comments": 1
+}

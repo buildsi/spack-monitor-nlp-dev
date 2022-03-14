@@ -1,0 +1,20 @@
+{
+    "body": "As a user I want to be able to remove external specs in`packages.yaml` from the command line so that I don't have to manually edit the configuration.\r\n\r\n### Rationale\r\nWith the addition of `spack external find` more and more packages are getting the ability to be discovered on the host system and be reused. While this is good, it also increases the size / complexity of the corresponding `packages.yaml` and sometimes manual editing is still necessary to fix an automatically detected configuration. \r\n\r\nFor instance, the model that Spack implements for discovery is currently targeted at build tools and packages that may act both as a build tool and a library (based on their dependents) can potentially leave a broken configuration see e.g. the discussion at #19343. \r\n\r\nAt the moment, if after:\r\n```console\r\n$ spack external find\r\n[ ... ]\r\n```\r\none or more of the packages being discovered needs to be removed, the user needs to manually edit the corresponding `packages.yaml` file. It would be more compact / convenient to have a way to do that from the command line based on specs.\r\n\r\n### Description\r\n\r\nThe proposal is simply to add a subcommand:\r\n```console\r\n$ spack external remove <spec> [<spec> ...]\r\n```\r\nthat removes any matching external from `packages.yaml`. It would be probably good to add an option to:\r\n```console\r\n$ spack external list --registered\r\n```\r\nto show which specs are currently in `packages.yaml`\r\n\r\n### Additional information\r\n--\r\n\r\n### General information\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/19351",
+    "updated_at": "2020-10-17 09:34:00",
+    "created_at": "2020-10-17 09:34:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add support to remove externals from command line",
+    "number": 19351,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "user-experience"
+    ],
+    "id": 723717073,
+    "html_url": "https://github.com/spack/spack/issues/19351",
+    "assignees": [],
+    "comments": 0
+}

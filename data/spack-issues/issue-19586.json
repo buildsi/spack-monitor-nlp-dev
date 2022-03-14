@@ -1,0 +1,20 @@
+{
+    "body": "I ran `spack install --overwrite <spec>`, where `<spec>` was copied from the spack.yaml environment file. The command reports that the spec will be newly installed, even though the hash is shown to be installed by spack find.\r\n\r\nEntering \"y\" to install the package does correctly try and install the spec.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install #install environment\r\n$ spack install --overwrite <spec>\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\nNo error, but incorrect output:\r\n\r\n```console\r\n$ spack install --overwrite raja@apollo+cuda~shared~openmp cuda_arch=70 %clang@10.0.1 ^apollo@develop%clang@10.0.1 ^callpath%gcc ^spectrum-mpi ^opencv+vsx%gcc\r\n==> The following package specs will be reinstalled:\r\n\r\n-- linux-rhel7-ppc64le / clang@10.0.1 ---------------------------\r\no62ywpb raja@apollo%clang +cuda~openmp~shared build_type=RelWithDebInfo cuda_arch=70\r\n==> The following package specs are not installed and the --overwrite flag was given. The package spec will be newly installed:\r\n\r\n-- linux-rhel7-ppc64le / clang@10.0.1 ---------------------------\r\no62ywpb raja@apollo%clang +cuda~openmp~shared build_type=RelWithDebInfo cuda_arch=70\r\n```\r\n\r\nspack find shows that that spec is installed:\r\n\r\n```console\r\n$ spack find -l raja@apollo\r\n==> In environment /g/g92/ukbeck/Projects/apollo/code/apollo-spack-env\r\n==> Root specs\r\n-- no arch / clang@10.0.1 ---------------------------------------\r\n------- raja@apollo%clang@10.0.1 +cuda~openmp~shared cuda_arch=70  ------- raja@apollo%clang@10.0.1 +cuda~openmp~shared cuda_arch=70\r\n\r\n==> 1 installed package\r\n-- linux-rhel7-ppc64le / clang@10.0.1 ---------------------------\r\no62ywpb raja@apollo\r\n```\r\n\r\n### Additional information\r\n\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "davidbeckingsale",
+    "url": "https://api.github.com/repos/spack/spack/issues/19586",
+    "updated_at": "2020-10-28 22:08:59",
+    "created_at": "2020-10-28 22:08:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack install --overwrite <spec> in environment says spec is not installed when it is",
+    "number": 19586,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 731823998,
+    "html_url": "https://github.com/spack/spack/issues/19586",
+    "assignees": [],
+    "comments": 1
+}

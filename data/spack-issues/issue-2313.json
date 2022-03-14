@@ -1,0 +1,22 @@
+{
+    "body": "We have found that some Python extensions do not load their Spack-built extensions at load/runtime, which can lead to some version mismatch errors. Notably, this happened for rpy2 and for PyQt. In Rpy2, we saw the following:\r\n\r\n[lee218@rzgenie2:~]$ python -m rpy2.tests                                       \r\nDuring startup - Warning messages:                                              \r\n1: package \"methods\" in options(\"defaultPackages\") was not found                \r\n2: package 'datasets' in options(\"defaultPackages\") was not found               \r\n3: package 'utils' in options(\"defaultPackages\") was not found                  \r\n4: package 'grDevices' in options(\"defaultPackages\") was not found              \r\n5: package 'graphics' in options(\"defaultPackages\") was not found               \r\n6: package 'stats' in options(\"defaultPackages\") was not found                  \r\n7: package 'methods' in options(\"defaultPackages\") was not found                \r\nrpy2 version: 2.5.6                                                             \r\n- built against R version: 3-2.3--69752                                         \r\n- running linked to R version: R version 3.2.3 (2015-12-10)                     \r\nE                                                                               \r\n======================================================================          \r\nERROR: __main__ (unittest.loader.LoadTestsFailure)                              \r\n----------------------------------------------------------------------          \r\nLookupError: 'show' not found                                                   \r\n\r\n----------------------------------------------------------------------\r\nRan 1 test in 0.000s                                                  \r\n\r\nFAILED (errors=1)\r\n\r\n\r\nIn PyQt, we saw this:\r\n\r\n[lee218@rzgenie2:Incident1157989]$ python main-radiobuttons.py                                        \r\nCannot mix incompatible Qt library (version 0x40805) with this library (version 0x40806)                                                                        \r\nAborted (core dumped)             \r\n\r\n\r\nIn the case of R, the tests invoke R from one's PATH, so we were picking up /usr/bin/R. One could add the Spack-built R bin directory to $PATH to get around this issue. This could also be done by modifying os.environ[\"PATH\"] from within rpy2's __init__.py script.\r\n\r\nFor the PyQt issue, it was loading /usr/lib64 Qt libraries, and one could add the Spack-built Qt lib directory to $LD_LIBRARY_PATH to get around this. However this would have to be set before invoking python and could not be done by modifying os.environ[\"LD_LIBRARY_PATH\"] after python invocation. As a hack, I added the following to pyqt's __init__.py:\r\n\r\n    import ctypes\r\n    ctypes.cdll.LoadLibrary(\"/collab/usr/gapps/python/build/spack-toss3/opt/spack/toss_3_x86_64_ib/gcc-4.8.5/qt-4.8.6-3iv3jpmfiryyper2cf7nsctwqvba4zu3/lib/libQtNetwork.so.4\")\r\n    ctypes.cdll.LoadLibrary(\"/collab/usr/gapps/python/build/spack-toss3/opt/spack/toss_3_x86_64_ib/gcc-4.8.5/qt-4.8.6-3iv3jpmfiryyper2cf7nsctwqvba4zu3/lib/libQtXml.so.4\")\r\n    ctypes.cdll.LoadLibrary(\"/collab/usr/gapps/python/build/spack-toss3/opt/spack/toss_3_x86_64_ib/gcc-4.8.5/qt-4.8.6-3iv3jpmfiryyper2cf7nsctwqvba4zu3/lib/libQtDBus.so.4\")\r\n    ctypes.cdll.LoadLibrary(\"/collab/usr/gapps/python/build/spack-toss3/opt/spack/toss_3_x86_64_ib/gcc-4.8.5/qt-4.8.6-3iv3jpmfiryyper2cf7nsctwqvba4zu3/lib/libQtSvg.so.4\")\r\n\r\n\r\nI guess there is a wide range of ways this can be addressed in Spack, via modules, scripts, etc. I'm guessing that this problem may be more general and so I'd like to solicit other people's ideas on how we should handle this in Spack. Thoughts?",
+    "user": "lee218llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/2313",
+    "updated_at": "2018-04-13 13:24:05",
+    "created_at": "2016-11-11 21:45:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Python extensions not using Spack-built dependences",
+    "number": 2313,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "rpath"
+    ],
+    "id": 188857759,
+    "html_url": "https://github.com/spack/spack/issues/2313",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

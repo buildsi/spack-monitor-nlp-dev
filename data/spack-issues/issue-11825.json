@@ -1,0 +1,22 @@
+{
+    "body": "In the current develop branch when using an environments the specific version of a packages is ignored on install (e.g. `spack install zlib@1.2.3`). It is however observed if I preform a spack spec.\r\n\r\nIt only appears to be in an issue when using an environment and again only after the first version of a package has been installed (subsequent will always attempt to install with that version).\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env status\r\n==> In environment test-comp\r\n$ spack install zlib@1.23\r\n==> zlib is already installed in /home/paul/dev/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-7.4.0/zlib-1.2.11-o2viq7yriiaw6nwqpaa7ltpyzqkaonhb\r\n$ spack find zlib\r\n==> In environment test-comp\r\n==> Root specs\r\nzlib\r\n\r\n==> 1 installed package\r\n-- linux-ubuntu18.04-x86_64 / gcc@7.4.0 -------------------------\r\nzlib@1.2.11\r\n\r\n```\r\n\r\nTrying from a different system:\r\n\r\n```\r\n$spack find\r\n==> In environment test\r\n==> Root specs\r\nzlib@1.2.3\r\n\r\n==> 1 installed package\r\n-- linux-debian9-x86_64 / gcc@6.3.0 -----------------------------\r\nzlib@1.2.3\r\n\r\n$ spack install zlib@1.2.11\r\n==> zlib is already installed in /spack/opt/spack/linux-debian9-x86_64/gcc-6.3.0/zlib-1.2.3-oijcqtqiyrjh6lbp34zgtaj74atxxj6v\r\n==> Updating view at /spack/var/spack/environments/test/.spack-env/view\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ git log --pretty=format:'%h' -n1\r\n681245c7e\r\n```\r\n\r\nI've attempted this with Python 2.7.15 and 3.7.3",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/11825",
+    "updated_at": "2019-07-23 02:59:44",
+    "created_at": "2019-06-23 21:23:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Package version ignore in environments after first install",
+    "number": 11825,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "impact-low"
+    ],
+    "id": 459619408,
+    "html_url": "https://github.com/spack/spack/issues/11825",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

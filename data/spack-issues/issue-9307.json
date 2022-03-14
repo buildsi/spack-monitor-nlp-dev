@@ -1,0 +1,19 @@
+{
+    "body": "(note that although I assert that merging this would close #9281, properly reviewing this PR may take enough time that it makes sense to merge that in the meantime)\r\n\r\nFixes: https://github.com/spack/spack/issues/8432\r\nCloses: https://github.com/spack/spack/pull/9281\r\nCloses: https://github.com/spack/spack/pull/8320\r\n\r\n@PDoakORNL @skosukhin \r\n\r\nFor a `when` spec which requires `x.y`, Specs with version `x.y.z` were considered to satisfy it even when `x.y` refers to a specific package version and the user intends that the constraint *only* apply to `x.y`.\r\n\r\nThis updates `Spec.satisfies` so that if a constraint mentions a version which appears exactly in `Spec.package.versions`, that `Spec.version` must match it exactly in order to satisfy the constraint. This is considered reasonable for all constraint checks.\r\n\r\nIf a package `foo` has versions `2.1` and `2.1.2` and a user wishes to specify that a constraint applies for both, this PR would require that they write `when=@2.1:2.1.2` (where before `when=@2.1` would suffice). I currently don't know whether any package depends on that logic; this PR is not compatible with that sort of inference. I'm inclined to say the inference in this PR is preferable: Without this PR, in the case of `foo` with versions `2.1` and `2.1.2`, the constraint `when=@2.1:2.1.0` is sufficient to include `2.1` and exclude `2.1.2` (regardless of `strict==True`), but IMO that more awkward than what this PR forces on users that want to apply a constraint to `2.1` and `2.1.2` at the same time.\r\n\r\nIf `when` specifies a version range, this check is not applied, so for example `foo@2.3.1` will satisfy `when=2.1:2.3` even if there is an exact version `2.3` for `foo`.\r\n\r\n(note this only changes behavior when `strict=False`, `strict=True` didn't have this issue)",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/9307",
+    "updated_at": "2018-09-26 17:39:05",
+    "created_at": "2018-09-21 02:55:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Smarter version constraints for packages with mixed versions",
+    "number": 9307,
+    "milestone": null,
+    "labels": [
+        "versions"
+    ],
+    "id": 362437686,
+    "html_url": "https://github.com/spack/spack/pull/9307",
+    "assignees": [],
+    "comments": 2
+}

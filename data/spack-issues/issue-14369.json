@@ -1,0 +1,22 @@
+{
+    "body": "After the latest update of spack tree, I am failing to build openmpi on ppc64le system. I am pretty sure that this has not been occurring before, but I am struggling to find any changes in packages or my own environment which might be causing this. The issue is binuitls, libiconv and gettext.\r\n\r\nMy initial intention was to fix openmpi build for ppc64le, as the default setting weren't working as expected in comparison with manually built variant, but now I am stuck much earlier on.\r\n\r\nPlease advise.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install  openmpi@3.1.4 schedulers=lsf fabrics=verbs,mxm,ucx\r\n...\r\n==> No patches needed for binutils\r\n==> Building binutils [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16'\r\n\r\n14 errors found in build log:\r\n...\r\n  >> 4723    /usr/bin/ld: /gpfs/users/shared/spack/opt/spack/linux-rhel7-power8le/gcc-9.2.0/gettext-0.20.1-y6akw7puzlfgbsffvajtlqvhldovl6gi/lib/libintl.so: undefined reference to symbol 'libiconv\r\n             '\r\n  >> 4724    /gpfs/users/shared/spack/opt/spack/linux-rhel7-power8le/gcc-9.2.0/libiconv-1.16-mnukz37aj2mv7nk4s6w3233y5u5met6b/lib/libiconv.so.2: error adding symbols: DSO missing from command lin\r\n             e\r\n  >> 4725    collect2: error: ld returned 1 exit status\r\n  >> 4726    make[4]: *** [dwp] Error 1\r\n...\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a\r\nLinux sandbox01 3.10.0-957.21.2.el7.ppc64le #1 SMP Tue May 28 09:29:10 UTC 2019 ppc64le ppc64le ppc64le GNU/Linuxu\r\n$ lsb_release -d\r\nDescription:    Red Hat Enterprise Linux Server release 7.6 (Maipo)\r\n```\r\n\r\n",
+    "user": "robertsawko",
+    "url": "https://api.github.com/repos/spack/spack/issues/14369",
+    "updated_at": "2020-04-21 06:18:45",
+    "created_at": "2020-01-03 10:33:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: openmpi",
+    "number": 14369,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "triage"
+    ],
+    "id": 544938073,
+    "html_url": "https://github.com/spack/spack/issues/14369",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 2
+}

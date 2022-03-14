@@ -1,0 +1,24 @@
+{
+    "body": "The usual overriding syntax doesn't work for the `environment_blacklist` property of `modules.yaml`.\r\n\r\n### Steps to reproduce the issue\r\nThe error can be reproduced using this simple configuration file for `modules.yaml`:\r\n```yaml\r\nmodules:\r\n  tcl:\r\n    all:\r\n      filter:\r\n        environment_blacklist: ['CPATH', 'LIBRARY_PATH', 'LD_LIBRARY_PATH']\r\n    zlib:\r\n      filter:\r\n        environment_blacklist:: ['CPATH', 'LIBRARY_PATH']\r\n```\r\nand installing `libszip` and `zlib`:\r\n```console\r\n$ spack install libszip\r\n...\r\n\r\n$ spack install zlib\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\nThere's no error message, but one would expect to see a module file for `zlib` with `LD_LIBRARY_PATH` set. What happens instead is that the generic settings are used and the property is not overridden. The generated module file looks like:\r\n```tcl\r\n#%Module1.0\r\n## Module file created by spack (https://github.com/spack/spack) on 2019-01-03 13:18:21.684554\r\n##\r\n## zlib@1.2.11%gcc@8.2.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64 /ivqu252\r\n##\r\n\r\n\r\nmodule-whatis \"A free, general-purpose, legally unencumbered lossless data-compression library.\"\r\n\r\nproc ModulesHelp { } {\r\nputs stderr \"A free, general-purpose, legally unencumbered lossless data-compression\"\r\nputs stderr \"library.\"\r\n}\r\n\r\n\r\nprepend-path MANPATH \"/home/mculpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-8.2.0/zlib-1.2.11-ivqu252fvh7r5iar6zwx4fmeoxiykln7/share/man\"\r\nprepend-path PKG_CONFIG_PATH \"/home/mculpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-8.2.0/zlib-1.2.11-ivqu252fvh7r5iar6zwx4fmeoxiykln7/lib/pkgconfig\"\r\nprepend-path CMAKE_PREFIX_PATH \"/home/mculpo/PycharmProjects/spack/opt/spack/linux-ubuntu18.04-x86_64/gcc-8.2.0/zlib-1.2.11-ivqu252fvh7r5iar6zwx4fmeoxiykln7/\"\r\n```\r\n\r\n### Information on your system\r\n\r\nThis bug seems not to be tied to a particular system.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10245",
+    "updated_at": "2022-03-10 10:37:59",
+    "created_at": "2019-01-03 12:22:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Can't override environment blacklist in modules.yaml",
+    "number": 10245,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "modules",
+        "impact-low"
+    ],
+    "id": 395554485,
+    "html_url": "https://github.com/spack/spack/issues/10245",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

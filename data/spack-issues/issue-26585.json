@@ -1,0 +1,24 @@
+{
+    "body": "### Steps to reproduce\n\n```console\r\n$ echo 'packages:\r\n  mpich:\r\n    variants: device=ch4 netmod=ofi\r\n  libfabric:\r\n    variants: fabrics=sockets,tcp,verbs,rxd,rxm' > etc/spack/packages.yaml\r\n$ spack spec -I mpich\r\n$ spack spec -I libfabric\r\n```\n\n### Error message\n\n`spack spec -I mpich` prints (`verbs` is missing):\r\n```\r\n...\r\n -       ^libfabric@1.13.1%gcc@11.2.1~debug~kdreg fabrics=rxd,rxm,sockets,tcp arch=linux-fedora34-zen2\r\n```\r\nwhile `spack spec -I libfabric` prints:\r\n```\r\n -   libfabric@1.13.1%gcc@11.2.1~debug~kdreg fabrics=rxd,rxm,sockets,tcp,verbs arch=linux-fedora34-zen2\r\n...\r\n```\r\n\r\nIf I switch back to the original concretizer, I get the correct output/dependency. Interestingly, this also only happens if `fabrics` has multiple values. If I set `variants: fabrics=verbs`, I get the correct dependency.\n\n### Information on your system\n\n* **Spack:** 0.16.3-4764-da31c7e894\r\n* **Python:** 3.9.7\r\n* **Platform:** linux-fedora34-zen2\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/26585",
+    "updated_at": "2021-10-12 19:26:33",
+    "created_at": "2021-10-07 22:19:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Configured variants broken with new concretizer",
+    "number": 26585,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "workaround",
+        "impact-low",
+        "concretizer-use-case"
+    ],
+    "id": 1020508941,
+    "html_url": "https://github.com/spack/spack/issues/26585",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

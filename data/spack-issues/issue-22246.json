@@ -1,0 +1,19 @@
+{
+    "body": "Hi everyone,\r\n\r\nIt seems the config.yaml only allows to set the install root directory (+ specific path) and the current default tree does not really allow prefixed install in standard path (e.g /var, /etc, /usr/share, /usr/local/share etc..).\r\n\r\nPS: I find also the current config keys a bit confusing (_dirs _roots _tree)\r\n\r\nI'd have imagine something more like\r\n\r\n```yaml\r\nconfig:\r\n  tree: # everything related to install tree.\r\n    prefix:\r\n      user:  $user/.spack/    # user (spack install --user <pkg>)\r\n      admin: /usr/local       # admin local  (spack install <pkg>)\r\n    root:   # default directories \r\n      bin:  # SPACK_BIN_PATH\r\n        - $prefix/bin\r\n      etc:    # SPACK_ETC_PATH\r\n        - /etc\r\n      lib:    # SPACK_LIB_PATH\r\n        - $prefix/lib\r\n      share:  # SPACK_SHARE_PATH\r\n        - $prefix/share\r\n      var:   # SPACK_VAR_PATH\r\n        - /var\r\n    custom: # optional\r\n      templates:    # SPACK_TEMPLATE_PATH , below prepend default path ($prefix/share/spack)/template\r\n        -  /template\r\n      modules:   \r\n        tcl: # SPACK_MODULES_TCL_PATH, below prepend default path ($prefix/share/spack/modules)\r\n          -  /path/to/tcl\r\n        lmod:  # SPACK_MODULES_LMOD_PATH, below prepend default path\r\n          -  /path/to/lmod\r\n      stages:\r\n        build:\r\n          -  /path/to\r\n        test:\r\n          -  /path/to\r\n      caches:\r\n        source:\r\n          -  /path/to\r\n        misc:\r\n          -  /path/to\r\n```\r\nto allow system/user packages system wide similar to PyPI. That may require quite some (major?) changes..\r\n\r\nMaybe a key `spack show` and `spack show tree` to print current information and directory tree.\r\n\r\nwhat do you think ? (I may have missed some details though)\r\n",
+    "user": "gdolle",
+    "url": "https://api.github.com/repos/spack/spack/issues/22246",
+    "updated_at": "2021-03-11 15:27:09",
+    "created_at": "2021-03-11 15:04:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Proposal: refactor config.yaml install_tree",
+    "number": 22246,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 829237386,
+    "html_url": "https://github.com/spack/spack/issues/22246",
+    "assignees": [],
+    "comments": 0
+}

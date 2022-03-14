@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\n I hope `spack compiler find` can let spack recognize compiler submodules newly installed. For example, when spack found `gcc` without `g++` initially, then I installed `g++` manually, at this moment invoking `spack compiler find` does nothing and spack still think there is no `g++` on this machine.\r\n\r\n### Rationale\r\n\r\n_No response_\r\n\r\n### Description\r\n\r\nA fresh installed Ubuntu bundles `gcc`, except `g++`, which means `g++` is missing initially.\r\n\r\n```bash\r\n$ spack compiler info gcc\r\ngcc@8.4.0:\r\n\tpaths:\r\n\t\tcc = /usr/bin/gcc-8\r\n\t\tcxx = None\r\n\t\tf77 = /usr/bin/gfortran-8\r\n\t\tfc = /usr/bin/gfortran-8\r\n\tmodules  = []\r\n\toperating system  = ubuntu20.04\r\ngcc@9.3.0:\r\n\tpaths:\r\n\t\tcc = /usr/bin/gcc\r\n\t\tcxx = None\r\n\t\tf77 = /usr/bin/gfortran\r\n\t\tfc = /usr/bin/gfortran\r\n\tmodules  = []\r\n\toperating system  = ubuntu20.04\r\n```\r\n\r\nAfter installing `g++` via `sudo apt install build-essential`, I invoked `spack compiler find`, and I expect spack would recognize the `g++` I installed just now. But, it doen't work.\r\n\r\n```bash\r\n$ sudo apt install build-essential\r\n...\r\n# g++ will be installed during this time\r\n\r\n$ spack compiler find\r\n==> Found no new compilers\r\n==> Compilers are defined in the following files:\r\n    /home/ubuntu/.spack/linux/compilers.yaml\r\n\r\n$ spack compiler info gcc\r\ngcc@8.4.0:\r\n\tpaths:\r\n\t\tcc = /usr/bin/gcc-8\r\n\t\tcxx = None\r\n\t\tf77 = /usr/bin/gfortran-8\r\n\t\tfc = /usr/bin/gfortran-8\r\n\tmodules  = []\r\n\toperating system  = ubuntu20.04\r\ngcc@9.3.0:\r\n\tpaths:\r\n\t\tcc = /usr/bin/gcc\r\n\t\tcxx = None\r\n\t\tf77 = /usr/bin/gfortran\r\n\t\tfc = /usr/bin/gfortran\r\n\tmodules  = []\r\n\toperating system  = ubuntu20.04\r\n```\r\n\r\nSo, I have to clear the information of compilers and add them back. \r\n\r\n```bash\r\n$ spack compiler remove -a gcc\r\n==> Removed compiler gcc@8.4.0\r\n==> Removed compiler gcc@9.3.0\r\n\r\n$ spack compiler find\r\n==> Added 2 new compilers to /home/ubuntu/.spack/linux/compilers.yaml\r\n    gcc@9.3.0  gcc@8.4.0\r\n==> Compilers are defined in the following files:\r\n    /home/ubuntu/.spack/linux/compilers.yaml\r\n\r\n$ spack compiler info gcc\r\ngcc@8.4.0:\r\n\tpaths:\r\n\t\tcc = /usr/bin/gcc-8\r\n\t\tcxx = None\r\n\t\tf77 = /usr/bin/gfortran-8\r\n\t\tfc = /usr/bin/gfortran-8\r\n\tmodules  = []\r\n\toperating system  = ubuntu20.04\r\ngcc@9.3.0:\r\n\tpaths:\r\n\t\tcc = /usr/bin/gcc\r\n\t\tcxx = /usr/bin/g++\r\n\t\tf77 = /usr/bin/gfortran\r\n\t\tfc = /usr/bin/gfortran\r\n\tmodules  = []\r\n\toperating system  = ubuntu20.04\r\n```\r\n\r\nThus, I hope `spack compiler find` can let spack recognize `g++` newly installed and update the database automatically. Or is there any existing alternative solution?\r\n\r\n### Additional information\r\n\r\n```bash\r\n$ spack --version\r\n0.16.3-4898-b2f059e547\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "Tonny-Gu",
+    "url": "https://api.github.com/repos/spack/spack/issues/26775",
+    "updated_at": "2021-10-16 12:18:34",
+    "created_at": "2021-10-16 12:13:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Update newly added languages via spack compiler find",
+    "number": 26775,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1028034198,
+    "html_url": "https://github.com/spack/spack/issues/26775",
+    "assignees": [],
+    "comments": 0
+}

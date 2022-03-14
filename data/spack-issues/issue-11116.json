@@ -1,0 +1,22 @@
+{
+    "body": "Running `spack -l` with a dark solarized color scheme shows no hashes in some color scheme due to the use of `bright black` as the foreground color\r\n\r\n![spack](https://user-images.githubusercontent.com/272760/55638315-e4634c80-5794-11e9-9901-a0bc4141c991.png)\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack --color always spack -l python | hexdump -C\r\n00000000  1b 5b 31 3b 33 34 6d 3d  3d 3e 1b 5b 30 6d 20 31  |.[1;34m==>.[0m 1|\r\n00000010  20 69 6e 73 74 61 6c 6c  65 64 20 70 61 63 6b 61  | installed packa|\r\n00000020  67 65 0a 2d 2d 20 1b 5b  30 3b 33 35 6d 6c 69 6e  |ge.-- .[0;35mlin|\r\n00000030  75 78 2d 63 65 6e 74 6f  73 37 2d 78 38 36 5f 36  |ux-centos7-x86_6|\r\n00000040  34 1b 5b 30 6d 20 2f 20  1b 5b 30 3b 33 32 6d 67  |4.[0m / .[0;32mg|\r\n00000050  63 63 40 38 2e 32 2e 30  1b 5b 30 6d 20 2d 2d 2d  |cc@8.2.0.[0m ---|\r\n00000060  2d 2d 2d 2d 2d 2d 2d 2d  2d 2d 2d 2d 2d 2d 2d 2d  |----------------|\r\n00000070  2d 2d 2d 2d 2d 2d 2d 2d  2d 2d 0a 1b 5b 30 3b 39  |----------..[0;9|\r\n00000080  30 6d 72 33 73 36 71 35  71 1b 5b 30 6d 20 70 79  |0mr3s6q5q.[0m py|\r\n00000090  74 68 6f 6e 1b 5b 30 3b  33 36 6d 40 33 2e 36 2e  |thon.[0;36m@3.6.|\r\n000000a0  35 1b 5b 30 6d 0a                                 |5.[0m.|\r\n000000a6\r\n\r\n```\r\n\r\nI don't know if you can call this a proper bug but I would suggest that bright black is not a great color choice for contrast. Plus bright colors are not always supported.",
+    "user": "wresch",
+    "url": "https://api.github.com/repos/spack/spack/issues/11116",
+    "updated_at": "2021-11-03 06:19:12",
+    "created_at": "2019-04-05 15:24:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack `find -l` uses bright black (Esc[0;90m) for hashes which makes it hard to see in some dark color schemes",
+    "number": 11116,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 429811456,
+    "html_url": "https://github.com/spack/spack/issues/11116",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 4
+}

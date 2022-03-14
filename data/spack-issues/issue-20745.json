@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nI used `spack external find` on a RHEL-based system (`Red Hat Enterprise Linux Server release 7.7 (Maipo)`)\r\n\r\nIt detected bzip2:\r\n\r\n```\r\n  bzip2:\r\n    externals:\r\n    - spec: bzip2@1.0.6\r\n      prefix: /usr\r\n```\r\n\r\nHowever, that bzip2 isn't actually usable for development, since there is no header file, and just the versioned shared library. If I had root access I could probably install a corresponding devel package, but I don't, and as a user it'd be better to have spack not detect an unusable bzip2, but rather skip it and then build its own bzip2 as required.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install adios2\r\n```\r\n\r\nThis isn't an adios2 problem, though, it'll likely happen to other packages depending on bzip2.\r\n\r\n### Error Message\r\n\r\nInside the cmake configuration step of adios2:\r\n```\r\n[...]\r\n   17      Could NOT find BZip2 (missing: BZIP2_LIBRARIES BZIP2_INCLUDE_DIR)\r\n```\r\n### Information on your system\r\n\r\n```\r\n* **Spack:** 0.16.0\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-rhel7-zen2\r\n```\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "germasch",
+    "url": "https://api.github.com/repos/spack/spack/issues/20745",
+    "updated_at": "2021-01-14 19:12:17",
+    "created_at": "2021-01-08 15:50:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack external find problem with bzip2",
+    "number": 20745,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "external-packages",
+        "impact-low"
+    ],
+    "id": 782214946,
+    "html_url": "https://github.com/spack/spack/issues/20745",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

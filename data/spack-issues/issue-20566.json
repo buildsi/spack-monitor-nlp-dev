@@ -1,0 +1,20 @@
+{
+    "body": "I've installed OpenCV with spack using `spack install opencv`, and am now trying to use this spack version of OpenCV in a CMake project.\r\n\r\nIn my current CMake project, I'm using OpenCV version 3.2, that comes with Ubuntu 18.04, as follows:\r\n```\r\nfind_package(OpenCV REQUIRED)\r\ninclude_directories(${OpenCV_INCLUDE_DIRS})\r\ntarget_link_libraries(main ${OpenCV_LIBS})\r\n```\r\n\r\nHowever, I'm a little uncertain as to how I can instead use the newer spack version of OpenCV in my CMake project. One attempt I tried was to find out where spack installed OpenCV, and then use this hard coded path to include header files and gain access to the OpenCV shared libraries. \r\n\r\nSpack installed OpenCV into\r\n```\r\n~/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-10.1.0/opencv-4.5.0-bgg64urfqe7473kwszrujfmqzrn3d7xw/\r\n```\r\nwith `bin, include, lib` and `share` directories contained within this directory. As such, I tried using the spack version of OpenCV in my CMake project as follows:\r\n```\r\ninclude_directories(~/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-10.1.0/opencv-4.5.0-\r\nbgg64urfqe7473kwszrujfmqzrn3d7xw/include)\r\nlink_directories(~/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-10.1.0/opencv-4.5.0-bgg64urfqe7473kwszrujfmqzrn3d7xw/lib)\r\ntarget_link_libraries(main opencv_core)\r\n```\r\nHowever, when compiling my code I receive linking errors, and as such I was wondering if there's a cleaner way of using spack packages in CMake projects. Any help would be appreciated.\r\n",
+    "user": "JeffR1992",
+    "url": "https://api.github.com/repos/spack/spack/issues/20566",
+    "updated_at": "2020-12-31 20:10:21",
+    "created_at": "2020-12-27 05:52:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Using spack packages in CMake projects",
+    "number": 20566,
+    "milestone": null,
+    "labels": [
+        "question",
+        "cmake"
+    ],
+    "id": 774982330,
+    "html_url": "https://github.com/spack/spack/issues/20566",
+    "assignees": [],
+    "comments": 9
+}

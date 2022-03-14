@@ -1,0 +1,21 @@
+{
+    "body": "this idea materialised in numerous discussions [1] : https://github.com/LLNL/spack/pull/882#discussion_r61910236 https://github.com/LLNL/spack/issues/876#issuecomment-216241450\n\nEssentially, each package should know which compilers it needs. Same applies to `mpi`. We may need just C/C++ part of the `mpi` library, or we may need both `c/c++` and `fortran` compiler wrappers. \n~~For `opempi` one could have~~\n\n```\nvariant ('cc', default=True, 'build with C compilers')\nvariant ('cxx', default=True, 'build with CXX compilers')\ndepends_on('cc', when='+cc');\ndepends_on('cc', when='+cxx');\n```\n\n~~and then in some package~~\n\n```\ndepends_on('mpi+cc+cxx+f77+fc')\n```\n\n~~or alike.~~ (**update**: see https://github.com/LLNL/spack/issues/896#issuecomment-216933187).\n\n That's how it is done in Homebrew (see for example Hypre https://github.com/Homebrew/homebrew-science/blob/master/hypre.rb#L17). I think it is a good idea to adopt a similar approach.\n\nI see several reasons why this is important, here is one. I am currently helping our sysadmin to use `spack`. On some Linuxes `gfortran` was not available when he first run `spack isntall dealii`. `dealii` has a lot of dependencies and quite big DAG was created. `openmpi` together with some other packages were installed successfully. Luckily for us, `openblas` failed due to missing fortran compilers. I helped him to debug the issue, we removed `compilers.yaml` and everything went fine with `openblas`. However `hypre` failed even when `compilers.yaml` had proper links to fortran compilers. That is because `openmpi` happened to be installed **before** we fixed `gfortran` issue and thus did not compile Fortran part of the library. Obviously a fix is to reinstall `openmpi`.\n\nYou can imagine that for newcomers those errors would be very difficult to track down. What is worse is that DAG fails to build somewhere in the middle. Such issues could be made more transparent if packages would declare which compilers they need. In this case, the whole DAG would probably have failed to conretize as no fortran compiler would be found. This would be a much easier to fix even for a newcomer to `spack`.\n\nAdditionally once compilers are made dependencies of packages, their mixing `c/c++` and `fortran` from different families (clang/gcc) would probably be easier as one would search for a working fortran compiler among all compilers known to spack. Of course, the whole conretization logic would be more complicated, probably with restrictions to use at maximum two different compiler suites for `c/c++` and `f77/fc` each.\n\n[1] i will update the links if I find more\n",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/896",
+    "updated_at": "2016-09-21 13:10:04",
+    "created_at": "2016-05-04 12:54:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "make compilers a build dependency without using depends_on()",
+    "number": 896,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "compilers",
+        "dependencies"
+    ],
+    "id": 153004479,
+    "html_url": "https://github.com/spack/spack/issues/896",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,19 @@
+{
+    "body": "`setup-env.{sh,csh,fish}` should load the Lmod module hierarchy instead of or in addition to the tcl hierarchy.\r\n\r\n### Rationale\r\n\r\nThe upstream spack instance being used uses an Lmod module hierarchy to manage the environment. `setup-env.sh` unilaterally injects tcl modules into this setup; I would prefer to use Lmod to properly integrate with the upstream env.\r\n\r\nIt should be possible to disable tcl modules entirely, but I haven't figured out how to do this.\r\n\r\n### Description\r\n\r\n`setup-env.{sh,csh,fish}` would call `module use /path/to/Lmod/hierarchy` (or modify `MODULEPATH` directly) as part of setup. Whether to load in the Lmod or tcl modules should be configurable, through a flag to `setup-env` or some other mechanism.\r\n\r\nIdeally, spack could generate modules for e.g. compilers, mpi, etc. of upstream spack instances that use the Lmod `inherit()` mechanism to inject the local hierarchy on top of the upstream one. See [this Lmod doc](https://lmod.readthedocs.io/en/latest/340_inherit.html) for an example.\r\n\r\n### Additional information\r\nThis is related to #16730, but proposes a solution to some of the problems noted there besides additional documentation.\r\n\r\n### General information\r\n\r\nSpack is at `HEAD` (or nearly so) of `develop`.\r\n\r\n```console\r\n$ spack --version\r\n0.16.1-2177-03e3a4e40d\r\n```\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "omor1",
+    "url": "https://api.github.com/repos/spack/spack/issues/22953",
+    "updated_at": "2021-04-13 04:05:51",
+    "created_at": "2021-04-13 04:05:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "setup-env.{sh,csh,fish}: load Lmod hierarchy",
+    "number": 22953,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 856547524,
+    "html_url": "https://github.com/spack/spack/issues/22953",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,22 @@
+{
+    "body": "Trying to use spack on my linux laptop running Fedora 33.  Trying something that I thought would be simple i.e. \"spack install -j 4 caliper\" with the devel version of spack.  For a reason that I do not understand, spack is creating between 20k and 30k processes compiling with gcc which exceeds the process resource limit on my laptop.  Is there some way to control or prevent this?  I thought adding \"-j 4\" might fix this problem but it seems not.\r\n\r\n### Steps to reproduce the issue\r\n\r\n#!/bin/bash\r\ngit clone https://github.com/spack/spack.git\r\nsource spack/share/spack/setup-env.sh\r\nspack install -j 4 caliper\r\n\r\nNote that this occurs with or without an initial ~/.spack directory and I have not modified any files that get created in the ~/.spack directory.  I am running on an old laptop with a Haswell mobile processor with an updated version of Fedora 33 installed.\r\n\r\n### Error Message\r\n\r\nThere is no error message because the build completes successfully.  However, at about the time that the gettext package is being built, the number of gcc compiler processes rises to between 20,000 and 30,000 processes and the total number of processes running under my user ID exceeds 75,000 processes.  At that time, trying to run another command like ls or ps under my user ID results in a warning that there are no resources available to execute the command.  However, if I just leave the build going, it appears to complete successfully.\r\n\r\n### Information on your system\r\n\r\n% spack debug report\r\n* **Spack:** 0.16.0-416-4d94c4c46\r\n* **Python:** 3.9.1\r\n* **Platform:** linux-fedora33-haswell\r\n* **Concretizer:** original\r\n\r\nThere is no custom or special configuration of spack used.  This problem presents with or without the presence of ~/.spack and none of the files created by spack in the ~/.spack directory are modified.\r\n\r\n### Additional information\r\n\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "dnystrom1",
+    "url": "https://api.github.com/repos/spack/spack/issues/20668",
+    "updated_at": "2021-01-10 19:57:46",
+    "created_at": "2021-01-04 23:29:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Uncontrolled number of compilation processes when building Caliper on Fedora 33",
+    "number": 20668,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 778446328,
+    "html_url": "https://github.com/spack/spack/issues/20668",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 24
+}

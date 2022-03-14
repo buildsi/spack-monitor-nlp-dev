@@ -1,0 +1,21 @@
+{
+    "body": "Compound versions for stand-alone compilers with their used standard library provider to enable reproducible spack builds.\r\n\r\n### Rationale\r\n\r\nSome compilers such as gcc or clang ship with their own implementations of C/C++ standard libraries. Other compilers such as intel or pgi, however use a GNU library present on the system.\r\n\r\nThis has implications on the reproducibility of software compiled with spack, as the version of the compiler does not identify the version of the used standard library.\r\n\r\nThus, building some software using `%gcc@5` will result in a consistent result among environments.\r\nThe result of building with `%intel@15` on the other hand depends on the version of `gcc` detected at runtime, which varies from system to system. Consequently, this leads to non-reproducible builds using spack.\r\n\r\nFurthermore, the version of a stand-alone compiler may give a guarantee on the compliance with respect to language standards, not however on the compliance of the used standard library.\r\n\r\nA common pitfall on clusters is the combination of a fairly new intel compiler and gcc with a default version of 4.8. In this case, both compilers are fully C++11 feature-compliant. The gcc standard library, however is not. This is difficult to debug as most build system only provide information about the compiler and its version.\r\n\r\n### Description\r\n\r\nA possible solution is a compound version for stand-alone compilers consisting of:\r\n1. The version of the compiler\r\n2. The version of the used standard library provider\r\n\r\nPossible format `%intel@15^gcc@9`\r\n\r\nIntel provides [options](https://software.intel.com/en-us/cpp-compiler-developer-guide-and-reference-gxx-name) and [environment variables](https://software.intel.com/en-us/cpp-compiler-developer-guide-and-reference-supported-environment-variables) to steer the gcc detection.\r\nThese could be used to direct intel to the suitable binary of the local install or a spack installation.",
+    "user": "fsimonis",
+    "url": "https://api.github.com/repos/spack/spack/issues/13719",
+    "updated_at": "2019-11-15 14:15:22",
+    "created_at": "2019-11-13 16:08:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Compound versions for stand-alone compilers enabling reproducibility",
+    "number": 13719,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "compilers",
+        "proposal"
+    ],
+    "id": 522320195,
+    "html_url": "https://github.com/spack/spack/issues/13719",
+    "assignees": [],
+    "comments": 0
+}

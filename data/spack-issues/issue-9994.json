@@ -1,0 +1,19 @@
+{
+    "body": "spack buildcache does not appear to work with Azure blob storage.\r\n\r\n\r\n### Steps to reproduce the issue\r\nCreated a buildcache\r\nspack buildcache create fftw\r\n\r\nCopied the buildcache to Azure blob storage.\r\nazcopy --source build_cache --destination \"https://myblob.blob.core.windows.net/buildcache/build_cache\" --recursive\r\n\r\nVerified I can access files on blob storage\r\nwget -O  -O linux-centos7-x86_64-gcc-4.8.5-fftw-3.3.8-jvsd3yjwt53gp33g5mhn3kwzd37mtflb.spack \"https://myblob.blob.core.windows.net/buildcache/build_cache/linux-centos7-x86_64/gcc-4.8.5/fftw-3.3.8/linux-centos7-x86_64-gcc-4.8.5-fftw-3.3.8-jvsd3yjwt53gp33g5mhn3kwzd37mtflb.spack\"\r\nThis works, I can get the fftw buildcache.\r\n\r\nAdded the spack mirror \r\nspack mirror add blob \"https://myblob.blob.core.windows.net/buildcache\"\r\n\r\nspack mirror list\r\nblob    https://myblob.blob.core.windows.net/buildcache/build_cache\r\n\r\n### Error Message\r\nI cannot access any buildcaches located in blob storage.\r\n\r\nspack buildcache list\r\n==> Finding buildcaches on https://cgspack.blob.core.windows.net/buildcache\r\n==> Warning: Spack will not check SSL certificates. You need to update your Python to enable certificate verification.\r\n==> buildcache specs and commands to install them\r\n\r\nNo buildcaches appear to be available, if I set my buildcache mirror to be located on my local disk I can see al the available buildcaches\r\n\r\n\r\n### Information on your system\r\nI am using spack 0.12 and running it on a Centos 7.4 VM",
+    "user": "garvct",
+    "url": "https://api.github.com/repos/spack/spack/issues/9994",
+    "updated_at": "2020-02-06 12:56:21",
+    "created_at": "2018-12-01 15:14:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "buildcache does not work with Azure blob storage?",
+    "number": 9994,
+    "milestone": null,
+    "labels": [
+        "buildcache"
+    ],
+    "id": 386466854,
+    "html_url": "https://github.com/spack/spack/issues/9994",
+    "assignees": [],
+    "comments": 0
+}

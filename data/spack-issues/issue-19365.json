@@ -1,0 +1,23 @@
+{
+    "body": "The `nvhpc` package provides CUDA, but there is currently no way to use it as a `cuda` provider.\r\n\r\nContinues discussion started in https://github.com/spack/spack/pull/19294#issuecomment-708470862.  \r\n\r\n### Description\r\n\r\nThe NVIDIA HPC SDK is a comprehensive set of compilers, libraries, and tools.  The `nvhpc` package currently exposes the compilers, CPU math libraries (`+blas`, `+lapack`), and MPI (`+mpi`).  While the HPC SDK includes CUDA and CUDA math libraries, they are not currently exposed (no `+cuda`).  The included CUDA may be used with other compilers and is not limited to the NV compilers.  \r\n\r\nCUDA is currently provided by the `cuda` package.  A virtual package cannot exist with the same name as a real package.\r\n\r\nPotential solutions:\r\n\r\n1. Create a new virtual package name like `cuda-virtual` (and packages would have to change their `depends_on` declarations to indicate that any provider of `cuda-virtual` is acceptable).\r\n2. Rename the `cuda` package, for instance to `cuda-toolkit`, and have it provide `cuda`.  The `nvhpc` package could also provide `cuda`.\r\n3. Packages explicitly `depend_on('nvhpc')` to use the CUDA bundled with the HPC SDK.\r\n\r\nThe same issue also applies to `nccl`.  The HPC SDK includes NCCL, but it is already provided by the `nccl` package.\r\n\r\ncc @scheibelp ",
+    "user": "samcmill",
+    "url": "https://api.github.com/repos/spack/spack/issues/19365",
+    "updated_at": "2022-02-23 09:10:28",
+    "created_at": "2020-10-19 15:09:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Alternate CUDA provider",
+    "number": 19365,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "virtual-dependencies",
+        "cuda"
+    ],
+    "id": 724717205,
+    "html_url": "https://github.com/spack/spack/issues/19365",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 23
+}

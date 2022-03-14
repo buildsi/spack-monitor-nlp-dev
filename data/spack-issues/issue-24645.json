@@ -1,0 +1,19 @@
+{
+    "body": "Let's say I build some packages on a `centos8` distro, they will be assigned (for example) `arch=linux-centos8-aarch64`.\r\nFrom there, I setup a binary mirror.\r\nThen I want to install the same packages on nodes running the commercial distro `centos8` is based on.\r\nThe packages won't be installed from the binary mirror unless I explicitly\r\n`spack install ... arch=linux-centos8-aarch64`\r\n\r\nIdeally, I would like to have the option to tell spack to automatically install binary packages build on a bug-to-bug compatible distro, instead of rebuilding them.\r\n\r\n\r\nThis is a real use case:\r\n - the target supercomputer is running a commercial distro\r\n - I want to use as much as possible the packages provided by the distro (to avoid some annoying side effects, and save build time/disk space too\r\n - not all the `-devel` packages are installed on the target supercomputer\r\n - as an end user, I use containers to install the missing `-devel` packages, but I do not have any license to use the commercial distro, so I use `CentOS` (and I will likely move to `Rocky Linux` in a near future)\r\n\r\nBonus point (let me know if I should open a separate feature request):\r\nIt can be more convenient (faster build time and easier access to resources) to build some (non performance sensitive) binary packages on `arch=linux-centos8-aarch64` and install them on a compatible but more capable processor such as `a64fx`. Though `spack install ... arch=linux-centos8-aarch64` will also do the trick, it would be nice to have the option to tell spack `aarch64` is good enough for `a64fx`, so if there is something in the mirror built for `aarch64`, just use it instead of rebuilding for `a64fx`.\r\n\r\nI am running `spack v0.16.1` and after a quick search, could not find this feature requested nor implemented in the `develop` branch.",
+    "user": "ggouaillardet",
+    "url": "https://api.github.com/repos/spack/spack/issues/24645",
+    "updated_at": "2021-07-02 16:02:03",
+    "created_at": "2021-07-01 01:13:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Mixing bug-to-bug compatible distros",
+    "number": 24645,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 934259393,
+    "html_url": "https://github.com/spack/spack/issues/24645",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Summary\r\n\r\nThis a list of some fairly quick things we can do to improve gitlab pipelines.\r\n\r\n### Rationale\r\n\r\nIf we improve pipeline throughput, more PRs can be contributed to spack.\r\n\r\n### Description\r\n\r\nThis list is in no particular order and includes cleanups and speed improvements    \r\n\r\n- [x] radiuss no longer needs a custom image since the default image contains clingo\r\n- [x] data-viz-sdk should likely use the same image for building as it does for generation\r\n- [x] ditto for e4s on x86_64 (currently uses older image for build, newer image for generate)\r\n- [x] data-viz-sdk should be set up to use the `broken-specs-url`\r\n- [ ] ~all stacks should probably activate the SPACK_CONCRETE_ENV_DIR in the service-jobs-attributes (probably not breaking things at the moment, but still makes sense)~\r\n  - [x] Actually, we may not need to activate the environment for any of the service jobs, which could speed things up a bit.\r\n- [x] we should try to make each build/trigger job in `.gitlab-ci.yml` \"need\" it's associated generate job so we get \"DAG scheduling\" of the different stacks (this will let some stacks start building without having to first wait for all stacks to finish generation).\r\n- [ ] once we re-enable the `ppc64le` stack:\r\n  - [ ] we should still always run any service jobs we can on the `x86_64 ` runners since we have so many more of them\r\n  - [ ] we should pick a small power runner and dedicate it to concretization  \r\n- [ ] #25708  \r\n- [ ] #26258\r\n\r\n### Additional information\r\n\r\nThis is not architecture or spack version specific, but for completeness:\r\n\r\n```\r\n$ spack --version\r\n0.16.3-4388-001042a8fb\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/26241",
+    "updated_at": "2021-09-28 19:30:31",
+    "created_at": "2021-09-24 18:21:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "PIpelines: Make quality of life improvements",
+    "number": 26241,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1006718504,
+    "html_url": "https://github.com/spack/spack/issues/26241",
+    "assignees": [
+        "scottwittenburg"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,22 @@
+{
+    "body": "This change builds on #28846 to apply a consistent amdgpu_target variant behaviour across all the ROCm math and communication libraries. There's two main things I've done:\r\n\r\n1. Define the amdgpu_target variant values with `auto_or_any_combination_of` on all ROCm math and communication libraries that contain GPU code. When `auto` is supplied, the `AMDGPU_TARGETS` cache variable is left unset. In this case, the libraries will default to building for all supported architectures. This takes a _long_ time, but it's the safest default.\r\n2. Propagate the amdgpu_target variant between ROCm math library dependencies. e.g. `spack spec rocsolver amdgpu_target=gfx906:xnack-,gfx1010` will include `^rocblas@4.5.2%gcc@9.3.0~ipo amdgpu_target=gfx1010,gfx906:xnack-`\r\n\r\nThis change was motivated by comments in https://github.com/spack/spack/pull/28846#discussion_r805200534 and https://github.com/spack/spack/pull/27535#issuecomment-987482569.",
+    "user": "cgmb",
+    "url": "https://api.github.com/repos/spack/spack/issues/28907",
+    "updated_at": "2022-02-15 18:31:36",
+    "created_at": "2022-02-13 10:20:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "rocmlibs: cleanup amdgpu_target variant behaviour",
+    "number": 28907,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "conflicts",
+        "new-variant"
+    ],
+    "id": 1135606461,
+    "html_url": "https://github.com/spack/spack/pull/28907",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install cababa ^kokkos +cuda cuda_arch=70 +openmp +volta70 +cuda_lambda +wrapper\r\n...\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.7.0\r\n* **Platform:** linux-rhel7-power9le\r\n(this is on Summit)\r\n\r\n### Additional information\r\n\r\nThe errors are of the kind\r\n```\r\n  >> 65    g++: error: unrecognized command line option '-arch=sm_70'\r\n  >> 66    g++: error: unrecognized command line option '-Xcompiler'; did you mean '--compile'?\r\n  >> 67    make[2]: *** [core/src/CMakeFiles/cabanacore.dir/impl/Cabana_Version.cpp.o] Error 1\r\n```\r\n\r\nThis happens, for all I can tell, because nvcc-wrapper isn't being used by cabana -- or other cmake-based packages that depend on kokkos. I believe the reason for this is that kokkos sets `OMPI_CXX=path/to/nvcc-wrapper`, so if the downstream project (like cabana) uses mpicxx, it'd use nvcc-wrapper underneath. However, cmake doesn't call mpicxx, it calls the regular host compiler (g++) which doesn't understand the nvcc flags, of course.\r\n\r\nI can work around it by adding\r\n```\r\n            '-DCMAKE_CXX_COMPILER=%s' % (self.spec['mpi'].mpicxx),\r\n```\r\nto cabana's `package.py`, but the problem extends to other users of kokkos as well, so this doesn't seem like a great solution.\r\n\r\n@junghans \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "germasch",
+    "url": "https://api.github.com/repos/spack/spack/issues/18565",
+    "updated_at": "2021-02-26 01:11:08",
+    "created_at": "2020-09-08 14:36:31",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: cabana with nvcc-wrapper",
+    "number": 18565,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 695928668,
+    "html_url": "https://github.com/spack/spack/issues/18565",
+    "assignees": [],
+    "comments": 2
+}

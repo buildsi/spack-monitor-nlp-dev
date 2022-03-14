@@ -1,0 +1,19 @@
+{
+    "body": "I tried to build the Spack documentation according to these instructions:\r\n\r\nhttps://spack.readthedocs.io/en/latest/contribution_guide.html?highlight=sphinx#documentation-tests\r\n\r\nbut it fails with\r\n```\r\nExtension error:\r\nCould not import extension sphinxcontrib.programoutput (exception: No module named sphinxcontrib.programoutput)\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack activate py-sphinx\r\n==> Package py-sphinx/rwsbsbs is already activated.\r\n$ spack activate py-sphinx-rtd-theme\r\n==> Package py-sphinx-rtd-theme/mun75y3 is already activated.\r\n$ spack activate py-sphinxcontrib-programoutput\r\n==> Package py-sphinxcontrib-programoutput/bu7kkwi is already activated.\r\n$ cd \"$SPACK_ROOT/lib/spack/docs\"\r\n$ make clean\r\nrm -f command_index.rst\r\nrm -rf _build/* spack*.rst llnl*.rst\r\n$ make\r\nsphinx-build -b html -d _build/doctrees  -E . _build/html\r\nRunning Sphinx v1.4.9\r\nmaking output directory...\r\nCreating file ./spack.rst.\r\nCreating file ./spack.build_systems.rst.\r\nCreating file ./spack.cmd.rst.\r\nCreating file ./spack.cmd.common.rst.\r\nCreating file ./spack.cmd.modules.rst.\r\nCreating file ./spack.compilers.rst.\r\nCreating file ./spack.hooks.rst.\r\nCreating file ./spack.modules.rst.\r\nCreating file ./spack.operating_systems.rst.\r\nCreating file ./spack.platforms.rst.\r\nCreating file ./spack.reporters.rst.\r\nCreating file ./spack.schema.rst.\r\nCreating file ./spack.test.rst.\r\nCreating file ./spack.util.rst.\r\nCreating file ./spack.util.imp.rst.\r\nCreating file ./llnl.rst.\r\nCreating file ./llnl.util.rst.\r\nCreating file ./llnl.util.tty.rst.\r\n\r\nExtension error:\r\nCould not import extension sphinxcontrib.programoutput (exception: No module named sphinxcontrib.programoutput)\r\nMakefile:90: recipe for target 'html' failed\r\nmake: *** [html] Error 1\r\n```\r\n\r\n### Information on your system\r\n```\r\n$ uname -a \r\nLinux 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Debian GNU/Linux 9.6 (stretch)\r\n```\r\n\r\n```\r\n$ which python\r\n/usr/bin/python\r\n```\r\n\r\n```\r\n$ python --version\r\nPython 2.7.13\r\n```\r\n\r\nMy `PYTHONPATH` is empty:\r\n```\r\n$ echo $PYTHONPATH\r\n\r\n```\r\nShould activating the above packages add their path here or am I missing something?\r\n",
+    "user": "benzwick",
+    "url": "https://api.github.com/repos/spack/spack/issues/10241",
+    "updated_at": "2021-08-27 19:26:47",
+    "created_at": "2019-01-03 04:35:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Failed to build Spack documentation locally",
+    "number": 10241,
+    "milestone": null,
+    "labels": [
+        "documentation"
+    ],
+    "id": 395454746,
+    "html_url": "https://github.com/spack/spack/issues/10241",
+    "assignees": [],
+    "comments": 2
+}

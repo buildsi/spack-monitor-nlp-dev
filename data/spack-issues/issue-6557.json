@@ -1,0 +1,21 @@
+{
+    "body": "In my ``packages.yaml``, I provided:\r\n```\r\npackages:\r\n  all:\r\n    compiler: [gcc, intel, pgi, clang, xl, nag]\r\n    providers:\r\n     ....\r\n       mpi: [mvapich]\r\n   ...\r\n  mvapich:\r\n    paths:\r\n      mvapich@2: /usr/local/tools/mvapich2-gnu-2.0/\r\n    buildable: False\r\n```\r\nAfter building for quite some time, I noticed that `intel-mpi` was being built to satisfy `mpi`. \r\n\r\nTurns out  spack has an `mvapich2` package, but no `mvapich` package.  Replacing my `mvapich` entries with `mvapich2` resolved my problem. \r\n\r\nI am new to external packages, so I am not quite sure what the behavior should be for a package name that spack doesn't provide. But it was quite surprising that `intel-mpi` came into the mix due to my typos. \r\n\r\nIs this the expected behavior? If no matches, it just picks the first provider alphabetically ? (That seems to be one possible explanation for `intel-mpi` vs other providers)\r\n",
+    "user": "cyrush",
+    "url": "https://api.github.com/repos/spack/spack/issues/6557",
+    "updated_at": "2018-04-20 08:39:24",
+    "created_at": "2017-12-03 04:35:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "sanity checks or feedback to avoid surprises using packages.yaml",
+    "number": 6557,
+    "milestone": null,
+    "labels": [
+        "external-packages"
+    ],
+    "id": 278743717,
+    "html_url": "https://github.com/spack/spack/issues/6557",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

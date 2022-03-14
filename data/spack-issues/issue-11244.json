@@ -1,0 +1,19 @@
+{
+    "body": "The singluarity package ([a WIP here](https://github.com/spack/spack/pull/11094#issuecomment-484274715)) would like to print out a helpful message to the user after the installation (suggesting that they chown some files to `root` and make one of them `setuid`).\r\n\r\nThere doesn't seem to be any way to do this.  I've tried overriding various installation steps and/or wrapping them, to no avail.  I eventually figured out that the output was going to the log file, not the terminal.\r\n\r\nThe cleanest solution that I've come up with is to add a *hook*, e.g. `lib/spack/spack/hooks/post_install_message.py` that checks whether a package implements a method named `post_install_message` and calls the method if so.\r\n\r\n```python\r\n # Copyright 2013-2019 Lawrence Livermore National Security, LLC and other\r\n # Spack Project Developers. See the top-level COPYRIGHT file for details.\r\n #\r\n # SPDX-License-Identifier: (Apache-2.0 OR MIT)\r\n\r\n import llnl.util.tty as tty\r\n\r\n def post_install(spec):\r\n     \"\"\"Give package a chance to send a post installation message.\"\"\"\r\n     pkg = spec.package\r\n     if (hasattr(pkg, \"post_install_message\") and\r\n         callable(getattr(pkg, \"post_install_message\"))):\r\n         tty.debug(\"Calling post_install_message()\")\r\n         pkg.post_install_message(spec, spec.prefix)\r\n```\r\n\r\nPackages could then use it to warn the user, e.g.:\r\n\r\n```python\r\ndef post_install_message(self, spec, prefix):\r\n     tty.warn(\"Danger Will Robinson!\")\r\n```\r\n\r\n**Have I missed an obvious way to do this?**\r\n\r\n**If not, is something like the above an interesting/acceptable solution?**\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/11244",
+    "updated_at": "2019-04-26 14:58:04",
+    "created_at": "2019-04-21 00:44:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "There appears to be no way to print a message after installing a package",
+    "number": 11244,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 435460164,
+    "html_url": "https://github.com/spack/spack/issues/11244",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce\n\nWith https://github.com/spack/spack/pull/28888 merged (conflict for `go@1.17: %gcc@:4`) the following environment concretizes with a different compiler (clang%9) rather than downgrading go to @1.16 to match \r\n```\r\n$ cat spack.yaml\r\nspack:\r\n  specs:\r\n  - go\r\n  packages:\r\n    all:\r\n      compiler: [gcc@4.4.7]\r\n```\n\n### Error message\n\n```\r\n$ spack -e . concretize -f\r\n==> Starting concretization\r\n==> Environment concretized in 12.80 seconds.\r\n==> Concretized go\r\n -   r6egrzq  go@1.17.3%clang@9.0.1 arch=linux-rhel6-x86_64\r\n# snip\r\n```\n\n### Information on your system\n\n* **Spack:** 0.17.1-1118-c2849ef3d6\r\n* **Python:** 3.8.7\r\n* **Platform:** linux-rhel6-broadwell\r\n* **Concretizer:** clingo\r\n\r\nWorth noting that adding a package constraint fixes the concretization:\r\n```\r\n    go:\r\n      version: [1.16.10]\r\n```\r\n\r\nand `spack solve go %gcc@:4` produces the expected result of using 1.16 rather than changing the compiler.\r\n\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    spec: clang@9.0.1\r\n    paths:\r\n      cc: /projects/spack/opt/spack/gcc-8.3.0/llvm/kzsgxqy/bin/clang\r\n      cxx: /projects/spack/opt/spack/gcc-8.3.0/llvm/kzsgxqy/bin/clang++\r\n      f77: null\r\n      fc: null\r\n    flags: {}\r\n    operating_system: rhel6\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n- compiler:\r\n    spec: gcc@3.4.6\r\n    paths:\r\n      cc: /usr/bin/gcc34\r\n      cxx: /usr/bin/g++34\r\n      f77: null\r\n      fc: null\r\n    flags: {}\r\n    operating_system: rhel6\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n- compiler:\r\n    spec: gcc@4.4.7\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    flags: {}\r\n    operating_system: rhel6\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/28889",
+    "updated_at": "2022-02-11 14:59:01",
+    "created_at": "2022-02-11 14:59:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Concretizer switches compilers rather than downgrade package versions",
+    "number": 28889,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage",
+        "concretizer-use-case"
+    ],
+    "id": 1132714689,
+    "html_url": "https://github.com/spack/spack/issues/28889",
+    "assignees": [],
+    "comments": 0
+}

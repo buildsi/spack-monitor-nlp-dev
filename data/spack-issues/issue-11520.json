@@ -1,0 +1,22 @@
+{
+    "body": "@alalazo curious about your thoughts on this.\r\n\r\nSee also:\r\n\r\n* #9481\r\n* #11431\r\n\r\n#9481 added support for explicitly disabling all possible values of a multi-valued variant by assigning 'none'; this included support in Autotools-based packages for adding `--without-...` and `--with-...` configure options (using the `with_or_without` method). \r\n\r\nThis PR also added some built-in support for the concept of an 'auto' value to support cases where a package may want to defer the choice of variant to an underlying build system (e.g. to let the OpenMPI configure pick a system-installed scheduler). #11431 shows that the convenience logic for defining the possible values of a variant is insufficient to support this behavior: the user should avoid calling `with_or_without` when the value of a variant is 'auto', otherwise the variant values will all be explicitly disabled.\r\n\r\nIdeally, the `AutotoolsPackage.with_or_without` method would avoid generating any configure options when the value of a variant was 'auto'.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/11520",
+    "updated_at": "2022-03-10 15:09:43",
+    "created_at": "2019-05-21 01:15:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Autotools packages and behavior of variants with 'auto' value",
+    "number": 11520,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 446373381,
+    "html_url": "https://github.com/spack/spack/issues/11520",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

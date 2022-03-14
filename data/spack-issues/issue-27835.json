@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\n\nThe `py-jupyter-server` package contains the following constraint:\r\n```python\r\ndepends_on('py-jupyter-packaging@0.9:1', type=('build', 'run'), when='@1.10.2:')\r\n```\r\nHowever, this should actually be:\r\n```python\r\ndepends_on('py-jupyter-packaging@0.9:0', type=('build', 'run'))\r\n```\r\nIf you make this change, you'll be able to reproduce the following issue.\n\n### Error message\n\nWith the package on its own, the concretizer chooses the right thing:\r\n```console\r\n$ spack spec py-jupyter-server\r\n...\r\npy-jupyter-server@1.11.2%apple-clang@12.0.0 arch=darwin-catalina-ivybridge\r\n...\r\n    ^py-jupyter-packaging@0.10.6%apple-clang@12.0.0 arch=darwin-catalina-ivybridge\r\n```\r\nHowever, with a package that depends on both, you get an invalid solve:\r\n```console\r\n$ spack spec py-cinemasci\r\n...\r\n            ^py-jupyter-packaging@0.7.12%apple-clang@12.0.0 arch=darwin-catalina-ivybridge\r\n...\r\n                ^py-jupyter-server@1.11.2%apple-clang@12.0.0 arch=darwin-catalina-ivybridge\r\n```\r\nThis prevents GitLab CI from building correctly in #27798.\n\n### Information on your system\n\n* **Spack:** 0.17.0-445-f81d84dfc6\r\n* **Python:** 3.8.12\r\n* **Platform:** darwin-catalina-ivybridge\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/27835",
+    "updated_at": "2021-12-07 14:41:12",
+    "created_at": "2021-12-07 14:41:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Concretizer chooses build dep that doesn't satisfy all packages",
+    "number": 27835,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 1073432871,
+    "html_url": "https://github.com/spack/spack/issues/27835",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

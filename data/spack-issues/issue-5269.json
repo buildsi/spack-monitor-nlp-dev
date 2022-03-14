@@ -1,0 +1,20 @@
+{
+    "body": "As discussed in the telcon this week: https://github.com/LLNL/spack/wiki/Telcon%3A-2017-08-31\r\n\r\nAlso as discussed on the telcon, I'm going to use \"common variants\" to refer to variants that happen to be present on many packages, and \"global variants\" or \"universal variants\" to refer to a variant that is technically ensured to be present for all packages (or some major subset).\r\n\r\nWe need to document our community standards for common variants. There are reasons that we don't use universal variants for shared/static libraries, but community standards make Spack more usable. Unless/until we put those community standards into the documentation and start rejecting pull requests that don't adhere to those standards, we can't get the full benefits of standardization.\r\n\r\nI have two concrete proposals for what the standard for shared/static variants should be. These will also interact with the (already standardized) pic variant. The goal is to hash out any corner cases of my proposals, choose one of them (or theoretically some third proposal), and document and implement it. We will then request changes to any incoming packages that fail to adhere to the standard.\r\n\r\nStandard 1. This is what we (mostly) currently do.\r\nAll packages that can build either static or shared libraries have a variant `shared`. This variant defaults to `True`. When `True`, we build static and shared libraries. When false, we build only static libraries.\r\n\r\nPros: Already in use for most packages\r\nCons: Does not allow us to only build shared. Requires us to depend on `~shared` or `+pic` versions of all dependencies when building `~static`. Developers think of building \"static only\" more than \"no shared\"\r\n\r\nStandard 2. Use multi-valued variants\r\nAll packages that can provide either static or shared libraries have a variant `libraries`, with possible values `static` and `shared`, non-exclusively. We provide whichever libraries are requested in this variant.\r\n\r\nPros: Allows any combination of shared and static libraries.\r\nCons: Requires changes to many packages. Requires manual variant forwarding (until #391 is reintroduced) for the `libraries` variant.\r\n\r\nI'm leaning slightly towards option 2. I'd like input on possible corner cases for each of them and how they may improve or disrupt existing workflows.\r\n\r\n@citibeth @markcmiller86 @tgamblin @alalazo @adamjstewart I know you have all had previous feelings on this topic.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/5269",
+    "updated_at": "2021-05-08 21:17:34",
+    "created_at": "2017-09-01 23:14:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Push towards documented consensus on shared packages",
+    "number": 5269,
+    "milestone": null,
+    "labels": [
+        "discussion",
+        "variants"
+    ],
+    "id": 254770561,
+    "html_url": "https://github.com/spack/spack/issues/5269",
+    "assignees": [],
+    "comments": 28
+}

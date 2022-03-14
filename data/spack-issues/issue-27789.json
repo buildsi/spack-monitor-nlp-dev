@@ -1,0 +1,26 @@
+{
+    "body": "Fixes #27771 \r\n\r\nThis PR allows `spack test run` to support stand-alone test methods with `@when` directives and uses the `hpctoolkit` tests as an example.\r\n\r\nThe `hpctoolkit` package currently only supports stand-alone tests for `@master` so the package defines a `test` method with the directive `@when('@master')` to test its installation.  Any other version will run the default `test` method.  Given two such installations of the package, the sequence of running the tests and checking the  results illustrate the tests being run for the `master` version (`PASSED` in this case) and `NO-TESTS` associated with version 2021.10.15.\r\n\r\n```\r\n$ spack test run hpctoolkit\r\n==> Spack test ufyjgra4jlxal5stb4dtiep6saxkixcr\r\n==> Testing package hpctoolkit-2021.10.15-w4h5pxy\r\n==> Testing package hpctoolkit-master-2d2zdav\r\n26.468u 1.941s 0:39.34 72.1%\t0+0k 744+3264io 4pf+0w\r\n\r\n$ spack test results -- hpctoolkit\r\n==> Results for test suite 'ufyjgra4jlxal5stb4dtiep6saxkixcr', spec matching 'hpctoolkit':\r\n==>   hpctoolkit-2021.10.15-w4h5pxy NO-TESTS\r\n==>   hpctoolkit-master-2d2zdav PASSED\r\n\r\n$ spack test results -l -- hpctoolkit\r\n==> Results for test suite 'ufyjgra4jlxal5stb4dtiep6saxkixcr', spec matching 'hpctoolkit':\r\n==>   hpctoolkit-2021.10.15-w4h5pxy NO-TESTS\r\n==> Testing package hpctoolkit-2021.10.15-w4h5pxy\r\n\r\n==>   hpctoolkit-master-2d2zdav PASSED\r\n==> Testing package hpctoolkit-master-2d2zdav\r\n==> [2021-12-06-18:07:42.945087] Installing /usr/WS1/dahlgren/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.1/hpctoolkit-master-2d2zdav426m2molv6wxcigazlmwwr3uh/.spack/test to /g/g21/dahlgren/.spack/test/ufyjgra4jlxal5stb4dtiep6saxkixcr/hpctoolkit-master-2d2zdav/cache/hpctoolkit\r\n==> [2021-12-06-18:07:43.142704] 'make' '-j16' '-f' 'Makefile.spack' 'all'\r\nmake: Nothing to be done for `all'.\r\n==> [2021-12-06-18:07:43.149222] selection sort unit test\r\n==> [2021-12-06-18:07:43.149511] '/g/g21/dahlgren/.spack/test/ufyjgra4jlxal5stb4dtiep6saxkixcr/hpctoolkit-master-2d2zdav/cache/hpctoolkit/tests/run-sort'\r\nBegin smoke test of selection sort, hpcrun, hpcstruct, hpcprof.\r\n\r\nhpcrun -e REALTIME@5000 -t -o hpctoolkit-sort-measurements ./sort\r\norig list:  80000  3200040000\r\nnew list:   80000  3200040000\r\n\r\nhpcstruct -j 4 --time -o sort.hpcstruct sort\r\nfile:  /g/g21/dahlgren/.spack/test/ufyjgra4jlxal5stb4dtiep6saxkixcr/hpctoolkit-master-2d2zdav/cache/hpctoolkit/tests/sort\r\nsymtab threads: 4  parse: 4  struct: 4\r\n\r\ninit:         0.0 sec         0 meg         7 meg\r\nsymtab:       0.0 sec         4 meg        12 meg\r\nparse:        0.0 sec         1 meg        13 meg\r\nstruct:       0.0 sec         0 meg        13 meg\r\ntotal:        0.0 sec         5 meg        13 meg\r\n\r\nnum funcs: 25\r\n\r\n\r\nhpcprof -S sort.hpcstruct -o hpctoolkit-sort-database hpctoolkit-sort-measurements\r\nmsg: STRUCTURE: /g/g21/dahlgren/.spack/test/ufyjgra4jlxal5stb4dtiep6saxkixcr/hpctoolkit-master-2d2zdav/cache/hpctoolkit/tests/sort\r\nmsg: Line map : /usr/WS1/dahlgren/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.1/hpctoolkit-master-2d2zdav426m2molv6wxcigazlmwwr3uh/lib/hpctoolkit/libhpcrun.so\r\nmsg: Line map : /usr/WS1/dahlgren/spack/opt/spack/linux-rhel7-skylake_avx512/gcc-8.3.1/hpctoolkit-master-2d2zdav426m2molv6wxcigazlmwwr3uh/lib/hpctoolkit/ext-libs/libmonitor.so.0.0.0\r\nmsg: Line map : /usr/lib64/libstdc++.so.6.0.19\r\nmsg: Line map : /usr/lib64/libc-2.17.so\r\nmsg: Populating Experiment database: /g/g21/dahlgren/.spack/test/ufyjgra4jlxal5stb4dtiep6saxkixcr/hpctoolkit-master-2d2zdav/cache/hpctoolkit/tests/hpctoolkit-sort-database\r\nPASS\r\nPASSED\r\n```\r\n\r\nTODO:\r\n- [x] Update Spack documentation for stand-alone tests\r\n- [x] Add unit tests to improve coverage",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/27789",
+    "updated_at": "2021-12-21 17:46:42",
+    "created_at": "2021-12-04 02:57:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Support @when for 'spack test'",
+    "number": 27789,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "documentation",
+        "tests",
+        "update-package",
+        "new-variant",
+        "stand-alone-tests"
+    ],
+    "id": 1071103967,
+    "html_url": "https://github.com/spack/spack/pull/27789",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

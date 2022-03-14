@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nI *think* this is a spack issue...\r\n\r\n1. Install a gitlab runner as a shell executor.\r\n2. Send jobs to the runner that install spack and build some packages. Also, inject gpg credentials into the newly installed spack so the runner can sign binary artifacts and push them to a S3 bucket when the build is complete.\r\n3. Over time, multiple gpg-agent processes accumulate in the process stack.\r\n4. At some point, it seems that there are too many gpg-agent tasks and when attempting to push binaries to a cache,  spack hangs indefinitely \r\n\r\n```\r\nCaching autoconf to spack-build-binaries \r\n==> Buildcache files will be output to s3://my-spack-binary-cache/build_cache\r\ngpgconf: socketdir is '/run/user/1008/gnupg'\r\n```\n\n### Error message\n\n```\r\nCaching autoconf to spack-build-binaries \r\n==> Buildcache files will be output to s3://my-spack-binary-cache/build_cache\r\ngpgconf: socketdir is '/run/user/1008/gnupg'\r\n```\r\n\r\nWith spack 0.16.3, running with debug on, after ctrl-c when the process hangs:\r\n```  \r\n...\r\nFile \"/home/gitlab-runner/builds/W2S4Uk-r/0/proj/spack/v0.16.3/lib/spack/spack/util/gpg.py\", line 395, in signing_keys                                                                   \r\n    return get_global_gpg_instance().signing_keys(*args, **kwargs)\r\n  File \"/home/gitlab-runner/builds/W2S4Uk-r/0/proj/spack/v0.16.3/lib/spack/spack/util/gpg.py\", line 330, in signing_keys                                                                   \r\n    output = self('--list-secret-keys', '--with-colons', '--fingerprint',\r\n  File \"/home/gitlab-runner/builds/W2S4Uk-r/0/proj/spack/v0.16.3/lib/spack/spack/util/gpg.py\", line 308, in __call__                                                                       \r\n    return self.gpg_exe(*args, **kwargs)\r\n  File \"/home/gitlab-runner/builds/W2S4Uk-r/0/proj/spack/v0.16.3/lib/spack/spack/util/executable.py\", line 199, in __call__                                                                \r\n    out, err = proc.communicate()\r\n  File \"/home/gitlab-runner/builds/W2S4Uk-r/0/proj/spack/env/build/.spack-env/view/lib/python3.8/subprocess.py\", line 1011, in communicate                                                 \r\n    stdout = self.stdout.read()\r\n```\r\n\r\n\r\nrunning:\r\n```\r\n/bin/gpg2 --list-secret-keys --with-colons --fingerprint\r\n```\r\nimmediately after returns immediately.\n\n### Information on your system\n\nThe runner is on a Linux system: CentOS8, aarch64\r\n\r\n```\r\n* **Spack:** 0.16.3\r\n* **Python:** 3.8.6\r\n* **Platform:** linux-centos8-thunderx2 \r\n```\r\n\r\nI have also observed this behavior with 'develop'\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "rhenwood-arm",
+    "url": "https://api.github.com/repos/spack/spack/issues/26908",
+    "updated_at": "2021-11-12 17:47:22",
+    "created_at": "2021-10-22 19:58:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "gpg-agent hangs with multiple active spack installs on the same machine using the same gpg-keys",
+    "number": 26908,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1033905495,
+    "html_url": "https://github.com/spack/spack/issues/26908",
+    "assignees": [],
+    "comments": 3
+}

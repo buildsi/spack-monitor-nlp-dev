@@ -1,0 +1,25 @@
+{
+    "body": "The package/application faodel fails to build on Ascent (ORNL) with gcc/6.4.0.  This is part of the E4S project.\r\nThe issue is that one of the libraries that faodel includes in the  build doesn't support Power systems.   I've added a potential fix in the text below and will submit a PR, if reviewers/commenters agree with the fix.\r\n\r\nTo recreate the original problem:\r\nspack -e . install --no-cache\r\nwith this spack.yaml file in your spack top-level directory:\r\n```\r\nspack:\r\n  packages:\r\n    all:\r\n      providers:\r\n        mpi: [spectrum-mpi]\r\n      target: [ppc64le]\r\n      buildable: true\r\n      version: []\r\n      paths: {}\r\n      modules: {}\r\n      compiler: []\r\n    cuda:\r\n      buildable: false\r\n      version: [10.1.243]\r\n      modules:\r\n        cuda@10.1.243: cuda/10.1.243\r\n      target: []\r\n      providers: {}\r\n      paths: {}\r\n      compiler: []\r\n    spectrum-mpi:\r\n      buildable: false\r\n      version:\r\n      - 10.3.1.2\r\n      modules:\r\n        spectrum-mpi@10.3.1.2: spectrum-mpi/10.3.1.2-20200121\r\n      target: []\r\n      providers: {}\r\n      paths: {}\r\n      compiler: []\r\n    gcc:\r\n      version:\r\n      - 6.4.0\r\n      buildable: true\r\n      target: []\r\n      providers: {}\r\n      paths: {}\r\n      modules: {}\r\n      compiler: []\r\n  specs:\r\n#  - aml\r\n  - faodel\r\n#  - flecsi+cinch\r\n#  - petsc\r\n#  - turbine\r\n#  - unifyfs\r\n  config:\r\n    misc_cache: $spack/cache\r\n    install_tree: $spack/$padding:512\r\n  view: false\r\n  concretization: separately\r\n```\r\n\r\nI have a potential fix for this faodel build issue.\r\n```\r\ndiff --git a/var/spack/repos/builtin/packages/faodel/package.py b/var/spack/repos/builtin/packages/faodel/package.py\r\nindex 255f039..74a9bf3 100644\r\n--- a/var/spack/repos/builtin/packages/faodel/package.py\r\n+++ b/var/spack/repos/builtin/packages/faodel/package.py\r\n@@ -60,6 +60,15 @@ class Faodel(CMakePackage):\r\n     def cmake_args(self):\r\n         spec = self.spec\r\n \r\n+        if spec.target.family == \"ppc64le\":\r\n+            enable_tcmalloc = 'OFF'\r\n+        else:\r\n+            if '+tcmalloc' in spec:\r\n+                enable_tcmalloc = 'ON'\r\n+            else:\r\n+                enable_tcmalloc = 'OFF'\r\n+            \r\n+\r\n         args = [\r\n             '-DBUILD_SHARED_LIBS:BOOL={0}'.format(\r\n                 'ON' if '+shared' in spec else 'OFF'),\r\n@@ -74,8 +83,7 @@ def cmake_args(self):\r\n                 'ON' if '+leveldb' in spec else 'OFF'),\r\n             '-DFaodel_ENABLE_MPI_SUPPORT:BOOL={0}'.format(\r\n                 'ON' if '+mpi' in spec else 'OFF'),\r\n-            '-DFaodel_ENABLE_TCMALLOC:BOOL={0}'.format(\r\n-                'ON' if '+tcmalloc' in spec else 'OFF'),\r\n+            '-DFaodel_ENABLE_TCMALLOC:BOOL={0}'.format(enable_tcmalloc),\r\n             '-DFaodel_LOGGING_METHOD:STRING={0}'.format(\r\n                 spec.variants['logging'].value),\r\n             '-DFaodel_NETWORK_LIBRARY:STRING={0}'.format(\r\n```\r\n\r\nThat patch resolves this message I was getting when not using the patch:\r\n\r\n```\r\n-DFaodel_ENABLE_IOM_LEVELDB:BOOL=OFF' '-DFaodel_ENABLE_MPI_SUPPORT:BOOL=ON' '-DFaodel_ENABLE_TCMALLOC:BOOL=ON' '-DFaodel_LOGGING_METHOD:STRING=stdout' '-DFaodel_NETWORK_LIBRARY:STRING=nnti' '-DFaodel_ENABLE_CEREAL:BOOL=OFF' '/ccsopen/home/jgalarowicz/tempspack/spack-stage/spack-stage-faodel-1.1906.1-jgy6p27i23sxorcsnm47sp7gwgeolsqc/spack-src'\r\n\r\n1 error found in build log:\r\n     32    -- MPI_CXX_FOUND = TRUE\r\n     33    -- Checking for module 'cray-ugni'\r\n     34    --   No package 'cray-ugni' found\r\n     35    -- Found IBVerbs: /usr/lib64/libibverbs.so\r\n     36    -- Checking for module 'cray-drc'\r\n     37    --   No package 'cray-drc' found\r\n  >> 38    CMake Error at CMakeLists.txt:346 (message):\r\n     39      The TCMALLOC library included with FAODEL does not currently have \r\n           support\r\n     40      for the ppc64le CPU (it has optimizations for x86_64).  You must s\r\n           et\r\n     41      Faodel_ENABLE_TCMALLOC to OFF in order to build FAODEL on this pla\r\n           tform.\r\n     42    \r\n     43    \r\n     44    -- Configuring incomplete, errors occurred!\r\n\r\nSee build log for details:\r\n  /ccsopen/home/jgalarowicz/tempspack/spack-stage/spack-stage-faodel-1.1906.1-jgy6p27i23sxorcsnm47sp7gwgeolsqc/spack-build-out.txt\r\n```\r\n\r\n@tkordenbrock",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/18198",
+    "updated_at": "2020-10-14 19:15:39",
+    "created_at": "2020-08-20 18:36:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: E4S project: faodel will not install on Ascent (ORNL) with gcc/6.4.0",
+    "number": 18198,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "ecp",
+        "e4s",
+        "olcf"
+    ],
+    "id": 683011368,
+    "html_url": "https://github.com/spack/spack/issues/18198",
+    "assignees": [
+        "jgalarowicz",
+        "eugeneswalker"
+    ],
+    "comments": 2
+}

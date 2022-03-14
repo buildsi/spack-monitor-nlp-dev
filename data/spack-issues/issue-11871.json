@@ -1,0 +1,34 @@
+{
+    "body": "Closes https://github.com/spack/spack/pull/15939\r\n\r\n\r\nChanges which allow for a single system-installed Spack, with an installation root maintained by a system admin and an installation root maintained by a user (but for example admins can set config values that apply to any user of the Spack instance). Overall this is intended to allow admins to deploy an instance of Spack which looks like any other system-installed tool.\r\n\r\nThis includes the following changes:\r\n\r\n* A single Spack instance can now manage multiple install trees (example syntax for selecting an install tree below)\r\n* config.yaml contains a \"shared_install_trees\" entry which administrators can use to manage an install tree that is meant to be shared\r\n* Spack now maintains upstreams differently. Previously, users had to maintain an upstreams.yaml file. Now, for an install tree, the user can assign a single upstream (this is stored in the install tree, and Spack can manage a >2 levels of install trees by recursively following these pointers)\r\n* Move module roots to install tree root (not strictly required but in general for users they need to be located outside the Spack prefix)\r\n  * This means that users no longer have to specify upstream module roots as shown in https://spack.readthedocs.io/en/v0.14.1/chain.html\r\n* Add config scope associated with the install tree itself (this allows admins to assign specific permissions to the packages installed that are meant to be available to all users)\r\n* Environments are stored in the install root. This allows users with a shared Spack instance to make their own environments. This does not allow admins of the shared Spack instance to provide environments (that could be handled in a later PR)\r\n* For now it is assumed that users would not need to manage their own GPG keys: they would use the admin-created/added keys to sign new binary caches or to install them.\r\n\r\nUsage\r\n\r\n```\r\n# Install foo to install tree x\r\nspack --install-tree x install foo\r\n# Set y as the upstream for x\r\nspack --install-tree x init-upstream y \r\n# If the config does not contain any shared_install_trees entries, this installs to var/spack\r\n# Otherwise, it installs to ~/\r\nspack install foo\r\n```\r\n\r\nThis includes tests, for example:\r\n\r\n* Test that Spack can use upstreams.yaml but prefers using pointers\r\n* Test that Spack can use older format \"install_tree\" in config.yaml\r\n\r\nThis has changed significantly since the PR was first created, so the old description is included below:\r\n\r\n~# Shared Spack\r\nThese changes add the ability for spack to operate in a \"shared\" mode where multiple users can use the same instance of spack without directly affecting other users. Previously, a similar solution was possible via users configuring their local `~/.spack` configurations, however doing so didn't stop other users from accidentally affecting other users packages/specs.~ \r\n\r\n~When shared mode is inactive spack behaves like a normal spack instance. This would allow system admins to configure repos, mirrors, environments, etc. These settings are shared by all users of this instance of spack.~\r\n\r\n~When shared mode is enabled spack would treat the traditional installation locations as an upstream instance of spack, and the typical install/stage/cache/etc locations would be set to a directory that a user could specify by setting `$SPACK_PATH=/some/directory/` in their environment.~\r\n\r\n~Users could still make their own local setting configurations in `~/.spack`.~\r\n\r\n~One additional change that is introduced in this feature is that attempting to uninstall from an upstream instance of spack now creates an error rather than uninstalling the package.~\r\n\r\n### Commands Introduced\r\n~`$ spack share activate`~\r\n~`$ spack share status`~\r\n~`==> Shared mode enabled/disabled`~\r\n~`$ spack share deactivate`~\r\n\r\n\r\n~### WIP\r\nSome aspects of this are still a work in progress. Currently I have not implemented a good way to activate this version of spack. If a system-wide installation of spack, running the `. $spack/share/spack/setup-env.sh` could be hard to find. I experimented with creating a module file that runs that setup script and while that did work, it needs more work to be a viable way to load a shared spack.~",
+    "user": "carsonwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/11871",
+    "updated_at": "2021-07-08 17:11:59",
+    "created_at": "2019-06-27 20:02:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "feature: sharing a spack instance",
+    "number": 11871,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "documentation",
+        "modules",
+        "defaults",
+        "tests",
+        "commands",
+        "impact-high",
+        "environments",
+        "git",
+        "update-package",
+        "new-command",
+        "permissions",
+        "stage",
+        "radiuss"
+    ],
+    "id": 461722638,
+    "html_url": "https://github.com/spack/spack/pull/11871",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 19
+}

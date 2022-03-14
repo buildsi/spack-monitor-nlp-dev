@@ -1,0 +1,20 @@
+{
+    "body": "I used Spack to install `intel-parallel-studio@professional.2018.0` and `intel-mpi@2018.0.128` (and `intel-mkl@2018.0.128`) on Rocks cluster 6.2/CentOS 6.6, and added the snippet at the end to `compilers.yaml`. Then when I tried to do `spack install elpa %intel@2018.0.128.6.4.0 ^intel-mkl@2018.0.128 ^intel-mpi@2018.0.128`, it gave an error: \r\n\r\n    19    configure: error: in `/tmp/soft/spack-stage/spack-stage-UdeA2T/elpa-2016.05.004/spack-build':\r\n    20    configure: error: C compiler cannot create executables\r\n\r\nIn `spack-build.out`, the relevant line says `ld: cannot find -lmpigi`. When I tested by building elpa manually with the Intel MPI compiler wrappers ( `mpiicc`), I had to `module add intel-mpi` **after** `intel-parallel-studio`, the reverse direction will give `ld: cannot find -lmpigi` error. How am I supposed to set up Spack to achieve similar behavior?\r\n\r\nMy current compiler setup:\r\n\r\n~~~yaml\r\n - compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags:\r\n      cflags: -O3 -xHost -fPIC\r\n      cxxflags: -O3 -xHost -fPIC\r\n      fflags: -O3 -xHost -fPIC\r\n      f90flags: -O3 -xHost -fPIC\r\n    modules: [linux-centos6-x86_64/binutils-2.28-gcc-4.4.7-oh67qvy, linux-centos6-x86_64/gcc-6.4.0-gcc-4.4.7-bx5dbff, linux-centos6-x86_64/intel-parallel-studio-professional.2018.0-gcc-6.4.0-cuv5nrw]\r\n    operating_system: centos6\r\n    paths:\r\n      cc: /share/apps/spack/opt/spack/linux-centos6-x86_64/gcc-6.4.0/intel-parallel-studio-professional.2018.0-cuv5nrwzbxbrcuo5bid5akumubnbwp3p/compilers_and_libraries_2018.0.128/linux/bin/intel64/icc\r\n      cxx: /share/apps/spack/opt/spack/linux-centos6-x86_64/gcc-6.4.0/intel-parallel-studio-professional.2018.0-cuv5nrwzbxbrcuo5bid5akumubnbwp3p/compilers_and_libraries_2018.0.128/linux/bin/intel64/icpc\r\n      f77: /share/apps/spack/opt/spack/linux-centos6-x86_64/gcc-6.4.0/intel-parallel-studio-professional.2018.0-cuv5nrwzbxbrcuo5bid5akumubnbwp3p/compilers_and_libraries_2018.0.128/linux/bin/intel64/ifort\r\n      fc: /share/apps/spack/opt/spack/linux-centos6-x86_64/gcc-6.4.0/intel-parallel-studio-professional.2018.0-cuv5nrwzbxbrcuo5bid5akumubnbwp3p/compilers_and_libraries_2018.0.128/linux/bin/intel64/ifort\r\n    spec: intel@2018.0.128.6.4.0\r\n    target: x86_64\r\n~~~",
+    "user": "baip",
+    "url": "https://api.github.com/repos/spack/spack/issues/6144",
+    "updated_at": "2020-08-23 18:22:15",
+    "created_at": "2017-11-04 22:23:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "intel-parallel-studio + intel-mpi 2018.0: ld: cannot find -lmpigi",
+    "number": 6144,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "intel"
+    ],
+    "id": 271231133,
+    "html_url": "https://github.com/spack/spack/issues/6144",
+    "assignees": [],
+    "comments": 5
+}

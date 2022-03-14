@@ -1,0 +1,19 @@
+{
+    "body": "[edit: update bat package to use sha256]\r\n[edit2: better cargo invocation in example]\r\n\r\nI have a small handful of tools that I'd like to add that are written in rust, e.g. bat:\r\n\r\n```python\r\n from spack import *\r\n\r\n\r\n class Bat(Package):\r\n     \"\"\"A cat(1) clone with wings.\"\"\"\r\n\r\n     homepage = \"https://github.com/sharkdp/bat\"\r\n     url      = \"https://github.com/sharkdp/bat/archive/v0.10.0.tar.gz\"\r\n\r\n     version('0.10.0', sha256='54dd396e8f20d44c6032a32339f45eab46a69b6134e74a704f8d4a27c18ddc3e')\r\n\r\n     depends_on('rust')\r\n\r\n     def install(self, spec, prefix):\r\n         cargo = which('cargo')\r\n         cargo('install', '--root', prefix, '--path', '.')\r\n```\r\n\r\nLooking at it's cargo.lock file, it appears to have about 214 recursive dependencies.  With the simple recipe above, cargo grabs them at run time and builds them in `~/.cargo`.\r\n\r\nThat's not very Spack-ish.   Or, given that the `cargo.lock` file includes signatures (sha256?), perhaps grabbing them at run time is sufficiently reliable to not require wheel re-inventing?  The resulting binary seems to be sufficiently self-contained:\r\n\r\n```consolesession\r\n$ ldd /home/ghartzell/spack/opt/spack/linux-centos7-x86_64/gcc-8.2.0/bat-0.10.0-xldouz3jymfgh7whohqgfxhvkebnejgf/bin/bat\r\n        linux-vdso.so.1 =>  (0x00007ffeb51ad000)\r\n        libz.so.1 => /home/ghartzell/spack/opt/spack/linux-centos7-x86_64/gcc-8.2.0/zlib-1.2.11-6wdekzyadff6repdb5bxinnzizvnn35t/lib/libz.so.1 (0x00007f5af929a000)\r\n        libc.so.6 => /lib64/libc.so.6 (0x00007f5af8ecd000)\r\n        /lib64/ld-linux-x86-64.so.2 (0x00007f5af9b99000)\r\n        libdl.so.2 => /lib64/libdl.so.2 (0x00007f5af8cc9000)\r\n        libpthread.so.0 => /lib64/libpthread.so.0 (0x00007f5af8aad000)\r\n        libgcc_s.so.1 => /home/ghartzell/spack/opt/spack/linux-centos7-x86_64/gcc-4.8.5/gcc-8.2.0-uc6sbumioobdbkw4rwfyn2givi4nyvwq/lib64/libgcc_s.so.1 (0x00007f5af8895000)\r\n        libm.so.6 => /lib64/libm.so.6 (0x00007f5af8593000)\r\n$\r\n```\r\n\r\nIs anyone working on rust tooling?  Seems like \"someone\" could write a tool automated some of the bits if we're not content relying on cargo.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/10837",
+    "updated_at": "2019-03-14 13:16:34",
+    "created_at": "2019-03-07 23:46:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "What is the state of the art for rust and dependencies managed with cargo?",
+    "number": 10837,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 418567487,
+    "html_url": "https://github.com/spack/spack/issues/10837",
+    "assignees": [],
+    "comments": 1
+}

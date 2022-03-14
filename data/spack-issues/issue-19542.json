@@ -1,0 +1,20 @@
+{
+    "body": "Hello,\r\n\r\nberkeley-db fails to build with NVIDIA HPC compilers 20.7 on Red Hat 8.1:\r\n```\r\n\"/usr/include/c++/8/bits/atomic_base.h\", line 210: error: identifier\r\n          \"__GCC_ATOMIC_TEST_AND_SET_TRUEVAL\" is undefined\r\n      { return __i ? __GCC_ATOMIC_TEST_AND_SET_TRUEVAL : 0; }\r\n                     ^\r\n\r\n\"/usr/include/c++/8/bits/atomic_base.h\", line 210: error: identifier\r\n          \"__GCC_ATOMIC_TEST_AND_SET_TRUEVAL\" is undefined\r\n      { return __i ? __GCC_ATOMIC_TEST_AND_SET_TRUEVAL : 0; }\r\n                     ^\r\n\r\n1 error detected in the compilation of \"/tmp/.../spack-stage/spack-stage-berkeley-db-18.1.40-6erllnclft3wqyjq3jbefp6ifiqg3lj6/spack-src/lang/cxx/cxx_channel.cpp\".\r\nmake: *** [Makefile:2796: cxx_channel.lo] Error 1\r\nmake: *** Waiting for unfinished jobs....\r\n\"/usr/include/c++/8/bits/atomic_base.h\", line 210: error: identifier\r\n          \"__GCC_ATOMIC_TEST_AND_SET_TRUEVAL\" is undefined\r\n      { return __i ? __GCC_ATOMIC_TEST_AND_SET_TRUEVAL : 0; }\r\n                     ^\r\n\r\n1 error detected in the compilation of \"/tmp/.../spack-stage/spack-stage-berkeley-db-18.1.40-6erllnclft3wqyjq3jbefp6ifiqg3lj6/spack-src/lang/cxx/cxx_db.cpp\".\r\nmake: *** [Makefile:2798: cxx_db.lo] Error 1\r\n\"/usr/include/c++/8/bits/atomic_base.h\", line 210: error: identifier\r\n          \"__GCC_ATOMIC_TEST_AND_SET_TRUEVAL\" is undefined\r\n      { return __i ? __GCC_ATOMIC_TEST_AND_SET_TRUEVAL : 0; }\r\n                     ^\r\n\r\n1 error detected in the compilation of \"/tmp/.../spack-stage/spack-stage-berkeley-db-18.1.40-6erllnclft3wqyjq3jbefp6ifiqg3lj6/spack-src/lang/cxx/cxx_dbc.cpp\".\r\nmake: *** [Makefile:2800: cxx_dbc.lo] Error 1\r\n1 error detected in the compilation of \"/tmp/.../spack-stage/spack-stage-berkeley-db-18.1.40-6erllnclft3wqyjq3jbefp6ifiqg3lj6/spack-src/lang/cxx/cxx_dbstream.cpp\".\r\nmake: *** [Makefile:2802: cxx_dbstream.lo] Error 1\r\n1 error detected in the compilation of \"/tmp/.../spack-stage/spack-stage-berkeley-db-18.1.40-6erllnclft3wqyjq3jbefp6ifiqg3lj6/spack-src/lang/cxx/cxx_dbt.cpp\".\r\nmake: *** [Makefile:2804: cxx_dbt.lo] Error 1\r\n1 error detected in the compilation of \"/tmp/.../spack-stage/spack-stage-berkeley-db-18.1.40-6erllnclft3wqyjq3jbefp6ifiqg3lj6/spack-src/lang/cxx/cxx_env.cpp\".\r\nmake: *** [Makefile:2806: cxx_env.lo] Error 1\r\n```\r\n\r\nI have seen that @samcmill recently commited a change that addresses an issue with nvhpc and CentOS 7 that could be similar:\r\nhttps://github.com/spack/spack/blob/bb00b1a7c9eae3d307f0a22dcccae9e33a5885d0/var/spack/repos/builtin/packages/berkeley-db/package.py#L44-L47\r\n\r\nI tried to widen the condition so that `--disable-atomicsupport` is used for Red Hat 8 too but I still have the same issue so maybe it is not related at all.\r\n\r\nAny thoughts regarding this?\r\n\r\nBest,\r\nR\u00e9mi",
+    "user": "RemiLacroix-IDRIS",
+    "url": "https://api.github.com/repos/spack/spack/issues/19542",
+    "updated_at": "2020-10-27 15:41:14",
+    "created_at": "2020-10-27 12:02:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: berkeley-db does not build with NVIDIA HPC compilers 20.7",
+    "number": 19542,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "nvhpc"
+    ],
+    "id": 730388317,
+    "html_url": "https://github.com/spack/spack/issues/19542",
+    "assignees": [],
+    "comments": 2
+}

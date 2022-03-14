@@ -1,0 +1,20 @@
+{
+    "body": "Right now we can associate a single `url` and a single checksum with each version of a package. This proposal aims at extending the `version` directive so that we can associate multiple archives with a single version, based on a constraint.\r\n\r\n### Rationale\r\n\r\nCurrently Spack doesn't support neatly the versioning of third-party binary packages that come with different archives for different architectures or configurations. \r\n\r\nOne example that was discussed a while ago is `cudnn`, see #5980. In that case the binary package to be downloaded for a given version of `cudnn` depends on the version of `cuda` being used. Another that came up recently is #11198, where there are multiple versions of the Arm toolsuite depending on the OS and platform a user is targeting.\r\n\r\nThis proposal aims at extending the `version` directive so that we'll not be forced to add an extra suffix to the available versions in order to work around this issue.\r\n\r\n### Description\r\n\r\nAs the checksum and url of a package are used **after** the recipe has been concretized, the version directive could be extended like:\r\n```python\r\nversion(\"19.0.3\", url=urls_for_multiple_archives()\r\n    .when(\r\n        'arch=linux-rhel6-x86_64', \r\n        sha256=\"0ace88a1847d8f622f077cd38fa9dddf7f2d6dd6aad086be0e0a66e10fb8b64b\",\r\n        url=\"http://content.allinea.com/downloads/arm-forge-19.0.3-Redhat-6.0-x86_64.tar\"\r\n    ).when(\r\n        'arch=linux-rhel7-x86_64', \r\n\ufffc        sha256=\"35c7a9532aa19251343c37b8f5eb51ef04f7b6e8b42bea2bd932f4d83a1e8375\",\r\n\ufffc        url=\"http://content.allinea.com/downloads/arm-forge-19.0.3-Redhat-7.0-x86_64.tar\",\r\n    )\r\n)\r\n```\r\nWhen installing the package the constraints should be checked - in the same order they are written to avoid ambiguities - and the first match should be considered the one to be used.\r\n\r\n### Additional information\r\nThe directive tries to use a fluent interface for these complex cases, to maintain it declarative as was done for the multi-variant case #9481 - name of the helper functions etc. are tentative.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11206",
+    "updated_at": "2020-03-30 18:13:00",
+    "created_at": "2019-04-17 09:41:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Permit multiple urls for a single version of a package",
+    "number": 11206,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "architectures"
+    ],
+    "id": 434188142,
+    "html_url": "https://github.com/spack/spack/issues/11206",
+    "assignees": [],
+    "comments": 10
+}

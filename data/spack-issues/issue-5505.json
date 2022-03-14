@@ -1,0 +1,20 @@
+{
+    "body": "See: https://github.com/LLNL/spack/pull/4832\r\n\r\nIf I check out develop and add the following compiler entry to lib/spack/spack/test/data/compilers.yaml:\r\n\r\n```\r\n- compiler:\r\n    spec: gcc@4.7.2\r\n    operating_system: debian6\r\n    paths:\r\n      cc: /path/to/gcc-5\r\n      cxx: /path/to/g++-5\r\n      f77: None\r\n      fc: None\r\n    flags:\r\n      cflags: -O3\r\n      cxxflags: -O3\r\n    modules: 'None'\r\n```\r\n\r\nThen \u201cspack test store\u201d fails with the following error:\r\n\r\n```\r\n==> Error: AttributeError: 'Spec' object has no attribute 'link_arg'\r\nAttributeError: AttributeError: 'Spec' object has no attribute 'link_arg'\r\n\r\n/g/g17/scheibel/repos/destdir/spack/var/spack/repos/builtin.mock/packages/cmake-client/package.py:70, in setup_environment:\r\n     2             check(from_cmake == \"from_cmake\",\r\n     3                   \"setup_environment couldn't read global set by cmake.\")\r\n     4     \r\n  >> 5             check(self.spec['cmake'].link_arg == \"test link arg\",\r\n     6                   \"link arg on dependency spec not readable from \"\r\n     7                   \"setup_environment.\")\r\n\r\nSee build log for details:\r\n  /g/g17/scheibel/repos/destdir/spack/var/spack/stage/cmake-client-1.0-f3gg7u6ko74m6mzb5rjy2to4ni2ukhxr/mock-archive-repo/spack-build.out\r\n```\r\n\r\nNo idea why this is happening at the moment, I need to look into it.",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/5505",
+    "updated_at": "2020-08-23 18:27:55",
+    "created_at": "2017-09-27 03:50:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spec/package reference error when compiler entry is added",
+    "number": 5505,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers"
+    ],
+    "id": 260838423,
+    "html_url": "https://github.com/spack/spack/issues/5505",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,22 @@
+{
+    "body": "```\r\n$ spack fetch zlib@5\r\n==> Warning: There is no checksum on file to fetch zlib@5 safely.\r\n==>   Fetch anyway? [y/N] N\r\n==> Error: Will not fetch zlib@5\r\nAdd a checksum or use --no-checksum to skip this check.\r\n```\r\n```\r\n$ spack install zlib@5\r\n==> Installing zlib\r\n==> Warning: There is no checksum on file to fetch zlib@5 safely.\r\n==>   Fetch anyway? [y/N] N\r\n==> Error: FetchError: Will not fetch zlib@5\r\n    Add a checksum or use --no-checksum to skip this check.\r\n/blues/gpfs/home/ajstewart/spack/lib/spack/spack/package.py:948, in do_fetch:\r\n     923      def do_fetch(self, mirror_only=False):\r\n     924          \"\"\"\r\n     925          Creates a stage directory and downloads the tarball for this package.\r\n     926          Working directory will be set to the stage directory.\r\n     927          \"\"\"\r\n     928          if not self.spec.concrete:\r\n     929              raise ValueError(\"Can only fetch concrete packages.\")\r\n     930  \r\n     931          start_time = time.time()\r\n     932          if spack.do_checksum and self.version not in self.versions:\r\n     933              tty.warn(\"There is no checksum on file to fetch %s safely.\" %\r\n     934                       self.spec.format('$_$@'))\r\n     935  \r\n     936              # Ask the user whether to skip the checksum if we're\r\n     937              # interactive, but just fail if non-interactive.\r\n     938              ck_msg = \"Add a checksum or use --no-checksum to skip this check.\"\r\n     939              ignore_checksum = False\r\n     940              if sys.stdout.isatty():\r\n     941                  ignore_checksum = tty.get_yes_or_no(\"  Fetch anyway?\",\r\n     942                                                      default=False)\r\n     943                  if ignore_checksum:\r\n     944                      tty.msg(\"Fetching with no checksum.\", ck_msg)\r\n     945  \r\n     946              if not ignore_checksum:\r\n     947                  raise FetchError(\"Will not fetch %s\" %\r\n  >> 948                                   self.spec.format('$_$@'), ck_msg)\r\n     949  \r\n     950          self.stage.fetch(mirror_only)\r\n     951  \r\n     952          self._fetch_time = time.time() - start_time\r\n     953  \r\n     954          if spack.do_checksum and self.version in self.versions:\r\n     955              self.stage.check()\r\n     956  \r\n     957          self.stage.cache_local()\r\n```\r\nI think the behavior of `spack fetch` is better than the behavior of `spack install`. This isn't an error, the user just decided to bail out.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3820",
+    "updated_at": "2021-12-21 10:38:27",
+    "created_at": "2017-04-13 16:20:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack fetch and spack install have different behavior upon exit for non-existing versions",
+    "number": 3820,
+    "milestone": null,
+    "labels": [
+        "error-messages",
+        "impact-low"
+    ],
+    "id": 221613688,
+    "html_url": "https://github.com/spack/spack/issues/3820",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

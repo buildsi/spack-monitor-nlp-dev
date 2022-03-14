@@ -1,0 +1,22 @@
+{
+    "body": "If an entry under `upstreams:` in my `~/.spack/upstreams.yaml` doesn't exist, optionally fail without making too much noise and don't return non-zero error codes at any step.\r\n\r\n### Rationale\r\n\r\nI'm administering a cluster where there is a Spack install local to each compute and submit node, but the node where the controller is doesn't have this install. With my current `~/.spack/upstreams.yaml`,\r\n```yaml\r\n---\r\nupstreams:\r\n  global:\r\n    install_tree: /scratch/spack/opt/spack\r\n    modules:\r\n      tcl: /scratch/spack/share/spack/modules\r\n```\r\nI get `PermissionError: [Errno 13] Permission denied: '/scratch'` because that directory doesn't exist on this machine. This is annoying but generally ok when logging on interactively, but it causes more problems when I use Ansible to access this machine. Users won't have this problem, only myself and other admins.\r\n\r\n### Description\r\n\r\nI'd like an option under each upstream block that lets me silently ignore that upstream if it doesn't exist. That option should print a short warning to stderr and return zero, rather than fail with a Python exception.\r\n\r\nThe alternatives are:\r\n- try and implement it myself\r\n- don't set up the \"cluster-wide\" install this way. We have multiple projects using the cluster, each with their own NAS, but I'm not sure I want to go down that route. Generally I'm still in the experimental stage of figuring out how our user-facing install should work.",
+    "user": "berquist",
+    "url": "https://api.github.com/repos/spack/spack/issues/14843",
+    "updated_at": "2020-02-10 15:09:56",
+    "created_at": "2020-02-07 17:36:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow non-existent upstreams to fail gracefully",
+    "number": 14843,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "spack-chains"
+    ],
+    "id": 561777382,
+    "html_url": "https://github.com/spack/spack/issues/14843",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

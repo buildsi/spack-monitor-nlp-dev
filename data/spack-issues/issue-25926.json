@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nOn spock, the cray system. using the system cray-mpich as an external compiler like this in packages.yaml:\r\n\r\n```\r\npackages:\r\n    mpich:\r\n      buildable: false\r\n      externals:\r\n      - spec: mpich@3.4.2\r\n        #prefix: /opt/cray/pe/mpich/8.1.7/ofi/gnu/9.1 #\r\n        prefix: /opt/cray/pe/mpich/8.1.7/ofi/crayclang/10.0\r\n        modules:\r\n        - cray-mpich/8.1.7\r\n        - craype-network-ofi\r\n```\r\n\r\nspack install rempi fails like\r\n\r\n```\r\n     28    Checking whether /gpfs/alpine/csc439/scratch/wspear/spack/lib/spack/env/gcc/gcc responds to '-show'... no\r\n     29    /tmp/wspear/spack-stage/spack-stage-rempi-1.1.0-7fnlvvpungj2oi2u2qodb2njz4ux5ewb/spack-src/configure: line 4351: Echo: command not found\r\n  >> 30    configure: error: Failed to find C MPI Wrapper.\r\n```\r\nMaybe related to issues with mpi configuration on this platform: https://github.com/spack/spack/issues/25612\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-4235-fca81c2ac8\r\n* **Python:** 3.6.13\r\n* **Platform:** cray-sles15-zen2\r\n* **Concretizer:** original\r\n\r\n\r\n### Additional information\r\n\r\n\r\n@tldahlgren @lukebroskop \r\n[config.log](https://github.com/spack/spack/files/7157667/config.log)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7157668/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7157669/spack-build-out.txt)\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/25926",
+    "updated_at": "2021-09-14 02:16:32",
+    "created_at": "2021-09-13 22:28:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: rempi",
+    "number": 25926,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 995397772,
+    "html_url": "https://github.com/spack/spack/issues/25926",
+    "assignees": [],
+    "comments": 1
+}

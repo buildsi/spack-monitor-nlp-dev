@@ -1,0 +1,21 @@
+{
+    "body": "<!--*Please add a concise summary of your suggestion here.*-->\r\n\r\n### Rationale\r\n\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\nThe `dev-build` command performs in-place builds even for CMake projects.  This is rather annoying especially for developers because version control systems will detect all of those build files unless they are told to ignore them.  (This can also interfere with certain features like the [CMake IDE Build Tool Generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#id12) that assume we have out-of-place builds.)   I propose that the user be allowed to choose the build/stage directory so that out-of-place builds are possible with the `dev-build` command.\r\n\r\n### Description\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\nI've created a branch [here](https://github.com/danielsjensen1/spack/tree/features/dev-build-custom-build-dir) with a possible solution but would love to hear some ideas from other developers using the `dev-build` command.  Personally, I really like the Spack stage directory with its `spack-src` folder, `spack*.txt` files, and `spack-build-*` folder for CMake projects.  My solution linked to above creates such a folder with the `dev-build` command and moves or copies the source files to a `spack-src` folder.  It is just a first pass at the problem so I would need to add unit tests and make sure the directory creation routines are more robust.\r\n\r\nBefore I work much more on this I would love to get some feedback from other developers mainly concerning the `dev-build` default options.  Should the default option be the same as the current implementation with in-place builds?  Would developers prefer to create a stage directory automatically by default?  If we do create a stage directory, would it make sense to give it the version name given in the spec?\r\n\r\nThe main files that need to be changed to achieve any of these features are the following:\r\n\r\n- `lib/spack/spack/test/cmd/dev_build.py`\r\n  - Additional unit test to check for different directory structures\r\n- `lib/spack/spack/package.py`\r\n  - The `_make_stage` function calls DIYStage and needs to be passed the location of the source folder\r\n- `lib/spack/spack/stage.py`\r\n  - The `DIYStage` class needs to be given a `source_path` different than the stage path (`self.path`)\r\n- `lib/spack/spack/cmd/dev_build.py`\r\n  - Extra subcommand(s) to the `dev-build` command for specifying stage/build directory\r\n  - Folder creation and file moves or copying\r\n\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\n\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n  - `0.9-15288-603c3bbb8`\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "danielsjensen1",
+    "url": "https://api.github.com/repos/spack/spack/issues/19974",
+    "updated_at": "2020-11-19 11:06:58",
+    "created_at": "2020-11-18 16:59:25",
+    "closed_at": "None",
+    "state": "open",
+    "title": "dev-build out-of-source build/stage directory",
+    "number": 19974,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 745834813,
+    "html_url": "https://github.com/spack/spack/issues/19974",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 0
+}

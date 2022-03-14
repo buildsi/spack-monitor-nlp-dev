@@ -1,0 +1,24 @@
+{
+    "body": "### Steps to reproduce\n\nI am trying to run the CI framework on gitlab to start testing pip installation of packages with @adamjstewart \r\n\r\nstarting with example script from the CI tutorial fails on cloud hosted gitlab\r\n\r\n```stages: [generate, build]\r\n\r\nvariables:\r\n  SPACK_REPO: https://github.com/scottwittenburg/spack.git\r\n  SPACK_REF: pipelines-reproducible-builds\r\n\r\ngenerate-pipeline:\r\n  stage: generate\r\n  tags:\r\n    - docker\r\n  image:\r\n    name: ghcr.io/scottwittenburg/ecpe4s-ubuntu18.04-runner-x86_64:2020-09-01\r\n    entrypoint: [\"\"]\r\n  before_script:\r\n    - git clone ${SPACK_REPO}\r\n    - pushd spack && git checkout ${SPACK_REF} && popd\r\n    - . \"./spack/share/spack/setup-env.sh\"\r\n  script:\r\n    - spack env activate --without-view .\r\n    - spack -d ci generate\r\n      --artifacts-root \"${CI_PROJECT_DIR}/jobs_scratch_dir\"\r\n      --output-file \"${CI_PROJECT_DIR}/jobs_scratch_dir/pipeline.yml\"\r\n  artifacts:\r\n    paths:\r\n      - \"${CI_PROJECT_DIR}/jobs_scratch_dir\"\r\n\r\nbuild-jobs:\r\n  stage: build\r\n  trigger:\r\n    include:\r\n      - artifact: \"jobs_scratch_dir/pipeline.yml\"\r\n        job: generate-pipeline\r\n    strategy: depend\r\n```\r\n\r\npipeline runs but fails with message\r\n\r\n```. \"./spack/share/spack/setup-env.sh\"\r\n$ spack env activate --without-view .\r\n==> Error: No such environment: '.'\r\n\r\n...\r\n\r\n\r\nError: 'spack ci generate' requires an environment\r\n  activate an environment first:\r\n      spack env activate ENV\r\n  or use:\r\n      spack -e ENV ci generate ...\r\n```\r\n\r\nusing latest from develop in 'share/spack/gitlab/cloud_pipelines'\r\n\r\nfails to run at all on commit \r\n\r\n\n\n### Error message\n\nas above\n\n### Information on your system\n\ngitlab cloud\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "varioustoxins",
+    "url": "https://api.github.com/repos/spack/spack/issues/29479",
+    "updated_at": "2022-03-12 21:58:39",
+    "created_at": "2022-03-12 21:33:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "can't run gitlab ci pipeline, FAO Scott.wittenburg?",
+    "number": 29479,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage",
+        "gitlab",
+        "ci"
+    ],
+    "id": 1167407245,
+    "html_url": "https://github.com/spack/spack/issues/29479",
+    "assignees": [
+        "scottwittenburg"
+    ],
+    "comments": 0
+}

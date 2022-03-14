@@ -1,0 +1,22 @@
+{
+    "body": "This builds on top of https://github.com/spack/spack/pull/25573 and should make it easier to disable view regeneration & log links stuff in tests. Potentially it could speed up tests, see https://github.com/spack/spack/issues/25541.\r\n\r\nFinally it's a step towards solving https://github.com/spack/spack/issues/25532, where this does not work:\r\n\r\n```python\r\nfrom spack.environment import Environment\r\nwith open(\"spack.yaml\", 'w') as f:\r\n    f.write(\"\"\"\\\r\nspack:\r\n  config:\r\n    install_tree:\r\n      root: ./store\r\n  specs:\r\n    - zlib\r\n\"\"\")\r\n\r\nwith Environment(\".\") as e:\r\n  e.concretize()\r\n  print(e.all_specs()) # [zlib@1.2.11%gcc@10.3.0+optimize+pic+shared arch=linux-ubuntu20.04-zen2]\r\n  e.install_all()\r\n  print(e.all_specs()) # [] empty array?!\r\n```\r\n\r\nand now the problematic `regenerate_views` inside a write transaction can at least be disabled:\r\n\r\n```python\r\n# only need to disable 'env_regenerate_view' really, but disabling all now:\r\nwith spack.hooks.use_hook_runner(spack.hooks.HookRunner()):\r\n  with Environment(\".\") as e:\r\n    e.concretize()\r\n    print(e.all_specs()) # [zlib@1.2.11%gcc@10.3.0+optimize+pic+shared arch=linux-ubuntu20.04-zen2]\r\n    e.install_all()\r\n    print(e.all_specs()) # [zlib@1.2.11%gcc@10.3.0+optimize+pic+shared arch=linux-ubuntu20.04-zen2] yay.\r\n```\r\n\r\nTODO:\r\n- [ ] think a bit more about `self.new_installs` and `self.new_specs`\r\n- [ ] see if we can avoid _re_read altogether, cause there's an assumption the env is persisted to disk before calling install_all",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25622",
+    "updated_at": "2021-08-26 10:32:12",
+    "created_at": "2021-08-26 10:06:40",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Regenerate views + log links as hooks",
+    "number": 25622,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "tests",
+        "commands",
+        "environments"
+    ],
+    "id": 980066413,
+    "html_url": "https://github.com/spack/spack/pull/25622",
+    "assignees": [],
+    "comments": 0
+}

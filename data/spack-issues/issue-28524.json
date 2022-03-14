@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nSpack doesn't install ScoreP with CUDA support because no option provided by the installation script. However, based on the ScoreP documentation, it can be easily enabled with `--with-libcudart=<path to CUDA>`.\n\n### Rationale\n\nMaybe it is worth adding it to Spack? I don't know why it hasn't been done before; whether there was a reason  to do so?\n\n### Description\n\n\r\nHere is my patch:\r\n```\r\ndiff --git a/var/spack/repos/builtin/packages/scorep/package.py b/var/spack/repos/builtin/packages/scorep/package.py\r\nindex 403734a7a0..0af46b9512 100644\r\n--- a/var/spack/repos/builtin/packages/scorep/package.py\r\n+++ b/var/spack/repos/builtin/packages/scorep/package.py\r\n@@ -35,6 +35,7 @@ class Scorep(AutotoolsPackage):\r\n     variant('shmem', default=False, description='Enable shmem tracing')\r\n     variant('unwind', default=False,\r\n             description=\"Enable sampling via libunwind and lib wrapping\")\r\n+    variant('cuda', default=False, description=\"Enable CUDA support\")\r\n \r\n     # Dependencies for SCORE-P are quite tight. See the homepage for more\r\n     # information. Starting with scorep 4.0 / cube 4.4, Score-P only depends on\r\n@@ -109,6 +110,9 @@ def configure_args(self):\r\n             config_args.append(\"--with-libunwind=%s\" %\r\n                                spec['libunwind'].prefix)\r\n \r\n+        if \"+cuda\" in spec:\r\n+            config_args.append(\"--with-libcudart=%s\" % spec['cuda'].prefix)\r\n+\r\n         config_args += self.with_or_without('shmem')\r\n         config_args += self.with_or_without('mpi')\r\n``` \r\n\r\nI installed ScoreP with the patch and now when I execute `scorep-info config-summary` I can see the line:\r\n```\r\n      CUDA support:             yes\r\n        libcudart found:        yes, ...\r\n```\r\n\r\n\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "ravil-mobile",
+    "url": "https://api.github.com/repos/spack/spack/issues/28524",
+    "updated_at": "2022-01-20 16:06:55",
+    "created_at": "2022-01-20 16:06:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "CUDA option for ScoreP",
+    "number": 28524,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1109487941,
+    "html_url": "https://github.com/spack/spack/issues/28524",
+    "assignees": [],
+    "comments": 0
+}

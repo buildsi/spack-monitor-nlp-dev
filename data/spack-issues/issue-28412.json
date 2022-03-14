@@ -1,0 +1,22 @@
+{
+    "body": "Fixes #27984 \r\n\r\nThis PR ensures the files created at build-time are copied to a test cache directory to allow Spack to automatically copy them to the test stage directory when running `spack test run`.  It has been tested for `test_install` but I have not been able to build with `+cuda` (or tried `+rocm`) to confirm the other two tests work.\r\n\r\nThe main goal is to ensure these tests are run from the test stage directory, not `self.prefix`, since doing so from the latter could cause issues if/when tests are added that write to `work_dir`.\r\n\r\nNOTE:  I have reservations about the nature of these tests since the package is providing libraries.  It is a better test/demonstration, from a stand-alone testing perspective, to have the tests built against the installed headers and libraries, whether after the software is installed or during execution of `spack test run`.  Caching build-time files is described at https://spack.readthedocs.io/en/latest/packaging_guide.html#adding-build-time-files.\r\n\r\nExamples of different approaches can be found in the following packages:\r\n- [kokkos](https://github.com/spack/spack/blob/e0f044561e9b3cb384bfb0f364555e5875b1a492/var/spack/repos/builtin/packages/kokkos/package.py#L290) (see `setup_build_tests` for one way of building the tests; note this package still needs to be changed to *not* use `self.install_test_root`)\r\n- [OpenMPI](https://github.com/spack/spack/blob/e0f044561e9b3cb384bfb0f364555e5875b1a492/var/spack/repos/builtin/packages/openmpi/package.py#L983) (see `_test_examples`)\r\n- [hypre](https://github.com/spack/spack/blob/e0f044561e9b3cb384bfb0f364555e5875b1a492/var/spack/repos/builtin/packages/hypre/package.py#L244) (see `cache_test_sources` and `test`)",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/28412",
+    "updated_at": "2022-03-08 17:27:36",
+    "created_at": "2022-01-14 02:28:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "ginkgo: fix stand-alone test directory / install_test",
+    "number": 28412,
+    "milestone": null,
+    "labels": [
+        "update-package",
+        "e4s"
+    ],
+    "id": 1102796757,
+    "html_url": "https://github.com/spack/spack/pull/28412",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

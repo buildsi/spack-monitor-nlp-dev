@@ -1,0 +1,21 @@
+{
+    "body": "Hi,\r\n\r\nWe have added new hardware to our cluster containing Mellanox ConnectX-6 Infiniband cards. Those require OpenMPI 4.0.x to be built with UCX support.\r\n\r\nUCX depends on numactl and rdma-core. But according to https://github.com/spack/spack/pull/9255, rdma-core conflicts with Intel. I could not find any reference regarding this, except the comment from https://github.com/spack/spack/pull/9072#issuecomment-421492369 from @pramodk mentioning:\r\n\r\n`@michaelkuhn : I see that rdma-core doesn't build with Intel. In the past I was simply doing spack install mvapich2 %intel (new users have to specify now ^rdma-core %gcc). Have you tested with Intel?`\r\n\r\nDoes anybody have a reference, explaining why rdma-core does not build with the Intel compiler ? And does this mean that in general OpenMPI 4.0.x with UCX support cannot be built with the Intel compiler ?\r\n\r\nhttps://github.com/spack/spack/pull/9255#issuecomment-441676893\r\n\r\nmentions that one can also take rdma-core from the CentOS repository and use it as external package:\r\n\r\n```\r\npackages:\r\n  rdma-core:\r\n    paths:\r\n      rdma-core@15%gcc@4.8.5 arch=linux-centos7-x86_64: /\r\n    buildable: False\r\n```\r\n\r\nDo you think something like\r\n\r\n```\r\npackages:\r\n  rdma-core:\r\n    paths:\r\n      rdma-core@15%intel@18.0.1 arch=linux-centos7-x86_64: /\r\n    buildable: False\r\n```\r\n\r\ncould be used to compile UCX with the Intel compiler ?\r\n\r\nEven though I am afraid that It might triggers another issue when building software that depends on rdma-core with the Intel compiler:\r\n\r\nhttps://marc.info/?t=150643483900004&r=1&w=2\r\n\r\nWould you have any recommendation on how to workaround this problem ?\r\n\r\nBest regards\r\n\r\nSam",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/14779",
+    "updated_at": "2020-12-16 07:09:49",
+    "created_at": "2020-02-06 09:36:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "How to build OpenMPI 4.0.x (with UCX support) with the Intel compiler ?",
+    "number": 14779,
+    "milestone": null,
+    "labels": [
+        "question",
+        "mpi",
+        "intel"
+    ],
+    "id": 560887701,
+    "html_url": "https://github.com/spack/spack/issues/14779",
+    "assignees": [],
+    "comments": 2
+}

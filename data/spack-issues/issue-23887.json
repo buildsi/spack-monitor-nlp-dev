@@ -1,0 +1,19 @@
+{
+    "body": "<!--*Please add a concise summary of your suggestion here.*-->\r\n\r\nWhether RubyPackage can set to load GEM_PATH automatically when spack load\r\n\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\nThe following command was executed but caused an error. I found that GEM_PATH was not loaded.\r\n```\r\nspack load ruby-tmuxinator\r\ntmuxinator -h\r\n```\r\n```\r\n/home/all_spack_env/spack/opt/spack/linux-centos8-aarch64/gcc-8.3.1/ruby-3.0.0-qlp3sak5wqbvkxwchsdva3qclihwgh5d/lib/ruby/3.0.0/rubygems.rb:281:in `find_spec_for_exe': can't find gem tmuxinator (>= 0.a) with executable tmuxinator (Gem::GemNotFoundException)\r\n        from /home/all_spack_env/spack/opt/spack/linux-centos8-aarch64/gcc-8.3.1/ruby-3.0.0-qlp3sak5wqbvkxwchsdva3qclihwgh5d/lib/ruby/3.0.0/rubygems.rb:300:in `activate_bin_path'\r\n        from /home/all_spack_env/spack/opt/spack/linux-centos8-aarch64/gcc-8.3.1/ruby-tmuxinator-2.0.1-ahakazc3isnqzljjtyjfncdbe6cwztw6/bin/tmuxinator:23:in `<main>'\r\n```\r\nAfter modifying package.py,  all paths are loaded into GEM_PATH\uff0c\u201ctmuxinator -h\u201d can run normally.\r\n```\r\n    def setup_run_environment(self, env):\r\n        env.append_path('GEM_PATH', self.prefix)\r\n        env.append_path('GEM_PATH', self.spec['ruby'].prefix)\r\n        env.append_path('GEM_PATH', self.spec['ruby-erubis'].prefix)\r\n        env.append_path('GEM_PATH', self.spec['ruby-thor'].prefix)\r\n        env.append_path('GEM_PATH', self.spec['ruby-xdg'].prefix)\r\n```\r\n\r\n### General information\r\n\r\nSpack: 0.16.1-1624-a0b5dcca3c\r\nPython: 3.6.8\r\nPlatform: linux-centos8-aarch64\r\nConcretizer: original\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "fubingting",
+    "url": "https://api.github.com/repos/spack/spack/issues/23887",
+    "updated_at": "2021-05-25 12:22:37",
+    "created_at": "2021-05-25 12:14:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Whether RubyPackage can set to load GEM_PATH automatically when spack load",
+    "number": 23887,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 900725744,
+    "html_url": "https://github.com/spack/spack/issues/23887",
+    "assignees": [],
+    "comments": 0
+}

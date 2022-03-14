@@ -1,0 +1,19 @@
+{
+    "body": "When using commit-based Git downloads (those of the form `version('x.y.z', commit='abcdef0123456789')`), the checksum test fails if Spack has already cached this specific commit from the repository.\r\n\r\n### Expected Result\r\n\r\nIf Spack was happy initially downloading a Git commit, it should remain happy when reusing a cached version of this commit.\r\n\r\n### Actual Result\r\n\r\nFirst build of a commit-based package:\r\n\r\n    $ spack install acts-core@0.6.0\r\n    ==> bzip2 is already installed in /home/hadrien/Software/spack/opt/spack/linux-opensuse_tumbleweed20180712-x86_64/gcc-8.1.1/bzip2-1.0.6-62ez6e6lkdgaqxpfyen44zqzgg5j5qy2\r\n       [...]\r\n    ==> Installing acts-core\r\n    ==> Cloning git repository: https://gitlab.cern.ch/acts/acts-core.git at commit 7358bc8b274c5c474c98c9e44dd796666de11a9d\r\n    ==> No checksum needed when fetching with git\r\n    ==> Already staged acts-core-0.6.0-e2w34654hwu5jfylkyfaxcvxvcl5577j in /home/hadrien/Software/spack/var/spack/stage/acts-core-0.6.0-e2w34654hwu5jfylkyfaxcvxvcl5577j\r\n    ==> No patches needed for acts-core\r\n        [...]\r\n\r\nSecond build of a commit-based package:\r\n\r\n    $ spack uninstall -y acts-core@0.6.0 && spack install acts-core@0.6.0\r\n    ==> Successfully uninstalled acts-core@0.6.0%gcc@8.1.1 build_type=RelWithDebInfo ~examples~integration_tests+legacy~material_plugin~tests arch=linux-opensuse_tumbleweed20180712-x86_64 /e2w3465\r\n    ==> bzip2 is already installed in /home/hadrien/Software/spack/opt/spack/linux-opensuse_tumbleweed20180712-x86_64/gcc-8.1.1/bzip2-1.0.6-62ez6e6lkdgaqxpfyen44zqzgg5j5qy2\r\n       [...]\r\n    ==> Installing acts-core\r\n    ==> Using cached archive: /home/hadrien/Software/spack/var/spack/cache/acts-core/acts-core-0.6.0.tar.gz\r\n    ==> Warning: Fetching from mirror without a checksum!\r\n      This package is normally checked out from a version control system, but it has been archived on a spack mirror.  This means we cannot know a checksum for the tarball in advance. Be sure that your connection to this mirror is secure!\r\n    ==> Staging archive: /home/hadrien/Software/spack/var/spack/stage/acts-core-0.6.0-e2w34654hwu5jfylkyfaxcvxvcl5577j/acts-core-0.6.0.tar.gz\r\n    ==> Created stage in /home/hadrien/Software/spack/var/spack/stage/acts-core-0.6.0-e2w34654hwu5jfylkyfaxcvxvcl5577j\r\n    ==> No patches needed for acts-core\r\n        [...]\r\n\r\nNotice that there is a checksum warning on the second run\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Put a commit-based version in a package specification, e.g.\r\n    ```python\r\n    version('0.6.0',\r\n            git='https://gitlab.cern.ch/acts/acts-core.git',\r\n            commit='7358bc8b274c5c474c98c9e44dd796666de11a9d')\r\n    ```\r\n2. Install the version once. This should succeed.\r\n3. Uninstall/reinstall the version to use the cache. This should trigger the warning above.\r\n\r\n### Information on your system\r\n\r\nAs far as I can tell, this behaviour comes from a system-independent part of Spack.",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/8756",
+    "updated_at": "2018-07-19 13:20:42",
+    "created_at": "2018-07-19 12:43:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Commit-based Git downloads fail checksum when cached",
+    "number": 8756,
+    "milestone": null,
+    "labels": [
+        "git"
+    ],
+    "id": 342712210,
+    "html_url": "https://github.com/spack/spack/issues/8756",
+    "assignees": [],
+    "comments": 2
+}

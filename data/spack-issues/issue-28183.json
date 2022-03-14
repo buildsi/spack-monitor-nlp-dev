@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```\r\n% spack install py-matplotlib backend=qt5agg arch=m1 \r\n...\r\n==> Installing clingo-bootstrap-spack-gmmjcapqovtzrdbsqrcserdmlh334c5w\r\n==> No binary for clingo-bootstrap-spack-gmmjcapqovtzrdbsqrcserdmlh334c5w found: installing from source\r\n==> Error: RuntimeError: Unable to locate libpython3.9.a libraries in /opt/homebrew/Caskroom/miniforge/base/lib\r\n\r\n/Users/rutvik/spack/var/spack/repos/builtin/packages/python/package.py:828, in libs:\r\n        825                return LibraryList(os.path.join(macos_developerdir, ldlibrary))\r\n        826            else:\r\n        827                msg = 'Unable to locate {0} libraries in {1}'\r\n  >>    828                raise RuntimeError(msg.format(ldlibrary, libdir))\r\n        829        else:\r\n        830            library = self.config_vars['LIBRARY']\r\n        831\r\n\r\n\r\n==> Error: cannot bootstrap the \"clingo\" Python module from spec \"clingo-bootstrap@spack+python %apple-clang target=aarch64\" due to the following failures:\r\n    'spack-install' raised InstallError: Terminating after first install failure: RuntimeError: Unable to locate libpython3.9.a libraries in /opt/homebrew/Caskroom/miniforge/base/lib\r\n    Please run `spack -d spec zlib` for more verbose error messages\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-677-c2e1a12cdf\r\n* **Python:** 3.9.7\r\n* **Platform:** darwin-monterey-m1\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\nI have Python 3.9 through [Miniforge](https://github.com/conda-forge/miniforge). If I check `/opt/homebrew/Caskroom/miniforge/base/lib` I see that I have `libpython3.9.dylib` but not `libpython3.9.a`.\r\n\r\n@alalazo @tgamb\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "rchoudhary",
+    "url": "https://api.github.com/repos/spack/spack/issues/28183",
+    "updated_at": "2022-02-25 15:21:24",
+    "created_at": "2021-12-29 21:53:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: clingo",
+    "number": 28183,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "bootstrap"
+    ],
+    "id": 1090766171,
+    "html_url": "https://github.com/spack/spack/issues/28183",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

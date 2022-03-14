@@ -1,0 +1,21 @@
+{
+    "body": "`phist@1.9.3` fails to build optimized for `power9le` using `spack@develop` (d978d72e19574dc46dce84704349b716469babe2 from `Fri Apr 2 16:56:16 2021 +0200`)\r\n\r\nConcrete spec: [phist.spec.yaml.txt](https://github.com/spack/spack/files/6250511/phist.spec.yaml.txt)\r\nFull build log: [phist-build-out.txt](https://github.com/spack/spack/files/6250471/phist-build-out.txt)\r\n\r\n```\r\n$> spack install -f ./phist.spec.yaml\r\n...\r\n==> Installing phist-1.9.3-jxrqv52bq6ybd3j7rykmcoh25x4b57vi\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/3a/3ab7157e9f535a4c8537846cb11b516271ef13f82d0f8ebb7f96626fb9ab86cf.tar.gz\r\n######################################################################################################################################################################### 100.0%\r\n==> Applied patch /opt/spack/var/spack/repos/builtin/packages/phist/sbang.patch\r\n==> phist: Executing phase: 'cmake'\r\n==> phist: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j32'\r\n...\r\n  >> 421    gfortran: error: unrecognized command line option '-march=native'; did you mean '-mcpu=native'?\r\n  >> 422    make[2]: *** [fortran_bindings/CMakeFiles/phist_fort.dir/build.make:760: fortran_bindings/CMakeFiles/phist_fort.dir/phist_types.F90.o] Error 1\r\n     423    make[2]: *** Waiting for unfinished jobs....\r\n  >> 424    gfortran: error: unrecognized command line option '-march=native'; did you mean '-mcpu=native'?\r\n  >> 425    make[2]: *** [fortran_bindings/CMakeFiles/phist_fort.dir/build.make:773: fortran_bindings/CMakeFiles/phist_fort.dir/phist_testing.F90.o] Error 1\r\n     426    make[2]: Leaving directory '/tmp/root/spack-stage/spack-stage-phist-1.9.3-jxrqv52bq6ybd3j7rykmcoh25x4b57vi/spack-build-jxrqv52'\r\n  >> 427    make[1]: *** [CMakeFiles/Makefile2:3182: fortran_bindings/CMakeFiles/phist_fort.dir/all] Error 2\r\n     428    make[1]: Leaving directory '/tmp/root/spack-stage/spack-stage-phist-1.9.3-jxrqv52bq6ybd3j7rykmcoh25x4b57vi/spack-build-jxrqv52'\r\n     429    make: *** [Makefile:185: all] Error 2\r\n\r\nSee build log for details:\r\n  /tmp/root/spack-stage/spack-stage-phist-1.9.3-jxrqv52bq6ybd3j7rykmcoh25x4b57vi/spack-build-out.txt\r\n```\r\n\r\nThis was in an `Ubuntu 20.04 w/ GCC 9.3.0` environment, but I observe the same in `RHEL 7.6 w/ GCC 9.3.0`.\r\n\r\n@jthies \r\n\r\n\r\n",
+    "user": "eugeneswalker",
+    "url": "https://api.github.com/repos/spack/spack/issues/22758",
+    "updated_at": "2021-06-12 19:54:09",
+    "created_at": "2021-04-02 16:51:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "phist@1.9.3 build fails for power9le: -march=native not recognized",
+    "number": 22758,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "ecp",
+        "e4s"
+    ],
+    "id": 849334475,
+    "html_url": "https://github.com/spack/spack/issues/22758",
+    "assignees": [],
+    "comments": 4
+}

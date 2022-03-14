@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nspack -d install xxx@4.2.0 %gcc@4.8.5\r\n\r\nI added custom software which called neper to spack.\r\nThe package.py for neper uses class  CMakePackage \uff0cand  phases <cmake,builld,install> are default.\r\n\r\nAfter that, it was successfully installed on some centos7,but the installation failed on one centos7.\r\nEnter the stage directory to view, the target file has been generated,\r\nbut an error was reported during the install phase.\r\n\r\n#difference\r\nsuccess                failed\r\ncentos7.6,7.7       centos7.4\r\nroot                     non-root\r\n\r\nI have compared the successful cmake script(cmake_install.cmake\uff09 and the failed cmake script, the content structure is basically the same.\r\nThe installation directory is under the home directory of ordinary user(fgs001), with full control authority.\r\n\r\nI don't understand why this error occurs and how to fix it?\r\nHope to get your advice.\r\n\r\n### Error message\r\n\r\n-- Install configuration: \"RelWithDebInfo\"\r\n-- Installing: /home/export/base/aa_fgs/fgs001/softs/spack/opt/spack/linux-centos7-sandybridge/gcc-4.8.5/neper-4.2.0-uxbtfbxeekbrbzzqm7se6ir4zaqx2jju/bin/neper\r\nCMake Error at cmake_install.cmake:55 (file):\r\n  file RPATH_CHANGE could not write new RPATH:\r\n\r\n    /home/export/base/aa_fgs/fgs001/softs/spack/opt/spack/linux-centos7-sandybridge/gcc-4.8.5/neper-4.2.0-uxbtfbxeekbrbzzqm7se6ir4zaqx2jju/lib:/home/export/base/aa_fgs/fgs001/softs/spack/opt/spack/linux-centos7-sandybridge/gcc-4.8.5/neper-4.2.0-uxbtfbxeekbrbzzqm7se6ir4zaqx2jju/lib64\r\n\r\n  to the file:\r\n\r\n    /home/export/base/aa_fgs/fgs001/softs/spack/opt/spack/linux-centos7-sandybridge/gcc-4.8.5/neper-4.2.0-uxbtfbxeekbrbzzqm7se6ir4zaqx2jju/bin/neper\r\n\r\n  Error opening file for update.\r\n\r\nmake: *** [install] Error 1\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.1\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-sandybridge\r\n* **Concretizer:** original\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "longlong10086",
+    "url": "https://api.github.com/repos/spack/spack/issues/27324",
+    "updated_at": "2021-11-11 01:11:47",
+    "created_at": "2021-11-10 09:28:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "got an error \"RPATH_CHANGE could not write new RPATH\"  in phase \"install\"",
+    "number": 27324,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1049590991,
+    "html_url": "https://github.com/spack/spack/issues/27324",
+    "assignees": [],
+    "comments": 0
+}

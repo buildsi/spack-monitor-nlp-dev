@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce\n\nWe use Spack environments in our software builds. I have been testing #28556 for @alalazo and have had great success with all but one platform: Cray/HPE Apollo 80. The sequence of events are as follows.\r\n\r\n1. Clean up and activate my Spack environment:\r\n```console\r\n$ module purge\r\n$ source ./spack/share/spack/setup-env.sh\r\n$ spack env activate -d ./ENV/CCE/\r\n$ spack clean -ab\r\n```\r\n\r\n2. Make sure that Spack detects the compilers specified within my [compilers.yaml](https://github.com/spack/spack/files/8157041/compilers.yaml.txt):\r\n```\r\n$ spack compiler list\r\n==> Available compilers\r\n-- cce rhel8-aarch64 --------------------------------------------\r\ncce@12.0.3\r\n\r\n-- gcc rhel8-aarch64 --------------------------------------------\r\ngcc@9.4.0\r\n```\r\n\r\n4. Next, run a command that invokes the bootstrapping:\r\n```console\r\n$ spack spec zlib\r\n```\n\n### Error message\n\n[trace.txt](https://github.com/spack/spack/files/8157047/trace.txt)\r\n\n\n### Information on your system\n\n```console\r\n$ spack debug report\r\n\r\n* **Spack:** 0.17.1-1053-202e3e5654\r\n* **Python:** 3.6.8\r\n* **Platform:** cray-rhel8-aarch64\r\n* **Concretizer:** clingo\r\n```\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/29249",
+    "updated_at": "2022-03-04 09:15:37",
+    "created_at": "2022-02-28 21:35:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "clingo bootstrap error on Cray/HPE Apollo 80",
+    "number": 29249,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "triage"
+    ],
+    "id": 1154575645,
+    "html_url": "https://github.com/spack/spack/issues/29249",
+    "assignees": [],
+    "comments": 0
+}

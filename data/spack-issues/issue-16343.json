@@ -1,0 +1,20 @@
+{
+    "body": "If an environment's view's bin folder is in the user's PATH variable while the environment is not active, `spack env activate <name> && spack env deactivate` will remove it.\r\n\r\nMy use case: I have a set of development tools I have installed via spack in an environment with a view in my home directory. If I need to add a new tool, I'll activate the environment, install the tool, and then deactivate it. Unfortunately, this also removes the directory to the view's bin dir from my PATH.\r\n\r\nI don't want to activate the environment in my profile because 1) it can be slow, and 2) I may be using another environment.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env create --with-view $HOME/foo-view foo\r\n$ export PATH=$HOME/foo-view/bin:$PATH\r\n$ spack env activate foo\r\n$ spack env deactivate\r\n$ echo $PATH\r\n# Observe that $HOME/foo-view/bin is no longer in $PATH\r\n...\r\n```\r\n\r\n### Error Message\r\nN/A\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.2\r\n* **Python:** 3.7.7\r\n* **Platform:** darwin-catalina-skylake\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output (No failing commands)\r\n\r\n",
+    "user": "AndrewGaspar",
+    "url": "https://api.github.com/repos/spack/spack/issues/16343",
+    "updated_at": "2020-04-28 04:11:50",
+    "created_at": "2020-04-28 04:11:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "If an environment's view's bin folder is in the user's PATH variable while the environment is not active, `spack env activate <name> && spack env deactivate` will remove it.",
+    "number": 16343,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 608010277,
+    "html_url": "https://github.com/spack/spack/issues/16343",
+    "assignees": [],
+    "comments": 0
+}

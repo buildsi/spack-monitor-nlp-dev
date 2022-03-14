@@ -1,0 +1,22 @@
+{
+    "body": "```\r\nspack spec mesa swr=none\r\n```\r\n### Error message\r\n\r\n```\r\n[user@9126c7eb0f3d packages]$ spack spec mesa swr=none\r\nInput spec\r\n--------------------------------\r\nmesa swr=none\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Unexpected token: '='\r\n```\r\n\r\n\r\n```console\r\n$ spack --debug --stacktrace <command>\r\n```\r\n```\r\nlib/spack/spack/main.py:765 ==> [2020-11-02-11:34:45.940136] SpecParseError: Unexpected token: '='\r\nlib/spack/spack/error.py:55 ==> [2020-11-02-11:34:45.940396] Error: Unexpected token: '='\r\nTraceback (most recent call last):\r\n  File \"/usr/lib/spack/spack/spec.py\", line 4181, in do_parse\r\n    self.unexpected_token()\r\n  File \"/usr/lib/spack/spack/parse.py\", line 131, in unexpected_token\r\n    self.next_token_error(\"Unexpected token: '%s'\" % self.next.value)\r\n  File \"/usr/lib/spack/spack/parse.py\", line 124, in next_token_error\r\n    raise ParseError(message, self.text, self.token.end)\r\nspack.parse.ParseError: Unexpected token: '='\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"/usr/lib/spack/spack/main.py\", line 762, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/usr/lib/spack/spack/main.py\", line 490, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/usr/lib/spack/spack/cmd/spec.py\", line 103, in spec\r\n    spec.concretize()\r\n  File \"/usr/lib/spack/spack/spec.py\", line 2239, in concretize\r\n    self._concretize_helper(concretizer))\r\n  File \"/usr/lib/spack/spack/spec.py\", line 2081, in _concretize_helper\r\n    concretizer.concretize_variants(self)))\r\n  File \"/usr/lib/spack/spack/concretize.py\", line 354, in concretize_variants\r\n    preferred_variants = PackagePrefs.preferred_variants(spec.name)\r\n  File \"/usr/lib/spack/spack/package_prefs.py\", line 151, in preferred_variants\r\n    spec = spack.spec.Spec(\"%s %s\" % (pkg_name, variants))\r\n  File \"/usr/lib/spack/spack/spec.py\", line 1019, in __init__\r\n    spec_list = SpecParser(self).parse(spec_like)\r\n  File \"/usr/lib/spack/spack/parse.py\", line 152, in parse\r\n    return self.do_parse()\r\n  File \"/usr/lib/spack/spack/spec.py\", line 4184, in do_parse\r\n    raise SpecParseError(e)\r\nspack.spec.SpecParseError: Unexpected token: '='\r\n\r\n```\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n[user@9126c7eb0f3d packages]$ spack debug report\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-mageia8-skylake\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ X] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "joequant",
+    "url": "https://api.github.com/repos/spack/spack/issues/19674",
+    "updated_at": "2020-11-14 12:05:20",
+    "created_at": "2020-11-02 11:36:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "can't seem to set swr on mesa",
+    "number": 19674,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 734432786,
+    "html_url": "https://github.com/spack/spack/issues/19674",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

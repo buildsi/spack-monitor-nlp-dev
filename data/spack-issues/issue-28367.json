@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nSanity check of the system:\r\n```console\r\n$ arch\r\nppc64le\r\n\r\n$ cat /etc/redhat-release\r\nRed Hat Enterprise Linux Server release 7.9 (Maipo)\r\n```\r\n\r\nLoad `gcc/8.3.0` (closest to the Sierra default GCC):\r\n```console\r\n$ module load gcc/8.3.0\r\n```\r\n\r\nPull down Spack, scrub out caches:\r\n```console\r\n$ git clone git@github.com:spack/spack.git\r\n$ cd spack\r\n$ spack clean --all -b\r\n$ rm -rf ~/.spack/         # get rid of any pesky compilers.yaml files lying around\r\n```\r\n\r\nDetect our compiler of choice:\r\n```console\r\n$ spack compiler find\r\n\r\n==> Added 2 new compilers to /vast/home/quellyn/.spack/linux/compilers.yaml\r\n    gcc@8.3.0  gcc@4.8.5\r\n==> Compilers are defined in the following files:\r\n    /vast/home/quellyn/.spack/linux/compilers.yaml\r\n```\r\n\r\nTry to build `py-torch` without CUDA support:\r\nNOTE: Have to specify `netlib-lapack` here, otherwise concretizer picks `intel-mkl` for some strange reason. This happens even if I list netlib-lapack as the blas/lapack provider in `packages.yaml` ...\r\n```console\r\nspack install -v py-torch%gcc@8.3.0 ~caffe2~cuda~cudnn~distributed~fbgemm~gloo~magma~nccl~nnpack~qnnpack~xnnpack ^netlib-lapack@3.8.0\r\n```\r\n\r\nThe above attempt fails at the end with:\r\n```console\r\n/tmp/quellyn/spack-stage/spack-stage-py-torch-1.10.1-it56biuf5z2rha52odve3lveq7mtw3k5/spack-src/aten/src/ATen/cpu/vec/vec256/vsx/vec256_double_vsx.h: In member function 'void at::vec::{anonymous}::Vectorized<double>::dump() const':\r\n/tmp/quellyn/spack-stage/spack-stage-py-torch-1.10.1-it56biuf5z2rha52odve3lveq7mtw3k5/spack-src/aten/src/ATen/cpu/vec/vec256/vsx/vec256_double_vsx.h:192:12: error: 'cout' is not a member of 'std'\r\n       std::cout << _vec0[0] << \",\" << _vec0[1] << \",\" << _vec1[0] << \",\" << _vec1[1] << std::endl;\r\n            ^~~~\r\n/tmp/quellyn/spack-stage/spack-stage-py-torch-1.10.1-it56biuf5z2rha52odve3lveq7mtw3k5/spack-src/aten/src/ATen/cpu/vec/vec256/vsx/vec256_double_vsx.h:192:12: note: 'std::cout' is defined in header '<iostream>'; did you forget to '#include <iostream>'?\r\n```\r\n\r\nAny ideas?\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.17.1-781-363a565\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-power9le\r\n* **Concretizer:** clingo\r\n```\r\n\r\n### Additional information\r\n\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7851282/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7851283/spack-build-out.txt)\r\n\r\n```console```\r\n$ spack maintainers py-torch\r\nadamjstewart\r\n```\r\n\r\nMentioning @adamjstewart , as he seems to be the official maintainer.\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/28367",
+    "updated_at": "2022-01-12 22:39:00",
+    "created_at": "2022-01-12 02:53:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: py-torch build failure on Sierra-like platforms (PPC64le + RHEL 7 + GCC 8.3.x)",
+    "number": 28367,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1099818661,
+    "html_url": "https://github.com/spack/spack/issues/28367",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

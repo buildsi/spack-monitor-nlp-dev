@@ -1,0 +1,23 @@
+{
+    "body": "`astyle` is a random package (chosen because of its lack of dependencies)\r\n\r\nAdd some patch to it\r\n```\r\ndiff --git a/README.md b/README.md\r\nindex 98d8a6c..01754eb 100755\r\n--- a/README.md\r\n+++ b/README.md\r\n@@ -7,3 +7,5 @@ The file **astyle.html**' contains information on using Artistic Style.\r\n \r\n The files **news.html** and **notes.html** contain information on changes\r\n made to the various releases.\r\n+\r\n+aaa\r\n```\r\ndo `spack install astyle && spack uninstall astyle`, change the patch, in any way\r\n```\r\n% spack install astyle                           \r\n==> Installing astyle\r\n==> Searching for binary cache of astyle\r\n==> No binary for astyle found: installing from source\r\n==> Using cached archive: /Users/healther/Documents/git.nosync/spack/var/spack/cache/astyle/astyle-3.1.tar.gz\r\n==> Error: NoSuchPatchError: Couldn't find patch with sha256: 10caab73785f3cddcaf8365d4734261e999301bf702c7207bf5a688d21febcc2\r\n\r\n/Users/healther/Documents/git.nosync/spack/lib/spack/spack/package.py:1075, in do_fetch:\r\n       1072            self.stage.check()\r\n       1073\r\n       1074        self.stage.cache_local()\r\n  >>   1075\r\n       1076        for patch in self.spec.patches:\r\n       1077            patch.fetch(self.stage)\r\n```\r\n\r\nFor ease of reproduction: https://github.com/spack/spack/commit/b55db69c6d911dfceef18b192c8a8e9cdd63ff2f\r\ndo the `spack install` on the two commits to reproduce the problem\r\n\r\n\r\nImo this should not happen, as the `patch` directive does not require a checksum for repo-internal patches and as such should not fail for something it remembered. Granted that only hits developers who should know about `spack clean -a`, but still.",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/13233",
+    "updated_at": "2021-10-12 22:52:32",
+    "created_at": "2019-10-16 09:44:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Changing a patch, leads to NoSuchPatchError",
+    "number": 13233,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low",
+        "patch"
+    ],
+    "id": 507737949,
+    "html_url": "https://github.com/spack/spack/issues/13233",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

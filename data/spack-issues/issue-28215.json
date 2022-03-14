@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce\r\n\r\n1. Install Python3 externally, so `which python3` points to it, but `which python` points to a system-installed Py2. This situation is easily reached on macOS with a simple `brew install python`: It links Py3 to `/usr/local/bin/python3` but doesn't link `python`, so `python` still points to the system Py2 in `/usr/bin/python`.\r\n2. Run `spack external find` to pick up the Py3 installation. It will also pick up the system Py2, but that's irrelevant since we won't select it with Spack.\r\n3. Build something that uses CMake's [`FindPythonInterp`](https://cmake.org/cmake/help/latest/module/FindPythonInterp.html), e.g. `doxygen` before https://github.com/spack/spack/pull/28216. Spack should select the external Py3 installation in `/usr/local/bin/python3` and configure the environment appropriately. However, the install will fail with `ImportError: No module named site` because CMake picks up the system's Py2 in `/usr/bin/python`, which is likely in the PATH because of some other external package in `/usr/bin`.\r\n\r\nThe reason for the failure is that `FindPythonInterp` makes no attempt to choose `python3` over `python`. It is deprecated, but still widely used. I pushed a Doxygen-specific fix to #28216. However, the presence of a rogue external `python` in the `PATH` that Spack didn't select is also likely to cause other problems. It sort of goes against the idea that the build \"sees\" a system that has only the correct dependencies installed.\r\n\r\nA workaround is to manually symlink `/usr/local/bin/python3` to `/usr/local/bin/python`, but I don't think we can expect users to do this. Another resolution is to _not_ use an external Python, but Spack-installing it. However, since a `spack external find` picks up Python installations, users are likely to encounter this issue. Since this situation is so easily reached by a `brew install python` on macOS, I think we need to do something about it.\r\n\r\nPerhaps we can somehow make sure to always put a `python` in the PATH of a build environment, which points to Spack's selected Python?\r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-687-15dd1bfc9b\r\n* **Python:** 3.9.9\r\n* **Platform:** darwin-monterey-skylake\r\n* **Concretizer:** clingo\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "nilsvu",
+    "url": "https://api.github.com/repos/spack/spack/issues/28215",
+    "updated_at": "2022-01-28 11:46:21",
+    "created_at": "2022-01-03 17:37:25",
+    "closed_at": "None",
+    "state": "open",
+    "title": "External python3 is shadowed by system python",
+    "number": 28215,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1092693465,
+    "html_url": "https://github.com/spack/spack/issues/28215",
+    "assignees": [],
+    "comments": 1
+}

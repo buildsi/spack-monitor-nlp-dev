@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\non osx Catalina with a path that contains spaces in directory names sourcing the csh startup script fails\r\n```console\r\nsource ~/programs/spack/share/spack/setup-env.csh\r\n\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\nset: Variable name must contain alphanumeric characters.\r\n```\r\n\r\nadding \r\n\r\n```csh\r\nset echo\r\nset verbose\r\n```\r\nto the script shows the problem\r\n\r\n```csh\r\nset set _pa_old_value=/Applications/VMware Fusion.app\r\n```\r\n\r\nfails with spaces in the path string, but\r\n\r\n```csh\r\nset set _pa_old_value=/Applications/VMware-Fusion.app\r\n```\r\n\r\nis ok.\r\n\r\nThe offending commands seems to be in spack/share/spack/csh/pathadd.csh\r\n\r\n```csh\r\nif ($_pa_set == 1) then\r\n    eval set _pa_old_value='$'$_pa_varname\r\nendif\r\n```\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.0\r\n* **Python:** 3.8.5\r\n* **Platform:** darwin-catalina-cannonlake\r\n* **Concretizer:** original\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "varioustoxins",
+    "url": "https://api.github.com/repos/spack/spack/issues/20152",
+    "updated_at": "2020-11-28 17:02:26",
+    "created_at": "2020-11-28 12:09:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "error on sourcing setup-env.csh with filenames with spaces in path",
+    "number": 20152,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "shell-support",
+        "triage"
+    ],
+    "id": 752664279,
+    "html_url": "https://github.com/spack/spack/issues/20152",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 0
+}

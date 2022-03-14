@@ -1,0 +1,20 @@
+{
+    "body": "Hello, \r\n\r\nI followed the instruction \"[Installing Intel tools within Spack](https://spack.readthedocs.io/en/latest/build_systems/intelpackage.html?highlight=intel#installing-intel-tools-within-spack)\" installed `intel-parallel-studio/cluster.2018.3` successfully. But I wasn't able to make Spack select intel-mpi package in the studio. Here are what I tried: \r\n\r\n\r\n---\r\n\r\n### Without configuring packages.yaml:\r\n\r\n```console\r\n$ spack spec fftw %intel ^intel-mpi\r\nInput spec\r\n--------------------------------\r\nfftw%intel\r\n    ^intel-mpi\r\n\r\nConcretized\r\n--------------------------------\r\nfftw@3.3.8%intel@18.0.3+double+float~fma+long_double+mpi~openmp~pfft_patches~quad simd=avx,avx2,sse2 arch=linux-centos6-x86_64\r\n    ^intel-mpi@2019.0.117%intel@18.0.3 arch=linux-centos6-x86_64\r\n```\r\n\r\n### With configuring packages.yaml\r\n\r\n- `packages.yaml` as suggested in the [doc](https://spack.readthedocs.io/en/latest/build_systems/intelpackage.html?highlight=intel#selecting-libraries-to-satisfy-virtual-packages):\r\n\r\n```console\r\npackages:\r\n    all:\r\n        compiler: [intel, gcc]\r\n        providers:\r\n            mpi: [intel-parallel-studio+mpi, openmpi, mpich]\r\n            blas: [intel-parallel-studio+mkl, openblas]\r\n            lapack: [intel-parallel-studio+mkl, openblas]\r\n            scalapack: [intel-parallel-studio+mkl, openblas]\r\n```\r\n\r\nIt reports the error when concretized:\r\n \r\n```console\r\n$ spack spec fftw\r\nInput spec\r\n--------------------------------\r\nfftw\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Conflicts in concretized spec \"fftw@3.3.8%intel@18.0.3+double+float~fma+long_double+mpi~openmp~pfft_patches~quad simd=avx,avx2,sse2 arch=linux-centos6-x86_64 /2h5m425\"\r\n\r\nList of matching conflicts for spec:\r\n\r\n    intel-parallel-studio@professional.2018.3%intel@18.0.3~advisor~clck+daal~gdb~ilp64~inspector+ipp~itac+mkl+mpi~newdtags+rpath+shared+tbb threads=none ~vtune arch=linux-centos6-x86_64\r\n\r\n1. \"+mpi\" conflicts with \"intel-parallel-studio@professional.0:professional.9999\"\r\n\r\n``` \r\n\r\nI tried with adding the section of intel-parallel-studio section in `packages.yaml` as suggested in the [#11950](https://github.com/spack/spack/issues/11950) like below: \r\n\r\n```console\r\n    intel-parallel-studio:\r\n        paths:\r\n            intel-parallel-studio@cluster.2018.3.222 +mkl+mpi+ipp+tbb+daal: /path/to/intel\r\n        buildable: False\r\n```\r\nIt reports the same error.\r\n\r\n---\r\n\r\nAny hints? Thanks.\r\n",
+    "user": "huqy",
+    "url": "https://api.github.com/repos/spack/spack/issues/12830",
+    "updated_at": "2021-05-27 22:01:10",
+    "created_at": "2019-09-13 19:20:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Help needed on how to use intel-mpi in intel-parallel-studio installed within Spack",
+    "number": 12830,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "concretization"
+    ],
+    "id": 493479873,
+    "html_url": "https://github.com/spack/spack/issues/12830",
+    "assignees": [],
+    "comments": 10
+}

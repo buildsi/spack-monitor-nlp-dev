@@ -1,0 +1,22 @@
+{
+    "body": "In my packages.py I have \r\n\r\n```\r\n    openmpi:\r\n        paths:\r\n            openmpi@2.0.1: /usr/local\r\n        version: [system]\r\n        buildable: False        \r\n```\r\n\r\nand \r\n\r\n```\r\n    all:\r\n        providers:\r\n            # prefer OpenMPI over MPICH by default\r\n            mpi: [openmpi, mpich]\r\n```\r\n\r\nNow in a clean spack directory (after git clean -x -f -d) I get \r\n\r\n```\r\n$ ./bin/spack install mpi\r\n==> openmpi is externally installed in /usr/local\r\n~/Src/spack (develop=) \r\n$ ./bin/spack install hypre\r\n==> Installing hypre\r\n==> netlib-lapack is externally installed in /usr\r\n==> openmpi is externally installed in /usr/local\r\n==> Fetching http://computation.llnl.gov/project/linear_solvers/download/hypre-2.11.1.tar.gz\r\n.... Builds hypre fine\r\n\r\n~/Src/spack (develop=) \r\n$ ./bin/spack install mfem\r\n==> Installing mfem\r\n==> Installing mvapich2\r\n==> Installing libpciaccess\r\n==> Installing util-macros\r\nStarts the massive project of installing mvapich2 and its dependencies.\r\n```\r\n\r\nSpack is fantasizing  that it should use some wacked out MPI mvapich2 instead of the default. This happens with mfem but not with hypre, petsc, superlu_dist, mumps ... \r\n\r\nThis is the develop branch on my Mac.\r\n\r\nNot if you use ./bin/spack install mfem+mpi then it does use the OpenMPI. mfem/package.py does have a default dependence on mpi \r\n\r\n`    variant('mpi', default=True, description='Activate support for MPI')`\r\n\r\nso there is something wrong with how Spack selects the MPI when it is not provided on the command line for the install.",
+    "user": "BarrySmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/2715",
+    "updated_at": "2018-04-13 14:41:30",
+    "created_at": "2017-01-02 00:52:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Picks wrong MPI for mfem but not other packages",
+    "number": 2715,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "concretization",
+        "xSDK",
+        "external-packages"
+    ],
+    "id": 198288525,
+    "html_url": "https://github.com/spack/spack/issues/2715",
+    "assignees": [],
+    "comments": 17
+}

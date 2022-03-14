@@ -1,0 +1,19 @@
+{
+    "body": "Dear all\r\nHere I'd like to file a build error for the julia package on CentOS 7 x86_64. Many thanks in advance for your support.\r\nKind regards\r\nPascal\r\n\r\n---\r\n\r\nSummary\r\n\r\n### Expected Result\r\n\r\nPackage julia (current version offered in package: 0.5.2) builds successfully on CentOS 7 on x86_64.\r\n\r\n### Actual Result\r\n\r\nPackage build attempt fails with three errors:\r\n```4 errors found in build log:\r\n     396      checking for ld used by gcc -m64 ... Making all in src\r\n     397      -- Found Perl: /usr/bin/perl (found version \"5.16.3\")\r\n  >> 398      Can't open perl script \"scripts/config.pl\": No such file or directory\r\n     399      yes\r\n     ...\r\n     38405    a - SuiteSparse_config.o\r\n  >> 38406    /bin/sh: line 0: cd: metis-4.0: No such file or directory\r\n     38407    yes\r\n     38408    checking for Fortran 77 compiler default output file name... a.out\r\n     ...\r\n     40115    # Copy system image\r\n     40116    /tmp/swadm/spack-stage/spack-stage-eM1cm5/julia-0.5.2/contrib/install.sh 644 /tmp/swadm/spack-stage/spack-stage-\r\n              eM1cm5/julia-0.5.2/usr/lib/julia/sys.ji /cfs/software/spack/linux-centos7-x86_64/gcc-7.2.0/julia-0.5.2-xbgtifss5\r\n              fm4wfuxelr3ktiwe2ltn2mq/lib/julia\r\n  >> 40117    cp: cannot stat \u2018/tmp/swadm/spack-stage/spack-stage-eM1cm5/julia-0.5.2/usr/lib/julia/sys.ji\u2019: No such file o\r\n              r directory\r\n```\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install julia %gcc@7.2.0\r\n```\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. which platform you are using: **CentOS 7 on x86_64**\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\n**modules.yaml:**\r\n```\r\nmodules:\r\n  enable:\r\n    - lmod\r\n  prefix_inspections:\r\n    bin:\r\n      - PATH\r\n    man:\r\n      - MANPATH\r\n    share/man:\r\n      - MANPATH\r\n    share/aclocal:\r\n      - ACLOCAL_PATH\r\n    lib:\r\n      - LIBRARY_PATH\r\n      - LD_LIBRARY_PATH\r\n    lib64:\r\n      - LIBRARY_PATH\r\n      - LD_LIBRARY_PATH\r\n    include:\r\n      - CPATH\r\n    lib/pkgconfig:\r\n      - PKG_CONFIG_PATH\r\n    lib64/pkgconfig:\r\n      - PKG_CONFIG_PATH\r\n    '':\r\n      - CMAKE_PREFIX_PATH\r\n\r\n  lmod:\r\n    hash_length: 0\r\n    whitelist:\r\n      - gcc\r\n    core_compilers:\r\n      - 'gcc@4.8.5'\r\n```\r\n### Additional information\r\nI tried to add metis as a build dependency, but this does not have any effect on the metis error.\r\n",
+    "user": "phxyz12",
+    "url": "https://api.github.com/repos/spack/spack/issues/7198",
+    "updated_at": "2018-10-19 15:12:26",
+    "created_at": "2018-02-08 07:20:31",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Package julia build fails on CentOS 7",
+    "number": 7198,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 295408902,
+    "html_url": "https://github.com/spack/spack/issues/7198",
+    "assignees": [],
+    "comments": 7
+}

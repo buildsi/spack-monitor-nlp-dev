@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce the issue\r\n```\r\n$ spack install intel-oneapi-compilers\r\n$ spack install intel-oneapi-mpi\r\n```\r\nRunning the install completes successfully, however the issue is that running the setvars.sh for each of the installed packages introduces conflicting install information. As currently implemented, spack installs each package in its own directory and declares ONEAPI_ROOT, e.g.:\r\n```\r\n< ONEAPI_ROOT=/soft/spack/opt/spack/linux-opensuse_leap15-x86_64/gcc-10.2.0/intel-oneapi-compilers-2021.1.0-uwk5vusleeaewakfh7c4a6luh2mxif2u\r\n---\r\n> ONEAPI_ROOT=/soft/spack/opt/spack/linux-opensuse_leap15-x86_64/oneapi-2021.1/intel-oneapi-mpi-2021.1.1-7pnjtbjzljnu4kfrn43vwofiubopc62w\r\n```\r\nOther variables are affected as well:\r\n- The variables I_MPI_ROOT, FI_PROVIDER_PATH, ONEAPI_ROOT, and TBBROOT are set by the compilers package setvars.sh, and are overwritten with new values if the setvars.sh for the mpi package is run. \r\n- The variables CPATH, CLASSPATH, PATH, LIBRARY_PATH, and LD_LIBRARY_PATH which are set by the intel-oneapi-compilers setvars.sh are receiving erroneous paths to MPI packages. They receive correct entries from the intel-oneapi-mpi setvars.sh This is benign, but reflects the broader issue. \r\n\r\nWork has been done to set dependent build environment vars explicitly for spack-generated modules and downstream builds, as a stand-in for sourcing the setvars.sh scripts. This is work-in-progress, and highlights the same conflicts when declaring values.\r\n\r\n### Information on your system\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.0-1142-26c1a92d3c\r\n* **Python:** 3.6.12\r\n* **Platform:** linux-opensuse_leap15-zen2\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\nA fundamental issue stems from Intel oneapi packages expecting to be installed under a common root, e.g. ONEAPI_ROOT. In spack, the oneapi packages are currently bundled separately, and each is installed under its own root in spack. \r\n\r\nPossible fixes include:\r\n- Re-factoring the oneapi packages into a single package with the current packages as variants. \r\n- Keeping separate packages and carefully curate settings for the environment vars set in generated modules, based on the effect of running the setvars.sh scripts. \r\n\r\nThe first would be more work to implement, but more robust and consistent with how Intel compiler installations are handled outside of spack. The second would be easier to implement, as a continuation of setting up the dependent build environment, but does not address the issue of a single ONEAPI_ROOT and is more fragile to maintain. \r\n\r\n@rscohn2, @scheibelp  any thoughts on how best to address?\r\n@glennpj FYI\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt]()\r\n* [spack-build-env.txt]()\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files (N/A)\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "frankwillmore",
+    "url": "https://api.github.com/repos/spack/spack/issues/21704",
+    "updated_at": "2021-02-19 18:16:49",
+    "created_at": "2021-02-16 17:47:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: different oneapi packages declare different ONEAPI_ROOT, etc.",
+    "number": 21704,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error",
+        "mpi",
+        "intel",
+        "oneapi"
+    ],
+    "id": 809521288,
+    "html_url": "https://github.com/spack/spack/issues/21704",
+    "assignees": [],
+    "comments": 14
+}

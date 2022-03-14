@@ -1,0 +1,20 @@
+{
+    "body": "I'd like to use the system gcc and spack install llvm.\r\nHowever, the built clang/clang++ cannot build codes because of missing gcc-toolchain configuration.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install llvm\r\n$ module load llvm-10.0.0-gcc-9.3.0-brezhrw\r\n$ clang++ -std=c++11 -g -O3 -fopenmp -o gemv-omp.cpp.x -I ../../common gemv-omp.cpp\r\n/usr/bin/ld: cannot find crtbegin.o: No such file or directory\r\nclang-10: error: linker command failed with exit code 1 (use -v to see invocation)\r\nmake: *** [Makefile:19: gemv-omp.cpp.x] Error 1\r\n$ # Now add --gcc-toolchain=/usr works\r\n$ clang++ --gcc-toolchain=/usr -std=c++11 -g -O3 -fopenmp -o gemv-omp.cpp.x -I ../../common gemv-omp.cpp\r\n$\r\n```\r\n### Information on your system\r\nUbuntu 20.04 with gcc 9.3\r\n\r\n### Additional information\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\nNote: searching issues of this repo is not easy. issue titles are not verbose enough. It is almost impossible to go through every issue comments.",
+    "user": "ye-luo",
+    "url": "https://api.github.com/repos/spack/spack/issues/16689",
+    "updated_at": "2020-11-16 22:13:57",
+    "created_at": "2020-05-17 18:22:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "llvm built with system gcc missing gcc-toolchain",
+    "number": 16689,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error"
+    ],
+    "id": 619767113,
+    "html_url": "https://github.com/spack/spack/issues/16689",
+    "assignees": [],
+    "comments": 4
+}

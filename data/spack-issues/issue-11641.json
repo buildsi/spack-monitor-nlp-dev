@@ -1,0 +1,22 @@
+{
+    "body": "I am attempting to use spack VOTD (SHA f4e77867) to install various TPLs required by the low Mach CFD code Nalu-Wind on the Cori supercomputer @ NERSC.\r\n\r\n### Steps to reproduce the issue\r\n```\r\n> git clone https://github.com/LLNL/spack.git\r\n> source ./spack/share/spack/setup-env.sh\r\n> spack arch\r\ncray-cnl6-haswell\r\n> spack install cmake\r\n```\r\n### Error Message\r\n```\r\n==> Error: No compilers found for operating system cnl6 and target haswell.\r\nIf previous installations have succeeded, the operating system may have been updated.\r\nCompilers are defined for the following operating systems and targets:\r\n\tsles12-x86_64\r\n\tcnl9-any\r\nRun 'spack compiler find' to add compilers.\r\n```\r\n\r\nIf I checkout out a release version of spack, the command works as expected:\r\n```\r\n> cd spack\r\n> git checkout --track origin/releases/v0.12\r\nBranch releases/v0.12 set up to track remote branch releases/v0.12 from origin.\r\nSwitched to a new branch 'releases/v0.12'\r\n> source ./spack/share/spack/setup-env.sh\r\n> spack -v arch\r\ncray-cnl9-haswell\r\n> spack install cmake\r\n==> ncurses@6.0 : externally installed in /usr\r\n==> ncurses@6.0 : generating module file\r\n==> ncurses@6.0 : registering into DB\r\n==> openssl@1.1.0 : has external module in openssl/1.1.0a\r\n==> openssl@1.1.0 : is actually installed in /global/common/cori/software/openssl/1.1.0a/hsw\r\n==> openssl@1.1.0 : generating module file\r\n==> openssl@1.1.0 : registering into DB\r\n==> Installing cmake\r\n==> Searching for binary cache of cmake\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for cmake found: installing from source\r\n==> Fetching https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz\r\n######################################################################## 100.0%\r\n[snip]\r\n```\r\n### Information on your system\r\n\r\nCray XC40 (Cori @ NERSC)\r\ndefault modules loaded:\r\n```\r\n  1) modules/3.2.10.6                                  9) pmi/5.0.14                                       17) atp/2.1.3\r\n  2) nsg/1.2.0                                        10) dmapp/7.1.1-6.0.7.1_5.45__g5a674e0.ari           18) PrgEnv-intel/6.0.4\r\n  3) intel/18.0.1.163                                 11) gni-headers/5.0.12.0-6.0.7.1_3.11__g3b1768f.ari  19) craype-haswell\r\n  4) craype-network-aries                             12) xpmem/2.2.15-6.0.7.1_5.11__g7549d06.ari          20) cray-mpich/7.7.3\r\n  5) craype/2.5.15                                    13) job/2.2.3-6.0.7.1_5.43__g6c4e934.ari             21) gcc/7.3.0\r\n  6) cray-libsci/18.07.1                              14) dvs/2.7_2.2.118-6.0.7.1_10.2__g58b37a2           22) altd/2.0\r\n  7) udreg/2.3.2-6.0.7.1_5.13__g5196236.ari           15) alps/6.6.43-6.0.7.1_5.45__ga796da32.ari          23) darshan/3.1.4\r\n  8) ugni/6.0.14.0-6.0.7.1_3.13__gea11d3d.ari         16) rca/2.2.18-6.0.7.1_5.47__g2aa4f39.ari\r\n```\r\n\r\n@sayerhs",
+    "user": "jhux2",
+    "url": "https://api.github.com/repos/spack/spack/issues/11641",
+    "updated_at": "2020-01-02 08:29:01",
+    "created_at": "2019-06-05 23:42:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack finds wrong arch on Cori at NERSC",
+    "number": 11641,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 452764853,
+    "html_url": "https://github.com/spack/spack/issues/11641",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

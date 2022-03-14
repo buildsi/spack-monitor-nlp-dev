@@ -1,0 +1,21 @@
+{
+    "body": "I built R with Spack's X11 libraries and everything seemed ok.\n\nThen I ran this little snippet\n\n``` R\npng('moose.png')\nboxplot(mpg~cyl,data=mtcars, main=\"Car Milage Data\", xlab=\"Number of Cylinders\", ylab=\"Miles Per Gallon\")\ndev.off()\n```\n\nand it generated a PNG file for me without any complaints.\n\nBut when scp'ed the file to my mac and opened  it, I discovered that all of the characters in the axes and labels  and ... had been replaced by little unfilled rectanges (presumably their bounding boxes).\n\nI hadn't installed any fonts, so I put together this script:\n\n``` sh\n#!/bin/sh\n\nspack install font-util\nspack install encodings\nspack install font-adobe-100dpi\nspack install font-adobe-75dpi\nspack install font-adobe-utopia-100dpi\nspack install font-adobe-utopia-75dpi\nspack install font-adobe-utopia-type1\nspack install font-alias\nspack install font-arabic-misc\nspack install font-bh-100dpi\nspack install font-bh-75dpi\nspack install font-bh-lucidatypewriter-100dpi\nspack install font-bh-lucidatypewriter-75dpi\nspack install font-bh-ttf\nspack install font-bh-type1\nspack install font-bitstream-100dpi\nspack install font-bitstream-75dpi\nspack install font-bitstream-type1\nspack install font-cronyx-cyrillic\nspack install font-cursor-misc\nspack install font-daewoo-misc\nspack install font-dec-misc\nspack install font-ibm-type1\nspack install font-isas-misc\nspack install font-jis-misc\nspack install font-micro-misc\nspack install font-misc-cyrillic\nspack install font-misc-ethiopic\nspack install font-misc-meltho\nspack install font-misc-misc\nspack install font-mutt-misc\nspack install font-schumacher-misc\nspack install font-screen-cyrillic\nspack install font-sony-misc\nspack install font-sun-misc\nspack install font-winitzki-cyrillic\nspack install font-xfree86-type1\n```\n\nThese died with an assertion in database.py (#2139), but the rest installed.\n\n```\nfont-adobe-utopia-type1\nfont-bitstream-type1\nfont-ibm-type1\nfont-misc-ethiopic\nfont-misc-meltho\nfont-xfree86-type1\n```\n\nSimply install'ing them didn't do anything useful (still got bounding boxes instead of glyphs), but that's not surprising.  Then I set to figuring out how to make X aware of them.\n\nI ended up doing:\n\n```\nmodule load fontconfig\nmkdir -p ~/.config/fontconfig/\nvi ~/.config/fontconfig/fonts.conf\nfc-cache -f\n```\n\nwith a fonts.conf that looked like so:\n\n``` xml\n<?xml version=\"1.0\"?>\n      <!DOCTYPE fontconfig SYSTEM \"fonts.dtd\">\n      <fontconfig>\n        <dir>/rss/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/font-util-1.3.1-6rs7qlybxshfpui546rmxoeuxkahypbv/share/fonts/X11</dir>\n      </fontconfig>\n```\n\nand my PNG image had glyphs instead of bounding boxes.\n\nThe glyphs were ugly/jaggy, presumably I need to turn on anti-aliasing somewhere.\n\nIt would be nice to have some instructions about how this is supposed to work.  I'm clearly flying a bit blind, but am happy to wordsmith.\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2141",
+    "updated_at": "2018-04-13 11:57:06",
+    "created_at": "2016-10-26 18:57:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "We need instructions for using X11 fonts.",
+    "number": 2141,
+    "milestone": null,
+    "labels": [
+        "X11"
+    ],
+    "id": 185480209,
+    "html_url": "https://github.com/spack/spack/issues/2141",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

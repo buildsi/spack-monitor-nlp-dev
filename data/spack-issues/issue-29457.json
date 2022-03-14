@@ -1,0 +1,20 @@
+{
+    "body": "During build of Gaussian-src I have noticed that the gau-machine binary is missing. This is needed during build and for the login profile file bsd/g16.login or g16.profile. I have added this to the list of binaries to copy in the package.py. \r\nAlso  the binary is used during build, but due to wrong order in the bldg16 makefile it fails. And the build of this binary fails with PGI 18.10 compiler. Therefore I have added a patch with fixes both issues.\r\n\r\nPython complains that the listdir() function needs arguments (on Scientific Linux 7 with Python 3.9.0). Here I have changed it to listdir('.')\r\n\r\n**Documentation**\r\n\r\nFor documentation I suggest to add one sentence that you must extract the source package from Gaussian, go to the tar folder and place the file wkssrc.tbz as gaussian-src-16-C.01.tar.gz, not the original tbz file. \r\n\r\nAlso the PGI compiler always complained about\r\nlib/libnuma.so: file not recognized: file truncated\r\nSee also [discussion on nvidia forum](https://forums.developer.nvidia.com/t/internal-compiler-error-too-many-assign-statements/136079/2) \r\nSo it is fixed on newer PGI version. But for 18.10 I suggest to add a note. My solution was to edit compilers.yaml and add these options to the compiler:\r\n```\r\n- compiler:\r\n    paths:\r\n      cc: /opt/sw/rev/21.12/haswell/gcc-9.3.0/pgi-18.10-2nhhea/linux86-64/18.10/bin/pgcc\r\n      cxx: /opt/sw/rev/21.12/haswell/gcc-9.3.0/pgi-18.10-2nhhea/linux86-64/18.10/bin/pgc++\r\n      f77: /opt/sw/rev/21.12/haswell/gcc-9.3.0/pgi-18.10-2nhhea/linux86-64/18.10/bin/pgfortran\r\n      fc: /opt/sw/rev/21.12/haswell/gcc-9.3.0/pgi-18.10-2nhhea/linux86-64/18.10/bin/pgfortran\r\n    operating_system: scientific7\r\n    target: x86_64\r\n    modules: []\r\n    environment:\r\n      prepend_path:\r\n        LD_LIBRARY_PATH: /usr/lib64\r\n    extra_rpaths: []\r\n    flags:\r\n      cflags: -L/usr/lib64 -rpath=/usr/lib64\r\n      fflags: -L/usr/lib64 -rpath=/usr/lib64\r\n      cxxflags: -L/usr/lib64 -rpath=/usr/lib64\r\n    spec: pgi@18.10\r\n\r\n```\r\nCompiler flags and  LD_LIBRARY_PATH were added to fix the compilation process.\r\n",
+    "user": "b-johannes",
+    "url": "https://api.github.com/repos/spack/spack/issues/29457",
+    "updated_at": "2022-03-14 08:13:51",
+    "created_at": "2022-03-11 12:22:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "fix gaussian-src package 16-C.01 gau-machine missing and Python errors on listdir",
+    "number": 29457,
+    "milestone": null,
+    "labels": [
+        "patch",
+        "update-package"
+    ],
+    "id": 1166355802,
+    "html_url": "https://github.com/spack/spack/pull/29457",
+    "assignees": [],
+    "comments": 0
+}

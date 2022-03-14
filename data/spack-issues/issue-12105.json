@@ -1,0 +1,23 @@
+{
+    "body": "Spack can be configured to avoid generating module files for implicitly installed products (i.e. dependencies which have been installed automatically):\r\n```yaml\r\nmodules:\r\n  tcl:\r\n    blacklist_implicits: true\r\n```\r\n\r\nHowever there is a bug in this feature which prevents the module files to be created during `spack install` for explicitly installed products. If a refresh is later triggered with `spack module tcl refresh`, the module file is correctly generated.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install zlib@1.2.11\r\n...\r\n$ module avail zlib\r\n$ spack module tcl refresh -y zlib\r\n...\r\n$ module avail zlib\r\nzlib/1.2.11\r\n```\r\n\r\n### Technical info on the issue\r\n\r\nAs far as I can tell the problem is caused by an incorrect order of operations in this part of the code:\r\nhttps://github.com/spack/spack/blob/0bff0c2d0d99e49dad723acad3ea37172972edaf/lib/spack/spack/package.py#L1674-L1685\r\n\r\nUnfortunately, the module file generation is triggered in the `build_process` function before the product is actually registered in the DB:\r\nhttps://github.com/spack/spack/blob/0bff0c2d0d99e49dad723acad3ea37172972edaf/lib/spack/spack/package.py#L1633-L1634\r\n\r\nI would have happily contributed a fix for this issue but I feel like it might be non-trivial. The hooks must run before the staging folder is destroyed and I am not sure whether the registration in the DB can happen in the forked subprocess.",
+    "user": "RemiLacroix-IDRIS",
+    "url": "https://api.github.com/repos/spack/spack/issues/12105",
+    "updated_at": "2022-03-10 15:54:12",
+    "created_at": "2019-07-23 21:03:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Module file not created during install when blacklist_implicits is enabled",
+    "number": 12105,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "impact-low"
+    ],
+    "id": 471946660,
+    "html_url": "https://github.com/spack/spack/issues/12105",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

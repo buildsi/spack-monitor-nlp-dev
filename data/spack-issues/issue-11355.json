@@ -1,0 +1,23 @@
+{
+    "body": "When a generated tcl module file modifies `MANPATH`, the system man pages are completely unavailable.  This is the expected `man` behavior when `MANPATH` is set, but it's unintuitive and frustrating if you're unfamiliar with how man pages are found.\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ printenv MANPATH\r\n\r\n$ man -w ls \r\n/usr/share/man/man1/ls.1.gz\r\n$ spack load gcc\r\n$ printenv MANPATH\r\n/home/dringo/spack/opt/spack/linux-antergos19-x86_64/gcc-8.3.0/gcc-8.2.0-qxn3zuh54mofm3a5xglxmghvwqvoujq6/share/man\r\n$ man -w gcc \r\n/home/dringo/spack/opt/spack/linux-antergos19-x86_64/gcc-8.3.0/gcc-8.2.0-qxn3zuh54mofm3a5xglxmghvwqvoujq6/share/man/man1/gcc.1\r\n$ man -w ls\r\nNo manual entry for ls\r\n```\r\n\r\n### Potential solutions/workarounds\r\n\r\nOn most systems, adding a trailing colon to the `MANPATH` will cause system directories to be searched after those in `MANPATH` (similarly, a leading colon gives precedence to system dirs).  I'm not sure which systems this is _not_ true for -- I'm just parroting what I've read around the web.  This means you could always run `man` as `MANPATH=\"$MANPATH:\" man <command>` or export an appropriately modified `MANPATH` every time you load a spack module file, but that's a point of unnecessary friction in my opinion.\r\n\r\nA better, but still ugly solution would be to modify tcl module file template to always suffix a colon to `MANPATH` in module files that otherwise modify it.  I think the following will guarantee that the colon is always at the end, but I don't know much about Tcl or module files.  Maybe there's something cleaner?\r\n\r\n```\r\nremove-path MANPATH \"\"\r\nappend-path MANPATH \"\"\r\n```\r\n\r\n### Information on your system\r\n\r\nI'm using spack on `develop` at `5b82bf47af` and `environment-modules@4.2.3%gcc@8.2.0 ~X` installed by `spack bootstrap`.\r\n\r\nI don't think the rest is super relevant, but I'm including it for completeness:\r\n\r\n`uname -a` reports\r\n`Linux slartibartfast 5.0.10-arch1-1-ARCH #1 SMP PREEMPT Sat Apr 27 20:06:45 UTC 2019 x86_64 unknown unknown GNU/Linux`\r\n\r\nThe only non-default spack configuration I have is to use `gcc@8.2.0` installed by spack as the default compiler (built with my system gcc 8.3.0).\r\n",
+    "user": "dmringo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11355",
+    "updated_at": "2019-10-08 21:34:34",
+    "created_at": "2019-05-02 21:28:56",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Tcl module files should let `man` fall back on system man pages",
+    "number": 11355,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "triage"
+    ],
+    "id": 439796818,
+    "html_url": "https://github.com/spack/spack/issues/11355",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 1
+}

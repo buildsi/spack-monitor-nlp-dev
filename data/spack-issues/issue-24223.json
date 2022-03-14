@@ -1,0 +1,21 @@
+{
+    "body": "This issue is meant to track upcoming changes to Spack that are likely to impact users.  We'll put links to issues here that will either break existing workflows or cause major disruptions when you pull from `develop`.\r\n\r\n`develop` is the main development branch of Spack, but many users like to stay at the bleeding edge, and this is intended to provide advance warning for those users. Note that we still recommend using either a [release](https://github.com/spack/spack/#releases) ([more here](https://spack.readthedocs.io/en/latest/developer_guide.html#releases))or a fixed commit from `develop` for production/large site deployments.\r\n\r\nHigh-impact changes likely to hit `develop` soon:\r\n* #29111: We will be making `--reuse` the default concretizer behavior.  This will be configurable so you can revert back using #28468.\r\n* #28504: After `--reuse` is default, **we will be switching to a \"full hash\" as the default package id in Spack**. Spack has long used a coarser package hash that it probably should, in order to prevent redundant rebuilds. Specifically, we omit build dependencies, the hash of `package.py`, and the hashes of resources (tarballs, etc.) from our build identifiers.  This was mainly to prevent every update of `cmake` or other build tools from triggering a rebuild of the full stack.  With `--reuse` as the default, we don't have this concern any more, and we will prioritize detailed provenance for package builds.  The full hash will provide this and will also avoid hash collisions that we currently see in CI.\r\n* #28673: This PR allows a given spec to depend on multiple instances of the same package, differentiated by dependency type; recording the dependency type will change the underlying storage representation\r\n* #27798: This PR completely changes how we install Python packages to run `pip install` instead of `python setup.py install`. It also improves bootstrapping of frontend tools (pip/build/installer) and backend tools (setuptools/flit/poetry).\r\n* #28411: We got some volunteers and will be reverting the change below. Spack will continue to support Python 2.7 and 3.5 for reproducibility.\r\n* ~~#28003: This PR deprecates versions of Python that have reached EOL (Python 2.7-3.5) and packages that require them. Note that this PR does not affect which versions of Python can be used to _run_ Spack, it only affects which versions of Python Spack can _install_.~~\r\n\r\nHigh-impact changes for [Spack v0.17](https://github.com/spack/spack/projects/35):\r\n\r\n* #22845: This PR changes the `spec.yaml` format that Spack uses for hashes to `spec.json`. We're doing this for performance -- YAML is too slow for large operations, like reindexing the Spack database or creating indexes for large build caches. We expect this to speed up Spack in many ways, but it will cause the hashing algorithm to change.\r\n* #25502: This PR makes `clingo` the default solver, in preparation for 0.17.0.  You may see different concretizations for some packages, and the new concretizer will need to be bootstrapped (see https://spack.io/changes-spack-v017/).  You can switch back by setting `concretizer: original` in `config.yaml`, but note that the original concretizer will be deprecated in 0.17 and removed in a later version.\r\n* #27256: Python 2.6 was deprecated in Spack v0.17.0 and support has been removed in `develop` -- it will not be supported in v0.18.",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24223",
+    "updated_at": "2022-02-23 09:56:33",
+    "created_at": "2021-06-09 18:34:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Upcoming high-impact changes (perma-pin)",
+    "number": 24223,
+    "milestone": null,
+    "labels": [
+        "hash-change",
+        "impact-high",
+        "breaking-change"
+    ],
+    "id": 916533903,
+    "html_url": "https://github.com/spack/spack/issues/24223",
+    "assignees": [],
+    "comments": 0
+}

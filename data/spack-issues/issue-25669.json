@@ -1,0 +1,20 @@
+{
+    "body": "While I realize that \"environments are the future,\" we continue to rely on `spack load -r` to load a fairly sizeable set of dependencies internally, and migration would likely be complex. Even after recent performance improvements in `develop` like #23661 (which cut our load time in half), we are still taking about 1.5 minutes to load our `spack` installed dependencies each time we run `spack load -r ..`.\r\n\r\nI checked a few things--first, the diff below highlights the slowest part of the control flow here--commenting that out drops the run time of `spack load -r ..` from 90 seconds to 2 seconds (though it probably does almost no work as a result--just highlighting the bottleneck):\r\n\r\n```diff\r\ndiff --git a/lib/spack/spack/cmd/load.py b/lib/spack/spack/cmd/load.py                                                                                                                                                                                                                                                     \r\nindex 8bfeac7e69..13c959f333 100644                                                                                                                                                                                                                                                                                         \r\n--- a/lib/spack/spack/cmd/load.pydevelop                                                                                                                                                                                                                                                                                    \r\n+++ b/lib/spack/spack/cmd/load.py                                                                                                                                                                                                                                                                                           @@ -76,7 +76,8 @@ def load(parser, args):\r\n \r\n         env_mod = spack.util.environment.EnvironmentModifications()\r\n         for spec in specs:\r\n-            env_mod.extend(uenv.environment_modifications_for_spec(spec))\r\n+            # THIS IS THE SLOW PART (uenv.environment_modifications_for_spec call, not the extend()):\r\n+            # env_mod.extend(uenv.environment_modifications_for_spec(spec))\r\n             env_mod.prepend_path(uenv.spack_loaded_hashes_var, spec.dag_hash())\r\n         cmds = env_mod.shell_modifications(args.shell)\r\n```\r\n\r\nI also note that if I serialize `cmds` into a pickle file as a sort of \"caching\" mechanism, on the second run I can load in about 1 second, so the shell commands themselves are obviously fast in isolation.\r\n\r\nA few questions might be:\r\n\r\n1) am I likely to have a hard time speeding up this control flow? (it is it genuinely more than 1 minute of data processing work on a dedicated supercomputer node to construct the shell strings needed to load the environment?)\r\n2) do you have a sense for how sensitive the operations in that `spec` for loop are to \"ordering?\" For example, could they be dispatched in parallel with i.e., `futures` or similar? Our loop is approaching 100 iterations at the moment. My intuition is that going parallel is probably just me trying to avoid understanding why it is so slow in serial first, which I probably could/should do by digging deeper into `uenv.environment_modifications_for_spec()`.",
+    "user": "tylerjereddy",
+    "url": "https://api.github.com/repos/spack/spack/issues/25669",
+    "updated_at": "2021-08-30 07:10:40",
+    "created_at": "2021-08-27 22:52:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Performance: recursive spack load",
+    "number": 25669,
+    "milestone": null,
+    "labels": [
+        "performance",
+        "user-experience"
+    ],
+    "id": 981646227,
+    "html_url": "https://github.com/spack/spack/issues/25669",
+    "assignees": [],
+    "comments": 2
+}

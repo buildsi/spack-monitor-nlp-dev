@@ -1,0 +1,17 @@
+{
+    "body": "A `spack dev-build --source-path /tmd/sed sed` uses the absolute and normalized path: https://github.com/spack/spack/blob/e199d7ef6b554035a9870bdd664ab1d77ef4d7d1/lib/spack/spack/cmd/dev_build.py#L84\r\n\r\nbut `spack spec sed dev_path=/tmp/sed` does this not. \r\n\r\nHence using a relative path, or with a additional `/` this results in different specs and hashes. For example:\r\n```\r\n$ spack spec -L sed dev_path=/tmp/sed\r\nInput spec\r\n--------------------------------\r\nsed dev_path=/tmp/sed\r\n\r\nConcretized\r\n--------------------------------\r\n4apuqj52ixhmkvgmdismqmfzawrhtui7  sed@4.2.2%gcc@11.1.0 dev_path=/tmp/sed arch=linux-archrolling-skylake\r\n```\r\nvs\r\n```\r\n$ spack spec -L sed dev_path=/tmp/sed/\r\nInput spec\r\n--------------------------------\r\nsed dev_path=/tmp/sed/\r\n\r\nConcretized\r\n--------------------------------\r\nl37qyv73qkjpeqq5t7tg5x2bj3d7m2vm  sed@4.2.2%gcc@11.1.0 dev_path=/tmp/sed/ arch=linux-archrolling-skylake\r\n```\r\n\r\nSo this PR fixes this and replace the 'dev_path' with the absolute and normalized path\r\n\r\n",
+    "user": "lorddavidiii",
+    "url": "https://api.github.com/repos/spack/spack/issues/27905",
+    "updated_at": "2021-12-13 12:38:37",
+    "created_at": "2021-12-10 10:18:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "SpecParser: use normalized and absolutized for 'dev_path'",
+    "number": 27905,
+    "milestone": null,
+    "labels": [],
+    "id": 1076681225,
+    "html_url": "https://github.com/spack/spack/pull/27905",
+    "assignees": [],
+    "comments": 2
+}

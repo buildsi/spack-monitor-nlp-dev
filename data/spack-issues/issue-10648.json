@@ -1,0 +1,19 @@
+{
+    "body": "\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install libfabric%gcc@7.1.0 fabrics=psm2,sockets\r\n\r\n### Platform and user environment\r\n\r\nThe 'bebop' cluster at Argonne's LCRC\r\nPlease report your OS here:\r\n```commandline\r\n$ cat /etc/redhat-release \r\nCentOS Linux release 7.6.1810 (Core) \r\n$ uname -a\r\nLinux beboplogin2 3.10.0-957.5.1.el7.x86_64 #1 SMP Fri Feb 1 14:54:57 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n``` \r\n\r\n\r\n### Additional information\r\n\r\nI am attaching the \"spack -d install\" logs.  I think they demonstrate that nothing is bringing in the opa-psm2 header files.\r\n[spack-cc-libfabric-bmsimue.in.log](https://github.com/spack/spack/files/2881237/spack-cc-libfabric-bmsimue.in.log)\r\n[spack-cc-libfabric-bmsimue.out.log](https://github.com/spack/spack/files/2881238/spack-cc-libfabric-bmsimue.out.log)\r\n\r\nI tried reverting `d4fbaa054f` and was able to build libfabric with psm2 support.\r\n\r\nThen i went back to the develop version, tried `spack install libfabric%gcc@7.1.0 fabrics=psm2,sockets  ^opa-psm2@10.3-37` to get the older psm2 and I got a slightly different build error, but a build error nonetheless:\r\n\r\n```\r\n\r\n3 errors found in build log:\r\n     328      CC       prov/psm2/src/libpsmx2_la-psmx2_wait.lo\r\n     329      CC       prov/psm2/src/libpsmx2_la-psmx2_util.lo\r\n     330      CC       util/info.o\r\n     331      CC       util/strerror.o\r\n     332      CC       util/pingpong.o\r\n     333    prov/psm2/src/psmx2_am.c: In function 'psmx2_am_init':\r\n  >> 334    prov/psm2/src/psmx2_am.c:106:2: error: unknown type name 'psm2_am_handler_2_fn_t'; did you mean 'psm2_am_handler_fn_t'?\r\n     335      psm2_am_handler_2_fn_t psmx2_am_handlers[4];\r\n     336      ^~~~~~~~~~~~~~~~~~~~~~\r\n     337      psm2_am_handler_fn_t\r\n     338    prov/psm2/src/psmx2_am.c:129:24: warning: assignment makes integer from pointer without a cast [-Wint-conversion]\r\n     339       psmx2_am_handlers[0] = psmx2_am_rma_handler;\r\n     340                            ^\r\n\r\n     ...\r\n\r\n     348       psmx2_am_handlers[3] = psmx2_am_trx_ctxt_handler;\r\n     349                            ^\r\n     350    prov/psm2/src/psmx2_am.c:138:9: warning: implicit declaration of function 'psm2_am_register_handlers_2'; did you mean 'psm2_am_register_handlers'? [-Wimplicit-function-declaration]\r\n     351       err = psm2_am_register_handlers_2(psm2_ep, psmx2_am_handlers,\r\n     352             ^~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n     353             psm2_am_register_handlers\r\n  >> 354    make[1]: *** [prov/psm2/src/libpsmx2_la-psmx2_am.lo] Error 1\r\n     355    make[1]: *** Waiting for unfinished jobs....\r\n     356    make[1]: Leaving directory `/scratch/robl/spack-stage/spack-stage-aui6oA/libfabric-1.7.0'\r\n  >> 357    make: *** [all] Error 2\r\n\r\n```\r\n\r\nso I suspect the recent change to opa-psm2 is faulty in some way, or libfabric is making a bad assumption about psm2 header/libs. ",
+    "user": "roblatham00",
+    "url": "https://api.github.com/repos/spack/spack/issues/10648",
+    "updated_at": "2019-03-14 10:08:07",
+    "created_at": "2019-02-19 17:48:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: libfabric cannot build psm2 variant",
+    "number": 10648,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 412048154,
+    "html_url": "https://github.com/spack/spack/issues/10648",
+    "assignees": [],
+    "comments": 2
+}

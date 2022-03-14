@@ -1,0 +1,20 @@
+{
+    "body": "`spack activate perl-xml-parser` links e.g. `XML::Parser` here:\r\n\r\n```\r\n./opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-35ejv4426dmzreum4ekdibu3ddmhquvi/lib/perl5/x86_64-linux/XML/Parser.pm\r\n```\r\n\r\nwhich is not one of the directories that is searched (aka `@INC`):\r\n\r\n```\r\nhartzelg@blah:spack-perlplay (bug/perl-xml-parser)$ (module purge; ./opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-35ejv4426dmzreum4ekdibu3ddmhquvi/bin/perl -e 'print join(\"\\n\", @INC)') | sed -e 's/^.*opt/.\\/opt/'\r\n./opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-35ejv4426dmzreum4ekdibu3ddmhquvi/lib/site_perl/5.24.1/x86_64-linux\r\n./opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-35ejv4426dmzreum4ekdibu3ddmhquvi/lib/site_perl/5.24.1\r\n./opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-35ejv4426dmzreum4ekdibu3ddmhquvi/lib/5.24.1/x86_64-linux\r\n./opt/spack/linux-centos7-x86_64/gcc-4.8.5/perl-5.24.1-35ejv4426dmzreum4ekdibu3ddmhquvi/lib/5.24.1\r\n```\r\n\r\nThe links should probably go into `sitelib` or `sitelib`/*arch*.  You can ask `Config` for the path using something like this:\r\n\r\n```\r\nperl -MConfig -e 'print $Config{sitelib}'\r\n```\r\n\r\nI'm fuzzy on the exact keys to use (X, installX, or Xexp; for sitelib and sitelibarch).  This snippet explores their values, but \"someone\" should check the docs....\r\n\r\n```perl\r\nuse Config;\r\n\r\nmy @keys = qw(installsitelib sitelib sitelibexp installsitearch sitearch sitearchexp);\r\nforeach my $k (@keys) {\r\n    print $k, \" -- \", $Config{$k}, \"\\n\";\r\n}\r\n```\r\n\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4423",
+    "updated_at": "2017-06-20 05:04:31",
+    "created_at": "2017-06-01 22:45:10",
+    "closed_at": "None",
+    "state": "open",
+    "title": "activation does not work for perl-xml-parser ",
+    "number": 4423,
+    "milestone": null,
+    "labels": [
+        "extensions",
+        "perl"
+    ],
+    "id": 233031459,
+    "html_url": "https://github.com/spack/spack/issues/4423",
+    "assignees": [],
+    "comments": 2
+}

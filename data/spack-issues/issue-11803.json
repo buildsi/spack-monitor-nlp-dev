@@ -1,0 +1,24 @@
+{
+    "body": "`spack install` fails with a cryptic message if compiler module is already loaded.\r\n\r\n### Details\r\nIf a compiler defines a module, eg:\r\n\r\n```console\r\n$ cat <spack-user-prefix>/compilers.yaml\r\ncompilers:\r\n- compiler:\r\n    modules: [gcc/7.3.0]\r\n    operating_system: rhel6\r\n    paths:\r\n      cc: <compiler-prefix>/bin/gcc\r\n      cxx: <compiler-prefix>/bin/g++\r\n      f77: <compiler-prefix>/bin/gfortran\r\n      fc: <compiler-prefix>/bin/gfortran\r\n    spec: gcc@7.3.0\r\n```\r\n\r\nand the module is loaded\r\n\r\n```console\r\n$ module ls\r\n1) gcc/7.3.0\r\n```\r\n\r\nwhen I install a package using that compiler I get a cryptic error message:\r\n\r\n```console\r\n$ spack install some-package %gcc@7.3.0\r\n...\r\n==> No binary for <some-package> found: installing from source\r\n==> Error: SyntaxError: invalid syntax (<string>, line 1)\r\n\r\n<spack-root>/lib/spack/spack/build_environment.py:784, in child_process:\r\n        781            tb_string = traceback.format_exc()\r\n        782\r\n        783            # build up some context from the offending package so we can\r\n  >>    784            # show that, too.\r\n        785            package_context = get_package_context(tb)\r\n        786\r\n        787            build_log = None\r\n```\r\n\r\nHmm, that doesn't help much.  Installing with the debug flag helps make some sense of the error:\r\n\r\n```console\r\n$ spack -d install some-package %gcc@7.3.0\r\nWarning: sems-gcc/7.3.0 is already loaded, use 'module reload' to reload\r\n\r\n\r\n==> [2019-06-20-15:14:15.521261] Error: SyntaxError: invalid syntax (<string>, line 1)\r\n\r\n<spack-root>/spack/lib/spack/spack/build_environment.py:784, in child_process:\r\n        781            tb_string = traceback.format_exc()\r\n        782\r\n        783            # build up some context from the offending package so we can\r\n  >>    784            # show that, too.\r\n        785            package_context = get_package_context(tb)\r\n        786\r\n        787            build_log = None\r\n\r\n\r\nTraceback (most recent call last):\r\n  File \"<spack-root>/lib/spack/spack/build_environment.py\", line 766, in child_process\r\n    setup_package(pkg, dirty=dirty)\r\n  File \"<spack-root>/lib/spack/spack/build_environment.py\", line 714, in setup_package\r\n    load_module(mod)\r\n  File \"<spack-root>k/lib/spack/spack/util/module_cmd.py\", line 147, in load_module\r\n    exec(compile(load, '<string>', 'exec'))\r\n  File \"<string>\", line 1\r\n    ==> Warning: sems-gcc/7.3.0 is already loaded, use 'module reload' to reload\r\n     ^\r\nSyntaxError: invalid syntax\r\n```\r\n\r\nOkay, so spack tries to load the module and the warning that the module is already loaded must be being `eval`d or `exec`d?  Perhaps spack can query if a module is loaded before trying to load, or unload it unconditionally and then load it?\r\n\r\nIf I get some time, I'll see if I can't gin up a solution.",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/11803",
+    "updated_at": "2020-03-02 15:31:09",
+    "created_at": "2019-06-20 21:31:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack install fails when modules loaded",
+    "number": 11803,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "compilers",
+        "modules"
+    ],
+    "id": 458892873,
+    "html_url": "https://github.com/spack/spack/issues/11803",
+    "assignees": [
+        "tjfulle"
+    ],
+    "comments": 4
+}

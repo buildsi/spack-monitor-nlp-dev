@@ -1,0 +1,21 @@
+{
+    "body": "I'm trying to build Wine with spack.\r\n\r\nWine's build system attempts to link `[full spack staging path]/loader/l_intl.nls` to `loader/l_intl.nls`; unfortunately they're the same file. `configure` notices that it can't access the file anymore, so that step fails the build.\r\n\r\nDoing `build_directory = 'build'` fixes this, (and I think deleting `WINE_CONFIG_SYMLINK(loader,loader,[l_intl.nls])` then re-running `autoreconf` does too but that might break other things).\r\n\r\nHas anyone seen anything like this before? Is changing the build directory the usual solution for this, if so?",
+    "user": "mcneish1",
+    "url": "https://api.github.com/repos/spack/spack/issues/10056",
+    "updated_at": "2020-08-26 06:54:30",
+    "created_at": "2018-12-07 20:05:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[Wine] In-tree builds fail",
+    "number": 10056,
+    "milestone": null,
+    "labels": [
+        "question",
+        "new-package",
+        "autotools"
+    ],
+    "id": 388795828,
+    "html_url": "https://github.com/spack/spack/issues/10056",
+    "assignees": [],
+    "comments": 4
+}

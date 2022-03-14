@@ -1,0 +1,21 @@
+{
+    "body": "Due to build issues on macs, I want to install hdf5 as an external library on my mac. I needed to hack the hdf5 source to get this to build, that went successfully and I was able to build and install the library. However when I try to register this in spack it gets the variants wrong. The entry I am using from packages.yaml is\r\n\r\nhdf5:\r\n    paths:\r\n      hdf5@1.10.1 %gcc@7.3.0 arch=darwin-highsierra-x86_64+fortran+mpi: /usr/local/gnu/hdf5\r\n      hdf5@1.10.1 %intel@18.0.3 arch=darwin-highsierra-x86_64+fortran+mpi: /usr/local/intel/hdf5\r\n      hdf5@1.10.2 %gcc@7.3.0 arch=darwin-highsierra-x86_64+fortran+mpi: /usr/local/gnu/hdf5\r\n      hdf5@1.10.2 %intel@18.0.3 arch=darwin-highsierra-x86_64+fortran+mpi: /usr/local/intel/hdf5\r\n      buildable: False\r\n\r\nnote that hdf5@1.10.1 has a bug that prevents it from building in macs. This bug is fixed in hdf5@1.10.2. The hack I made was needed to produce dynamic libraries using the Intel compiler. Anyway I install the package using\r\n\r\nspack install hdf5@1.10.1+fortran+mpi %gcc@7.3.0\r\n\r\n(and similarly for the other cases). The install gives normal messages and \"spack find hdf5\" reports\r\n\r\n==> 1 installed packages.\r\n-- darwin-highsierra-x86_64 / gcc@7.3.0 -------------------------\r\nhdf5@1.10.1\r\n\r\nas it should. However when I run spack -v hdf5 I get\r\n\r\nhdf5@1.10.1~cxx~debug~fortran~hl+mpi+pic+shared~szip~threadsafe\r\n\r\nthe installation has disabled fortran (DRAT!!). This messes up the build system I am using which wants hdf5 to have fortran (I built hdf5 by hand to have  fortran).\r\n\r\n### Expected Result\r\n\r\nspack find -v to report\r\n\r\nhdf5@1.10.1~cxx~debug+fortran~hl+mpi+pic+shared~szip~threadsafe\r\n\r\n### Actual Result\r\n\r\nThe external library thinks it doesn't have fortran.\r\n\r\n### Steps to reproduce the issue\r\n\r\ncompile hdf5 by hand and install it as an external library.\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n macOS 10.13.4\r\nMac Pro late 2013\r\n\r\n-----\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!",
+    "user": "JohnWGrove",
+    "url": "https://api.github.com/repos/spack/spack/issues/8386",
+    "updated_at": "2019-12-17 13:21:12",
+    "created_at": "2018-06-05 19:47:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Install hdf5 as external library with fortran and mpi",
+    "number": 8386,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "help wanted",
+        "good first issue"
+    ],
+    "id": 329599690,
+    "html_url": "https://github.com/spack/spack/issues/8386",
+    "assignees": [],
+    "comments": 1
+}

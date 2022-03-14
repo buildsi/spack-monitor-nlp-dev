@@ -1,0 +1,17 @@
+{
+    "body": "At time of writing, the Graphviz package file contains the following:\r\n\r\n```python\r\n    @when('%clang platform=darwin')\r\n    def patch(self):\r\n        # When using Clang, replace GCC's libstdc++ with LLVM's libc++\r\n        mkdirs = ['cmd/dot', 'cmd/edgepaint', 'cmd/mingle', 'plugin/gdiplus']\r\n        filter_file(r'-lstdc\\+\\+', '-lc++', 'configure.ac',\r\n                    *(d + '/Makefile.am' for d in mkdirs))\r\n\r\n    @when('%apple-clang')\r\n    def patch(self):\r\n        # When using Clang, replace GCC's libstdc++ with LLVM's libc++\r\n        mkdirs = ['cmd/dot', 'cmd/edgepaint', 'cmd/mingle', 'plugin/gdiplus']\r\n        filter_file(r'-lstdc\\+\\+', '-lc++', 'configure.ac',\r\n                    *(d + '/Makefile.am' for d in mkdirs))\r\n```\r\n\r\nIIUC this is working around https://gitlab.com/graphviz/graphviz/-/issues/163. This was resolved in Graphviz commit ed155274912f3eded8833ae644625e6017637634, which made it into Graphviz version 2.46.0. So these steps should be unnecessary for \u22652.46.0.\r\n\r\nCC @cessenat ",
+    "user": "Smattr",
+    "url": "https://api.github.com/repos/spack/spack/issues/24822",
+    "updated_at": "2021-07-10 23:54:20",
+    "created_at": "2021-07-10 23:54:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "graphviz package: unnecessary patch steps",
+    "number": 24822,
+    "milestone": null,
+    "labels": [],
+    "id": 941342354,
+    "html_url": "https://github.com/spack/spack/issues/24822",
+    "assignees": [],
+    "comments": 0
+}

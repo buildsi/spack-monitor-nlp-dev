@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\n\nI tried to run `spack style` to check if my new packages follow the spack format. This failed because spack used the system python, which is too old, instead of using the one provided by spack itself.\r\n\r\n```console\r\n$ rm -rf ~/.spack  # to maje sure to have a clean setup\r\n$ git clone https://github.com/spack/spack.git\r\n$ cd spack\r\n$ . share/spack/setup-env.sh\r\n$ spack style\r\n==> Error: spack style requires Python 3.6 or later.\r\n$ python --version\r\nPython 2.7.13\r\n$ python3 --version\r\nPython 3.5.3\r\n$ spack install py-flake8\r\n$ spack load py-flake8\r\n$ python --version\r\nPython 3.8.11\r\n$ spack style\r\n==> Error: spack style requires Python 3.6 or later.\r\n```\r\nIt should not matter if `python` is installed instead of `py-flake8` because `spack style` gives the same result after running `spack load python`.\r\n\r\nThis might be related to #25093\n\n### Error message\n\n```console\r\n$ spack --debug --stacktrace style\r\nlib/spack/spack/cmd/__init__.py:121 ==> [2021-08-02-13:36:55.842556] Imported style from built-in commands\r\nlib/spack/spack/cmd/__init__.py:121 ==> [2021-08-02-13:36:55.845994] Imported style from built-in commands\r\nlib/spack/spack/cmd/style.py:363 ==> [2021-08-02-13:36:55.856747] Error: spack style requires Python 3.6 or later.\r\nlib/spack/spack/config.py:989 ==> [2021-08-02-13:36:55.867861] Reading config file $spack/etc/spack/defaults/config.yaml\r\nTraceback (most recent call last):\r\n  File \"$spack/lib/spack/spack/main.py\", line 774, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"$spack/lib/spack/spack/main.py\", line 502, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"$spack/lib/spack/spack/cmd/style.py\", line 363, in style\r\n    tty.die(\"spack style requires Python 3.6 or later.\")\r\n  File \"$spack/lib/spack/llnl/util/tty/__init__.py\", line 240, in die\r\n    sys.exit(1)\r\nSystemExit: 1\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.2-3752-be3e6a0e9b\r\n* **Python:** 3.5.3\r\n* **Platform:** linux-debian9-piledriver\r\n* **Concretizer:** original\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/25180",
+    "updated_at": "2021-08-03 12:11:00",
+    "created_at": "2021-08-02 11:45:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack style` fails because it uses system python instead of spack-provided one",
+    "number": 25180,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage",
+        "bootstrap"
+    ],
+    "id": 958058605,
+    "html_url": "https://github.com/spack/spack/issues/25180",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

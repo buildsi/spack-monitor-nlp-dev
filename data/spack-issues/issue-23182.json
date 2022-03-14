@@ -1,0 +1,21 @@
+{
+    "body": "Hello everyone,\r\n\r\nas I was tasked with updating our \u00b5HPC-systems stack, I thought, I could just get a new version of spack and be done very fast. Turns out I erred and it started to build the base-GCC used for building our actual software stack, because some commit added a new variant... Well, no problem, just let it build, then select the newest version for each occurence of such thing, I thought!\r\n\r\nUnfortunately I erred there as well, as my ansible based setup automation relies on `spack load` and `spack find module tcl` when assembling the user environment of modulefiles (note: probably everything done there could be better solved by executing some scripts with the spack interpreter \u2013 as I'm actually doing for assembling module files for environments).\r\n\r\nWhile one can easily work around this (not nicely) in `spack find`, just selecting the \"--first\"-occurence, `spack module tcl find` doesn't support it. Now, I'm thinking to add a \"--newest\" flag to both of these commands (should be relatively manageable from looking at the code) and I'd be grateful, if you could take some time and tell me:\r\n\r\n- if there is any other solution to this problem?\r\n- a patch solving this problem in the outlined way would be welcome? (and)\r\n- if so: which other functionality might benefit from this flag?\r\n\r\n~Felix Mayr\r\n\r\n",
+    "user": "flxmr",
+    "url": "https://api.github.com/repos/spack/spack/issues/23182",
+    "updated_at": "2021-04-26 07:53:32",
+    "created_at": "2021-04-21 19:14:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Supporting selection of \"newest\" spec with \"find\"-like-commands",
+    "number": 23182,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 864186505,
+    "html_url": "https://github.com/spack/spack/issues/23182",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,23 @@
+{
+    "body": "When using spack install tree's with long paths, as is rather common in conintuous integration setups, spack often fails with an sbang-error where it can't shorten shebang lines because the path to sbang itself is too long.\r\n\r\nThis PR makes Spack use `#!/usr/bin/env sbang` as the shebang in those cases, and changes the error into a warning:\r\n\r\n```\r\n==> Warning: Failed to shorten shebang lines of 6 files ['autoheader', 'autoscan', 'autom4te', '...', 'autoreconf'], because sbang's install path (/tmp/tmp.xyLJCF9DeK/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/aaaaaaaaaaaa/here/bin) is too long. For the installation to work, it is required to have sbang in your PATH. Alternatively, you can shorten the install root (config:install_tree:root).\r\n```\r\n\r\nAs a small improvement it skips over symlinks as it always recurses over the install prefix now, so whatever the symlinks point to will be visited anyways.\r\n\r\nTodo:\r\n\r\n- [x] Some relocation code relies on `sbang_install_path` raising an error when it's too long (I think?). With this PR it does not anymore.\r\n- [ ] Maybe add `<install root>/bin` to PATH on spack load / env activate / module load by default iff sbang path too long? Or unconditionally? Note that `sbang` is by default in the PATH when `spack` is.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26792",
+    "updated_at": "2022-02-15 09:07:09",
+    "created_at": "2021-10-18 09:01:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Change sbang install error into a warning by using /usr/bin/env sbang when sbang itself is nested too deeply",
+    "number": 26792,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "binary-packages",
+        "sbang"
+    ],
+    "id": 1028836956,
+    "html_url": "https://github.com/spack/spack/pull/26792",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 12
+}

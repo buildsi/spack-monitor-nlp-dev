@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\n```console\r\nspack install root+python\r\npython -c \"import cppyy\"\r\n```\r\n\r\n### Error message\r\n\r\n```console\r\nPython 3.9.10 (main, Feb  2 2022, 13:32:35) \r\n[GCC 11.2.0] on linux\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import cppyy\r\n(Re-)building pre-compiled headers (options: -O2 -mavx); this may take a minute ...\r\n/opt/local/bin/python: can't open file '/opt/software/linux-ubuntu21.10-skylake/gcc-11.2.0/root-6.24.06-htb5u3m4n322leld3w2usgnj2nwdfrts/lib/cppyy_backend/etc/dictpch/makepch.py': [Errno 2] No such file or directory\r\n/opt/software/linux-ubuntu21.10-skylake/gcc-11.2.0/root-6.24.06-htb5u3m4n322leld3w2usgnj2nwdfrts/lib/cppyy_backend/loader.py:113: UserWarning: No precompiled header available (failed to build); this may impact performance.\r\n  warnings.warn('No precompiled header available (%s); this may impact performance.' % msg)\r\n```\r\n\r\nThis can be resolved by a `symlink(self.prefix.etc,join_path(self.prefix.lib,'cppyy_backend/etc))` but I'm not sure it is the appropriate solution. It is possible that instead a PYTHON environment variable should point to `self.prefix.etc`.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-1123-a1f69e130c\r\n* **Python:** 3.9.7\r\n* **Platform:** linux-ubuntu21.10-skylake\r\n* **Concretizer:** clingo\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/28899",
+    "updated_at": "2022-02-12 05:59:09",
+    "created_at": "2022-02-12 05:58:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "root: lib/cppyy_backend/etc not writable",
+    "number": 28899,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1133631566,
+    "html_url": "https://github.com/spack/spack/issues/28899",
+    "assignees": [],
+    "comments": 1
+}

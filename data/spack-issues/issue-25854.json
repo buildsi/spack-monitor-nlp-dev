@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nOn Cray with lmod, something in the `spack install pkg` sequence fails\r\nto add `core_compilers` to `modules.conf`.  As a result, spack install\r\nfails with:\r\n\r\n```\r\n==> Error: CoreCompilersNotFoundError: the key \"core_compilers\" must be set in modules.yaml\r\n```\r\n\r\nHow to reproduce.  Work on a Cray machine that uses lmod modules, eg,\r\nspock at ORNL.\r\n\r\n1. Clone the latest spack develop.  A couple commits went in today\r\n(2021-09-08) that fixed some bugs that would obscure the bug here.\r\nI'm at f9314d38b0be.\r\n\r\n2. Edit `modules.conf` to enable lmod, I'm also using clingo, but I\r\ndon't think that matters.\r\n\r\n3. move ~/.spack to dot-spack to get a fresh, empty .spack dir.\r\n\r\n4. spack compiler find\r\n\r\n5. spack solve zlib\r\n\r\n6. spack install zlib\r\n\r\nOn a non-Cray, eg quartz at LLNL (most machines at LLNL use lmod),\r\nthis works and the last step (6) creates a `modules.conf` file:\r\n\r\n```\r\n$ cat ~/.spack/modules.yaml \r\nmodules:\r\n  default:\r\n    lmod:\r\n      core_compilers:\r\n      - gcc@4.8.5\r\n```\r\n\r\nBut on spock at ORNL, step (6) doesn't create modules.conf and fails with:\r\n\r\n```\r\n==> No patches needed for zlib\r\n==> zlib: Executing phase: 'install'\r\n==> Error: CoreCompilersNotFoundError: the key \"core_compilers\" must be set in modules.yaml\r\n\r\n/autofs/nccs-svm1_home1/krentel/spack/spack-repo/lib/spack/spack/build_environment.py:1038, in _setup_pkg_and_run:\r\n       1035        tb_string = traceback.format_exc()\r\n       1036\r\n       1037        # build up some context from the offending package so we can\r\n  >>   1038        # show that, too.\r\n       1039        package_context = get_package_context(tb)\r\n       1040\r\n```\r\n\r\nNote: the default `modules.conf` does not contain a template for `core_compilers.`\r\n\r\nI treat this as a bug because IMO, spack should either create the file\r\nitself or at least give me a template for what to fill in.  Plus, this\r\nworks on non-Cray.\r\n\r\n\n\n### Error message\n\n[spack-install.txt](https://github.com/spack/spack/files/7132250/spack-install.txt)\r\n\n\n### Information on your system\n\n* **Spack:** 0.16.2-4197-f9314d38b0\r\n* **Python:** 3.6.13\r\n* **Platform:** cray-sles15-zen2\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/25854",
+    "updated_at": "2021-09-08 23:24:13",
+    "created_at": "2021-09-08 23:24:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack install does not add core_compilers for lmod on cray",
+    "number": 25854,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 991607741,
+    "html_url": "https://github.com/spack/spack/issues/25854",
+    "assignees": [],
+    "comments": 0
+}

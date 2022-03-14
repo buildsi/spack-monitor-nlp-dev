@@ -1,0 +1,19 @@
+{
+    "body": "Adds a hook that replaces sonames in dt_needed with absolute paths to\r\nthose libs when they are detected in an rpath, or whatever dlopen would\r\nopen when not in an rpath.\r\n\r\nThis should improve startup times of executables and libraries built by\r\nSpack. In particular when they are launched on many nodes with a\r\nshared filesystem.\r\n\r\nCurrent status of this PR:\r\n\r\n- Replaces sonames with absolute paths either by locating the library as a \r\n  file in the rpaths, or if that fails, from whatever dlopen(...) would find \r\n  (through `libwhich`)\r\n- Requires `patchelf` and `libwhich` in the PATH (can be installed with spack)\r\n- Does not remove rpaths so that dlopen continues to work\r\n- Assumes host machine == target machine\r\n- For glibc the minimum requirement is 2.28, see below.\r\n- I have not tested musl (which I heard isn't very keen on caching by soname)",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27566",
+    "updated_at": "2021-11-23 21:34:53",
+    "created_at": "2021-11-19 22:36:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "hooks: absolutify_needed_libs",
+    "number": 27566,
+    "milestone": null,
+    "labels": [
+        "gitlab"
+    ],
+    "id": 1058970464,
+    "html_url": "https://github.com/spack/spack/pull/27566",
+    "assignees": [],
+    "comments": 5
+}

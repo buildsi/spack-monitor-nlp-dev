@@ -1,0 +1,24 @@
+{
+    "body": "Environments can contain the same package multiple times, but `develop`\r\nonly allows for one package to be developed (= built from local sources)\r\nat a time.\r\n\r\nThis commit allows one develop entry per spec, and also makes the\r\ndevelop yaml syntax equivalent to externals in packages. The new syntax\r\nis:\r\n\r\n```\r\ndevelop:\r\n- spec: mypkg@develop-a\r\n- spec: mypkg@develop-b\r\n  path: some/path\r\n```\r\n\r\nWith this change the following use cases are covered:\r\n\r\n- Updating a dependency of a package where you want to keep both the\r\nstable version and the develop version around, and easily check if\r\ntests of the parent still pass both for stable and dev version of the\r\ndependency from a single environment (so, parent is also dev'd)\r\n- Building different variants of the same package from the same local\r\nsources (so you can make your changes in 1 place and test multiple\r\nversions of it provided you can do out of source builds of course)\r\n- Easily comparing two implementations of something, where you dev the\r\nsame package twice in different folders and you mark them with\r\n`@develop-feature-a` and `@develop-feature-b`.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22087",
+    "updated_at": "2021-09-28 10:09:12",
+    "created_at": "2021-03-04 17:51:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow develop per spec instead of per package",
+    "number": 22087,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "tests",
+        "commands",
+        "environments",
+        "build",
+        "dev"
+    ],
+    "id": 822362409,
+    "html_url": "https://github.com/spack/spack/pull/22087",
+    "assignees": [],
+    "comments": 15
+}

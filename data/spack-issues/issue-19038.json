@@ -1,0 +1,24 @@
+{
+    "body": "Support a new `cudacxx` variant with default to `nvcc` and optional `clang` as an alternative CUDA device compiler.\r\nClang as device compiler only pairs with clang as host compiler.\r\n\r\nConflicts for each device compiler are different.\r\nDon't despair, we got you covered: https://gist.github.com/ax3l/9489132#clang--x-cuda\r\n\r\nAdd an additional variant to skip all host-device compiler support checks: `+cuda_check_cxx`/`~cuda_check_cxx`\r\n\r\nNote: downstream packages need to implement their own logic (CMake flags, etc.) for a set variant `cudacxx=clang` (for now). In the future this could be unified, when relying on CMake 3.18+.\r\nNote: the `%clang` used needs to have been built with cuda support. (E.g. the clang shipped on Ubuntu/Debian does that.) Not sure if we should to a quick usability check or if that is the job of each individual project (e.g. in CMake scripts).\r\n\r\ncc @svenevs @alalazo @DavidPoliakoff @scothalverson @JulienLoiseau @adamjstewart @jjwilke\r\n\r\n- [x] rebase after #19036\r\n- [x] check if some packages already have a `cudacxx` variant\r\n- [ ] add the Clang-specific SM support check as well or just roll with the general conflicts from the CUDA toolkit?\r\n- [ ] test test test :), e.g. Kokkos folks in #18001 and [PIConGPU](https://github.com/ComputationalRadiationPhysics/spack-repo/blob/348e1443150d7134937746b33de3531db31dc340/packages/picongpu/package.py) / Alpaka and RAJA and WarpX / AMReX",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/19038",
+    "updated_at": "2021-06-12 10:50:48",
+    "created_at": "2020-09-29 02:50:40",
+    "closed_at": "None",
+    "state": "open",
+    "title": "CudaPackage: clang -x cuda",
+    "number": 19038,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "cuda",
+        "clang",
+        "conflicts"
+    ],
+    "id": 710708195,
+    "html_url": "https://github.com/spack/spack/pull/19038",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

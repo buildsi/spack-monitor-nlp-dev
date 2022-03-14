@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\nping @srekolam @arjun-raj-kuppala @haampie (maintainers)\r\n\r\nFor me, the all-spack build of `hip` or `hsa-rocr-dev` fails as:\r\n\r\n```\r\n% spack install hsa-rocr-dev\r\n...\r\n     16    -- Performing Test ELF_GETSHDRSTRNDX\r\n     17    -- Performing Test ELF_GETSHDRSTRNDX - Success\r\n  >> 18    CMake Error at CMakeLists.txt:97 (find_package):\r\n     19      Could not find a configuration file for package \"hsakmt\" that is compatible\r\n     20      with requested version \"1.0\".\r\n     21    \r\n     22      The following configuration files were considered but not accepted:\r\n     23    \r\n     24        /home/krentel/elf/install/linux-rhel8-zen/gcc-8.5.0/hsakmt-roct-4.5.2-2okqlbgb6jwwvb5toxejfgayygl3jjth/lib64/cmake/hsakmt/hsakmt-config.cmake, version: 0.11.2-16733-gd424d0e54e\r\n```\r\n\r\nThis happens with 4.5.2 and 4.3.1.  I'm using an all-spack build, that\r\nis no `packages.yaml` for any external packages, and not using `/opt/rocm`.\r\n\r\nIndeed, `CMakelists.txt` in hsa-rocr-dev has:\r\n\r\n```\r\n  95 ## Find external dependencies.\r\n  96 find_package(LibElf REQUIRED)\r\n  97 find_package(hsakmt 1.0 REQUIRED HINTS ${CMAKE_INSTALL_PREFIX} PATHS /opt/rocm)\r\n```\r\n\r\nAnd `/opt/rocm` has this in `hsakmt-config-version.cmake` which is certainly > 1.0:\r\n\r\n```\r\nset(PACKAGE_VERSION \"20210902.12.3277-mainline-20210902-12-g3277d53\")\r\n```\r\n\r\nBut if you build `hsakmt-roct` from scratch in spack, you get this which is < 1.0:\r\n\r\n```\r\nset(PACKAGE_VERSION \"0.11.2-16011-g186730a284\")\r\n```\r\n\r\nSo, it looks to me that you can't build hip or hsa-rocr-dev from\r\nscratch in spack.\r\n\r\nThoughts on the best way to fix this?\r\nPatch the CMakeLists.txt test?\r\nPatch the hsakmt-config-version.cmake file?\r\n\r\nThis is more than the most recent 4.5.2, it's also a problem in 4.3.1\r\nand probably several (all?) revs earlier.\r\n\r\n\n\n### Error message\n\n<details><summary>Error message</summary><pre>\r\n...\r\n</pre></details>\r\n\n\n### Information on your system\n\n$ spack debug report\r\n* **Spack:** 0.11.2-16011-186730a284\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/29381",
+    "updated_at": "2022-03-11 00:11:35",
+    "created_at": "2022-03-07 17:21:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "hsa-rocr-dev dies looking for version of hsakmt-roct in all spack build",
+    "number": 29381,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1161704403,
+    "html_url": "https://github.com/spack/spack/issues/29381",
+    "assignees": [
+        "srekolam"
+    ],
+    "comments": 7
+}

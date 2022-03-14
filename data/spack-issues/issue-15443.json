@@ -1,0 +1,24 @@
+{
+    "body": "As a user I want to be able to use a package only for a subset of the virtual dependencies it provides so that I can select other providers for whatever virtual dependency is not used.\r\n\r\n### Rationale\r\nWhen a spec providing multiple virtual dependencies is present in a DAG Spack enforces the use of all of them, if required by a dependee. To make a concrete example consider  `intel-parallel-studio`: \r\n\r\nhttps://github.com/spack/spack/blob/20c77cade532844c758290c242536436cecfe922/var/spack/repos/builtin/packages/intel-parallel-studio/package.py#L176-L185\r\n\r\nThis package provides multiple virtual dependencies and it would be currently impossible to require the build of a spec which uses:\r\n1. `intel-parallel-studio` to satisfy `mpi` \r\n2. `openblas` to satisfy `lapack`\r\n\r\nThis proposal aims at solving this issue by introducing a syntax to specify the binding of a virtual dependency to a particular provider.\r\n\r\n### Description\r\nSpack should be extended to allow specs like:\r\n```\r\ndealii ^mpi=intel-parallel-studio ^lapack=openblas\r\n```\r\nto mean that `dealii` should be compiled to use the `mpi` from `intel-parallel-studio` and the `lapack` from `openblas`. More in details:\r\n\r\n1. The provider can be specified as an abstract spec (in which case some concretizer heuristics will kick-in) or as a concrete spec by hash.\r\n2. Packages need a way to specify that a set of virtual dependencies needs to be used together (e.g. `openblas` provides both `lapack` and `blas` but within a unique library)\r\n\r\n### Additional information\r\nThis modification will be instrumental to move towards compilers as regular dependencies, since compilers can be modeled as providers of languages and we want to retain the ability to mix them (e.g. `clang` for C and C++, `gcc` for Fortran):\r\n```\r\nhdf5 %cc,cxx=clang %fortran=gcc\r\n```\r\n\r\n### General information\r\n\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/15443",
+    "updated_at": "2020-03-13 09:27:29",
+    "created_at": "2020-03-11 15:26:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Finer selection of virtual providers in a DAG",
+    "number": 15443,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "concretization",
+        "specs",
+        "virtual-dependencies"
+    ],
+    "id": 579347902,
+    "html_url": "https://github.com/spack/spack/issues/15443",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

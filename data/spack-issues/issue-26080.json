@@ -1,0 +1,25 @@
+{
+    "body": "These are a series of changes that allow py-numpy to work with netlib-lapack on power PC systems.  In the process, I've dug deep into the py-numpy build system and reverse engineered the undocumented environment variables that need to be set in order to get things to link correctly.  Specifically, we need the following:\r\n\r\n1.) py-numpy needs to define setup_dependent_build_environment in case anyone else tries to use py-numpy's distutil to configure fortran\r\n2.) for those codes that DO use fortran, they need to call \"config_fc\" before they call \"build\" and \"install\"\r\n3.) Extra environment variables need to be set when using py-numpy to disable it from detecting the system blas and using it by default.\r\n4.) Depending on the blas, you might need to link in additional libraries.  netlib-lapack is specifically vulnerable to this.\r\n\r\n ",
+    "user": "rblake-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26080",
+    "updated_at": "2021-10-06 23:58:41",
+    "created_at": "2021-09-20 23:49:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Adding changes necessary to fix numpy compile on ppc with xlf and blas.",
+    "number": 26080,
+    "milestone": null,
+    "labels": [
+        "python",
+        "patch",
+        "update-package",
+        "maintainers",
+        "build-systems"
+    ],
+    "id": 1001570243,
+    "html_url": "https://github.com/spack/spack/pull/26080",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 5
+}

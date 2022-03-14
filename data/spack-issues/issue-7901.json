@@ -1,0 +1,20 @@
+{
+    "body": "I amusing spack on a POWER9 machine and I want to use IBM's ESSL as a provider of blas.  I have the following package.yaml file:\r\n```\r\n--> cat ~/.spack/linux/packages.yaml\r\npackages:\r\n  spectrum-mpi:\r\n    paths: \r\n        spectrum-mpi@10.02.00 arch=linux-rhel7-ppc64le: /opt/ibm/spectrum_mpi\r\n    version: [10.02.00]\r\n    buildable: false\r\n  essl:\r\n    paths:\r\n        essl@6.1%xl_r arch=linux-rhel7-ppc64le: /opt/ibmmath/essl/6.1\r\n    version: [6.1]\r\n    buildable: false\r\n  all:\r\n    providers:\r\n      mpi: [spectrum-mpi]\r\n      blas: [essl]\r\n```\r\nI installed essl as follows:\r\n```\r\n--> spack install essl\r\n==> essl@6.1 : externally installed in /opt/ibmmath/essl/6.1\r\n==> essl@6.1 : generating module file\r\n==> essl@6.1 : registering into DB\r\n```\r\nand now I have the following packages installed:\r\n```\r\n--> spack find\r\n==> 9 installed packages.\r\n-- linux-rhel7-ppc64le / gcc@4.8.5 ------------------------------\r\ncmake@3.11.1  ncurses@6.0  openssl@1.0.2n  pkgconf@1.4.0  spectrum-mpi@10.02.00  zlib@1.2.11\r\n\r\n-- linux-rhel7-ppc64le / xl_r@16.1 ------------------------------\r\nessl@6.1  spectrum-mpi@10.02.00  zlib@1.2.11\r\n```\r\n\r\nWhen I try to spec petsc I see the following error:\r\n```\r\n--> spack spec petsc%xl_r^essl\r\nInput spec\r\n--------------------------------\r\npetsc%xl_r\r\n    ^essl\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Multiple providers found for 'blas': ['essl@6.1%xl_r@16.1 fflags=\"-qzerosize\" ~cuda~ilp64 threads=openmp arch=linux-rhel7-ppc64le', 'veclibfort@0.4.2%xl_r@16.1 fflags=\"-qzerosize\" +shared arch=linux-rhel7-ppc64le']\r\n```\r\nFrom the previous list of installed packages, one can see that I don't have veclibfort installed.  Consequently, that package should not be listed as a provider of blas.\r\n\r\nI cannot get around this problem even if I specify essl by its hash:\r\n```\r\n--> spack find -l essl\r\n==> 1 installed packages.\r\n-- linux-rhel7-ppc64le / xl_r@16.1 ------------------------------\r\n7tl5cbg essl@6.1\r\n--> spack spec petsc%xl_r^/7tl5cbg\r\nInput spec\r\n--------------------------------\r\npetsc%xl_r\r\n    ^essl@6.1%xl_r@16.1 fflags=\"-qzerosize\" ~cuda~ilp64 threads=openmp arch=linux-rhel7-ppc64le \r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: Multiple providers found for 'blas': ['essl@6.1%xl_r@16.1 fflags=\"-qzerosize\" ~cuda~ilp64 threads=openmp arch=linux-rhel7-ppc64le', 'veclibfort@0.4.2%xl_r@16.1 fflags=\"-qzerosize\" +shared arch=linux-rhel7-ppc64le']\r\n```",
+    "user": "serbanmaerean",
+    "url": "https://api.github.com/repos/spack/spack/issues/7901",
+    "updated_at": "2018-05-08 22:08:19",
+    "created_at": "2018-04-25 14:34:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Ghost blas provider reported by spack",
+    "number": 7901,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "virtual-dependencies"
+    ],
+    "id": 317656142,
+    "html_url": "https://github.com/spack/spack/issues/7901",
+    "assignees": [],
+    "comments": 21
+}

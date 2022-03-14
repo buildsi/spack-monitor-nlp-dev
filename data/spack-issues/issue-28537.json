@@ -1,0 +1,21 @@
+{
+    "body": "Starting version `4.8.0` (the `main` is currently affected as well), the configure script started overlinking to `libcurl`. In the case of Spack, that means that `libnetcdf.so` might get overlinked to a system installation of the library if such one exists. The only variant that we currently support and that enables the real dependency on `libcurl` is `dap`. Therefore, we override the check for `libcurl` when `~dap` by calling the configure script with additional cache argument `ac_cv_lib_curl_curl_easy_setopt=no` (see [here](https://github.com/Unidata/netcdf-c/blob/1666f8070110dda16b606c186a626cd3b39f6dea/configure.ac#L158)).\r\n\r\nAdditionally, `master` version is renamed to `main` following the renaming of the branch upstream and Spack can now generate the configure script for it. The default implementation of the method does not work because it calls `autoreconf -fvi` with additional `-I` flags, which fails if the `m4` directory doesn't exist (regardless of the values provided with `-I` flags). If there is no `-I` flags, which is what implemented in the `./bootstrap` script, the absence of the `m4` directory triggers just a warning. At least on my system. In any case, the upstream developers support the bootstrapping script (starting version `4.6.3`) and it makes sense to use it.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/28537",
+    "updated_at": "2022-01-21 14:12:19",
+    "created_at": "2022-01-21 14:12:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "netcdf-c: prevent overlinking to a system installation of libcurl",
+    "number": 28537,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1110513485,
+    "html_url": "https://github.com/spack/spack/pull/28537",
+    "assignees": [],
+    "comments": 0
+}

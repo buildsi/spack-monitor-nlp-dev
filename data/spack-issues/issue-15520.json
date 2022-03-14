@@ -1,0 +1,20 @@
+{
+    "body": "<!--\r\n*Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran Spack find to list all the installed packages and...\"*\r\n-->\r\n\r\nConfiguring spack to use ccache without ccache installed leads to failing builds with errors such as:\r\n```\r\n  >> 13    configure: error: in `/.../.../spack/build-stage/spack-stage-gdbm-1.18.1-nqqrcgpbhdvfe74ep4syqkawx4iyft2z/spack-src':\r\n  >> 14    configure: error: C compiler cannot create executables\r\n```\r\n\r\nThe [documentation of the config](https://spack.readthedocs.io/en/latest/config_yaml.html#ccache) mentions that spack would stop if it cannot find `ccache`.\r\n\r\n### Spack version\r\n<!-- Add the output to the command below -->\r\n```console\r\n$ spack --version\r\n0.14.0-240-c2e0ee638\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ which ccache\r\nccache not found\r\n$ spack clean -smp\r\n$ spack config get config\r\nconfig:\r\n  ...\r\n  ccache: true\r\n  ...\r\n$ spack install ccache\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n$ spack install ccache\r\n...\r\n2 errors found in build log:\r\n  >> 6    configure: error: in `/.../.../spack/build-stage/spack-stage-pkgconf-1.6.3-shycdu3s7i45xon6o5sjun6ie5tzyvlb/spack-src':\r\n  >> 7    configure: error: C compiler cannot create executables\r\n...\r\n```\r\n\r\n### Information on your system\r\n<!--\r\nThis includes:\r\n\r\n 1. which platform you are using\r\n 2. any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.)\r\n\r\n-->\r\n\r\n```\r\n$ spack arch\r\nlinux-ubuntu16.04-skylake\r\n$ which python\r\n/home/ga36qid/.pyenv/shims/python\r\n$  pyenv version \r\n3.7.4 (set by /home/ga36qid/.pyenv/version)\r\n```\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!--\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "fsimonis",
+    "url": "https://api.github.com/repos/spack/spack/issues/15520",
+    "updated_at": "2020-03-17 16:32:12",
+    "created_at": "2020-03-17 16:32:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack does not detect missing ccache",
+    "number": 15520,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 583142084,
+    "html_url": "https://github.com/spack/spack/issues/15520",
+    "assignees": [],
+    "comments": 0
+}

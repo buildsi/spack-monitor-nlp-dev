@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install loki\r\n$ spack load loki && $ spack cd loki && make check\r\n\r\n```\r\n\r\n### Error Message\r\n\r\n> \r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\nFunctionTest.cpp:757:11: error: reference to \u2018bad_function_call\u2019 is ambiguous\r\n     catch(bad_function_call)\r\n           ^~~~~~~~~~~~~~~~~\r\nIn file included from /usr/include/c++/8/functional:59,\r\n                 from FunctionTest.cpp:13:\r\n/usr/include/c++/8/bits/std_function.h:56:9: note: candidates are: \u2018class std::bad_function_call\u2019\r\n   class bad_function_call : public std::exception\r\n         ^~~~~~~~~~~~~~~~~\r\nIn file included from ../../include/loki/Function.h:22,\r\n                 from FunctionTest.cpp:50:\r\n../../include/loki/Functor.h:1180:11: note:                 \u2018class Loki::bad_function_call\u2019\r\n     class bad_function_call : public std::runtime_error\r\n           ^~~~~~~~~~~~~~~~~\r\nmake[2]: *** [<builtin>: FunctionTest.o] Error 1\r\n```\r\nI found that the community of the app has the same issue, https://sourceforge.net/p/loki-lib/bugs/194/\r\nbut because it is relatively old and there is no reply, I have a solution here, whether I can upload patch directly.\r\n### Information on your system\r\n\r\n> \r\n* **Spack:** 0.16.0-1376-f65e6ae4e6\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos8-aarch64\r\n* **Concretizer:** original\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "simon28li",
+    "url": "https://api.github.com/repos/spack/spack/issues/21899",
+    "updated_at": "2021-02-24 09:09:12",
+    "created_at": "2021-02-24 09:09:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Loki executes make check error report",
+    "number": 21899,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 815275614,
+    "html_url": "https://github.com/spack/spack/issues/21899",
+    "assignees": [],
+    "comments": 0
+}

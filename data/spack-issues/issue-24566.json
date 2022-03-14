@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nI\u2019m working on updating the package definition for [Nextflow](https://github.com/nextflow-io/nextflow) (currently in house, but hopefully can share out soon). Nextflow uses Github releases for new versions, but it provides a \u201cslim\u201d version that performs a bunch of additional downloads the first time it is run and a \u201cfat\u201d version with everything already included. I\u2019d like to be able to provide both as an option for downstream use, however they have different checksums. I found a couple of Spack issues addressing this question (e.g. #9910 and #11206). The most straightforward solution seems to be to use a `when` clause along with a `variant` in the `version` directive, that way whenever a variant is present (e.g. `+all`) Spack uses the fat version checksum and when it is absent it uses the slim one. Combined with version-specific URL\u2019s or a `url_for_version` function, this seems to work ok. The problem is that if you try to install both it tries to use the cached version of the other. However, if you delete the cache the checksum fails.\r\n\r\nAn example of the two `version` directives:\r\n\r\n```nextflow\r\nversion('21.04.1', sha256='840ca394237e0f4d9f34642ff77c0ac92361319bcc9d9441f3d99f7b6d48ae7d', expand=False, when='~all')\r\nversion('21.04.1', sha256='566deaf7533a2484d09f6520c677b31eff983d59b82c0816f9fe36b2886c768d', expand=False, when='+all')\r\n\r\nvariant('all', default=True, description='Use all-inclusive tarball requiring no additional downloads')\r\n\r\ndef url_for_version(self, version):\r\n    if \"+all\" in self.spec:\r\n        return f\"https://github.com/nextflow-io/nextflow/releases/download/v{version}/nextflow-{version}-all\"\r\n    else:\r\n        return f\"https://github.com/nextflow-io/nextflow/releases/download/v{version}/nextflow\"\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install nextflow@21.04.1+all\r\n$ spack clean -ds nextflow\r\n$ spack install nextflow@21.04.1~all\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nspack.fetch_strategy.ChecksumError: sha256 checksum failed for /tmp/andrew.birnberg/spack-stage/spack-stage-nextflow-21.04.1-65uot5cmhrin7zsbhwa3h7l5klbki3qj/nextflow\r\n    Expected 566deaf7533a2484d09f6520c677b31eff983d59b82c0816f9fe36b2886c768d but got 840ca394237e0f4d9f34642ff77c0ac92361319bcc9d9441f3d99f7b6d48ae7d\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n```\r\n* **Spack:** 0.16.2-3306-69d69cbc79\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-skylake_avx512\r\n* **Concretizer:** original\r\n```\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n",
+    "user": "birnbera",
+    "url": "https://api.github.com/repos/spack/spack/issues/24566",
+    "updated_at": "2021-06-30 06:00:14",
+    "created_at": "2021-06-28 16:33:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "When clause in version directive",
+    "number": 24566,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "proposal"
+    ],
+    "id": 931751022,
+    "html_url": "https://github.com/spack/spack/issues/24566",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nSpack excepts package preferences in packages.yaml or similar files for environments.  In these files, one can specify a list of preferred versions.  E.g. something like\r\n```console\r\nfoo:\r\n   version: [3.2.1, 2]\r\n```\r\nwill set the preferred versions of foo to @3.2.1 and then @2. \r\n\r\nHowever, Spack package.py seem to want versions to be of type string, which causes problems with versions like 2 above, which the YAML library returns as a numeric type.  Such versions currently be quoted in packages.yaml (e.g. \r\n```console\r\nfoo:\r\n   versions: [2.2.1, '2']\r\n```\n\n### Rationale\n\nI recently spent a fair amount of time trying to debug why Spack was not properly adding dependencies to texlive when using a version defaulted from a packages.yaml file (see #27986).  I eventually concluded (and I believe correctly) that the issue was because the texlive version being used was all digits and was not quoted in the packages.yaml file, and so the underlying YAML lib converted it to an integer while it seems that spack is expecting versions to be of type string.\r\n\r\nIF Spack really wants versions to be type string, it should coerce non-string versions into a string data type.\n\n### Description\n\nIt should be possible when processing the version field from a packages.yaml to stringify the values of the version list\n\n### Additional information\n\n```console\r\n$ spack debug report\r\n* **Spack:** 0.17.0-319-5dce4d79bd\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n```\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/28001",
+    "updated_at": "2021-12-14 22:49:52",
+    "created_at": "2021-12-14 17:39:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Coerce version values from package.yaml into string types",
+    "number": 28001,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1080040373,
+    "html_url": "https://github.com/spack/spack/issues/28001",
+    "assignees": [],
+    "comments": 2
+}

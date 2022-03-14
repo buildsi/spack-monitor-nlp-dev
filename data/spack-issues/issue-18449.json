@@ -1,0 +1,25 @@
+{
+    "body": "Attempted fix for #18444 \r\n\r\nGCC actually needs the CUDA driver lib (libcuda.so) instead of the runtime lib (libcudart.so).\r\n\r\nThis is an attempt to properly fix https://github.com/spack/spack/pull/17619 / https://github.com/spack/spack/pull/18000.\r\n\r\nCurrently I cannot really test it, since GCC +nvptx fails because of other reasons now :) they use sm_30 somewhere in their defaults, which my CUDA driver does not support.\r\n\r\n--\r\n\r\nI guess the `libs` property is special in spack, whereas my `driver_libs` property is custom. Can someone comment on whether this is a good idea or not? At any rate, there's two things: (a) we don't want the stub lib to end up in the rpaths, so we shouldn't add driver libs to `libs`, and (b) some packages actually need the driver lib.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18449",
+    "updated_at": "2021-12-14 14:16:11",
+    "created_at": "2020-09-01 17:39:10",
+    "closed_at": "None",
+    "state": "open",
+    "title": "gcc+nvptx: fix cuda driver linking once more",
+    "number": 18449,
+    "milestone": null,
+    "labels": [
+        "gcc",
+        "cuda"
+    ],
+    "id": 690326238,
+    "html_url": "https://github.com/spack/spack/pull/18449",
+    "assignees": [
+        "scheibelp",
+        "michaelkuhn",
+        "adamjstewart",
+        "rblake-llnl"
+    ],
+    "comments": 29
+}

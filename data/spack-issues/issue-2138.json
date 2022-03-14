@@ -1,0 +1,20 @@
+{
+    "body": "I'm confused about what the 'run' deptype does.\n\nI'm trying to `spack install font-adobe-75dpi`.  The font `depends_on('mkfontdir', type='build')`, which in turn `depends_on('mkfontscale', type='run')`.\n\n`spack install font-adobe-75dpi` fails, the interesting bit of `spack-build.out` is:\n\n```\n[...]\nmake[2]: Entering directory `/tmp/hartzelg/spack-stage/spack-stage-GSXFJq/font-adobe-75dpi-1.0.3'\n/rss/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/mkfontdir-1.0.7-zcq774jm3vq4ockjac5ewmzksh2kt7mm/bin/mkfontdir /rss/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/font-util-1.3.1-6rs7qlybxshfpui546rmxoeuxkahypbv/share/fonts/X11/75dpi\n/rss/spack/opt/spack/linux-centos7-x86_64/gcc-5.4.0/mkfontdir-1.0.7-zcq774jm3vq4ockjac5ewmzksh2kt7mm/bin/mkfontdir: line 5: exec: mkfontscale: not found\n[...]\n```\n\nIf I `module load mkfontscale` then the install completes.\n\nWhile digging around, I confused myself even further.\n\nI added a `depends_on('mkfontscale', type='build')` to the `font-adobe-75dpi` package and was surprised to find that when I `spack env font-adobe-75dpi` I did not have `mkfontscale` available on my path.\n\nWith that dependency added to font-adobe-75dpi, `spack spec font-adobe-75dpi` shows `mkfontscale` as a dependency of `mkfontdir`, but **not** of `font-adobe-75dpi`.\n\nIf I comment out `mkfontdir`'s dependency on `mkfontscale` and leave the one in `font-adobe-75dpi`, then the spec shows what I \"want\" and I can install the font.\n\nIt seems that if I want to install the X fonts, I need to install mkfontdir and mkfontscale, stop, arrange for mkfontscale to be on my path, then pick up where I left off.\n\n@adamjstewart -- How did you install these things?\n\nHave I stumbled on a known foible?\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/2138",
+    "updated_at": "2017-11-22 09:18:19",
+    "created_at": "2016-10-26 17:47:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Question re: deptype='run' and `spack install <insert name of x11 font>`",
+    "number": 2138,
+    "milestone": null,
+    "labels": [
+        "question",
+        "X11"
+    ],
+    "id": 185463153,
+    "html_url": "https://github.com/spack/spack/issues/2138",
+    "assignees": [],
+    "comments": 1
+}

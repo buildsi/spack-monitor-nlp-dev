@@ -1,0 +1,21 @@
+{
+    "body": "Closes #26377\r\n\r\nPackages like cuda and intel-mkl have this structure:\r\n\r\n```\r\n<prefix>/lib64 -> some/dir/levels/deep/lib64\r\n```\r\n\r\nAnd they are full of libs\r\n\r\n```\r\n<prefix>/lib64/libcusolver.so\r\n```\r\n\r\nbut Spack fails to create the links for those as it skips over\r\nsymlinked directories.\r\n\r\n```console\r\n$ ls <view>/lib64/libcusolver.so\r\nls: cannot access '<view/lib64/libcusolver.so': No such file or directory\r\n```\r\n\r\nwith this patch we now do get\r\n\r\n```\r\n$ readlink <view>/lib64/libcusolver.so\r\n<prefix>/lib64/libcusolver.so\r\n```\r\n\r\n---\r\n\r\n- `traverse_tree(follow_links=True)`: enter symlinked directories as long as their\r\n   realpath path is within the source prefix\r\n- `merge_directories` always follow links; this will effectively replace symlinks to\r\n   directories inside the source prefix with actual directories in the destination\r\n   prefix (which is required if you want to merge `<prefix a>/lib` and `<prefix b>/lib`\r\n   into `<view>/lib`, and `<prefix a>/lib` is a symlink to a subdir.\r\n- Fixes kwarg bugs introduced in 6b90017efa1f3157fe4be7d0c7b199b6e51b9fa8 and 638cc64571fd038f5ae7f47a664399b9f2629d66",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/29217",
+    "updated_at": "2022-03-10 13:30:23",
+    "created_at": "2022-02-25 16:01:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "link_tree.py, filesystem.py: follow symlinks which point to subdirs (of symlink dir)",
+    "number": 29217,
+    "milestone": null,
+    "labels": [
+        "utilities"
+    ],
+    "id": 1150612062,
+    "html_url": "https://github.com/spack/spack/pull/29217",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 9
+}

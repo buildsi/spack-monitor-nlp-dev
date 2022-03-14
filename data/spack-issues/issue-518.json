@@ -1,0 +1,23 @@
+{
+    "body": "Recently, I discovered that certain PGI compilers (`pgf77` and `pgf90`) were unable to build HDF4, while newer ones (`pgfortran`) had no trouble. I submitted PR #493 to solve this issue. Now, if your compilers.yaml contains something like:\n\n``` yaml\npgi@15.10-0:\n      cc:  /soft/pgi/15.10/linux86-64/15.10/bin/pgcc\n      cxx: /soft/pgi/15.10/linux86-64/15.10/bin/pgc++\n      f77: /soft/pgi/15.10/linux86-64/15.10/bin/pgfortran\n      fc:  /soft/pgi/15.10/linux86-64/15.10/bin/pgfortran\n```\n\nHDF4 will build for you. However, when I run:\n\n``` bash\nspack compiler add /soft/pgi/15.10/linux86-64/15.10/bin\n```\n\nSpack still finds the older compilers first:\n\n``` yaml\npgi@15.10-0:\n      cc:  /soft/pgi/15.10/linux86-64/15.10/bin/pgcc\n      cxx: /soft/pgi/15.10/linux86-64/15.10/bin/pgCC\n      f77: /soft/pgi/15.10/linux86-64/15.10/bin/pgf77\n      fc:  /soft/pgi/15.10/linux86-64/15.10/bin/pgf90\n```\n\nThe [PGI Installation Guide](https://www.pgroup.com/doc/pgiinstall.pdf) recommends using the newer compilers, although the older ones are kept around for backwards compatibility. Although I could simply remove `pgCC`, `pgf77`, and `pgf90` from those lists, it would cause problems for anyone using older installations of PGI, which don't come with the newer compilers.\n\nI propose we change the way that `spack compiler add` finds compilers. My suggestion would be to choose the first match it finds in `cxx_names`, `f77_names`, and `f90_names`. I believe the relevant code is in the `find` method of `lib/spack/spack/compiler.py`. Things start to get complicated since we also need to be able to find compilers with prefixes, suffixes, or version numbers, and much of the code is parallelized for efficiency.\n\nIf anyone would like to tackle this, and maybe wrap in a solution to any of the unresolved problems we've been seeing with Apple compilers, be my guest. Otherwise, I will hopefully get to it eventually. It doesn't significantly impact me since I can just `spack config edit compilers` and switch it over to the newer ones, but it might trip up a new Spack user.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/518",
+    "updated_at": "2019-10-14 09:59:51",
+    "created_at": "2016-03-09 18:04:25",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Auto-detection of compilers with multiple names",
+    "number": 518,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "configuration",
+        "compilers"
+    ],
+    "id": 139655330,
+    "html_url": "https://github.com/spack/spack/issues/518",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

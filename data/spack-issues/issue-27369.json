@@ -1,0 +1,19 @@
+{
+    "body": "The curses module in python doesn't work (at least when built with readline and ncurses from spack).  Even fairly [simple curses scripts](https://gist.github.com/blackwer/0c0231526f8129ae558700238357d1a4) segfault or otherwise misbehave.  The [`test_curses.py`](https://github.com/python/cpython/blob/main/Lib/test/test_curses.py) python test also fails.\r\n\r\nThere are a number of things going wrong here, mostly around inconsistencies between the ncurses headers and libraries.  As background, to build something against ncurses, it must include and link against exactly matching versions of ncurses (non-widec) _xor_ ncursesw (widec). If you mix wide-non-wide or different versions things won't work, as struct sizes and char types won't match.\r\n\r\nFirst, python chooses whichever ncurses library readline is linked against.  Since readline is linked with both(!) (#3802) it ends up finding whichever one `ldd` reports first.  If python finds libncursesw, python `setup.py` adds `/usr/include/ncursesw` to the includes, which is likely a different ncurses version.  If it finds libncurses, it uses that.  Either way, it just includes `<ncurses.h>`.\r\n\r\nThe ncurses package installs only the ncursesw headers, to three places (include, include/ncurses, include/ncursesw), as per #353, #3953. This means that anything that tries to use non-wide ncurses won't work, as it ends up including the wide headers instead.  The only distributions I've found that do this also use libncursesw as libncurses (so only wide everywhere).  Most install non-wide into include or include/ncurses and wide into only include/ncursesw.  #27372 fixes this, installing wide and non-wide headers separately. Though it leaves the question of which version to install un-prefixed (in include/ncurses.h: whether to keep wide for backwards compatibility, or non-wide to match standard practice and libncurses).\r\n\r\nSo, python's curses library ends up building with the system ncursesw headers and spack libncursesw, or with spack's ncursesw headers and spack libncurses.  Either way, the result is broken.\r\n\r\nAn added complication is that the python curses library doesn't seem to work properly with non-wide ncurses at all.  I'm not sure if this is a known issue, but every other python distribution/package I can find links with ncursesw, so this should be the goal.  This can be achieved by adding `-I${ncurses.prefix.include}/ncursesw` to CPPFLAGS and `-lncursesw` to `Modules/Setup`.  #27375 solve that, but I wanted to make a place to discuss the issue as a whole.\r\n\r\nIt's also the case that only #27375 is necessary to fix the python issue, but #27372 is needed if anything wants to build against libncurses as well.",
+    "user": "dylex",
+    "url": "https://api.github.com/repos/spack/spack/issues/27369",
+    "updated_at": "2021-11-11 22:48:27",
+    "created_at": "2021-11-11 19:59:33",
+    "closed_at": "None",
+    "state": "open",
+    "title": "python curses module broken, ncurses inconsistency",
+    "number": 27369,
+    "milestone": null,
+    "labels": [],
+    "id": 1051314633,
+    "html_url": "https://github.com/spack/spack/issues/27369",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 2
+}

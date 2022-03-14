@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\n* Create a package with a build-time dependency on python and py-pyquaternion\r\n* Install the package\r\n* Enter build-env and try to import\r\n\r\n```\r\n# spack install <spec>\r\n# spack build-env <spec> -- bash\r\n# which python\r\n/opt/spack/software/linux-ubuntu18.04-x86_64/gcc-9.2.0/python-3.8.6-tpw6u7xosborjvrb35nzpu4m2zvebl7e/bin/python\r\nroot@u78cb42cd935758:/opt/env# python\r\nPython 3.8.6 (default, Oct 28 2021, 19:29:38)\r\n[GCC 9.2.0] on linux\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import pyquaternion\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\nModuleNotFoundError: No module named 'pyquaternion'\r\n```\r\n\r\nThis looks to be the same problem as issue https://github.com/spack/spack/issues/6131, but different in that build-env is active without a view. The package can be imported in the **runtime** view.\r\n\r\nFor me, the consequence of this bug is that spack install --test=root fails.\r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\n# spack debug report\r\n* **Spack:** 0.16.1\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-skylake\r\n\r\nExample dependency declaration in package.yaml\r\n```\r\n    depends_on('python@3.8:', type=('build', 'test', 'run'))\r\n    depends_on('py-pyquaternion', type=('build', 'test', 'run'))\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "bdunlay",
+    "url": "https://api.github.com/repos/spack/spack/issues/27076",
+    "updated_at": "2022-01-11 03:45:57",
+    "created_at": "2021-10-29 19:05:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "build-env isn't finding easy_install.pth files for python egg packages",
+    "number": 27076,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1039851819,
+    "html_url": "https://github.com/spack/spack/issues/27076",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 1
+}

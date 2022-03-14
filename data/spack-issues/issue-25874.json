@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nI have a one-node RHEL 8.x x86_64 system with an AMD GPU and ROCM\r\ninstalled.  This is the ROCM tar file downloaded from AMD installed\r\ninto /opt/rocm-4.3.1, not a spack install.  There is no clang\r\ncompiler, but ROCM installs clang-ocl in /usr/bin.\r\n\r\nSo, there is no clang and `spack compiler find` confuses clang-ocl\r\nwith clang and creates an entry in `compilers.yaml`.\r\n\r\n```\r\ncompilers:\r\n- compiler:\r\n    spec: clang@13.0.0\r\n    paths:\r\n      cc: /usr/bin/clang-ocl\r\n      cxx: null\r\n      f77: null\r\n      fc: null\r\n    flags: {}\r\n    operating_system: rhel8\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n\r\nThere are two problems here.\r\n\r\n1. `clang-ocl` (opencl compiler) is not a regular compiler like gcc,\r\nicc, xl, etc, and spack should not create an entry in compilers.yaml\r\nfor it.\r\n\r\nFor example, `clang-ocl hello.c` on the \"hello world\" program dies with:\r\n\r\n```\r\n$ clang-ocl hello.c \r\nIn file included from hello.c:5:\r\nIn file included from /usr/include/stdio.h:27:\r\nIn file included from /usr/include/bits/libc-header-start.h:33:\r\nIn file included from /usr/include/features.h:452:\r\n/usr/include/gnu/stubs.h:7:11: fatal error: 'gnu/stubs-32.h' file not found\r\n# include <gnu/stubs-32.h>\r\n1 error generated.\r\n```\r\n\r\n2. Running `clang-ocl --version` creates a file `-.o`.  I guess it\r\ntries to compile stdin or something, even though you only ask for the\r\nversion.\r\n\r\nSpack should either not run clang-ocl, or else cleanup the `-.o` file.\r\n\r\n--------\r\n\r\nI looked at `clang.py` and there is no mention of clang-ocl, but it\r\ndoes use regular expressions, I guess to look for `clang-*`.  On\r\nsystems with clang-ocl but not clang, this causes spack to confuse\r\nclang-ocl with the real (and absent) clang compiler.\r\n\r\nBasically, spack should understand that clang-ocl is not a valid\r\ncompiler that it's looking for.\r\n\r\nBut looking in `/opt/rocm-4.3.1/llvm/bin`, there are other valid\r\ncompiler names that are symlinked to clang or clang-13, including\r\nflang, just not clang-ocl.\r\n\r\n```\r\nlrwxrwxrwx. 1 root root         8 Aug 21 12:30 clang -> clang-13*\r\nlrwxrwxrwx. 1 root root         5 Aug 21 12:30 clang++ -> clang*\r\n-rwxr-xr-x. 1 root root 114674512 Aug 21 12:30 clang-13*\r\nlrwxrwxrwx. 1 root root         5 Aug 21 12:30 clang-cl -> clang*\r\nlrwxrwxrwx. 1 root root         5 Aug 21 12:30 clang-cpp -> clang*\r\nlrwxrwxrwx. 1 root root         5 Aug 21 12:30 flang -> clang*\r\n```\r\n\r\nAlso, I'm seeing `spack compiler find` behave non-deterministically.\r\nSometimes it finds one compiler (either one) and sometimes two.\r\n\r\n\n\n### Error message\n\n[compiler-find.txt](https://github.com/spack/spack/files/7138843/compiler-find.txt)\r\n\n\n### Information on your system\n\n* **Spack:** 0.16.2-4197-f9314d38b0\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/25874",
+    "updated_at": "2021-09-09 18:12:39",
+    "created_at": "2021-09-09 18:12:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "compiler find confuses clang-ocl with clang",
+    "number": 25874,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 992499799,
+    "html_url": "https://github.com/spack/spack/issues/25874",
+    "assignees": [],
+    "comments": 0
+}

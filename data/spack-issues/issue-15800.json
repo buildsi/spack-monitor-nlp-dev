@@ -1,0 +1,22 @@
+{
+    "body": "This issue is following https://github.com/spack/spack/pull/15420#issuecomment-606980300 in particular:\r\n\r\n> Each use case regarded as work for the concretizer should be recorded as such: many of these things we'd like to solve could possibly be solved, but if we don't account for it in the design, then most likely it will be difficult to support\r\n\r\n### Rationale\r\n\r\nThe use-case exposed here is that of a Spack instance with:\r\n- At least 2 repositories\r\n- One package that has different recipes in both repositories\r\n\r\nThe two recipes may differ in variants, versions, dependencies etc. but need of course to refer to the same package (meaning the name of the spec must be the same). To create a similar situation one could for example:\r\n```console\r\n$ spack repo create <mydir> test\r\n$ spack repo add <mydir>\r\n```\r\nand then copy and modify a package, say `zlib`, into the new repository with namespace `test`. Let's assume we delete the `optimize` variant and leave just a single `1.0` version in the `test.zlib` recipe.\r\n\r\nIn a similar situation the current behavior of Spack is to prefer the first repository in the list regardless of the abstract spec that is provided by the user. See for instance the third and fourth commands below:\r\n\r\n<details><summary>Console output</summary>\r\n\r\n```console\r\n$ spack --version\r\n0.14.1-451-49aa28790\r\n\r\n$ spack spec zlib\r\nInput spec\r\n--------------------------------\r\nzlib\r\n\r\nConcretized\r\n--------------------------------\r\nzlib@1.0%gcc@9.0.1+pic+shared arch=linux-ubuntu18.04-broadwell\r\n\r\n$ spack spec builtin.zlib\r\nInput spec\r\n--------------------------------\r\nzlib\r\n\r\nConcretized\r\n--------------------------------\r\nzlib@1.2.11%gcc@9.0.1+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n\r\n$ spack spec zlib+optimize\r\nInput spec\r\n--------------------------------\r\nzlib+optimize\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: trying to set variant \"optimize\" in package \"zlib\", but the package has no such variant [happened during concretization of zlib+optimize]\r\n\r\n$ spack spec zlib@1.2.11\r\nInput spec\r\n--------------------------------\r\nzlib@1.2.11\r\n\r\nConcretized\r\n--------------------------------\r\nzlib@1.2.11%gcc@9.0.1+pic+shared arch=linux-ubuntu18.04-broadwell\r\n```\r\n</details>\r\n\r\n### Description\r\n\r\nWhat a user might expect instead is that the concretizer can consider various aspects of the spec before selecting its namespace and thus that the output above is instead the following for the third and fourth commands:\r\n```console\r\n$ # Even though the test repository has precedence +optimize can be \r\n$ # satisfied only by the builtin repository, so choose that\r\n$ spack spec zlib+optimize\r\nInput spec\r\n--------------------------------\r\nzlib+optimize\r\n\r\nConcretized\r\n--------------------------------\r\nzlib@1.2.11%gcc@9.0.1+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n\r\n$ # Even though the test repository has precedence @1.2.11 can be \r\n$ # satisfied only by the builtin repository, so choose that\r\n$ spack spec zlib@1.2.11\r\nInput spec\r\n--------------------------------\r\nzlib@1.2.11\r\n\r\nConcretized\r\n--------------------------------\r\nzlib@1.2.11%gcc@9.0.1+optimize+pic+shared arch=linux-ubuntu18.04-broadwell\r\n```\r\n\r\n\r\n### Additional information\r\nThe issue was raised in a PR proposing to add a second package repository in Spack, that will thus expose more frequently the behaviors above.\r\n\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/15800",
+    "updated_at": "2020-04-02 09:42:15",
+    "created_at": "2020-04-01 14:13:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "The concretizer should look into all the repositories for spec matches",
+    "number": 15800,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "concretization",
+        "repos",
+        "concretizer-use-case"
+    ],
+    "id": 591948742,
+    "html_url": "https://github.com/spack/spack/issues/15800",
+    "assignees": [],
+    "comments": 5
+}

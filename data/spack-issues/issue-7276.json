@@ -1,0 +1,19 @@
+{
+    "body": "This Spack Issues forum seems like a good place to ask this question. It may be that this applies mainly to *static* as opposed to *dynamic* lib installs.\r\n\r\nAn example of the issue I am looking for comment on is something like HDF5. HDF5 can be configured and installed with *extra* support for MPI. In particular, it can use MPI-IO under the covers to marshal data in H5Dwrite/H5Dread calls. When HDF5 is **not** configured with MPI support, then its I/O operations are only ever serial via either stdio or Unix section 2 I/O routines.\r\n\r\nHere's my question...why can't an installation of HDF5 that includes the *extra* support for MPI/MPI-IO, also support linking of serial-only callers that don't call MPI themselves and won't expecting nor really want to include ``-L<path-to-mpi> -lmpi`` on thier link commands?\r\n\r\nBefore you answer, consider another example...compression libraries. If HDF5 is configured with szip compression features enabled, then any applications linking to it will need to include ``-L<path-to-szip> -lsz``.\r\n\r\nBoth these situations seem like the same situation except with different additional libraries. I can't really defend the perspective I'm about to propose...but I've always easily accepted that any HDF5 caller needs to link the additional compression libraries the HDF5 installation has been created with whereas I've always wanted to be able to link serial applications **without** MPI and parallel applications **with** MPI to the **same** installation of HDF5. I guess I feel like MPI dependence comes with *a lot* more baggage than some simple compression library and so think it is important to be able to avoid it when it is not really needed.\r\n\r\nI suspect that some relatively well defined SQE practices (which in all likelihood involve re-factoring a package to place any X-enabled functionality in a separate/companion library) would facilitate what I am describing here.\r\n\r\nI am just wondering if anyone is aware of any packages that are in fact designed like I described here such that a single package installation supports linking callers that either do or do not use some optional feature, X? And, if so, what the key design considerations are in affecting this? Is it just silly to want such capability for one library, say MPI, but not another, say zlib? Has anyone else desired such a solution for HDF5 or other libraries where MPI is an optional additional feature?",
+    "user": "markcmiller86",
+    "url": "https://api.github.com/repos/spack/spack/issues/7276",
+    "updated_at": "2018-02-18 02:22:42",
+    "created_at": "2018-02-18 02:20:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "SQE best practice for supporting Pkg or Pkg+MPI from single install",
+    "number": 7276,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 298053144,
+    "html_url": "https://github.com/spack/spack/issues/7276",
+    "assignees": [],
+    "comments": 0
+}

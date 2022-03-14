@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nNamed environments can use different install roots in their `config` section. In fact, the install root of a named environment can be overridden on the command line using `spack -e env -c config:install_tree:root:path/to/somewhere`.\r\n\r\nThis means that environments are not tied to a particular install root.\r\n\r\nWhen removing a spec outside environments, Spack warns when that spec is still used in environments. But when using different install roots, this leads to false positives:\r\n\r\n```shell\r\n$ cd $(mktemp -d)\r\n\r\n$ mkdir root_a root_b\r\n\r\n$ cat <<EOF > spack_a.yaml\r\nspack:\r\n  specs: [zlib]\r\n  config:\r\n    install_tree:\r\n      root: $PWD/root_a\r\nEOF\r\n\r\n$ cat <<EOF > spack_b.yaml\r\nspack:\r\n  specs: [zlib]\r\n  config:\r\n    install_tree:\r\n      root: $PWD/root_b\r\nEOF\r\n\r\n$ spack env create env_a ./spack_a.yaml\r\n\r\n$ spack env create env_b ./spack_b.yaml\r\n\r\n$ spack -e env_a install\r\n\r\n$ spack -e env_b install\r\n\r\n$ spack -c config:install_tree:root:$PWD/root_a uninstall zlib\r\n==> Will not uninstall zlib@1.2.11%gcc@10.3.0/6g6ahoq\r\nIt is used by the following environments:\r\n    env_a  env_b\r\n```\r\n\r\nIn this case it should not warn about `env_b`, since env_b has its specs installed in `./root_b` where `zlib` will remain installed.\r\n\r\nIn fact the same happens when uninstall bootstrap specs:\r\n\r\n```\r\n$ spack clean -b\r\n==> Removing software in \"/home/harmen/.spack/bootstrap/store\"\r\n==> Error: Command exited with code 1: uninstall('-a', '-y')\r\n```\r\n\r\nThis is due to\r\n\r\n```\r\n==> Will not uninstall zlib@1.2.11%gcc@10.3.0/6g6ahoq\r\nIt is used by the following environments:\r\n    env_a env_b\r\n```\r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3781-fa729858ac\r\n* **Python:** 3.8.9\r\n* **Platform:** linux-ubuntu20.04-zen2\r\n* **Concretizer:** clingo\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25203",
+    "updated_at": "2021-08-03 13:45:36",
+    "created_at": "2021-08-03 13:42:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack uninstall warns about unrelated named environments when using multiple install roots (e.g. bootstrap store)",
+    "number": 25203,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 959131547,
+    "html_url": "https://github.com/spack/spack/issues/25203",
+    "assignees": [],
+    "comments": 0
+}

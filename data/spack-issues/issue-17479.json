@@ -1,0 +1,22 @@
+{
+    "body": "Running:\r\n```console\r\nspack test lib/spack/spack/test/cmd/ci.py \r\n```\r\nchanges user configuration by adding a \"local_mirror\" that is apparently used for testing purposes.\r\n\r\n### Steps to reproduce the issue\r\nThe issue can be reproduced like this:\r\n```console\r\n$ spack mirror list\r\nspack-public    https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/\r\n\r\n$ spack test lib/spack/spack/test/cmd/ci.py \r\n[ ... ]\r\n\r\n$ spack mirror list\r\nspack-public    https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/\r\nlocal_mirror    file:///tmp/pytest-of-culpo/pytest-19/test_ci_rebuild_basic0/working_dir/local_mirror\r\n```\r\n\r\n### Error Message\r\n\r\nNo error message, but the user configuration gets changed by Spack unexpectedly. \r\n\r\nAs a side note, the tests above are failing when run on their own while they pass when they are run as part of the entire suite (so they might be depending on some global state set by previous tests to pass).\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.1-107-9c42f246e\r\n* **Python:** 3.7.4\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands ~in debug mode~ and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17479",
+    "updated_at": "2020-07-15 17:07:03",
+    "created_at": "2020-07-13 09:33:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "\"spack ci\" unit tests add a test mirror to user configuration",
+    "number": 17479,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "maintainers",
+        "triage"
+    ],
+    "id": 655701094,
+    "html_url": "https://github.com/spack/spack/issues/17479",
+    "assignees": [],
+    "comments": 4
+}

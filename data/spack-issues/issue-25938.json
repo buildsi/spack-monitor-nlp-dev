@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nI'm trying to build a very basic singularity container with the following (partially taken from [here](https://spack.readthedocs.io/en/latest/environments.html?highlight=concretize#spec-list-references)):\r\n```yaml\r\nspack:\r\n  config:\r\n     install_missing_compilers: true\r\n     concretizer: clingo\r\n     use_curl: true\r\n  container:\r\n    images:\r\n      build: spack/centos7:latest\r\n      final: spack/centos7:latest\r\n    format: singularity\r\n    strip: true\r\n    os_packages:\r\n      command: yum\r\n      build:\r\n        - python3\r\n      final:\r\n        - python3\r\n  concretization: together\r\n  packages:\r\n    all:\r\n      compiler:\r\n      - gcc@7.5.0\r\n      target:\r\n      - linux-centos7-x86_64\r\n  view: true\r\n  definitions:\r\n  - pkgs: [libiconv]\r\n\r\n  specs:\r\n    - matrix:\r\n      - [\\$pkgs]\r\n```\r\n\r\nWhen I set a given compiler for all packages, as well as a target, as in the config file, it is ignored when creating the environment. The workaround is to create spec lists for compiler and target:\r\n```yaml\r\n  definitions:\r\n  - compilers: ['%gcc@7.5.0']\r\n  - arch: ['arch=linux-centos7-x86_64']\r\n  - pkgs: [libiconv@1.16]\r\n  specs:\r\n    - matrix:\r\n      - [\\$pkgs]\r\n      - [\\$compilers]\r\n      - [\\$arch]\r\n```\r\nShould I then forget about setting compiler and target in `spack: packages: all` section?\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "jacorvar",
+    "url": "https://api.github.com/repos/spack/spack/issues/25938",
+    "updated_at": "2021-09-14 19:54:31",
+    "created_at": "2021-09-14 14:14:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Cannot set compiler in `spack: packages: all:` when building a container from environment",
+    "number": 25938,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 996072219,
+    "html_url": "https://github.com/spack/spack/issues/25938",
+    "assignees": [],
+    "comments": 0
+}

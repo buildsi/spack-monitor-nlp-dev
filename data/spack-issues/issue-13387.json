@@ -1,0 +1,21 @@
+{
+    "body": "Many commands relating to Spack Environments don't respect the `--color=never` flag. This is important when the output of your build is going to a qsub log or a pager, where you don't want color code characters.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack --color=never concretize 2> err.txt\r\n==> Updating view at /Users/Adam/.spack/darwin/.spack-env/view\r\n$ vim err.txt\r\n==> Warning: ^[[0;95m[^[[0m/mnt/a/u/sciteam/stewart1/crop_classification/.spack-env/view^[[0;95m]^[[0m Skipping external package: cuda@9.1.85%gcc@5.3.0 arch=cray-cnl5-interlagos/lil2nud\r\n```\r\n\r\nMost commands that directly use `tty.color` work, but it looks like some of the Environments commands roll their own color handling, which causes this issue.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/13387",
+    "updated_at": "2019-10-23 01:33:13",
+    "created_at": "2019-10-23 01:26:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environment commands don't respect --color=never",
+    "number": 13387,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "color",
+        "environments"
+    ],
+    "id": 511016268,
+    "html_url": "https://github.com/spack/spack/issues/13387",
+    "assignees": [],
+    "comments": 0
+}

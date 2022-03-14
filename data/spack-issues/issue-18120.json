@@ -1,0 +1,19 @@
+{
+    "body": "I'm trying to keep docker images and buildcaches small, and I found that one of the biggest build dependencies (that I actually need) is binutils:\r\n\r\n```\r\n$ du -sh binutils-2.34-4hl4mkoryxkvsy6ejglack3x7ygxl7m5/\r\n755M\tbinutils-2.34-4hl4mkoryxkvsy6ejglack3x7ygxl7m5/\r\n```\r\n\r\nThere's many exact duplicates of executables:\r\n\r\n```\r\n$ cd binutils-2.34-4hl4mkoryxkvsy6ejglack3x7ygxl7m5\r\n$ du -sh x86_64-pc-linux-gnu/bin/\r\n190M\tx86_64-pc-linux-gnu/bin/\r\n$ ls x86_64-pc-linux-gnu/bin/\r\nar  as\tdlltool  ld  ld.bfd  ld.gold  nm  objcopy  objdump  ranlib  readelf  strip\r\n$ ls bin/\r\naddr2line  ar  as  c++filt  coffdump  dlltool  dllwrap\tdwp  elfedit  gprof  ld  ld.bfd  ld.gold  nm  objcopy  objdump\tranlib\treadelf  size  srconv  strings\tstrip  sysdump\twindmc\twindres\r\n$ du -sh bin/\r\n262M\tbin/\r\n$ for f in x86_64-pc-linux-gnu/bin/*; do diff \"bin/$(basename $f)\" \"$f\"; done\r\n$\r\n```\r\n\r\nSome binaries are for more than 95% debuginfo:\r\n\r\n```\r\n$ cd bin\r\n$ du -sh ld.gold \r\n131M\tld.gold\r\n$ ./strip --strip-all ld.gold \r\n$ du -sh ld.gold \r\n5.2M\tld.gold\r\n```\r\n\r\n### Description\r\n\r\nBefore https://github.com/spack/spack/issues/9388 is a thing, should we just add a patch to drop the `-g` flag from binutils by default? I think #9388 is a bit difficult for the binutils package itself, since binutils provides the `strip` executable...\r\n\r\nFurther I can check why there's duplicate binaries being installed instead of just symlinks (or maybe we can just drop that x86_64-pc-linux-gnu folder).\r\n\r\n### General information\r\n\r\n```\r\n$ spack --version\r\n0.15.4-567-632032c02\r\n```",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/18120",
+    "updated_at": "2020-08-17 20:21:38",
+    "created_at": "2020-08-17 20:20:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Smaller binutils",
+    "number": 18120,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 680501821,
+    "html_url": "https://github.com/spack/spack/issues/18120",
+    "assignees": [],
+    "comments": 0
+}

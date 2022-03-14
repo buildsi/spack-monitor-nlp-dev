@@ -1,0 +1,20 @@
+{
+    "body": "I am new to spack :tada: and look for a build customization to use system's OpenCL instead of installing pocl.\r\nMy current configuration provides a package called `amd-opencl`, that concretises the virtual package `opencl` by pointing to system's installation of OpenCL (coming via ROCm). \r\nHowever, spack does not apply my configuration (spack parsed the packages.yaml though), but only shows `pocl`. \r\nSo what are the missing steps?\r\n\r\n```\r\n$ spack providers opencl\r\n    pocl\r\n```\r\n#### packages.yaml\r\n\r\n```yaml\r\n# /etc/spack/defaults/packages.yaml \r\npackages:\r\n  amd-opencl:\r\n    paths:\r\n      amd-opencl@2.0 arch=linux-ubuntu16.04-x86_64: /opt/rocm/opencl\r\n    buildable: False\r\n  all:\r\n    compiler: [gcc, intel, pgi, clang, xl, nag]\r\n    providers:\r\n<..snip..>\r\n      opencl: [amd-opencl]\r\n# or alternatively: /root/.spack/packages.yaml\r\npackages:\r\n  amd-opencl:\r\n    paths:\r\n      amd-opencl: /opt/rocm/opencl # with/without version/arch tried\r\n    buildable: False\r\n  all:\r\n    providers:\r\n      opencl: [amd-opencl]\r\n```\r\nI also have tried `spack clean -a`, `spack reindex` and also deleted the `.spack/cache`.\r\nspack reads the `packages.yaml` (when there is an error inside, spack stops install).\r\n```\r\n$ spack --version\r\n0.11.2\r\n\r\n$ ls /opt/rocm/opencl/*\r\n/opt/rocm/opencl/bin:\r\nx86_64\r\n\r\n/opt/rocm/opencl/include:\r\nCL  opencl-c.h\r\n\r\n/opt/rocm/opencl/lib:\r\nx86_64\r\n```\r\n\r\n#### spack compilers and mirrors\r\n\r\n<details>\r\n\r\n```\r\n$ less .spack/linux/compilers.yaml\r\ncompilers:\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: ubuntu16.04\r\n    paths:\r\n      cc: /usr/bin/gcc-5\r\n      cxx: /usr/bin/g++-5\r\n      f77: null\r\n      fc: null\r\n    spec: gcc@5.4.0\r\n    target: x86_64\r\n\r\n$ less .spack/linux/mirrors.yaml\r\nmirrors:\r\n  manual: file://~/.spack/manual_mirror\r\n  local_filesystem: file:///root/.spack/manual_mirror/\r\n```\r\n\r\n</details>\r\n\r\n#### spack find\r\n\r\n<details>\r\n\r\n```\r\n-- linux-ubuntu16.04-x86_64 / gcc@5.4.0 -------------------------\r\nbinutils@2.28\r\nbison@3.0.4\r\nboost@1.65.1\r\nbzip2@1.0.6\r\ncmake@3.9.4\r\nflex@2.6.4\r\ngettext@0.19.8.1\r\nhelp2man@1.47.4\r\nhwloc@1.11.8\r\nlibedit@3.1-20170329\r\nlibelf@0.8.13\r\nlibpciaccess@0.13.5\r\nlibsigsegv@2.11\r\nlibtool@2.4.6\r\nlibxml2@2.9.4\r\nllvm@4.0.1\r\nm4@1.4.18\r\nncurses@6.0\r\nopenssl@1.0.2k\r\npcre@8.40\r\npkg-config@0.29.2\r\npy-appdirs@1.4.3\r\npy-lit@0.5.0\r\npy-packaging@16.8\r\npy-pyparsing@2.2.0\r\npy-setuptools@35.0.2\r\npy-six@1.10.0\r\npython@2.7.14\r\nreadline@7.0\r\nsqlite@3.20.0\r\nswig@3.0.12\r\ntar@1.29\r\ntcl@8.6.6\r\nutil-macros@1.19.1\r\nxz@5.2.3\r\nzlib@1.2.11\r\n```\r\n\r\n</details>\r\n\r\n#### OpenCL version:\r\n```\r\n$ /opt/rocm/opencl/bin/x86_64/clinfo | grep -i Version\r\n  Platform Version:                              OpenCL 2.1 AMD-APP.internal (2574.0)\r\n  Device OpenCL C version:                       OpenCL C 2.0 \r\n  Driver version:                                2574.0 (HSA1.1,LC)\r\n  Version:                                       OpenCL 1.2\r\n```\r\n\r\nEdit: relates to #7460",
+    "user": "tdd11235813",
+    "url": "https://api.github.com/repos/spack/spack/issues/9185",
+    "updated_at": "2020-06-27 20:39:39",
+    "created_at": "2018-09-06 19:45:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "packages.yaml / spack ignores external OpenCL, only provides pocl",
+    "number": 9185,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "opencl"
+    ],
+    "id": 357799107,
+    "html_url": "https://github.com/spack/spack/issues/9185",
+    "assignees": [],
+    "comments": 7
+}

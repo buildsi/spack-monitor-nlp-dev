@@ -1,0 +1,22 @@
+{
+    "body": "This is mainly a feature request with an example of how it can be implemented. I will write tests and update the documentation if there is a decision that this is the way to go.\r\n\r\nThere are at least two cases when the existing `conflicts` directive is not expressive enough:\r\n1. There are packages (e.g. Linux kernel modules) that must be built with `%gcc`. A way to express this restriction is to specify multiple `conflicts` directives:\r\n    https://github.com/spack/spack/blob/3364e5550ffa7f4af1728ae3b97d2be5781041a3/var/spack/repos/builtin/packages/knem/package.py#L45-L49\r\n    This PR introduces the following alternative:\r\n    ```python\r\n    requires('%gcc', msg='Linux kernel module must be compiled with gcc')\r\n    ```\r\n    ```console\r\n    $ spack spec somepackage%intel\r\n    ==> Error: Conflicts in concretized spec ...\r\n    ...\r\n    1. \"somepackage\" requires \"%gcc\" [Linux kernel module must be compiled with gcc]\r\n    ```\r\n2. Say, we have a package with two variants:\r\n    ```python\r\n    variant('var1', default=False)\r\n    variant('var2', multi=True, default='none', values=('none', 'A', 'B', 'C', 'D'))\r\n    ```\r\n    It looks like there is currently no way to specify a conflict `+var1` when `'B' not in var2`. I asked about this in Slack and @becker33 suggested this:\r\n    ```python\r\n    var2_options_no_enable_var1 = ('A', 'C', 'D')\r\n    combinations = itertools.chain.from_iterable(itertools.combinations(var2_options_no_enable_var1, r) for r in range(len(var2_options_no_enable_var1) + 1))\r\n    conflict_variants = map(lambda x: 'none' if not x else ','.join(x), combinations)\r\n    for var in conflict_variants:\r\n        conflicts(+var2, when=var)\r\n    ```\r\n    The code doesn't work for me as is, so I did not manage to test this solution:\r\n    ```console\r\n    ==> Error: name 'var2_options_no_enable_var1' is not defined\r\n    ```\r\n    Anyway, the alternative could be:\r\n    ```python\r\n    requires('var2=B', when='+var1')\r\n    ```\r\n    ```console\r\n    $ spack spec somepackage+var1\r\n    ==> Error: Conflicts in concretized spec ...\r\n    ...\r\n    1. \"somepackage+var1\" requires \"var2=B\"\r\n    ```",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/21765",
+    "updated_at": "2021-03-04 15:40:42",
+    "created_at": "2021-02-18 18:23:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[WIP] Introduce directive 'requires' (negative 'conflicts')",
+    "number": 21765,
+    "milestone": null,
+    "labels": [
+        "directives",
+        "requires"
+    ],
+    "id": 811349529,
+    "html_url": "https://github.com/spack/spack/pull/21765",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

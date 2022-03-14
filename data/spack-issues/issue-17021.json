@@ -1,0 +1,19 @@
+{
+    "body": "I have started building the next release of the software lib for our cluster using Spack, making much use of environments to specify package versions/variants, etc.  (I use environments to allow different settings for different compilers, etc).\r\n\r\nEvery one in a while, something happens and spack commands within a specific environment all start returning a cryptic error message.  Something like\r\nError: 'ghqdq26iqo52apxr2slpyqjirhpju42w'\r\nI get this error from most any command, e.g. spack --env gcc840 find, on the environment in question (commands pointing to other environments seem to work OK).\r\nI.e., no error message except for what appears to be a hash.  \r\nThe \"hash\" value is constant through the incident, and does not match the (normal) hashes for any installed packages (e.g. the hashes from spack find -L).\r\n\r\nI am not sure what triggers the issue --- it seems to happen more frequently after something is uninstalled, but not always, and perhaps is related to changing package settings in the environments spack.yaml.\r\n\r\nIn the past, I discovered I could fix the \"issue\" by deleting and recreating/repopulating the environment, but that seems extreme.\r\n\r\nI recently noticed that the hash corresponds to something in the environments spack.lock file.  Moreover, that if I delete the spack.lock file and then issue a \"spack --env gcc840 concretize\" command, it appears to fix the problem.\r\n\r\n1) Is it safe to delete the spack.lock file for an environment?\r\n2) Is there a better solution to this problem?\r\n3) What does this error mean?  Can the error message be improved?",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/17021",
+    "updated_at": "2020-06-10 06:37:19",
+    "created_at": "2020-06-09 17:39:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Questions re cryptic error message (like 'Error: ...some..hash') and spack.lock",
+    "number": 17021,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 635636641,
+    "html_url": "https://github.com/spack/spack/issues/17021",
+    "assignees": [],
+    "comments": 0
+}

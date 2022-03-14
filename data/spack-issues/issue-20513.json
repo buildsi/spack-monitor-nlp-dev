@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\nTensorflow build on power9 (lassen.llnl) simply hangs (waited ~12 hours before canceling).\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install -v py-tensorflow@2.1.0~cuda~nccl\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n* **Spack:** 0.11.2-9807-5771441ec\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-power9le\r\n\r\n**Note:** There seems to be a bug in the version reported. I am working off of v0.16.0. See the output of `git log`\r\n\r\n```\r\n5771441ec (Tue Dec 22 09:05:48 2020 -0800) | small fix in tensorflow package (HEAD -> fix/bazel+tf, origin/fix/bazel+tf) [Harsh Bhatia]\r\n0a1499ed3 (Wed Dec 16 01:24:59 2020 -0800) | fix bazel on power9 [Harsh Bhatia]\r\n77d9acb07 (Wed Nov 18 01:30:27 2020 -0800) | update CHANGELOG.md for v0.16.0 [Todd Gamblin]\r\n82383093e (Wed Nov 18 01:31:45 2020 -0800) | bump version number to 0.16.0 [Todd Gamblin]\r\n532fc40e9 (Wed Nov 18 13:21:55 2020 +0100) | clingo: add `master` branch version (#19958) [Massimiliano Culpo]\r\n20367e472 (Wed Nov 18 12:20:56 2020 +0100) | cmd: add `spack mark` command (#16662) [Michael Kuhn]\r\n77b2e578e (Wed Nov 18 02:39:02 2020 -0800) | spack test (#15702) [Greg Becker]\r\n```\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\nThe installation hangs at this point. Here, I reproduced the issue and interrupted to grab the log.\r\n```\r\nINFO: Analyzed target //tensorflow/tools/pip_package:build_pip_package (303 packages loaded, 24805 targets configured).\r\nINFO: Found 1 target...\r\n\r\n==> Error: Failed to install py-tensorflow due to KeyboardInterrupt:\r\n==> Error: Exception occurred in writer daemon!\r\nTraceback (most recent call last):\r\n  File \"/usr/gapps/mummi/spack/lib/spack/llnl/util/tty/log.py\", line 742, in _writer_daemon\r\n    rlist, _, _ = _retry(select.select)(istreams, [], [], 1e-1)\r\n  File \"/usr/gapps/mummi/spack/lib/spack/llnl/util/tty/log.py\", line 825, in wrapped\r\n    return function(*args, **kwargs)\r\nKeyboardInterrupt\r\n\r\n==> Error: Keyboard interrupt.\r\n```\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/5731278/spack-build-out.txt)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/5731279/spack-build-env.txt) \r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n@adamjstewart \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "bhatiaharsh",
+    "url": "https://api.github.com/repos/spack/spack/issues/20513",
+    "updated_at": "2022-01-07 21:25:31",
+    "created_at": "2020-12-22 17:43:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: py-tensorflow@2.1 (power9)",
+    "number": 20513,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 773129148,
+    "html_url": "https://github.com/spack/spack/issues/20513",
+    "assignees": [
+        "aweits",
+        "adamjstewart"
+    ],
+    "comments": 0
+}

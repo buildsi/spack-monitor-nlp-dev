@@ -1,0 +1,24 @@
+{
+    "body": "Spack environment configs become unreachable with 'spack config edit' if the last edit creates an invalid YAML file. In my case, I commended out all of the specs in my environment, which left a dangling 'spec' key. I was able to write and quit the file without any linting; but when I tried to repoen it, I got an error and a trace.\r\n\r\n```\r\n# spack config edit\r\nTraceback (most recent call last):\r\n  File \"spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"spack/lib/spack/spack/main.py\", line 605, in main\r\n    env = ev.find_environment(args)\r\n  File \"spack/lib/spack/spack/environment.py\", line 182, in find_environment\r\n    return Environment(env)\r\n  File \"spack/lib/spack/spack/environment.py\", line 365, in __init__\r\n    self._read_manifest(f)\r\n  File \"spack/lib/spack/spack/environment.py\", line 377, in _read_manifest\r\n    self.yaml = _read_yaml(f)\r\n  File \"spack/lib/spack/spack/environment.py\", line 318, in _read_yaml\r\n    validate(data, filename)\r\n  File \"spack/lib/spack/spack/environment.py\", line 311, in validate\r\n    e, data, filename, e.instance.lc.line + 1)\r\nAttributeError: 'NoneType' object has no attribute 'lc'\r\n```\r\n\r\nLinting the config immediately after closing is a better idea in my opinion. Validating before opening prevents users from correcting mistakes.",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/10031",
+    "updated_at": "2022-03-10 10:29:39",
+    "created_at": "2018-12-05 21:50:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack env: unreachable config",
+    "number": 10031,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "proposal",
+        "impact-low",
+        "user-experience",
+        "environments"
+    ],
+    "id": 387961336,
+    "html_url": "https://github.com/spack/spack/issues/10031",
+    "assignees": [],
+    "comments": 2
+}

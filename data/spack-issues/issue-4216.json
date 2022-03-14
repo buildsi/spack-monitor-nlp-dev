@@ -1,0 +1,19 @@
+{
+    "body": "Is there a way to suppress spack replacing symbolic links in the paths with the actual paths?\r\n\r\nWe have a symbolic link from /arac to /arac1\r\nMy cwd is /arac/svn/spack/bin\r\n\r\n./spack install subversion\r\n==> Staging archive: /arac1/svn/spack/var/spack/stage/bzip2-1.0.6-qrd3gzlkqpof6jthkmt2vejxvmbd3x3s/bzip2-1.0.6.tar.gz\r\n==> Created stage in /arac1/svn/spack/var/spack/stage/bzip2-1.0.6-qrd3gzlkqpof6jthkmt2vejxvmbd3x3s\r\n==> Ran patch() for bzip2\r\n...\r\n\r\nThe problem is that spack has used rpath to set the paths in the svn binary to be /arac1/svn/...\r\nWe have a failover copy (/arac2) which we hope never to use, but if we ever change the symbolic\r\nlink /arac to point to /arac2, all the packages build with spack will fail.  Since we don't set RPATH or RUNPATH, and rely on the internal rpath's in the binaries to help us not manage RPATH/RUNPATH/LD_LIBRARY_PATH, the failover isn't going to work.  Other than our explicitly going through the packages and updating the rpath, is there any way to tell spack to just use the original cwd\r\nas opposed to replacing the symbolic links with the actual hard paths?\r\n\r\n",
+    "user": "RMShectman",
+    "url": "https://api.github.com/repos/spack/spack/issues/4216",
+    "updated_at": "2017-05-11 19:08:14",
+    "created_at": "2017-05-11 18:58:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Symbolic paths in spack path replaced with actual paths",
+    "number": 4216,
+    "milestone": null,
+    "labels": [
+        "rpath"
+    ],
+    "id": 228088809,
+    "html_url": "https://github.com/spack/spack/issues/4216",
+    "assignees": [],
+    "comments": 0
+}

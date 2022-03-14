@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nSpack requires an exact match in `matrix` `exclude` or it will exclude all spec for the given package.\r\n\r\n### Steps to reproduce the issue\r\n\r\nenvironment:\r\n```yaml\r\nspack:\r\n  concretization: separately\r\n  view: false\r\n  definitions:\r\n  - compilers: ['%gcc@8.1.0', '%gcc@8.3.1', '%clang@10.0.0']\r\n  - packages:\r\n    - ncurses@6.2 ^pkg-config@0.28\r\n  specs:\r\n  - matrix:\r\n    - [$packages]\r\n    - [$compilers]\r\n    exclude:\r\n    - ncurses@6.2 %clang@10.0.0\r\n```\r\n\r\nHere the concretization will show nothing... all the specs for `ncurses` are excluded even though they use a different compiler.\r\n\r\nTo fix this, it is enough to exclude the exact match `ncurses@6.2 ^pkg-config@0.28 %clang@10.0.0`.\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n* **Spack:** 0.16.1-2608-1ae28f66c6\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-broadwell\r\n* **Concretizer:** original\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "adrienbernede",
+    "url": "https://api.github.com/repos/spack/spack/issues/23598",
+    "updated_at": "2021-05-13 09:38:28",
+    "created_at": "2021-05-12 18:27:56",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environments: exact match required in matrix exclude or will exclude all",
+    "number": 23598,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low",
+        "radiuss"
+    ],
+    "id": 890372337,
+    "html_url": "https://github.com/spack/spack/issues/23598",
+    "assignees": [
+        "adrienbernede"
+    ],
+    "comments": 0
+}

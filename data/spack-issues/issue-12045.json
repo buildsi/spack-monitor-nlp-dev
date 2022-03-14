@@ -1,0 +1,20 @@
+{
+    "body": "I'm having difficulty building older versions of Trilinos due to a cmake configuration error (see output below).  To reproduce simply leave the default variants and specify downrev versions.  @aprokop, @keitat would you mind commenting about this as well?\r\n\r\n---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install trilinos@12.10.1\r\n$ spack install trilinos@12.8.1\r\n$ spack install trilinos@12.6.4    # etc.\r\n==> Checking dependencies for trilinos@12.x.y for x <= 10\r\n.\r\n.\r\n.\r\n1 error found in build log:\r\n     99     -- Setting Trilinos_ENABLE_PanzerDofMgr=OFF because PanzerDofMgr ha\r\n            s a required library dependence on disabled package Shards\r\n     100    -- Setting ML_ENABLE_Isorropia=OFF because ML has an optional libra\r\n            ry dependence on disabled package Isorropia\r\n     101    -- Setting MueLu_ENABLE_Isorropia=OFF because MueLu has an optional\r\n             library dependence on disabled package Isorropia\r\n     102    -- Setting Ifpack2_ENABLE_ShyLUHTS=OFF because Ifpack2 has an optio\r\n            nal library dependence on disabled package ShyLUHTS\r\n     103    -- Setting Amesos2_ENABLE_ShyLUBasker=OFF because Amesos2 has an op\r\n            tional library dependence on disabled package ShyLUBasker\r\n     104    -- Setting Ifpack2_ENABLE_ShyLUBasker=OFF because Ifpack2 has an op\r\n            tional library dependence on disabled package ShyLUBasker\r\n  >> 105    CMake Error at cmake/tribits/core/package_arch/TribitsAdjustPackage\r\n            Enables.cmake:1087 (MESSAGE):\r\n     106       ***\r\n     107       *** ERROR: Setting Trilinos_ENABLE_SEACAS=OFF which was 'ON' bec\r\n            ause SEACAS has a required library dependence on disabled package S\r\n            EACASChaco!\r\n     108       ***\r\n     109    \r\n     110    Call Stack (most recent call first):\r\n     111      cmake/tribits/core/package_arch/TribitsAdjustPackageEnables.cmake\r\n            :1169 (TRIBITS_PRIVATE_PRINT_DISABLE)\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux lap-fey.lanl.gov 3.10.0-957.10.1.el7.x86_64 #1 SMP Mon Mar 18 15:06:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    CentOS Linux release 7.6.1810 (Core)\r\n``` ",
+    "user": "DarylGrunau",
+    "url": "https://api.github.com/repos/spack/spack/issues/12045",
+    "updated_at": "2021-09-29 15:27:06",
+    "created_at": "2019-07-17 14:41:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: trilinos <= 12.10.1 fails cmake phase",
+    "number": 12045,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "impact-low"
+    ],
+    "id": 469256591,
+    "html_url": "https://github.com/spack/spack/issues/12045",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,17 @@
+{
+    "body": "We recently started seeing what appears to be a conflict between spack processes of a user on the same host when they are building the same package.  This occurs in our CI system a lot.  The common stage directory will have the same directory name for a package's staged files so that when one process deletes the stage directory, it breaks the second process's build.  This occurs even when using separate spack installs. I'm going to be looking into a workaround by setting a custom stage directory, but I think the default should be to have a stage directory that is unique to the spack install. Thoughts?\r\n\r\nReproducing: Create two spack installs on the same host and run \"spack install xz\" on each at the same time.  You'll get various errors due to the conflict.\r\n\r\nIf it is agreed that a unique stage directory is desirable, I'm happy to create the patch.\r\n\r\nAlternatively, the locking functionality could be slightly extended to work across separate spack installs (on the same system).",
+    "user": "G-Ragghianti",
+    "url": "https://api.github.com/repos/spack/spack/issues/22386",
+    "updated_at": "2021-03-26 15:48:32",
+    "created_at": "2021-03-18 17:43:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Conflict between processes sharing common stage directory",
+    "number": 22386,
+    "milestone": null,
+    "labels": [],
+    "id": 835091678,
+    "html_url": "https://github.com/spack/spack/issues/22386",
+    "assignees": [],
+    "comments": 11
+}

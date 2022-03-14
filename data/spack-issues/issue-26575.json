@@ -1,0 +1,23 @@
+{
+    "body": "Background:\r\n\r\nWhen python packages are built using `spack install --test=[root|all]`,\r\nthe python build_system's test() function checks importing the modules\r\ninstalled by the built package.\r\n\r\nTo see the actual error, spack `install --test=[root|all] --verbose`\r\nhad to be used.\r\n\r\nBecause `run_tests()` tries to add the error to the `test_log_file`\r\nwhich failed because it was not set, test() terminated after the\r\nfirst error by raising the `AttributeError` exception.\r\n\r\nThis improved with `b6169c` after which the `Attribute` exception\r\nis no longer catched by the test callback handler, terminating spack\r\nwith an exception when such exception occurs.\r\n\r\nImplementation of this patch:\r\n\r\nFix this by preparing and finishing the calls to run_tests() like\r\nlib/spack/spack/package.py does for running stand-alone tests:\r\n\r\nDefine and create the expected self.test_log_file and initialize\r\nself.failed_tests which run_test() expects for saving test failures.\r\n\r\nAfter all python import tests completed, if there are tests failures,\r\nraise TestFailure(), showing the log of all failed import checks\r\nand adding the indication that tests of that package failed.\r\n\r\nAs of this commit, the package py-hypothesis is a good test case:\r\nIt has two import check failures which are shown by this commit on\r\n`spack install --test=root py-hypothesis`",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/26575",
+    "updated_at": "2021-10-07 23:52:34",
+    "created_at": "2021-10-07 12:29:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "build_systems/python.py: Fix handling of python import checks",
+    "number": 26575,
+    "milestone": null,
+    "labels": [
+        "python",
+        "build-systems",
+        "stand-alone-tests"
+    ],
+    "id": 1019987841,
+    "html_url": "https://github.com/spack/spack/pull/26575",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 10
+}

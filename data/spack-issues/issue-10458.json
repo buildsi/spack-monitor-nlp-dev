@@ -1,0 +1,19 @@
+{
+    "body": "`winegcc` uses the compiler spack used at time of build, so it doesn't work as a standalone compiler after the build\r\n\r\n### Steps to reproduce the issue\r\n\r\nUse the wine recipe at https://github.com/spack/spack/issues/10056\r\n\r\n```console\r\n$ spack install wine\r\n$ spack load wine\r\n$ winegcc\r\nSpack compiler must be run from Spack! Input 'SPACK_ENV_PATH' is missing.\r\nwinegcc: $SPACK_ROOT/lib/spack/env/gcc/g++ failed\r\n```\r\n\r\nAfter a brief search of wine's build documentation, I don't think they provide an option to use one compiler for building wine, and a different one for `winegcc` afterwards.\r\n\r\nIs there a way of getting all of the spack compiler environment variables at recipe time? I think a wrapper around winegcc/wineg++ that sets those would be the easiest solution here.",
+    "user": "mcneish1",
+    "url": "https://api.github.com/repos/spack/spack/issues/10458",
+    "updated_at": "2019-01-28 21:41:08",
+    "created_at": "2019-01-28 21:04:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[Wine] winegcc/wineg++ built with spack require spack compiler environment variables",
+    "number": 10458,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 404006342,
+    "html_url": "https://github.com/spack/spack/issues/10458",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,22 @@
+{
+    "body": "This one definitely falls under \"user error,\" but it would be nice to warn users or avoid if possible.\r\n\r\nOn my home system I'm exclusively using Spack, heavily using environments. I did the following\r\n\r\n```console\r\nspack install gcc@8.3.0\r\nspack env create dogs\r\nspack env activate dogs\r\nspack install gcc@8.3.0 [bunch of packages]%gcc@8.3.0\r\n```\r\n\r\nOh, but gcc@8.3.0 isn't in my compilers.yaml yet. I'll\r\n\r\n```console\r\nspack compiler find\r\n```\r\n\r\nThis adds gcc@8.3.0 as being `/path/to/my/environment/view/bin/gcc`\r\n\r\nLater when I delete the env, that symlink has evaporated, and all of my Spack suddenly can't find gcc@8.3.0, which is a little counterintuitive, the deletion of an environment completely hosing a Spack install\r\n\r\nThere are three things here\r\n\r\n1) Should spack be finding the environment's symlink when it's adding something to a global compilers.yaml?\r\n2) Environments have clever \"reference counting\" semantics for packages, only uninstalling them when no environment uses a package. Should the presence of a package in a user's `compilers.yaml` increase its reference count?\r\n3) What are the guard rails that should be in place to avoid users aiming guns at their feet w.r.t. the intersection between Spack configs (which are in some sense global) and environments (which are in some sense local)?\r\n\r\nThat's the bug report, the rest of this is just thoughts on potential answers.\r\n\r\nI can see both sides on (1), but lean towards a policy that environment-local things shouldn't pollute spack-global things, so we shouldn't add artifacts of an environment to a spack-global config (where spack-global config means something in ~/.spack/.../*.yaml). (2) is really interesting, on the one hand we should almost certainly say presence in a compilers.yaml at least informs the reference count so we warn people, on the other hand it completely fails in cases where Cyrus does something like have a directory of config files which always get passed to Spack with `-C`, but aren't in the config files Spack persistently knows about. I don't like one set of config files having magic semantics that the others don't (except I kinda do because I don't want my compilers to get deleted).\r\n\r\nI think my cleanest answer on (3) is that `spack install [compiler package]` might add `[compiler package]` to your compilers.yaml. That way the first time I install gcc globally, it's in my compilers.yaml, and we don't have the opportunity to add one from an environment. My minimal answer is that if I'm ever adding something to a spack-global config from an environment I warn, and maybe ask whether they want to use the non-environment install.\r\n\r\nOtherwise Spack \"Just Works[TM]\" for a home system, which is pretty great. ",
+    "user": "DavidPoliakoff",
+    "url": "https://api.github.com/repos/spack/spack/issues/13506",
+    "updated_at": "2020-03-03 12:13:19",
+    "created_at": "2019-10-30 13:47:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack finding compilers from an environment",
+    "number": 13506,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "environments",
+        "triage"
+    ],
+    "id": 514683037,
+    "html_url": "https://github.com/spack/spack/issues/13506",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nIt would be useful on OLCF machines to be able to configure the max number of processes used to solve an environment.\r\n\r\nCurrently, spack chooses a maximum number of processing threads that is [the lesser of the number of specs to solve or 16](https://github.com/spack/spack/blob/develop/lib/spack/spack/environment/environment.py#L1211-L1214). On OLCF resource login nodes, our admins use cgroup rules to limit the amount of memory and process walltime any individual user can consume. When Spack defaults to using 16 process, it is often possible for the 16 clingo solver threads to consume more memory than is available to a user under cgroup limitations. This causes the solver threads to be violently killed and hangs spack in the concretization phase.\r\n\r\nRather than changing https://github.com/spack/spack/blob/develop/lib/spack/spack/environment/environment.py#L1211-L1214 to a lower fixed upper limit literal in our local forks of spack, I would propose that the max threads used when solving an environment adopt the same upper limit value as `spack.config.build_jobs`.  We generally already set `build_jobs` to a lower value than 16 (or even the available number of CPUs) to avoid exceeding cgroup memory limitations. However, a separate, new configuration value would also be acceptable for our purposes.\n\n### Rationale\n\n_No response_\n\n### Description\n\n_No response_\n\n### Additional information\n\n```\r\n$ spack --version  \r\n0.17.1-1474-ef75fe153b\r\n```\r\n\r\nPossibly related to:\r\n- https://github.com/spack/spack/issues/27865\r\n- https://github.com/spack/spack/issues/17598\r\n- https://github.com/spack/spack/issues/11072\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mpbelhorn",
+    "url": "https://api.github.com/repos/spack/spack/issues/29464",
+    "updated_at": "2022-03-11 17:19:21",
+    "created_at": "2022-03-11 17:19:21",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add ability to configure the default max_processes upper limit value without locally patching spack",
+    "number": 29464,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1166668491,
+    "html_url": "https://github.com/spack/spack/issues/29464",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\nHey there,\r\n\r\nMy team and I are having some issues with RPATH and loading modules since the introduction of the new nvhpc compiler.\r\nOur usual workflow (and one we'd like to keep if possible) is the following:\r\n\r\n1) spack install pckg\r\n2) spack load pck\r\n3) sbatch submit.pckg\r\n\r\nProblem is some of our dependencies modules overload the RPATH with some RUNPATH and this makes the exectuable of our package not able of finding all the nvhpc's compiler library paths required. (e.g the /opt/nvidia/hpc_sdk/Linux_x86_64/_version_/compilers/lib ). If one looks at the nvhpc spack package and especially at its run_setup_environement method, it seems that the LD_LIBRARY_PATH should be set correctly when using spack load. It seems to me though that the only explaination for this is that compilers are usually not considered as dependencies and especially not as _run_ dependencies.\r\n\r\nAs said if possible, we'd like to stay with this workflow, although we already thought of replacing the spack load command with spack test-env for example. If any simpler solution, please don't hesitate to tell us.\r\n\r\nThanks a lot in advance for any answers, \r\n\r\nElsa Germann for C2SM\r\n\r\n\r\n\r\n### Rationale\r\n\r\n_No response_\r\n\r\n### Description\r\n\r\nWould it be possible to consider the package of a compiler as a run dependency of any package using this compiler?\r\n\r\n### Additional information\r\n\r\nspack --version\r\n0.17.0\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "elsagermann",
+    "url": "https://api.github.com/repos/spack/spack/issues/29182",
+    "updated_at": "2022-02-24 15:00:23",
+    "created_at": "2022-02-24 13:59:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack load doesn't treat compiler as run dependency",
+    "number": 29182,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1149323373,
+    "html_url": "https://github.com/spack/spack/issues/29182",
+    "assignees": [],
+    "comments": 1
+}

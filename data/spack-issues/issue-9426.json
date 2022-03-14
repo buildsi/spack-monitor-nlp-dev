@@ -1,0 +1,19 @@
+{
+    "body": "So, I tried to do the basic build, right out of the box, \r\non a Power8 running RHEL 7.5.  Here's what happened:\r\n\r\n[fossum@fstgbfen1 ~]$ pwd\r\n/home/fossum\r\n[fossum@fstgbfen1 ~]$ ls\r\nspack  spack.bak\r\n[fossum@fstgbfen1 ~]$ mv spack spack.bak2\r\n[fossum@fstgbfen1 ~]$ git clone https://github.com/spack/spack.git \r\nCloning into 'spack'...\r\nremote: Enumerating objects: 198, done.\r\nremote: Counting objects: 100% (198/198), done.\r\nremote: Compressing objects: 100% (114/114), done.\r\nremote: Total 125785 (delta 92), reused 145 (delta 61), pack-reused 125587\r\nReceiving objects: 100% (125785/125785), 43.78 MiB | 9.62 MiB/s, done.\r\nResolving deltas: 100% (60934/60934), done.\r\nChecking out files: 100% (4132/4132), done.\r\n[fossum@fstgbfen1 ~]$ cd /home/fossum/spack/share/spack/docs/docker/module-file-tutorial/\r\n[fossum@fstgbfen1 module-file-tutorial]$ docker build -t spack .\r\nSending build context to Docker daemon   5.12kB\r\nStep 1/11 : FROM ubuntu:16.04\r\n ---> 804ccda6a816\r\nStep 2/11 : ENV DEBIAN_FRONTEND=noninteractive     SPACK_ROOT=/usr/local     FORCE_UNSAFE_CONFIGURE=1\r\n ---> Using cache\r\n ---> 6a4aaa248b31\r\nStep 3/11 : RUN apt-get update     && apt-get install -y --no-install-recommends        autoconf        build-essential        ca-certificates        coreutils        curl man less        emacs-nox vim nano        git        openmpi-bin openmpi-common libopenmpi-dev        python        unzip     &&  rm -rf /var/lib/apt/lists/*\r\n ---> Using cache\r\n ---> 64ae97852446\r\nStep 4/11 : COPY spack.sh /etc/profile\r\n ---> Using cache\r\n ---> 4b5d523d0dad\r\nStep 5/11 : RUN curl -s -L https://api.github.com/repos/spack/spack/tarball/develop     | tar xzC $SPACK_ROOT --strip 1\r\n ---> Using cache\r\n ---> 5df4eb078e46\r\nStep 6/11 : COPY packages.yaml $SPACK_ROOT/etc/spack/\r\n ---> Using cache\r\n ---> c0f6f3bb1dcb\r\nStep 7/11 : RUN spack install lmod && spack clean -a\r\n ---> Running in b77ae3728e81\r\n==> Installing pkgconf\r\ncurl: (6) Could not resolve host: distfiles.alpinelinux.org\r\n==> Fetching http://distfiles.alpinelinux.org/distfiles/pkgconf-1.4.2.tar.xz\r\n==> Fetching from http://distfiles.alpinelinux.org/distfiles/pkgconf-1.4.2.tar.xz failed.\r\n==> Error: FetchError: All fetchers failed for pkgconf-1.4.2-p3z3bnysdmthqvba3kt5dvks6fwvuqtk\r\n\r\n/usr/local/lib/spack/spack/package.py:934, in do_fetch:\r\n        931                raise FetchError(\"Will not fetch %s\" %\r\n        932                                 self.spec.format('$_$@'), ck_msg)\r\n        933\r\n  >>    934        self.stage.create()\r\n        935        self.stage.fetch(mirror_only)\r\n        936        self._fetch_time = time.time() - start_time\r\n        937\r\n\r\n\r\nThe command '/bin/sh -c spack install lmod && spack clean -a' returned a non-zero code: 1\r\n[fossum@fstgbfen1 module-file-tutorial]$ pwd\r\n/home/fossum/spack/share/spack/docs/docker/module-file-tutorial\r\n[fossum@fstgbfen1 module-file-tutorial]$\r\n\r\nOur sysadmin wanted to share this as well:\r\n\r\n[root@fstgbfen1 ~]# uname -r; cat /etc/system-release\r\n4.11.0-44.el7a.ppc64le\r\nRed Hat Enterprise Linux Server release 7.5 (Maipo)\r\n",
+    "user": "austinpagan",
+    "url": "https://api.github.com/repos/spack/spack/issues/9426",
+    "updated_at": "2020-01-15 08:55:16",
+    "created_at": "2018-10-03 18:07:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "'spack install lmod' fails because of config.guess",
+    "number": 9426,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 366461017,
+    "html_url": "https://github.com/spack/spack/issues/9426",
+    "assignees": [],
+    "comments": 4
+}

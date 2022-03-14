@@ -1,0 +1,20 @@
+{
+    "body": "spack install pfft fails with the following:\r\n~~~\r\n==> No patches needed for pfft\r\n==> Building pfft [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j8'\r\n\r\n5 errors found in build log:\r\n     658    libtool: link: ar cru .libs/libapi.a .libs/api-basic.o .libs/api-adv.o .libs/fortran-api.o .libs/f03-w\r\n            rap.o\r\n     659    libtool: link: ranlib .libs/libapi.a\r\n     660    libtool: link: ( cd \".libs\" && rm -f \"libapi.la\" && ln -s \"../libapi.la\" \"libapi.la\" )\r\n     661    Making all in .\r\n     662    /bin/sh ./libtool  --tag=CC   --mode=link /Applications/deal.II-9.1.0.app/Contents/Resources/spack/lib\r\n            /spack/env/clang/clang  -O3 -fomit-frame-pointer -fPIC -malign-double -fstrict-aliasing -ffast-math -m\r\n            arch=core2 -mtune=core2   -no-undefined -version-info 0:0:0  -o libpfft.la -rpath /Applications/deal.I\r\n            I-9.1.0.app/Contents/Resources/spack/opt/spack/darwin-highsierra-x86_64/clang-6.0.0/pfft-1.0.8-alpha-6\r\n            bbo3t7q5ltk7mjmrx7tzli5rc77funk/lib  kernel/libkernel.la util/libutil.la api/libapi.la gcell/libgcell.\r\n            la -lmpi\r\n     663    libtool: link: /Applications/deal.II-9.1.0.app/Contents/Resources/spack/lib/spack/env/clang/clang -dyn\r\n            amiclib  -o .libs/libpfft.0.dylib   -Wl,-force_load,kernel/.libs/libkernel.a -Wl,-force_load,util/.lib\r\n            s/libutil.a -Wl,-force_load,api/.libs/libapi.a -Wl,-force_load,gcell/.libs/libgcell.a  -lmpi  -O3 -mal\r\n            ign-double -march=core2 -mtune=core2   -install_name  /Applications/deal.II-9.1.0.app/Contents/Resourc\r\n            es/spack/opt/spack/darwin-highsierra-x86_64/clang-6.0.0/pfft-1.0.8-alpha-6bbo3t7q5ltk7mjmrx7tzli5rc77f\r\n            unk/lib/libpfft.0.dylib -compatibility_version 1 -current_version 1.0 -Wl,-single_module\r\n  >> 664    Undefined symbols for architecture x86_64:\r\n     665      \"_fftw_alloc_complex\", referenced from:\r\n     666          _pfft_alloc_complex in libkernel.a(malloc.o)\r\n     667      \"_fftw_alloc_real\", referenced from:\r\n     668          _pfft_alloc_real in libkernel.a(malloc.o)\r\n     669      \"_fftw_destroy_plan\", referenced from:\r\n     670          _pfft_plan_sertrafo in libkernel.a(sertrafo.o)\r\n\r\n     ...\r\n\r\n     706      \"_fftw_plan_guru64_dft_r2c\", referenced from:\r\n     707          _plan_trafo in libkernel.a(sertrafo.o)\r\n     708      \"_fftw_plan_guru64_r2r\", referenced from:\r\n     709          _plan_remap in libkernel.a(sertrafo.o)\r\n     710          _plan_trafo in libkernel.a(sertrafo.o)\r\n     711    ld: symbol(s) not found for architecture x86_64\r\n  >> 712    clang-6.0: error: linker command failed with exit code 1 (use -v to see invocation)\r\n  >> 713    make[2]: *** [libpfft.la] Error 1\r\n  >> 714    make[1]: *** [all-recursive] Error 1\r\n  >> 715    make: *** [all] Error 2\r\n~~~\r\n\r\nI'm not an expert with auto-tools, but it looks to me that `libtool` is missing fftw flags. If I compile manually, by *tricking* libtools in this way:\r\n\r\n~~~\r\nCC='clang -lfftw3_mpi  -lfftw3_threads -lfftw3' ./configure; make -j4;\r\n~~~\r\ncompilation and linking goes through. \r\n\r\nWhere is the right place to fix this? Notice that on some linux machines things work out of the box, but I have one linux box (with a custom distribution based on centos) where I see the same issue.",
+    "user": "luca-heltai",
+    "url": "https://api.github.com/repos/spack/spack/issues/8314",
+    "updated_at": "2022-03-10 09:46:16",
+    "created_at": "2018-05-30 09:01:57",
+    "closed_at": "None",
+    "state": "open",
+    "title": "pfft compile issue on mac",
+    "number": 8314,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 327637660,
+    "html_url": "https://github.com/spack/spack/issues/8314",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Provide the ability to reference named dictionaries/lists/etc when specifying specs for inclusion in views.\r\n\r\n### Rationale\r\n\r\nWhen building out a large environment using the Spack Stacks capability, having these lists defined in a central named structure allows for consistency across several places that it can be useful (defining the overall spec as well as the views in which they will be found).\r\n\r\n### Description\r\n\r\n```yaml\r\nspack:\r\n  ...\r\n  view:\r\n    # Should be portable across all systems?\r\n    common:\r\n      root: /install/location/common\r\n      select: $base_packages\r\n      projections:\r\n        all: \"{name}/{version}\"\r\n    toss:\r\n      root: /install/location/toss\r\n      select: $2019Q4-toolchain-compiler\r\n      projections:\r\n        all: \"{name}/{version}\"\r\n```\r\n\r\nIn the above snippet, 'base_packages' and '2019Q4-toolchain-compiler' are lists including fully defined specs for the products that should be installed and placed in these respective views.  Instead of this, which is the desired format, a copy of the contents of those variables must be placed underneath the 'select' key.",
+    "user": "nicholas-sly",
+    "url": "https://api.github.com/repos/spack/spack/issues/13409",
+    "updated_at": "2019-10-28 14:32:18",
+    "created_at": "2019-10-23 23:06:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Variable expansion in package lists for view definitions",
+    "number": 13409,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "triage"
+    ],
+    "id": 511616826,
+    "html_url": "https://github.com/spack/spack/issues/13409",
+    "assignees": [],
+    "comments": 0
+}

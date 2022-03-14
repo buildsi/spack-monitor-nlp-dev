@@ -1,0 +1,20 @@
+{
+    "body": "When trying to install ruby with spack, the installation fails, because the SSL certificate for the gems cannot be downloaded\r\n\r\n### Steps to reproduce the issue\r\n\r\n```\r\n$ spack install ruby\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\n==> Fetching https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/index.rubygems.org/GlobalSignRootCA.pem\r\n\r\ncurl: (22) The requested URL returned error: 404 Not Found\r\n==> Fetching from https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/index.rubygems.org/GlobalSignRootCA.pem failed.\r\n==> Error: FetchError: All fetchers failed for resource-rubygems-updated-ssl-cert-fcjtmhbrtxbtw6xb3yfv5z7zr66m6gvl\r\nFetchError: FetchError: All fetchers failed for resource-rubygems-updated-ssl-cert-fcjtmhbrtxbtw6xb3yfv5z7zr66m6gvl\r\n\r\n/cluster/apps/spack/lib/spack/spack/package.py:1028, in do_fetch:\r\n     25                                     self.spec.format('$_$@'), ck_msg)\r\n     26\r\n     27            self.stage.create()\r\n  >> 28            self.stage.fetch(mirror_only)\r\n     29            self._fetch_time = time.time() - start_time\r\n     30\r\n     31            if spack.do_checksum and self.version in self.versions:\r\n\r\n\r\n[spackapps@eu-a6-012-23 scripts]$ wget https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/index.rubygems.org/GlobalSignRootCA.pem\r\n--2021-05-06 14:37:33--  https://raw.githubusercontent.com/rubygems/rubygems/master/lib/rubygems/ssl_certs/index.rubygems.org/GlobalSignRootCA.pem\r\nResolving proxy.ethz.ch... 129.132.202.155\r\nConnecting to proxy.ethz.ch|129.132.202.155|:3128... connected.\r\nProxy request sent, awaiting response... 404 Not Found\r\n2021-05-06 14:37:33 ERROR 404: Not Found.\r\n```\r\n\r\n### Information on your system\r\n\r\n### Additional information\r\n",
+    "user": "samfux84",
+    "url": "https://api.github.com/repos/spack/spack/issues/23471",
+    "updated_at": "2021-05-06 12:42:22",
+    "created_at": "2021-05-06 12:42:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Ruby SSL certificate for gems: The requested URL returned error: 404 Not Found",
+    "number": 23471,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 877455779,
+    "html_url": "https://github.com/spack/spack/issues/23471",
+    "assignees": [],
+    "comments": 0
+}

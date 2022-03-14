@@ -1,0 +1,20 @@
+{
+    "body": "\r\n**TLDR** Below I am trying to make the point on a few bugs that led to many open discussions, but that in my opinion share the same common problems. I hope this will help in the analysis and that will start a discussion on how to solve them.\r\n\r\n--------\r\n\r\nThere are currently a lot of discussions on issues arising from:\r\n\r\n1. installing software from a repo\r\n2. changing or deleting the `package.py` for the software above\r\n3. manipulating the installation done at point 1.\r\n\r\nA list of such discussions is #2911, #3350, #3476, #3501, #3502 and I am pretty sure I still forget some.\r\n\r\nExamples of unwanted behaviors may vary from having errors like:\r\n```console\r\n$ spack module refresh --module-type lmod\r\n\r\n...\r\n  File \"/blues/gpfs/home/software/spack-0.10.0/lib/spack/spack/directory_layout.py\", line 42, in _check_concrete\r\n    raise ValueError('Specs passed to a DirectoryLayout must be concrete!')\r\nValueError: Specs passed to a DirectoryLayout must be concrete!\r\n```\r\nwhen trying to refresh module files to being unable to uninstall packages if in the meanwhile you deleted the corresponding `package.py` file.\r\n\r\n### What I think is the root cause of all the issues\r\n\r\nFrom what I can tell the root of these problems is **an inconsistent state of the spec object retrieved from the DB**. I'll try to clarify that.\r\n\r\nWhen doing something like:\r\n\r\n```python\r\nspecs = spack.store.db.query()\r\n```\r\n\r\nthe operations we are performing are:\r\n\r\n- reading the DB of installed specs\r\n- marking them concrete\r\n\r\nNote that installed specs are by definition concrete *if compared to the `package.py` files that were used when they were installed*. Now, suppose I have the following line of code:\r\n```python\r\npkg = specs[0].package\r\n```\r\nWhat I would expect for `pkg` is to be conforming with the state of things at the time I installed `specs[0]`. Inspecting the `Spec.package` property though:\r\n```python\r\n@property\r\ndef package(self):\r\n    return spack.repo.get(self)\r\n```\r\none can see that instead you get back **the current state of the package**. If in the meanwhile a variant was added, that variant will appear in `pkg`. If the package was deleted from the repo, the corresponding file will not be found. **This is in my opinion the core issue of all the above discussions**.\r\n\r\n### Things I find strange in the spec/package interactions\r\n\r\nOn top of the issue above, I also noticed a strange behavior in spec/package interaction that I first reported [here](https://github.com/LLNL/spack/issues/2911#issuecomment-274635426):\r\n```python\r\n# a is m4@1.4.18%gcc@4.8+sigsegv arch=linux-ubuntu14-x86_64 ^libsigsegv@2.10%gcc@4.8 arch=linux-ubuntu14-x86_64\r\na = specs[1]\r\na.concrete, a['libsigsegv'].concrete\r\nOut[3]: (True, True)\r\na = specs[1].package.spec\r\na.concrete, a['libsigsegv'].concrete\r\nOut[5]: (True, False)\r\n```\r\nI still think it's a bug, and probably it has to do with `Spec.copy` and its helper methods. Intuitively I would expect that:\r\n```python\r\nspec == spec.package.spec\r\nspec.package.spec == spec.package.spec.package.spec\r\n```\r\nbut apparently only the second line is always true, the first one is not. From what I can tell we need tests and fixes for this too, but I would like somebody else (@tgamblin, @becker33, @scheibelp) to confirm this.\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/3515",
+    "updated_at": "2017-03-22 18:22:49",
+    "created_at": "2017-03-22 12:50:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "On the interaction between DB and repositories",
+    "number": 3515,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "discussion"
+    ],
+    "id": 216050624,
+    "html_url": "https://github.com/spack/spack/issues/3515",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Description\r\n\r\nIt would be nice to support installing one spec (e.g. by hash) that already exists in a concrete environment, but is not currently installed.  This could be achieved by providing a `--no-add` cli option to `spack install`.  Here's how I'm thinking of it:\r\n\r\n- The `--no-add` option defaults to `False`, but if provided causes spack to install only specifically requested concrete specs and their dependencies, and not add any new specs to the environment.\r\n  * `spack install --no-add <specs>` fails if any specs provided do not already exist in the current concretized environment. \r\n- Just as without the `--no-add` option, specs can be provided to `spack install` as either cli specs (most likely as hashes) or concrete spec yaml file paths.\r\n- If no specs are provided, the `--no-add` option does not cause an error, but does not have any effect either, since `spack install` shouldn't add any new specs in a concretized spack environment anyway.\r\n\r\nIf you try this currently, spack fails when it does not find the spec/hash you provide in the install database.\r\n\r\n### Example Usage\r\n\r\nGet a concrete spack environment that was generated somewhere else, and install a single spec identified by hash (DAG hash in this case).  Assume we have the same compilers/os/arch on our current machine as were present wherever the `spack.lock` file was generated.\r\n\r\n```\r\n$ cd /tmp/test_spack_env\r\n$ unzip ~/Downloads/env.zip \r\n$ ls\r\nspack.lock  spack.yaml\r\n$ spack env activate -d $(pwd)        \r\n$ spack install /zhcbxzn\r\nchecking active environment for zhcbxzn\r\n\r\n==> Installing pkgconf-1.7.3-zhcbxznqu7xuml4o5lb5cqumkqqnrzdl\r\n\r\n$ spack find -l\r\n==> In environment /tmp/test_spack_env\r\n==> Root specs\r\n-- darwin-None-x86_64 / apple-clang@12.0.0 ----------------------\r\n------- vtk%apple-clang@12.0.0 ~mpi+osmesa  ------- vtk%apple-clang@12.0.0 +python\r\n\r\n==> 1 installed package\r\n-- darwin-catalina-x86_64 / apple-clang@12.0.0 ------------------\r\nzhcbxzn pkgconf@1.7.3\r\n```\r\n\r\n### Rationale\r\n\r\nThis change is a step toward easier reproduction of GitLab CI job failures outside the deployed cloud environment, by making it easier and more concise to identify a particular spec in an environment where specs are concretized separately (and thus, packages in the environment can have multiple concretizations).\r\n\r\n### Additional information\r\n\r\nIf this can be handled during spec parsing, the `--no-add` option could be possibly be used in other spack commands that work with concrete specs. \r\n\r\nThis seems closely related to #19085 which aims to do a similar thing for any buildcaches which spack knows about.\r\n\r\n### General information\r\n\r\n```\r\n$ spack --version\r\n0.16.1-1882-c7c60176fd\r\n```\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/22586",
+    "updated_at": "2021-03-29 16:33:06",
+    "created_at": "2021-03-26 22:55:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environments: Install a single (possibly non-root) spec and deps without adding any new specs",
+    "number": 22586,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 842345162,
+    "html_url": "https://github.com/spack/spack/issues/22586",
+    "assignees": [],
+    "comments": 1
+}

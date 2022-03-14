@@ -1,0 +1,21 @@
+{
+    "body": "`nvcc` only officially supports specific ranges of host compilers, with version ranges varied based on CUDA toolkit version. Currently, Spack does not consider these host compiler restrictions during concretization. This can result in cases where users go through a long build process, only to find out later on that the host compiler they are using is not supported by the CUDA toolkit version they've installed. \r\n\r\nThis PR introduces code into the CUDA package to add conflict statements to enforce host compiler dependencies based on CUDA version. To facilitate this, I've added a `_supported_compilers` dictionary that contains information on supported compilers based on CUDA version. I parsed this data directly from the `${CUDA_ROOT}/include/crt/host_config.h` header for each CUDA version listed (as old as 8.0). \r\n\r\nIt appears that the `conflicts` statement does not accept syntax like `conflicts('^%gcc@:10', when ='%gcc')` (i.e. conflicts with gcc versions greater than 10 when building with gcc). As a result, I had to add a helper function `invert_support_entry` to effectively perform this NOT operation, and then create `conflicts` using the inverted ranges. See the comment above the function for examples. If there is a better way to accomplish this without requiring this type of code, please let me know.\r\n\r\nWith these conflicts in place, the build will now error out during concretization. For example, trying to install CUDA 10.0 in a container with GCC 9 will now yield the following:\r\n```\r\n$ spack install cuda@10.0.130\r\n==> Error: Conflicts in concretized spec \"cuda@10.0.130%gcc@9.3.0~dev arch=linux-ubuntu20.04-broadwell/3flnvxz\"\r\nList of matching conflicts for spec:\r\n\r\n    cuda@10.0.130%gcc@9.3.0~dev arch=linux-ubuntu20.04-broadwell\r\n\r\n1. \"%gcc@8:\" conflicts with \"cuda@10.0\" [gcc version is not within supported range (:7) for CUDA 10.0.130.]\r\n```\r\nI'm not sure why the error reports `%gcc@8`, but maybe that is expected? On the other hand, when trying to install CUDA 10.2, the error reported shows `%gcc@9` which is more accurate:\r\n```\r\n$ spack install cuda@10.2.89\r\n==> Error: Conflicts in concretized spec \"cuda@10.2.89%gcc@9.3.0~dev arch=linux-ubuntu20.04-broadwell/367rjfk\"\r\nList of matching conflicts for spec:\r\n\r\n    cuda@10.2.89%gcc@9.3.0~dev arch=linux-ubuntu20.04-broadwell\r\n        ^libxml2@2.9.10%gcc@9.3.0~python arch=linux-ubuntu20.04-broadwell\r\n            ^libiconv@1.16%gcc@9.3.0 arch=linux-ubuntu20.04-broadwell\r\n            ^pkgconf@1.7.4%gcc@9.3.0 arch=linux-ubuntu20.04-broadwell\r\n            ^xz@5.2.5%gcc@9.3.0~pic libs=shared,static arch=linux-ubuntu20.04-broadwell\r\n            ^zlib@1.2.11%gcc@9.3.0+optimize+pic+shared arch=linux-ubuntu20.04-broadwell\r\n\r\n1. \"%gcc@9:\" conflicts with \"cuda@10.2\" [gcc version is not within supported range (:8) for CUDA 10.2.89.]\r\n```\r\nCC: @bvanessen ",
+    "user": "romerojosh",
+    "url": "https://api.github.com/repos/spack/spack/issues/24540",
+    "updated_at": "2021-06-28 22:45:02",
+    "created_at": "2021-06-25 21:11:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add host compiler compatibility check to CUDA package.",
+    "number": 24540,
+    "milestone": null,
+    "labels": [
+        "cuda"
+    ],
+    "id": 930505082,
+    "html_url": "https://github.com/spack/spack/pull/24540",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

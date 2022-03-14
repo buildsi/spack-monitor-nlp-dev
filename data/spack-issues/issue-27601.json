@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\nspack install gdal@2.1.2+pg~python+png\r\n...\r\n==> Installing gdal-2.1.2-4zxhhgrroqh2yhkoheguugz4bl2wlqkh\r\n==> No binary for gdal-2.1.2-4zxhhgrroqh2yhkoheguugz4bl2wlqkh found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/b5/b597f36bd29a2b4368998ddd32b28c8cdf3c8192237a81b99af83cc17d7fa374.tar.xz\r\n######################################################################## 100.0%\r\n==> Ran patch() for gdal\r\n==> gdal: Executing phase: 'autoreconf'\r\n==> gdal: Executing phase: 'configure'\r\n==> gdal: Executing phase: 'build'\r\n==> gdal: Executing phase: 'install'\r\n==> Error: NoLibrariesError: Unable to recursively locate postgresql libraries in /mnt/local/sinan/spack-0.17.0/opt/spack/linux-centos7-haswell/gcc-7.4.0/postgresql-14.0-r5t3y55wruclg3putbexbi5ogq4kaz5b\r\n\r\n/mnt/local/sinan/spack-0.17.0/var/spack/repos/builtin/packages/gdal/package.py:221, in setup_run_environment:\r\n        218        libs = []\r\n        219        for dep in self.spec.dependencies(deptype='link'):\r\n        220            query = self.spec[dep.name]\r\n  >>    221            libs.extend(query.libs.directories)\r\n        222        if sys.platform == 'darwin':\r\n        223            env.prepend_path('DYLD_FALLBACK_LIBRARY_PATH', ':'.join(libs))\r\n        224        else:\r\n\r\nSee build log for details:\r\n  /cache/sinan/spack-stage/spack-stage-gdal-2.1.2-4zxhhgrroqh2yhkoheguugz4bl2wlqkh/spack-build-out.txt\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.17.0-1-f92a2d6\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-haswell\r\n* **Concretizer:** clingo\r\n```\r\n\r\n### Additional information\r\n\r\nWill provider further details soon. \r\npinging @adamjstewart \r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "Sinan81",
+    "url": "https://api.github.com/repos/spack/spack/issues/27601",
+    "updated_at": "2021-11-23 03:55:19",
+    "created_at": "2021-11-23 02:15:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: postgresql package cannot locate its own libraries",
+    "number": 27601,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1060770433,
+    "html_url": "https://github.com/spack/spack/issues/27601",
+    "assignees": [],
+    "comments": 2
+}

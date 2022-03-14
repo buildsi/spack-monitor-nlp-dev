@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\nWhen I create a view that includes R libraries, I was surprised to find them linked into the top level of the view and not into the R installation.\r\n\r\nPython packages, on the other hand, seem to be linked into `lib/python3.7/site-packages`, as if they were \"activated\".\r\n\r\n```console\r\n# given a Spack installation that includes R and r-packrat and Python and py-pip\r\n$ spack view symlink ape -i r r-packrat python@3.7.6 py-pip^python@3.7.6\r\n# try loading the packrat library\r\n$ R\r\n# at the R prompt, try `library(packrat)`, note failure :(\r\n# exit back to your shell\r\n$ R_LIBS=$(pwd)/ape/rlib/R/library R\r\n# at the R prompt, try `library(packrat)`, note success :)\r\n# exit back to your shell\r\n# \r\n# note where pip was installed....\r\n$ find ape/ | grep /pip/ | head\r\n```\r\n\r\n\r\n### Additional information\r\n\r\n```\r\nspack debug report\r\n* **Spack:** 0.14.1-901-32869648e\r\n* **Python:** 3.7.6\r\n* **Platform:** linux-centos7-skylake_avx512\r\n```\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/16432",
+    "updated_at": "2020-05-05 05:05:58",
+    "created_at": "2020-05-02 18:53:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "View that include R libraries require setting R_LIBS",
+    "number": 16432,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "R",
+        "views",
+        "triage"
+    ],
+    "id": 611252080,
+    "html_url": "https://github.com/spack/spack/issues/16432",
+    "assignees": [],
+    "comments": 22
+}

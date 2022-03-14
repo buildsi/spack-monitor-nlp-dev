@@ -1,0 +1,19 @@
+{
+    "body": "@Exteris @tgamblin @alalazo \r\n\r\n> (side note 2: Can we not have a lightweight version of spack load?\r\n\r\nLet's be clear about the problems with Spack load (and `spack module loads` too).  The biggest problem is not speed, but that it is nondeterministic.  Suppose you build `netcdf` and then put `spack load netcdf` in your `.bashrc`.  You are happy and it works for a while.  But sometime later, another `netcdf` gets built --- with the same version and compiler, but different dependencies.  Now, `spack load netcdf` will fail.\r\n\r\nThe command `spack install` goes through a sophisticated concretization process to turn your spec into a specific Spack hash.  It is really slow.  `spack load` does not do this, hence the possibility that it can fail, and is faster as a result.  But putting 15 `spack load` commands in your `.bashrc` is still way too slow.  And it is non-deterministic (unlike `spack spec` / `spack install`).\r\n\r\n> @alalazo @Exteris Would you agree that Spack should default to using the module layout described in the tutorial:\r\n\r\n```\r\nmodules:\r\n  tcl:\r\n    naming_scheme: '${PACKAGE}/${VERSION}-${COMPILERNAME}-${COMPILERVER}'\r\n```\r\n\r\nThe problem with this is similar to the problem with `module load`: in the above example, the new `netcdf` would overwrite the module for the old `netcdf`, potentially creating unending subtle bugs.  That is why the default module layout, at least in Spack as it exists today, needs to include the hash.\r\n\r\n> @paulhopkins Works for me. Doing it should be just a minor modification to the default modules.yaml shipped with spack.\r\n\r\nPlease let's not do this, for the reasons mentioned the last paragraph.  Again... I believe this is an issue that can be (and needs to be) addressed with Spack Environments.\r\n\r\n> Or Cythonize the thing?)\r\n\r\nThis would do nothing to solve the fundamental problem of non-determinism.\r\n\r\n--------------\r\n\r\nThis discussion has led me to believe that Spack Environments need to support a use case that emulates traditional package managers (RPM, MacPorts, etc), in which there is only one (active) version of each package.  Within a particular environment, all the Spack commands would work as one naively expects.  `spack load netcdf` would load the version of NetCDF *in the currently active environment* (set by an env var maybe?).  `spack install netcdf` would install an new version of NetCDF --- and boot the old version out of the environment (although leave it installed in the global Spack).  Hashes could be removed from environment module names *within a single environment*.  And so on.\r\n\r\nThese ideas should be fleshed out further at: https://github.com/LLNL/spack/wiki/Spack-Environments-WG\r\n\r\n[Unfortunately, this will break as soon as a user wants to install Python2 and Python3 simultaneously in an environment.  Let's see if we can solve that problem as a decoration on a general framework we think up.]\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2986",
+    "updated_at": "2017-11-02 17:23:17",
+    "created_at": "2017-02-01 16:07:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack load` is non-deterministic",
+    "number": 2986,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 204626387,
+    "html_url": "https://github.com/spack/spack/issues/2986",
+    "assignees": [],
+    "comments": 5
+}

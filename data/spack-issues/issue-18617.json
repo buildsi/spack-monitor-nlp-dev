@@ -1,0 +1,20 @@
+{
+    "body": "I have a shared team location for a spack mirror.  I ran into a problem last night when I noticed our axom@develop mirrored tarball had not been updated since May.  This is especially bad considering there is no way to notice this until a new feature or bug fix is needed from a dependency you track via a git branch.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack create mirror -d /mirror/directory serac@develop%gcc\r\n// notice time stamp on /mirror/directory/axom/develop.tar.gz\r\n// do some change to axom's git develop branch\r\n$ spack create mirror -d /some/local/directory serac@develop%gcc\r\n// notice the time stamp on /mirror/directory/axom/develop.tar.gz has not changed\r\n```\r\n\r\n### Workaround\r\n\r\n```console\r\n$ spack create mirror -d /mirror/directory serac@develop%gcc\r\n// notice time stamp on /mirror/directory/axom/develop.tar.gz\r\n// do some change to axom's git develop branch\r\n$ rm -rf /mirror/directory/axom/develop.tar.gz /mirror/directory/_source-cache/git/LLNL/axom.git/develop.tar.gz\r\n$ spack create mirror -d /some/local/directory serac@develop%gcc\r\n// notice the time stamp on /mirror/directory/axom/develop.tar.gz has changed\r\n```\r\n\r\n",
+    "user": "white238",
+    "url": "https://api.github.com/repos/spack/spack/issues/18617",
+    "updated_at": "2020-09-11 01:24:04",
+    "created_at": "2020-09-11 01:21:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "create mirror does not update tarballs of git branch versions",
+    "number": 18617,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 698691732,
+    "html_url": "https://github.com/spack/spack/issues/18617",
+    "assignees": [],
+    "comments": 0
+}

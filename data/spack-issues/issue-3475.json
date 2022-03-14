@@ -1,0 +1,22 @@
+{
+    "body": "I just received this error message:\r\n```\r\n==> Error: AttributeError: 'NoneType' object has no attribute 'lstrip'\r\n/home/eschnett/src/spack/lib/spack/spack/package.py:696, in _make_resource_stage:\r\n     693      def _make_resource_stage(self, root_stage, fetcher, resource):\r\n     694          resource_stage_folder = self._resource_stage(resource)\r\n     695          resource_mirror = spack.mirror.mirror_archive_path(\r\n  >> 696              self.spec, fetcher, resource.name)\r\n     697          stage = ResourceStage(resource.fetcher,\r\n     698                                root=root_stage,\r\n     699                                resource=resource,\r\n     700                                name=resource_stage_folder,\r\n     701                                mirror_path=resource_mirror,\r\n     702                                path=self.path)\r\n     703          return stage\r\n```\r\n\r\nI assume this resource declaration is to blame:\r\n```\r\n    resource(name=\"cacert\",\r\n             url=\"https://curl.haxx.se/ca/cacert-2017-01-18.pem\",\r\n             md5=\"38cd779c9429ab6e2e5ae3437b763238\",\r\n             destination=\"cacert.pem\")\r\n```\r\n\r\nThe error message should be more descriptive, telling me what is wrong. (I don't know yet what is wrong -- I'm assuming I'm missing a keyword argument.)\r\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/3475",
+    "updated_at": "2020-08-23 18:34:13",
+    "created_at": "2017-03-17 16:09:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Unclear error message with `resource`",
+    "number": 3475,
+    "milestone": null,
+    "labels": [
+        "resources",
+        "error-messages"
+    ],
+    "id": 215049764,
+    "html_url": "https://github.com/spack/spack/issues/3475",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

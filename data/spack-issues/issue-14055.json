@@ -1,0 +1,22 @@
+{
+    "body": "Spack's cache `builtin-index.json`-files significantly speed up spack operations: \r\n```console\r\n$ rm -rf ~/.spack\r\n$ time ( spack spec aida >/dev/null )\r\n\r\nreal    0m11.060s\r\nuser    0m10.823s\r\nsys     0m0.948s\r\n\r\n$ time ( spack spec aida >/dev/null )\r\n\r\nreal    0m0.460s\r\nuser    0m0.388s\r\nsys     0m0.055s\r\n```\r\n\r\n## Issue\r\n\r\nHowever, they are not regenerated when issuing `spack reindex` and there seems\r\nto be no other way to explicitly recreate them.\r\n```console\r\n$ find ~/.spack -name \"builtin-index.json\"\r\n/home/obreitwi/.spack/cache/patches/builtin-index.json\r\n/home/obreitwi/.spack/cache/tags/builtin-index.json\r\n/home/obreitwi/.spack/cache/providers/builtin-index.json\r\n\r\n$ rm -rf ~/.spack\r\n\r\n$ spack reindex\r\n\r\n$ find ~/.spack -name \"builtin-index.json\"\r\nfind: \u2018/home/obreitwi/.spack\u2019: No such file or directory\r\n```\r\n\r\nThe only reliable way to recreate them right now seems to be concretizing a trivial spec like so:\r\n\r\n```console\r\n$ spack spec aida >/dev/null\r\n\r\n$ find ~/.spack -name \"builtin-index.json\"\r\n/home/obreitwi/.spack/cache/patches/builtin-index.json\r\n/home/obreitwi/.spack/cache/tags/builtin-index.json\r\n/home/obreitwi/.spack/cache/providers/builtin-index.json\r\n```\r\n\r\n## Where is this an issue?\r\n\r\nWhen concretizing several spack packages in parallel within the same repository\r\nwithout `builtin-index.json` present, every running spack processes attempts to\r\nre-create them. This can lead to a deadlock situation:\r\n\r\n```console\r\n$ rm -rf ~/.spack\r\n\r\n$ time ( for i in $(seq 20); do ( spack spec aida >/dev/null ) & done; wait )\r\n==> Error: Timed out waiting for lock.\r\n==> Error: Timed out waiting for lock.\r\n==> Error: Timed out waiting for lock.\r\n==> Error: Timed out waiting for lock.\r\n==> Error: Timed out waiting for lock.\r\n==> Error: Timed out waiting for lock.\r\n\r\nreal    2m5.584s\r\nuser    2m28.953s\r\nsys     0m5.536s\r\n```\r\n\r\nWhereas with pre-generated `builtin-index.json`:\r\n\r\n```console\r\n$ rm -rf ~/.spack\r\n$ spack spec aida >/dev/null\r\n$ time ( for i in $(seq 20); do ( spack spec aida >/dev/null ) & done; wait )\r\n\r\nreal    0m4.205s\r\nuser    0m14.164s\r\nsys     0m1.564s\r\n```",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/14055",
+    "updated_at": "2020-02-18 20:40:55",
+    "created_at": "2019-12-09 12:17:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Reindexing spack does not rebuild builtin-index.json cache files",
+    "number": 14055,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 534892517,
+    "html_url": "https://github.com/spack/spack/issues/14055",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,29 @@
+{
+    "body": "This is a response to goal **3.A** described in @becker33's discussion at #20536:\r\n\r\n> **3.A Mirror VCS software separately**\r\n>\r\n> This PR will establish the mirror subdirectories for each VCS system, and manage when we pull/fail for unfound git refs for each type of mirror. It will leave for future work the details for non-git VCS systems, while reserving their subdirectory names for that future use.\r\n\r\n### Changes\r\n1. Introduce `GitRef` class to isolate logic per type of reference (commit, tag, branch).\r\n1. Introduce `GitRepo` class to isolate logic per git repo or worktree.\r\n1. Refactor `GitFetchStrategy` to create a new git *worktree* in each staging directory, after fetching the appropriate refs in a separate cached repo.\r\n    - Reserve the cache subdirectory names for `svn` and `hg` for future use as in the prompt. This is done implicitly in the new `.persistent_cache_dir_for()` method in `FsCache`, which uses the fetcher's `.url_attr` as the first component of the relative cache path.\r\n1. Implement the update logic described in #20536: tags and commits will never be re-fetched, while branches will be re-fetched if the remote repo is accessible.\r\n1. Make several changes to `package.py` files to fix ambiguous `version()` directives (by adding `branch='master'`), as well as some other changes which have been isolated to the last commit for easier review.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/22235",
+    "updated_at": "2022-03-02 05:30:43",
+    "created_at": "2021-03-11 01:05:06",
+    "closed_at": "None",
+    "state": "open",
+    "title": "minimize git fetching time by caching a repo in config:source_cache",
+    "number": 22235,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "python",
+        "documentation",
+        "fetching",
+        "tests",
+        "versions",
+        "resources",
+        "git",
+        "update-package",
+        "utilities",
+        "vendored-dependencies"
+    ],
+    "id": 828550768,
+    "html_url": "https://github.com/spack/spack/pull/22235",
+    "assignees": [],
+    "comments": 12
+}

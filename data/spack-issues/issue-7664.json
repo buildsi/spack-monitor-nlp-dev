@@ -1,0 +1,23 @@
+{
+    "body": "py-crossmap won't install in it's current form, seems to need several other dependencies\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-crossmap\r\n```\r\n\r\nThe first issue I came across was with numpy:\r\n```\r\nException: numpy must be installed to build\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/python-2.7.14-v7ateyhh24yj3sl3fd62d66mbr53mw7d/bin/python2.7' '-s' 'setup.py' '--no-user-cfg' 'install' '--prefix=/opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/py-crossmap-0.2.7-3w5di7gruqrsb4brzxj7tzbr4r6lqvoz'\r\n```\r\n\r\nI started a local branch, and added py-numpy as a build dependency and got past that.\r\n\r\nThe next error seems to indicate a dependency on py-lzo (not currently in spack, though we have lzo):\r\n\r\nSeems like python-lzo is being downloaded from pypi, but then it can't find the system lzo header:\r\n\r\n```Searching for python-lzo\r\nReading https://pypi.python.org/simple/python-lzo/\r\nDownloading https://pypi.python.org/packages/bc/ac/cec925b9367b8f7f18a606d462fe17069fb13b0fd2fe7df0c324a83a8018/python-lzo-1.11.tar.gz#md5=b5cd60498474dab58c1ea2385adfa7bd\r\nBest match: python-lzo 1.11\r\nProcessing python-lzo-1.11.tar.gz\r\nWriting /tmp/easy_install-kVr7NZ/python-lzo-1.11/setup.cfg\r\nRunning python-lzo-1.11/setup.py -q bdist_egg --dist-dir /tmp/easy_install-kVr7NZ/python-lzo-1.11/egg-dist-tmp-F8h3Jr\r\n/home/user/spack/opt/spack/linux-fedora25-x86_64/gcc-6.4.1/python-2.7.14-lf3jhzcba5q7mtgtt73dbbr6tjxe7hlx/lib/python2.7/distutils/dist.py:251: UserWarning: 'licence' distribution option is deprecated; use 'license'\r\n  warnings.warn(msg)\r\nwarning: no files found matching 'README'\r\nlzomodule.c:35:19: fatal error: lzo1x.h: No such file or directory\r\n #include <lzo1x.h>\r\n                   ^\r\ncompilation terminated.\r\nerror: Setup script exited with error: command '/home/user/spack/lib/spack/env/gcc/gcc' failed with exit status 1\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/home/user/spack/opt/spack/linux-fedora25-x86_64/gcc-6.4.1/python-2.7.14-lf3jhzcba5q7mtgtt73dbbr6tjxe7hlx/bin/python2.7' '-s' 'setup.py' '--no-user-cfg' 'install' '--prefix=/home/user/spack/opt/spack/linux-fedora25-x86_64/gcc-6.4.1/py-crossmap-0.2.7-pfybhgpfytar44zzji6q6jus5m3ir5nm'\r\n```\r\n\r\nTagging @peetsv as the package author",
+    "user": "baberlevi",
+    "url": "https://api.github.com/repos/spack/spack/issues/7664",
+    "updated_at": "2022-01-11 03:42:06",
+    "created_at": "2018-04-03 20:31:48",
+    "closed_at": "None",
+    "state": "open",
+    "title": "py-crossmap needs more dependencies",
+    "number": 7664,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "dependencies"
+    ],
+    "id": 310987598,
+    "html_url": "https://github.com/spack/spack/issues/7664",
+    "assignees": [
+        "baberlevi",
+        "adamjstewart"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,21 @@
+{
+    "body": "The generation step of each Gitlab pipeline takes a large amount of time and needs to be run for each PR. Since the main operation done in that step is the concretization of the underlying environment, optimizing the concretization should result in a speed-up of the entire pipeline.\r\n\r\n## Profiling\r\n\r\nProfiling data to be viewed with https://www.speedscope.app/:\r\n- [Environment with a single spec](https://github.com/spack/spack/files/7234634/01spec.txt)\r\n- [Environment with 5 specs](https://github.com/spack/spack/files/7234635/05spec.txt)\r\n\r\nScreenshot of the latter:\r\n\r\n![Screenshot from 2021-09-27 10-33-27](https://user-images.githubusercontent.com/4199709/134873264-9272cebb-c6be-41da-bafc-02c02317c00a.png)\r\n\r\nEach spec is currently concretized separately without taking advantage of computations done to concretize previous specs. _The setup phase accounts for roughly one third of the time spent to concretize_ (so a reduction of that amount is the most we can expect from optimizing just the setup phase). There are other optimizations we can do to speed-up grounding and solving, see #21289. Finally, as suggested by @becker33 over Slack, we can distribute the concretizations to be performed to a pool of workers and parallelize them. \r\n\r\nFor reference, the spack.yaml used to obtain the profile above is:\r\n```yaml\r\nspack:\r\n  specs:\r\n  - hdf5\r\n  - fftw\r\n  - trilinos\r\n  - cmake\r\n  - cp2k\r\n  view: false\r\n```\r\nThe environment with a single spec concretizes only `hdf5`.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/26258",
+    "updated_at": "2021-09-27 16:13:51",
+    "created_at": "2021-09-27 08:23:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Profile and speed-up the concretization of environments that are concretized separately",
+    "number": 26258,
+    "milestone": null,
+    "labels": [
+        "pipelines"
+    ],
+    "id": 1007850125,
+    "html_url": "https://github.com/spack/spack/issues/26258",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

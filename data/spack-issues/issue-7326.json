@@ -1,0 +1,22 @@
+{
+    "body": "Spack-installed libtool will point build systems to Spack's compiler wrapper, which cause errors when users load libtool as a module outside of a spack environment. I have an example from a user that shows a linker error from a minimalistic library.\r\n\r\n### Steps to reproduce the issue\r\n\r\nMakefile:\r\n``` makefile\r\nTARGETS := libtest.la\r\n\r\nLIBTOOL = libtool\r\nCXX :=\u00a0 \u00a0 g++\r\nCC := \u00a0 \u00a0 gcc\r\nCXXFLAGS := -fPIC -O3\r\nPREFIX := `pwd`\r\nLIBDIR :=\r\nLDFLAGS :=\u00a0 -Wl,-rpath,$(PREFIX)/lib\r\n\r\n.PHONY: clean install\r\n\r\n%.la: %.lo\r\n\u00a0 $(LIBTOOL) --mode=link --tag=CXX $(CXX) -o $@ $+ $(LDFLAGS) $(LIBS) $(CXXFLAGS) -rpath $(PREFIX)/lib\r\n\r\n%.lo: %.cc\r\n\u00a0 $(LIBTOOL) --mode=compile --tag=CXX $(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@\r\n\r\n%.lo: %.c\r\n\u00a0 $(LIBTOOL) --mode=compile --tag=CC $(CC) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@\r\n\r\n%.cc:\r\n\r\nall: $(TARGETS)\r\n\r\nclean:\r\n\u00a0 rm -rf $(TARGETS) *.o *.lo .libs\r\n\r\nSED_PREFIX := $(subst /,\\/,$(PREFIX))\r\n\r\ninstall: $(TARGETS)\r\n\u00a0 $(LIBTOOL) --mode=install /usr/bin/install -c libtest.la $(PREFIX)/lib\r\n```\r\n\r\nlibtest.cc:\r\n``` C\r\nint fxn(){ return 0; }\r\n```\r\n\r\nInstalling libtool\r\n```console\r\n# spack install libtool\r\n# spack load libtool\r\n# libtool --config | grep \\/spack\r\nLTCC=\"<ROOT>/spack/lib/spack/env/gcc/gcc\"\r\nLD=\"<ROOT>/spack/lib/spack/env/ld -m elf_x86_64\"\r\nCC=\"<ROOT>/spack/lib/spack/env/gcc/gcc\"\r\n```\r\n\r\nFrom a shell that loads the module without spack\r\n``` bash\r\n# make\r\nlibtool --mode=compile --tag=CXX g++  -fPIC -O3 -c libtest.cc -o libtest.lo\r\nlibtool: compile:  g++ -fPIC -O3 -c libtest.cc  -fPIC -DPIC -o .libs/libtest.o\r\nlibtool: compile:  g++ -fPIC -O3 -c libtest.cc -o libtest.o >/dev/null 2>&1\r\nlibtool --mode=link --tag=CXX g++ -o libtest.la libtest.lo -Wl,-rpath,`pwd`/lib  -fPIC -O3 -rpath `pwd`/lib\r\nlibtool: link: <removed>\r\nSpack compiler must be run from Spack! Input 'SPACK_PREFIX' is missing.\r\nmake: *** [libtest.la] Error 1\r\n```",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/7326",
+    "updated_at": "2022-03-09 10:12:16",
+    "created_at": "2018-02-22 17:24:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Libtool uses bad Spack environment paths",
+    "number": 7326,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "autotools"
+    ],
+    "id": 299439486,
+    "html_url": "https://github.com/spack/spack/issues/7326",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

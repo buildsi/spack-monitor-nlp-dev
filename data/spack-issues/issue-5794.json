@@ -1,0 +1,21 @@
+{
+    "body": "There are two sources for this issue I've uncovered:\r\n\r\n1) The gcc package will use the system ld even when that ld is incompatible. Found with gcc 5.4.0 and the RHEL6 system ld on cab.\r\n2) elfutils provides an ld which is incompatible with the binutils ld. Definitely triggers when elfutils is a build dependency; there may be other ways to get that ld to be used inappropriately.\r\n\r\nAs an added note, using the +binutils variant on gcc does resolve this, but it was far from obvious from the documentation that that was the solution.",
+    "user": "wrwilliams",
+    "url": "https://api.github.com/repos/spack/spack/issues/5794",
+    "updated_at": "2019-07-16 13:23:58",
+    "created_at": "2017-10-17 19:24:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "ld not checked for compatibility before use",
+    "number": 5794,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-environment",
+        "linking"
+    ],
+    "id": 266248336,
+    "html_url": "https://github.com/spack/spack/issues/5794",
+    "assignees": [],
+    "comments": 6
+}

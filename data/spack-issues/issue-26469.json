@@ -1,0 +1,20 @@
+{
+    "body": "When I update Spack, it'd be nice to see the changes to an environment, which is what this PR allows you to do:\r\n\r\n```\r\n$ [ ... update spack ... ]\r\n$ cd path/to/my/env\r\n$ mv spack.lock spack.old.lock\r\n$ spack -e . concretize\r\n$ spack diff spack.old.lock spack.lock\r\n```\r\n\r\n```diff\r\n\r\nharmen-desktop tmp.bhi1tLT0bm $ spack diff ./spack.old.lock ./spack.lock \r\n--- /tmp/tmp.bhi1tLT0bm/spack.old.lock\r\n+++ /tmp/tmp.bhi1tLT0bm/spack.lock\r\n@@ variant_value @@\r\n-  openssl systemcerts True\r\n+  openmpi pmix False\r\n+  openssl certs system\r\n+  python patches 4c2457325f2b608b1b6a2c63087df8c26e07db3e3d493caf36a56f0ecf6fb768\r\n@@ version @@\r\n-  openblas 0.3.17\r\n+  openblas 0.3.18\r\n```\r\n\r\nThis would be a step towards doing something like `spack -e . update/upgrade` and it'd concretize, show you what's new, ask you to confirm and if `y` write the new lock file & run install.\r\n\r\nBut being able to compare two spack.lock files is a useful feature regardless",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26469",
+    "updated_at": "2022-02-15 17:46:33",
+    "created_at": "2021-10-04 13:52:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack diff on env lock files",
+    "number": 26469,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands"
+    ],
+    "id": 1015211470,
+    "html_url": "https://github.com/spack/spack/pull/26469",
+    "assignees": [],
+    "comments": 5
+}

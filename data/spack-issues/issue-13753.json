@@ -1,0 +1,20 @@
+{
+    "body": "Fix parsing key-value pairs being too greedy and only working if the\r\nkey=value pair is the last entry in the spec.\r\n\r\nExample:\r\n```\r\n$ spack spec \"py-matplotlib backend=agg target=x86_64 +image ^python@3.7.5\"\r\n==> Error: invalid values for variant \"backend\" in package \"py-matplotlib\": ['agg target=x86_64 +image ^python@3.7.5']\r\n```\r\n\r\nThe error is that the parser just checks for the first entry being\r\nnon-whitespace (`[\\S]`) and then simply matches the whole remaining\r\nstring (`.*`). However, we want the parser to match non-whitespace\r\ncharacters only.\r\n\r\nFixes: #13752\r\n\r\nChange-Id: I2314bbddff385fe5ccf6a39260332ec842d1b0cf",
+    "user": "obreitwi",
+    "url": "https://api.github.com/repos/spack/spack/issues/13753",
+    "updated_at": "2021-06-11 14:01:01",
+    "created_at": "2019-11-15 12:38:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Fix parsing of key=value pairs",
+    "number": 13753,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "bugfix"
+    ],
+    "id": 523447292,
+    "html_url": "https://github.com/spack/spack/pull/13753",
+    "assignees": [],
+    "comments": 3
+}

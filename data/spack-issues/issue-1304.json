@@ -1,0 +1,22 @@
+{
+    "body": "I've come across two packages now that have built without any trouble, but have later caused problems for users trying to link to them. The first was py-meep, which complained about missing symbols when imported (see https://github.com/LLNL/spack/pull/1156#issuecomment-233030464). The second was Armadillo (see https://github.com/LLNL/spack/issues/1299#issue-166378265).\n\nThese problems can be hard to debug, but fairly easy to check for. In the case of Armadillo, it looks like this:\n\n``` bash\n$ ldd -r libarmadillo.so\n    linux-vdso.so.1 =>  (0x00007ffdd8b61000)\n    libopenblas.so.0 => /blues/gpfs/home/software/spack/opt/spack/linux-centos6-x86_64/gcc-6.1.0/openblas-0.2.18-avx2mvh76o62v5a2dr5u6zz2ewer5p7w/lib/libopenblas.so.0 (0x00002b8a88ba1000)\n    libstdc++.so.6 => /blues/gpfs/home/software/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/lib64/libstdc++.so.6 (0x00002b8a89b7f000)\n    libm.so.6 => /lib64/libm.so.6 (0x00002b8a89f16000)\n    libgcc_s.so.1 => /blues/gpfs/home/software/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/lib64/libgcc_s.so.1 (0x00002b8a8a19a000)\n    libc.so.6 => /lib64/libc.so.6 (0x00002b8a8a3b1000)\n    /lib64/ld-linux-x86-64.so.2 (0x00002b8a886f1000)\n    libpthread.so.0 => /lib64/libpthread.so.0 (0x00002b8a8a745000)\n    libgfortran.so.3 => /blues/gpfs/home/software/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/lib64/libgfortran.so.3 (0x00002b8a8a963000)\n    libquadmath.so.0 => /blues/gpfs/home/software/spack/opt/spack/linux-x86_64/gcc-5.3.0/gcc-6.1.0-q2zosj3igepi3pjnqt74bwazmptr5gpj/lib64/../lib64/libquadmath.so.0 (0x00002b8a8ac8a000)\nundefined symbol: zvout_    (./libarmadillo.so)\nundefined symbol: dvout_    (./libarmadillo.so)\nundefined symbol: cvout_    (./libarmadillo.so)\nundefined symbol: dmout_    (./libarmadillo.so)\nundefined symbol: smout_    (./libarmadillo.so)\nundefined symbol: cmout_    (./libarmadillo.so)\nundefined symbol: svout_    (./libarmadillo.so)\nundefined symbol: zmout_    (./libarmadillo.so)\nundefined symbol: ivout_    (./libarmadillo.so)\n```\n\nI propose the following sanity check. Run this command on all installed dynamic libraries:\n\n``` bash\nldd -r <libname.so> | grep \"undefined symbol\"\n```\n\n@citibeth You've been the biggest opponent of sanity checks. Can you foresee any problems with this?\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1304",
+    "updated_at": "2018-04-13 09:08:03",
+    "created_at": "2016-07-19 19:38:56",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add sanity check for libraries with missing symbols",
+    "number": 1304,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "proposal"
+    ],
+    "id": 166416110,
+    "html_url": "https://github.com/spack/spack/issues/1304",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 8
+}

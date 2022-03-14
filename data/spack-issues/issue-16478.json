@@ -1,0 +1,22 @@
+{
+    "body": "I'm trying to uninstall all of my installed packages. The process uninstalls a few hundred packages and then crashes with:\r\n```\r\nKeyError: 'libffi'\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack uninstall -ay\r\n...\r\n==> Error: Unable to read file: /Users/Adam/spack/opt/spack/darwin-catalina-x86_64/clang-11.0.3-apple/py-chardet-3.0.4-gqaa2mw2vk7fpx32f7fsmqh56i5daxp6/.spack/spec.yaml\r\nCause: 'libffi'\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack -d uninstall -ay\r\n...\r\nTraceback (most recent call last):\r\n  File \"/Users/Adam/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/Adam/spack/lib/spack/spack/main.py\", line 760, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/Adam/spack/lib/spack/spack/main.py\", line 488, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/uninstall.py\", line 348, in uninstall\r\n    uninstall_specs(args, specs)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/uninstall.py\", line 323, in uninstall_specs\r\n    do_uninstall(env, uninstall_list, args.force)\r\n  File \"/Users/Adam/spack/lib/spack/spack/cmd/uninstall.py\", line 225, in do_uninstall\r\n    item.do_uninstall(force=force)\r\n  File \"/Users/Adam/spack/lib/spack/spack/package.py\", line 1769, in do_uninstall\r\n    Package.uninstall_by_spec(self.spec, force)\r\n  File \"/Users/Adam/spack/lib/spack/spack/package.py\", line 1741, in uninstall_by_spec\r\n    spack.hooks.pre_uninstall(spec)\r\n  File \"/Users/Adam/spack/lib/spack/spack/hooks/__init__.py\", line 59, in __call__\r\n    hook(*args, **kwargs)\r\n  File \"/Users/Adam/spack/lib/spack/spack/hooks/extensions.py\", line 18, in pre_uninstall\r\n    if pkg.is_activated(view):\r\n  File \"/Users/Adam/spack/lib/spack/spack/package.py\", line 1030, in is_activated\r\n    exts = extensions_layout.extension_map(self.extendee_spec)\r\n  File \"/Users/Adam/spack/lib/spack/spack/directory_layout.py\", line 431, in extension_map\r\n    return self._extension_map(spec).copy()\r\n  File \"/Users/Adam/spack/lib/spack/spack/directory_layout.py\", line 456, in _extension_map\r\n    by_hash = self.layout.specs_by_hash()\r\n  File \"/Users/Adam/spack/lib/spack/spack/directory_layout.py\", line 361, in specs_by_hash\r\n    for spec in self.all_specs():\r\n  File \"/Users/Adam/spack/lib/spack/spack/directory_layout.py\", line 343, in all_specs\r\n    return [self.read_spec(s) for s in spec_files]\r\n  File \"/Users/Adam/spack/lib/spack/spack/directory_layout.py\", line 343, in <listcomp>\r\n    return [self.read_spec(s) for s in spec_files]\r\n  File \"/Users/Adam/spack/lib/spack/spack/directory_layout.py\", line 230, in read_spec\r\n    spec = spack.spec.Spec.from_yaml(f)\r\n  File \"/Users/Adam/spack/lib/spack/spack/spec.py\", line 1939, in from_yaml\r\n    return Spec.from_dict(data)\r\n  File \"/Users/Adam/spack/lib/spack/spack/spec.py\", line 1926, in from_dict\r\n    deps[name]._add_dependency(deps[dname], dtypes)\r\nKeyError: 'libffi'\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.2-979-7e5874c250\r\n* **Python:** 3.7.6\r\n* **Platform:** darwin-catalina-ivybridge\r\n\r\n### Additional information\r\n\r\nCould be related to #3690, but a completely different error message. Unfortunately, this isn't fixed by #16447. \r\n\r\n@aweits @alalazo may be interested in this.\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/16478",
+    "updated_at": "2020-11-03 16:49:06",
+    "created_at": "2020-05-05 22:22:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Leftover <prefix>/.spack/spec.yaml from failed installations",
+    "number": 16478,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 612931449,
+    "html_url": "https://github.com/spack/spack/issues/16478",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 16
+}

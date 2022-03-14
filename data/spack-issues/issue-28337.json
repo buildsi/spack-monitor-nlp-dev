@@ -1,0 +1,22 @@
+{
+    "body": "The `provides` statements generated unsatisfiable constraints. When `opengl@4.1` was added as an external package, then\r\n\r\n```\r\nspack --show-cores=minimized spec paraview ^opengl\r\n```\r\n\r\nwas unsatisfiable, although `paraview` lists `depends_on('gl@3.2:')`:\r\n\r\n```\r\nInput spec\r\n--------------------------------\r\n -   paraview\r\n -       ^opengl\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: paraview ^opengl is unsatisfiable, conflicts are:\r\n  Single valued variants must have a single value\r\n  condition(3379)\r\n  condition(3601)\r\n  condition(4244)\r\n  condition(4245)\r\n  dependency_type(4244,\"build\")\r\n  dependency_type(4245,\"build\")\r\n  imposed_constraint(3379,\"version_satisfies\",\"gl\",\":1.0\")\r\n  imposed_constraint(4244,\"version_satisfies\",\"gl\",\"1.2:\")\r\n  imposed_constraint(4245,\"version_satisfies\",\"gl\",\"3.2:\")\r\n  no version satisfies the given constraints\r\n  node(\"opengl\")\r\n  root(\"paraview\")\r\n  variant_condition(3601,\"paraview\",\"opengl2\")\r\n  variant_single_value(\"paraview\",\"opengl2\")\r\n  version_satisfies(\"gl\",\":1.2\",\"1.0\")\r\n  version_satisfies(\"gl\",\":1.2\",\"1.2\")\r\n  version_satisfies(\"gl\",\":1.3\",\"1.0\")\r\n  version_satisfies(\"gl\",\":1.3\",\"1.3\")\r\n  version_satisfies(\"gl\",\":1.4\",\"1.0\")\r\n  version_satisfies(\"gl\",\":1.4\",\"1.4\")\r\n  version_satisfies(\"gl\",\":1.5\",\"1.0\")\r\n  version_satisfies(\"gl\",\":1.5\",\"1.5\")\r\n  version_satisfies(\"gl\",\":2.0\",\"1.0\")\r\n  version_satisfies(\"gl\",\":2.0\",\"2.0\")\r\n  version_satisfies(\"gl\",\":2.1\",\"1.0\")\r\n  version_satisfies(\"gl\",\":2.1\",\"2.1\")\r\n  version_satisfies(\"gl\",\":3.0\",\"1.0\")\r\n  version_satisfies(\"gl\",\":3.0\",\"3.0\")\r\n  version_satisfies(\"gl\",\":3.1\",\"1.0\")\r\n  version_satisfies(\"gl\",\":3.1\",\"3.1\")\r\n  version_satisfies(\"gl\",\":3.2\",\"1.0\")\r\n  version_satisfies(\"gl\",\":3.2\",\"3.2\")\r\n  version_satisfies(\"gl\",\":3.3\",\"1.0\")\r\n  version_satisfies(\"gl\",\":3.3\",\"3.3\")\r\n  version_satisfies(\"gl\",\":4.1\",\"1.0\")\r\n  version_satisfies(\"gl\",\":4.1\",\"4.1\")\r\n  version_satisfies(\"gl\",\":4.2\",\"1.0\")\r\n  version_satisfies(\"gl\",\":4.2\",\"4.2\")\r\n  version_satisfies(\"gl\",\":4.3\",\"1.0\")\r\n  version_satisfies(\"gl\",\":4.3\",\"4.3\")\r\n  version_satisfies(\"gl\",\":4.4\",\"1.0\")\r\n  version_satisfies(\"gl\",\":4.4\",\"4.4\")\r\n  version_satisfies(\"gl\",\":4.5\",\"1.0\")\r\n  version_satisfies(\"gl\",\":4.5\",\"4.5\")\r\n  version_satisfies(\"opengl\",\"1.0:\",\"4.1\")\r\n```\r\n\r\n This may be a bug in the concretizer, so this PR may not be the ideal solution.\r\n\r\n`spack debug report`:\r\n\r\n* **Spack:** 0.17.1-758-0277067e5f\r\n* **Python:** 3.9.9\r\n* **Platform:** darwin-monterey-skylake\r\n* **Concretizer:** clingo\r\n",
+    "user": "nilsvu",
+    "url": "https://api.github.com/repos/spack/spack/issues/28337",
+    "updated_at": "2022-01-17 08:49:27",
+    "created_at": "2022-01-10 00:42:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "opengl: fix concretization",
+    "number": 28337,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "external-packages",
+        "virtual-dependencies",
+        "update-package"
+    ],
+    "id": 1097349120,
+    "html_url": "https://github.com/spack/spack/pull/28337",
+    "assignees": [],
+    "comments": 4
+}

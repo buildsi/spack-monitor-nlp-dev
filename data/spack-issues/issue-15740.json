@@ -1,0 +1,23 @@
+{
+    "body": "### Spack version\r\n```console\r\n$ spack --version\r\n0.14.1-358-e042bd9\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install mysql\r\n... \r\n==> [2020-03-29-15:44:23.103099, 21671] Error: Installation of mysql failed.  Review log for details\r\n```\r\n\r\n### Platform and user environment\r\n\r\nRunning centos7 with gcc 4.8.5 in a Docker container (https://gist.github.com/pibion/295bef8fb81555d54b81a256f8654f03).\r\n\r\n### Additional information\r\n\r\nI'm wondering if the issue could be my version of gcc since \r\n\r\nRebuilding the package with the following options:\r\n```console\r\n$ spack -d install -j 1 mysql\r\n...\r\n```\r\nPrints out the following line in spack-cc-boost-jppggf3.out.log:\r\n\r\n```\r\n[cc] /bin/g++ -march=core-avx2 -mtune=core-avx2 -I. -I/home/daq/packages/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/zlib-1.2.11-pkmj6e72vggig3epxjcwxgzmxncaqnmp/include -I/home/daq/packages/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/bzip2-1.0.8-ersrl36bb43nnkjwe4t4gdur5jnwlzye/include -std=c++14 -fvisibility-inlines-hidden -fPIC -m64 -pthread -O3 -finline-functions\r\n-Wno-inline -w -fvisibility=hidden -DBOOST_ALL_DYN_LINK=1 -DBOOST_ALL_NO_LIB=1 -DNDEBUG -c -o bin.v2/libs/wave/build/gcc-4.8.5/release/cxxstd-14-iso/threading-multi/visibility-hidden/cpplexer/re2clex/cpp_re.o libs/wave/src/cpplexer/re2clex/cpp_re.cpp\r\n```\r\nAnd I remember someone mentioning on this forum that gcc 4.8.5 doesn't support regex.\r\n\r\nI'll try updating gcc and report back.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "pibion",
+    "url": "https://api.github.com/repos/spack/spack/issues/15740",
+    "updated_at": "2020-04-18 17:39:04",
+    "created_at": "2020-03-29 15:53:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: mysql",
+    "number": 15740,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "build-error",
+        "c++"
+    ],
+    "id": 589822476,
+    "html_url": "https://github.com/spack/spack/issues/15740",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

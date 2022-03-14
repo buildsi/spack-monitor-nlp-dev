@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nThe spack package for `cray-mpich` [assumes](https://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/cray-mpich/package.py#L68) that MPI compiler wrappers are available when using `cray-mpich@8.1.7:`. However, as shown below, the compiler wrappers are absent when using the NVHPC compilers.\r\n\r\n```\r\nsajid@perlmutter:login22:~> module list\r\n\r\nCurrently Loaded Modules:\r\n  1) craype-x86-rome         3) craype-network-ofi       5) xpmem/2.2.40-2.1_3.9__g3cf3325.shasta   7) craype/2.7.13      9) cray-libsci/21.08.1.2  11) xalt/2.10.2         13) cray-mpich/8.1.12 (mpi)\r\n  2) libfabric/1.11.0.4.75   4) perftools-base/21.12.0   6) nvidia/21.9                             8) cray-dsmml/0.2.2  10) PrgEnv-nvidia/8.2.0    12) darshan/3.3.1 (io)\r\n\r\n  Where:\r\n   mpi:  MPI Providers\r\n   io:   Input/output software\r\n\r\n\r\n\r\nsajid@perlmutter:login22:~> module show cray-mpich 2>&1 | grep \"MPICH_DIR\"\r\n      - PE-38485   - Add MPICH_DIR environment variable to the environment module\r\nsetenv(\"CRAY_MPICH_DIR\",\"/opt/cray/pe/mpich/8.1.12/ofi/nvidia/20.7\")\r\nsetenv(\"MPICH_DIR\",\"/opt/cray/pe/mpich/8.1.12/ofi/nvidia/20.7\")\r\nsajid@perlmutter:login22:~> ls /opt/cray/pe/mpich/8.1.12/ofi/nvidia/20.7/bin/\r\nmpichversion*\r\nsajid@perlmutter:login22:~>\r\n```\r\n\r\n\r\n### Error message\r\n\r\nThe missing `mpicc` compiler wrappers lead to build errors. \r\n\r\n\r\n### Information on your system\r\n\r\nUsing the compiler configuration as per the `packages.yaml` at [E4S repo](https://github.com/spack/spack-configs/blob/main/NERSC/perlmutter/e4s-21.11/site_config/packages.yaml).\r\n\r\nPossibly related : https://github.com/spack/spack/issues/28667\r\n\r\nPinging: @haampie @shahzebsiddiqui \r\n\r\nVersion info: \r\n```\r\nsajid@perlmutter:login01:~> spack debug report\r\n* **Spack:** 0.11.2-16371-c791ddc742\r\n* **Python:** 3.6.13\r\n* **Platform:** cray-sles15-zen3\r\n* **Concretizer:** clingo\r\nsajid@perlmutter:login01:~>\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "s-sajid-ali",
+    "url": "https://api.github.com/repos/spack/spack/issues/28809",
+    "updated_at": "2022-02-09 21:31:10",
+    "created_at": "2022-02-07 17:35:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Cray-mpich compiler wrappers absent for @8.1.12 %nvhpc",
+    "number": 28809,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1126294503,
+    "html_url": "https://github.com/spack/spack/issues/28809",
+    "assignees": [],
+    "comments": 3
+}

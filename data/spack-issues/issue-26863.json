@@ -1,0 +1,20 @@
+{
+    "body": "This is a combination of https://github.com/spack/spack/pull/22503 and https://github.com/spack/spack/pull/25302. \r\n\r\nThis is slow without ~(likely breaking)~(EDIT: all the tests pass with this change) change in #25302 to not sort `Database.query_local`. I can add an option for this if needed (the sorting isn't required when resolving hashes while parsing command-line specs).\r\n\r\nFor example timing this with the E4S cache (times are in seconds):\r\n\r\n```\r\n$ spack mirror add E4S https://cache.e4s.io\r\n$ spack -d buildcache list --allarch gcc\r\n==> [2021-10-20-14:06:28.974284] Read DB: 11.0089852809906\r\n==> [2021-10-20-14:06:56.917867] Query DB: 27.943589210510254\r\n\r\nIf I omit the sorting, it is much faster\r\n\r\n==> [2021-10-20-14:17:00.120463] Read DB: 11.312503099441528\r\n==> [2021-10-20-14:17:00.259022] Query DB: 0.13856101036071777\r\n```\r\n\r\nThe 11-second read time is difficult to avoid, but this will only be incurred when the user (a) refers to a hash that is not installed in the DB or (b) mistypes a hash ((b) is an instance of (a) but IMO it's worth noting that \"incorrect\" hashes will incur the full lookup cost).\r\n",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/26863",
+    "updated_at": "2021-10-22 23:31:10",
+    "created_at": "2021-10-21 02:32:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[WIP] Search binary indices for spec hashes parsed from command line",
+    "number": 26863,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "binary-packages"
+    ],
+    "id": 1031992730,
+    "html_url": "https://github.com/spack/spack/pull/26863",
+    "assignees": [],
+    "comments": 0
+}

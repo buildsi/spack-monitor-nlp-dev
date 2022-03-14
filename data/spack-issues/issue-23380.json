@@ -1,0 +1,19 @@
+{
+    "body": "`spack module lmod loads` should output commands to load hierarchical prerequisites.\r\n\r\n### Rationale\r\nCurrently, `spack module lmod loads` (and relatives such as `spack env loads -m lmod`) output only the spec specified. If this isn't in the Core part of the Lmod hierarchy, it is not possible to directly load the module; it can only be loaded _after_ its hierarchical prerequisites.\r\n\r\nThe `-r/--dependencies` flag helps this situation somewhat, but doesn't properly load dependent compilers for a hierarchy. My understanding is that _eventually_ compilers will become \"true\" dependencies, at which point this will change\u2014but we aren't there yet. In any case, it may not be wanted to load _all_ dependencies, only those needed to actually load the module.\r\n\r\n\r\n### Description\r\nAs an example of the desired behavior, given I have an installed spec `hdf5 ^openmpi %aocc`:\r\n```console\r\n$ spack module lmod loads hdf5 ^openmpi %aocc\r\n# aocc@3.0.0%gcc@8.3.1 +license-agreed arch=linux-centos8-zen2\r\nmodule load aocc/3.0.0-abcdefg\r\n# openmpi@4.0.5%aocc@3.0.0 ~atomics~cuda~cxx~cxx_exceptions+gpfs~internal-hwloc~java~legacylaunchers~lustre~memchecker~pmi~singularity~sqlite3+static~thread_multiple+vt+wrapper-rpath fabrics=none patches=60ce20bc14d98c572ef7883b9fcd254c3f232c2f3a13377480f96466169ac4c8 schedulers=none arch=linux-centos8-zen2\r\nmodule loads openmpi/4.05-hijklmn\r\n# hdf5@1.10.7%aocc@3.0.0 ~cxx~debug~fortran~hl~java+mpi+pic+shared~szip~threadsafe api=none arch=linux-centos8-zen2\r\nmodule loads hdf5/1.10.7-opqrstu\r\n```\r\n\r\nOf course, any spec installed with a Core compiler or listed under Core specs need not load the relevant hierarchical prerequisites. (I.e. compiler for the former, any for the latter.)\r\n\r\n\r\n### Additional information\r\nSpack version: 0.16.1-2445-5e8b8b883c\r\n\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "omor1",
+    "url": "https://api.github.com/repos/spack/spack/issues/23380",
+    "updated_at": "2021-05-01 02:02:19",
+    "created_at": "2021-05-01 02:02:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack module lmod loads` should load hierarchy prerequisites",
+    "number": 23380,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 873499278,
+    "html_url": "https://github.com/spack/spack/issues/23380",
+    "assignees": [],
+    "comments": 0
+}

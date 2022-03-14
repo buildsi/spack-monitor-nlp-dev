@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\n\nGiven the following `${SPACK_ROOT}/etc/spack/packages.yaml`:\r\n```yaml\r\npackages:\r\n  all:\r\n    providers:\r\n      mpi: [mvapich2, intel-mpi]\r\n  intel-mpi:\r\n    externals:\r\n    - spec: intel-mpi@foobar\r\n      prefix: /foobar\r\n  mvapich2:\r\n    externals:\r\n    - spec: mvapich2@foobar\r\n      prefix: /foobar\r\n```\r\nI would expect that `mvapich2@foobar` would be the default provider for MPI, as it is both available as an external and first in my preference list.\r\n\r\nThis works most of the time:\r\n```\r\n\u276f spack spec -I fftw   \r\nInput spec\r\n--------------------------------\r\n -   fftw\r\n\r\nConcretized\r\n--------------------------------\r\n -   fftw@3.3.10%gcc@9.3.0+mpi~openmp~pfft_patches precision=double,float arch=linux-ubuntu20.04-skylake\r\n -       ^mvapich2@foobar%gcc@9.3.0~alloca~cuda~debug+regcache+wrapperrpath ch3_rank_bits=32 fabrics=mrail file_systems=auto process_managers=auto threads=multiple arch=linux-ubuntu20.04-skylake\r\n```\n\n### Error message\n\nThe above though fails some of the time:\r\n```\r\n\u276f spack spec -I hdf5\r\nInput spec\r\n--------------------------------\r\n -   hdf5\r\n\r\nConcretized\r\n--------------------------------\r\n -   hdf5@1.10.7%gcc@9.3.0~cxx~fortran~hl~ipo~java+mpi+shared~szip~threadsafe+tools api=default build_type=RelWithDebInfo arch=linux-ubuntu20.04-skylake\r\n -       ^cmake@3.21.4%gcc@9.3.0~doc+ncurses+openssl+ownlibs~qt build_type=Release arch=linux-ubuntu20.04-skylake\r\n -           ^ncurses@6.2%gcc@9.3.0~symlinks+termlib abi=none arch=linux-ubuntu20.04-skylake\r\n -               ^pkgconf@1.8.0%gcc@9.3.0 arch=linux-ubuntu20.04-skylake\r\n -           ^openssl@1.1.1l%gcc@9.3.0~docs certs=system arch=linux-ubuntu20.04-skylake\r\n -               ^perl@5.34.0%gcc@9.3.0+cpanm+shared+threads arch=linux-ubuntu20.04-skylake\r\n -                   ^berkeley-db@18.1.40%gcc@9.3.0+cxx~docs+stl patches=b231fcc4d5cff05e5c3a4814f6a5af0e9a966428dc2176540d2c05aff41de522 arch=linux-ubuntu20.04-skylake\r\n -                   ^bzip2@1.0.8%gcc@9.3.0~debug~pic+shared arch=linux-ubuntu20.04-skylake\r\n -                       ^diffutils@3.8%gcc@9.3.0 arch=linux-ubuntu20.04-skylake\r\n -                           ^libiconv@1.16%gcc@9.3.0 libs=shared,static arch=linux-ubuntu20.04-skylake\r\n -                   ^gdbm@1.19%gcc@9.3.0 arch=linux-ubuntu20.04-skylake\r\n -                       ^readline@8.1%gcc@9.3.0 arch=linux-ubuntu20.04-skylake\r\n -                   ^zlib@1.2.11%gcc@9.3.0+optimize+pic+shared arch=linux-ubuntu20.04-skylake\r\n -       ^intel-mpi@foobar%gcc@9.3.0~external-libfabric arch=linux-ubuntu20.04-skylake\r\n```\r\nHere, `intel-mpi` is selected when I would still expect `mvapich2` to be preferred.\r\n\r\nIMHO, all installed (external or not) providers should still be ranked by preference to avoid having to specify the provider every time; like `hdf5^mvapich2` in this case.\n\n### Information on your system\n\n```\r\n\u276f spack debug report                             \r\n* **Spack:** 0.17.0-353-5044df88ab\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-ubuntu20.04-skylake\r\n* **Concretizer:** clingo\r\n```\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [ ] I have run the failing commands in debug mode and reported the output",
+    "user": "matz-e",
+    "url": "https://api.github.com/repos/spack/spack/issues/27720",
+    "updated_at": "2021-11-30 16:24:09",
+    "created_at": "2021-11-30 15:50:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "External installations for providers leave preferences ignored when concretizing",
+    "number": 27720,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 1067394644,
+    "html_url": "https://github.com/spack/spack/issues/27720",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

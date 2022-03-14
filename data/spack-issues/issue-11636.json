@@ -1,0 +1,22 @@
+{
+    "body": "I am having trouble using the --no-checksum setting with install and spack environments.\r\nUse case involves setting up multiple compilers and libraries using the spack environments capability to simplify development and testing of another program and avoid the maintenance headache of a brittle version specific script. The --no-checksum setting does not appear to work with e.g. libxml2 on the install line when it is invoked in the second created environment. A workaround would be very helpful.\r\n\r\n### Steps to reproduce the issue\r\n\r\nSimplified script:\r\n\r\n```\r\nrm -r -f $HOME/apps/spack\r\nrm -f $HOME/.spack/linux/compilers.yaml\r\ncd $HOME/apps\r\ngit clone https://github.com/spack/spack.git\r\ncd spack/bin\r\n./spack bootstrap\r\n\r\nmodule() { eval `/usr/bin/modulecmd bash $*`; }\r\n\r\nexport SPACK_ROOT=$HOME/apps/spack\r\n. $SPACK_ROOT/share/spack/setup-env.sh\r\n\r\necho --- Spack list\r\nspack find\r\necho --- Modules list\r\nmodule list\r\necho --- End listings\r\n\r\ngcc_vnew=8.3.0\r\ngcc_vold=5.5.0\r\nlibxml2_vnew=2.9.9\r\nlibxml2_vold=2.9.1\r\n\r\necho --- START env `date`\r\nspack env create gccnewbuild\r\nspack env activate gccnewbuild\r\nspack install gcc@${gcc_vnew}\r\nspack load gcc@${gcc_vnew}\r\nspack compiler add\r\nspack add libxml2@${libxml2_vnew}%gcc@${gcc_vnew}\r\n# Intended usage would have many more adds here\r\n\r\nspack install --no-checksum #because some packages such as libxml2 don't have checksums\r\nspack env deactivate\r\necho --- FINISH env `date`\r\n\r\necho --- START env `date`\r\nspack env create gccoldbuild\r\nspack env activate gccoldbuild\r\nspack install gcc@${gcc_vold}\r\nspack load gcc@${gcc_vold}\r\nspack compiler add\r\nspack add libxml2@${libxml2_vold}%gcc@${gcc_vold}\r\n# Intended usage would have many more adds here\r\n\r\nspack install --no-checksum\r\nspack env deactivate\r\necho --- FINISH env `date`\r\n```\r\n\r\n### Error Message\r\n\r\nThe error occurs on the second install of libxml2. The first installation of libxml2 appears to be successful.\r\n\r\n```\r\n==> Successfully installed zlib\r\n  Fetch: 0.00s.  Build: 1.43s.  Total: 1.44s.\r\n[+] /home/pk7/apps/spack/opt/spack/linux-rhel7-x86_64/gcc-5.5.0/zlib-1.2.11-56rgaosb4ij2unhwfsnbiv7z3qjximce\r\n==> Warning: No Spack mirrors are currently configured\r\n==> Installing libxml2\r\n==> Searching for binary cache of libxml2\r\n==> No binary for libxml2 found: installing from source\r\n==> Warning: There is no checksum on file to fetch libxml2@2.9.1 safely.\r\n==> Error: FetchError: Will not fetch libxml2@2.9.1\r\n    Add a checksum or use --no-checksum to skip this check.\r\n\r\n/home/pk7/apps/spack/lib/spack/spack/package.py:996, in do_fetch:\r\n        993                    tty.msg(\"Fetching with no checksum.\", ck_msg)\r\n        994\r\n        995            if not ignore_checksum:\r\n  >>    996                raise FetchError(\"Will not fetch %s\" %\r\n        997                                 self.spec.format('{name}{@version}'), ck_msg)\r\n        998\r\n        999        self.stage.create()\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\nSystem is a RHEL 7.6 box. spack is today's head version.\r\n\r\n",
+    "user": "prckent",
+    "url": "https://api.github.com/repos/spack/spack/issues/11636",
+    "updated_at": "2022-01-06 18:52:14",
+    "created_at": "2019-06-05 18:06:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack install no-checksum not working correctly with spack environments",
+    "number": 11636,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 452641895,
+    "html_url": "https://github.com/spack/spack/issues/11636",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 10
+}

@@ -1,0 +1,23 @@
+{
+    "body": "The `CMAKE_INSTALL_RPATH` list does not include whatever is in `SPACK_COMPILER_EXTRA_RPATHS`. This breaks among other things cmake packages depending on `intel-mkl`.\r\n\r\nFor instance, here is a binary in the staging folder (after `make` is run):\r\n\r\n```\r\n$ readelf -d pw.x\r\n...\r\n 0x0000000000000001 (NEEDED)             Shared library: [libmkl_scalapack_lp64.so]                                                                                                                                                                                                       \r\n...\r\n 0x000000000000000f (RPATH)              Library rpath: [/path/to/intel-mkl/2020.3.279-4ar36nvircn7wzusplmj2z5ltvvb3ycs/compilers_and_libraries_2020.3.279/linux/mkl/lib/intel64:/path/to/intel-mkl/2020.3.279-4ar36nvircn7wzusplmj2z5ltvvb3ycs/mkl/lib/intel64_lin:/path/to/intel-mkl/2020.3.279-4ar36nvircn7wzusplmj2z5ltvvb3ycs/lib]\r\n```\r\n\r\nbut when it gets installed with `make install`, the only MKL-related path remaining is\r\n\r\n```\r\n$ readelf -d pw.x\r\n...\r\n 0x000000000000000f (RPATH)              Library rpath: [/path/to/intel-mkl/2020.3.279-4ar36nvircn7wzusplmj2z5ltvvb3ycs/mkl/lib/intel64_lin:/path/to/intel-mkl/2020.3.279-4ar36nvircn7wzusplmj2z5ltvvb3ycs/lib]\r\n```\r\nand `libmkl_scalapack_lp64.so` is not found:\r\n\r\n```\r\n$ ldd pw.x\r\n         libmkl_scalapack_lp64.so => not found\r\n```\r\n\r\nThis is because `CMAKE_INSTALL_RPATH` does not include what is listed in `SPACK_COMPILER_EXTRA_RPATHS`, and cmake likes to rewrite rpaths on `make install`. Since SPACK_COMPILER_EXTRA_RPATHS is only used in compiler wrappers, those paths are deleted upon make install.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/19970",
+    "updated_at": "2021-02-03 18:37:02",
+    "created_at": "2020-11-18 13:35:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "CMAKE_INSTALL_RPATH does not include SPACK_COMPILER_EXTRA_RPATHS",
+    "number": 19970,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "workaround",
+        "impact-low"
+    ],
+    "id": 745665919,
+    "html_url": "https://github.com/spack/spack/issues/19970",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

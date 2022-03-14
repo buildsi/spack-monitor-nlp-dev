@@ -1,0 +1,21 @@
+{
+    "body": "(I think that)  `spack module loads` command show too much modules.  \r\n\r\n[Documentation link for `spack module loads`](https://spack.readthedocs.io/en/v0.10.0/module_file_support.html?highlight=module%20loads#spack-module-loads)\r\n\r\n### Basic example:\r\n\r\n```bash\r\n$ spack install cmake\r\n$ spack install cmake -ncurses\r\n\r\n$ spack module loads cmake\r\n# cmake@3.11.4%gcc@5.4.0~doc~ncurses+openssl+ownlibs~qt arch=linux-ubuntu16.04-x86_64 \r\nmodule load cmake-3.11.4-gcc-5.4.0-wwzmxze\r\n# cmake@3.11.4%gcc@5.4.0~doc+ncurses+openssl+ownlibs~qt arch=linux-ubuntu16.04-x86_64 \r\nmodule load cmake-3.11.4-gcc-5.4.0-dtsol6q\r\n```\r\n\r\n### Expectation:\r\n\r\n```bash\r\n$ spack install cmake\r\n$ spack install cmake -ncurses\r\n\r\n$ spack module loads cmake\r\n# cmake@3.11.4%gcc@5.4.0~doc+ncurses+openssl+ownlibs~qt arch=linux-ubuntu16.04-x86_64 \r\nmodule load cmake-3.11.4-gcc-5.4.0-dtsol6q\r\n```\r\n\r\nAs default variant for `cmake` package is `+ncurses`, as a user, I expect to do not care about it.\r\nSo when I write `spack module loads cmake`, I expect to show module coresponding to the befault behaviours, and not all cmake related module.\r\n\r\nIf you are not agree with it, why do you think actual behaviour is better / needed ?\r\n\r\n### More information:\r\n```\r\ngitlab@250d64a2a414:~$ uname -a\r\nLinux 250d64a2a414 3.13.0-43-generic #72-Ubuntu SMP Mon Dec 8 19:35:06 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux\r\ngitlab@250d64a2a414:~$ spack --version\r\n0.11.2\r\ngitlab@250d64a2a414:~$ spack arch \r\nlinux-ubuntu16.04-x86_64\r\n```\r\n\r\n### Related question\r\n\r\nI did not find a way to load every dependencies module for a particular package.\r\nI am aware of `--dependencies`, or `-r` option, but I search for `--dependencies-only`.\r\n\r\nAs a workaround I use `head -n -2 `.\r\nTo keep my example, for now I use:\r\n```\r\n$ spack module loads -r cmake | head -n -2\r\n```\r\nOr the full command:\r\n```\r\nsource <(spack module loads -r cmake | head -n -2)\r\n```\r\n\r\n### More context\r\nI use spack to develop our own software.\r\nSo we load every dependencies with spack.\r\nWe have a package for our software but o develop we use:\r\n```bash\r\n# this command only on time\r\nspack setup mysoft@master\r\n\r\n# this command for every bash we need to compile/execute\r\nsource <(spack module loads -r mysoft@master | head -n -2)\r\n\r\ncd build && cmake ..\r\n```\r\n\r\n\r\n",
+    "user": "Oximore",
+    "url": "https://api.github.com/repos/spack/spack/issues/8636",
+    "updated_at": "2018-07-05 14:51:56",
+    "created_at": "2018-07-03 13:39:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack module loads` behaviour and default package specification ",
+    "number": 8636,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 337903464,
+    "html_url": "https://github.com/spack/spack/issues/8636",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

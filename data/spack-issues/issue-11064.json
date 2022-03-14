@@ -1,0 +1,24 @@
+{
+    "body": "On LCFs where one has to do compiles on backend nodes [which don't have network access] - 'spack fetch' is useful.\r\n\r\nHowever this does not work with git/branch URLs - where a download from the backend is attempted [resulting in build errors]\r\n\r\n\r\n### Steps to reproduce the issue\r\nAttempting this on a linux workstation - I do see the second download step attempted\r\n\r\n```console\r\n\r\nbalay@pj02:~/spack$ spack fetch adol-c@develop\r\n==> Cloning git repository: https://gitlab.com/adol-c/adol-c.git on branch master\r\n==> No checksum needed when fetching with git\r\nbalay@pj02:~/spack$ spack install adol-c@develop\r\n==> autoconf@2.69 : externally installed in /usr\r\n==> autoconf@2.69 : generating module file\r\n==> autoconf@2.69 : registering into DB\r\n==> automake@1.15.1 : externally installed in /usr\r\n==> automake@1.15.1 : generating module file\r\n==> automake@1.15.1 : registering into DB\r\n==> libtool@2.4.6 : externally installed in /usr\r\n==> libtool@2.4.6 : generating module file\r\n==> libtool@2.4.6 : registering into DB\r\n==> m4@1.4.18 : externally installed in /usr\r\n==> m4@1.4.18 : generating module file\r\n==> m4@1.4.18 : registering into DB\r\n==> Installing adol-c\r\n==> Searching for binary cache of adol-c\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for adol-c found: installing from source\r\n==> Cloning git repository: https://gitlab.com/adol-c/adol-c.git on branch master\r\n==> No checksum needed when fetching with git\r\n==> Already staged adol-c-develop-omjty56hedqyctgkyppbd5cgszby3fmv in /home/balay/spack/var/spack/stage/adol-c-develop-omjty56hedqyctgkyppbd5cgszby3fmv\r\n```\r\n\r\n### Error Message\r\n\r\nNotice the `Cloning git repository: https://gitlab.com/adol-c/adol-c.git on branch master` in the install stage - the fetch should have prevented this.\r\n\r\nIs there some option I should use to avoid this second download?\r\n\r\nHere is the actual error on one of the LCF runs via scheduler.\r\n\r\nHere `spack fetch --dependencies xsdk@develop ^adol-c@develop~examples` was previously run - [but I don't have that log]\r\n\r\nAnd this log is from  `spack install xsdk@develop ^adol-c@develop~examples` [perhaps 10th incremental attempt at installing these collection of packages]\r\n\r\n```console\r\n==> Installing pflotran\r\n==> Searching for binary cache of pflotran\r\n==> No binary for pflotran found: installing from source\r\n==> Cloning git repository: https://bitbucket.org/pflotran/pflotran.git\r\n==> Fetching from [git] https://bitbucket.org/pflotran/pflotran.git failed.\r\nApplication 12657778 exit codes: 1\r\nApplication 12657778 resources: utime ~10699s, stime ~7029s, Rss ~2584700, inblocks ~537582, outblocks ~47712\r\n\r\n```\r\n\r\ncc: @todd",
+    "user": "balay",
+    "url": "https://api.github.com/repos/spack/spack/issues/11064",
+    "updated_at": "2019-07-20 00:53:12",
+    "created_at": "2019-03-29 20:38:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack fetch does not work with package@develop installs - that use git/branch URLs",
+    "number": 11064,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "feature",
+        "xSDK",
+        "impact-medium"
+    ],
+    "id": 427169091,
+    "html_url": "https://github.com/spack/spack/issues/11064",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

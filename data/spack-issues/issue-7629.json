@@ -1,0 +1,22 @@
+{
+    "body": "### Summary\r\n\r\nOn Titan (Cray XK7) spack (`develop` branch, 70a8219f9) successfully builds metis, but fails during the install when it tries to write to a system directory.  Interestingly, the directory it is trying to install to is where cmake was installed by OLCF admins using spack.\r\n\r\nNote, the above problem occurs when I use the cmake module in my `packages.yaml`. When the path is specified as follows:\r\n```yaml\r\n  cmake:\r\n    paths:\r\n      cmake@3.9.0: /autofs/nccs-svm1_sw/titan/.swci/0-login/opt/spack/20170612/linux-suse_linux11-x86_64/gcc-4.3.4/cmake-3.9.0-owxiriblogovogl5zbrg45ulm3ln34cx\r\n    buildable: False\r\n```\r\nthe installation completes successfully.\r\n\r\n### Expected Result\r\n\r\nmetis installed in my local spack directory.\r\n\r\n### Actual Result\r\n\r\nspack fails when trying to install metis to a system directory\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ ./bin/spack --debug --verbose install -v metis%pgi@17.9.0 target=interlagos &> usingModules.log \r\n```\r\n[`usingModules.log`](https://github.com/spack/spack/files/1856865/usingModules.log)\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. which platform you are using: \r\nTitan Cray XK7\r\n```console\r\n$ ./bin/spack arch                                                                                                                                   \r\ncray-cnl5-interlagos\r\n```\r\n\r\n 2. any relevant configuration detail:\r\n\r\npackages.yaml\r\n```yaml\r\npackages:\r\n  mpich:\r\n    modules:\r\n      mpich@7.6.3%cce@8.6.4 arch=cray-CNL-interlagos: cray-mpich\r\n      mpich@7.6.3%pgi@17.9.0 arch=cray-CNL-interlagos: cray-mpich\r\n    buildable: False\r\n  cmake:\r\n    modules:\r\n      cmake@3.9.0: cmake3/3.9.0\r\n    buildable: False\r\n  all:\r\n    compiler: [cce/8.6.4,pgi/17.9.0]\r\n    providers:\r\n      mpi: [mpich]\r\n```\r\n\r\n",
+    "user": "cwsmith",
+    "url": "https://api.github.com/repos/spack/spack/issues/7629",
+    "updated_at": "2019-07-03 18:26:30",
+    "created_at": "2018-03-28 16:46:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "cray: spack tries to install to a system directory when using cmake module",
+    "number": 7629,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "build-error",
+        "pgi",
+        "help wanted"
+    ],
+    "id": 309446165,
+    "html_url": "https://github.com/spack/spack/issues/7629",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,21 @@
+{
+    "body": "This fixes two issues in the `spack` package for CoMD (aka `comd`). Both appear to be typos.\r\n\r\n* A copy of `Make.vanilla` would not happen in the `with ... or ...:` for the second thing, namely OpenMP\r\n* `'spack_cc'` is incorrectly quoted, which prevents the variable from being evaluated to the correct compiler. Removing the quotes fixes this. \r\n\r\n`comd` will compile with its default `spack install comd`; however, this form isn't very helpful as it relies on MPI and `comd`'s implementation has limitations on scaling that. OpenMP in `comd` appears to be more helpful and requires compiling with `spack install comd +openmp -mpi` since MPI and OMP conflict in `comd`.\r\n\r\nWith this PR you can now compile on `arm`, `nvhpc` and `gcc` compilers and run CoMD-openmp` scaling tests that show OpenMP works.\r\n\r\n```\r\n[jayson@ip-10-0-0-176 spack]$ spack install comd@1.1%gcc@10.3.0 +openmp -mpi\r\n==> Installing comd-1.1-luecpbxvvbzkc5eqkfkz3poc2nptxoeo\r\n==> No binary for comd-1.1-luecpbxvvbzkc5eqkfkz3poc2nptxoeo found: installing from source\r\n==> Using cached archive: /scratch/home/jayson/spack/var/spack/cache/_source-cache/archive/4e/4e85f86f043681a1ef72940fc24a4c71356a36afa45446f7cfe776abad6aa252.tar.gz\r\n==> No patches needed for comd\r\n==> comd: Executing phase: 'edit'\r\n==> comd: Executing phase: 'build'\r\n==> comd: Executing phase: 'install'\r\n==> comd: Successfully installed comd-1.1-luecpbxvvbzkc5eqkfkz3poc2nptxoeo\r\n  Fetch: 0.00s.  Build: 0.23s.  Total: 0.23s.\r\n[+] /scratch/opt/spack/linux-amzn2-graviton2/gcc-10.3.0/comd-1.1-luecpbxvvbzkc5eqkfkz3poc2nptxoeo\r\n\r\n[jayson@ip-10-0-0-176 spack]$ spack install comd@1.1%nvhpc@21.2 +openmp -mpi\r\n==> Installing comd-1.1-ji2nrex5f44n7keyzwkt3okhdozygkzz\r\n==> No binary for comd-1.1-ji2nrex5f44n7keyzwkt3okhdozygkzz found: installing from source\r\n==> Using cached archive: /scratch/home/jayson/spack/var/spack/cache/_source-cache/archive/4e/4e85f86f043681a1ef72940fc24a4c71356a36afa45446f7cfe776abad6aa252.tar.gz\r\n==> No patches needed for comd\r\n==> comd: Executing phase: 'edit'\r\n==> comd: Executing phase: 'build'\r\n==> comd: Executing phase: 'install'\r\n==> comd: Successfully installed comd-1.1-ji2nrex5f44n7keyzwkt3okhdozygkzz\r\n  Fetch: 0.00s.  Build: 0.42s.  Total: 0.42s.\r\n\r\n[+] /scratch/opt/spack/linux-amzn2-graviton2/nvhpc-21.2/comd-1.1-ji2nrex5f44n7keyzwkt3okhdozygkzz\r\n[jayson@ip-10-0-0-176 spack]$ spack install comd@1.1%arm@21.0.0.879 +openmp -mpi\r\n==> Warning: arm@21.0.0.879 cannot build optimized binaries for \"graviton2\". Using best target possible: \"aarch64\"\r\n==> Installing comd-1.1-phpsqbdm2lucpiarf7j5rd2m22owszc5\r\n==> No binary for comd-1.1-phpsqbdm2lucpiarf7j5rd2m22owszc5 found: installing from source\r\n==> Using cached archive: /scratch/home/jayson/spack/var/spack/cache/_source-cache/archive/4e/4e85f86f043681a1ef72940fc24a4c71356a36afa45446f7cfe776abad6aa252.tar.gz\r\n==> No patches needed for comd\r\n==> comd: Executing phase: 'edit'\r\n==> comd: Executing phase: 'build'\r\n==> comd: Executing phase: 'install'\r\n==> comd: Successfully installed comd-1.1-phpsqbdm2lucpiarf7j5rd2m22owszc5\r\n  Fetch: 0.00s.  Build: 0.23s.  Total: 0.23s.\r\n[+] /scratch/opt/spack/linux-amzn2-aarch64/arm-21.0.0.879/comd-1.1-phpsqbdm2lucpiarf7j5rd2m22owszc5\r\n```",
+    "user": "jfalkner",
+    "url": "https://api.github.com/repos/spack/spack/issues/24916",
+    "updated_at": "2021-08-01 17:28:28",
+    "created_at": "2021-07-16 01:30:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "comd: fix +openmp -mpi",
+    "number": 24916,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 945865891,
+    "html_url": "https://github.com/spack/spack/pull/24916",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

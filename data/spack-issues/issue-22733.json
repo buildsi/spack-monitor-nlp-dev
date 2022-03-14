@@ -1,0 +1,22 @@
+{
+    "body": "This patch presents a change to selecting a `path` (`external_path`) for an external package that depends on modules.\r\n\r\nOne issue with such packages is that spack needs to resolve a `path` to provide to build systems (among others). For example, spack needs to resolve what `path/to/mpi` is to provide something like `--with-mpi=/path/to/mpi`.  Given a list of modules, how does one choose a path from whatever attributes those modules define?\r\n\r\nThe current process has caused me digital indigestion.\r\n\r\nThe current process simply picks whatever module happens to be the last module that will have a suitable path defined.\r\n\r\nE.g., for a compiler, `modules = [ gcc/5.3.1, intel/17.0.1 ]` This may make sense, since Intel typically depends on an underlying GCC for headers/stl.\r\n\r\nThe problem with arbitrarily choosing a position in the module list is that users likely will not know this and it is unintuitive. For example, an external MPI from cray may need `modules = [ slurm, craype-network-of-awesome, cray-mvapich2 ]` Or, a Cray compiler will depend on many modules, e.g., `modules = [ cce, craype-arch-of-awesome, craype, shared, gcc/8.3.1 ]`. These dependent modules may be somewhat hidden by some wrapper module, e.g., `PrgEnv-cray`, but that is not a given.\r\n\r\nI propose either add a field to external packages that use modules to declare what path or module should be chosen.\r\n\r\nOr, use the logic proposed:\r\n1.  When considering an external package `foo`, first search for modules containing `foo`. From those modules attempt to find a suitable path - if none is found, then search through the remaining modules choosing whatever (currently defined to be the *last* path found)\r\n\r\nThis is by no means robust. E.g., if someone declared an external package `go` with `modules= [ go/5.0, mango-fun/1.0, hugo/6]` the logic would choose `hugo` (if it has a path, or `mango` if hugo lacked one.\r\n\r\nA more robust solution would be add a field to externals declaring which `module name` is the core. Or allow the user to specify an ENV name that would be unique out of all modules loaded, e.g., `SLURM_ROOT` should only be declared in a single module.\r\n\r\nEither way - the modifications presented do two things:\r\n1. They add some needed verbose output so the user can get an idea of what SPACK is trying to do\r\n2. The logic of using the package name as a hint to find the best module appears to work pretty well (but as stated, neither the current impl nor this one are necessarily robust - this impl is simply more verbose about what it is doing, and the logic of package name = priority seems intuitive and seems to resolve some problems I have.\r\n\r\nThis issue is related to oddball behavior reported in #22222 - It accounts for a piece of the behavior I observed there.\r\nI didn't intend to hunt this, but a mixture of #22732 and #22222 and weird problems with `parallel-netcdf` somehow using native `mvapich` compilers drove me over the cliff.\r\n\r\n@alalazo @becker33 ",
+    "user": "jjellio",
+    "url": "https://api.github.com/repos/spack/spack/issues/22733",
+    "updated_at": "2021-04-10 22:52:30",
+    "created_at": "2021-04-01 19:54:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack: Address issues with external packages that use modules",
+    "number": 22733,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "modules",
+        "external-packages",
+        "commands"
+    ],
+    "id": 848746477,
+    "html_url": "https://github.com/spack/spack/pull/22733",
+    "assignees": [],
+    "comments": 3
+}

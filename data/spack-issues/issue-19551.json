@@ -1,0 +1,19 @@
+{
+    "body": "Facing issues building Axom on Cori (Cray XC40). MPI issues for building Conduit (dependency) as well as Axom. I have created one issue, since I see the same error for both packages.\r\n\r\nError message for Conduit:\r\n`-- Could NOT find MPI_C (missing: MPI_C_LIB_NAMES) (found version \"3.1\")` similarly for CXX and Fortan. Build log attached.\r\n[conduit-spack-build-out.txt](https://github.com/spack/spack/files/5446835/conduit-spack-build-out.txt)\r\n\r\nI circumvent this error by using #19513, which essentially side-steps the spack wrapper. Following this I face an error of a similar nature in the Axom package\r\n\r\nError message for Axom:\r\n`-- Could NOT find MPI_C (missing: MPI_C_LIB_NAMES) (found version \"3.1\")` similarly for CXX and Fortan. Build log attached.\r\n[axom-spack-build-out.txt](https://github.com/spack/spack/files/5446901/axom-spack-build-out.txt)\r\n\r\nI circumvent this error by using #19514 which again side-steps the spack wrapper and successfully builds Axom. However, it might be better to figure out the underlying issue. In case I am doing something wrong.\r\n\r\n`spack debug report\r\n* **Spack:** 0.15.4-1680-7313cf5ea\r\n* **Python:** 3.6.10\r\n* **Platform:** cray-sles15-haswell\r\n`\r\n\r\n\r\nSteps to reproduce the issue\r\n1. `module swap intel/19.0.3.199 intel/19.1.2.254` (not necessary, however, I am building E4S with this version)\r\n2. `git clone https://github.com/spack/spack ~/spack`\r\n3. `. ~/spack/share/spack/setup-env.sh`\r\n4. Create ~/.spack/cray/compilers.yaml and ~/.spack/packages.yaml (attached)\r\n5. `export CC=$(which cc) && export CXX=$(which CC) && export FC=$(which ftn)` (redundant since this is set in compilers.yaml as well)\r\n6. `spack install axom@0.3.3 %intel@19.1.2.254`\r\n\r\nYaml files:\r\n[compilers.txt](https://github.com/spack/spack/files/5445815/compilers.txt)\r\n[packages.txt](https://github.com/spack/spack/files/5445820/packages.txt)\r\n",
+    "user": "adityakavalur",
+    "url": "https://api.github.com/repos/spack/spack/issues/19551",
+    "updated_at": "2020-10-27 17:21:12",
+    "created_at": "2020-10-27 17:18:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: Axom and Conduit on Cray",
+    "number": 19551,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 730657862,
+    "html_url": "https://github.com/spack/spack/issues/19551",
+    "assignees": [],
+    "comments": 1
+}

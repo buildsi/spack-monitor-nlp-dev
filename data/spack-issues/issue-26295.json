@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nFor the following develop environment with the linear chain of dependencies `sirius -> nlcglib -> kokkos` (all under development):\r\n```\r\nspack:\r\n  concretization: together\r\n  specs:\r\n    - sirius\r\n  develop:\r\n    kokkos:\r\n      path: /path/to/kokkos\r\n      spec: kokkos@develop%clang\r\n    nlcglib:\r\n      path: /path/to/nlcglib\r\n      spec: nlcglib@develop%clang\r\n    sirius:\r\n      path: /path/to/SIRIUS\r\n      spec: sirius@develop+nlcglib%gcc\r\n```\r\n\r\nConcretization fails with the following error (apparently coming from nlcglib, the first dependency of the root package sirius):\r\n\r\n```console\r\n$ spack -e . concretize\r\n=> Error: 0.9 does not satisfy develop\r\n```\r\n\r\nIf  `^nlcglib@develop` is appended to the root spec of sirius, it will complain with the same message about the latest version of kokkos not matching develop.\r\n\r\n\n\n### Error message\n\n```\r\nlib/spack/spack/main.py:800 ==> [2021-09-28-11:51:09.616421] UnsatisfiableVersionSpecError: 0.9 does not satisfy develop\r\nlib/spack/spack/error.py:54 ==> [2021-09-28-11:51:09.623945] Error: 0.9 does not satisfy develop\r\nTraceback (most recent call last):\r\n  File \"/home/simon/spack/lib/spack/spack/main.py\", line 797, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/home/simon/spack/lib/spack/spack/main.py\", line 525, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/home/simon/spack/lib/spack/spack/cmd/concretize.py\", line 37, in concretize\r\n    concretized_specs = env.concretize(force=args.force, tests=tests)\r\n  File \"/home/simon/spack/lib/spack/spack/environment.py\", line 1147, in concretize\r\n    return self._concretize_together(tests=tests)\r\n  File \"/home/simon/spack/lib/spack/spack/environment.py\", line 1186, in _concretize_together\r\n    concrete_specs = spack.concretize.concretize_specs_together(\r\n  File \"/home/simon/spack/lib/spack/spack/concretize.py\", line 725, in concretize_specs_together\r\n    return _concretize_specs_together_new(*abstract_specs, **kwargs)\r\n  File \"/home/simon/spack/lib/spack/spack/concretize.py\", line 730, in _concretize_specs_together_new\r\n    result = spack.solver.asp.solve(abstract_specs)\r\n  File \"/home/simon/spack/lib/spack/spack/solver/asp.py\", line 1691, in solve\r\n    return driver.solve(setup, specs, dump, models, timers, stats, tests)\r\n  File \"/home/simon/spack/lib/spack/spack/solver/asp.py\", line 396, in solve\r\n    answers = builder.build_specs(tuples)\r\n  File \"/home/simon/spack/lib/spack/spack/solver/asp.py\", line 1641, in build_specs\r\n    _develop_specs_from_env(s, ev.active_environment())\r\n  File \"/home/simon/spack/lib/spack/spack/solver/asp.py\", line 1665, in _develop_specs_from_env\r\n    spec.constrain(dev_info['spec'])\r\n  File \"/home/simon/spack/lib/spack/spack/spec.py\", line 3115, in constrain\r\n    raise UnsatisfiableVersionSpecError(self.versions, other.versions)\r\nspack.spec.UnsatisfiableVersionSpecError: 0.9 does not satisfy develop\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3-4489-56d4c21c75\r\n* **Python:** 3.9.7\r\n* **Platform:** linux-arch-skylake\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "simonpintarelli",
+    "url": "https://api.github.com/repos/spack/spack/issues/26295",
+    "updated_at": "2021-10-13 09:59:39",
+    "created_at": "2021-09-28 09:58:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "concretize fails in develop environment when dependencies are also under development",
+    "number": 26295,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1009538338,
+    "html_url": "https://github.com/spack/spack/issues/26295",
+    "assignees": [],
+    "comments": 6
+}

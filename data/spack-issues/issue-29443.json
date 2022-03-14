@@ -1,0 +1,20 @@
+{
+    "body": "Refactors environment view generation\n\n1. Reduce the number of stat calls by a factor 2 to 3\n2. Replace symlinked directories with directories filled with symlinks\n\nSimple tests with `cmake` + `perl` as root specs on a shared filesystem shows\nthat it's about 1.75x than current develop (repeated stat calls hit fs cache,\nso no magic 2x to 3x gains...)\n\nTODO:\n- [ ] raise on merge conflict.\n- [x] don't merge dirs when underlying dir is symlinked outside prefix.\n- [ ] bring back .spack metadata folder.\n- [ ] bring back `add_files_to_view` package pass for Python.\n\n\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/29443",
+    "updated_at": "2022-03-14 12:56:34",
+    "created_at": "2022-03-10 16:24:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "generate environment views in single pass",
+    "number": 29443,
+    "milestone": null,
+    "labels": [
+        "environments",
+        "utilities"
+    ],
+    "id": 1165444083,
+    "html_url": "https://github.com/spack/spack/pull/29443",
+    "assignees": [],
+    "comments": 0
+}

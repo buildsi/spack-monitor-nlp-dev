@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\nI have been trying to build suite-sparse@5.10.1 using intel-oneapi-comilers@2021.4.0 and using intel-oneapi-mkl@2021.4.0 (which in turn depends on intel-oneapi-tbb@2021.4.0), and I am encountering a couple of issues related to tbb.  Though distinct issues, they are somewhat related so will include in a single issue ticket.\r\n\r\n1. First, suite-sparse+tbb does not work with the most recent tbb libraries.\r\n```console \r\n$ spack install suite-sparse@5.10.1 +tbb %intel@2021.4\r\n...\r\n  >> 1557    ../Source/spqr_parallel.cpp(10): catastrophic error: cannot open source file \"tbb/task_scheduler_init.h\"\r\n     1558      #include <tbb/task_scheduler_init.h>\r\n     1559                                          ^\r\n     1560\r\n     1561    compilation aborted for ../Source/spqr_parallel.cpp (code 4)\r\n```\r\n\r\nThis appears to be due to Intel dropping the task_scheduler_init header/etc from the @2021.x versions of tbb (after it has long been deprecated).  This does not appear to be a trivial fix, and it sounds like suite-sparse will likely be dropping tbb support (see e.g. https://github.com/DrTimothyAldenDavis/SuiteSparse/issues/72).  From Spack's perspective, the package.py should be updated to give a conflict for suite-sparse+tbb when the tbb library is @2021.x or higher.\r\n\r\n2. I therefore tried the build with ~tbb\r\n```console\r\n$ spack install suite-sparse@5.10.1 ~tbb %intel@2021.4\r\n```\r\nand was surprised to see the same error.  This is the more serious issue from Spack's perspective (and is the case to which the attached spack-build-out.txt, etc. correspond).\r\n\r\nI believe this error is due to the way the package.py is checking for tbb before setting flags, e.g.\r\n```console        \r\n        # Intel TBB in SuiteSparseQR\r\n        if 'tbb' in spec:\r\n            make_args += [\r\n                'SPQR_CONFIG=-DHAVE_TBB',\r\n                'TBB=%s' % spec['tbb'].libs.ld_flags,\r\n            ]\r\n```\r\nNote the check for 'tbb' in spec, not '+tbb' --- since I was using MKL for BLAS, etc. and MKL depends on tbb, spack was effectively ignoring the ~tbb in the spec.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\n\n### Information on your system\n\n```console\r\n$ spack debug report\r\n* **Spack:** 0.17.0-319-5dce4d79bd\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n```\n\n### Additional information\n\n\r\n- [spack-build-env-mods.txt](https://github.com/spack/spack/files/7729591/spack-build-env-mods.txt)\r\n\r\n- [spack-build-out.txt](https://github.com/spack/spack/files/7729592/spack-build-out.txt)\r\n\r\nNo maintainers for suite-sparse found.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "payerle",
+    "url": "https://api.github.com/repos/spack/spack/issues/28053",
+    "updated_at": "2021-12-16 18:40:52",
+    "created_at": "2021-12-16 18:40:52",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: suite-sparse recent tbb issues/~tbb not working correctly",
+    "number": 28053,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1082531735,
+    "html_url": "https://github.com/spack/spack/issues/28053",
+    "assignees": [],
+    "comments": 0
+}

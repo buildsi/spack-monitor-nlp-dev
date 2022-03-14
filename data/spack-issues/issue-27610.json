@@ -1,0 +1,22 @@
+{
+    "body": "It turns out patchelf is *very* slow (as in, reading the rpath of libLLVM.so is 280x slower than this python equivalent for me), for some reason I don't entirely understand. I think it has to do with them mmap'ing and still loading entire libraries to memory.\r\n\r\nThis is not required when you just have to find / replace rpaths with something the same size or shorter, since that requires just a handful of seeks, reads and writes.\r\n\r\nThis PR adds simple ELF parsing for 32/64 bit BE/LE ELF files.\r\n\r\nNote that this means that we don't have to bootstrap patchelf at all for most users, unless the rpath section has to grow. And we can avoid that almost always by adding padding to the bootstrapped binaries (which we currently do not do, hopefully @alalazo can fix https://github.com/alalazo/spack-bootstrap-mirrors/issues/10). \r\n\r\nNote: not implemented is the equivalent of `--force-rpath`, which is comes down to writing 1 byte more, so that's easy. Also what's unclear is how to deal with ELF files that have multiple DYNAMIC program headers, multiple DT_RPATH and/or DT_RUNPATH entries in the dynamic section... or simply mixed rpath and runpath -- currently I'm just assuming there is one such entry",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27610",
+    "updated_at": "2022-02-15 08:59:26",
+    "created_at": "2021-11-23 12:22:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Do rpath parsing/replacing in Python for shorter prefix paths",
+    "number": 27610,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "workflow"
+    ],
+    "id": 1061215208,
+    "html_url": "https://github.com/spack/spack/pull/27610",
+    "assignees": [
+        "bernhardkaindl"
+    ],
+    "comments": 6
+}

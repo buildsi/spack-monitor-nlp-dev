@@ -1,0 +1,23 @@
+{
+    "body": "In `setup_environment(self, spack_env, run_env)`, calling `run_env.append_flags()` doesn't seem to do anything to the produced module file:\r\n`run_env.append_flags('LDFLAGS', '-lflang')`\r\n```\r\n----------------------------------------------------------------------------------\r\n-----------------------------------\r\nwhatis(\"Flang is a Fortran compiler targeting LLVM. \")\r\nprepend_path(\"PATH\",\"spack_root/opt/spack/linux-rhel7-x86_64/cla\r\nng-7.0.0/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/bin\")\r\nprepend_path(\"LD_LIBRARY_PATH\",\"spack_root/opt/spack/linux-rhel7\r\n-x86_64/clang-7.0.0/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/lib\")\r\nprepend_path(\"LIBRARY_PATH\",\"spack_root/opt/spack/linux-rhel7-x8\r\n6_64/clang-7.0.0/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/lib\")\r\nprepend_path(\"CPATH\",\"spack_root/opt/spack/linux-rhel7-x86_64/cl\r\nang-7.0.0/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/include\")\r\nprepend_path(\"CMAKE_PREFIX_PATH\",\"spack_root/opt/spack/linux-rhe\r\nl7-x86_64/clang-7.0.0/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/\")\r\nprepend_path(\"CPATH\",\"spack_root/opt/spack/linux-rhel7-x86_64/cl\r\nang-7.0.0/libxml2-2.9.8-c2mmc7mjc5ueuggrih5vaaxtnbwf46fd/include/libxml2\")\r\nsetenv(\"FC\",\"spack_root/opt/spack/linux-rhel7-x86_64/clang-7.0.0\r\n/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/bin/flang\")\r\nsetenv(\"F77\",\"spack_root/opt/spack/linux-rhel7-x86_64/clang-7.0.\r\n0/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/bin/flang\")\r\nsetenv(\"F90\",\"spack_root/opt/spack/linux-rhel7-x86_64/clang-7.0.\r\n0/flang-20181226-vvb75vzgebl6pvtyhy3okiovrutlo35r/bin/flang\")\r\nhelp([[Flang is a Fortran compiler targeting LLVM.\r\n]])\r\n```\r\n\r\nrun_env.set() does work:\r\n`run_env.set('LDFLAGS', '-lflang')`\r\n```\r\n[...]\r\nsetenv(\"LDFLAGS\",\"-lflang\")\r\nhelp([[Flang is a Fortran compiler targeting LLVM.\r\n]])\r\n```",
+    "user": "mcneish1",
+    "url": "https://api.github.com/repos/spack/spack/issues/10299",
+    "updated_at": "2020-04-06 14:31:04",
+    "created_at": "2019-01-09 22:54:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "run_env.append_flags() doesn't appear to work",
+    "number": 10299,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "impact-low"
+    ],
+    "id": 397597141,
+    "html_url": "https://github.com/spack/spack/issues/10299",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

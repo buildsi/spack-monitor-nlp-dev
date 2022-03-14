@@ -1,0 +1,20 @@
+{
+    "body": "After running `spack compilers` in a recent spack installation on a mac. I get the following list of compilers\r\n```\r\n==> Available compilers\r\n-- clang mojave-x86_64 ------------------------------------------\r\nclang@11.0.0-apple\r\n```\r\n\r\nBut when building any package I get the following warning\r\n\r\n```\r\nspack install cmake\r\n==> Warning: clang@11.0.0-apple cannot build optimized binaries for \"skylake\". Using best target possible: \"x86_64\"\r\n```\r\n\r\nWhen I try to force the build for skylake, I get the following\r\n```\r\nspack install cmake@3.12.0 target=skylake\r\n==> Error: cannot produce optimized binary for micro-architecture 'skylake' with clang@11.0.0-apple [supported compiler versions are 3.9:]\r\n```\r\n\r\nBut after changing the compiler configuration from\r\n\r\n```\r\ncompilers:                                                                         \r\n- compiler:                                                                        \r\n    paths:                                                                         \r\n      cc: /usr/bin/clang                                                           \r\n      cxx: /usr/bin/clang++                                                        \r\n      f77:                                                                         \r\n      fc:                                                                          \r\n    operating_system: mojave                                                       \r\n    target: x86_64                                                                 \r\n    modules: []                                                                    \r\n    environment: {}                                                                \r\n    extra_rpaths: []                                                               \r\n    flags: {}                                                                      \r\n    spec: clang@11.0.0-apple  \r\n```\r\n\r\nto\r\n\r\n```\r\ncompilers:                                                                         \r\n- compiler:                                                                        \r\n    paths:                                                                         \r\n      cc: /usr/bin/clang                                                           \r\n      cxx: /usr/bin/clang++                                                        \r\n      f77:                                                                         \r\n      fc:                                                                          \r\n    operating_system: mojave                                                       \r\n    target: x86_64                                                                 \r\n    modules: []                                                                    \r\n    environment: {}                                                                \r\n    extra_rpaths: []                                                               \r\n    flags: {}                                                                      \r\n    spec: clang@11.0.0\r\n```\r\n\r\nSpack is able to build for skylake on my mac.\r\n\r\n---\r\n\r\nThe user workaround is simple, so I think that either spack should not append the `-apple` to the `spec` field or it should ignore the suffixes on the specs when comparing compiler versions.\r\n",
+    "user": "victorusu",
+    "url": "https://api.github.com/repos/spack/spack/issues/14565",
+    "updated_at": "2020-01-20 08:29:07",
+    "created_at": "2020-01-20 08:19:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack on Mac fails to build for Skylake",
+    "number": 14565,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "error-messages"
+    ],
+    "id": 552140055,
+    "html_url": "https://github.com/spack/spack/issues/14565",
+    "assignees": [],
+    "comments": 0
+}

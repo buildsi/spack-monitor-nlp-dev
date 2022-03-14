@@ -1,0 +1,20 @@
+{
+    "body": "This seems to happen often on the Mac environment, in particular when you do a ctrl-break in the middle of the spack install.\r\n\r\nHere is the sympton, any spack commands gives this error:\r\n```\r\nTraceback (most recent call last):\r\n  File \"/Users/naromero/spack/bin/spack\", line 80, in <module>\r\n    import spack.main  # noqa\r\n  File \"/Users/naromero/spack/lib/spack/spack/__init__.py\", line 104, in <module>\r\n    repo = spack.repository.RepoPath()\r\n  File \"/Users/naromero/spack/lib/spack/spack/repository.py\", line 370, in __init__\r\n    repo = Repo(root, self.super_namespace)\r\n  File \"/Users/naromero/spack/lib/spack/spack/repository.py\", line 676, in __init__\r\n    self._fast_package_checker = FastPackageChecker(self.packages_path)\r\n  File \"/Users/naromero/spack/lib/spack/spack/repository.py\", line 122, in __init__\r\n    self._paths_cache[packages_path] = self._create_new_cache()\r\n  File \"/Users/naromero/spack/lib/spack/spack/repository.py\", line 146, in _create_new_cache\r\n    tty.warn(msg.format(pkg_dir, pkg_name))\r\nValueError: unmatched '{' in format\r\n\r\n```\r\n\r\nThis issues is caused by the presence of the .DS_Store file in this directory:\r\nspack/var/spack/repos/builtin/packages/\r\n\r\nThe work around is trivial, simple remove the aforementioned .DS_Store file resolves the issue. But it quite confusing to run into this error for a user.\r\n",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/5610",
+    "updated_at": "2017-11-23 20:21:51",
+    "created_at": "2017-10-05 03:27:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "FastPackageChecker confused by .DS_Store file in Mac",
+    "number": 5610,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS"
+    ],
+    "id": 262994164,
+    "html_url": "https://github.com/spack/spack/issues/5610",
+    "assignees": [],
+    "comments": 0
+}

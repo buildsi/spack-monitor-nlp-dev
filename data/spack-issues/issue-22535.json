@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nI came to the conclusion that I'll unfortunately have to do scripting in python because invoking spack multiple times is too slow. However, many spack commands leak, in the sense that `spack install [flags] a` and `spack install [flags] b` might not be exactly equivalent to `spack python` `from spack.main import SpackCommand` `install = SpackCommand('install')` `install([flags], 'a')` `install([flags], 'b')`. In particular `spack.config.set(\"key\", \"value\")` is used in many occasions to store config that shouldn't outlive the command handling, but it does:\r\n\r\n```\r\n> install('--deprecated', 'zlib')\r\n> spack.config.get('config:deprecated')\r\nTrue\r\n> install('glib@2.56.4') # deprecated; no warning or error\r\n```\r\n\r\nMaybe some refactoring wouldn't hurt... maybe `cmd`'s should just dispatch and actual command object with all the info including config overrides, and then they could be handled elsewhere? That would also make unit testing of cmd/* easier, cause right now all tests for them are integration tests (I mean, if there was some command dispatcher, you could replace it in tests with one that does not actually execute them, so that you can just test the mapping from cli arguments to the command to be dispatched)",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22535",
+    "updated_at": "2021-03-25 11:20:43",
+    "created_at": "2021-03-25 11:08:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Leaky global config for temporary command line settings",
+    "number": 22535,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 840819293,
+    "html_url": "https://github.com/spack/spack/issues/22535",
+    "assignees": [],
+    "comments": 0
+}

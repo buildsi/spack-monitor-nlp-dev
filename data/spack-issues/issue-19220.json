@@ -1,0 +1,20 @@
+{
+    "body": "Running `spack buildcache update-index --keys` or `spack buildcache create --rebuild-index` fails with a stack trace if the mirror doesn't have any keys.  However, it seems like it should not be an error to attempt to update the keys index if there are no keys, instead spack should just print a warning indicating there were no keys found and not exit with an error code or exception.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nroot@5bcb4d8da0f8:/# spack --version\r\n0.15.4-1311-09d0623be\r\nroot@5bcb4d8da0f8:/work# spack mirror add amirror s3://some-bucket/mirror-with-no-keys\r\nroot@5bcb4d8da0f8:/# spack -d buildcache update-index --keys -d s3://some-bucket/mirror-with-no-keys\r\n==> [2020-10-07-15:16:41.028326] Imported buildcache from built-in commands\r\n==> [2020-10-07-15:16:41.031261] Imported buildcache from built-in commands\r\n==> [2020-10-07-15:16:41.032513] Reading config file /work/spack/etc/spack/defaults/mirrors.yaml\r\n==> [2020-10-07-15:16:41.034770] Reading config file /root/.spack/mirrors.yaml\r\n==> [2020-10-07-15:16:41.036442] Reading config file /root/.spack/linux/mirrors.yaml\r\n==> [2020-10-07-15:16:41.038776] Reading config file /work/spack/etc/spack/defaults/config.yaml\r\n==> [2020-10-07-15:16:41.058556] DATABASE LOCK TIMEOUT: 3s\r\n==> [2020-10-07-15:16:41.058654] PACKAGE LOCK TIMEOUT: No timeout\r\nTraceback (most recent call last):\r\n  File \"/work/spack/bin/spack\", line 64, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/work/spack/lib/spack/spack/main.py\", line 762, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/work/spack/lib/spack/spack/main.py\", line 490, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/work/spack/lib/spack/spack/cmd/buildcache.py\", line 793, in buildcache\r\n    args.func(args)\r\n  File \"/work/spack/lib/spack/spack/cmd/buildcache.py\", line 781, in buildcache_update_index\r\n    url_util.join(outdir, bindist.build_cache_relative_path()))\r\n  File \"/work/spack/lib/spack/spack/binary_distribution.py\", line 303, in generate_package_index\r\n    for entry in web_util.list_url(cache_prefix)\r\n  File \"/work/spack/lib/spack/spack/util/web.py\", line 321, in list_url\r\n    for key in _iter_s3_prefix(s3, url)))\r\n  File \"/work/spack/lib/spack/spack/util/web.py\", line 320, in <genexpr>\r\n    key.split('/', 1)[0]\r\n  File \"/work/spack/lib/spack/spack/util/web.py\", line 289, in _iter_s3_prefix\r\n    client, bucket, prefix, num_entries, start_after=key)\r\n  File \"/work/spack/lib/spack/spack/util/web.py\", line 277, in _list_s3_objects\r\n    iter = _iter_s3_contents(result['Contents'], prefix)\r\nKeyError: 'Contents'\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\nroot@5bcb4d8da0f8:/# spack debug report\r\n* **Spack:** 0.15.4-1311-09d0623be\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-haswell\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/19220",
+    "updated_at": "2020-10-08 17:20:23",
+    "created_at": "2020-10-07 15:22:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Update buildcache keys index on S3 fails if there are no keys",
+    "number": 19220,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 716629093,
+    "html_url": "https://github.com/spack/spack/issues/19220",
+    "assignees": [],
+    "comments": 4
+}

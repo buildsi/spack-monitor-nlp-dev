@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nAfter https://github.com/spack/spack/pull/24639 the set of Version objects no longer satisfy a total order with `<`:\r\n\r\n```python\r\nIn [1]: a = spack.version.ver('1111111111222222222233333333334444444444')\r\n\r\nIn [2]: b = spack.version.ver('5555555555666666666677777777778888888888')\r\n\r\nIn [3]: a < b\r\nOut[3]: False\r\n\r\nIn [4]: b < a\r\nOut[4]: False\r\n```\r\n\r\nYou may say this is an edge case, but generally I'm not a fan of extending Version with git-related things, because Git commit sha's are the exception, and they don't map perfectly to Spack registered versions.\r\n\r\nIf what we want is to compare a Git commit sha to a Spack registered Version, why not create a `GitVersion` class and implement `<` and friends to compare with `Version`?\r\n\r\nSoon enough we'll be extending commit sha's to general git refs (branches, tags, sha's... of forks even?), and if that's going to be part of Version that'd be really bad.\r\n\r\nAlso note that we're executing a regex multiple times on every single version string for every comparsion `<`:\r\n\r\nhttps://github.com/spack/spack/blob/e2ee3066cf9a0997dc29fb807adb9e31e27c08ac/lib/spack/spack/version.py#L370-L386\r\n\r\nhttps://github.com/spack/spack/blob/e2ee3066cf9a0997dc29fb807adb9e31e27c08ac/lib/spack/spack/version.py#L208-L215\r\n\r\nwhich is redundant if we had a GitVersion object directly.\r\n\r\nCurrently:\r\n\r\n```\r\nIn [1]: a = spack.version.Version('1.0.0')\r\n\r\nIn [2]: b = spack.version.Version('1.0.1')\r\n\r\nIn [3]: %timeit a < b\r\n2.41 \u00b5s \u00b1 21.9 ns per loop (mean \u00b1 std. dev. of 7 runs, 100000 loops each)\r\n```\r\n\r\nBefore #24639:\r\n\r\n```\r\nIn [3]: %timeit a < b\r\n623 ns \u00b1 6.17 ns per loop (mean \u00b1 std. dev. of 7 runs, 1000000 loops each)\r\n```\r\n\r\nSo, version comparison got 4x slower.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26464",
+    "updated_at": "2022-03-03 16:58:34",
+    "created_at": "2021-10-04 10:10:27",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Version is no longer totally ordered and comparison speed regressed",
+    "number": 26464,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1014983807,
+    "html_url": "https://github.com/spack/spack/issues/26464",
+    "assignees": [
+        "tgamblin",
+        "becker33"
+    ],
+    "comments": 11
+}

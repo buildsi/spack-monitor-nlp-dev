@@ -1,0 +1,19 @@
+{
+    "body": "Hello,\r\n\r\nI think adding automatic target selection on package loading can be beneficial for several usage scenarios like loading packages on heterogeneous clusters and performance optimized containers.\r\n\r\n### Rationale\r\n\r\nMany HPC applications successfully utilize vectorized instructions and thus performance depends on both hardware and the way how application was build. Bellow is a plot to illustrate performance difference in case of NAMD executed on same compute node but using different targeted packages:\r\n\r\n![namd](https://user-images.githubusercontent.com/5438550/94293785-d37c3d00-ff2c-11ea-83f0-adeefab3e947.png)\r\n\r\nMany HPC centers have multiple generation of nodes available at the same time and although HPC-smart user can make proper selection on themselves in practice users executes common denominator on both new and old compute nodes. That is not efficient.\r\n\r\nSimilarly, in building the containers it is not known a priory what CPUs are going to be used. So again common denominator is often used.\r\n\r\nSpack addresses many of problems of building HPC codes, but last little step is missing. Namely automatic load of most compatible package.\r\n\r\n### Description\r\n\r\nRight now the package with proper target is loaded as:\r\n```\r\nspack load hpcc%intel target=skylake_avx512\r\n```\r\n\r\nThe idea is that user load packages without specifying target:\r\n```\r\nspack autoload hpcc\r\n```\r\n\r\nIn principle already now it can be done as:\r\n```\r\nspack load hpcc%intel target=`spack arch -t`\r\n```\r\nbut the issue is that all targets should be compiled which is impractical as some targets are not significantly different and impossible in case of containers.\r\n\r\nSpack already have infrastructure for target CPU comparison, so it shouldn't be that labor intensive to add such feature. In principle I can add it myself, but want to discuss it first with the developers.\r\n\r\n### Additional information\r\n\r\nIn my performance optimized containers I use spack to build targets ([example](https://github.com/nsimakov/akrr/blob/master/docker/namd/spack_builder.dockerfile))  and then select proper one by checking specific avx instructions from /proc/cpuinfo ([akrr_get_arch function](https://github.com/nsimakov/akrr/blob/master/akrr/appker_repo/execs/bin/akrr_util.bash))",
+    "user": "nsimakov",
+    "url": "https://api.github.com/repos/spack/spack/issues/18973",
+    "updated_at": "2020-09-25 17:20:34",
+    "created_at": "2020-09-25 17:19:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "automatic target selection on package loading",
+    "number": 18973,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 709128500,
+    "html_url": "https://github.com/spack/spack/issues/18973",
+    "assignees": [],
+    "comments": 0
+}

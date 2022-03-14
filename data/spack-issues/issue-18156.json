@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n1. Add a mixed toolchain compiler using clang for C/CXX and IBM XL for Fortran\r\n2. Install a package that uses Fortran:\r\n```console\r\n$ spack install superlu-dist%<that_mixed_toolchain_name>\r\n```\r\n\r\n### Error Message\r\nIn the case of a mixed toolchain, (e.g., clang for C/CXX but XL for Fortran), no architecture-specific optimization flags should be used as Spack does not currently support them.  Instead, `SPACK_TARGET_ARGS` (environment variable) contains `-mtune` and `-mcpu` flags that cause the XL Fortran compiler to fail (as they are not valid flags for that compiler):\r\n```\r\nxlf2003_r: 1501-216 (W) command option -mcpu=power9 is not recognized - passed to ld\r\nxlf2003_r: 1501-216 (W) command option -mtune=power9 is not recognized - passed to ld\r\nld: unrecognised emulation mode: tune=power9\r\nSupported emulations: elf64lppc elf32ppc elf32ppclinux elf32ppcsim elf32lppc elf32lppclinux elf32lppcsim elf64ppc elf32_spu\r\ngmake[1]: *** [CMakeFiles/cmTC_908ba.dir/build.make:87: cmTC_908ba] Error 1\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-power9le\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\nThe [mixed toolchain detection logic](https://github.com/spack/spack/blob/develop/lib/spack/spack/architecture.py#L198-L204) is skipped when a `CompilerSpec` object is passed in, in which case incorrect optimization flags are returned,\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "joshessman-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/18156",
+    "updated_at": "2020-08-19 21:06:07",
+    "created_at": "2020-08-18 17:29:33",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Incorrect arch-specfic optimization flags used in mixed toolchain",
+    "number": 18156,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 681211277,
+    "html_url": "https://github.com/spack/spack/issues/18156",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,24 @@
+{
+    "body": "I found a way to make Spack's concretizer hang.\r\n\r\n### Steps to reproduce the issue\r\n\r\nFirst, run `spack edit m4` and change:\r\n```python\r\ndepends_on('libsigsegv')\r\n```\r\nto:\r\n```python\r\ndepends_on('libsigsegv ^zlib')\r\n```\r\nThere is a `when='+sigsegv'` there too, but it appears to be optional when reproducing this bug. \r\n\r\nThen, run `spack spec m4`. Voila!\r\n\r\nOf course, `libsigsegv` does not depend on `zlib`, so the expected behavior would be:\r\n```\r\n==> Error: Package libsigsegv does not depend on zlib\r\n```\r\nwhich is what happens when you perform the same test on the command line.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.14.2-693-985af94c45\r\n* **Python:** 3.7.6\r\n* **Platform:** darwin-catalina-ivybridge\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/16134",
+    "updated_at": "2020-11-03 02:13:16",
+    "created_at": "2020-04-17 19:07:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Concretizer hangs on unsatisfiable constraints",
+    "number": 16134,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low",
+        "concretizer-use-case"
+    ],
+    "id": 602176257,
+    "html_url": "https://github.com/spack/spack/issues/16134",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

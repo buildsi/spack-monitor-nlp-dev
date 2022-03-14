@@ -1,0 +1,42 @@
+{
+    "body": "This PR experiments with the idea of slimming down the base docker images and avoiding OS-specific packages as much as possible.  Instead, almost everything in this experimental version is provisioned using Spack, itself.\r\n\r\nCurrently, only the `ubuntu-1804` dockerfile is modified with the others to follow if others agree this is a good idea.\r\n\r\nThe build process starts with only what is absolutely necessary from the OS (basically, gcc and libc), and uses a new multi-phase bootstrapping approach in which a recent version of gcc is built and subsequently used to build all the software necessary to host a fully-featured installation of Spack.  Multiple docker build stages are used to ensure that the final image contains only the end products of this build process, minimizing the final image size.\r\n\r\nThe bootstrapped packages are maintained in a Spack chain separated from the primary Spack installation and are symlinked into a Spack view under `/usr/local`.  The bootstrapped packages are built using the lowest-common-denominator `target` for maximum portability.  This portability is limited to the bootstrapped packages and is configurable when building the docker image.\r\n\r\nThe main drawback to this approach is the build time.  On my 2018 Mac Pro (with 16/32 GB Ram dedicated to docker), it takes about 2 hours to build.  This issue should go away once we have a public build cache up and running, and we can effectively rely on our own infrastructure in place of Debian and Red Hat repositories.\r\n\r\nThis PR also adds a few other minor improvements:\r\n\r\nA new, unprivileged user, `spack` (`uid=1000, gid=1000`), is now created and runs of this new image now run under this user by default.  The user can install new packages and access the bootstrap chain, but cannot alter it or any other root-owned portions of the image's file system.\r\n\r\nA new entrypoint script simplifies the process of running Spack.  Whether running a `RUN` command in a new dockerfile build based on this one, running this image on the CLI, or using it in a CI environment, the entrypoint logic ensures that `spack install ...` always works without any additional initialization necessary.\r\n\r\nThe above entrypoint includes a workaround for #12636.  The workaround involves precreating modulefile directories for all the targets identified as compatible with the current architecture (`_sp_compatible_sys_types`) to ensure that an entry for each is added to the `MODULEPATH` up-front.",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/14357",
+    "updated_at": "2020-06-29 14:45:31",
+    "created_at": "2020-01-02 21:02:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Docker image rework",
+    "number": 14357,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "modules",
+        "discussion",
+        "mirrors",
+        "proposal",
+        "bundles",
+        "RFC",
+        "security",
+        "environments",
+        "don't-merge-yet",
+        "containers",
+        "buildcache",
+        "docker",
+        "binary-packages",
+        "initialization",
+        "ecp",
+        "gitlab",
+        "ci",
+        "pipelines",
+        "architectures",
+        "microarchitectures",
+        "dev"
+    ],
+    "id": 544745300,
+    "html_url": "https://github.com/spack/spack/pull/14357",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

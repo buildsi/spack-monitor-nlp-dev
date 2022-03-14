@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\n\nWhen there is a newer version of an R-package published on cran, fetching the older versions does not work in spack anymore.\r\ne.g. `r-ellipsis`\r\n- newest version in spack is 0.3.1 (before #26965 is merged)\r\n- newest version on cran 0.3.2\r\n- running `spack checksum r-ellipsis@0.3.1` fails with the error message\r\n```\r\n\u00bb spack checksum r-ellipsis@0.3.1 \r\n==> Found 1 version of r-ellipsis:\r\n  \r\n  0.3.1  https://cloud.r-project.org/src/contrib/ellipsis_0.3.1.tar.gz\r\n\r\n==> Something failed on https://cloud.r-project.org/src/contrib/ellipsis_0.3.1.tar.gz, skipping.  (All fetchers failed for spack-stage-z032nuxl)\r\n==> Error: Could not fetch any versions for r-ellipsis\r\n```\r\nbut `spack checksum r-ellipsis@0.3.2` works.\r\n\r\nAlso `spack install r-ellipsis0.3.1` works, because it fetches the sources from the spack mirror and not from cran.\r\n\r\nReason:\r\nspack tries to get the sources from `https://cloud.r-project.org/src/contrib/ellipsis_0.3.1.tar.gz` but `https://cloud.r-project.org/src/contrib` only provides the newest version (here 0.3.2), older versions are migrated to `https://cloud.r-project.org/src/contrib/Archive/ellipsis`. Thus  `spack checksum` fails for old versions of the package (I checked all old versions in spack: 0.3.1, 0.3.0, 0.2.0.1).\r\n\r\nI tried to migrate to using the `cran` attribute instead of explicit `url` and `list_url` but that does not change anything.\r\n\r\nAll R-packages I tested had this problem regarding older versions, e.g.\r\n- `r-rcpp@1.0.6`,\r\n- `r-broom@0.3.1`\r\n- `r-lifecycle@0.2.0`\r\n- `r-lme4@1.1-27`\r\n\r\nping @glennpj as R maintainer\n\n### Error message\n\n_No response_\n\n### Information on your system\n\n* **Spack:** 0.16.3-5036-7884fc8973\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-fedora32-haswell\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/26977",
+    "updated_at": "2022-02-25 22:47:37",
+    "created_at": "2021-10-27 11:13:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Wrong source url for older versions of R-packages",
+    "number": 26977,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1037289830,
+    "html_url": "https://github.com/spack/spack/issues/26977",
+    "assignees": [
+        "glennpj"
+    ],
+    "comments": 16
+}

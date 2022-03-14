@@ -1,0 +1,20 @@
+{
+    "body": "In the [Spack Configuration Documentation](http://software.llnl.gov/spack/configuration.html#concretization-preferences), it shows an example where you can set the default compiler for a package. However, this doesn't seem to work. Libpciaccess and OpenSSL cannot be built with the PGI compilers. I tried adding the following to my `~/.spack/packages.yaml`:\n\n``` yaml\npackages:\n  libpciaccess:\n    compiler: [gcc, intel, nag]\n  openssl:\n    compiler: [gcc, intel, nag]\n```\n\nThe behavior I expect is that if I build `curl`, it will build everything with GCC. If I build `curl %intel`, it will build everything with Intel. And if I build `curl %pgi`, it will build curl with PGI but build OpenSSL with GCC. However, I get this behavior:\n\n```\n$ spack spec curl%pgi\n\n  curl@7.49.1%pgi@16.5-0 arch=linux-centos6-x86_64\n      ^openssl@1.0.2h%pgi@16.5-0 arch=linux-centos6-x86_64\n          ^zlib@1.2.8%pgi@16.5-0 arch=linux-centos6-x86_64\n```\n\nEven when I set the default compiler to intel:\n\n``` yaml\npackages:\n  libpciaccess:\n    compiler: [intel]\n  openssl:\n    compiler: [intel]\n```\n\nI get:\n\n```\n$ spack spec curl\n\n  curl@7.49.1%gcc@6.1.0 arch=linux-centos6-x86_64\n      ^openssl@1.0.2h%gcc@6.1.0 arch=linux-centos6-x86_64\n          ^zlib@1.2.8%gcc@6.1.0 arch=linux-centos6-x86_64\n```\n\nIf I specifically try to build OpenSSL, then I get the right behavior:\n\n```\n$ spack spec openssl\n\n  openssl@1.0.2h%intel@16.0.3 arch=linux-centos6-x86_64\n      ^zlib@1.2.8%intel@16.0.3 arch=linux-centos6-x86_64\n```\n\nBut this still doesn't help me solve the problem of trying to build OpenMPI and NetCDF with PGI.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/1371",
+    "updated_at": "2018-04-14 12:51:14",
+    "created_at": "2016-07-26 15:30:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Cannot set default compiler in packages.yaml",
+    "number": 1371,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "compilers"
+    ],
+    "id": 167637385,
+    "html_url": "https://github.com/spack/spack/issues/1371",
+    "assignees": [],
+    "comments": 7
+}

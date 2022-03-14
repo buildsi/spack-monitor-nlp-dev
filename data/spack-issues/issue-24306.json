@@ -1,0 +1,24 @@
+{
+    "body": "Spack-generated lmod files are defining DYLD_FALLBACK_LIBRARY_PATH as a shell variable but (silently) not exporting it. This is apparently a new  security feature on Big Sur. I'm not 100%  sure I understand the behavior yet: whether the issue only shows up with forking, with the `env` command, or with bash. See [this stackexchange question](https://apple.stackexchange.com/questions/212945/unable-to-set-dyld-fallback-library-path-in-shell-on-osx-10-11-1) and [this Apple documentation on System Integrity Protection](https://developer.apple.com/library/archive/documentation/Security/Conceptual/System_Integrity_Protection_Guide/RuntimeProtections/RuntimeProtections.html).\r\n\r\nWe might want/have to  remove `DYLD_FALLBACK_LIBRARY_PATH` or add some special exception? because it's *very* confusing behavior for a user to do `export VAR=VALUE` and see `echo $VAR` work but then have `env | grep VAR` hide it. I only asked the user to do this out of desperation (eliminating the impossible, etc.).\r\n\r\n@adamjstewart I know you're a mac user so maybe you've seen this? I only noticed it because I was using `DYLD_FALLBACK_LIBRARY_PATH` to internally set up the `CMAKE_INSTALL_RPATH` on an in-house code.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ echo $BASH_VERSION\r\n5.1.8(1)-release\r\n$ type module\r\nmodule is a function\r\nmodule ()\r\n{\r\n    eval $($LMOD_CMD bash \"$@\") && eval $(${LMOD_SETTARG_CMD:-:} -s sh)\r\n}\r\n$ $LMOD_CMD bash load zlib > loadme.sh; chmod a+x loadme.sh\r\n$ grep DYLD loadme.sh\r\nDYLD_FALLBACK_LIBRARY_PATH=/rnsdhpc/code/spack/opt/spack/apple-clang/zlib/w2ka2t3/lib;\r\nexport DYLD_FALLBACK_LIBRARY_PATH;\r\n$ source loadme.sh\r\n$ echo $DYLD_FALLBACK_LIBRARY_PATH\r\n/rnsdhpc/code/spack/opt/spack/apple-clang/zlib/w2ka2t3/lib\r\n$ env | grep DYLD\r\n__LMOD_REF_COUNT_DYLD_FALLBACK_LIBRARY_PATH=/rnsdhpc/code/spack/opt/spack/apple-clang/zlib/w2ka2t3/lib:1\r\n$ echo $PKG_CONFIG_PATH\r\n/rnsdhpc/code/spack/opt/spack/apple-clang/zlib/w2ka2t3/lib/pkgconfig\r\n$ env | grep PKG_CONFIG_PATH\r\nPKG_CONFIG_PATH=/rnsdhpc/code/spack/opt/spack/apple-clang/zlib/w2ka2t3/lib/pkgconfig\r\n__LMOD_REF_COUNT_PKG_CONFIG_PATH=/rnsdhpc/code/spack/opt/spack/apple-clang/zlib/w2ka2t3/lib/pkgconfig:1\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3119-2b53d84a56\r\n* **Python:** 3.8.5\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** original",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/24306",
+    "updated_at": "2021-06-14 20:18:01",
+    "created_at": "2021-06-14 18:36:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Lmod isn't exporting DYLD_FALLBACK_LIBRARY_PATH on Big Sur",
+    "number": 24306,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "modules",
+        "triage"
+    ],
+    "id": 920675158,
+    "html_url": "https://github.com/spack/spack/issues/24306",
+    "assignees": [
+        "sethrj"
+    ],
+    "comments": 4
+}

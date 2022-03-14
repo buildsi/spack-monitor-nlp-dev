@@ -1,0 +1,19 @@
+{
+    "body": "I have identified a problem building Python modules against the system Python on systems that use lib64 instead of lib, i.e., RedHat and derivatives. Other lib64-using distributions, including SuSe, probably have the same issue.\r\n\r\nI have the following in packages.yaml:\r\n```\r\npackages:\r\n    python:\r\n        paths:\r\n            python@2.7.5: /usr\r\n```\r\nIf I then build, e.g., py-mpi4py, the module files are installed in <prefix>/lib64/python2.7/site-packages. However, spack adds <prefix/lib/python2.7/site-packages to my PYTHONPATH, so use of py-mpi4py fails.\r\n\r\nI *almost* have a suggested change to PythonPackage in python.py. \r\nIf I change\r\n```python\r\n    def install_args(self, spec, prefix):\r\n        \"\"\"Arguments to pass to install.\"\"\"\r\n        args = ['--prefix={0}'.format(prefix)]\r\n```\r\nto\r\n```python\r\n    def install_args(self, spec, prefix):\r\n        \"\"\"Arguments to pass to install.\"\"\"\r\n        args = ['--prefix={0}'.format(prefix)]\r\n        args += ['--install-lib={0}'.format(join_path(prefix, 'lib',\r\n                                            'python2.7', 'site-packages'))]\r\n```\r\nthe problem is solved, but I have hardcoded the version \"2.7\" for python. I don't see how to get the correct python version. If someone can help me, I will submit a pull request.\r\n",
+    "user": "amundson",
+    "url": "https://api.github.com/repos/spack/spack/issues/7353",
+    "updated_at": "2019-05-07 18:14:43",
+    "created_at": "2018-02-27 23:10:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Built-in Python can have lib64 issues",
+    "number": 7353,
+    "milestone": null,
+    "labels": [
+        "python"
+    ],
+    "id": 300829132,
+    "html_url": "https://github.com/spack/spack/issues/7353",
+    "assignees": [],
+    "comments": 7
+}

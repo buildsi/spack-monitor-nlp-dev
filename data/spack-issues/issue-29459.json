@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\ncray-mpich@8.1.9\r\n```\r\n\r\nI am trying to use an external `cray-mpich@8.1.9`, but it doesn't contain the regular MPI wrappers (`mpicc`, etc).\r\n\r\nPR https://github.com/spack/spack/commit/f6a9ef5ef51630969635f9068e3420dd4dadc86f (@haampie  @lukebroskop ) added this if statement:\r\n\r\n```\r\nif(self.spec.satisfies('@:8.1.6')):\r\n    env.set('MPICC', spack_cc)\r\n    env.set('MPICXX', spack_cxx)\r\n    env.set('MPIF77', spack_fc)\r\n    env.set('MPIF90', spack_fc)\r\nelse:\r\n   # cray-mpich 8.1.7: features MPI compiler wrappers\r\n   env.set('MPICC', join_path(self.prefix.bin, 'mpicc'))\r\n   env.set('MPICXX', join_path(self.prefix.bin, 'mpicxx'))\r\n   env.set('MPIF77', join_path(self.prefix.bin, 'mpif77'))\r\n    env.set('MPIF90', join_path(self.prefix.bin, 'mpif90'))\r\n```\r\n\r\nProblem being that the  `cray-mpich@8.1.9` on my system does not contain the non-Cray wrappers (`mpicc, mpicxx, mpif90`).\r\n\r\nI was able to hack around it in my Spack fork by removing that if statement (or pretending to be version 8.1.6) and using the Cray `cc`, `ftn`, `CC` wrappers instead, but it's incompatible with the changes here. \r\n\r\nIs this unique to my system? It's certainly possible these compilers were removed manually. I tried looking for release notes from Cray that show this change, but couldn't find anything.\r\n\r\nAn idea I have would be to make sure that `self.prefix.bin/mpicc` exists, and otherwise fallback to `spack_*`.\n\n### Error message\n\nThere error is:\r\n\r\n```\r\nmpicc No such file or directory\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.1-6557-4ab0d02aa8\r\n* **Python:** 3.8.6\r\n* **Platform:** cray-sles15-zen2\r\n* **Concretizer:** clingo\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "kgerheiser",
+    "url": "https://api.github.com/repos/spack/spack/issues/29459",
+    "updated_at": "2022-03-12 05:30:33",
+    "created_at": "2022-03-11 15:59:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "cray-mpich (> 8.1.6) does not contain non-Cray MPI wrappers",
+    "number": 29459,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1166587806,
+    "html_url": "https://github.com/spack/spack/issues/29459",
+    "assignees": [],
+    "comments": 4
+}

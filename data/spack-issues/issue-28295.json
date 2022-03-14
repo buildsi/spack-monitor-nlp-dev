@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install diamond%gcc@11.2.0\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-740-6e31094d77\r\n* **Python:** 3.10.1\r\n* **Platform:** linux-fedora35-zen2\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/7830264/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/7830265/spack-build-env.txt)\r\n\r\nInterestingly, it also works if you do 'spack build-env diamond%gcc@11.2.0 bash' and run cmake and make manually\r\n\r\nI brought this up on slack and Ewan Roche was able to reproduce the issue and pointed out the resulting object files are indeed different between the spack compilation and gcc outside of spack, I honestly hadn't though to look at that.\r\n\r\nRemoving the unimplemented virtual destructor it complains about, does fix the problem, and should be fine, but isn't the best solution in my mind. This is what I've done in #28289 however I don't even know where to begin resolving this properly.\r\n\r\n``` console\r\n$ nm -C ~/projects/spack/var/spack/stage/spack-stage-diamond-2.0.11-yw7qbzesyog4a7tncq7yak5xw5q7m77z/spack-build-yw7qbze/CMakeFiles/diamond.dir/src/align/align.cpp.o | grep ExtensionPipeline\r\n0000000000000000 W ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n0000000000000000 W ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n0000000000000000 W ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n0000000000000000 n ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n                 U vtable for ExtensionPipeline::BandedSwipe::Pipeline\r\n                 U vtable for ExtensionPipeline::Swipe::Pipeline\r\n```\r\nand the outside of spack result\r\n``` console\r\n$ nm -C CMakeFiles/diamond.dir/src/align/align.cpp.o | grep ExtensionPipeline\r\n0000000000000000 W ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n0000000000000000 W ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n0000000000000000 W ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n0000000000000000 n ExtensionPipeline::Swipe::Pipeline::~Pipeline()\r\n                 U vtable for ExtensionPipeline::BandedSwipe::Pipeline\r\n```\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "snehring",
+    "url": "https://api.github.com/repos/spack/spack/issues/28295",
+    "updated_at": "2022-01-10 17:55:17",
+    "created_at": "2022-01-07 17:32:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: diamond fails to link in spack, works fine outside of spack with gcc 10+",
+    "number": 28295,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1096521771,
+    "html_url": "https://github.com/spack/spack/issues/28295",
+    "assignees": [],
+    "comments": 3
+}

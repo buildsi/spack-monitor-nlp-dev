@@ -1,0 +1,21 @@
+{
+    "body": "Fixing a couple of issues with this recipe:\r\n- the `build_type` variant is not needed (provided by the default  CMakePackage)\r\n- `vc` should not depend on `virtest@master` which is a moving target that will likely break things. The 1.4 series of vc sets up a specific commit of virtest as a submodule.\r\n  - the virtest dependency *should* be `type=('test')` - virtest just needs to set up `dependent_build_environment` for this to work.\r\n  - However, it seems like virtest is not used outside of vc, has no published releases and is header only, so I don't see the benefit of a dedicated package for it and am removing it\r\n- The patch function as is breaks the 1.3 versions of vc.\r\n  - The main reason those tests are failing is that they require the test data, also set up via submodules. Fetching this data fixed the test suite for me on the configuration mentioned below.\r\n \r\n\r\n\r\nI only checked  that the test suite is completely passing for the latest version for linux-ubuntu20.04-x86_64 / gcc@9.3.0. It's also not very lightweight, fetching 300 MB of test data and adding 30min of compilation time, but I guess if you want to test this package it's best to test it as the maintainers intended.",
+    "user": "vvolkl",
+    "url": "https://api.github.com/repos/spack/spack/issues/28887",
+    "updated_at": "2022-03-06 13:51:22",
+    "created_at": "2022-02-11 14:37:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "vc: improvements for testing",
+    "number": 28887,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "update-package",
+        "maintainers"
+    ],
+    "id": 1132686771,
+    "html_url": "https://github.com/spack/spack/pull/28887",
+    "assignees": [],
+    "comments": 1
+}

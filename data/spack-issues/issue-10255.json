@@ -1,0 +1,21 @@
+{
+    "body": "It would be nice to have a simple way to specify matching dependencies for related packages. For example, petsc4py always depends on a matching version of petsc:\r\n```\r\n    depends_on('petsc@3.10:3.10.99+mpi', when='@3.10:3.10.99')\r\n    depends_on('petsc@3.9:3.9.99+mpi', when='@3.9:3.9.99')\r\n    depends_on('petsc@3.8:3.8.99+mpi', when='@3.8:3.8.99')\r\n    depends_on('petsc@3.7:3.7.99+mpi', when='@3.7:3.7.99')\r\n    depends_on('petsc@3.6:3.6.99+mpi', when='@3.6:3.6.99')\r\n```\r\nThe above lines could then be replaced by the single line:\r\n```\r\n    depends_on('petsc+mpi', match=\"3.10\")\r\n```\r\nor perhaps:\r\n```\r\n    depends_on('petsc+mpi', match=\"@3.10:3.10.99\")\r\n```\r\nwhere the \"3.10\" would be extrapolated to all available versions e.g. 3.6.1 petsc4py would match with 3.6.3 petsc (similar to how the URL is currently extrapolated from the url field in the package).\r\n\r\nMatching dependencies would make it easier to fix issues like this: \r\n\r\n- version constraints are somewhat not respected and break concretizer #5753\r\n\r\nIt would also prevent updates of one package (in this case petsc to 3.11) breaking the installation of another package (petsc4py) because the dependent package (petsc4py) may not yet have been updated with:\r\n```\r\ndepends_on('petsc@3.11:3.11.99+mpi', when='@3.11:3.11.99')\r\n```\r\n",
+    "user": "benzwick",
+    "url": "https://api.github.com/repos/spack/spack/issues/10255",
+    "updated_at": "2020-02-06 13:45:09",
+    "created_at": "2019-01-05 00:36:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "depends_on can specify matching dependencies",
+    "number": 10255,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "proposal",
+        "package dsl"
+    ],
+    "id": 396112524,
+    "html_url": "https://github.com/spack/spack/issues/10255",
+    "assignees": [],
+    "comments": 0
+}

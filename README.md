@@ -33,7 +33,8 @@ $ conda install -c conda-forge umap-learn
 $ pip install umap-learn
 ```
 
-Then download data from spack monitor
+Then download data from spack monitor **important** only do this if you don't have
+the data folder yet populated with json! You shouldn't need to run this at this point
 
 ```bash
 $ python 1.get_data.py
@@ -48,6 +49,13 @@ data/
 └── warnings.json
 ```
 
+Note there are three (fairly separate) projects here, each in it's own section below.
+
+ - [Online ML](#online-ml): online machine learning anticipating integration into spack monitor
+ - [Spack Issues](#spack-issues): matching errors to spack issues
+ - [Vectors and Docs Visuals](#vectors-and-docs-visuals): the original analysis where @vsoch said "this won't work for a server"
+
+
 ### Online ML
 
 The script [2.online-ml.py](2.online-ml.py) will generate the clusters in [data/clusters](data/clusters).
@@ -56,6 +64,18 @@ or run differently, either insert an interactive `IPython.embed()` or uncomment 
 
 ```bash
 python 2.online-ml.py
+```
+
+Again, note that a lot of the script is commented out, so you should open it first to
+decide what you want to run.
+
+### Spack Issues
+
+For spack issues, your step 2 and 3 are your last steps. If there is already a folder [data/spack-issues](data/spack-issues)
+you shouldn't need to run the first script to get it.
+
+```bash
+python 2.spack-issues.py
 ```
 
 ### Vectors and Docs Visuals

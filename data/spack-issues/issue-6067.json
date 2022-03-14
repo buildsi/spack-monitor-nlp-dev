@@ -1,0 +1,20 @@
+{
+    "body": "Most packages use coding in Python to build up the configure line. Let's take the `gcc` package as an example:\r\n\r\nhttps://github.com/LLNL/spack/blob/d98e337706352b0fc35ba2cf478d2b08e946513b/var/spack/repos/builtin/packages/gcc/package.py#L200\r\n\r\nit contains lines like:\r\n\r\n        # MPC\r\n        if 'mpc' in spec:\r\n            options.append('--with-mpc={0}'.format(spec['mpc'].prefix))\r\n\r\n        # ISL\r\n        if 'isl' in spec:\r\n            options.append('--with-isl={0}'.format(spec['isl'].prefix))\r\n\r\n        # macOS\r\n        if sys.platform == 'darwin':\r\n            options.append('--with-build-config=bootstrap-debug')\r\n\r\nAll these could be converted to a declarative way (in the class variables) as follows:\r\n\r\n    configure_option(\"--with-mpc={MPC_PREFIX}\", when=\"+mpc\")\r\n    configure_option(\"--with-isl={ISL_PREFIX}\", when=\"+isl\")\r\n    configure_option(\"--with-build-config=bootstrap-debug\", when=\"platform=darwin\")\r\n\r\nThis is using spack's mini-language in the `when` keyword. Specifying the prefix is also repetitive, so instead of the `.format(spec['mpc'].prefix)` idiom, spack would automatically create the `{MPC_PREFIX}` format variables, so that you can use it in the string.\r\n\r\nI think this will simplify a lot of packages. This moves along the direction of #5858, which @tgamblin said it's \"cool\", and at the same time addresses his main objection of \"it reduces the flexibility Python gives you for a lot of packages\", since this proposal does not reduce anything --- you can still use the old way and code the configure line in Python, but you can also (optionally) move to the shorter/simpler declarative way for packages that allow that.",
+    "user": "certik",
+    "url": "https://api.github.com/repos/spack/spack/issues/6067",
+    "updated_at": "2020-08-23 18:24:16",
+    "created_at": "2017-10-31 20:12:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow to specify the configure line declaratively",
+    "number": 6067,
+    "milestone": null,
+    "labels": [
+        "proposal",
+        "autotools"
+    ],
+    "id": 270103303,
+    "html_url": "https://github.com/spack/spack/issues/6067",
+    "assignees": [],
+    "comments": 6
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\nspack install llvm-amdgpu\r\n```\n\n### Information on your system\n\n```\r\n$ spack debug report\r\n* **Spack:** 0.17.1-1167-d4394d502f\r\n* **Python:** 3.9.7\r\n* **Platform:** linux-pop21-icelake\r\n* **Concretizer:** clingo\r\n```\r\n\n\n### Additional information\n\n[spack-build-out.txt](https://github.com/spack/spack/files/8054545/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/8054546/spack-build-env.txt)\r\n\r\n@arjun-raj-kuppala \r\n@haampie \r\n@srekolam \r\n\r\nThis issue appears to be related to the removal of `cyclades.h` from the Linux kernel headers and is more of an issue with the llvm-amdgpu source code. [This ticket on GCC](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100379) suggests the includes for cyclades.h can be simply removed and perhaps a spack patch may help resolve this issue. It looks like https://github.com/ROCm-Developer-Tools/llvm-project hasn't had any major activity for some time, so a patch may be the only route forward unless the llvm-project sees an update.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "fluidnumerics-joe",
+    "url": "https://api.github.com/repos/spack/spack/issues/28906",
+    "updated_at": "2022-03-07 16:21:14",
+    "created_at": "2022-02-12 21:20:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: llvm-amdgpu",
+    "number": 28906,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1134629302,
+    "html_url": "https://github.com/spack/spack/issues/28906",
+    "assignees": [
+        "srekolam"
+    ],
+    "comments": 3
+}

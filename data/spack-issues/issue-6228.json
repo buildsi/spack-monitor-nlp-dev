@@ -1,0 +1,23 @@
+{
+    "body": "If you do the following:\r\n\r\n1. Install package, hash=abc\r\n2. Package definition changes, new hash=def\r\n3. Install new package\r\n4. Delete new package directory (because it can't be distinguished from the old package spec)\r\n5. Spack reindex\r\n\r\nYou get a confusing situation. I did this with `py-py` by adding a dummy dependency to change the spec:\r\n\r\n```\r\n(catalyst159):src$ spack find -L py-py\r\n==> 1 installed packages.\r\n-- linux-rhel7-x86_64 / gcc@4.9.3 -------------------------------\r\nqmzwh2lqvftyhr3z6j6webxb2hkuwf64 py-py@1.4.33\r\n```\r\n\r\n```\r\n(catalyst159):src$ spack load py-py\r\n(catalyst159):src$ echo $PYTHONPATH\r\n/g/g0/gimenez1/local/src/spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-py-1.4.33-qmzwh2lqvftyhr3z6j6webxb2hkuwf64/lib/python2.7/site-packages\r\n```\r\n\r\n```\r\n(catalyst159):src$ spack activate py-py\r\n==> Error: Spec mb536tnj6ldwujml4flrzdm5jasxf46e not found in /g/g0/gimenez1/local/src/spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-py-1.4.33-mb536tnj6ldwujml4flrzdm5jasxf46e\r\n```\r\n\r\n```\r\n(catalyst159):src$ spack uninstall py-py\r\n==> The following packages will be uninstalled:\r\n\r\n-- linux-rhel7-x86_64 / gcc@4.9.3 -------------------------------\r\nqmzwh2l py-py@1.4.33%gcc\r\n\r\n==> Do you want to proceed? [y/N] y\r\n==> Error: Spec mb536tnj6ldwujml4flrzdm5jasxf46e not found in /g/g0/gimenez1/local/src/spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-py-1.4.33-mb536tnj6ldwujml4flrzdm5jasxf46e\r\n```\r\n\r\n```\r\n(catalyst159):src$ spack install py-py\r\n==> py-py is already installed in /g/g0/gimenez1/local/src/spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/py-py-1.4.33-qmzwh2lqvftyhr3z6j6webxb2hkuwf64\r\n```\r\n\r\nPossible solution: add the hash as an optional spec parameter, e.g.  \r\n\r\n```\r\nspack activate py-py hash=qmzwh2lqvftyhr3z6j6webxb2hkuwf64\r\n\r\n```\r\n\r\nThis should only work for resolving existing packages, i.e. not for installations, since that would require a reverse hash function to resolve... So `find`, `activate`, `load/use`, `uninstall`.",
+    "user": "alfredo-gimenez",
+    "url": "https://api.github.com/repos/spack/spack/issues/6228",
+    "updated_at": "2020-08-23 18:21:43",
+    "created_at": "2017-11-09 01:56:53",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Stale Package Situation",
+    "number": 6228,
+    "milestone": null,
+    "labels": [
+        "python",
+        "hashes",
+        "extensions"
+    ],
+    "id": 272414450,
+    "html_url": "https://github.com/spack/spack/issues/6228",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

@@ -1,0 +1,20 @@
+{
+    "body": "So far, I've used Spack just by myself.  Now, I wanted to share a Spack installation between two people.\n\nI began with a `chmod -R a+r spack`.  This allowed others to read the repo.  However, `spack setup` didn't work for the other user, because it tries to write.  This is an unanticipated downside of the `spack setup` way of doing things...\n\nI then did `chmod -R a+w spack`.  That made `spack setup` work, which produced the `spconfig.py` file I needed.  But building packages with Spack still did not work for the other user: apparently, `os.chmod()` is involved inside of Spack, and that failed if you're not the owner.\n\nOverall, I would say we need to think through multi-user use cases and how to support them with Spack.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1799",
+    "updated_at": "2019-07-12 08:15:37",
+    "created_at": "2016-09-18 03:11:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Multi-User Spack",
+    "number": 1799,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "discussion"
+    ],
+    "id": 177626058,
+    "html_url": "https://github.com/spack/spack/issues/1799",
+    "assignees": [],
+    "comments": 7
+}

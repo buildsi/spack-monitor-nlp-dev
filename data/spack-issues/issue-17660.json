@@ -1,0 +1,21 @@
+{
+    "body": "Disclaimer: I'm a spack newbie so bear with me if the way I'm using things is totally off. \r\n\r\nWhen trying to build a custom package a specific spec used in a `depends_on` clause causes the Concretizer to fail (stuck in a dead loop), while the same spec works just fine via `spack spec`.\r\n\r\n### Steps to reproduce the issue\r\n\r\nWorks:\r\n```console\r\n$ spack spec \"py-numpy@:1.16 -blas -lapack ^py-setuptools@:44 ^python@2.7:2.8\"\r\n```\r\n\r\nGets stuck:\r\n```console\r\n$ spack spec banana\r\n```\r\n\r\nWith `banana/package.py` defined as\r\n```python\r\nfrom spack import *\r\n\r\nclass Banana(AutotoolsPackage):\r\n    \"\"\"Just a banana.\"\"\"\r\n\r\n    homepage = \"http://banana.net\"\r\n    url = \"http://banana.net/banana-1.0.0.tar.gz\"\r\n\r\n    version('1.0.0', sha256='c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1')\r\n\r\n    depends_on('py-numpy@:1.16 -blas -lapack ^py-setuptools@:44 ^python@2.7:2.8')\r\n```\r\nThe reasoning for the spec is that I'm trying to constrain Python to version 2.7.\r\n\r\n_Unrelated side note_: as per the [documentation](https://spack.readthedocs.io/en/latest/basic_usage.html#version-specifier) I tried `^python@:2.7` but that also didn't work as expected. I would have expected the latest safe 2.7.x version to be selected that way but the Concretizer resolved it to 2.7 (unsafe) instead of 2.7.18. Thus I changed it to `^python@2.7:2.8` which I saw done for builtin packages as well (only ok as long as there's no version 2.8 being made available).\r\n\r\n### Error Message\r\n\r\nNone, because of dead loop (CPU at 100%). Debug mode shows it gets stuck while/after:\r\n```\r\nReading config file [...]/spack/etc/spack/defaults/packages.yaml\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.15.1 (fresh/vanilla installation, default `packages.yaml`, 29 packages installed)\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-debian10-zen\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "brevilo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17660",
+    "updated_at": "2020-08-23 17:24:33",
+    "created_at": "2020-07-22 14:43:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Concretizer stuck in dead loop (only) when spec is used as package dependency",
+    "number": 17660,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "duplicate",
+        "impact-medium"
+    ],
+    "id": 663817763,
+    "html_url": "https://github.com/spack/spack/issues/17660",
+    "assignees": [],
+    "comments": 4
+}

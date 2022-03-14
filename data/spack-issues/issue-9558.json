@@ -1,0 +1,19 @@
+{
+    "body": "I'm attempting to install openspeedshop, which I have installed successfully in the past using spack on this same system. Running into a problem with the ninja package. The error log indicates that it is running ninja during the configure stage on a system library file /usr/lib64 instead of a file in the spack repository.\r\n\r\nI'm using a spack mirror for firewall reasons.\r\n\r\n```console\r\n$ spack install openspeedshop@develop +openmpi \r\n[a bunch of correct package installs]\r\n==> Installing ninja\r\n==> Fetching file:///usr/projects/workflow_perf/openss_spack/latest-spack-mirror/ninja/ninja-1.8.2.tar.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /turquoise/usr/projects/workflow_perf/openss_spack/spack/var/spack/stage/ninja-1.8.2-wo52nminswjj2suuvsoncpkjekhwsgmd/v1.8.2.tar.gz\r\n==> Created stage in /turquoise/usr/projects/workflow_perf/openss_spack/spack/var/spack/stage/ninja-1.8.2-wo52nminswjj2suuvsoncpkjekhwsgmd\r\n==> No patches needed for ninja\r\n==> Building ninja [Package]\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/turquoise/usr/projects/workflow_perf/openss_spack/spack/opt/spack/linux-rhel7-x86_64/gcc-6.4.0/python-2.7.15-2wtyafg2x23lzpao4ybrkwdu3vqyrhps/bin/python2.7' 'configure.py' '--bootstrap'\r\nSee build log for details:\r\n  /turquoise/usr/projects/workflow_perf/openss_spack/spack/var/spack/stage/ninja-1.8.2-wo52nminswjj2suuvsoncpkjekhwsgmd/ninja-1.8.2/spack-build.out\r\n\r\n$ cat /turquoise/usr/projects/workflow_perf/openss_spack/spack/var/spack/stage/ninja-1.8.2-wo52nminswjj2suuvsoncpkjekhwsgmd/ninja-1.8.2/spack-build.out\r\n==> Executing phase: 'configure'\r\n==> '/turquoise/usr/projects/workflow_perf/openss_spack/spack/opt/spack/linux-rh\r\nel7-x86_64/gcc-6.4.0/python-2.7.15-2wtyafg2x23lzpao4ybrkwdu3vqyrhps/bin/python2.\r\n7' 'configure.py' '--bootstrap'\r\n./ninja: /usr/lib64/libstdc++.so.6: version `CXXABI_1.3.9' not found (required b\r\ny ./ninja)\r\n./ninja: /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.21' not found (required\r\n by ./ninja)\r\n./ninja: /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required\r\n by ./ninja)\r\nbootstrapping ninja...\r\nwarning: A compatible version of re2c (>= 0.11.3) was not found; changes to src/\r\n*.in.cc will not affect your build.\r\nwrote build.ninja.\r\nbootstrap complete.  rebuilding...\r\nTraceback (most recent call last):\r\n  File \"configure.py\", line 684, in <module>\r\n    subprocess.check_call(rebuild_args)\r\n  File \"/turquoise/usr/projects/workflow_perf/openss_spack/spack/opt/spack/linux\r\n-rhel7-x86_64/gcc-6.4.0/python-2.7.15-2wtyafg2x23lzpao4ybrkwdu3vqyrhps/lib/pytho\r\nn2.7/subprocess.py\", line 190, in check_call\r\n    raise CalledProcessError(retcode, cmd)\r\nsubprocess.CalledProcessError: Command '['./ninja']' returned non-zero exit stat\r\nus 1\r\n```\r\n\r\npackages.yaml:\r\n```\r\n   all:\r\n      providers:\r\n         pkgconfig: [pkg-config]\r\n   cmake:\r\n       buildable: False\r\n       paths:\r\n           cmake@3.12.1: /usr/projects/hpcsoft/toss3/common/cmake/3.12.1\r\n```\r\n\r\n### Platform and user environment\r\n```commandline\r\n$ uname -a \r\nLinux wc-fe1.lanl.gov 4.9.108-1.x86_64 #1 SMP Wed Jun 13 15:27:13 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tRed Hat Enterprise Linux Server release 7.4 (Maipo)\r\n``` \r\n",
+    "user": "kfrye",
+    "url": "https://api.github.com/repos/spack/spack/issues/9558",
+    "updated_at": "2018-10-24 11:00:23",
+    "created_at": "2018-10-17 17:57:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: openspeedshop (ninja)",
+    "number": 9558,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 371198472,
+    "html_url": "https://github.com/spack/spack/issues/9558",
+    "assignees": [],
+    "comments": 0
+}

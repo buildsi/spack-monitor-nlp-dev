@@ -1,0 +1,17 @@
+{
+    "body": "Consider a package having additional dependencies only for testing. How can I convey this information in the `package.py`?\r\n\r\nA package depending on Google Test (Spack package `googletest`) would contain at least the following line:\r\n```python\r\ndepends_on('googletest', type='test')\r\n```\r\nThis may not suffice as the build system of the package won't be able to detect Google Test at configuration time. This could be fixed by adding the line below:\r\n```python\r\ndepends_on('googletest', type=('build', 'test'))\r\n```\r\nNow the build will always require Google Test, testing or not. This is undesirable. Finally, one could try the code below:\r\n```python\r\nvariants('test', default=False, description='Build tests')\r\ndepends_on('googletest', type=('build', 'test')), when='+test')\r\n```\r\nThis approach was chosen by, e.g., `gunrock`, `sirius`, and `chai`. The user must manually enable the tests now for all packages and all dependencies making `spack --test=all` considerably harder to use.\r\n\r\nWhich solutions exist for this problem? It would suffice to simply check if `--test` was passed on the command line. Could Spack implicitly provide a `test` variant for all builds?\r\n\r\nIt is hard to find related issues with the key terms \"test\", \"depends\", or \"depends_on\" in a forum for build management software.",
+    "user": "christoph-conrads",
+    "url": "https://api.github.com/repos/spack/spack/issues/28947",
+    "updated_at": "2022-02-15 15:28:16",
+    "created_at": "2022-02-15 15:28:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Question: tests and `depends_on`",
+    "number": 28947,
+    "milestone": null,
+    "labels": [],
+    "id": 1138846119,
+    "html_url": "https://github.com/spack/spack/issues/28947",
+    "assignees": [],
+    "comments": 0
+}

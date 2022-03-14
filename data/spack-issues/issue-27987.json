@@ -1,0 +1,19 @@
+{
+    "body": "Spack doesn't have an easy way to say something like \"If I build package X, then I ~want~ *need* version Y\":\r\n\r\n* If you specify something on the command line, then you ensure that the constraints are applied, but the package is always built\r\n  * Likewise if you `spack add X...` to your environment, the constraints are guaranteed to hold, but the environment always builds the package\r\n* Conversely, you can add preferences to `packages.yaml`, but these are not guaranteed (Spack can choose other settings)\r\n\r\nFor example, you might want to specify that when you build `openmpi`, that you build `@4.0.1`: you want to allow building with other specs, but always use `@4.0.1` if building `openmpi`.\r\n\r\nThis PR adds ASP rules (and logic to `asp.py`) which can generate conditional constraints. My current guess is that it should be \"consolidated\" with `asp_spec_clauses` (or rather, that function should be made more generic to support this case).\r\n\r\nTODOs:\r\n\r\n- [x] This will require updating the YAML schema in `packages.yaml` (or some config file). (EDIT 1/7/22: that is now done) ~For now, since I'm experimenting with the ASP rules, I am manually generating what would be parsed from the config~\r\n- [ ] Tests",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/27987",
+    "updated_at": "2022-01-24 18:14:29",
+    "created_at": "2021-12-14 01:52:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[WIP] Configure required versions for a package",
+    "number": 27987,
+    "milestone": null,
+    "labels": [
+        "WIP"
+    ],
+    "id": 1079217395,
+    "html_url": "https://github.com/spack/spack/pull/27987",
+    "assignees": [],
+    "comments": 4
+}

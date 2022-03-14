@@ -1,0 +1,24 @@
+{
+    "body": "@scottwittenburg  @becker33 \r\n\r\nThis subprocess call is problematic if you are using a custom spack env:\r\nhttps://github.com/spack/spack/blob/5926056f3a4c78a65d41688cdde825d89ed2ac2e/lib/spack/spack/cmd/ci.py#L484\r\n\r\nBy introducing the `-l` argument, the results of `setup-env.sh` are cleared at runtime. To reproduce, try this:\r\n\r\n```\r\n-bash-4.2$ . <my project path>/spack/share/spack/setup-env.sh\r\n-bash-4.2$ which spack\r\n<my project path>/spack/bin/spack\r\n-bash-4.2$ cat test.py\r\nimport subprocess\r\nsubprocess.Popen(['bash','-l','./test.sh'])\r\n-bash-4.2$ cat test.sh \r\n#!/bin/bash\r\nwhich spack\r\n-bash-4.2$ python test.py \r\n-bash-4.2$ /home/qwofford/spack/bin/spack\r\n```\r\nThen try:\r\n```\r\n-bash-4.2$ which spack\r\n<my project path>/spack/bin/spack\r\n-bash-4.2$ cat test.py\r\nimport subprocess\r\nsubprocess.Popen(['bash','./test.sh'])\r\n-bash-4.2$ cat test.sh\r\n#!/bin/bash\r\nwhich spack\r\n-bash-4.2$ python test.py\r\n-bash-4.2$ <my project path>/spack/bin/spack\r\n```\r\n\r\n### Error Message\r\n\r\nI got a validator error from the version of spack that was in my PATH, because the version in my PATH was older than the version in my activated environment via `setup-env.sh`\r\n",
+    "user": "qwofford",
+    "url": "https://api.github.com/repos/spack/spack/issues/24260",
+    "updated_at": "2021-07-06 16:48:33",
+    "created_at": "2021-06-10 23:43:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "subprocess does not persist the effects of setup-env.sh",
+    "number": 24260,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage",
+        "ci"
+    ],
+    "id": 918053719,
+    "html_url": "https://github.com/spack/spack/issues/24260",
+    "assignees": [
+        "scottwittenburg",
+        "becker33"
+    ],
+    "comments": 3
+}

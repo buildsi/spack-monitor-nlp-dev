@@ -1,0 +1,22 @@
+{
+    "body": "Running `spack module lmod refresh -y` results in an error `==> Error: Name clashes detected in module files:`.  The comparison that is provided after this is simply a spec with version, compiler, and variants.  In that comparison, both specs are identical.  Closer inspection using `spack find -d` reveals that the issue is that each one depends on a different version of python.  I understand that this will result in a module file name clash as I've set the hash length to zero, but the comparison that was provided did not give me the necessary information as to how I can be more specific in my module whitelist.  \r\n\r\nI'd suggest making the comparison provided as part of this error either always output the equivalent of `spack find -d` or `spack find -d -L` in order to provide adequate information to determine the appropriate course of action.  If you would like to make this more dynamic, I could see using the current method if a difference is found in the diff of the two spec lines and adding information (starting with `-d` and going on to `-L` as needed) until a difference is found.\r\n\r\n\r\n\r\n### Steps to reproduce the issue\r\nIn the appropriate place in your lmod module format definition, set the hash_length to 0.\r\n```console\r\n$ spack install llvm@7.0.1^python@3.7.4\r\n$ spack install llvm@7.0.1^python@2.7.16\r\n$ spack module lmod refresh -y\r\n...\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\nThis was run on a TOSS3 machine at LANL in the open.",
+    "user": "nicholas-sly",
+    "url": "https://api.github.com/repos/spack/spack/issues/15127",
+    "updated_at": "2020-02-20 17:44:32",
+    "created_at": "2020-02-20 17:37:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack module` command name clash with different dependencies",
+    "number": 15127,
+    "milestone": null,
+    "labels": [
+        "modules",
+        "proposal",
+        "error-messages",
+        "user-experience"
+    ],
+    "id": 568462839,
+    "html_url": "https://github.com/spack/spack/issues/15127",
+    "assignees": [],
+    "comments": 0
+}

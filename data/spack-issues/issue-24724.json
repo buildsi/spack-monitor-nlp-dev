@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\nWhen I install `caliper+cuda` the resulting shared library (`libcaliper.so`) is missing RPATH entries, so it cannot be loaded without `$LD_LIBRARY_PATH` providing the extra search paths:\r\n```console\r\n$ ldd $(spack find --format \"{prefix}\" caliper)/lib64/libcaliper.so | grep \"not found\" -B 1\r\n        libnvToolsExt.so.1 => /path/to/cuda-11.3.1-ffqrvzymcxzr2muu62wgc23fjbm6vzbo/lib64/libnvToolsExt.so.1 (0x00007fffec068000)\r\n        libcupti.so.11.3 => not found\r\n```\r\n\r\nThe problem seems to be that Spack generates CMake arguments to Caliper like\r\n```bash\r\n'-DCMAKE_INSTALL_RPATH_USE_LINK_PATH:BOOL=OFF' '-DCMAKE_INSTALL_RPATH:STRING=/path/to/package1/lib:/path/to/package2/lib:...'\r\n```\r\nwhere the list of paths comes from\r\nhttps://github.com/spack/spack/blob/9d36f7f5184aebc0065c74ee5d92652daf477643/lib/spack/spack/build_environment.py#L663\r\nwhich assumes that `prefix.lib` and `prefix.lib64` are sufficient.\r\nThis assumption fails with CUDA and `libcupti.so`, which lives under `/path/to/cuda-11.0.2-kb4wci/extras/CUPTI/lib64`. The result is that this CUPTI library path has to be in `LD_LIBRARY_PATH` for `libcaliper.so` to be used.\r\n\r\nAs far as I can see there is no mechanism for the CUDA recipe to advertise that it contains multiple library paths and that they should all be added to the RPATH of dependent packages. One workaround, inspired by https://github.com/spack/spack/issues/19970, is to append `CMAKE_INSTALL_RPATH_USE_LINK_PATH=On` to the CMake command in the Caliper recipe.\r\n\r\n### Steps to reproduce the issue\r\n```console\r\n$ git clone https://github.com/spack/spack # I got commit 545f971bec474be4c694c7c2ffe3b125723d0bea\r\n$ . spack/share/spack/setup-env.sh\r\n$ spack compiler find # gcc 9.3.0\r\n$ spack install -j 36 caliper+cuda\r\n```\r\n\r\n### Error Message\r\n```console\r\n$ ldd $(spack find --format \"{prefix}\" caliper)/lib64/libcaliper.so | grep \"not found\" -B 1\r\n        libnvToolsExt.so.1 => /path/to/cuda-11.3.1-ffqrvzymcxzr2muu62wgc23fjbm6vzbo/lib64/libnvToolsExt.so.1 (0x00007fffec068000)\r\n        libcupti.so.11.3 => not found\r\n$ LD_LIBRARY_PATH=$(spack find --format \"{prefix}\" cuda)/extras/CUPTI/lib64 ldd $(spack find --format \"{prefix}\" caliper)/lib64/libcaliper.so | grep libcupti.so -B 1\r\n        libnvToolsExt.so.1 => /path/to/cuda-11.3.1-ffqrvzymcxzr2muu62wgc23fjbm6vzbo/lib64/libnvToolsExt.so.1 (0x00007fffec068000)\r\n        libcupti.so.11.3 => /path/to/cuda-11.3.1-ffqrvzymcxzr2muu62wgc23fjbm6vzbo/extras/CUPTI/lib64/libcupti.so.11.3 (0x00007fffeb7c2000)\r\n```\r\n\r\n### Information on your system\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.2-3391-545f971\r\n* **Python:** 3.8.3\r\n* **Platform:** linux-rhel7-skylake_avx512\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output",
+    "user": "olupton",
+    "url": "https://api.github.com/repos/spack/spack/issues/24724",
+    "updated_at": "2021-07-06 14:02:00",
+    "created_at": "2021-07-06 14:02:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Cannot specify extra RPATHs for package (caliper+cuda libcupti.so not found)",
+    "number": 24724,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 937931813,
+    "html_url": "https://github.com/spack/spack/issues/24724",
+    "assignees": [],
+    "comments": 0
+}

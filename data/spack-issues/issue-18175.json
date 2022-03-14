@@ -1,0 +1,26 @@
+{
+    "body": "closes #21343 \r\ncloses #28092 \r\n\r\nThis PR adds a new unit test to check that detection of relevant packages is performed correctly in a few scenarios mocking real use-cases. Data for each package being tested is in a YAML file called `detection_test.yaml` alongside the corresponding `package.py` file. \r\n\r\nThis addition is in view of improving the robustness of the detection logic for packages that provide widely used services (compilers, MPIs, etc.).\r\n\r\nThe detection tests can be run with:\r\n```console\r\n$ spack unit-test lib/spack/spack/test/detection.py::test_package_detection\r\n==================================================================== test session starts =====================================================================\r\nplatform linux -- Python 3.8.10, pytest-6.2.5, py-1.11.0, pluggy-1.0.0\r\nrootdir: /home/culpo/PycharmProjects/spack, configfile: pytest.ini\r\ncollected 3 items                                                                                                                                            \r\n\r\nlib/spack/spack/test/detection.py ...                                                                                                                  [100%]\r\n\r\n==================================================================== slowest 30 durations ====================================================================\r\n0.09s call     lib/spack/spack/test/detection.py::test_package_detection[llvm]\r\n0.08s call     lib/spack/spack/test/detection.py::test_package_detection[gcc]\r\n0.02s setup    lib/spack/spack/test/detection.py::test_package_detection[llvm]\r\n0.02s call     lib/spack/spack/test/detection.py::test_package_detection[intel]\r\n\r\n(5 durations < 0.005s hidden.  Use -vv to show these durations.)\r\n===================================================================== 3 passed in 0.26s ======================================================================\r\n```\r\n\r\nModifications:\r\n\r\n- [x] Added a test to check that detection for packages is performed correctly\r\n- [x] Added documentation on how to write detection tests for each package\r\n- [x] Added detection tests for `gcc`, `llvm` and `intel`\r\n- [x] Separated unit tests for `spack.detection` from tests that are calling the `spack external` command via `SpackMain`",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/18175",
+    "updated_at": "2022-03-04 00:54:36",
+    "created_at": "2020-08-19 13:08:33",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Test package detection in a systematic way",
+    "number": 18175,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "external-packages",
+        "tests",
+        "intel",
+        "gcc",
+        "clang"
+    ],
+    "id": 681826474,
+    "html_url": "https://github.com/spack/spack/pull/18175",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

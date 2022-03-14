@@ -1,0 +1,20 @@
+{
+    "body": "I'm not in a place where I can fix this right now, but thought I'd leave note for my future self, or whomever else comes along.\r\n\r\n```\r\n$ spack install r^python@3.9.0\r\n[+] /local_scratch/george.hartzell/tmp/spack/opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/libiconv-1.16-gxhwn4i3pmaieairp27f7dphdysssabc\r\n[...]\r\n[+] /local_scratch/george.hartzell/tmp/spack/opt/spack/linux-centos7-skylake_avx512/gcc-8.4.0/harfbuzz-2.6.8-2dh6pc6xvjdr33iybm73y362ypjyf6np\r\n==> Installing gobject-introspection-1.56.1-r3kbxpmegyto6nwuxpiemqnzkkqqxnpt\r\n==> No binary for gobject-introspection-1.56.1-r3kbxpmegyto6nwuxpiemqnzkkqqxnpt found: installing from source\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/5b/5b2875ccff99ff7baab63a34b67f8c920def240e178ff50add809e267d9ea24b.tar.xz\r\n######################################################################## 100.0%\r\n==> gobject-introspection: Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j64'\r\n\r\n3 errors found in build log:\r\n     303        self.parse_tree(tree)\r\n     304      File \"./giscanner/girparser.py\", line 73, in parse_tree\r\n     305        self._parse_api(tree.getroot())\r\n     306      File \"./giscanner/girparser.py\", line 110, in _parse_api\r\n     307        for node in root.getchildren():\r\n     308    AttributeError: 'xml.etree.ElementTree.Element' object has no attribute 'getchildren'\r\n  >> 309    make[2]: *** [GLib-2.0.gir] Error 1\r\n     310    make[2]: Leaving directory `/local_scratch/george.hartzell/tmp/spack/var/spack/stage/spack-stage-gobject-introspection-1.56.1-r3kbxpmegyto6nwuxpiemqnzkkqqxnpt/spack-src'\r\n  >> 311    make[1]: *** [all-recursive] Error 1\r\n     312    make[1]: Leaving directory `/local_scratch/george.hartzell/tmp/spack/var/spack/stage/spack-stage-gobject-introspection-1.56.1-r3kbxpmegyto6nwuxpiemqnzkkqqxnpt/spack-src'\r\n  >> 313    make: *** [all] Error 2\r\n\r\nSee build log for details:\r\n  /local_scratch/george.hartzell/tmp/spack/var/spack/stage/spack-stage-gobject-introspection-1.56.1-r3kbxpmegyto6nwuxpiemqnzkkqqxnpt/spack-build-out.txt\r\n\r\n==> Warning: Skipping build of pango-1.41.0-277jbjoyxydxyabvl7cxk4lzxqrjmoio since gobject-introspection-1.56.1-r3kbxpmegyto6nwuxpiemqnzkkqqxnpt failed\r\n==> Warning: Skipping build of r-3.6.3-yvfwud4fg2gvhh7z4dc33am7gqn6u2wg since pango-1.41.0-277jbjoyxydxyabvl7cxk4lzxqrjmoio failed\r\n$\r\n```\r\n\r\nThe problem seems to be the one discussed in [gobject-introspection issue #325](https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/325).  It seems like that fix was merged about a year ago.\r\n\r\nThere have been many new releases of gobject-introspection since our last version.  I tried getting `@1.66.1` to build but it no longer uses autotools and my naive attempts at building it manually with `meson` didn't get very far.\r\n\r\nThis seems like it might be another package that needs to support different build systems at different versions.\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/20155",
+    "updated_at": "2021-05-19 16:48:22",
+    "created_at": "2020-11-28 21:57:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: problem building gobject-introspection with python@3.9.0",
+    "number": 20155,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "python3"
+    ],
+    "id": 752775999,
+    "html_url": "https://github.com/spack/spack/issues/20155",
+    "assignees": [],
+    "comments": 2
+}

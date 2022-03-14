@@ -1,0 +1,19 @@
+{
+    "body": "(Further) simplifies the `ENTRYPOINT` for the docker images.  This change removes the `one-shot` default entrypoint and replaces it with the `spack-env` entrypoint.  Combined with the `interactive-shell` default `CMD`, these changes yield the following behavior:\r\n\r\n - Before these changes: when running the image with no `ENTRYPOINT` or `CMD` override, an interactive shell session was created.  This session had spack loaded and ready for immediate use.  This behavior is preserved by the changes.\r\n\r\n - Before these changes: when running the image with a `CMD` override, the `CMD` was taken as a set of arguments to spack, itself (i.e.: `spack '...'`).  These changes remove this behavior.  Instead, the `CMD` is ran as in `/usr/bin/env sh -c '...'`, except that the passed commands can use Spack without the need to source its loading script. Existing uses of the prior behavior can accomplish the same by just adding `spack` to the beginning of the `CMD`:\r\n\r\n```bash\r\n $ docker run --rm ... spack/ubuntu-bionic spec hdf5  # before\r\n $ docker run --rm ... spack/ubuntu-bionic spack spec hdf5  # after\r\n```\r\n\r\n - The `docker-shell` variant continues to work as before.  `RUN` commands in a `Dockerfile` that use our image as a base can still run spack commands without needing to source spack's loading script.\r\n\r\nWithout these changes, `spack ci` users would need to explicitly override the `ENTRYPOINT` of jobs that run using our images.  This requirement precluded use in environments where entrypoint overrides were disabled, or ignored, such as with the Kubernetes executor (see [this issue](https://gitlab.com/gitlab-org/gitlab-runner/-/issues/4125)).  With these changes, the `ENTRYPOINT` now works, by default, in a manner compatible with all Gitlab CI use cases.",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/17429",
+    "updated_at": "2022-02-11 11:35:48",
+    "created_at": "2020-07-08 17:33:52",
+    "closed_at": "None",
+    "state": "open",
+    "title": "remove one-shot entrypoint/switch default entrypoint to spack-env",
+    "number": 17429,
+    "milestone": null,
+    "labels": [
+        "docker"
+    ],
+    "id": 653474684,
+    "html_url": "https://github.com/spack/spack/pull/17429",
+    "assignees": [],
+    "comments": 5
+}

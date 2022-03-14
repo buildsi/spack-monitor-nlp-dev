@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\nCMake already implements plenty of modules to find external libraries, such as [FindMPI](https://cmake.org/cmake/help/latest/module/FindMPI.html), [FindHDF5](https://cmake.org/cmake/help/latest/module/FindHDF5.html), [FindLAPACK](https://cmake.org/cmake/help/latest/module/FindLAPACK.html), [FindBoost](https://cmake.org/cmake/help/latest/module/FindBoost.html), etc. Packages also often provide CMake config files that can be found the same way. I propose we use them to detect external installations of these libraries with `spack external find`.\r\n\r\n### Rationale\r\n\r\nCurrently we only detect external libraries that expose an executable in the `PATH`, e.g., we query `cmake --version` to detect a CMake installation. This doesn't allow finding libraries such as OpenBLAS or Boost. In particular, system-provided BLAS installations would be very useful to detect, e.g., the Accelerate framework provided by macOS. CMake is already very good at this.\r\n\r\n### Description\r\n\r\n- On the `package.py` side this could be as simple as writing `cmake_find_module = \"LAPACK\"` or similar. We need to handle subtleties with, e.g., virtual packages etc.\r\n- CMake can run in script mode, which can be useful to execute `find_package(CMAKE_FIND_MODULE)`.\r\n- The install prefix, variants, etc, can be parsed from CMake variables provided by the find module. They are often standardized, so the package authors have to do little to no work to detect version, prefix, etc. To translate CMake variables to Spack variants the package authors probably have to write code similar to the existing `determine_variants`.\r\n- Of course this method needs CMake installed. Perhaps the easiest way is to enable this search mode only when `cmake` is in the `PATH`.\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "nilsvu",
+    "url": "https://api.github.com/repos/spack/spack/issues/28570",
+    "updated_at": "2022-01-31 11:57:42",
+    "created_at": "2022-01-24 09:51:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Feature request: Detect external packages using CMake",
+    "number": 28570,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1112407939,
+    "html_url": "https://github.com/spack/spack/issues/28570",
+    "assignees": [],
+    "comments": 2
+}

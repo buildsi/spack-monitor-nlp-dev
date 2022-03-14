@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec pango ^cairo+svg\r\n(...)\r\nRecursionError: maximum recursion depth exceeded while calling a Python object\r\n```\r\n\r\nConcretizing just `cairo+svg` works just fine. \r\n\r\nI have done some debugging myself, and looks like this is caused by dependency loop: `cairo -> librsvg -> cairo`.\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack --debug --stacktrace spec pango ^cairo+svg\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.978696] pango applying constraint cairo+fc+ft\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.980731] pango applying constraint glib\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.982485] pango applying constraint gobject-introspection\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.984373] pango applying constraint fontconfig\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.986169] pango applying constraint freetype@2:\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.987919] pango applying constraint libffi\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.988565] pango applying constraint pkgconf\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.990349] pango applying constraint harfbuzz\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.992277] pango applying constraint cairo+fc+ft\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.994354] pango applying constraint glib\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.996163] pango applying constraint gobject-introspection\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.997937] pango applying constraint fontconfig\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:25.999735] pango applying constraint freetype@2:\r\nlib/spack/spack/spec.py:2765 ==> [2021-02-10-11:17:26.001487] pango applying constraint libffi\r\nlib/spack/spack/config.py:908 ==> [2021-02-10-11:17:26.177562] Reading config file /home/sftnight/.spack/linux/compilers.yaml\r\nTraceback (most recent call last):\r\n  File \"/workspace/vspack/spack/bin/spack\", line 68, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/workspace/vspack/spack/lib/spack/spack/main.py\", line 762, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/workspace/vspack/spack/lib/spack/spack/main.py\", line 490, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/workspace/vspack/spack/lib/spack/spack/cmd/spec.py\", line 102, in spec\r\n    spec.concretize()\r\n  File \"/workspace/vspack/spack/lib/spack/spack/spec.py\", line 2537, in concretize\r\n    self._old_concretize(tests)\r\n  File \"/workspace/vspack/spack/lib/spack/spack/spec.py\", line 2337, in _old_concretize\r\n    self._concretize_helper(concretizer))\r\n  File \"/workspace/vspack/spack/lib/spack/spack/spec.py\", line 2161, in _concretize_helper\r\n    concretizer, presets, visited\r\n  File \"/workspace/vspack/spack/lib/spack/spack/spec.py\", line 2161, in _concretize_helper\r\n    concretizer, presets, visited\r\n  File \"/workspace/vspack/spack/lib/spack/spack/spec.py\", line 2161, in _concretize_helper\r\n    concretizer, presets, visited\r\n  [Previous line repeated 985 more times]\r\n  File \"/workspace/vspack/spack/lib/spack/spack/spec.py\", line 2159, in _concretize_helper\r\n    for name in sorted(self._dependencies.keys()):\r\n  File \"/usr/lib64/python3.6/_collections_abc.py\", line 702, in __len__\r\n    return len(self._mapping)\r\nRecursionError: maximum recursion depth exceeded\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n* **Spack:** 0.16.0-1226-bd83654\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-haswell\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "iarspider",
+    "url": "https://api.github.com/repos/spack/spack/issues/21590",
+    "updated_at": "2021-02-12 09:33:04",
+    "created_at": "2021-02-10 10:21:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "RecursionError: maximum recursion depth exceeded while calling a Python object",
+    "number": 21590,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low",
+        "concretizer-use-case"
+    ],
+    "id": 805376620,
+    "html_url": "https://github.com/spack/spack/issues/21590",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

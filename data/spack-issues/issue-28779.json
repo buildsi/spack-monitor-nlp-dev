@@ -1,0 +1,23 @@
+{
+    "body": "\r\n\r\nPing @nhanford, can you please fix `test_install_legacy_yaml`?\r\n\r\nIt's broken yet it passes. Try this diff:\r\n\r\n```diff\r\n$ git diff\r\ndiff --git a/lib/spack/spack/main.py b/lib/spack/spack/main.py\r\nindex 34ba3c3349..613ba569f8 100644\r\n--- a/lib/spack/spack/main.py\r\n+++ b/lib/spack/spack/main.py\r\n@@ -608,7 +608,7 @@ def __call__(self, *argv, **kwargs):\r\n \r\n         out = StringIO()\r\n         try:\r\n-            with log_output(out):\r\n+            with log_output(out, echo=True):\r\n                 self.returncode = _invoke_command(\r\n                     self.command, self.parser, args, unknown)\r\n \r\ndiff --git a/lib/spack/spack/test/bindist.py b/lib/spack/spack/test/bindist.py\r\nindex e45d2eb07d..b16835cade 100644\r\n--- a/lib/spack/spack/test/bindist.py\r\n+++ b/lib/spack/spack/test/bindist.py\r\n@@ -619,6 +619,7 @@ def test_install_legacy_yaml(test_legacy_mirror, install_mockery_mutable_config,\r\n                 + '/build_cache/test-debian6-core2-gcc-4.5.0-zlib-' +\r\n                 '1.2.11-t5mczux3tfqpxwmg7egp7axy2jvyulqk.spec.yaml')\r\n     uninstall_cmd('-y', '/t5mczux3tfqpxwmg7egp7axy2jvyulqk')\r\n+    assert False\r\n```\r\n\r\nand notice that:\r\n\r\n```console\r\n$ spack unit-test ./lib/spack/spack/test/bindist.py -k test_install_legacy\r\n-------------------------------------------------------------------- Captured stdout call --------------------------------------------------------------------\r\n==> Installing zlib-1.2.11-t5mczux3tfqpxwmg7egp7axy2jvyulqk\r\n==> Fetching file:///tmp/pytest-of-harmen/pytest-48/test_install_legacy_yaml0/legacy_yaml_mirror/build_cache/test-debian6-core2/gcc-4.5.0/zlib-1.2.11/test-debian6-core2-gcc-4.5.0-zlib-1.2.11-t5mczux3tfqpxwmg7egp7axy2jvyulqk.spack\r\n==> Extracting zlib-1.2.11-t5mczux3tfqpxwmg7egp7axy2jvyulqk from binary cache\r\n==> Warning: Dependency missing: may be deprecated or corrupted:\r\n  /tmp/pytest-of-harmen/pytest-48/test_install_legacy_yaml0/opt/test-debian6-core2/gcc-4.5.0/zlib-1.2.11-t5mczux3tfqpxwmg7egp7axy2jvyulqk\r\n  Specs zlib@1.2.11%gcc@4.5.0+optimize+pic+shared arch=test-debian6-core2 and zlib@1.2.11%apple-clang@11.0.0+optimize+pic+shared arch=test-debian6-core2 have the same SHA-1 prefix!\r\n[+] /tmp/pytest-of-harmen/pytest-48/test_install_legacy_yaml0/opt/test-debian6-core2/gcc-4.5.0/zlib-1.2.11-t5mczux3tfqpxwmg7egp7axy2jvyulqk\r\n==> Successfully uninstalled zlib@1.2.11%gcc@4.5.0+optimize+pic+shared arch=test-debian6-core2/t5mczux\r\n------------------------------------------------------------------ Captured stdout teardown ------------------------------------------------------------------\r\n```\r\n\r\nNotice:\r\n\r\n```\r\n  Specs zlib@1.2.11%gcc@4.5.0+optimize+pic+shared arch=test-debian6-core2 and zlib@1.2.11%apple-clang@11.0.0+optimize+pic+shared arch=test-debian6-core2 have the same SHA-1 prefix!\r\n```\r\n\r\nThe issue is that the blob `test-debian6-core2-gcc-4.5.0-zlib-1.2.11-t5mczux3tfqpxwmg7egp7axy2jvyulqk.spack` lists `%apple-clang` as a compiler, but the `spec.yaml` specifies `%gcc`. So what is requested is not what is installed, and the the database / filesystem become inconsistent.\r\n\r\nCame up in #28764\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/28779",
+    "updated_at": "2022-02-07 12:59:29",
+    "created_at": "2022-02-04 12:27:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Test `test_install_legacy_yaml` is silently broken",
+    "number": 28779,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "impact-low",
+        "maintainers",
+        "ci"
+    ],
+    "id": 1124148765,
+    "html_url": "https://github.com/spack/spack/issues/28779",
+    "assignees": [],
+    "comments": 1
+}

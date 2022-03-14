@@ -1,0 +1,20 @@
+{
+    "body": "A lot of external packages are not built with RPATH support, and so they need `LD_LIBRARY_PATH` to be set in order to use them. However, even if you specify which module needs to be loaded in `packages.yaml`, this env var is blown away.\r\n\r\n### Steps to reproduce the issue\r\n\r\npackages.yaml:\r\n```yaml\r\npackages:\r\n    python:\r\n        modules:\r\n            python@3.7.0%gcc@7.2.0: python/3\r\n            python@2.7.15%gcc@7.2.0: python/2\r\n        buildable: False\r\n```\r\n```console\r\n$ spack install py-setuptools\r\n==> python@3.7.0 : externally installed in /usr/local/python/3.7.0\r\n==> python@3.7.0 : generating module file\r\n==> python@3.7.0 : registering into DB\r\n==> Installing py-setuptools\r\n==> Searching for binary cache of py-setuptools\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for py-setuptools found: installing from source\r\n/usr/local/python/3.7.0/bin/python3.7: error while loading shared libraries: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory\r\n==> Error: ProcessError: Command exited with status 127:\r\n    '/usr/local/python/3.7.0/bin/python3.7' '-c' 'from distutils.sysconfig import get_config_var; print(get_config_var('\"'\"'LIBDIR'\"'\"'))'\r\n```\r\nThe module file is pretty simple:\r\n```console\r\n$ module show python/3\r\n-------------------------------------------------------------------\r\n/usr/local/modulefiles/python/3:\r\n\r\nmodule-whatis\t python 3.7.0 \r\nmodule\t\t load gcc/7.2.0 \r\nprepend-path\t PATH /usr/local/python/3.7.0/bin \r\nprepend-path\t NLTK_DATA /usr/local/python/3/data \r\nprepend-path\t PYTHONPATH /usr/local/python/3.7.0/lib/python3.7/site-packages \r\nprepend-path\t LD_LIBRARY_PATH /usr/local/python/3.7.0/lib \r\nprepend-path\t MANPATH /usr/local/python/3.7.0/share/man \r\n-------------------------------------------------------------------\r\n```\r\nWe either need to start loading these module files, or at least allow explicit `environment:` options in `packages.yaml` like we do in `compilers.yaml`. The only current workaround is to use `spack install --dirty`.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/12751",
+    "updated_at": "2019-09-12 03:22:50",
+    "created_at": "2019-09-07 22:35:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "External packages that don't work without loading modules",
+    "number": 12751,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "external-packages"
+    ],
+    "id": 490687089,
+    "html_url": "https://github.com/spack/spack/issues/12751",
+    "assignees": [],
+    "comments": 2
+}

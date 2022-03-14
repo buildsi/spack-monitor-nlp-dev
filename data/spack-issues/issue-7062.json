@@ -1,0 +1,21 @@
+{
+    "body": "Summary\r\n\r\nLoading the Spack-generated module for `intel-mkl` fails at `unsetenv PS1`\r\n\r\n### Expected Result\r\n\r\nSuccess with `module load intel-mkl/2018.0.128-gcc-7.2.0`.\r\n\r\n### Actual Result\r\n\r\nModule load hangs after executing `unsetenv PS1`.\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Build `intel-mkl` with the compiler of choice.\r\n2. Load Spack-generated module file\r\n\r\n```console\r\n$ spack install intel-mkl/2018.0.128\r\n$ module load intel-mkl/2018.0.128-gcc-7.2.0\r\n```\r\n\r\n\r\n### module show\r\n```\r\n$ module show intel-mkl/2018.0.128-gcc-7.2.0 \r\n-------------------------------------------------------------------\r\n/usr/projects/draco/vendors/spack.tt.v-0.11.1/share/spack/modules/cray-CNL-haswell/intel-mkl/2018.0.128-gcc-7.2.0:\r\n\r\nmodule-whatis\t Intel Math Kernel Library. \r\nprepend-path\t PATH /usr/.../bin \r\nprepend-path\t LIBRARY_PATH /usr/.../lib \r\nprepend-path\t LD_LIBRARY_PATH /usr/.../lib \r\nprepend-path\t CMAKE_PREFIX_PATH /usr/.../intel-mkl-2018.0.128-724mwpogvlmy6stlajprgc7w37lwtd5x/ \r\nprepend-path\t NLSPATH /usr/.../locale/%l_%t/%N \r\nunsetenv\t PS1 \r\nprepend-path\t CPATH /usr/.../include \r\nsetenv\t\t MKLROOT /usr/.../mkl \r\nprepend-path\t LD_LIBRARY_PATH /usr/.../gcc4.7 \r\nprepend-path\t LD_LIBRARY_PATH /usr/.../intel64_lin \r\nprepend-path\t LD_LIBRARY_PATH /usr/.../intel64_lin \r\nprepend-path\t LIBRARY_PATH /usr/.../gcc4.7 \r\nprepend-path\t LIBRARY_PATH /usr/.../intel64_lin \r\nprepend-path\t LIBRARY_PATH /usr/.../intel64_lin \r\n-------------------------------------------------------------------\r\n\r\n```\r\n### Trace\r\n```\r\n$ set -x\r\n$ module load intel-mkl/2018.0.128-gcc-7.2.0\r\n+ module load intel-mkl/2018.0.128-gcc-7.2.0\r\n++ /opt/cray/pe/modules/3.2.10.6/bin/modulecmd bash load intel-mkl/2018.0.128-gcc-7.2.0\r\n+ eval CMAKE_PREFIX_PATH=/.../ ';export' 'CMAKE_PREFIX_PATH;CPATH=/...' ';export' 'CPATH;LD_LIBRARY_PATH=/...' ';export' 'LD_LIBRARY_PATH;LIBRARY_PATH=/usr/.../compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64_lin:/usr/.../compilers_and_libraries_2018.0.128/linux/compiler/lib/intel64_lin:/usr/.../compilers_and_libraries_2018.0.128/linux/tbb/lib/intel64_lin/gcc4.7:/usr/.../lib:/opt/intel/2017.4.196/compilers_and_libraries_2017/linux/mkl/lib/intel64' ';export' 'LIBRARY_PATH;LOADEDMODULES=...' ';export' 'LOADEDMODULES;MKLROOT=...' ';export' 'MKLROOT;NLSPATH=/.../locale/%l_%t/%N' ';export' 'NLSPATH;PATH=/...' ';export' 'PATH;_LMFILES_=/...' ';export' '_LMFILES_;unset' 'PS1;'\r\n++ CMAKE_PREFIX_PATH=/usr/.../\r\n++ export CMAKE_PREFIX_PATH\r\n++ CPATH=/...\r\n++ export CPATH\r\n++ LD_LIBRARY_PATH=/...\r\n++ export LD_LIBRARY_PATH\r\n++ LIBRARY_PATH=/...\r\n++ export LIBRARY_PATH\r\n++ LOADEDMODULES=modules/...\r\n++ export LOADEDMODULES\r\n++ MKLROOT=/...\r\n++ export MKLROOT\r\n++ NLSPATH=/.../locale/%l_%t/%N\r\n++ export NLSPATH\r\n++ PATH=/...\r\n++ export PATH\r\n++ _LMFILES_=/...\r\n++ export _LMFILES_\r\n++ unset PS1\r\n++ echo -ne '\\033]0;trinitite\\007'\r\n```\r\n### Information on your system\r\n\r\n**LANL: Trinitite**; Spack release 0.11.1; compiler: gcc@7.0; arch=cray-CNL-haswell\r\n\r\nThe location of the `unsetenv PS1` varies amongst safe versions of `intel-mkl`. Wherever encountered, it hangs Trinitite, Darwin, Snow, etc.\r\n",
+    "user": "floquet",
+    "url": "https://api.github.com/repos/spack/spack/issues/7062",
+    "updated_at": "2019-02-17 11:59:50",
+    "created_at": "2018-01-25 02:07:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "intel-mkl module load fails due to `unsetenv` command",
+    "number": 7062,
+    "milestone": null,
+    "labels": [
+        "intel"
+    ],
+    "id": 291426153,
+    "html_url": "https://github.com/spack/spack/issues/7062",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

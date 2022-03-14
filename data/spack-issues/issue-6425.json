@@ -1,0 +1,19 @@
+{
+    "body": "spack install netlib-lapack +external-blas %xl_r@13.1.6 ^ibm-essl@5.5\r\n\r\nWhen compiling with an external BLAS library such as ESSL, netlib-lapack does not pull in the proper externally defined BLAS library.  If you comment out the following lines in netlib-lapack, it works fine:\r\n\r\n    # provides('blas', when='~external-blas') \r\n\r\n    # @property                                                                                                                                                                                           \r\n    # def blas_libs(self):                                                                                                                                                                                \r\n    #     shared = True if '+shared' in self.spec else False                                                                                                                                              \r\n    #     return find_libraries(                                                                                                                                                                          \r\n    #         'libblas', root=self.prefix, shared=shared, recurse=True                                                                                                                                    \r\n    #     )        \r\n\r\nIs there a way to make the property predicated on the variant.  Note that if you just comment out the blas_libs definition it still fails to properly find spec['blas'].",
+    "user": "bvanessen",
+    "url": "https://api.github.com/repos/spack/spack/issues/6425",
+    "updated_at": "2018-04-20 08:32:41",
+    "created_at": "2017-11-23 06:32:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "netlib-lapack does not pull in external blas library properly",
+    "number": 6425,
+    "milestone": null,
+    "labels": [
+        "blas-lapack-scalapack"
+    ],
+    "id": 276276155,
+    "html_url": "https://github.com/spack/spack/issues/6425",
+    "assignees": [],
+    "comments": 6
+}

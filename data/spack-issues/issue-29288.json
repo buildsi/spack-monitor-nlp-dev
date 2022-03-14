@@ -1,0 +1,20 @@
+{
+    "body": "### Summary\r\n\r\nWhen encountering an invalid character during parsing, spack should give the user *some* indication of where the error lies.\r\n\r\n### Rationale\r\n\r\nBeing new to writing spack recipes, my new recipe included the line\r\n\r\n```\r\n    depends_on('cuda >=10.2', when='+cuda')\r\n```\r\nwhich is not the correct way of expressing version range.\r\n\r\nThe corresponding error message was\r\n```\r\n$ spack install mypackage %intel +openmp \r\n==> Error: Invalid character\r\n```\r\nwhich did not tell me which file was affected, nor which line / string was the problem and made it very difficult to track down.\r\n\r\nAdding `-v` or `--show-log-on-error` did not lead to a more verbose error message.\r\n\r\n### Description\r\n\r\nFor example, instead of \r\nhttps://github.com/spack/spack/blob/8d118104c79bca646b193f84857b75b7f54359df/lib/spack/spack/parse.py#L80\r\n\r\ndo something like\r\n```python\r\nraise LexError(f\"Invalid character in word '{word}'\", word, word.index(remainder))\r\n```\r\n\r\n(or make sure to include the metadata of the `LexError` when displaying the exception).\r\n\r\n### Additional information\r\n\r\n spack --version\r\n0.17.1-1249-8a8b01328b\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "ltalirz",
+    "url": "https://api.github.com/repos/spack/spack/issues/29288",
+    "updated_at": "2022-03-03 14:05:05",
+    "created_at": "2022-03-02 13:22:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Improve error message for parsing errors",
+    "number": 29288,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "user-experience"
+    ],
+    "id": 1157190837,
+    "html_url": "https://github.com/spack/spack/issues/29288",
+    "assignees": [],
+    "comments": 1
+}

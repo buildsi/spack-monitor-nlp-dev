@@ -1,0 +1,21 @@
+{
+    "body": "*Summary:* Expose the [`pex`](https://github.com/pantsbuild/pex) python tool as a spack package. This allows creating [hermetic python environments as executable zip files](https://github.com/spack/spack/pull/20159), otherwise known as *PEX files.*\r\n\r\n### Rationale\r\n\r\n- Even after #20207, the version of python used to bootstrap clingo *must* remain the first python executable on the `PATH` -- otherwise another python executable is used to execute spack, which will then fail to import clingo.\r\n    - If the user wants to use a different python version, they then lose the ability to concretize with clingo.\r\n- If spack's source files and bootstrapped python dependencies from #20207 are made into a PEX file, the correct interpreter will be selected each time, just for that PEX process, and **we can remove the shell loop at the top of `bin/spack`!**\r\n- It would also allow bootstrapping spack on a remote machine without `git` installed, by `cp`ing the PEX file \r\n\r\n### Description\r\n\r\n1. [ ] Add a `PexPackage` class which exposes the `pex` package.\r\n    - It should probably download it from github releases, as that avoids any dependency on a specific python version at install time.\r\n2. [ ] Create a PEX file for spack itself after bootstrapping with #20207.\r\n    - This should not modify the bootstrap process from that PR whatsoever.\r\n3. [ ] Fix the spack PEX so spack executes from its checkout directory, not in `~/.pex`.\r\n    - The spack PEX will use the unpack directory within `~/.pex` as its checkout directory by default, since that is where pex puts the actual files.\r\n    - Can \"hardcode\" a `__main__` script which makes spack execute in the correct checkout directory.\r\n        - This *should* be doable without editing `bin/spack` at all, but that could also work.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20430",
+    "updated_at": "2020-12-16 19:00:09",
+    "created_at": "2020-12-16 18:58:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "consider bootstrapping spack as a standalone PEX to avoid interpreter clashes",
+    "number": 20430,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "python",
+        "bootstrap"
+    ],
+    "id": 769192058,
+    "html_url": "https://github.com/spack/spack/issues/20430",
+    "assignees": [],
+    "comments": 1
+}

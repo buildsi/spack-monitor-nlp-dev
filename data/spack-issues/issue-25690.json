@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nThis can be reproduced concretizing these two equivalent environments:\r\n```yaml\r\nspack:\r\n  specs:\r\n    - matrix:\r\n      - [zlib, hdf5+mpi]\r\n      - [^mpich, ^openmpi]\r\n```\r\nand:\r\n```yaml\r\nspack:\r\n  specs:\r\n    - zlib\r\n    - hdf5+mpi ^mpich\r\n    - hdf5+mpi ^openmpi\r\n```\r\nand trying the:\r\n```console\r\n% spack find\r\n```\r\ncommand after concretization.\n\n### Error message\n\nThe environment where the specs have been spelled out explicitly reports:\r\n```console\r\n% spack -e . find\r\n==> In environment /Users/culpo/tmp/matrix-expansion\r\n==> Root specs\r\nhdf5 +mpi  hdf5 +mpi  zlib\r\n\r\n==> 0 installed packages\r\n```\r\nwhile the one where the matrix is expanded:\r\n```console\r\n% spack -e . find         \r\n==> In environment /Users/culpo/tmp/matrix-expansion\r\n==> Root specs\r\nhdf5 +mpi  hdf5 +mpi  zlib  zlib\r\n\r\n==> 0 installed packages\r\n```\r\nI think they are both slightly incorrect and they should read:\r\n```console\r\n% spack -e . find         \r\n==> In environment /Users/culpo/tmp/matrix-expansion\r\n==> Root specs\r\n1. hdf5 +mpi ^mpich\r\n2. hdf5 +mpi ^openmpi  \r\n3. zlib\r\n\r\n==> 0 installed packages\r\n```\n\n### Information on your system\n\nIt shouldn't matter, but:\r\n\r\n* **Spack:** 0.16.2-4101-44c0089be4\r\n* **Python:** 3.8.11\r\n* **Platform:** darwin-bigsur-cannonlake\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/25690",
+    "updated_at": "2021-09-01 06:26:44",
+    "created_at": "2021-08-30 13:30:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Reported root specs differ based on whether a matrix is used or not",
+    "number": 25690,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 982798129,
+    "html_url": "https://github.com/spack/spack/issues/25690",
+    "assignees": [],
+    "comments": 2
+}

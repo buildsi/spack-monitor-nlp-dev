@@ -1,0 +1,22 @@
+{
+    "body": "The `mvapich2` package has some assumptions about how to setup external packages that can be problematic.\r\n\r\nThe issue is `if external_modules and 'cray' in external_modules[0]:`, which is the logic used to determine whether MPI's compilers will be set as `mpicc` or spack's wrapper.  With Cray, you should use spack's wrappers which point to cray's wrappers (not to mvapich's mpi compilers).\r\n\r\nThe problem with the logic used is it assumes the first module will have 'cray' in the name - which is necessarily true (and I am uses spack recipes provided by Cray that are breaking this assumption). \r\n\r\nI would like the maintainers to consider a more intuitive approach.\r\n\r\nGiven the package name is `mvapich2`, I propose search the modules for a module name containing `mvapich` or `cray-mvapich`. If this is the case, then almost certainly you are using the Cray toolchain and envs like `MPICC` and the spec's compiler `mpicc` should point to `spack_cc`\r\n\r\nI've used this logic in the two areas where the issues arrises (setting up dependent packages and setting the compiler env)\r\n\r\nThis patch resolved some odd ball behavior I was observing on a Cray platform - that at first glance would be blamed on a bad package (pnetcdf in this case) - or a bug spack's external modules (there sorta is one) - which will be submitted in a separate issue.\r\n\r\nEither way, I propose not using an undocumented assumption on how the user will list modules in their external declaration - if this patch can pass the regression tests, I'd like it considered for mainstream use!\r\n\r\n@nithintsk @harisubramoni",
+    "user": "jjellio",
+    "url": "https://api.github.com/repos/spack/spack/issues/22732",
+    "updated_at": "2021-04-10 22:53:14",
+    "created_at": "2021-04-01 19:48:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Mvapich2: Address issue with external MPI under Cray",
+    "number": 22732,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "mpi",
+        "update-package",
+        "ecp"
+    ],
+    "id": 848742694,
+    "html_url": "https://github.com/spack/spack/pull/22732",
+    "assignees": [],
+    "comments": 3
+}

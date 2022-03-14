@@ -1,0 +1,20 @@
+{
+    "body": "I have a app that is not compiled with spack, but is installed and managed with spack.Before using it, you need INTEL2018 under source.\r\nSo,after source INTEL2018, spack compiler find finds and adds the corresponding compiler.Then I wrote an installation script like this\uff1a\r\n```\r\nfrom spack import *\r\nclass Gromacs(Package):\r\n    homepage = \"https://www.example.com\"\r\n    url      = \"file:///home/spack_local_mirror/gromacs/gromacs-2018.4.tgz\"\r\n    version('2018.4', sha256='6d0932f10c6d40a83094010a4a9e2caebc518685f43979ce084ef365151ccd33')\r\n    def install(self, spec, prefix):\r\n        install_tree(\".\",prefix)\r\n```\r\nAnd run `spack install gromacs@2018.4%intel@18.0.1`.\r\nThe installation is easy.\r\nReopen a terminal and run `spack load  gromacs@2018.4%intel@18.0.1`.\r\nBut when I tested it,example try `gmx_mpi --version`  reported that there were no library files,need to load INTEL2018 again!\r\nI try to check the `PATH` variable\uff0cobviously, there are only environment variables for GROMACS, not intel2018.\r\n",
+    "user": "Bitllion",
+    "url": "https://api.github.com/repos/spack/spack/issues/24769",
+    "updated_at": "2021-07-08 02:51:57",
+    "created_at": "2021-07-08 02:50:59",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack load But not load compiler environment",
+    "number": 24769,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 939415797,
+    "html_url": "https://github.com/spack/spack/issues/24769",
+    "assignees": [],
+    "comments": 0
+}

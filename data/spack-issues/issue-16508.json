@@ -1,0 +1,22 @@
+{
+    "body": "I'm not completely sure if this should be considered a bug in spack or whether the use case below is too strange.\r\n\r\nWe deploy the software we depend on in singularity containers containing different apps (for different use cases). In the last update of the base image we moved to python3-providing one, this exposed the following problem:\r\n\r\n```\r\n$ singularity shell --app simulation /containers/testing/c7215p26_2020-05-06_1.img\r\nSingularity c7215p26_2020-05-06_1.img:~> . /opt/init/spack.sh \r\nFatal Python error: initfsencoding: Unable to get the locale encoding\r\nModuleNotFoundError: No module named 'encodings'\r\n\r\nCurrent thread 0x00007f3ce89d8740 (most recent call first):\r\n```\r\n\r\nThe reason for this is a combination of\r\n- the `spack` binary preferring `python3` unconditionally\r\n- our app setting `PYTHONHOME` \r\n\r\nunsetting `PYTHONHOME` solves the problem. But as we need this, we have a couple of options to solve this problem:\r\n- hiding the python3 binary in the app via adding a `python3 -> python2` symlink\r\n- patching the spack binary to override the automatic detection via an environment variable\r\n\r\nThe latter looks like adding\r\n```\r\nif [ -n \"${SPACK_PYTHON_BINARY+x}\" ]; then\r\n    exec ${SPACK_PYTHON_BINARY} $0 \"$@\"\r\nfi\r\n```\r\nbefore the auto detection in the special no-op things. This overrides the automatic detection by a magic environment variable, which we would set in the app. Is this something you would consider adding to upstream spack? (Naming and things are obviously up for changes)",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/16508",
+    "updated_at": "2020-05-14 12:21:08",
+    "created_at": "2020-05-07 16:13:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Container, spack and conflicts with the host's python",
+    "number": 16508,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 614178867,
+    "html_url": "https://github.com/spack/spack/issues/16508",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

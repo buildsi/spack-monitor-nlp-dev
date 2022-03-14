@@ -1,0 +1,20 @@
+{
+    "body": "Make boost composable\r\n\r\nCurrently Boost enables a few components through variants by default,\r\nwhich means that if you want to use only what you need and no more, you\r\nhave to explicitly disable these variants, leading to concretization\r\nerrors whenever a second package explicitly needs those components.\r\n\r\nFor instance if package A only needs `+component_a` it might depend on\r\n`boost +component_a ~component_b`. And if packge B only needs\r\n`+component_b` it might depend on `boost ~component_a +component_b`. If\r\npackage C now depends on both A and B, this leads to unsatisfiable\r\nvariants and hence a concretization error.\r\n\r\nHowever, if we default to disabling all components, package A can simply\r\ndepend on `boost +component_a` and package B on `boost +component_b` and\r\npackage C will concretize to `^boost +component_a\r\n+component_b`, \r\nand whatever you install, you get the bare minimum.\r\n\r\n\r\n---\r\n\r\nI've just restored the originally enabled variants by default for 5 of\r\nthe 200+ dependents of boost, but not pursuing that until this gets\r\nfeedback.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22303",
+    "updated_at": "2022-01-25 09:16:18",
+    "created_at": "2021-03-15 15:33:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Make boost minimal and composable",
+    "number": 22303,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "variants"
+    ],
+    "id": 831931050,
+    "html_url": "https://github.com/spack/spack/pull/22303",
+    "assignees": [],
+    "comments": 22
+}

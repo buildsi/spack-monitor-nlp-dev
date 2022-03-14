@@ -1,0 +1,20 @@
+{
+    "body": "I have a module-installed system compiler, gcc-10.3, that was installed with some non-normal `.so` paths, particularly `--with-isl=/opt/crc/i/isl/0.18/gcc/4.8.5`. The system's `gcc/10.3.0` module adds `/opt/crc/i/isl/0.18/gcc/4.8.5/lib` to my `LD_LIBRARY_PATH` and everything works fine normally.\r\n\r\nI have added this module to my `compilers.yaml` for `gcc@10.3`.\r\n\r\nWhen I try and use this compiler to build spack packages, the `LD_LIBRARY_PATH` is being corrupted sometime before the call to `exec \"${full_command[@]}\"` in `spack/env/gcc/gcc`, where spack has inserted `:1:` between all of the paths. This causes my `gcc-10.3` to fail to run during package `./configure` due to the missing `libisl.so` path.\r\n\r\nI fixed this by modifying my local `spack/env/gcc/gcc` wrapper to force-reset the paths before launching `full_command`, i.e, \r\n\r\n```\r\nexport LD_LIBRARY_PATH=/opt/crc/i/isl/0.18/gcc/4.8.5/lib:/opt/crc/g/gdb/10.1/gcc/10.3/lib:/opt/crc/g/gcc/10.3.0/lib64:/opt/crc/g/gcc/10.3.0/lib:/opt/crc/v/vtk/8.2.0/gcc/4.8.5/lib64:/opt/crc/p/python/2.7.15/gcc/lib \r\nexec \"${full_command[@]}\"\r\n```\r\n\r\nThis solves the issue locally as long as we're using the `gcc/10.3.0` module. I haven't been able to figure out where the path modification is actually happening. The corrupted library path is:\r\n\r\n```\r\n/opt/crc/i/isl/0.18/gcc/4.8.5/lib:1:/opt/crc/g/gdb/10.1/gcc/10.3/lib:1:/opt/crc/g/gcc/10.3.0/lib64:1:/opt/crc/g/gcc/10.3.0/lib:1:/opt/crc/v/vtk/8.2.0/gcc/4.8.5/lib64:1:/opt/crc/p/python/2.7.15/gcc/lib\r\n```\r\n\r\nIt's difficult for me to use a spack-installed compiler because the filesystem I'm using isn't mounted on the compute nodes. I'm trying to add some tools only for use on the head node at the moment.",
+    "user": "ldalessa",
+    "url": "https://api.github.com/repos/spack/spack/issues/23475",
+    "updated_at": "2021-05-06 15:42:21",
+    "created_at": "2021-05-06 15:42:21",
+    "closed_at": "None",
+    "state": "open",
+    "title": "LD_LIBRARY_PATH reset before `gcc` wrapper causes compiler error",
+    "number": 23475,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 877645069,
+    "html_url": "https://github.com/spack/spack/issues/23475",
+    "assignees": [],
+    "comments": 0
+}

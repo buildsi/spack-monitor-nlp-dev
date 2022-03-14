@@ -1,0 +1,19 @@
+{
+    "body": "When a spec specifies a compiler for an environment to be used to build an explicit spec, it should be possible for the compiler to be an explicit spec as well.  Adding the compiler to the spec list is not necessarily an adequate fix if the package tries to modify variants in unexpected ways.  \r\n\r\n### Rationale\r\n\r\nWe're building a Spack Stacks environment against 3 compilers and 3 MPI implementations with LMOD modules where one of the compilers is also the \"Core\" compiler.  If the compilers are not explicitly installed, it's not in the environment.  When trying to build the LMOD modules, no module is generated for those compilers.  As such, there is no module to access those packages built using those compilers.  \r\n\r\n### Description\r\n\r\nTo see the issue, recreate the situation below:\r\n\r\n```\r\nsly@sly-laptop:~/git/spack-test$ cat spack.yaml\r\nspack:\r\n        specs:\r\n                - zlib%gcc@9.2.0\r\n        config:\r\n                install_missing_compilers: true\r\nsly@sly-laptop:~/git/spack-test$ spack concretize -f && spack install\r\n==> Concretized zlib%gcc@9.2.0\r\n[+]  6jyao6l  zlib@1.2.11%gcc@9.2.0+optimize+pic+shared arch=linux-ubuntu18.04-skylake\r\n\r\n==> Updating view at /home/sly/git/spack-test/.spack-env/view\r\n==> Installing environment /home/sly/git/spack-test\r\n==> Updating view at /home/sly/git/spack-test/.spack-env/view\r\n\r\nsly@sly-laptop:~/git/spack-test$ spack find\r\n==> In environment /home/sly/git/spack-test\r\n==> Root specs\r\n-- no arch / gcc@9.2.0 ------------------------------------------\r\nzlib%gcc@9.2.0 \r\n\r\n==> 1 installed package\r\n-- linux-ubuntu18.04-skylake / gcc@9.2.0 ------------------------\r\nzlib@1.2.11\r\n```\r\n\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n  - commit: 712fc696bab72c3a1ba92fc84d1c14ad2d6347af\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "nicholas-sly",
+    "url": "https://api.github.com/repos/spack/spack/issues/16871",
+    "updated_at": "2020-05-29 22:12:48",
+    "created_at": "2020-05-29 22:12:48",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Compilers built with 'install_missing_compilers' should be marked as explicit specs",
+    "number": 16871,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 627573116,
+    "html_url": "https://github.com/spack/spack/issues/16871",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/23168\r\n\r\nAs of d670f3aa409, the following fails:\r\n\r\n```\r\nx = Spec('argobots')\r\nx.concretize()\r\ny = Spec.from_yaml(x.to_yaml())\r\nprint(str(x))\r\nprint(str(y))\r\n```\r\n\r\nYielding\r\n\r\n```\r\nargobots@1.1%apple-clang@10.0.1~affinity~debug+perf~stackunwind~tool~valgrind stackguard=no arch=darwin-mojave-skylake\r\nargobots@1.1%apple-clang@10.0.1~affinity~debug+perf~stackguard~stackunwind~tool~valgrind arch=darwin-mojave-skylake\r\n```\r\n\r\nthe `stackguard` variant has been interpreted as a boolean variant when read back. This is because we use different overall strategies to `dump` vs. `load`: `syaml.dump` uses `RoundTripDumper`, which defaults to YAML 1.2 specification implicit values (so a string value like \"no\" doesn't get interpreted as a boolean false value, and therefore is not enclosed in quotes) while `Spec.from_yaml` (and `syaml.load`) does not. This backports 0.12.17 fix (we use 0.11.15, the last version supporting Python 2.6) that uses YAML version 1.2 rules for default loader used by `ruamel.yaml.load`.\r\n\r\nAnother possible fix is to enclose all string values in quotes: this would change the hashes of all current specs (this solution doesn't).\r\n\r\nTODOs\r\n\r\n- [x] Add test",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/23191",
+    "updated_at": "2021-12-15 08:01:42",
+    "created_at": "2021-04-22 00:26:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Specs: support string variants with implied boolean values in YAML 1.1",
+    "number": 23191,
+    "milestone": null,
+    "labels": [
+        "bugfix"
+    ],
+    "id": 864408589,
+    "html_url": "https://github.com/spack/spack/pull/23191",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

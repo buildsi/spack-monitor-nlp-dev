@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n#22115 added `openssh` as a dependency to the `openmpi` package.  `openssh` fails to build on my system, which breaks multiple upstream packages that depend on `openmpi`.  \r\n\r\nThe workaround is to use an external ssh.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install openssh\r\n```\r\n\r\nThe issue likely only appears if the user database is managed by NIS.\r\n\r\n### Additional information\r\n\r\nOpenSSH builds successfully, but during install runs `ssh-keygen -A`.  That fails with:\r\n\r\n```\r\nNo user exists for uid 1175\r\n```\r\n\r\nThe offending code is:\r\n\r\n```\r\n     pw = getpwuid(getuid());\r\n     if (!pw)\r\n         fatal(\"No user exists for uid %lu\", (u_long)getuid());\r\n```\r\n\r\nThe root cause appears to be that `ssh-keygen` is using `libcrypto.so` from the `openssl` package via RPATH, but NIS wants the system `libcrypto.so`.  \r\n\r\n```\r\n$ ldd ssh-keygen\r\n...\r\n\tlibcrypto.so.1.1 => /home/smcmillan/git/smcmillan/spack/opt/spack/linux-centos8-haswell/gcc-8.3.1/openssl-1.1.1k-5kyfnh3x5k6hxkttqgcsysaw5ayeykoh/lib/libcrypto.so.1.1 (0x00007f34b6371000)\r\n...\r\n```\r\n\r\nIf I modify the `ssh-keygen` binary with `chrpath` to remove that RPATH entry, then it uses the system `libcrypto.so` and  succeeds.  This looks identical to https://bugzilla.redhat.com/show_bug.cgi?id=1877730.  ",
+    "user": "samcmill",
+    "url": "https://api.github.com/repos/spack/spack/issues/22872",
+    "updated_at": "2021-04-08 19:16:23",
+    "created_at": "2021-04-08 16:54:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: openssh",
+    "number": 22872,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 853666443,
+    "html_url": "https://github.com/spack/spack/issues/22872",
+    "assignees": [],
+    "comments": 2
+}

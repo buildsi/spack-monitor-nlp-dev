@@ -1,0 +1,19 @@
+{
+    "body": "Avoid reinstallation of packages for environment only changes\r\n\r\n### Rationale\r\n\r\nSpack will install a separate build of a package for each variant combination.  For packages built from source, that makes sense.  However, for binary packages, especially large binary packages, this can be very wasteful.  \r\n\r\nFor example, the `nvhpc` packages provides `mpi`, `blas`, and `lapack` variants to enable / disable specific functionality.  These are essentially just environment differences, yet each variant combination will reinstall the otherwise identical package.\r\n\r\n### Description\r\n\r\nAn initial thought is a new variant attribute to indicate that it is an environment change only and does not require a package reinstall, e.g.,\r\n\r\n`variant('mpi', default=False, env_only=True)`\r\n\r\n### Additional information\r\n\r\nOn a related note, binary packages often do not have instruction set or Linux distribution level differences either.  The ability to specify that, e.g.,`linux-centos8-haswell` or `linux-ubuntu18.04-skylake_avx512` can use the same package installation, but `linux-rhel8-power9le` is different, would also prevent unnecessary duplicate installations.",
+    "user": "samcmill",
+    "url": "https://api.github.com/repos/spack/spack/issues/22579",
+    "updated_at": "2021-03-26 19:39:22",
+    "created_at": "2021-03-26 19:39:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Do not reinstall packages for environment only changes",
+    "number": 22579,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 842248586,
+    "html_url": "https://github.com/spack/spack/issues/22579",
+    "assignees": [],
+    "comments": 0
+}

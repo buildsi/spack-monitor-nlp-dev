@@ -1,0 +1,20 @@
+{
+    "body": "The gcc option \"-Xassembler option\" is expected to pass \"option\" to the assembler. The spack gcc wrapper handles this wrong when \"option\" is \"-Ixxx\", because it resorts all \"-I\" options. It should not touch the order of whatever comes after \"-Xassembler\". Same is probably true if an \"-I\" option comes after \"-Xpreprocessor\" or \"-Xlinker\".\r\n\r\n ### Steps to reproduce the issue\r\n\r\nBuilding the test suite for Valgrind (\"spack install --test root Valgrind\"), at some point gcc is called with \"gcc ... -Xassembler -I. -MT million.o -o million.o million.S\". This is screwed up by the gcc wrapper to \"gcc ... -Xassembler -MT million.o -o million.o million.S\", failing with \"million.o: file not found\".\r\n\r\n### Error Message\r\n\r\nIn any spack build, a gcc command involving \"-Xassembler -I. option\" may fail because \"option\" will not be parsed by gcc itself but passed to the assembler instead.\r\n\r\n### Information on your system\r\n\r\nLinux\r\n",
+    "user": "weidendo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10497",
+    "updated_at": "2022-03-10 10:54:54",
+    "created_at": "2019-02-01 16:48:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack gcc wrapper should not reorder arguments with \"-Xassembler -Ixxx\"",
+    "number": 10497,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers"
+    ],
+    "id": 405783707,
+    "html_url": "https://github.com/spack/spack/issues/10497",
+    "assignees": [],
+    "comments": 0
+}

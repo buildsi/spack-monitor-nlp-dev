@@ -1,0 +1,21 @@
+{
+    "body": "I am trying to create a package that requires three external resources. They are gzipped upon download, but unzip as a file, not a directory. I am trying to use these in my package and am getting the following error (I have reduced the number of resources trying to be downloaded from 3 to 1 for troubleshooting purposes)\r\n\r\n```\r\n==> Installing pfamscan\r\n==> Fetching file://~/.spack/manual_mirror/pfamscan/pfamscan-1.5.tar.gz\r\ncurl: (37) Couldn't open file /.spack/manual_mirror/pfamscan/pfamscan-1.5.tar.gz\r\n==> Fetching from file://~/.spack/manual_mirror/pfamscan/pfamscan-1.5.tar.gz failed.\r\n==> Fetching http://ftp.ebi.ac.uk/pub/databases/Pfam/Tools/OldPfamScan/PfamScan1.5/PfamScan.tar.gz\r\n######################################################################## 100.0%\r\n==> Fetching file://~/.spack/manual_mirror/pfamscan/Pfam-A.hmm.dat-1.5.gz\r\ncurl: (37) Couldn't open file /.spack/manual_mirror/pfamscan/Pfam-A.hmm.dat-1.5.gz\r\n==> Fetching from file://~/.spack/manual_mirror/pfamscan/Pfam-A.hmm.dat-1.5.gz failed.\r\n==> Fetching ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.dat.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /home/las_thoma15/spack/var/spack/stage/pfamscan-1.5-zijjhq4sqejchuuzec6k4k33oppkuf32/PfamScan.tar.gz\r\n==> Created stage in /home/las_thoma15/spack/var/spack/stage/pfamscan-1.5-zijjhq4sqejchuuzec6k4k33oppkuf32\r\n==> Staging archive: /home/las_thoma15/spack/var/spack/stage/resource-Pfam-A.hmm.dat-zijjhq4sqejchuuzec6k4k33oppkuf32/Pfam-A.hmm.dat.gz\r\n==> Created stage in /home/las_thoma15/spack/var/spack/stage/resource-Pfam-A.hmm.dat-zijjhq4sqejchuuzec6k4k33oppkuf32\r\n==> Error: AttributeError: 'NoneType' object has no attribute 'rfind'\r\nAttributeError: AttributeError: 'NoneType' object has no attribute 'rfind'\r\n\r\n/home/las_thoma15/spack/lib/spack/spack/package.py:995, in do_stage:\r\n     3                 raise ValueError(\"Can only stage concrete packages.\")\r\n     4     \r\n     5             self.do_fetch(mirror_only)     # this will create the stage\r\n  >> 6             self.stage.expand_archive()\r\n     7     \r\n     8             if not os.listdir(self.stage.path):\r\n     9                 raise FetchError(\"Archive was empty for %s\" % self.name)\r\n```\r\n\r\nThe following is a snippet from the `package.py` of the resource spec:\r\n```\r\n    resource(\r\n        name='Pfam-A.hmm.dat',\r\n        url='ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.dat.gz',\r\n        sha256='512b96c6e3c95cdd78776d8524be888f44199533361348e11330e4718c9e500b',\r\n        destination='Pfam-A.hmm.dat'\r\n    )\r\n```\r\nCan anyone help me figure out what I should do differently?",
+    "user": "akthoma",
+    "url": "https://api.github.com/repos/spack/spack/issues/6081",
+    "updated_at": "2020-08-23 18:22:45",
+    "created_at": "2017-11-01 19:29:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Error using resources",
+    "number": 6081,
+    "milestone": null,
+    "labels": [
+        "resources"
+    ],
+    "id": 270423692,
+    "html_url": "https://github.com/spack/spack/issues/6081",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 6
+}

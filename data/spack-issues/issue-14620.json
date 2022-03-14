@@ -1,0 +1,19 @@
+{
+    "body": "When a module associated with a compiler is not present or fails to load properly the job should fail. For instance, if my `compilers.yaml` is configured like below, missing the `gcc/9.2.0` from my MODULEPATH does not result in a failure. Instead it will continue to install, and since I don't define full paths it will just use the underlying system gcc.\r\n\r\n\r\n```yaml\r\n- compiler:\r\n    spec: gcc@9.2.0\r\n    operating_system: centos7\r\n    target: x86_64\r\n    modules: [gcc/9.2.0]\r\n    paths:\r\n      cc: gcc\r\n      cxx: g++\r\n      f77: gfortran\r\n      fc: gfortran\r\n   ...\r\n```\r\n\r\nThere are a number of steps I can take to address this without changes to Spack, however, I felt it would be valuable to fail jobs in the above cases since it can be easily overlooked.\r\n",
+    "user": "paulbry",
+    "url": "https://api.github.com/repos/spack/spack/issues/14620",
+    "updated_at": "2020-01-24 16:06:47",
+    "created_at": "2020-01-24 16:06:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Jobs should fail when module is not correctly loaded (as defined in compilers.yaml)",
+    "number": 14620,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 554821700,
+    "html_url": "https://github.com/spack/spack/issues/14620",
+    "assignees": [],
+    "comments": 0
+}

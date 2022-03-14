@@ -1,0 +1,24 @@
+{
+    "body": "> `==> Warning: microarchitecture specific optimizations are not supported yet on mixed compiler toolchains [check clang@3.9.1 for further details]`\r\n\r\nIn tracking down how to circumvent this warning, I believe the order of events was\r\n\r\n- #13250 use `-march -mcpu` when `%clang`, which was deemed incompatible.\r\n- #13913 for x86_64, switch to `-march -mtune`\r\n\r\nResult: as far as I can tell, for linux x86_64, the flags for tuning gcc and clang will be the same, and can \"safely mix these compilers.\"\r\n\r\n### Rationale\r\n\r\n1. Tuned better than not tuned :D\r\n2. `clang` and `gfortran` mixing is pretty common as far as I can tell.\r\n3. Adopting `flang` is not really a valid option at this point.  I can't figure out how to get the version of LLVM I need (exactly 8.0.0, because CUDA) and also get `flang`.\r\n\r\n### Description\r\n\r\nRight now to test things out I just added some conditions to short out since I'm on x86_64 using clang and gfortran (aka this isn't robust):\r\n\r\nhttps://github.com/spack/spack/blob/08898a2ad7c4579ff9b0c08c4e97cde11c0d4601/lib/spack/spack/architecture.py#L199-L204\r\n\r\n```diff\r\n- if spack.compilers.is_mixed_toolchain(compiler): \r\n+ if spack.compilers.is_mixed_toolchain(compiler) and 'clang' not in compiler.cc_names:\r\n```\r\n\r\n1. Life seems OK so far, are there any specific known \"good\" packages to test to verify the fortran compiler is working right?\r\n\r\n2. What exactly, if anything, are we going to support?  Examples:\r\n    - Only support this mix on x86_64 (my vote: yes)?\r\n    - Only support on linux (impartial, questionable if apple compiler will be trouble)?\r\n\r\n3. Should I rely on the flags remaining the same, or deliberately mix things?  At the end of that method:\r\n\r\n    https://github.com/spack/spack/blob/08898a2ad7c4579ff9b0c08c4e97cde11c0d4601/lib/spack/spack/architecture.py#L224-L226\r\n\r\n    If there is a way for me to know \"for cc / cxx\" vs \"for fc\" then we could mix things.  Do we want to introduce a hack to allow a probably common toolchain to be optimized, or is there future intent on \"properly\" supporting mixed toolchains?\r\n\r\nI don't know what the best choice is, happy to PR with direction or close the issue if introducing a hack that relies on this isn't desired (reasonable...).\r\n\r\n",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/14298",
+    "updated_at": "2019-12-27 08:06:07",
+    "created_at": "2019-12-27 08:01:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "give mixed llvm and gfortran special microarchitecture treatment on x86_64",
+    "number": 14298,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "compilers",
+        "clang",
+        "microarchitectures"
+    ],
+    "id": 542787670,
+    "html_url": "https://github.com/spack/spack/issues/14298",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

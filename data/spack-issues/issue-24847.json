@@ -1,0 +1,19 @@
+{
+    "body": "Add package-version, dependency-package-version and required-spack-version information to packages\r\n\r\n### Rationale\r\n\r\nA given Spack instance is usually a checkout of a specific version tag, with a few commits cherry-picked from `develop` for packages with an update I need that arrived since the release version. This leads into a kind of dependency hell, as the cherry-picked update might rely on another more-recent-than-tagged update in some other package, or in Spack itself. Conversely, if the cherry-picked update breaks the \"api\" (variants available, conflicts declared, etc) of that package, things that depend in it also need updating. \r\n\r\n### Description\r\n\r\nAdding some fields like `package_version = 1.2.3` and `depends_on = [\"other_package@1.1.1\", \"yet_another_package@2:\"]` might create the possibility of a `spack update <package>` that can resolve the version dependencies necessary to safely complete the update. (Another field might list the Spack version this package needs, eg if the package type was only added at some Spack release)\r\n\r\n### Additional information\r\n\r\nUsing [SemVer](https://semver.org/) conventions would be highly recommended\r\n\r\nAside from eyeballing package PRs to check that the version info was sensibly updated, I'm not sure how to enforce correct versioning info.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n\r\n```\r\nsleak@cori09:~> spack --version\r\n0.16.1-6-9e40c75123\r\n```\r\n\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "sleak-lbl",
+    "url": "https://api.github.com/repos/spack/spack/issues/24847",
+    "updated_at": "2021-07-13 01:29:50",
+    "created_at": "2021-07-13 01:29:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Package versioning",
+    "number": 24847,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 942593858,
+    "html_url": "https://github.com/spack/spack/issues/24847",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,21 @@
+{
+    "body": "TL;DR: It seems that I **can not** chain to a read-only tree.\r\n\r\n---\r\n\r\nI build spack trees with a fairly set of packages; once built I consider them immutable.\r\n\r\nOne of my work situations involves AWS instances with a shared EFS filesystem that has horrible performance.  I'd like to build my trees in the EFS filesystem so that they're easily available but they'd take *forever*.\r\n\r\nMy current solution is to build them at their proper path but in isolation (e.g. in a Docker container), save the tree as a squashfs `.sqsh` file, copy the `.sqsh` file into the shared filesystem (one big file, performance is acceptable), and then use a loopback mount to make it available in its proper location (mounts managed via autofs).\r\n\r\nIt's a bunch of parts but they line up nicely end-to-end so the complexity isn't overwhelming.\r\n\r\nIn the end it works nicely and my \"immutable\" trees are truly read-only.  But....\r\n\r\nIt seems that I **can not** chain to a read-only tree.\r\n\r\nIf I:\r\n\r\n- clone another copy of my spack repository;\r\n- add an `etc/spack/upstreams.yaml` like so:\r\n\r\n  ```yaml\r\n  upstreams:\r\n    spack-instance-1:\r\n      install_tree: /blaheng/env/release/0.1.0\r\n  ```\r\n\r\nI end up with this:\r\n\r\n```shellsession\r\n$ . share/spack/setup-env.sh\r\n$ spack find\r\n==> Error: [Errno 30] Read-only file system: '/blaheng/env/release/0.1.0/.spack-db'\r\n```\r\n\r\nDisabling locks doesn't help:\r\n\r\n```shellsession\r\n$ spack --disable-locks find\r\n==> Error: Refusing to disable locks: spack is group-writable.\r\nRunning a shared spack without locks is unsafe. You must restrict permissions on /blah/blort/tmp/spack-readonly-bug or enable locks.\r\n$ chmod 755 .\r\n$ spack --disable-locks find\r\n==> Error: [Errno 30] Read-only file system: '/blaheng/env/release/0.1.0/.spack-db'\r\n$\r\n```\r\n\r\nI ran the demo commands above with a slightly mismatched {up,down}stream pair of trees:\r\n\r\n```shellsession\r\n$ ./bin/spack --version\r\n0.14.1-1934-cefb4ba01\r\n$ /blaheng/env/release/0.1.0/bin/spack --version\r\n0.14.2\r\n```\r\n\r\nI'm working on building a standard 'env' tree that up to date w.r.t. this tree and will revisit this.  I've seen the problem with a couple of different version pairings so I'm fairly confident that it's the mis-pairing is not the problem.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/17723",
+    "updated_at": "2022-03-04 17:19:43",
+    "created_at": "2020-07-28 01:24:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Chaining to a read-only upstream crashes with Errno 30",
+    "number": 17723,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage",
+        "spack-chains"
+    ],
+    "id": 666683992,
+    "html_url": "https://github.com/spack/spack/issues/17723",
+    "assignees": [],
+    "comments": 16
+}

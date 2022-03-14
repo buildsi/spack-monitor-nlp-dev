@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nI'm using spack in a CI/CD envornment (gitlab) I have multiple concurrent runners on a single host.\r\n\r\nWhen I submit jobs to that host which build 'binutils' I observe that sometimes one of these tasks will wedge, even thought gitlab things it has failed and is complete.\r\n\r\nWhen future jobs arrive on that host, it seems that the wedged job will interfere with new jobs as they try and install binutils. This interference looks like deleting source immediately after it has been downloaded, resulting in the new job failing like this:\r\n\r\n```\r\n...\r\n==> Bootstrapping clingo from pre-built binaries\r\n==> Bootstrapping clingo from sources\r\n[+] /usr (external bison-3.7.6-4p7yxekjibdu2zwqyvgpgcqrrms2bl6d)\r\n==> Installing gnuconfig-2021-08-14-lw6np3y4kskl6w4zycqb6m6u5tuzsc7u\r\n==> No binary for gnuconfig-2021-08-14-lw6np3y4kskl6w4zycqb6m6u5tuzsc7u found: installing from source\r\n==> Fetching https://mirror.spack.io/_source-cache/archive/69/69b6d2868e70167ba1bdb9030b49beeb20f00b37e30825e83fd04291d96bc5f7.tar.gz\r\n==> Error: FileNotFoundError: [Errno 2] No such file or directory: '/tmp/gitlab-runner/spack-stage/spack-stage-gnuconfig-2021-08-14-lw6np3y4kskl6w4zycqb6m6u5tuzsc7u/gnuconfig-2021-08-14.tar.gz'\r\n/home/gitlab-runner/builds/GyJdEpD1/0/engineering/job/job/job_spack/lib/spack/spack/package.py:1387, in do_fetch:\r\n       1384\r\n       1385        self.stage.create()\r\n       1386        err_msg = None if not self.manual_download else self.download_instr\r\n  >>   1387        start_time = time.time()\r\n       1388        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1389        self._fetch_time = time.time() - start_time\r\n       1390\r\n==> Warning: Skipping build of ncurses-6.2-mrpxh4yl3tt7q24bennutmesimpbcwun since gnuconfig-2021-08-14-lw6np3y4kskl6w4zycqb6m6u5tuzsc7u failed\r\n...\r\n```\r\nIt is also of interest to me that all the spack jobs (the old wedged job and the new job) are guarded by the CI/CD features:\r\n```\r\nexport SPACK_DISABLE_LOCAL_CONFIG=true\r\nexport SPACK_ROOT=`pwd`/job_spack/\r\n```\r\nand the hung job does not share the same SPACK_ROOT.\n\n### Error message\n\n```\r\nError: FileNotFoundError: [Errno 2] No such file or director\r\n```\n\n### Information on your system\n\nThis may be related in the most general sense to: https://github.com/spack/spack/issues/10096\r\n\r\nNote: my work-around of this this issue (and https://github.com/spack/spack/issues/26908) is to do my spack CI/CD jobs in a container.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "rhenwood-arm",
+    "url": "https://api.github.com/repos/spack/spack/issues/27764",
+    "updated_at": "2021-12-02 20:29:19",
+    "created_at": "2021-12-02 20:29:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "FileNotFoundError with multiple tasks ",
+    "number": 27764,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1069954380,
+    "html_url": "https://github.com/spack/spack/issues/27764",
+    "assignees": [],
+    "comments": 0
+}

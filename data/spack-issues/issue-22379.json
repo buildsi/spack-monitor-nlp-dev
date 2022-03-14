@@ -1,0 +1,20 @@
+{
+    "body": "I have the following configuration (`~/.spack/packages.yaml`) for using an existing installation of Python:\r\n```\r\npackages:\r\n  python:\r\n    externals:\r\n    - spec: python@3.7.3\r\n      modules: [python/3.7.3]\r\n```\r\nWhen I try to install `py-numpy` using:\r\n```\r\n$ spack install py-numpy%intel@19.0.3 ^python@3.7.3\r\n```\r\nI get the following error message\r\n```\r\n==> No binary for py-numpy-1.20.1-cqq3qwdmz2cjaxa3g5ri5jdmru44hrlg found: installing from source\r\n/local/software/python/3.7.3/bin/python3.7: error while loading shared libraries: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory\r\n==> Error: ProcessError: Command exited with status 127:\r\n    '/local/software/python/3.7.3/bin/python3.7' '-c' 'from distutils.sysconfig import get_config_var; print(get_config_var('\"'\"'LIBDIR'\"'\"'))'\r\n/local/software/python/3.7.3/bin/python3.7: error while loading shared libraries: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory\r\n```\r\nThe module file `python/3.7.3` configures `LD_LIBRARY_PATH` to point to the shared object file. Using the `--dirty` flag doesn't raise this error message when the module file `python/3.7.3` is loaded. \r\n\r\n",
+    "user": "wadudmiah",
+    "url": "https://api.github.com/repos/spack/spack/issues/22379",
+    "updated_at": "2021-03-18 15:54:34",
+    "created_at": "2021-03-18 15:50:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Python shared object file not found",
+    "number": 22379,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 834981088,
+    "html_url": "https://github.com/spack/spack/issues/22379",
+    "assignees": [],
+    "comments": 2
+}

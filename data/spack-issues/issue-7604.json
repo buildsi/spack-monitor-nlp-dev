@@ -1,0 +1,20 @@
+{
+    "body": "We should add unit tests for our setup scripts (`setup-env.sh` and `setup-env.csh`). These tests would serve 2 purposes:\r\n\r\n- [x] Check for POSIX compliance (does the `setup-env.sh` script work for Bash, Zsh, Ksh, Dash, etc.)\r\n- [ ] Check for uniformity (does `setup-env.sh` work the same was as `setup-env.csh`, do they work as intended)\r\n\r\nA lot of PRs introduce new features that seem fine to me, but I don't know whether they work in other shells (#7475). #4048 adds Dash support but no unit tests to see if it works. Other PRs add awesome new features to `setup-env.sh` but forget to add them to `setup-env.csh` (#5955).\r\n\r\nRecently, we have seen requests for support for other shells like Fish (#7311). It will be important to have a testing script that works regardless of shell before we add a `setup-env.fish` file.\r\n\r\nThoughts on where to start? https://github.com/spack/spack/pull/4048#issuecomment-298755138 recommends [ShellCheck](https://www.shellcheck.net/) for testing POSIX compliance. I would also want a function that tests that it is not only compliant but also works as intended. This should work the same for `setup-env.sh`, `setup-env.csh`, and `setup-env.fish`.\r\n\r\nAnother step we can take is to make `lib/spack/env/cc` POSIX compliant. If we replace the shebang with `#!/bin/sh`, we could see a significant speed boost on Ubuntu which uses Dash instead of Bash. But of course, this requires unit tests to keep it from breaking.\r\n\r\nWe may also need to consider unit tests for our tab completion scripts (`spack-completion.bash`), especially if we add one for Zsh (#2356).",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/7604",
+    "updated_at": "2019-12-30 22:29:56",
+    "created_at": "2018-03-26 19:46:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Unit testing for setup scripts",
+    "number": 7604,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "shell-support"
+    ],
+    "id": 308709918,
+    "html_url": "https://github.com/spack/spack/issues/7604",
+    "assignees": [],
+    "comments": 4
+}

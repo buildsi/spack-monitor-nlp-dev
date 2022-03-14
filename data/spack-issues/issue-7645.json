@@ -1,0 +1,21 @@
+{
+    "body": "I was trying to extend existing code to patch a `boost` dependency of `dealii` to be:\r\n```\r\n    depends_on('boost@1.59.0:1.63,1.65.1:+thread+system+serialization+iostreams',\r\n               patches=patch('boost_1.65.1_singleton.patch',\r\n                       level=1,\r\n                       when='@1.65.1:1.66.0'),\r\n               when='~python')\r\n    depends_on('boost@1.59.0:1.63,1.65.1:+thread+system+serialization+iostreams+python',\r\n               patches=patch('boost_1.65.1_singleton.patch',\r\n                       level=1,\r\n                       when='@1.65.1:1.66.0'),\r\n               when='+python')\r\n```\r\n\r\n### Expected Result\r\n\r\nI would expect the patch to be applied when boost is `@1.65.1:1.66.0`\r\n\r\n### Actual Result\r\n\r\nFrom logs I see that nothing is patched:\r\n\r\n```\r\n==> Installing boost\r\n==> Fetching https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2\r\n######################################################################## 100.0%\r\n==> Staging archive: /home/davydden/spack/var/spack/stage/boost-1.66.0-hchanlgjwapma5lbprfzhbxat62vyoyz/boost_1_66_0.tar.bz2\r\n==> Created stage in /home/davydden/spack/var/spack/stage/boost-1.66.0-hchanlgjwapma5lbprfzhbxat62vyoyz\r\n==> Building boost [Package]\r\n==> Executing phase: 'install'\r\n==> Successfully installed boost\r\n  Fetch: 7.52s.  Build: 3m 38.13s.  Total: 3m 45.65s.\r\n[+] /home/davydden/spack/opt/spack/linux-ubuntu17.10-x86_64/gcc-7.2.0/boost-1.66.0-hchanlgjwapma5lbprfzhbxat62vyoyz\r\n\r\n```\r\n\r\neven though `spack spec` shows that the package should be patched\r\n\r\n```\r\n    ^boost@1.66.0%gcc@7.2.0+atomic+chrono~clanglibcpp+date_time~debug+exception+filesystem~graph~icu+iostreams+locale+log+math~mpi+multithreaded patches=c397da25f317c5074ddef3f92d9e9cd3cb08d05385b80dcddb6d4c94600d7e9e +program_options+python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout+wave arch=linux-ubuntu17.10-x86_64 \r\n```\r\n\r\n\r\n### Steps to reproduce the issue\r\n\r\nthe way to reproduce is to hack-in mentioned in the above `depends_on` to `dealii`.",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/7645",
+    "updated_at": "2019-12-17 10:29:28",
+    "created_at": "2018-03-30 15:30:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "patching a dependency does not work for version ranges",
+    "number": 7645,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "dependencies",
+        "patch"
+    ],
+    "id": 310094804,
+    "html_url": "https://github.com/spack/spack/issues/7645",
+    "assignees": [],
+    "comments": 0
+}

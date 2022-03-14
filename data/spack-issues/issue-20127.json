@@ -1,0 +1,23 @@
+{
+    "body": "Having a compiler set in a `depends_on` directive enforces that compiler by default only on that node, while the preferred compiler is used for other nodes.\r\n\r\n### Steps to reproduce the issue\r\n\r\nModify `hdf5` with this diff:\r\n```diff\r\n--- a/var/spack/repos/builtin/packages/hdf5/package.py\r\n+++ b/var/spack/repos/builtin/packages/hdf5/package.py\r\n@@ -83,7 +83,7 @@ class Hdf5(AutotoolsPackage):\r\n     if sys.platform != 'darwin':\r\n         depends_on('numactl', when='+mpi+fortran')\r\n     depends_on('szip', when='+szip')\r\n-    depends_on('zlib@1.1.2:')\r\n+    depends_on('zlib@1.1.2: %gcc@9.3.0')\r\n \r\n     # There are several officially unsupported combinations of the features:\r\n     # 1. Thread safety is not guaranteed via high-level C-API but in some cases\r\n```\r\nthen try the following:\r\n```console\r\n$ spack compiler list\r\n==> Available compilers\r\n-- clang ubuntu18.04-x86_64 -------------------------------------\r\nclang@9.0.0  clang@8.0.0  clang@7.0.0  clang@6.0.1  clang@5.0.1  clang@4.0.1  clang@3.9.1\r\n\r\n-- gcc ubuntu18.04-x86_64 ---------------------------------------\r\ngcc@10.1.0  gcc@9.3.0  gcc@8.4.0  gcc@7.5.0  gcc@6.5.0  gcc@5.5.0  gcc@4.8\r\n\r\n$ spack solve hdf5~mpi\r\n==> Best of 0 answers.\r\n==> Optimization: [0, 2, -11, 0, 0, 0, -3, 1, 0, 1, -1, 0]\r\nhdf5@1.10.7%gcc@10.1.0~cxx~debug~fortran~hl~java~mpi+pic+shared~szip~threadsafe api=v18 arch=linux-ubuntu18.04-x86_64\r\n    ^zlib@1.2.11%gcc@9.3.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64\r\n```\r\n\r\n### Error Message\r\n\r\nNo error message, but one would expect to see by default:\r\n```console\r\n$ spack solve hdf5~mpi\r\n==> Best of 0 answers.\r\n==> Optimization: [0, 2, -11, 0, 0, 0, -3, 1, 0, 1, -1, 0]\r\nhdf5@1.10.7%gcc@9.3.0~cxx~debug~fortran~hl~java~mpi+pic+shared~szip~threadsafe api=v18 arch=linux-ubuntu18.04-x86_64\r\n    ^zlib@1.2.11%gcc@9.3.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64\r\n```\r\n\r\n### Information on your system\r\n* **Spack:** 0.16.0-70-44665cb4e6\r\n* **Python:** 3.8.6\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\nIt may seem silly to enforce a compiler in a depends_on directive, but this is what happens under the hood when a spec containing a compiler specification is concretized together with others in an environment. For instance:\r\n```yaml\r\nspack:\r\n  view: false\r\n  concretization: together\r\n  config:\r\n    concretizer: clingo\r\n  specs:\r\n  - hdf5%gcc@9.3.0 ^zlib\r\n```\r\nbehaves differently if `concretization: separately` is used.\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/20127",
+    "updated_at": "2020-12-02 19:33:41",
+    "created_at": "2020-11-26 16:53:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Specifying the compiler in a depends_on directive sets the compiler only on that node",
+    "number": 20127,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "impact-low"
+    ],
+    "id": 751728819,
+    "html_url": "https://github.com/spack/spack/issues/20127",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

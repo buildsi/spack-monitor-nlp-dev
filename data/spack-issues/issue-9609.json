@@ -1,0 +1,20 @@
+{
+    "body": "Provide a way for packages to override the use of `--depth 0` and `--single-branch` when cloning the git repository.\r\n\r\n### Rationale\r\n\r\nFlux (and I know at least Julia too) use a git command during configure time to grab the latest tag.  This tag is used to construct the version string (e.g., flux-core-0.10.0-232-gc28655620).  For Flux, the git command that is run is `git describe --always | awk '/.*/ {sub(/^v/, \"\"); printf \"%s\",$1; exit}'`.  This only works if an annotated tag exists, which is not the case when `master` is cloned and `--shallow` and/or `--single-branch` flags are used.\r\n\r\n### Description\r\n\r\nI propose the addition of a boolean `optional_attr` called `deep_clone` (or `deep_fetch`) to `GitFetchStrategy`.  The resulting call to `version` would look like `version('master', branch='master', deep_clone=True)`.\r\n\r\n#### Alternative considered\r\nThe following was considered and attempted, but it is fragile and doesn't always work (I believe it is the use of `--single-branch` without `--depth 0` that breaks it). \r\n```python\r\n    @when('@master')\r\n    def setup(self):\r\n        with working_dir(self.stage.source_path):\r\n            # Check in case we are running `spack diy` from an \"unshallow\" clone\r\n            if os.path.exists('.git/shallow'):\r\n                # Allow git-describe to get last tag so flux-version works:\r\n                git = which('git')\r\n                git('fetch', '--unshallow')\r\n```\r\nThe following seems to work in all conditions, but it could be avoided if the original fetch was deep.\r\n```python\r\n    @when('@master')\r\n    def setup(self):\r\n        with working_dir(self.stage.source_path):\r\n            # Allow git-describe to get last tag so flux-version works:\r\n            git = which('git')\r\n            git('fetch', '--unshallow')\r\n            git(\"config\", \"remote.origin.fetch\", \"+refs/heads/*:refs/remotes/origin/*\")\r\n            git('fetch', 'origin')\r\n```\r\n\r\n\r\n### Additional information\r\n\r\nI am willing to implement this feature if others think it is useful and agree with the proposal.",
+    "user": "SteVwonder",
+    "url": "https://api.github.com/repos/spack/spack/issues/9609",
+    "updated_at": "2020-01-15 10:10:26",
+    "created_at": "2018-10-23 04:10:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow deep clone of git repository",
+    "number": 9609,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "proposal"
+    ],
+    "id": 372800211,
+    "html_url": "https://github.com/spack/spack/issues/9609",
+    "assignees": [],
+    "comments": 0
+}

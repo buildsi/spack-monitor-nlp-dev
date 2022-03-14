@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\n\nNote really a bug per-se, but in certain situations I have found that clingo was choosing a very old version of a package even though the preferred version could be concretized fine if I specify the version manually.\r\n\r\nHere is a list of commands to reproduce the problem, using the `spack.yaml` attached (renammed `spack.yaml.txt` because github doesn't support yaml files, apparently), which provides external packages for the platform I'm on.\r\n\r\n```\r\ngit clone https://github.com/spack/spack.git\r\ngit clone https://github.com/mochi-hpc/mochi-spack-packages.git\r\n. spack/share/spack/setup-env.sh\r\nspack env create myenv spack.yaml\r\nspack env activate myenv\r\nspack repo add mochi-spack-packages\r\nspack add hepnos\r\nspack concretize -f\r\n```\r\n\r\nThis leads to spack concretizing `hepnos@0.4.6`, even though it has newer vesions (0.5 and 0.6).\r\n\r\nDoing the same thing _without_ the spack.yaml file leads to spack correctly concretizing `hepnos@0.6`, even though I don't see anything in that file that could affect this. Also using `spack add hepnos@0.6` with the spack.yaml file works perfectly fine.\r\n\r\nSomething to note is that the hepnos package in question has pretty different dependencies after version 0.4.6. So I suspect that clingo finds is \"easier\" (whatever that means for clingo) to build an older version given what's available on the system, but (1) I can't figure out what could have made clingo make that choice, given the external packages listed, and (2) I think that's not a behavior we want (if it can concretize the preferred version of any root or dependency, I think it should do that).\r\n\r\n[spack.yaml.txt](https://github.com/spack/spack/files/8024097/spack.yaml.txt)\r\n\r\n\n\n### Error message\n\nN/A\n\n### Information on your system\n\n* **Spack:** 0.17.1-1106-c1b51d6\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-broadwell\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/28829",
+    "updated_at": "2022-03-02 10:08:37",
+    "created_at": "2022-02-08 13:24:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Clingo choosing an old version for a root spec",
+    "number": 28829,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "user-experience",
+        "triage"
+    ],
+    "id": 1127254424,
+    "html_url": "https://github.com/spack/spack/issues/28829",
+    "assignees": [],
+    "comments": 20
+}

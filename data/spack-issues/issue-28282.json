@@ -1,0 +1,22 @@
+{
+    "body": "### Summary\r\n\r\nThis is a suggestion to improve interoperability between Spack environments and `pip`. Essentially I propose to make `pip` install packages in the activated Spack environment, instead of the python prefix.\r\n\r\n### Rationale\r\n\r\nPip should not pollute the python installation prefix.\r\n\r\n### Description\r\n\r\nThe idea is to enable this workflow:\r\n\r\n```\r\nspack create myenv\r\nspack activate myenv\r\nspack install py-pip\r\npip install rich\r\npython -m rich  # works\r\ndespacktivate\r\npython -m rich  # expect ImportError\r\n```\r\n\r\nAt the moment, the workflow above sort of works, but the pip installation pollutes the system python installation, so after the `despacktivate` the package is still available and may conflict with other environments.\r\n\r\n### Additional information\r\n\r\nI understand that interoperability with another package manager is tricky, but I believe `pip` is so widely used that it is worth the effort. Note that `conda` supports this as well [with some caveats](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#using-pip-in-an-environment).\r\n\r\nMy suggestion for an implementation is this:\r\n\r\n- On `spack env activate` configure `pip` to install packages in a directory of the environment, say `myenv/.spack-env/pip/`. At the command line this can be done with `pip install --prefix`, and there\u2019s surely a way to set the prefix more permanently.\r\n- Add the pip installation prefix configured above to the `PYTHONPATH` that is loaded with the spack environment.\r\n- Now Spack-installed python packages get symlinked into the environment view, and pip-installed packages are picked up from the permanent location in the environment directory.\r\n\r\nThere are surely some pitfalls, for instance:\r\n\r\n- When dependencies of the pip-installed packages are provided by spack but then get removed from the view. I think a pip reinstall of the package by the user would fix this, and there is little else to do about it from the Spack side.\r\n- Priorities: Should the Spack oder pip packages come first in the `PYTHONPATH`? I believe it should be the Spack packages, so a pip reinstall of a package would pick up updated Spack packages.\r\n- See link above for docs on how `conda` deals with these issues.\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "nilsvu",
+    "url": "https://api.github.com/repos/spack/spack/issues/28282",
+    "updated_at": "2022-01-31 09:21:58",
+    "created_at": "2022-01-06 12:59:44",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Interoperability with pip",
+    "number": 28282,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "proposal"
+    ],
+    "id": 1095298299,
+    "html_url": "https://github.com/spack/spack/issues/28282",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 2
+}

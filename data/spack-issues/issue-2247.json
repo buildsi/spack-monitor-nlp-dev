@@ -1,0 +1,23 @@
+{
+    "body": "@tgamblin  I'm pulling this out of #2238 because that is a PR and is now closed.  But it seems to have ignited a decent discussion.\r\n\r\n@adamjstewart  At one point, #1338 I proposed how we could gracefully handle changing Spack hashes, which you brought up in #1335.  Not many people seem to have noticed #1338.  Do you think these ideas might be the right direction for us?\r\n\r\n>  Also, I am planning on adding checksumming of the package.py file itself to Spack, but am holding off so that @adamjstewart does not murder me due to #1325-related concerns.\r\n\r\nYes, this worries me too.  If we can solve #1325 then it might not be so bad.  But in general, I don't want checksums to change just because I fixed a flake8 in the package.  I wonder if there's any way to checksum the bytecode of the package instead of the package itself?\r\n\r\nOr... add an option to `config.yaml` to turn off package source hashing.  I really think it would cause me more pain than it would help.  Allowing users to turn off controversial features is often a way to move forward in peace.\r\n\r\n> For example, once the hash changes, it is no longer possible to say \"build with this thing I already have installed\". \r\n\r\nSo it looks like this will not really be a problem.  Spack will find a suitable version and decide it doesn't have to rebuild???\r\n\r\n> I would like Spack to use things that are already installed, unless I am explicitly installing them, in which case they should update to the latest version. @citibeth has concerns about reproducibility, so this should be configurable.\r\n\r\nThe \"reuse vs rebuild\" debate is over, in my mind, for the following two reasons:\r\n\r\n  1. Allowing Spack's concretization algo to see packages already installed will make `spack find`, `spack load`, etc. a WHOLE LOT more useful (once they are switched to use concretization).\r\n\r\n 2. Concretizing based on what's already installed can always be reproduced by generating a file of what's already installed, and then concretizing based on that ---- possibly after the user has edited it.  That option should be an integral part of this upcoming feature.\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2247",
+    "updated_at": "2021-07-16 23:55:38",
+    "created_at": "2016-11-04 19:08:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Discussion on Changing Hashes",
+    "number": 2247,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "hashes",
+        "discussion"
+    ],
+    "id": 187415082,
+    "html_url": "https://github.com/spack/spack/issues/2247",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 9
+}

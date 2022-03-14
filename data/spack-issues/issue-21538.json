@@ -1,0 +1,20 @@
+{
+    "body": "### Description\r\nCloses #19085. Intends to solve the same problem.\r\n\r\n### Changes\r\n1. Add the test which uses `spack buildcache create` from #19085.\r\n\r\nThe PR has been split into several independent commits, with all of the work below in the final commit:\r\n\r\n2. Make `spack buildcache list` use the directory `~/.spack/caches/indices` (using `config:misc_cache` as the root) to persist the `BinaryCacheIndex`.\r\n2. Create `spec_index.py`:\r\n    1. Move `InstallRecord` from `database.py`.\r\n    1. Create `IndexQuery` class which performs the logic of `Database._query()`.\r\n    1. Create a singleton `SpecIndex` to expose only local, only remote, or both local and remote specs for querying.\r\n2. Make `spack spec`, `spack find`, and `spack install` concretize specs by referring to the appropriate `SpecIndex` instance.\r\n\r\n### Result\r\nThe following works:\r\n```bash\r\n> spack buildcache list -l  # note hash for desired package is abcdefg \r\n> spack install /abcdefg    # if /abcdefg is from a remote buildcache\r\n```",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/21538",
+    "updated_at": "2022-02-20 04:21:25",
+    "created_at": "2021-02-08 11:35:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "persist the binary cache index in the misc cache and expose remote specs to `spack spec`",
+    "number": 21538,
+    "milestone": null,
+    "labels": [
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 803478990,
+    "html_url": "https://github.com/spack/spack/pull/21538",
+    "assignees": [],
+    "comments": 7
+}

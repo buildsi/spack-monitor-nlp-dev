@@ -1,0 +1,20 @@
+{
+    "body": "I'd like to push a change to CMake packages.  Currently, Ninja or Makefiles are supported, but it's a static (in the sense of defined by the packager) property. E.g., a packager can declare ninja or make as the Generator.\r\n\r\nThis is pretty rigid.  To make it more dynamic, I've added a `+ninja` variant to a few packages, then overridden `_std_cmake_flags` to conditionally set the generator as `Ninja`  if `'+ninja' in spec`.\r\n\r\nThe prior works okay, but it requires I tote around modified standard packages (yuck).\r\n\r\nI propose a change to` CMakePackages`.\r\n1.  a property is added `supported_generators`, which defaults to  `supported_generators = ['Unix Makefiles' ]`\r\n    *  This is an ordered list, with the first entry being the preferred default (kinda redundant right now, because spack only supports 2).\r\n2. an option is added to `install` (or added to config.yaml) - `cmake_preferred_generator`, e.g., `install --cmake-prefer-generator=ninja some_package\r\n    *  Document that `ninja = Ninja, make = Unix Makefiles`\r\n    *  *(the lowercase name used to avoid white space/capitalization issues)*\r\n3. The standard flags for CMake then get updated to use that config value to set the Generator.\r\n\r\nUsers can then do: `spack install --cmake_preferred_generator=ninja blah` or (ideally) have this as `config.yaml` option\r\n\r\nThen, if spack adds more CMake support, these options can get extended\r\n\r\nThings are a little fuzzy w.r.t. CMake+Ninja - as you need `ninja@kitware` for Fortran support - I could see this being an annoyance - one work around would be to let `cmake_preferred_generator` take a value that is spec like. E.g., `cmake_preferred_generator=ninja@kitware`, then you enforce that as some top-level dependency.\r\n\r\n\r\nI can see how to implement some of this - I lack the experience with this project to see how to implement all of it.\r\n\r\nThis is motivated by projects I work on preferring Ninja and wanting to have admins on machines installing our software using the methods we use (i.e., seeing the same sets of problems if they arise). - An example of this is ensuring that CMake+Make and CMake+Ninja both work - the latter is usually a case that admins may not check, then our code teams ram into it.",
+    "user": "jjellio",
+    "url": "https://api.github.com/repos/spack/spack/issues/22994",
+    "updated_at": "2022-02-03 09:10:01",
+    "created_at": "2021-04-14 19:33:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "CmakePackages: add build_generator option",
+    "number": 22994,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "cmake"
+    ],
+    "id": 858202641,
+    "html_url": "https://github.com/spack/spack/issues/22994",
+    "assignees": [],
+    "comments": 1
+}

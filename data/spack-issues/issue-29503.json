@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\n```\r\nspack install jsonnet\r\n```\n\n### Error message\n\n```\r\n==> Fetching https://github.com/google/jsonnet/archive/refs/tags/v0.18.0.tar.gz\r\n==> Error: NoDigestError: Attempt to check URLFetchStrategy with no digest.\r\n\r\n/srv/bv/dev/spack/lib/spack/spack/package.py:1404, in do_fetch:\r\n       1401        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1402        self._fetch_time = time.time() - start_time\r\n       1403\r\n  >>   1404        if checksum and self.version in self.versions:\r\n       1405            self.stage.check()\r\n       1406\r\n       1407        self.stage.cache_local()\r\n```\n\n### Information on your system\n\n```\r\n* **Spack:** 0.17.1-1525-da7419c035\r\n* **Python:** 3.9.7\r\n* **Platform:** linux-debiantesting-skylake\r\n* **Concretizer:** clingo\r\n```\r\n\r\nReplacing`version()` calls with `sha256sum=` in `jsonnet/package.py` \r\n\r\nhttps://github.com/spack/spack/blob/develop/var/spack/repos/builtin/packages/jsonnet/package.py#L20\r\n\r\nwith `sha256=`:\r\n```\r\n    version(\"0.18.0\", sha256=\"85c240c4740f0c788c4d49f9c9c0942f5a2d1c2ae58b2c71068107bc80a3ced4\")\r\n    version(\"0.17.0\", sha256=\"076b52edf888c01097010ad4299e3b2e7a72b60a41abbc65af364af1ed3c8dbe\")\r\n```\r\n\r\nlets the package build.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "brettviren",
+    "url": "https://api.github.com/repos/spack/spack/issues/29503",
+    "updated_at": "2022-03-14 21:13:22",
+    "created_at": "2022-03-14 21:13:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Jsonnet package has typo `s/sha256sum/sha256/`",
+    "number": 29503,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1168911647,
+    "html_url": "https://github.com/spack/spack/issues/29503",
+    "assignees": [],
+    "comments": 0
+}

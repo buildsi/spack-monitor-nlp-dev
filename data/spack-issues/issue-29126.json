@@ -1,0 +1,19 @@
+{
+    "body": "PETSc has its [own build system](https://petsc.org/main/install/), but it fits a `./configure`, `make`, `make install` pattern.\r\n\r\nCurrently all the logic for a PETSc install is included in the `install()` method of the package. If another package inherits from this all of the logic must be reproduced.\r\n\r\nThis PR splits the PETSc installation into minimal `configure()`, `build()` and `install()` methods.\r\n\r\nAll the logic determining the correct arguments for the configure step is moved to the `configure_options()` so it can be reproduced easily in a subclass.\r\n\r\nI don't fully understand why the package reverts changes by kokkos-nvcc-wrapper, and I'm not sufficiently familiar with the interplay between PETSc, Kokkos and Cuda. The method `revert_kokkos_nvcc_wrapper()` just reproduces the behaviour of the original package in the configure, build and install stages.",
+    "user": "JDBetteridge",
+    "url": "https://api.github.com/repos/spack/spack/issues/29126",
+    "updated_at": "2022-02-22 13:13:14",
+    "created_at": "2022-02-22 13:13:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "PETSc: split install() into configure(), build(), install()",
+    "number": 29126,
+    "milestone": null,
+    "labels": [
+        "update-package"
+    ],
+    "id": 1146896323,
+    "html_url": "https://github.com/spack/spack/pull/29126",
+    "assignees": [],
+    "comments": 0
+}

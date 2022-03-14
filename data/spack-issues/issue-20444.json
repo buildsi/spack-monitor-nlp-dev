@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nWhen I try to build mpi-using packages on Cray (ALCF Theta), the build fails.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack spec osu-micro-benchmarks\r\nInput spec\r\n--------------------------------\r\nosu-micro-benchmarks\r\n\r\nConcretized\r\n--------------------------------\r\nosu-micro-benchmarks@5.6.3%gcc@9.3.0~cuda arch=cray-cnl7-mic_knl\r\n    ^mpich@7.7.14%gcc@9.3.0~argobots~benvolio+fortran+hwloc+hydra+libxml2+pci+romio~slurm~verbs+wrapperrpath device=ch3 netmod=tcp pmi=pmi arch=cray-cnl7-mic_knl\r\n$ spack install osu-micro-benchmarks\r\n\r\n### Error Message\r\n\r\n```console\r\n\r\n==> mpich@7.7.14 : has external module in ['cray-mpich/7.7.14']\r\n[+] /opt/cray/pe/mpt/7.7.14/gni/mpich-gnu/8.2 (external mpich-7.7.14-kkqdu3ssedubdlhqgztyvujw7f64xa3h)\r\n==> Installing osu-micro-benchmarks-5.6.3-tbj2gfm3urlhe43u3wr27jgfxwbpives\r\n==> No binary for osu-micro-benchmarks-5.6.3-tbj2gfm3urlhe43u3wr27jgfxwbpives found: installing from source\r\n==> Error: CompilerAccessError: Compiler 'gcc@9.3.0' has executables that are missing or are not executable: ['CC', 'ftn', 'ftn']\r\n\r\n/gpfs/mira-home/robl/src/spack/lib/spack/spack/build_environment.py:863, in _setup_pkg_and_run:\r\n        860        tb_string = traceback.format_exc()\r\n        861\r\n        862        # build up some context from the offending package so we can\r\n  >>    863        # show that, too.\r\n        864        package_context = get_package_context(tb)\r\n        865\r\n        866        logfile = None\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n% spack debug report\r\n* **Spack:** 0.16.0\r\n* **Python:** 3.6.10\r\n* **Platform:** cray-sles15-haswell\r\n```\r\n\r\nThis is the ALCF Cray \"Theta\" system, bane of my spack experiences\r\n\r\nI do not see this problem with spack-0.15.4\r\n\r\nI do see this problem with spack-0.16.0\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\nI trick spack by telling it cray-mpich is mpich:\r\n\r\n```\r\npackages.yaml\r\npackages:\r\n...\r\n      mpich:\r\n    modules:\r\n      mpich@7.7.14: cray-mpich/7.7.14\r\n    buildable: False\r\n....\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n\r\n",
+    "user": "roblatham00",
+    "url": "https://api.github.com/repos/spack/spack/issues/20444",
+    "updated_at": "2020-12-17 15:56:59",
+    "created_at": "2020-12-17 14:56:33",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Building MPI programs on Cray (Theta) no longer works",
+    "number": 20444,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 770116228,
+    "html_url": "https://github.com/spack/spack/issues/20444",
+    "assignees": [],
+    "comments": 1
+}

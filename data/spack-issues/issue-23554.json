@@ -1,0 +1,19 @@
+{
+    "body": "Currently, `spack view copy` does a low-level search the source prefix path in the binaries and replace it with the destination prefix path.\r\n\r\nIt would be better to do this using `patchelf`, either to do the same thing, or even to strip rpath from the binary.\r\n\r\n### Rationale\r\n\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\nWhen the destination prefix is longer than the source prefix, the search/replace in the binary strategy fails.\r\n\r\nIn my case, I end up applying patchelf anyway outside spack afterwards to remove rpaths because I need to be able to copy the libs where I want. \r\n\r\nIt is therefore quite frustrating that the `spack view copy command` fails because of the impossibility to update some rpaths that I do not care about and end up erasing in the end.\r\n\r\n### Description\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\nSeveral solutions would solve my problem\r\n\r\n1. add an option to bypass the search/replace or continue when it fails\r\n2. use patchelf instead or in complement of the search/replace strategy\r\n3. add an option to erase the rpath, using patchelf\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack : 0.16.1-2560-c2cd597b45\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "lpoirel",
+    "url": "https://api.github.com/repos/spack/spack/issues/23554",
+    "updated_at": "2021-05-18 10:13:39",
+    "created_at": "2021-05-11 08:42:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack view copy should use patchelf instead of search and replace",
+    "number": 23554,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 886512801,
+    "html_url": "https://github.com/spack/spack/issues/23554",
+    "assignees": [],
+    "comments": 2
+}

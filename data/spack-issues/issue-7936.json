@@ -1,0 +1,20 @@
+{
+    "body": "When building LAMMPs on the Cray Haswell platform, I get an error that the atpSignalHandler is missing. The crux of the problem is that the Cray mpich package (cray-mpich/7.7.0) loads the atp package (atp/2.1.1) which adds the path -Wl,-L/opt/cray/pe/atp/2.1.1/libApp/. The mpich package adds -lAtpSigHandler library, but does not set the path. When building with Spack, the mpich package is added at .spack/cray/packages.yaml\r\n```yaml\r\n  1 packages:\r\n  2     all:\r\n  3         providers:\r\n  4             mpi: [mpich]\r\n  5 \r\n  6     mpich:\r\n  7         modules:\r\n  8           mpich@7.7.0: cray-mpich/7.7.0\r\n  9         buildable: False\r\n```\r\nThe link fails saying it cannot find the libAtpSigHandler.a library. I'm guessing that Spack unloads the atp package and so there is no -Wl,-L/opt/cray/pe/atp/2.1.1/libApp/ for the path to be searched. This problem has been reported to Cray (Mike Davis). The question is how best to resolve the problem. I have a hack in the LAMMPS build with adds the needed path when on a cray system, but this seems to be a problem which should be resolved at a lower level. \r\n\r\nSystem is Trinitite.\r\n\r\nModule lists\r\n```console\r\nCurrently Loaded Modulefiles:\r\n  1) modules/3.2.10.6                               13) pmi/5.0.13\r\n  2) eproxy/2.0.22-6.0.5.0_2.1__g1ebe45c.ari        14) dmapp/7.1.1-6.0.5.0_49.8__g1125556.ari\r\n  3) gcc/7.2.0                                      15) gni-headers/5.0.12-6.0.5.0_2.15__g2ef1ebc.ari\r\n  4) craype-haswell                                 16) xpmem/2.2.4-6.0.5.1_8.17__g35d5e73.ari\r\n  5) craype-hugepages2M                             17) job/2.2.2-6.0.5.0_8.47__g3c644b5.ari\r\n  6) craype-network-aries                           18) dvs/2.7_2.2.53-6.0.5.2_8.11__ge13250e\r\n  7) craype/2.5.13                                  19) alps/6.5.28-6.0.5.0_18.6__g13a91b6.ari\r\n  8) cray-mpich/7.7.0                               20) rca/2.2.16-6.0.5.0_15.34__g5e09e6d.ari\r\n  9) slurm/17.02.10-SSE.0                           21) atp/2.1.1\r\n 10) cray-libsci/17.12.1                            22) perftools-base/7.0.0\r\n 11) udreg/2.3.2-6.0.5.0_13.12__ga14955a.ari        23) PrgEnv-gnu/6.0.4\r\n 12) ugni/6.0.14-6.0.5.0_16.9__g19583bb.ari         24) cmake/3.10.2\r\n```\r\n```console\r\nmodule show atp\r\n\r\n/opt/cray/pe/modulefiles/atp/2.1.1:\r\n\r\nconflict\t atpDebug \r\nprepend-path\t MANPATH /opt/cray/pe/atp/2.1.1/man \r\nsetenv\t\t ATP_HOME /opt/cray/pe/atp/2.1.1 \r\nsetenv\t\t ATP_MRNET_COMM_PATH /opt/cray/pe/atp/2.1.1/libexec/atp_mrnet_commnode_wrapper \r\nsetenv\t\t MPICH_ABORT_ON_ERROR 1 \r\nsetenv\t\t SHMEM_ABORT_ON_ERROR 1 \r\nsetenv\t\t DMAPP_ABORT_ON_ERROR 1 \r\nsetenv\t\t ATP_IGNORE_SIGTERM 1 \r\nappend-path\t PKG_CONFIG_PATH /opt/cray/pe/atp/2.1.1/lib/pkgconfig \r\nprepend-path\t PE_PKGCONFIG_LIBS AtpSigHandler \r\nsetenv\t\t ATP_POST_LINK_OPTS -Wl,-L/opt/cray/pe/atp/2.1.1/libApp/  \r\n```",
+    "user": "brobey",
+    "url": "https://api.github.com/repos/spack/spack/issues/7936",
+    "updated_at": "2021-12-07 19:59:55",
+    "created_at": "2018-04-27 21:26:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Cray mpich error",
+    "number": 7936,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "mpi"
+    ],
+    "id": 318554886,
+    "html_url": "https://github.com/spack/spack/issues/7936",
+    "assignees": [],
+    "comments": 2
+}

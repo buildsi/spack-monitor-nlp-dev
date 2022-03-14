@@ -1,0 +1,22 @@
+{
+    "body": "### `spack update`: like `brew update`, but for `spack`\r\n\r\nA command that behaves like Linuxbrew/Homebrew's `brew update`. That is, it:\r\n\r\n- fetches `develop` from `origin`\r\n- merges fetched `develop` where appropriate\r\n- possibly stashes existing changes on current branch, checks out `develop`, pulls `develop` (i.e., `git-fetch` and `git-merge`), checks out the old current branch, and re-applies stashed changes\r\n- does not install or build anything\r\n- does not do anything more than fetch/merge/stash/unstash operations on the local git repo copy of someone's `spack` installation\r\n\r\n### Rationale\r\n\r\nRight now, to update `spack`, I need to\r\n\r\n```\r\npushd ${SPACK_ROOT}\r\ngit checkout develop && git fetch origin && git merge --ff-only origin/develop && \\ \r\ngit checkout $MY_OLD_BRANCH # or use git-pull, or simiilar\r\npopd\r\n```\r\n\r\nwhereas to do something vaguely equivalent in Homebrew is `brew update`. Consequently, it's way easier to stay up-to-date with `homebrew-core/master` than it is to stay up-to-date with `spack`.\r\n\r\n### Description\r\n\r\nSee above for longer description. Succinctly, I'd like a `spack-update` command that behaves like `brew-update` does for Homebrew/Linuxbrew.\r\n\r\n### Alternatives\r\n\r\n- Do nothing. Fine by me, but the number of commands required slows me down in comparison to running a single command to update my copy of spack's github repo.\r\n- Have `spack update` do more stuff, like actually upgrade packages, potentially even in-place, or install new packages; I think adding more functionality to the general idea of \"implement a single command that just keeps the spack repo up-to-date and nothing else\" starts into feature creep.",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/9134",
+    "updated_at": "2022-02-28 22:40:46",
+    "created_at": "2018-08-29 22:24:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add a `spack update` command that updates a user's local Spack git repo",
+    "number": 9134,
+    "milestone": null,
+    "labels": [
+        "proposal",
+        "commands"
+    ],
+    "id": 355355910,
+    "html_url": "https://github.com/spack/spack/issues/9134",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 20
+}

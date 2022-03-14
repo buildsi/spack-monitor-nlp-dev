@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\nI am not sure if this is a quantum-espresso or elpa issue but quantum-espresso is misidentifying the version of elpa.\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack spec quantum-espresso +elpa | grep elpa\r\nquantum-espresso+elpa\r\nquantum-espresso@6.7%gcc@8.4.0+elpa~environ~epw+mpi~openmp+patch~qmcpack+scalapack hdf5=none arch=linux-centos7-broadwell\r\n    ^elpa@2020.05.001%gcc@8.4.0~cuda~openmp cuda_arch=none patches=d0e1000059345bc33eb9ada361670f27142b8d3fba2f41e1ba06703850810258 arch=linux-centos7-broadwell\r\n\r\n```\r\n```console\r\n$ spack install quantum-espresso+elpa\r\n...\r\n3 errors found in build log:\r\n     608    f951: Warning: Nonexistent include directory '../ELPA/src' [-Wmissing-include-dirs]\r\n     609    f951: Warning: Nonexistent include directory '../EIGENSOLVER_GPU/lib_eigsolve' [-Wmissing-include-dirs]\r\n     610    dspev_drv.f90:604:9:\r\n     611    \r\n     612          use elpa1\r\n     613             1\r\n  >> 614    Fatal Error: Can't open module file 'elpa1.mod' for reading at (1): No such file or directory\r\n     615    compilation terminated.\r\n  >> 616    make[1]: *** [dspev_drv.o] Error 1\r\n     617    make[1]: Leaving directory `/tmp/gpjohnsn/spack-stage/spack-stage-quantum-espresso-6.7-oxwzcywdwag2orrdjbu6m6j5vfndbx6s/spack-s\r\n            rc/LAXlib'\r\n  >> 618    make: *** [libla] Error 1\r\n\r\n```\r\nLooking at the build log I see:\r\n```\r\nchecking ELPA... configure: WARNING: *** Invalid ELPA version, defaulting to 2016\r\n```\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2156-291a2b5\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-broadwell\r\n* **Concretizer:** original\r\n```\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. \r\n* [spack-build-out.txt]()\r\n* [spack-build-env.txt]() -->\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\nmaintainers: @naromero77\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/22948",
+    "updated_at": "2021-04-12 21:08:45",
+    "created_at": "2021-04-12 21:08:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: quantum-espresso does not build with elpa",
+    "number": 22948,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 856362317,
+    "html_url": "https://github.com/spack/spack/issues/22948",
+    "assignees": [],
+    "comments": 0
+}

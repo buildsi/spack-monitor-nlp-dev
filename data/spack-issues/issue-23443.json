@@ -1,0 +1,20 @@
+{
+    "body": "### Error Message\r\n```\r\n==> [2021-05-05-04:48:15.627507] [TOOLCHAIN] MATCH Cce\r\n==> [2021-05-05-04:48:15.641747] Error: UnsupportedCompilerFlag: cce (12.0) does not support the C++14 standard (as compiler.cxx14_flag).\r\n    If you think it should, please edit the compiler.cce subclass to implement the cxx14_flag property and submit a pull request or issue.\r\n\r\n/home/users/coe0201/src/spack/var/spack/repos/builtin/packages/icu4c/package.py:55, in flag_handler:\r\n         52        if name == 'cxxflags':\r\n         53            # Control of the C++ Standard is via adding the required \"-std\"\r\n         54            # flag to CXXFLAGS in env\r\n  >>     55            flags.append(getattr(self.compiler,\r\n         56                         'cxx{0}_flag'.format(\r\n         57                             self.spec.variants['cxxstd'].value)))\r\n         58        return (None, flags, None)\r\n\r\n\r\nTraceback (most recent call last):\r\n  File \"/home/users/coe0201/src/spack/lib/spack/spack/build_environment.py\", line 912, in _setup_pkg_and_run\r\n    setup_package(pkg, dirty=kwargs.get('dirty', False),\r\n  File \"/home/users/coe0201/src/spack/lib/spack/spack/build_environment.py\", line 793, in setup_package\r\n    set_compiler_environment_variables(pkg, env)\r\n  File \"/home/users/coe0201/src/spack/lib/spack/spack/build_environment.py\", line 283, in set_compiler_environment_variables\r\n    injf, envf, bsf = handler(pkg, flag, spec.compiler_flags[flag])\r\n  File \"/home/users/coe0201/src/spack/var/spack/repos/builtin/packages/icu4c/package.py\", line 56, in flag_handler\r\n    'cxx{0}_flag'.format(\r\n  File \"/home/users/coe0201/src/spack/lib/spack/spack/compiler.py\", line 457, in cxx14_flag\r\n    raise UnsupportedCompilerFlag(self,\r\nspack.compiler.UnsupportedCompilerFlag: cce (12.0) does not support the C++14 standard (as compiler.cxx14_flag).\r\n    If you think it should, please edit the compiler.cce subclass to implement the cxx14_flag property and submit a pull request or issue.\r\n==> [2021-05-05-04:48:15.642110] Flagging icu4c-67.1-u4rpmlv5bmrkgmccepnlpejhyh36i4mi as failed: UnsupportedCompilerFlag: cce (12.0) does not support the C++14 standard (as compiler.cxx14_flag).\r\n    If you think it should, please edit the compiler.cce subclass to implement the cxx14_flag property and submit a pull request or issue.\r\n```\r\n\r\nGlancing at `compilers/cce.py`, it only annotates C++11 - curiously, I never bumped into this, because Trilinos sets its own CXX flags via kokkos.\r\n\r\n### compilers/cce.py\r\n```yaml\r\n    @property\r\n    def cxx11_flag(self):\r\n        if self.is_clang_based:\r\n            return '-std=c++11'\r\n        return \"-h std=c++11\"\r\n\r\n    # no more c++ standards!\r\n    # a very sad day  indeed\r\n```\r\nI'll be submitting a PR that adds flags (and referencing this)\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "jjellio",
+    "url": "https://api.github.com/repos/spack/spack/issues/23443",
+    "updated_at": "2021-05-05 10:47:25",
+    "created_at": "2021-05-05 10:15:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "CCE doesn't support CXX standard flags beyond 11",
+    "number": 23443,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 876294690,
+    "html_url": "https://github.com/spack/spack/issues/23443",
+    "assignees": [],
+    "comments": 0
+}

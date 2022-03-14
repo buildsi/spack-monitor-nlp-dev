@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nHere is an example of situation where spack chooses a lower version than necessary for a dependency:\r\n\r\n```console\r\n$ git clone https://github.com/mochi-hpc/mochi-spack-packages.git\r\n$ spack repo add mochi-spack-packages\r\n$ spack spec -I mochi-bedrock        # will use mochi-bedrock@0.3.1\r\n$ spack spec -I mochi-remi        # will use mochi-bedrock@0.2.3\r\n$ spack spec -I mochi-remi ^mochi-bedrock@0.3.1       # will use mochi-bedrock@0.3.1\r\n```\r\n\r\nIn this example, `mochi-bedrock` has versions `0.2.3`, `0.3`, and `0.3.1` (and some lower numbered versions). `mochi-remi` has `depends_on('mochi-bedrock@0.2:')`. So I would expect `spack spec -I mochi-remi` to show `mochi-bedrock@0.3.1` in the dependency tree, yet I see `mochi-bedrock@0.2.3`. The previous line, requesting the spec for `mochi-bedrock` alone, correctly gives `mochi-bedrock@0.3.1`, and the last line, which explicitly requests 0.3.1, correctly shows it.\r\n\r\nThe problem seems to be that `mochi-bedrock` depends on a package, `mochi-ssg`, as follows:\r\n\r\n```python\r\n    depends_on('mochi-ssg@0.4.5', when='@0.1.0:0.3.0')\r\n    depends_on('mochi-ssg@main', when='@0.3.1:9.9.9')\r\n```\r\n\r\nSo spack has to choose between using `mochi-bedrock@0.3.1 + mochi-ssg@main` or using `mochi-bedrock@0.2.3 + mochi-ssg@0.4.5`. For some reason, it favors the latter (maybe because it's two numbered versions?).\r\n\r\nIf I change `main` in the above dependency into `0.4.5`, `spack spec -I mochi-remi` correctly uses the latest version of `mochi-bedrock`. This is what makes me think that it's spack favoring a numbered version down the tree.\r\n\r\nThis behavior is very counterintuitive and confusing (especially because `spack spec -I mochi-bedrock` gives the latest version), the problem is hard to track down. It is also quite frustrating as in our CI build, spack has continued to use an old version of the `mochi-bedrock` package for some time without us noticing, and we can't rely on spack always picking the latest versions of every packages without telling it to.\r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.3-4907-1156c7d0a9\r\n* **Python:** 3.9.5\r\n* **Platform:** linux-ubuntu21.04-sandybridge\r\n* **Concretizer:** clingo\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/27199",
+    "updated_at": "2021-11-03 18:21:25",
+    "created_at": "2021-11-03 17:42:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Clingo unnecessarily prefers a lower version number for a dependency",
+    "number": 27199,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "triage"
+    ],
+    "id": 1043891380,
+    "html_url": "https://github.com/spack/spack/issues/27199",
+    "assignees": [],
+    "comments": 0
+}

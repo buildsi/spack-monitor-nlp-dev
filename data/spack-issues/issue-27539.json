@@ -1,0 +1,19 @@
+{
+    "body": "rpaths bring some good things: relocatability through `$ORIGIN` and dlopen default search locations. Spack doesn't do proper relocation, so `$ORIGIN` is unused. `dlopen` means we should never get rid of rpaths.\r\n\r\nBut they have downsides for required libs specified by soname in DT_NEEDED: rpaths are checked before linker cache (so libc requires search...), rpaths are passed down to dependencies increasing the number of search paths, even with runpath many directories have to be checked for every library.\r\n\r\nIt would be nice if we could just set absolute paths in DT_NEEDED instead of sonames of libs + rpaths, so that lookups are constant time per library, which can be done by replacing `-lfoo` with `/path/to/foo.so`.\r\n\r\n```console\r\n# gcc invokes ld\r\n$ echo 'void f() {}' | gcc -nostdlib -shared -o libf.so -x c - && echo 'int _start() {return 0;}' | gcc -nostdlib -Wl,--no-as-needed $(realpath libf.so) -x c - && readelf -d a.out | grep libf\r\n 0x0000000000000001 (NEEDED)             Shared library: [/root/libf.so]\r\n\r\n# gcc invokes ld.gold\r\n$ echo 'void f() {}' | gcc -nostdlib -shared -o libf.so -x c - && echo 'int _start() {return 0;}' | gcc -nostdlib -Wl,--no-as-needed -fuse-ld=gold $(realpath libf.so) -x c - && readelf -d a.out | grep libf\r\n 0x0000000000000001 (NEEDED)             Shared library: [/root/libf.so]\r\n\r\n# clang invokes ld\r\n$ echo 'void f() {}' | clang -nostdlib -shared -o libf.so -x c - && echo 'int _start() {return 0;}' | clang -nostdlib -Wl,--no-as-needed $(realpath libf.so) -x c - && readelf -d a.out | grep libf\r\n 0x0000000000000001 (NEEDED)             Shared library: [/root/libf.so]\r\n\r\n# clang invokes ld.gold\r\n$ echo 'void f() {}' | clang -nostdlib -shared -o libf.so -x c - && echo 'int _start() {return 0;}' | clang -nostdlib -Wl,--no-as-needed -fuse-ld=gold $(realpath libf.so) -x c - && readelf -d a.out | grep libf\r\n 0x0000000000000001 (NEEDED)             Shared library: [/root/libf.so]\r\n\r\n# ld by hand\r\n$ echo 'void f() {}' | gcc -nostdlib -shared -o libf.so -x c - && echo 'int _start() {return 0;}' | gcc -nostdlib -o g.o -c -x c - && ld g.o $(realpath libf.so) && readelf -d a.out | grep libf\r\n 0x0000000000000001 (NEEDED)             Shared library: [/root/libf.so]\r\n\r\n# ld.gold by hand\r\n$ echo 'void f() {}' | clang -nostdlib -shared -o libf.so -x c - && echo 'int _start() {return 0;}' | clang -nostdlib -o g.o -c -x c - && ld.gold g.o $(realpath libf.so) && readelf -d a.out | grep libf\r\n 0x0000000000000001 (NEEDED)             Shared library: [/root/libf.so]\r\n```\r\n\r\nDuring linking the location of the library is known, and Spack with its hashes fixes it once and for all, so why would you ever want to search for a library at all?\r\n\r\nSo, can't we write a linker wrapper that rewrites `-lsomelib` as `/path/to/libsomelib.so`.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/27539",
+    "updated_at": "2021-11-19 19:45:27",
+    "created_at": "2021-11-19 00:23:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Set absolute paths in DT_NEEDED on Linux",
+    "number": 27539,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1057996698,
+    "html_url": "https://github.com/spack/spack/issues/27539",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nSo, some packages have explicit pip-dependencies. Now, in a view, this pip does not properly get linked into the fs-hierarchy and thus it's broken, because it's somehow using the python-provided pip partly, which usually is not compatible...\r\n\r\n### Error message\r\n\r\n```\r\nmyhost $ ls -l myviev/lib/python3.8/site-packages/\r\nlrwxrwxrwx  1   181 Feb 26 11:47 __init__.py -> /home/private_software/spack_21Q4/opt/spack/linux-debian10-skylake_avx512/gcc-8.5.0/python-3.8.8-ssvtjfeasmu7dnxoobltatu7pqdxszlj/lib/python3.8/site-packages/pip/__init__.py\r\ndrwx------ 16 26 Feb 26 11:47 _internal\r\nlrwxrwxrwx  1  181 Feb 26 11:47 __main__.py -> /home/private_software/spack_21Q4/opt/spack/linux-debian10-skylake_avx512/gcc-8.5.0/python-3.8.8-ssvtjfeasmu7dnxoobltatu7pqdxszlj/lib/python3.8/site-packages/pip/__main__.py\r\ndrwx------  2    4 Feb 26 11:47 __pycache__\r\nlrwxrwxrwx  1  179 Feb 26 11:47 py.typed -> /home/private_software/spack_21Q4/opt/spack/linux-debian10-skylake_avx512/gcc-8.5.0/py-pip-21.3.1-ldlhndk5wevzhqoo7jorwkyvvcguarzm/lib/python3.8/site-packages/pip/py.typed\r\ndrwx------ 23  32 Feb 26 11:47 _vendor\r\n```\r\nThis leads to:\r\n```\r\nImportError: cannot import name 'InvalidSchemeCombination' from 'pip._internal.exceptions' (/home//private_software/spack_21Q4/var/spack/environments/ml-21Q4/.spack-env/view/lib/python3.8/site-packages/pip/_internal/exceptions.py)\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-debian10-cascadelake\r\n* **Concretizer:** clingo\r\n\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "flxmr",
+    "url": "https://api.github.com/repos/spack/spack/issues/29237",
+    "updated_at": "2022-02-27 09:54:02",
+    "created_at": "2022-02-26 10:56:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: py-pip in environments not working...",
+    "number": 29237,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1151657765,
+    "html_url": "https://github.com/spack/spack/issues/29237",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

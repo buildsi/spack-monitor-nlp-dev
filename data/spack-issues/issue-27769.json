@@ -1,0 +1,26 @@
+{
+    "body": "This PR implements/fixes a TODO for using an external go compiler to bootstrap Go.\r\n\r\nIt enables using `spack external find go-bootstrap` or `spack external find gcc` (with gccgo, gcc's go variant is detected)\r\n> Note: To bootstrap go@17 using gccgo, gccgo needs a recent fix which this PR adds also.\r\n\r\nBeing able to use an external Go compiler for bootstrapping `go` speeds up bootstrapping Go on ARM64 **a lot**:\r\n> It avoids having to build `gccgo`(and its dependencies), while of course still falling back to building `gcc langunages=go` when needed.\r\n\r\nSo far, the Go bootstrap was hard-coded in `var/spack/repos/builtin/packages/go/package.py`:\r\nOn aarch64, we bootstraped Go using `gccgo`, because Go 1.4 (which is the last Go to boostrap from C) does not support ARM64:\r\n```py\r\n-    # TODO: Make non-c self-hosting compilers feasible without backflips\r\n-    # should be a dep on external go compiler\r\n-    if platform.machine() == 'aarch64':\r\n-        depends_on('gcc languages=go', type='build')\r\n-    else:\r\n-        depends_on('go-bootstrap', type='build')\r\n+\r\n+    # Use an external go compiler from packages.yaml/`spack external find go-bootstrap`,\r\n+    # but fallback to build go-bootstrap@1.4 or to gcc with languages=go (for aarch64):\r\n+    depends_on('golang-bootstrap', type='build')\r\n```\r\nNow, we can use `golang-bootstrap`, which defaults to `go-bootstrap` and falls back to gcc (with languages=go) when it is not available when to `target=aarch64` and `go-bootstrap` is not used as external package.\r\n\r\ngcc itself can be added as an external package with gccgo installed, or be built from source by spack:\r\n```yaml\r\netc/spack/defaults/packages.yaml:\r\n       golang: [gcc]\r\n+      golang-bootstrap: [go-bootstrap, gcc]\r\n``` \r\nSummary:\r\n* On `aarch64`, we can now avoid having to build gccgo(`gcc languages=go`) from source as bootstrap go compiler when using either `spack external find go-bootstrap` or `spack external find gcc` (with gccgo-10 or newer installed)\r\n* On other architectures, it avoids the download and build of Go 1.4 using a C compiler, which is also a (smaller) win.",
+    "user": "bernhardkaindl",
+    "url": "https://api.github.com/repos/spack/spack/issues/27769",
+    "updated_at": "2022-01-16 16:17:27",
+    "created_at": "2021-12-03 04:31:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "go,gcc: Support external Go compilers for Go bootstrap",
+    "number": 27769,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "defaults",
+        "virtual-dependencies",
+        "patch",
+        "update-package",
+        "conflicts"
+    ],
+    "id": 1070208811,
+    "html_url": "https://github.com/spack/spack/pull/27769",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

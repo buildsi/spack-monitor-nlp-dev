@@ -1,0 +1,20 @@
+{
+    "body": "We are generating containers for different packages, and just hit this error for installing axom:\r\n\r\n```bash\r\n >> 410    ld: cannot find /opt/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-\r\n            7.5.0/zlib-1.2.11-fz2bs562jhc2spgubs3fvq25g3qymz6x/lib: File format\r\n             not recognized\r\n  >> 411    ld: cannot find /opt/spack/opt/spack/linux-ubuntu18.04-skylake/gcc-\r\n            7.5.0/openmpi-4.0.5-dyfjml5l47dezqpamrd526ioieumu6tw/lib: File form\r\n            at not recognized\r\n```\r\n\r\nWe generate a Dockerfile by running `spack containerize` on this spack.yaml:\r\n\r\n```yaml\r\nspack:\r\n  specs: [\"axom\"]\r\n  view: true\r\n  config:\r\n    concretizer: clingo\r\n  container:\r\n    os_packages:\r\n      build:\r\n        - python3-dev\r\n    strip: false\r\n```\r\nAnd the resulting Dockerfile:\r\n\r\n```\r\n# Build stage with Spack pre-installed and ready to be used\r\nFROM spack/ubuntu-bionic:latest as builder\r\n\r\n# Install OS packages needed to build the software\r\nRUN apt-get -yqq update && apt-get -yqq upgrade \\\r\n && apt-get -yqq install python3-dev \\\r\n && rm -rf /var/lib/apt/lists/*\r\n\r\n# What we want to install and how we want to install it\r\n# is specified in a manifest file (spack.yaml)\r\nRUN mkdir /opt/spack-environment \\\r\n&&  (echo \"spack:\" \\\r\n&&   echo \"  specs:\" \\\r\n&&   echo \"  - axom\" \\\r\n&&   echo \"  view: /opt/view\" \\\r\n&&   echo \"  config:\" \\\r\n&&   echo \"    concretizer: clingo\" \\\r\n&&   echo \"    install_tree: /opt/software\" \\\r\n&&   echo \"  concretization: together\") > /opt/spack-environment/spack.yaml\r\n\r\n# Install the software, remove unnecessary deps\r\nRUN cd /opt/spack-environment && spack env activate . && spack install --fail-fast && spack gc -y\r\n\r\n# Modifications to the environment that are necessary to run\r\nRUN cd /opt/spack-environment && \\\r\n    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh\r\n\r\n\r\n# Bare OS image to run the installed executables\r\nFROM ubuntu:18.04\r\n\r\nCOPY --from=builder /opt/spack-environment /opt/spack-environment\r\nCOPY --from=builder /opt/software /opt/software\r\nCOPY --from=builder /opt/view /opt/view\r\nCOPY --from=builder /etc/profile.d/z10_spack_environment.sh /etc/profile.d/z10_spack_environment.sh\r\n\r\n\r\n\r\nENTRYPOINT [\"/bin/bash\", \"--rcfile\", \"/etc/profile\", \"-l\"]\r\n```\r\n\r\nYou can see the full output [here](https://github.com/autamus/registry/pull/14/checks?check_run_id=2101261595). I'm not sure if this is something specific to GitHub actions, but if so, we'd need to be able to customize the Dockerfile for it to work. Please let me know if we can share any other information! cc @alecbcs",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/22280",
+    "updated_at": "2021-03-25 23:26:09",
+    "created_at": "2021-03-13 19:29:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Containerize(?) Issue: Installing Axom",
+    "number": 22280,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 830973656,
+    "html_url": "https://github.com/spack/spack/issues/22280",
+    "assignees": [],
+    "comments": 7
+}

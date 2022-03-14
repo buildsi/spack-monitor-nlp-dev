@@ -1,0 +1,24 @@
+{
+    "body": "I'm not able to load modules from an upstream repository, but I think it is not related to the upstream configuration.\r\n\r\nGiven this output on my system:\r\n```console\r\nspack --print-shell-vars sh,modules\r\n_sp_sys_type='cray-cnl7-broadwell'\r\n_sp_compatible_sys_types='cray-cnl7-haswell:cray-cnl7-ivybridge:cray-cnl7-sandybridge:cray-cnl7-None:cray-cnl7-None:cray-cnl7-None:cray-cnl7-None:cray-cnl7-x86_64'\r\n_sp_tcl_roots='/apps/daint/SSL/software/spack-current/share/spack/modules:/users/ialberto/spack/share/spack/modules'\r\n_sp_lmod_roots='/users/ialberto/spack/share/spack/lmod'\r\n_sp_module_prefix='not_installed'\r\n```\r\n\r\nAnd the script section that populates the `MODULEPATH` environment variable\r\nhttps://github.com/spack/spack/blob/bb0667ceaf3311630e8e1fae024660e22b2749f7/share/spack/setup-env.sh#L333-L344\r\n\r\nTalking with @alalazo about this (https://github.com/spack/spack/commit/1b18ec90abadf6e476a5e5fe1c82d18849c1d18d#r36027867), he pointed out that `_sp_compatible_sys_types` should be a super set containing also `_sp_sys_type`, and all those `cray-cnl7-None` looks strange.\r\n\r\nThis code may be an interesting spot where to look for (I'm going to give feedback on this).\r\nhttps://github.com/spack/spack/blob/bb0667ceaf3311630e8e1fae024660e22b2749f7/lib/spack/spack/architecture.py#L530-L539\r\n\r\n### System\r\nCray CLE 7.0.UP01 (based on SUSE Linux Enterprise Server 15)\r\n\r\n```console\r\nspack arch\r\ncray-cnl7-broadwell\r\n```",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/13785",
+    "updated_at": "2020-01-27 10:56:05",
+    "created_at": "2019-11-19 14:21:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Problem loading modules on Cray",
+    "number": 13785,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "modules",
+        "impact-low"
+    ],
+    "id": 525040125,
+    "html_url": "https://github.com/spack/spack/issues/13785",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 13
+}

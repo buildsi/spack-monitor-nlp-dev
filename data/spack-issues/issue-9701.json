@@ -1,0 +1,20 @@
+{
+    "body": "Make testing a separate phase in Spack similar to configure, build, and install.\r\n\r\n### Rationale\r\n\r\nThe original motivation for this change is to enable reporting of test results, eg from the CDash reporter. Testing is currently supported by conditionally running extra commands within a package's `install()` method based on the `run_tests` variable.\r\n\r\n### Description\r\n\r\nSpack's reporters are essentially log scrapers.  Since testing currently takes place during other phases, there is no programmatic way to detect whether a particular line of output is from a test or not. If testing was a separate phase, we could search for the following line in the package output:\r\n```\r\n==> Executing phase: 'test'\r\n```\r\nand treat any subsequent output as test results.\r\n\r\n### Additional information\r\n\r\nThe test phase would have to take place after install but before you delete build tree.\r\n\r\nIt would also be great to have a separate `spack test` command.  This would be tricky though, since `spack install` deletes the build tree once installation is complete, and lots of packages require the build tree to be present in order to run their tests.",
+    "user": "zackgalbreath",
+    "url": "https://api.github.com/repos/spack/spack/issues/9701",
+    "updated_at": "2018-11-01 21:02:43",
+    "created_at": "2018-11-01 14:13:24",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Make testing a separate phase",
+    "number": 9701,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "cdash"
+    ],
+    "id": 376409578,
+    "html_url": "https://github.com/spack/spack/issues/9701",
+    "assignees": [],
+    "comments": 1
+}

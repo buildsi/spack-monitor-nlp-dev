@@ -1,0 +1,19 @@
+{
+    "body": "\r\nI am trying to install paraview with cuda support, which fails with the following cmake error\r\n\r\n```cmake\r\nCMake Error: The inter-target dependency graph contains the following strongly connected component (cycle):\r\n  \"vtkPVCatalystPython\" of type STATIC_LIBRARY\r\n    depends on \"ClientKit\" (weak)\r\n    depends on \"PythonCatalyst-objects\" (weak)\r\n    depends on \"PythonInitializer\" (weak)\r\n    depends on \"vtkPVClientWebPython\" (weak)\r\n    depends on \"vtkPVPythonCatalystPython\" (weak)\r\n  \"vtkPVPythonCatalystPython\" of type STATIC_LIBRARY\r\n    depends on \"PythonCatalyst-objects\" (weak)\r\n    depends on \"PythonInitializer\" (weak)\r\n    depends on \"vtkPVClientWebPython\" (weak)\r\n    depends on \"ClientKit\" (weak)\r\n    depends on \"vtkPVCatalystPython\" (weak)\r\n  \"ClientKit\" of type STATIC_LIBRARY\r\n    depends on \"PythonInitializer\" (weak)\r\n    depends on \"vtkPVClientWebPython\" (weak)\r\n    depends on \"vtkPVCatalystPython\" (weak)\r\n    depends on \"vtkPVPythonCatalystPython\" (weak)\r\n    depends on \"PythonCatalyst-objects\" (strong)\r\n  \"vtkPVClientWebPython\" of type STATIC_LIBRARY\r\n    depends on \"ClientKit\" (weak)\r\n    depends on \"PythonCatalyst-objects\" (weak)\r\n    depends on \"PythonInitializer\" (weak)\r\n    depends on \"vtkPVCatalystPython\" (weak)\r\n    depends on \"vtkPVPythonCatalystPython\" (weak)\r\n  \"PythonInitializer\" of type STATIC_LIBRARY\r\n    depends on \"vtkPVClientWebPython\" (weak)\r\n    depends on \"ClientKit\" (weak)\r\n    depends on \"PythonCatalyst-objects\" (weak)\r\n    depends on \"vtkPVCatalystPython\" (weak)\r\n    depends on \"vtkPVPythonCatalystPython\" (weak)\r\n  \"PythonCatalyst-objects\" of type OBJECT_LIBRARY\r\n    depends on \"PythonInitializer\" (weak)\r\n    depends on \"vtkPVClientWebPython\" (weak)\r\n    depends on \"ClientKit\" (weak)\r\n    depends on \"vtkPVCatalystPython\" (weak)\r\n    depends on \"vtkPVPythonCatalystPython\" (weak)\r\nAt least one of these targets is not a STATIC_LIBRARY.  Cyclic dependencies are allowed only among static libraries.\r\nCMake Generate step failed.  Build files cannot be regenerated correctly.\r\n```\r\n\r\n### Steps to reproduce the issue\r\n```\r\n$ spack install paraview +cuda +hdf5 +mpi +python3 -shared ^cuda@10.1.0\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n* **Spack:** 0.15.0-2-aaf6f80d4\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-ubuntu18.04-broadwell\r\n```\r\n### Additional information\r\n\r\nI have cuda locally installed, with the following in my `.spack/packages.yaml` :\r\n```yaml\r\n  cuda:\r\n    paths:\r\n      cuda@10.1.0: /usr/local/cuda-10.1\r\n```\r\n\r\n[spack-build-env.txt](https://github.com/spack/spack/files/4856724/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/4856725/spack-build-out.txt)\r\n\r\n@chuckatkins @danlipsa \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "navdeeprana",
+    "url": "https://api.github.com/repos/spack/spack/issues/17326",
+    "updated_at": "2021-08-26 15:14:55",
+    "created_at": "2020-07-01 08:48:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: Paraview fails on cmake.",
+    "number": 17326,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 648793909,
+    "html_url": "https://github.com/spack/spack/issues/17326",
+    "assignees": [],
+    "comments": 15
+}

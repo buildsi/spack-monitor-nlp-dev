@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\nRun `spack dev-build` using a Python version that does not match the system Python version\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n$ Traceback (most recent call last):\r\n  File \"spack/lib/spack/spack/build_environment.py\", line 847, in child_process\r\n    return_value = function()\r\n  File \"spack/lib/spack/spack/installer.py\", line 1150, in build_process\r\n    phase(pkg.spec, pkg.prefix)\r\n  File \"spack/lib/spack/spack/package.py\", line 109, in phase_wrapper\r\n    phase(spec, prefix)\r\n  File \"spack/var/spack/repos/builtin/packages/mfem/package.py\", line 391, in configure\r\n    # The cxxflags are set by the spack c++ compiler wrapper. We also\r\n  File \"spack/lib/spack/spack/compilers/clang.py\", line 93, in cxx11_flag\r\n    if self.real_version < ver('3.3'):\r\n  File \"spack/lib/spack/spack/compiler.py\", line 348, in real_version\r\n    self.get_real_version())\r\n  File \"spack/lib/spack/spack/compiler.py\", line 524, in get_real_version\r\n    with self._compiler_environment():\r\n  File \"/usr/tce/packages/python/python-3.7.2/lib/python3.7/contextlib.py\", line 112, in __enter__\r\n    return next(self.gen)\r\n  File \"spack/lib/spack/spack/compiler.py\", line 609, in _compiler_environment\r\n    spack.util.module_cmd.load_module(module)\r\n  File \"spack/lib/spack/spack/util/module_cmd.py\", line 109, in load_module\r\n    module('load', mod)\r\n  File \"spack/lib/spack/spack/util/module_cmd.py\", line 72, in module\r\n    env_dict = json.loads(env_json)\r\n  File \"/usr/tce/packages/python/python-3.7.2/lib/python3.7/json/__init__.py\", line 348, in loads\r\n    return _default_decoder.decode(s)\r\n  File \"/usr/tce/packages/python/python-3.7.2/lib/python3.7/json/decoder.py\", line 337, in decode\r\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\r\n  File \"/usr/tce/packages/python/python-3.7.2/lib/python3.7/json/decoder.py\", line 355, in raw_decode\r\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\r\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.15.4-613-ccf94de\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-broadwell\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\nhttps://github.com/spack/spack/blob/e7040467f22e919b3954b8f43f09d37165bd8bf0/lib/spack/spack/util/module_cmd.py#L56-L72\r\n\r\nThe above snippet does not check whether the process succeeded and unconditionally attempts to interpret its output as JSON, which results in a possibly confusing `JSONDecodeError`.  One solution might check for a nonzero returncode and print the full output (which would contain the actual error) in that case.  I am happy to submit a PR with this change, if appropriate.\r\n",
+    "user": "joshessman-llnl",
+    "url": "https://api.github.com/repos/spack/spack/issues/18624",
+    "updated_at": "2020-09-11 14:54:06",
+    "created_at": "2020-09-11 14:35:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Failure of module command is not checked",
+    "number": 18624,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 699393964,
+    "html_url": "https://github.com/spack/spack/issues/18624",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

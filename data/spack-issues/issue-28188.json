@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\n- Install `openblas` in a Spack tree from before https://github.com/spack/spack/pull/27500\r\n- Clone a new Spack and set the old Spack install tree as upstream.\r\n- Install any package that depends on openblas, e.g. `py-scipy`. Use `--reuse` or another means to make sure the existing openblas installation is used. I encountered this issue when installing from an environment lockfile, which was created with the new Spack clone but uses the upstream openblas installation. The lockfile doesn't list the new 'symbol_suffix' parameter, which leads to the KeyError below.\r\n\n\n### Error message\n\n```\r\n==> Error: KeyError: 'symbol_suffix'\r\n\r\nspack/var/spack/repos/builtin/packages/openblas/package.py:353, in libs:\r\n        350        # Look for openblas{symbol_suffix}\r\n        351        name = 'libopenblas'\r\n        352        search_shared = bool(spec.variants['shared'].value)\r\n  >>    353        suffix = spec.variants['symbol_suffix'].value\r\n        354        if suffix != 'none':\r\n        355            name += suffix\r\n        356\r\n```\n\n### Information on your system\n\n* **Spack:** 0.17.1-677-c2e1a12cdf\r\n* **Python:** 3.8.7\r\n* **Platform:** linux-centos7-haswell\r\n* **Concretizer:** clingo\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "nilsvu",
+    "url": "https://api.github.com/repos/spack/spack/issues/28188",
+    "updated_at": "2021-12-30 15:54:19",
+    "created_at": "2021-12-30 15:54:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Missing spec variant in upstream installation leads to KeyError",
+    "number": 28188,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1091182248,
+    "html_url": "https://github.com/spack/spack/issues/28188",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "In trying to use spack on MareNostrum I have discovered that the parsing of system modules is somewhat fragile as it simply searches for lines contained the variable, such as \"PATH\", and therefore can fail if there are, e.g debug statements in there.\r\n\r\nFor a specific example, on MareNostrum, I am trying to use the provided intel-mpi:\r\n```\r\npackages:\r\n  all:\r\n    compiler: [intel@17.0.4]\r\n    providers:\r\n      blas: [intel-mkl]\r\n      lapack: [intel-mkl]\r\n      mpi: [intel-mpi]\r\n\r\n  intel-mkl:\r\n    modules:\r\n      intel-mkl@17.3.196: mkl/2017.4\r\n    buildable: False\r\n\r\n  intel-mpi:\r\n    modules:\r\n      intel-mpi@2017.3.196: impi/2017.4\r\n    buildable: False\r\n\r\n```\r\nwhich has the module file:\r\n```\r\n-------------------------------------------------------------------------------------------------------------------\r\n   /apps/modules/modulefiles/environment/impi/2017.4:\r\n-------------------------------------------------------------------------------------------------------------------\r\nwhatis(\"loads the impi 2017.4 environment \")\r\nconflict(\"impi\",\"openmpi\",\"mvapich2\")\r\nLmodMessage(\"display impi/2017.4 (PATH, MANPATH, LD_LIBRARY_PATH)\")\r\nprepend_path(\"PATH\",\"/apps/INTEL/2017.4/impi/2017.3.196/bin64\")\r\nprepend_path(\"MANPATH\",\"/apps/INTEL/2017.4/impi/2017.3.196/man\")\r\nprepend_path(\"LD_LIBRARY_PATH\",\"/apps/INTEL/2017.4/impi/2017.3.196/lib64\")\r\nsetenv(\"MPI\",\"impi\")\r\nsetenv(\"MPI_V\",\"2017.4\")\r\nsetenv(\"I_MPI_ROOT\",\"/apps/INTEL/2017.4/impi/2017.3.196\")\r\nsetenv(\"MPI_ROOT\",\"/apps/INTEL/2017.4/impi/2017.3.196\")\r\nhelp([[]])\r\n```\r\nwhich causes spack to fail with the error:\r\n```\r\n==> Warning: Extracted path from module does not exist:\r\n        Extracted path: display impi/2017.4 (PATH, MANPATH, LD_LIBRARY_PATH\r\n==> Error: substring not found\r\n```\r\nThe offending code is in, `spack/lib/spack/spack/util/module_cmd.py` and it does not check that the line begins with a suitable command.\r\n\r\nI can provide a patch but would the better approach be to whitelist certain setting commands like `prepend_path` or blacklist message commands like `LmodMessage`.  I am leaning towards the latter to avoid accidental breakages.\r\n\r\nOpinions?",
+    "user": "ptooley",
+    "url": "https://api.github.com/repos/spack/spack/issues/10455",
+    "updated_at": "2019-01-28 17:09:39",
+    "created_at": "2019-01-28 17:09:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack fails to parse module files in some instances",
+    "number": 10455,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 403916790,
+    "html_url": "https://github.com/spack/spack/issues/10455",
+    "assignees": [],
+    "comments": 0
+}

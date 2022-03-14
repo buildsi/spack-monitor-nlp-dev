@@ -1,0 +1,21 @@
+{
+    "body": "EDIT: see [below](https://github.com/spack/spack/issues/8324#issuecomment-393418311)\r\n\r\n-----\r\n\r\nYet another strange compiler error with with `Intel@17.0.5`, externally provided.\r\n\r\n### Expected Result\r\n\r\n`suite-sparse` builds\r\n\r\n### Actual Result\r\n\r\nA few very weird compilation errors:\r\n\r\n```\r\n  >> 7269    ../Include/spqr.hpp(939): error: namespace \"std\" has no member \"conj\"\r\n     7270          return (std::conj (x)) ;\r\n     7271                       ^\r\n\r\n     7495    In file included from ../Source/spqr_panel.cpp(31):\r\n     7496    In file included from ../Source/spqr_tol.cpp(7):\r\n  >> 7497    ../Include/spqr.hpp(23): error: qualified name is not allowed\r\n     7498      typedef std::complex<double> Complex ;\r\n     7499              ^\r\n\r\n  >> 7506    ../Include/spqr.hpp(23): error: expected a \";\"\r\n     7507      typedef std::complex<double> Complex ;\r\n     7508                          ^\r\n```\r\n\r\nThis part of the header looks reasonable to me:\r\n```\r\n#include <complex>\r\ntypedef std::complex<double> Complex ;\r\n```\r\n\r\nThis is being compiled with\r\n```\r\n/spack/lib/spack/env/intel/icpc -O3 -fPIC -fno-common -fexceptions   -O3 -fexceptions -fPIC     -I../../CHOLMOD/Include -I../../SuiteSparse_config -I../Include -c ../Source/spqr_tol.cpp\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install spack spec suite-sparse@5.1.0\r\n```\r\n\r\nUsing compiler outside of Spack I can compile `icpc test.cpp` a simple example without issues\r\n```\r\n#include <iostream>\r\n#include <complex>\r\ntypedef std::complex<double> Complex ;\r\n\r\nint main()\r\n{\r\n  Complex v;\r\n  v.real(1.);\r\n  v.imag(2.);\r\n  Complex u = std::conj(v);\r\n  std::cout << (v*u) << std::endl;\r\n\r\n  return 0;\r\n}\r\n```\r\n\r\nThat's so weird...\r\n\r\n### Information on your system\r\n\r\ncentos7\r\n\r\n```\r\n- compiler:\r\n    environment:\r\n      set:\r\n        INTEL_LICENSE_FILE: 1713@license4\r\n    extra_rpaths:\r\n     - /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/compiler/lib/intel64_lin\r\n    flags: {}\r\n    modules: []\r\n    operating_system: centos7\r\n    paths:\r\n      cc: /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/bin/intel64/icc\r\n      cxx: /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/bin/intel64/icpc\r\n      f77: /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/bin/intel64/ifort\r\n      fc: /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/bin/intel64/ifort\r\n    spec: intel@17.0.5\r\n    target: x86_64\r\n```",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/8324",
+    "updated_at": "2018-05-31 06:30:23",
+    "created_at": "2018-05-31 04:58:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "blindly adding prefix.include in compiler wrappers can break Spack",
+    "number": 8324,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "intel"
+    ],
+    "id": 327994340,
+    "html_url": "https://github.com/spack/spack/issues/8324",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,23 @@
+{
+    "body": "**snl-atdm-issue**\r\n\r\nCC: @fryeguy52\r\n\r\n## Feature request\r\n\r\nCan spack be updated to automatically provide `f77` and `fc` in generated `compilers.yaml` file when it sets up the block for `clang@<version>` using the matching Fortran compiler used to build the `llvm@<version>` package?  That would save people from having to manually post-modify the file `compilers.yaml` after the block:\r\n\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel6\r\n    paths:\r\n      cc: <clang-path>/bin/clang\r\n      cxx: <clang-path>/bin/clang++\r\n      f77: null\r\n      fc: null\r\n    spec: clang@5.0.1\r\n    target: x86_64\r\n```\r\n\r\nwas added by `spack find compilers` to be:\r\n\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel6\r\n    paths:\r\n      cc: <clang-path>/bin/clang\r\n      cxx: <clang-path>/bin/clang++\r\n      f77: <gcc-path>/bin/gfortran\r\n      fc: <gcc-path>/bin/gfortran\r\n    spec: clang@5.0.1\r\n    target: x86_64\r\n```\r\n\r\nAt least provide an option to do this or something so users don't have to script this themselves.\r\n\r\n## Related issues:\r\n\r\n#5655, #5717, #3426, #3427\r\n\r\n## Background\r\n\r\nIn order build a viable clang-based stack of MPI and TPLs for SNL ATDM codes, it seems we need to  to use GCC to build OpenMPI and many of our TPLs (e.g. HDF5) and our ATDM codes require a Fortran compiler.   For my current concrete use case (trying to replicate an existing stack of compilers, MPI and TPLs for ATDM), I have worked out an approach for doing this that involves:\r\n\r\n1) Build the gcc@4.9.3 compiler with Spack (using native gcc@4.4.7 on RHEL6)\r\n2) use gcc@4.9.3 to build llvm@5.0.1 (to get clang@5.0.1 `clang++` and `clang` compilers)\r\n3) Use gcc@4.9.3 to build openmpi@1.10.2 (can't build openmpi@1.10.2 with clang@5.0.1, it fails and the existing use case I am trying to match is using gcc@4.9.3, not clang)\r\n4) Use  `clang++` and `clang` from llvm@5.0.1 and `gfortran` from gcc@4.9.3 to build the TPLs including HDF5 (which needs Fortran).\r\n\r\nIn order to pull this off, I have had to do quite a bit of scripting.  Most of that scripting is pretty straightforward.  However, one irritating part is having to modify the generated file `compilers.yaml` to replace `f77: null` AND `fc: null` with \r\n\r\n\r\n",
+    "user": "bartlettroscoe",
+    "url": "https://api.github.com/repos/spack/spack/issues/13204",
+    "updated_at": "2019-11-01 14:12:35",
+    "created_at": "2019-10-12 18:08:25",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Native support for clang+gfortran when spack builds both llvm and gcc would be nice",
+    "number": 13204,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "configuration",
+        "compilers",
+        "clang",
+        "snl-atdm"
+    ],
+    "id": 506218942,
+    "html_url": "https://github.com/spack/spack/issues/13204",
+    "assignees": [],
+    "comments": 0
+}

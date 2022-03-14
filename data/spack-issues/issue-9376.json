@@ -1,0 +1,23 @@
+{
+    "body": "I'm getting inconsistent results on how 'spack compiler find' finds\r\ncompilers from modules.  The issue is whether spack identifies the\r\ncompiler as being from a module and then puts the module name(s) in\r\ncompilers.yaml as in (abbreviated):\r\n\r\n```\r\n- compiler:\r\n    modules:\r\n    - PrgEnv-gnu\r\n    - gcc/7.3.0\r\n    spec: gcc@7.3.0\r\n```\r\n\r\nFirst, let me check, is this supposed to work?  That is, if I load a\r\ncompiler module, run 'spack compiler find', then it's supposed to find\r\nthe compiler and put a 'modules:' entry in compilers.yaml and this is\r\nsomething I should count on?\r\n\r\nThis happens sometimes but not always.  For example, on a Cray KNL\r\nsystem (theta at Argonne), I have several modules loaded, including\r\ngcc/7.3.0 and PrgEnv-gnu/6.0.4.  I delete my cray/compilers.yaml file,\r\nrun 'spack compiler find' and it finds 26 compilers including (the\r\nfull version of the above):\r\n\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules:\r\n    - PrgEnv-gnu\r\n    - gcc/7.3.0\r\n    operating_system: cnl6\r\n    paths:\r\n      cc: cc\r\n      cxx: CC\r\n      f77: ftn\r\n      fc: ftn\r\n    spec: gcc@7.3.0\r\n    target: any\r\n```\r\n\r\nThis is good.  Spack will load PrgEnv-gnu and gcc/7.3.0 when I ask to\r\nbuild with gcc@7.3.0.\r\n\r\nBut on a different system, a power8 at Rice, also with modules, I load\r\nGCC/6.4.0, delete compilers.yaml, run 'spack compiler find', it finds\r\ngcc@6.4.0 (plus /usr/bin/gcc at 4.8.5) but the new compilers.yaml\r\ndoesn't identify any modules:\r\n\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc: /opt/apps/software/Core/GCCcore/6.4.0/bin/gcc\r\n      cxx: /opt/apps/software/Core/GCCcore/6.4.0/bin/g++\r\n      f77: /opt/apps/software/Core/GCCcore/6.4.0/bin/gfortran\r\n      fc: /opt/apps/software/Core/GCCcore/6.4.0/bin/gfortran\r\n    spec: gcc@6.4.0\r\n    target: ppc64le\r\n```\r\n\r\nWhat's up?  What's special about the Cray where spack identifies the\r\nmodules but not on the power8?\r\n\r\nThis is kinda important.  On the power8, I also load CMake/3.8.2,\r\nwhere cmake is built from gcc 6.4.0 and thus depends on g++'s\r\nlibraries, then build a spack package using cmake (intel-tbb is a\r\nsimple example) and the build fails with:\r\n\r\n```\r\ncmake: /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required by cmake)\r\ncmake: /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.21' not found (required by cmake)\r\ncmake: /usr/lib64/libstdc++.so.6: version `CXXABI_1.3.9' not found (required by cmake)\r\n```\r\n\r\nThe problem is that spack erases LD_LIBRARY_PATH from g++ 6.4.0 and so\r\ncmake can't find it's C++ libraries.  The fix was that I had to\r\nhand-edit compilers.yaml to add the modules for the 6.4.0 compiler.\r\n\r\nThis confused me for a long time where I thought --dirty was the only\r\nworkaround.  The critical question is whether I can count on spack to\r\nadd the module info or if I have to add it by hand.\r\n\r\nDepending on the answer, I may want to add 1-2 sentences to the docs\r\nto clarify this, or else track down why spack failed on the power8.\r\n\r\nThanks,\r\n\r\nMark Krentel\r\n\r\n",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/9376",
+    "updated_at": "2020-08-23 18:05:49",
+    "created_at": "2018-09-27 20:21:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack compiler find with compilers from modules",
+    "number": 9376,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "compilers",
+        "modules"
+    ],
+    "id": 364638588,
+    "html_url": "https://github.com/spack/spack/issues/9376",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 2
+}

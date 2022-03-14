@@ -1,0 +1,20 @@
+{
+    "body": "If I want to run CI for a project that is spack-buildable, and I don't want to host my own binary cache, a useful strategy seems to be to create a base docker image in which you run `spack install --only=dependencies [package name]@develop`, store that image on Dockerhub, and run `spack dev-build --ignore-dependencies [package name]@develop` as part of CI.\r\n\r\nThe problem is that the base image becomes very big, so it's natural to mimic `spack containerize` where the binaries are stripped and `spack gc` is called.\r\n\r\nThe problem however is that `spack gc` will uninstall almost everything, since `spack install --only=dependencies ...` never explicitly installed a package.\r\n\r\n### Description\r\n\r\nIt would be great if `spack install --only=dependencies` marked the first-level dependencies as explicitly installed, such that `spack gc` will retain those packages. This enables me to reduce the size of the base images with dependencies quite a bit.\r\n\r\n### General information\r\n\r\n- [ ] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/17853",
+    "updated_at": "2020-08-04 11:32:32",
+    "created_at": "2020-08-03 12:34:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Make install --only=dependencies install the direct dependencies explicitly",
+    "number": 17853,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "containers"
+    ],
+    "id": 672044502,
+    "html_url": "https://github.com/spack/spack/issues/17853",
+    "assignees": [],
+    "comments": 0
+}

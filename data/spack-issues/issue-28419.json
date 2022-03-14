@@ -1,0 +1,20 @@
+{
+    "body": "Spack is running on a cluster without direct internet access and all attempts to connect to the spack binary mirror at `https://mirror.spack.io` fail of course after some time before Spack checks its source package cache. Is it possible to disable this mirror or to make Spack check its own cache first?\r\n\r\nThe documentation shows in the section on [`spack mirror remove`](https://spack.readthedocs.io/en/latest/mirrors.html#spack-mirror-remove) the following example:\r\n```console\r\n$ spack mirror remove local_filesystem\r\n$ spack mirror list\r\n==> No mirrors configured.\r\n```\r\nThis does not work for me:\r\n```console\r\n$ spack mirror list\r\nspack-public    https://mirror.spack.io\r\n$ spack mirror remove spack-public\r\n==> Error: No mirror with name spack-public\r\n$ spack debug report\r\n* **Spack:** 0.17.1\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-aarch64\r\n* **Concretizer:** clingo\r\n```\r\n\r\n**edit**\r\n\r\nAn example with 1:20 minutes of waiting time:\r\n```console\r\n==> [2022-01-14-17:32:17.235378] Installing cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn\r\n==> [2022-01-14-17:32:17.235568] Searching for binary cache of cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn\r\n==> [2022-01-14-17:33:37.390660] Did not find linux-rhel8-aarch64-gcc-11.1.0-cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn.spec.json on https://mirror.spack.io/build_cache/linux-rhel8-aarch64-gcc-11.1.0-cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn.spec.json\r\n  Download failed: <urlopen error timed out>\r\n==> [2022-01-14-17:33:37.391003] Did not find linux-rhel8-aarch64-gcc-11.1.0-cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn.spec.json on https://mirror.spack.io/build_cache/linux-rhel8-aarch64-gcc-11.1.0-cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn.spec.yaml\r\n  Download failed: <urlopen error timed out>\r\n==> [2022-01-14-17:33:37.391285] No binary for cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn found: installing from source\r\n==> [2022-01-14-17:33:37.408880] Creating the installation directory /ccc/work/cont003/gen13127/conradsc/spack/opt/spack/linux-rhel8-aarch64/gcc-11.1.0/cgns-4.2.0-glconkz5jyxdy2qse5hxopo65ny6gssn\r\n```",
+    "user": "christoph-conrads",
+    "url": "https://api.github.com/repos/spack/spack/issues/28419",
+    "updated_at": "2022-02-09 14:01:15",
+    "created_at": "2022-01-14 16:18:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Question: How to check local cache before Spack mirror?",
+    "number": 28419,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "user-experience"
+    ],
+    "id": 1103857395,
+    "html_url": "https://github.com/spack/spack/issues/28419",
+    "assignees": [],
+    "comments": 4
+}

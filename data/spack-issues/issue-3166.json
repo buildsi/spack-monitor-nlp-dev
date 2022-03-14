@@ -1,0 +1,20 @@
+{
+    "body": "I'm trying out Spack's external package support for the first time and finding it to be very... broken.\r\n\r\nOk, so here's the situation. I want Intel to be my default compiler and MKL to be my default BLAS/LAPACK. So I built `intel-parallel-studio` with my system compiler through Spack. Then I created a `packages.yaml` like:\r\n```yaml\r\npackages:\r\n  all:\r\n    compiler: [intel]\r\n    providers:\r\n      blas: [intel-parallel-studio]\r\n      lapack: [intel-parallel-studio]\r\n```\r\nOf course, the problem now becomes that as soon as a newer version of `intel-parallel-studio` is added, or as soon as Spack's hashing algorithm changes, or if I change compilers, it will try to rebuild `intel-parallel-studio`. To prevent this, I added it as an external package. Now we have:\r\n```yaml\r\npackages:\r\n  all:\r\n    compiler: [intel]\r\n    providers:\r\n      blas: [intel-parallel-studio]\r\n      lapack: [intel-parallel-studio]\r\n  intel-parallel-studio:\r\n    paths:\r\n      intel-parallel-studio@professional.2017.1%gcc@4.4.7+all+daal~ilp64+ipp+mkl~mpi~newdtags+openmp+rpath+shared+tools: /soft/spack-0.10.0/opt/spack/linux-centos6-x86_64/gcc-4.4.7/intel-parallel-studio-professional.2017.1-zaq5tbp664b2ye2gdx3ry35t3wd4rjn4\r\n    buildable: False\r\n```\r\nNow, I'm seeing:\r\n```\r\n$ spack spec arpack\r\narpack@96%gcc@4.4.7 arch=linux-centos6-x86_64 \r\n    ^intel-parallel-studio@professional.2017.1%gcc@4.4.7+all+daal~ilp64+ipp+mkl~mpi~newdtags+openmp+rpath+shared+tools arch=linux-centos6-x86_64 \r\n```\r\nHmm, that's not `%intel`. The compiler for the dependency seems to be overriding the default compiler. Let's try explicitly specifying `%intel` on the command line:\r\n```\r\n$ spack spec arpack%intel\r\narpack@96%intel@17.0.1 cflags=\"-axCORE-AVX2,AVX\" cxxflags=\"-axCORE-AVX2,AVX\" fflags=\"-axCORE-AVX2,AVX\"  arch=linux-centos6-x86_64 \r\n    ^intel-mkl@2017.0.098%intel@17.0.1 cflags=\"-axCORE-AVX2,AVX\" cxxflags=\"-axCORE-AVX2,AVX\" fflags=\"-axCORE-AVX2,AVX\" ~ilp64+openmp+shared arch=linux-centos6-x86_64 \r\n```\r\nCool, now it isn't using `intel-parallel-studio` anymore. I have to use:\r\n```\r\n$ spack spec arpack%intel ^intel-parallel-studio\r\n```\r\nto get what I really want.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/3166",
+    "updated_at": "2017-04-28 08:49:06",
+    "created_at": "2017-02-16 21:55:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "External packages: Unable to use package built with different compiler",
+    "number": 3166,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "external-packages"
+    ],
+    "id": 208259169,
+    "html_url": "https://github.com/spack/spack/issues/3166",
+    "assignees": [],
+    "comments": 7
+}

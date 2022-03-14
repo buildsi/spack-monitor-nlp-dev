@@ -1,0 +1,20 @@
+{
+    "body": "Installing grackle on a Mac would fail. I figured out the reason but need help deciding the best solution.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install grackle\r\n...\r\n==> Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make'\r\n...\r\n$ cat path/to/spack-build-out.txt\r\n...\r\nCompiling auto_show_config.c failed!\r\nSee out.compile for error messages.\r\n...\r\n$ cat path/to/out.compile\r\nerror: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: unknown option character `-' in: --mode=compile\r\n...\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -srv\r\nDarwin 18.7.0 Darwin Kernel Version 18.7.0: Thu Jun 20 18:42:21 PDT 2019; root:xnu-4903.270.47~4/RELEASE_X86_64\r\n``` \r\n\r\n### Additional information\r\n\r\nThe issue is that on Mac `glibtool` should be used instead of `libtool` as noted in the [grackle installation doc](https://grackle.readthedocs.io/en/grackle-3.1.1/Installation.html#building). I see two solutions:\r\n\r\n1. Make `libtool` always a dependancy. [Currently it's conditioned on code version](https://github.com/spack/spack/blob/36fbd6cf4cce68424bdea92a8426ddcfce922595/var/spack/repos/builtin/packages/grackle/package.py#L28), but I don't understand why. I tried this myself, and it solves the issue.\r\n2. Conditionally set `MACH_LIBTOOL = glibtool` when on Mac. If there is a reason to keep `libtool` a conditional dependancy, this might be the way to go.\r\n\r\nBased on the file history, @loikki and @alalazo might know more about this package.\r\n",
+    "user": "qobilidop",
+    "url": "https://api.github.com/repos/spack/spack/issues/12322",
+    "updated_at": "2019-11-21 16:07:18",
+    "created_at": "2019-08-08 04:29:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: grackle",
+    "number": 12322,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error"
+    ],
+    "id": 478244433,
+    "html_url": "https://github.com/spack/spack/issues/12322",
+    "assignees": [],
+    "comments": 2
+}

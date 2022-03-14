@@ -1,0 +1,21 @@
+{
+    "body": "While debugging #282 I noticed an interesting behavior. Take a package like `armadillo`. If you go to the [Armadillo downloads page](https://sourceforge.net/projects/arma/files/), you'll notice a ton of old versions. Yet `spack versions armadillo` and `spack checksum armadillo` only picks up a few versions.\n\nThe problem is that Armadillo switched from `.tar.gz` to `.tar.xz` recently. Spack doesn't want to get both `.tar.gz` and `.tar.xz` files for the same version, so it only picks up files that end in `.tar.xz`.\n\nA more ideal and generic behavior would be to start out with all matching versions, regardless of extension. Then remove all duplicates from the same version. Of course, we would want to keep the extension specified in `url` as preferred. And we would need to make sure that Spack can fetch that version as well.\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/2026",
+    "updated_at": "2018-04-13 11:23:04",
+    "created_at": "2016-10-15 18:55:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack versions/checksum only finds one tarball type",
+    "number": 2026,
+    "milestone": null,
+    "labels": [
+        "fetching"
+    ],
+    "id": 183226242,
+    "html_url": "https://github.com/spack/spack/issues/2026",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Hello, \r\n          I tried to install cudnn I got an error because the symlink says the include file already exist\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install cudnn@7.6.4.38-10.1-linux-x64%gcc@8.3.1\r\n\r\nerror in attachment\r\n\r\n[cudnn_build_error.txt](https://github.com/spack/spack/files/5117368/cudnn_build_error.txt)\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n* **Spack:** 0.15.4-636-febc8cc\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-power9le\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5117379/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5117393/spack-build-env.txt)\r\n\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n@adamjstewart\r\n\r\nApparently the symlink try to copy twice the include files, I tried a quick-and-dirty fix commenting the last 2 lines in \r\n\r\n/opt/spack/var/spack/repos/builtin/packages/cudnn/package.py\r\n\r\n...\r\n```python\r\n    def install(self, spec, prefix):\r\n        install_tree('.', prefix)\r\n\r\n        if 'target=ppc64le: platform=linux' in spec:\r\n            symlink(os.path.join(prefix, 'targets', 'ppc64le-linux', 'lib'),\r\n                    prefix.lib)\r\n####            symlink(os.path.join(prefix, 'targets', 'ppc64le-linux', 'include'),\r\n####                   prefix.include)\r\n```\r\nThis removed the error and I am keeping installing other software in my stack but please tell what is the proper fix for this bug.\r\n\r\nThanks,\r\nSimone\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "smarocchi",
+    "url": "https://api.github.com/repos/spack/spack/issues/18234",
+    "updated_at": "2020-08-24 18:39:38",
+    "created_at": "2020-08-24 11:16:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "cudnn build error ::: OSError: [Errno 17] File exists ",
+    "number": 18234,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "power"
+    ],
+    "id": 684582923,
+    "html_url": "https://github.com/spack/spack/issues/18234",
+    "assignees": [],
+    "comments": 1
+}

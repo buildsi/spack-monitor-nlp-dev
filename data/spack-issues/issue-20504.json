@@ -1,0 +1,22 @@
+{
+    "body": "I don't know if this would have even been feasible before #17587 is merged, which introduces a much more natural and unified way to refer to python packages off of pypi.\r\n\r\nI'm coming from using tools which very kindly allowed interchanging different sources of python repos: see pants configuration at https://www.pantsbuild.org/docs/python-third-party-dependencies#using-custom-repositories:\r\n```toml\r\n[python-repos]\r\nindexes.add = [\"https://custom-cheeseshop.net/simple\"]\r\n```\r\n\r\nCloser to the point, see `pex`, which is both a CLI tool and a python library: https://pex.readthedocs.io/en/latest/buildingpex.html#tailoring-requirement-resolution\r\n> In general, pex honors the same options as pip when it comes to resolving packages. Like pip, by default pex fetches artifacts from PyPI. This can be disabled with `--no-index`.\r\n> If PyPI fetching is disabled, you will need to specify a search repository via `-f/--find-links`. This may be a directory on disk or a remote simple http server.\r\n> For example, you can delegate artifact fetching and resolution to pip wheel for whatever reason \u2013 perhaps you\u2019re running a firewalled mirror \u2013 but continue to package with pex:\r\n```bash\r\npip wheel -w /tmp/wheelhouse sphinx sphinx_rtd_theme\r\npex -f /tmp/wheelhouse --no-index -e sphinx:main -o sphinx.pex sphinx sphinx_rtd_theme\r\n```\r\n\r\n**Does Spack currently have the ability to address any of these use cases?** The reason I ask is because [pex has this incredibly nice python library API](https://github.com/pantsbuild/pex/blob/4b899b73262f60e70556e9f24dc27c818a990356/pex/resolver.py#L1061-L1239) for things that would normally involve manually scraping webpages:\r\n```python\r\nfrom pex.resolver import download\r\n\r\ndownload(['my-package==3.0'],\r\n         indexes=['https://my-corporate-pypi.repo'],\r\n         find_links=['/my/local/dir', 'https://my-corporate-flat.repo']) \r\n```\r\nPex also staunchly remains compatible with python 2.6 (`pip install pex` works).\r\n\r\nFiguring out the appropriate way to pipe this sort of configuration into the user is definitely its own question, but I would be interested in knowing if it seems *at all* useful to look into how to depend on the pex library to expose this repo location choice via settings.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20504",
+    "updated_at": "2020-12-22 03:42:35",
+    "created_at": "2020-12-22 03:16:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "consider using the pex library to allow spack users to configure where their python code resolves from",
+    "number": 20504,
+    "milestone": null,
+    "labels": [
+        "python",
+        "dependencies",
+        "repos",
+        "concretizer-use-case"
+    ],
+    "id": 772604317,
+    "html_url": "https://github.com/spack/spack/issues/20504",
+    "assignees": [],
+    "comments": 1
+}

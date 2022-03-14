@@ -1,0 +1,22 @@
+{
+    "body": "As I mentioned in https://github.com/spack/spack/pull/22598#issuecomment-808896029 , the \"empty\" keys in the default modules.yaml file aren't rendered correctly.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack config blame modules\r\n# ...snip...\r\netc/spack/defaults/modules.yaml:32             share/pkgconfig:\r\netc/spack/defaults/modules.yaml:33             - PKG_CONFIG_PATH\r\n                                               ? ''\r\n                                               : - CMAKE_PREFIX_PATH\r\n```\r\n\r\nPrior to #22598 the blank lines had the correct line numbers corresponding to the values in `defaults/modules.yaml`:\r\n```\r\n34:    '':\r\n35:      - CMAKE_PREFIX_PATH\r\n```\r\n\r\nExpected output:\r\n\r\n```console\r\n$ spack config blame modules\r\n# ...snip...\r\netc/spack/defaults/modules.yaml:32             share/pkgconfig:\r\netc/spack/defaults/modules.yaml:33             - PKG_CONFIG_PATH\r\netc/spack/defaults/modules.yaml:34             '':\r\netc/spack/defaults/modules.yaml:35             - CMAKE_PREFIX_PATH\r\n```\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.1-2140-19b6d3589a\r\n* **Python:** 3.8.5\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** original\r\n",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/22866",
+    "updated_at": "2022-01-06 13:51:09",
+    "created_at": "2021-04-08 14:52:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack blame output incorrect for blank keys",
+    "number": 22866,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "impact-low",
+        "user-experience"
+    ],
+    "id": 853557848,
+    "html_url": "https://github.com/spack/spack/issues/22866",
+    "assignees": [],
+    "comments": 1
+}

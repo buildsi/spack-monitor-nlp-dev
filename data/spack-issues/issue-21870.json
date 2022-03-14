@@ -1,0 +1,24 @@
+{
+    "body": "When building `gcc+binutils`, the rpath in `libgfortran.so` does *not* include the Spack-installed zlib, even though it builds against it and requires the shared library at runtime. The missing rpath can cause nasty conflicts far downstream in unusual situations based on what shared libraries are first.\r\n\r\nUnless I'm much mistaken this is the root cause of #12143 ; since GCC 8.3 is incompatible with the binutilis on RHEL6 it shows up in that situation most commonly, and with Trilinos and related HPC apps because they tend to include Fortran dependencies.  (It seems also that with GCC 8.3, only `libgfortran` has a transitive dependence on spack-installed libraries. Internally GCC compresses `.mod` files with libz.)\r\n\r\nHowever, I have confirmed the rpaths are also missing on newer systems including RHEL8 when installing with `+binutils`. I think it's serendipitous (other libraries bringing in zlib first, or system zlib being mostly compatible) that most platforms don't see any failures (or it's just that no one else has a good reason to install `+binutils`).\r\n\r\nI think this is likely a bug in Spack as opposed to GCC because the call to `libtool` to install the shared library is identical with `~binutils`, and that version *correctly* obtains the rpath to the Spack-provided zlib. Because of the complexity of gcc's slightly recursive build scheme, it could also be a bug in gcc.\r\n\r\nI've confirmed this for both GCC 8.3 (RHEL 6, 7, 8) *and* GCC 10.2 (RHEL 8).\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install gcc@8.3+binutils\r\n$ readelf -d $(spack location -i gcc@8.3+binutils)/lib64/libgfortran.so | grep RPATH\r\n 0x000000000000000f (RPATH)              Library rpath: [/projects/spack/opt/spack/gcc-4.8.5/gcc/4qvvj3c/lib/../lib64]\r\n$ readelf -d $(spack location -i gcc@8.3~binutils)/lib64/libgfortran.so | grep RPATH\r\n 0x000000000000000f (RPATH)              Library rpath: [/projects/spack/opt/spack/gcc-4.8.5/gcc/wsnp2ss/lib:/projects/spack/opt/spack/gcc-4.8.5/gcc/wsnp2ss/lib64:/projects/spack/opt/spack/gcc-4.8.5/mpfr/vql3fcw/lib:/projects/spack/opt/spack/gcc-4.8.5/zlib/zolwez4/lib:/projects/spack/opt/spack/gcc-4.8.5/mpc/upj2gnv/lib:/projects/spack/opt/spack/gcc-4.8.5/gmp/raqmdao/lib:/projects/spack/opt/spack/gcc-4.8.5/gcc/wsnp2ss/lib/../lib64]\r\n```\r\nNote that the ~binutils version has the full rpath.\r\n\r\n### Error Message\r\n\r\nCompile something very simple way downstream and link against gfortran and another library that links against zlib:\r\n\r\n```console\r\n$ gcc -v -lgfortran -lhwloc -o hello.exe hello.c\r\n/projects/spack/opt/spack/gcc-4.4.7/binutils/4i6ifl5/bin/ld: /projects/spack/opt/spack/gcc-8.3.0/libxml2/vcxejll/lib/libxml2.so.2: undefined reference to `gzopen64@ZLIB_1.2.3.3'\r\ncollect2: error: ld returned 1 exit status\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n$ spack debug report\r\n\r\n* **Spack:** 0.16.0\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-haswell\r\n```\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/21870",
+    "updated_at": "2021-12-31 13:53:33",
+    "created_at": "2021-02-23 03:12:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "gcc+binutils: rpath for zlib doesn't get propagated to lgfortran",
+    "number": 21870,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "compilers",
+        "gcc",
+        "triage"
+    ],
+    "id": 814057001,
+    "html_url": "https://github.com/spack/spack/issues/21870",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 5
+}

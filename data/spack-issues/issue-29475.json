@@ -1,0 +1,19 @@
+{
+    "body": "The `spack config add` command works to infer the type of a config entry from the existing value or the validation error raised when adding `None`.\r\n\r\nThere was a bug reported by @rhd on Spack slack that the following shell code raised an error\r\n```\r\nspack config add packages:all:target:[x86_64]\r\nspack config add packages:all:variants:~shared\r\n```\r\nIn the opposite order, those commands would succeed.\r\n\r\nThe bug occurred because we checked the JSONValidationError for `type` or `anyOf`, but did not check and interpred `oneOf`. That is fixed in this PR.\r\n\r\nIncludes regression test.",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/29475",
+    "updated_at": "2022-03-12 05:55:09",
+    "created_at": "2022-03-11 22:25:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "config add: fix parsing of validator error to infer type from oneOf",
+    "number": 29475,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 1166938100,
+    "html_url": "https://github.com/spack/spack/pull/29475",
+    "assignees": [],
+    "comments": 0
+}

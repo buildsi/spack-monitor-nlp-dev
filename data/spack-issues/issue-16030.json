@@ -1,0 +1,24 @@
+{
+    "body": "When there is a version conflict in the concretizer, Spack prints out a significant error message.  Unfortunately, that message does not contain the information needed to fix the version conflict.  See below for example.  Some package involved in this DAG is almost certainly asking for `proj@5.2.0`.  But it's hard to know which one.  A hunt-and-search through the `package.py` files is necessary, rather than Spack just telling us.\r\n\r\nThe following gives nothing.  So the user is forced to dig deeper; in this case, yielding nothing:\r\n```\r\n$ grep '5\\.2\\.0'  */package.py | grep proj\r\nproj/package.py:    version('5.2.0', sha256='ef919499ffbc62a4aae2659a55e2b25ff09cccbbe230656ba71c6224056c7e60')\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nOn a brand new `space clone` of `develop`:\r\n\r\n```console\r\n$ spack spec qgis\r\nInput spec\r\n--------------------------------\r\nqgis\r\n\r\nConcretized\r\n--------------------------------\r\n==> Warning: clang@11.0.3-apple cannot build optimized binaries for \"broadwell\". Using best target possible: \"x86_64\"\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    proj@5.2.0%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    gdal@3.0.4%clang@11.0.3-apple~armadillo~cfitsio~crypto~cryptopp~curl~expat~geos~gif~grib~hdf4~hdf5~jasper~java+jpeg~kea~libiconv~libkml+liblzma+libtool+libz~mdb~netcdf~odbc~opencl~openjpeg~pcre~perl~pg~png~poppler+proj+python~qhull~sosi~sqlite3~xerces~xml2~zstd arch=darwin-catalina-x86_64\r\n        ^gmake@4.2.1%clang@11.0.3-apple~guile+nls arch=darwin-catalina-x86_64\r\n            ^gettext@0.20.1%clang@11.0.3-apple+bzip2+curses+git~libunistring+libxml2+tar+xz arch=darwin-catalina-x86_64\r\n                ^bzip2\r\n                    ^diffutils@3.7%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                        ^libiconv@1.16%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                ^libxml2@2.9.9%clang@11.0.3-apple~python arch=darwin-catalina-x86_64\r\n                    ^pkg-config@0.29.2%clang@11.0.3-apple+internal_glib arch=darwin-catalina-x86_64\r\n                    ^xz@5.2.5%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                    ^zlib@1.2.11%clang@11.0.3-apple+optimize+pic+shared arch=darwin-catalina-x86_64\r\n                ^ncurses@6.2%clang@11.0.3-apple~symlinks+termlib arch=darwin-catalina-x86_64\r\n                ^tar\r\n            ^texinfo@6.5%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                ^perl@5.30.1%clang@11.0.3-apple+cpanm+shared+threads arch=darwin-catalina-x86_64\r\n                    ^gdbm@1.18.1%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                        ^readline@8.0%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n        ^json-c@0.13.1%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n            ^autoconf@2.69%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                ^m4@1.4.18%clang@11.0.3-apple+sigsegv arch=darwin-catalina-x86_64\r\n                    ^libsigsegv\r\n        ^libgeotiff@1.5:\r\n            ^libtiff@4.0.10%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                ^libjpeg-turbo@2.0.3%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n                    ^cmake@3.17.0%clang@11.0.3-apple~doc+ncurses+openssl+ownlibs~qt arch=darwin-catalina-x86_64\r\n                        ^openssl@1.1.1f%clang@11.0.3-apple+systemcerts arch=darwin-catalina-x86_64\r\n                    ^nasm\r\n        ^libtool\r\n        ^python@3.7.6%clang@11.0.3-apple+bz2+ctypes+dbm~debug+libxml2+lzma~nis~optimizations+pic+pyexpat+pythoncmd+readline~shared+sqlite3+ssl~tix~tkinter~ucs4~uuid+zlib arch=darwin-catalina-x86_64\r\n            ^expat@2.2.9%clang@11.0.3-apple~libbsd arch=darwin-catalina-x86_64\r\n            ^libffi@3.2.1%clang@11.0.3-apple arch=darwin-catalina-x86_64\r\n            ^sqlite@3.30.1%clang@11.0.3-apple+column_metadata+fts~functions+rtree arch=darwin-catalina-x86_64\r\n\r\n\r\ngdal requires proj version 6:, but spec asked for 5.2.0\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/16030",
+    "updated_at": "2021-07-08 11:37:53",
+    "created_at": "2020-04-13 22:14:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Useless Error Message: Unsatisfiable Version Constraint",
+    "number": 16030,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "error-messages",
+        "triage"
+    ],
+    "id": 599167451,
+    "html_url": "https://github.com/spack/spack/issues/16030",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 10
+}

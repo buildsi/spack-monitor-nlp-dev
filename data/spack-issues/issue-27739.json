@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\nAfter installing the newest `vtk+python`, `import vtk` does not work anymore.\r\n\r\nReproduce:\r\n```\r\n$ spack install vtk+python\r\n$ spack load vtk+python\r\n$ python\r\nPython 3.8.12 (default, Oct 28 2021, 13:58:28) \r\n[GCC 11.2.0] on linux\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import vtk\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"$spack/opt/spack/linux-fedora32-haswell/gcc-11.2.0/vtk-9.1.0-rqqhn2xdavh7uhudmpwbtspx2dlsmmyl/lib/python3.8/site-packages/vtk.py\", line 31, in <module>\r\n    all_m = importlib.import_module('vtkmodules.all')\r\n  File \"$spack/opt/spack/linux-fedora32-haswell/gcc-11.2.0/python-3.8.12-ki22qjbudhz5hudrexeghc3xvjehgbhr/lib/python3.8/importlib/__init__.py\", line 127, in import_module\r\n    return _bootstrap._gcd_import(name[level:], package, level)\r\n  File \"$spack/opt/spack/linux-fedora32-haswell/gcc-11.2.0/vtk-9.1.0-rqqhn2xdavh7uhudmpwbtspx2dlsmmyl/lib/python3.8/site-packages/vtkmodules/all.py\", line 62, in <module>\r\n    from .vtkIOIOSS import *\r\nImportError: $spack/opt/spack/linux-fedora32-haswell/gcc-11.2.0/vtk-9.1.0-rqqhn2xdavh7uhudmpwbtspx2dlsmmyl/lib/libvtkIOIOSS-9.1.so.1: undefined symbol: _ZN4Ioss4Init11InitializerC1Ev\r\n>>> \r\n```\r\n`vtk` has a dependency on `seacas` for which, at least for me, the installation is currently broken and needs the fix from #27737 to work.\n\n### Information on your system\n\n* **Spack:** 0.17.0-361-a0cdbc5e79\r\n* **Python:** 3.8.10\r\n* **Platform:** linux-fedora32-haswell\r\n* **Concretizer:** clingo\n\n### Additional information\n\nping @chuckatkins  @danlipsa\r\nping @glennpj (last package update)\r\n\r\n\r\nThis problem only affect version 9.1.0, `vtk@9.0.3` still works.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "manuelakuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/27739",
+    "updated_at": "2021-12-06 02:15:17",
+    "created_at": "2021-12-01 15:20:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: vtk+python@9.1.0",
+    "number": 27739,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1068535641,
+    "html_url": "https://github.com/spack/spack/issues/27739",
+    "assignees": [],
+    "comments": 2
+}

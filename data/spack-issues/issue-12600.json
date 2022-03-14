@@ -1,0 +1,23 @@
+{
+    "body": "As a user I want a command to help managing Spack command extensions so that I don't have to perform repetitive tasks manually\r\n\r\n### Rationale\r\n\r\nSince a while we have an experimental support in Spack for [custom extensions](https://spack.readthedocs.io/en/latest/extensions.html). What I propose in this issue is to build a bit of tooling to make it easier to use them. The bare minimum I think would be sub-commands to:\r\n\r\n- Help creating the structure for new extensions\r\n- Add and remove existing extensions without having to fetch code or modify YAML files manually\r\n\r\n### Description\r\n\r\nOne possibility is to repurpose the `spack extensions` command and rename it `spack package-extensions`:\r\n```console\r\n$ spack package-extensions -h\r\nusage: spack package-extensions [-h] [-l | -p | -d] [-s TYPE] [-v VIEW] ...\r\n\r\nlist extensions for package\r\n\r\npositional arguments:\r\n  spec                  spec of package to list extensions for\r\n\r\noptional arguments:\r\n  -h, --help            show this help message and exit\r\n  -l, --long            show dependency hashes as well as versions\r\n  -p, --paths           show paths to extension install directories\r\n  -d, --deps            show full dependency DAG of extensions\r\n  -s TYPE, --show TYPE  one of packages, installed, activated, all\r\n  -v VIEW, --view VIEW  the view to operate on\r\n```\r\nIf we do that then we can add subcommands to `spack extensions` to create a new custom extension:\r\n```console\r\n$ spack extensions create <folder>\r\n```\r\nto fetch and use an extension hosted somewhere (e.g. on github):\r\n```console\r\n$ # Fetch and registers an extension hosted at url\r\n$ spack extensions get <url>\r\n```\r\nor to remove it:\r\n```console\r\n$ spack extensions remove <url>\r\n```\r\nWould these additions be welcome if coded?",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/12600",
+    "updated_at": "2019-09-04 14:05:00",
+    "created_at": "2019-08-27 12:05:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add basic tooling to support Spack command extensions",
+    "number": 12600,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "commands",
+        "new-command"
+    ],
+    "id": 485768392,
+    "html_url": "https://github.com/spack/spack/issues/12600",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

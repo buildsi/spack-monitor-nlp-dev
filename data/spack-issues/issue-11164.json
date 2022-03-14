@@ -1,0 +1,22 @@
+{
+    "body": "This is a proposal to allow installing specs that are part of an environment under the same common prefix, if they are concretizable together. Installing under a common prefix should happen only upon user request.\r\n\r\n### Rationale\r\nThis is a feature proposal based on #11158 and depending on #9902 being implemented. The basic idea is that, if we can concretize all the abstract specs of an environment together, then we can also install them under the same prefix without any conflict. This might be an option that would prove to be useful in some use-cases.\r\n\r\nFor instance a user might consider building a custom Docker image using a [multi-stage stage build](https://docs.docker.com/develop/develop-images/multistage-build/) and a `spack.yaml` file with specs that can be concretized together. With a `spack.yaml` file similar to:\r\n```yaml\r\n# This is a Spack Environment file.\r\n#\r\n# It describes a set of packages to be installed, along with\r\n# configuration settings.\r\nspack:\r\n  # add package specs to the `specs` list\r\n  specs: ['hdf5+mpi', 'mpich', 'zlib@1.2.8' ]\r\n  concretize_together: True\r\n  common_prefix: '/opt'\r\n```\r\nand a Dockerfile like:\r\n```dockerfile\r\nFROM spack/centos as builder\r\nCOPY spack.yaml .\r\nRUN spack install\r\n\r\nFROM centos\r\n[...]\r\nCOPY --from=builder /opt .\r\n[...]\r\n```\r\nwe could create a container with our environment installed in standard locations. This container can then be consumed by users without any knowledge of Spack or modules, etc.\r\n\r\nAnother use case might be software development, where we would give the choice to the user on whether to employ a view like in #10017 or install all the dependencies needed to start working on a software in some specific directory. \r\n\r\n### Description\r\n\r\nThe implementation of this - if considered a good feature - should involve:\r\n\r\n- [ ] Modifying `spack.yaml` config file to support the use of a common installation prefix (ideally set to `None` by default and settable only if `concretize_together: True` is in `spack.yaml`)\r\n- [ ] Add logic at install time to change the prefix of all the concretized specs before installing them (with possibly preliminary checks on the state of the common prefix)",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/11164",
+    "updated_at": "2019-04-10 20:28:54",
+    "created_at": "2019-04-10 20:28:54",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Permit to install packages under the same prefix if they are concretizable together",
+    "number": 11164,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "proposal",
+        "environments",
+        "containers"
+    ],
+    "id": 431697261,
+    "html_url": "https://github.com/spack/spack/issues/11164",
+    "assignees": [],
+    "comments": 0
+}

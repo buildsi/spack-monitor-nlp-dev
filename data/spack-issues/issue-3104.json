@@ -1,0 +1,19 @@
+{
+    "body": "Currently, most packages in spack also have a `master`/`dev` \"version\" option that allows to get - without a fixed tag - the latest \"head\" of a software. First of all, this is awesome for developers.\r\n\r\nMy question is a bit directed towards quick contributions as we know it from GitHub/Bitbucket/etc.: within about 1minute or less, people are able to fork-&-fix an issue they see, be it documentation, a failing outdated tutorial example or a compile error. In most cases of such fixes, finding and fixing a very local problem, is easy while building & testing the much bigger project might actually be not so (e.g., because the user just took the latest stable release and developed against that).\r\n\r\nIn order to ease that workflow, do we somehow have an easy mean to e.g. build a branch from a self-forked package? So to say, can we express \"build a certain *path/location* the same way as you build `@develop`\"?\r\n\r\nIt would also ease user-support for application developers a lot, especially when third party software that an app depends on is broken (*looking at you `boost@master` used with `nvcc`*  :eyes: ).\r\n\r\nI would love to tell our users and developers:\r\n- install all dependencies of our app via spack\r\n- user complains latest boost version is broken with our app\r\n- we spot the problem and provide an upstream patch to boost\r\n- user can in the meanwhile build against our patched boost and confirm it is working :1st_place_medal: \r\n\r\nCurrently, I would need to suggest\r\n- 1-3 as before\r\n- *now build boost from our forked source by hand until our patch is accepted upstream* :cry: \r\n\r\n### TL;DR\r\n\r\n```bash\r\nspack install somelib\r\n# while using the installed somelib: aww, it's not doing what I want\r\nspack install somelib@develop\r\n# while using the installed somelib: aww, even develop is broken\r\n\r\n# GitHub: Fork & Patch!\r\n\r\n# But how can I now quick-build my patched version?\r\n# A)\r\nspack install somelib@github.com:ax3l/somelib.git +branch=fix-someProblem\r\n# B)\r\nspack install somelib@develop +patch=fixSomeProblem.patch\r\n# ...?\r\n```",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/3104",
+    "updated_at": "2017-11-22 14:49:57",
+    "created_at": "2017-02-09 12:22:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Workflow: Build Own \"Fork\"",
+    "number": 3104,
+    "milestone": null,
+    "labels": [
+        "discussion"
+    ],
+    "id": 206488293,
+    "html_url": "https://github.com/spack/spack/issues/3104",
+    "assignees": [],
+    "comments": 15
+}

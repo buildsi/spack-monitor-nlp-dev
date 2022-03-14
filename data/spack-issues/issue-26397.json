@@ -1,0 +1,19 @@
+{
+    "body": "This PR adds the ability to tag methods with a string using the `@tag()` directive.  Tags are additive so more than one tag can be added to a method. \r\n\r\nThe initial use case is to add test-related tags to methods and outputting that information using `spack info`.  For example:\r\n\r\n```\r\n$ spack info py-horovod\r\nPythonPackage:   py-horovod\r\n\r\nDescription:\r\n    Horovod is a distributed deep learning training framework for\r\n    TensorFlow, Keras, PyTorch, and Apache MXNet.\r\n\r\nHomepage: https://github.com/horovod\r\n\r\nMaintainers: @adamjstewart @aweits @tgaddair\r\n\r\nExternally Detectable: \r\n    False\r\n\r\nTags: \r\n    None\r\n\r\n[..snip..]\r\n\r\nVirtual Packages: \r\n    None\r\n\r\nTagged Methods: \r\n    sanity-checks:\r\n        PackageBase.sanity_check_prefix  PythonPackage.test\r\n\r\n    install-checks:\r\n        PackageBase.sanity_check_prefix\r\n\r\n    functional-checks:\r\n        PyHorovod.test\r\n\r\n    stand-alone-test:\r\n        PackageBase.test\r\n\r\n```\r\n\r\nNote in the example above that the `test` method is flagged as a `stand-alone-test` in `PackageBase` (thought the method is a hook with no added functionality), `sanity-checks` in `PythonPackage` (because PythonPackage performs import checks), and `functional-checks` in `PyHorovod` (since the code added to the package performs functional tests).\r\n\r\nTODO:\r\n\r\n- [x] Resolve `TypeError: 'list' object is not callable` issues for some packages (e.g., `parsec`, `upcxx`) and affecting style checks\r\n- [x] Make first pass over tagging test-related methods\r\n- [x] Move tag extraction to `package.py` for re-use\r\n- [ ] Add unit tests (as needed)",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/26397",
+    "updated_at": "2021-11-19 02:21:45",
+    "created_at": "2021-10-01 02:31:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Feature: Preliminary method tag support",
+    "number": 26397,
+    "milestone": null,
+    "labels": [
+        "commands"
+    ],
+    "id": 1012813330,
+    "html_url": "https://github.com/spack/spack/pull/26397",
+    "assignees": [],
+    "comments": 0
+}

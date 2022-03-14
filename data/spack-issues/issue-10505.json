@@ -1,0 +1,19 @@
+{
+    "body": "\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install dakota # Fill in the exact spec you are using\r\n...\r\n1 error found in build log:\r\n     337    -- Could NOT find Boost\r\n     338    -- Looking for lround\r\n     339    -- Looking for lround - found\r\n     340    -- Looking for 3 include files sys/types.h, ..., time.h\r\n     341    -- Looking for 3 include files sys/types.h, ..., time.h - found\r\n     342    linking utilib against m;tinyxml\r\n  >> 343    CMake Error at packages/external/acro/packages/colin/CMakeLists.txt:11 (message):\r\n     344       Cannot build colin without Boost.  Please enable USE_BOOST and set Boost_INCLUDE_DIR\r\n     345\r\n     346\r\n     347    -- Configuring incomplete, errors occurred!\r\n     348    See also \"/tmp/elmervii/spack-stage/spack-stage-I4OboM/dakota-6.9.0.src/spack-build/CMakeFil\r\n            es/CMakeOutput.log\".\r\n     349    See also \"/tmp/elmervii/spack-stage/spack-stage-I4OboM/dakota-6.9.0.src/spack-build/CMakeFil\r\n            es/CMakeError.log\".\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux quartz1154 3.10.0-862.14.4.1chaos.ch6.x86_64 #1 SMP Wed Sep 26 12:27:08 PDT 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Red Hat Enterprise Linux Server release 7.5 (Maipo)\r\n``` \r\n### Additional information\r\nBoost was already found at some point by cmake, and running ccmake the the build directory shows what seems to be a good configuration. \r\n\r\n-- Finding relocatable package SPARSE_GRID with directory external/VPISparseGrid\r\n-- Setting SPARSE_GRID_DIR = /tmp/elmervii/spack-stage/spack-stage-I4OboM/dakota-6.9.0.src/spack-build/packages/external/VPISparseGrid\r\n-- Boost version: 1.69.0\r\n-- Pecos using previously specified Teuchos in /tmp/elmervii/spack-stage/spack-stage-I4OboM/dakota-6.9.0.src/spack-build/packages/external/trilinos/packages/teuchos\r\n-- Finding relocatable package DFFTPACK with directory dfftpack\r\n-- Finding relocatable package LHS with directory LHS\r\n-- Finding relocatable package SPARSE_GRID with directory VPISparseGrid\r\n-- Surfpack using previously specified Teuchos in /tmp/elmervii/spack-stage/spack-stage-I4OboM/dakota-6.9.0.src/spack-build/packages/external/trilinos/packages/teuchos\r\n-- Boost version: 1.69.0\r\n-- Found the following Boost libraries:\r\n--   serialization\r\n-- Finding relocatable package CONMIN with directory CONMIN\r\n-- Finding relocatable package NCSUOPT with directory NCSUOpt\r\n-- Found DL: /usr/lib64/libdl.so  \r\n\r\n\r\nBuild didn't make it past the configure stage, \r\n\r\nI tried extending the args with this:\r\n\r\n                '-DBoost_DIR:STRING=%s' % spec['boost'].prefix,\r\n                '-DBoost_INCLUDE_DIR:STRING=%s' % spec['boost'].prefix+'/include',\r\n                '-DUSE_BOOST:BOOL=ON',\r\n\r\n(Also with :PATH= instead of STRING) And that didn't work. \r\nI'm not good at cmake.\r\n",
+    "user": "willelm",
+    "url": "https://api.github.com/repos/spack/spack/issues/10505",
+    "updated_at": "2020-08-17 18:27:34",
+    "created_at": "2019-02-04 19:41:48",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: dakota",
+    "number": 10505,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 406487450,
+    "html_url": "https://github.com/spack/spack/issues/10505",
+    "assignees": [],
+    "comments": 3
+}

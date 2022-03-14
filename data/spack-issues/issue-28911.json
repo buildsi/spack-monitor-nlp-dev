@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nAlthough I've tried to setup Spack before with the advised instructions, I just did again with a fresh checkout so see if anything had changed.\r\n```\r\ngit clone -c feature.manyFiles=true https://github.com/spack/spack.git\r\ncd spack/bin\r\n./spack install libelf\r\n```\n\n### Error message\n\nThe output of `./spack install libelf` is:\r\n```\r\n==> Bootstrapping clingo from pre-built binaries\r\n==> Bootstrapping clingo from sources\r\n[+] /usr (external bison-3.8.2-56ovsszgkcpnuzwzgntdmohdi3366vhd)\r\n[+] /usr (external cmake-3.22.2-eu4vcnjbksf2bvlizbavl2cw423au5u2)\r\n[+] /home/brent/venv (external python-3.10-nxlxbijy2d757frxkekjc2tvaojogamz)\r\n[+] /home/brent/.spack/bootstrap/store/linux-opensuse_tumbleweed20220207-x86_64/gcc-11.2.1/re2c-2.2-gskxehtk4hikpycwoyurcpxqiwi3f4j6\r\n==> Installing clingo-bootstrap-spack-j7zgz22q2dhsekvddoi5x6g47qgy76bn\r\n==> No binary for clingo-bootstrap-spack-j7zgz22q2dhsekvddoi5x6g47qgy76bn found: installing from source\r\n==> Ran patch() for clingo-bootstrap\r\n==> clingo-bootstrap: Executing phase: 'cmake'\r\n==> clingo-bootstrap: Executing phase: 'build'\r\n==> clingo-bootstrap: Executing phase: 'install'\r\n==> clingo-bootstrap: Successfully installed clingo-bootstrap-spack-j7zgz22q2dhsekvddoi5x6g47qgy76bn\r\n  Fetch: 7.44s.  Build: 1m 20.69s.  Total: 1m 28.13s.\r\n[+] /home/brent/.spack/bootstrap/store/linux-opensuse_tumbleweed20220207-x86_64/gcc-11.2.1/clingo-bootstrap-spack-j7zgz22q2dhsekvddoi5x6g47qgy76bn\r\n==> Error: libelf is unsatisfiable, errors are:\r\n  No satisfying compiler available is compatible with a satisfying os\r\n\r\n    To see full clingo unsat cores, re-run with `spack --show-cores=full`\r\n    For full, subset-minimal unsat cores, re-run with `spack --show-cores=minimized\r\n    Warning: This may take (up to) hours for some specs\r\n```\r\nThe error, `No satisfying compiler available is compatible with a satisfying os`, does not occur in the bug tracker. I actually have current compilers available (see next point) and my system is pretty current (Opensuse Tumbleweed recently updated).\n\n### Information on your system\n\n`./spack debug report`:\r\n```\r\n* **Spack:** 0.17.1-1167-2c56cbd2bc\r\n* **Python:** 3.10.2\r\n* **Platform:** linux-opensuse_tumbleweed20220207-skylake\r\n* **Concretizer:** clingo\r\n```\r\n`./spack compilers`:\r\n```\r\n==> Available compilers\r\n-- clang opensuse_tumbleweed20220101-x86_64 ---------------------\r\nclang@13.0.0  clang@12.0.1\r\n\r\n-- gcc opensuse_tumbleweed20220101-x86_64 -----------------------\r\ngcc@11.2.1  gcc@10.3.1\r\n```\r\nThe following command fixes this problem:\r\n`./spack compiler find`\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "brenthuisman",
+    "url": "https://api.github.com/repos/spack/spack/issues/28911",
+    "updated_at": "2022-02-16 11:34:32",
+    "created_at": "2022-02-14 09:50:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "\"No satisfying compiler available is compatible with a satisfying os\", OpenSuse Tumbleweed",
+    "number": 28911,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1137043661,
+    "html_url": "https://github.com/spack/spack/issues/28911",
+    "assignees": [],
+    "comments": 3
+}

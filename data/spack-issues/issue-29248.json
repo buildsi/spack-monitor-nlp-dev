@@ -1,0 +1,20 @@
+{
+    "body": "From the `Spec.satisfies` docstring:\r\n\r\n```python\r\n        \"\"\"Determine if this spec satisfies all constraints of another.\r\n\r\n        There are two senses for satisfies:\r\n\r\n          * `loose` (default): the absence of a constraint in self\r\n            implies that it *could* be satisfied by other, so we only\r\n            check that there are no conflicts with other for\r\n            constraints that this spec actually has.\r\n\r\n          * `strict`: strict means that we *must* meet all the\r\n            constraints specified on other.\r\n        \"\"\"\r\n```\r\n\r\nFormally abstract specs can be identified with subspaces of the solution space, and concrete specs can be identified with singletons in the solution space. Concretization comes down to picking an optimal element from the subspace of abstract input specs.\r\n\r\nThen `x.satisfies(y, strict=False)` _should_ be defined as `x` and `y` have a non-empty intersection, i.e. `x \u2229 y \u2260 \u2205`.\r\n\r\nand similarly `x.satisfies(y, strict=True) `_should_ be defined as `x` is a subset of `y`, i.e. `x \u2286 y`.\r\n\r\nHowever, they don't behave in this way currently.\r\n\r\n- Not all `satisfy` methods implement `strict=True/False`:\r\n- `Version.satisfies` is not commutative, but it should\r\n   ```python\r\n   >>> spack.version.ver('3.8.1').satisfies(spack.version.ver('3.8'))\r\n   True\r\n   >>> spack.version.ver('3.8').satisfies(spack.version.ver('3.8.1'))\r\n   False\r\n   ```\r\n   This should be `False` in both cases, since these are concrete versions i.e. singletons and not equal.\r\n- `VersionRange.satisfies` is not commutative (fixed in #29209)\r\n\r\nI think Spack would be much easier to follow if these concepts were formalized as above, so they don't leave room for discussion or interpretation.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/29248",
+    "updated_at": "2022-02-28 18:42:34",
+    "created_at": "2022-02-28 17:16:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Properly define the meaning of x.satisfies(y, strict).",
+    "number": 29248,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1154348972,
+    "html_url": "https://github.com/spack/spack/issues/29248",
+    "assignees": [],
+    "comments": 0
+}

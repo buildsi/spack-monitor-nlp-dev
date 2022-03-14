@@ -1,0 +1,23 @@
+{
+    "body": "Fixes #12710  cc @AndrewGaspar @junghans \r\n\r\nA number of things to discuss / review carefully here if core devs decide this is a good idea:\r\n\r\n- I've added a regression test for the new feature that fails before/ succeeds after, but could use some suggestions for improved mocking / not using actual downloads / artifacts (the spack testing infrastructure seems to have a bunch of things for this, but not necessarily easy to use naturally given the pytest fixture magic, etc.)\r\n- in the original issue, Andrew had suggested that the relative path support be relative to the *yaml file location,* but in practice this has worked out more naturally for me to be relative to the *spack invocation / working directory,* at least in part because one of the most natural ways to add a mirror to the yaml is from the spack command line invocation itself (and it is slightly confusing to think about path relative to i.e., `~/.spack/...` when not working there, unless you edit the yaml file manually); so some design decisions to be made there\r\n- the requirement to prefix local filepaths with `file://` currently remains, even for the relative filepath support, presumably for the `curl` feed-through\r\n- whatever is decided above, relative paths can be confusing so the behavior should be well-documented; even if relative file path support is not enabled in the end, detection & traceback on the attempt to add a relative path would still be useful vs. silent \"failure\" on the addition of something that can never be fetched",
+    "user": "tylerjereddy",
+    "url": "https://api.github.com/repos/spack/spack/issues/13213",
+    "updated_at": "2020-05-05 17:56:09",
+    "created_at": "2019-10-14 17:49:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "WIP, ENH: Support relative mirror paths",
+    "number": 13213,
+    "milestone": null,
+    "labels": [
+        "mirrors",
+        "impact-medium",
+        "environments"
+    ],
+    "id": 506791587,
+    "html_url": "https://github.com/spack/spack/pull/13213",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

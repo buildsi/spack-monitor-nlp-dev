@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nI would like to pass extra arguments to `spack install` when invoking `spack ci rebuild`. For example,\r\n\r\n```console\r\n$ spack ci rebuild -- --verbose --test=root\r\n```\r\n\r\n\n\n### Rationale\n\nI would like to test and view verbose build output for packages that are installed in CI.\n\n### Description\n\nIn the `spack ci rebuild` command, arguments seem to be built up based on the ci environment and written to an install script:\r\n \r\n```python\r\n    # lib/spack/spack/cmd/ci.py:415\r\n    install_args.extend([\r\n        'install',\r\n        '--keep-stage',\r\n        '--require-full-hash-match',\r\n    ])\r\n```\r\n\r\nIf we add a remainder positional arg to the command then it shouldn't be too hard to extend the `spack install` arguments with the '--' syntax. I imagine some sort of whitelisting procedure would be needed as well:\r\n\r\n```diff\r\ndiff --git a/lib/spack/spack/cmd/ci.py b/lib/spack/spack/cmd/ci.py\r\nindex a376d9ed95..3f765b8062 100644\r\n--- a/lib/spack/spack/cmd/ci.py\r\n+++ b/lib/spack/spack/cmd/ci.py\r\n@@ -99,6 +99,7 @@ def setup_parser(subparser):\r\n\r\n     # Handle steps of a ci build/rebuild\r\n     rebuild = subparsers.add_parser('rebuild', help=ci_rebuild.__doc__)\r\n+    rebuild.add_argument('extra_install_args', nargs=argparse.REMAINDER)\r\n     rebuild.set_defaults(func=ci_rebuild)\r\n\r\n     # Facilitate reproduction of a failed CI build job\r\n@@ -418,6 +419,11 @@ def ci_rebuild(args):\r\n         '--require-full-hash-match',\r\n     ])\r\n\r\n+    if args.extra_install_args:\r\n+        for arg in args.extra_install_args:\r\n+            assert arg in CI_REBUILD_ALLOWED_EXTRA_INSTALL_ARGS, 'Oh, no!'\r\n+\r\n+\r\n     can_verify = spack_ci.can_verify_binaries()\r\n     verify_binaries = can_verify and spack_is_pr_pipeline is False\r\n     if not verify_binaries:\r\n```\r\n\n\n### Additional information\n\n* **Spack:** 0.16.2-4250-56c375743a\r\n* **Python:** 3.8.3\r\n* **Platform:** darwin-catalina-skylake\r\n* **Concretizer:** original\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "ashermancinelli",
+    "url": "https://api.github.com/repos/spack/spack/issues/25946",
+    "updated_at": "2021-09-14 21:52:02",
+    "created_at": "2021-09-14 19:35:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Pass additional arguments to `spack ci rebuild`",
+    "number": 25946,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 996366493,
+    "html_url": "https://github.com/spack/spack/issues/25946",
+    "assignees": [],
+    "comments": 5
+}

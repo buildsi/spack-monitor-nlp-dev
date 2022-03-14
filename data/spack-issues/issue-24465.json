@@ -1,0 +1,20 @@
+{
+    "body": "It's possible to set relative paths in spack's config files for locations such as the install prefix (`install_tree`), the stage directory, the cache directory, etc. In this case the current working directory will matter when installing software. So when a user `cd`s into another directory, spack will recreate all those resp. directories (e.g., `install_tree`) again.\r\n\r\n### Steps to reproduce the issue\r\n\r\n`install_tree` is set to a relative path `./pkg`\r\n\r\n```console\r\n$ spack config get config | grep install_tree\r\n  install_tree: ./pkg\r\n```\r\n\r\n```console\r\n /scratch/path1 \r\n$ spack install zlib\r\n==> Installing zlib\r\n==> No binary for zlib found: installing from source\r\n==> zlib: Executing phase: 'install'\r\n[+] /scratch/path1/pkg/zlib/1.2.11/pgi/oc33sfxlwznukamv2xwdabgs5wugja3j\r\n```\r\n\r\nWhen `cd`ing into a different directory, the `install_tree` will be recreated there:\r\n\r\n```console\r\n /scratch/path2 \r\n$ spack install zlib\r\n==> Installing zlib\r\n==> No binary for zlib found: installing from source\r\n==> zlib: Executing phase: 'install'\r\n[+] /scratch/path2/pkg/zlib/1.2.11/pgi/oc33sfxlwznukamv2xwdabgs5wugja3j\r\n\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.7.4\r\n* **Platform:** linux-rhel7-skylake_avx512\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] ~~I have run the failing commands in debug mode and reported the output~~\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "BenWeber42",
+    "url": "https://api.github.com/repos/spack/spack/issues/24465",
+    "updated_at": "2021-06-22 14:44:35",
+    "created_at": "2021-06-22 14:44:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack allows relative paths for `install_tree` and similar",
+    "number": 24465,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 927313921,
+    "html_url": "https://github.com/spack/spack/issues/24465",
+    "assignees": [],
+    "comments": 0
+}

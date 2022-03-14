@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce\r\n\r\n`@when` does not work well with some kinds of functions, multi-methods\r\nI guess.\r\n\r\nFor example, I was adding spack test to hpctoolkit.  Older versions\r\ndon't have the test directory, so I tried:\r\n\r\n```\r\n@when('@master')\r\ndef test(self):\r\n    test_dir = join_path(self.test_suite.current_test_cache_dir, 'tests')\r\n    with working_dir(test_dir):\r\n    ....\r\n```\r\n\r\nWith version master, this defines `test` and it works as expected.\r\nWith older versions, I was expecting this would not define test, but\r\nit seems to both define and not define test.  That is, it seems to\r\ncreate a method `test` but it has no body and thus is an illegal\r\nfunction that doesn't run.\r\n\r\nFor example, after spack install hpctoolkit with an older version,\r\n`spack test list` thinks the `test` method exists.\r\n\r\n```\r\n$ spack test list\r\n-- linux-rhel8-x86_64 / gcc@8.4.1 -------------------------------\r\n2x5ggc6 binutils@2.37          325uosa libsigsegv@2.13  i3ror5z perl@5.26.3\r\n2ubufrh hpctoolkit@2021.10.15  p54wmul m4@1.4.19\r\n```\r\n\r\nBut running the test produces an error, as if the function didn't\r\nexist or has no body.\r\n\r\n```\r\n$ spack test run hpctoolkit \r\n==> Spack test 6handtxoljilzvsxdw2zdeznanvo3ahz\r\n==> Testing package hpctoolkit-2021.10.15-2ubufrh\r\n==> Error: AttributeError: 'functools.partial' object has no attribute '__func__'\r\n\r\n/home/krentel/tests/myspack/lib/spack/spack/build_environment.py:1051, in _setup_pkg_and_run:\r\n       1048        tb_string = traceback.format_exc()\r\n       1049\r\n       1050        # build up some context from the offending package so we can\r\n  >>   1051        # show that, too.\r\n       1052        package_context = get_package_context(tb)\r\n```\r\n\r\nNormally, what spack does with a package that doesn't define test is\r\nto silently succeed.\r\n\r\n```\r\n$ spack test run libmonitor\r\n==> Spack test qkic7ba33vgdgi52ble724juohzihk2d\r\n==> Testing package libmonitor-2021.11.08-3fhtwbb\r\n```\r\n\r\nI'm not sure of the subject.  If you want to edit it, go ahead.\r\n\r\nping @tgamblin @tldahlgren @becker33 \r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.11.2-15625-1cdb764422\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel8-zen2\r\n* **Concretizer:** clingo\r\n\r\nI don't understand why spack reports version 0.11.2.\r\nGit log reports:\r\n\r\n```\r\ncommit 1cdb764422dd71e5c432a9ceb6d14f081bc69a08\r\nAuthor: Ye Luo <yeluo@anl.gov>\r\nDate:   Wed Dec 1 20:39:06 2021 -0600\r\n\r\n    QMCPACK: fix use of MPI wrappers (#27744)\r\n\r\ncommit d0beab80128fe53bf6c486b029c40e4935570c89\r\nAuthor: Tiziano M<C3><BC>ller <tiziano.mueller@hpe.com>\r\nDate:   Thu Dec 2 03:29:23 2021 +0100\r\n\r\n    elpa package: add version 2021.05.002_bugfix (#27748)\r\n```\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "mwkrentel",
+    "url": "https://api.github.com/repos/spack/spack/issues/27771",
+    "updated_at": "2022-03-11 05:21:46",
+    "created_at": "2021-12-03 06:55:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "@when does not work with multi method functions",
+    "number": 27771,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 1070278067,
+    "html_url": "https://github.com/spack/spack/issues/27771",
+    "assignees": [
+        "alalazo",
+        "tldahlgren"
+    ],
+    "comments": 3
+}

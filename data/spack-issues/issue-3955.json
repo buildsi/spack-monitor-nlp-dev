@@ -1,0 +1,20 @@
+{
+    "body": "(with apologies to Djikstra and everyone else who's recycled that title meme)\r\n\r\n**TL;DR**: the library that one of my spack binaries uses depends on what other spack packages I've `module load`-ed.  **YIKES**.  See also #3926.\r\n\r\nI was trying to understand why @JusticeForMikeBrown was having trouble building bowtie2 (see #3950) when I've built it successfully with `gcc@4.x.y`.\r\n\r\nHis problem with `gcc@4.x.y` was zlib related; I checked the package and noticed that it doesn't have a dependency on zlib.  Perhaps it should, I thought.  Wonder what zlib my \"production\" copy was linked against?\r\n\r\n```\r\n$ ldd bowtie2-align-l  | grep libz\r\n\tlibz.so.1 => /blah/spack/v0.0.8/opt/spack/linux-centos7-x86_64/gcc-5.4.0/zlib-1.2.11-ec535e2ikkpl7hd4y454t3yydjqorja6/lib/libz.so.1 (0x00002aaaaaf32000)\r\n```\r\n\r\nThat surprised me, because there's no zlib dependency in the package.\r\n\r\nSure enough, it's because I have something else `module load`-ed that has the side effect of adding zlib's directory to `LD_LIBRARY_PATH`.\r\n\r\n```\r\n$ (unset LD_LIBRARY_PATH; ldd bowtie2-align-l) | grep libz\r\n\tlibz.so.1 => /lib64/libz.so.1 (0x00002aaaaaf2f000)\r\n```\r\n\r\nMy \"newer\" version of CentOS has a `/lib64/libz.so.1` that includes gzbuffer (`nm` didn't help, library's stripped...):\r\n\r\n```\r\n$ strings /lib64/libz.so.1 | grep buffer\r\ngzbuffer\r\nbuffer error\r\n```\r\n\r\nso it (probably) works for me either way.\r\n\r\nBut imagine if there were two versions of a library (perhaps something mathematical) that give different results.  Now you have a program giving different results depending on what other Spack applications are also loaded.  \r\n\r\n**THAT** would be fun to track down (assuming you even noticed...).\r\n\r\nW.R.T. the main problem, bowtie2 should probably have a dependency on a new-ish version of zlib, but stuff like this is why LD_LIBRARY_PATH is a slippery tool to reach for.\r\n\r\nI'll argue that this kind of unpredictability is a bigger negative than being helpful and always setting `LD_LIBRARY_PATH`.  This comment in the docs isn't actually correct:\r\n\r\n> Spack avoids library misconfiguration by using RPATH to link dependencies. When a user links a library or runs a program, it is tied to the dependencies it was built with, so there is no need to manipulate LD_LIBRARY_PATH at runtime.\r\n>\r\n> [clipped from here](http://spack.readthedocs.io/en/latest/features.html?highlight=RPATH#packages-can-peacefully-coexist)\r\n\r\nWhat would happen if `LD_LIBRARY_PATH` became *opt-in*, packages that need it specify it in their package definitions?\r\n\r\nLooking at [the list of cases where RPATH support doesn't work](http://spack.readthedocs.io/en/latest/workflows.html?highlight=LD_LIBRARY_PATH#transitive-dependencies), it seems like 1) is not relevant (I think it's referring to `PERL5LIB`, etc...) and 3) are simply bugs.  That leaves 2), python extensions.  Is `RPATH` unworkable there or just not yet working?",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/3955",
+    "updated_at": "2022-03-07 13:09:59",
+    "created_at": "2017-04-22 15:15:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Setting LD_LIBRARY_PATH to be \"helpful\" considered harmful",
+    "number": 3955,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "modules"
+    ],
+    "id": 223571157,
+    "html_url": "https://github.com/spack/spack/issues/3955",
+    "assignees": [],
+    "comments": 42
+}

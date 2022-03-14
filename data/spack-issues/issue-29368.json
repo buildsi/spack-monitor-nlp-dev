@@ -1,0 +1,24 @@
+{
+    "body": "> cernlib: it just won't die.\r\n\r\nHere is a spack package for cernlib, but it definitely needs more testing on some different platforms (and shouldn't be assumed to work on a wide range of platforms to begin with). It is a dependency of sherpa, e.g. https://github.com/spack/spack/pull/29338#issuecomment-1059974411.\r\n\r\n```console\r\n==> Installing cernlib-2020.12.11-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz\r\n==> No binary for cernlib-2020.12.11-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz found: installing from source\r\n==> Using cached archive: /home/wdconinc/.spack/cache/_source-cache/archive/25/25bda7271dce6e7d199039e46bd044e7eb97fd9c1287ccbf6d7b5772749e78a9.tgz\r\n==> Using cached archive: /home/wdconinc/.spack/cache/_source-cache/archive/99/99486b6dbfb3a93803420719e0ea74a15735ee817277b0be0695b075ea136714\r\n==> Using cached archive: /home/wdconinc/.spack/cache/_source-cache/archive/99/991cc960bf90f1a8f7d61279554bedaae9c17737d5862607414f193953db6384\r\n==> Moving resource stage\r\n        source: /home/wdconinc/.spack/stage/resource-cernlib.2005.corr.2020.12.11.tgz-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz/spack-src/\r\n        destination: /home/wdconinc/.spack/stage/spack-stage-cernlib-2020.12.11-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz/spack-src/resources/corr\r\n==> Moving resource stage\r\n        source: /home/wdconinc/.spack/stage/resource-cernlib.2005.install.2020.12.11.tgz-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz/spack-src/\r\n        destination: /home/wdconinc/.spack/stage/spack-stage-cernlib-2020.12.11-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz/spack-src/resources/install\r\n==> No patches needed for cernlib\r\n==> cernlib: Executing phase: 'unpack'\r\n==> cernlib: Executing phase: 'build'\r\n==> cernlib: Executing phase: 'install'\r\n==> cernlib: Successfully installed cernlib-2020.12.11-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz\r\n  Fetch: 0.09s.  Build: 6m 10.24s.  Total: 6m 10.34s.\r\n[+] /opt/software/linux-ubuntu21.10-skylake/gcc-10.3.0/cernlib-2020.12.11-ysjpq6ydbe7yqzqkifojxwxkf4yiudrz\r\n==> Updating view at /home/wdconinc/git/spack/var/spack/environments/cernlib/.spack-env/view\r\n01:41:10 wdconinc@menelaos ~ $ paw\r\npaw      paw++    pawserv  pawX11   \r\n01:41:14 wdconinc@menelaos ~ $ pawX11 \r\n ******************************************************\r\n *                                                    *\r\n *            W E L C O M E    to   P A W             *\r\n *                                                    *\r\n *       Version 2.14/04      12 January 2004         *\r\n *                                                    *\r\n ******************************************************\r\n Workstation type (?=HELP) <CR>=1 : 1\r\n Version 1.29/04 of HIGZ started\r\n *** No default PAWLOGON file \"/home/wdconinc/.pawlogon.kumac\" found\r\n\r\nPAW > exit\r\n Exiting from PAW.\r\n```\r\n\r\n@vvolkl @iarspider: the reason I hadn't tried to upstream this is because I don't want to set anyone's expectations that cernlib, which was last released in 2005, is at all going to be maintained into the 2020s. I have gotten complaints that paw doesn't work with this spack package, but I'm not about to divert too many cycles into fixing that :-) But, with those caveats, and since it is a dependency for some other tools, I think it's probably fine to upstream. Every new compiler version will continue to result in stuff breaking... There are likely also a number of remaining hardcoded /cern paths lurking.\r\n\r\n(Possible alternative with a better build system and unnecessary stuff stripped out: https://github.com/sly2j/nanocernlib)",
+    "user": "wdconinc",
+    "url": "https://api.github.com/repos/spack/spack/issues/29368",
+    "updated_at": "2022-03-07 20:06:47",
+    "created_at": "2022-03-07 08:01:15",
+    "closed_at": "None",
+    "state": "open",
+    "title": "cernlib: 'new' package",
+    "number": 29368,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "new-package",
+        "dependencies",
+        "resources",
+        "patch",
+        "maintainers"
+    ],
+    "id": 1161032991,
+    "html_url": "https://github.com/spack/spack/pull/29368",
+    "assignees": [],
+    "comments": 2
+}

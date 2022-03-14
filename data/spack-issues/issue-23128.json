@@ -1,0 +1,22 @@
+{
+    "body": "From https://github.com/spack/spack/pull/22393#discussion_r616222128\r\n> To reiterate, having an active mirror that does not have the patch, but does have the package directory in the local mirror, and the patch source has ? and = characters, causes the patch stage to fail.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack mirror list\r\nlocal           file:///opt/packages/gpjohnsn/argon_mirror\r\nspack-public    https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/\r\n\r\n$ spack mirror --destroy --mirror-name local\r\n$ spack mirror create --directory /opt/packages/gpjohnsn/argon_mirror/ ghostscript                             \r\n==> Adding package ghostscript@9.50 to mirror\r\n==> Fetching file:///opt/packages/gpjohnsn/argon_mirror/ghostscript/?p=ghostpdl.git;a=commitdiff_plain;h=41ef9a0bc36b-254532a\r\n\r\n==> Fetching file:///opt/packages/gpjohnsn/argon_mirror/ghostscript/?p=ghostpdl.git;a=commitdiff_plain;h=41ef9a0bc36b-254532a\r\n\r\n==> Fetching file:///opt/packages/gpjohnsn/argon_mirror/ghostscript/?p=ghostpdl.git;a=commitdiff_plain;h=41ef9a0bc36b-254532a\r\n\r\n==> Warning: Error while fetching ghostscript@9.50\r\n  [Errno 2] No such file or directory: '/tmp/gpjohnsn/spack-stage/spack-stage-0dvv_qm3/?p=ghostpdl.git;a=commitdiff_plain;h=41ef9a0bc36b.part' -> '/tmp/gpjohnsn/spack-stage/spack-stage-0dvv_qm3/?p=ghostpdl.git;a=commitdiff_plain;h=41ef9a0bc36b'\r\n==> Successfully updated mirror in file:///opt/packages/gpjohnsn/argon_mirror\r\n  Archive stats:\r\n    1    already present\r\n    0    added\r\n    1    failed to fetch.\r\n==> Error: Failed downloads:\r\nghostscript@9.50\r\n```\r\nRemoving the local mirror makes everything work:\r\n```console\r\n$ spack mirror rm local\r\n==> Removed mirror local.\r\n\r\n$ spack patch ghostscript\r\n==> Using cached archive: /opt/packages/gpjohnsn/spack/var/spack/cache/_source-cache/archive/0f/0f53e89fd647815828fc5171613e860e8535b68f7afbc91bf89aee886769ce89.tar.gz\r\n==> Fetching https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff_plain;h=41ef9a0bc36b\r\n######################################################################## 100.0%\r\n==> Applied patch https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff_plain;h=41ef9a0bc36b\r\n==> Ran patch() for ghostscript\r\n```\r\n\r\n### Information on your system\r\n\r\nNot relevant, see https://github.com/spack/spack/pull/22393#discussion_r616222128 for details\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/23128",
+    "updated_at": "2021-04-20 09:07:14",
+    "created_at": "2021-04-20 09:01:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Mirror creation fails if `=` or `?` characters are in a patch url",
+    "number": 23128,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "mirrors",
+        "impact-low",
+        "patch"
+    ],
+    "id": 862591806,
+    "html_url": "https://github.com/spack/spack/issues/23128",
+    "assignees": [],
+    "comments": 1
+}

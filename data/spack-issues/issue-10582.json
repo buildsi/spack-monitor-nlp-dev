@@ -1,0 +1,20 @@
+{
+    "body": "@scheibelp @tgamblin \r\nThe older version of Spack Environments supported multiple layered configurations.  For example in `env.yaml`:\r\n```\r\nenv:\r\n    configs:\r\n        - '../configs/centos7'            # Lowest precedence\r\n        - '../configs/gissversions'\r\n        - '../configs/twoway'\r\n        - '../configs/develop'\r\n```\r\n\r\nI'm having a hard time finding this feature in the current (merged) version (see #9612).  The documents show how you can put a configuration in-line into the `config` section of your environment's `spack.yaml` file.   But no mention of INCLUDING external configs (and having them override each other), rather than just having your own.\r\n\r\nLooking into the source code... I see the `include` feature turns up in `spack/schema/env.py` (#9612).  But the `env.py` schema is not included in the top-level `spack.py` schema, so I don't see how this feature can be accessed.  I would think that `spack/schema/env.py` is vestigal, except it seems to be used in unit tests.  Can you tell me the purpose of this file?\r\n\r\nHelp!  Please:\r\n\r\n1. Does Spack currently support this feature, of including external configs into an environment, that was in the beta version of Environments?\r\n\r\n2. If it does not, how would suggest I approach getting it included?  This is an essential feature for my needs.\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10582",
+    "updated_at": "2020-05-04 17:08:55",
+    "created_at": "2019-02-13 01:53:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack Environments: document \"include\" configuration scopes",
+    "number": 10582,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "environments"
+    ],
+    "id": 409586134,
+    "html_url": "https://github.com/spack/spack/issues/10582",
+    "assignees": [],
+    "comments": 4
+}

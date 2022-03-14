@@ -1,0 +1,25 @@
+{
+    "body": "@citibeth and I pretty well hijacked #11919 with a discussion on how different config-scopes interact with environments.  Currently, all scopes are read, with the environment's scope taking precedence.  This is a bug.  An environment's config should be completely independent of any other scope so that environments can be repeatable across machines and users.  A simple case to demonstrate why this is a bug is to define compilers in the user scope:\r\n\r\n```sh\r\n$ cat ~/.spack/<platform>/compilers.yaml\r\ncompilers:\r\n- compiler:\r\n  ...\r\n  spec: gcc@7.3.0\r\n- compiler:\r\n  ...\r\n```\r\n\r\nNow, in my environment, I want to use a different installation of `gcc@7.3.0`, so I define it:\r\n\r\n```sh\r\n$ cat <environment>/spack.yaml\r\nconfig:\r\n  compilers:\r\n  - compiler:\r\n    ...\r\n    spec: gcc@7.3.0\r\n...\r\n```\r\n\r\nSpack will throw an exception because of duplicate compiler specs, but for my environment to be reproducible, I must be able to define the compilers, regardless of other compilers the user may or may not have in their user-config.   #11910 may fix this particular issue, but this example demonstrates that environments cannot be repeatable in the presence of additional config-scopes.\r\n\r\nEnvironment configs also do not support double colons to override config sections (this should not be necessary as an environment's config should already be independent).  #11602 addresses this problem.\r\n\r\nAdditional config-scopes (other than the default and command-line scopes) should be opt in through a keyword in `spack.yaml`",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/11972",
+    "updated_at": "2019-11-07 15:41:16",
+    "created_at": "2019-07-10 03:51:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environment configs should be self contained",
+    "number": 11972,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "configuration",
+        "impact-medium",
+        "environments",
+        "snl-atdm"
+    ],
+    "id": 466084195,
+    "html_url": "https://github.com/spack/spack/issues/11972",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 4
+}

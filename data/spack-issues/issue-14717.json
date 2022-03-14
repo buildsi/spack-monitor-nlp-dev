@@ -1,0 +1,21 @@
+{
+    "body": "`spack arch` currently has a `--known-targets` flag that prints a list of targets it is capable of detecting. I would like to add `--known-platforms` and `--known-operating-systems` flags that do the same thing.\r\n\r\n### Rationale\r\n\r\nOftentimes, when writing a package, you need to add conflicts for all platforms/OSes other than a certain one. For example, `py-matplotlib backend=macosx` only works on `darwin`, so the package contains:\r\n```python\r\n    msg = 'MacOSX backend requires the Cocoa headers included with XCode'       \r\n    conflicts('platform=linux', when='backend=macosx', msg=msg)                 \r\n    conflicts('platform=bgq',   when='backend=macosx', msg=msg)                 \r\n    conflicts('platform=cray',  when='backend=macosx', msg=msg) \r\n```\r\nHowever, I have no way of knowing if this is all the platforms that Spack knows of. Until we have a way of expressing \"not\" in the spec syntax, we should at least be able to list all platforms/OSes Spack is aware of.",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/14717",
+    "updated_at": "2020-02-02 07:24:50",
+    "created_at": "2020-02-02 01:22:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack arch: --known-platforms and --known-operating-systems",
+    "number": 14717,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "platform-support",
+        "commands"
+    ],
+    "id": 558625310,
+    "html_url": "https://github.com/spack/spack/issues/14717",
+    "assignees": [],
+    "comments": 1
+}

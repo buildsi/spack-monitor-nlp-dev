@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nThis occurs in #22115 \r\n\r\n```console\r\n$ spack graph --deptype=link openssh\r\nncurses@6.2%gcc@10.2.0~symlinks+termlib arch=linux-ubuntu20.04-zen2\r\n==> Error: 'readline'\r\n```\r\n\r\nThe dep structure is this:\r\n\r\n```console\r\n[    ]  openssh@8.5p1%gcc@10.2.0 arch=linux-ubuntu20.04-zen2\r\n[bl  ]      ^libedit@3.1-20210216%gcc@10.2.0 arch=linux-ubuntu20.04-zen2\r\n[bl  ]          ^ncurses@6.2%gcc@10.2.0~symlinks+termlib arch=linux-ubuntu20.04-zen2\r\n[b   ]              ^pkgconf@1.7.3%gcc@10.2.0 arch=linux-ubuntu20.04-zen2\r\n[bl  ]      ^ncurses@6.2%gcc@10.2.0~symlinks+termlib arch=linux-ubuntu20.04-zen2\r\n[b   ]          ^pkgconf@1.7.3%gcc@10.2.0 arch=linux-ubuntu20.04-zen2\r\n[bl  ]      ^openssl@1.1.1j%gcc@10.2.0~docs+systemcerts arch=linux-ubuntu20.04-zen2\r\n[b   ]          ^perl@5.32.1%gcc@10.2.0+cpanm+shared+threads arch=linux-ubuntu20.04-zen2\r\n[bl  ]              ^berkeley-db@18.1.40%gcc@10.2.0~docs patches=b231fcc4d5cff05e5c3a4814f6a5af0e9a966428dc2176540d2c05aff41de522 arch=linux-ubuntu20.04-zen2\r\n[bl  ]              ^gdbm@1.19%gcc@10.2.0 arch=linux-ubuntu20.04-zen2\r\n[bl  ]                  ^readline@8.0%gcc@10.2.0 arch=linux-ubuntu20.04-zen2\r\n[bl  ]                      ^ncurses@6.2%gcc@10.2.0~symlinks+termlib arch=linux-ubuntu20.04-zen2\r\n[b   ]                          ^pkgconf@1.7.3%gcc@10.2.0 arch=linux-ubuntu20.04-zen2\r\n[bl  ]          ^zlib@1.2.11%gcc@10.2.0+optimize+pic+shared arch=linux-ubuntu20.04-zen2\r\n[bl  ]      ^zlib@1.2.11%gcc@10.2.0+optimize+pic+shared arch=linux-ubuntu20.04-zen2\r\n```\r\n\r\nSo `ncurses` has 3 parents (libedit, openssh, readline), but only libedit and openssh are part of the link deps and readline is not.\r\n\r\nIf you now make a copy of a concretized `openssh` with just link deps, it does not remove parent edges to non-link type deps:\r\n\r\n```python\r\n>>> x = spack.spec.Spec('openssh')\r\n>>> x.concretize()\r\n>>> y = x.copy(deps=('link',))\r\n>>> next((spec for spec in y['ncurses'].dependents() if spack.spec.Spec('readline') in spec))\r\nreadline@8.0%gcc@10.2.0 arch=linux-ubuntu20.04-zen2 ^ncurses@6.2%gcc@10.2.0~symlinks+termlib arch=linux-ubuntu20.04-zen2\r\n```",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22118",
+    "updated_at": "2021-03-05 19:38:53",
+    "created_at": "2021-03-05 19:38:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "dependents not removed when copying a spec with specific deptype",
+    "number": 22118,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 823360712,
+    "html_url": "https://github.com/spack/spack/issues/22118",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I think it might be possible to cut the build time of ncurses in half.\r\n\r\n### Rationale\r\n\r\nWhen we build ncurses, we build both `--enable-widec` and `--disable-widec`. This is needed because some packages that depend on ncurses expect `libncursesw`, while others expect `libncurses`.\r\n\r\n### Description\r\n\r\nI noticed that the [Homebrew](https://github.com/Homebrew/homebrew-core/blob/master/Formula/ncurses.rb) recipe for ncurses instead builds with `--enable-widec` and then adds symlinks from `libncurses` to `libncursesw` for all of the installed libraries.\r\n\r\n@sknigh it looks like you did the original `widec` split in #3953. Can you take a look at this?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/18521",
+    "updated_at": "2020-09-18 19:44:20",
+    "created_at": "2020-09-05 01:21:50",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Faster ncurses build",
+    "number": 18521,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 693886487,
+    "html_url": "https://github.com/spack/spack/issues/18521",
+    "assignees": [],
+    "comments": 4
+}

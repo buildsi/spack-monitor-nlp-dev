@@ -1,0 +1,20 @@
+{
+    "body": "I am not sure if I have specified incompatible options : \r\n\r\n```\r\n$ spack spec coreneuron %cce@8.5.5 ^mod2c target=x86_64\r\nInput spec\r\n--------------------------------\r\ncoreneuron%cce@8.5.5\r\n    ^mod2c arch=cray-None-x86_64\r\n\r\nNormalized\r\n--------------------------------\r\ncoreneuron%cce@8.5.5\r\n    ^cmake@2.8.12:\r\n    ^mod2c arch=cray-None-x86_64\r\n\r\nConcretized\r\n--------------------------------\r\ncoreneuron@develop%cce@8.5.5~gpu+mpi+neurodamusmod+openmp~profile+report~tests arch=cray-CNL-haswell\r\n    ^cmake@3.0.2%cce@8.5.5~doc+ncurses+openssl+ownlibs~qt arch=cray-CNL-haswell\r\n    ^mod2c@develop%cce@8.5.5 arch=cray-CNL-x86_64\r\n    ^mpich@7.5.0%cce@8.5.5+hydra+pmi+romio~verbs arch=cray-CNL-haswell\r\n    ^neurodamus@develop%cce@8.5.5~compile~profile arch=cray-CNL-haswell\r\n    ^reportinglib@develop%cce@8.5.5~profile+static arch=cray-CNL-haswell\r\n\r\n[kumbhar@daint103 ~]$ spack spec coreneuron %cce@8.5.5 ^mod2c target=x86_64 os=sles12\r\nInput spec\r\n--------------------------------\r\ncoreneuron%cce@8.5.5\r\n    ^mod2c arch=cray-sles12-x86_64\r\n\r\nNormalized\r\n--------------------------------\r\ncoreneuron%cce@8.5.5\r\n    ^cmake@2.8.12:\r\n    ^mod2c arch=cray-sles12-x86_64\r\n\r\nConcretized\r\n--------------------------------\r\nTraceback (most recent call last):\r\n  File \"/home/sources/spack/bin/spack\", line 220, in <module>\r\n    main(sys.argv)\r\n  File \"/home/sources/spack/bin/spack\", line 216, in main\r\n    _main(args, unknown)\r\n  File \"/home/sources/spack/bin/spack\", line 183, in _main\r\n    return_val = command(parser, args)\r\n  File \"/home/sources/spack/lib/spack/spack/cmd/spec.py\", line 88, in spec\r\n    spec.concretize()\r\n  File \"/home/sources/spack/lib/spack/spack/spec.py\", line 1678, in concretize\r\n    self._concretize_helper())\r\n  File \"/home/sources/spack/lib/spack/spack/spec.py\", line 1519, in _concretize_helper\r\n    name].spec._concretize_helper(presets, visited)\r\n  File \"/home/sources/spack/lib/spack/spack/spec.py\", line 1530, in _concretize_helper\r\n    spack.concretizer.concretize_compiler(self),\r\n  File \"/home/sources/spack/lib/spack/spack/concretize.py\", line 308, in concretize_compiler\r\n    spec.compiler, spec.architecture)\r\n  File \"/home/sources/spack/lib/spack/spack/concretize.py\", line 425, in _compiler_concretization_failure\r\n    raise UnavailableCompilerVersionError(compiler_spec, arch)\r\n  File \"/home/sources/spack/lib/spack/spack/concretize.py\", line 457, in __init__\r\n    (compiler_spec, arch.platform_os, arch.target))\r\nTypeError: not all arguments converted during string formatting\r\n```",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/3818",
+    "updated_at": "2017-11-23 11:30:36",
+    "created_at": "2017-04-13 12:17:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Error in spack spec : not all arguments converted during string formatting",
+    "number": 3818,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "concretization"
+    ],
+    "id": 221546196,
+    "html_url": "https://github.com/spack/spack/issues/3818",
+    "assignees": [],
+    "comments": 3
+}

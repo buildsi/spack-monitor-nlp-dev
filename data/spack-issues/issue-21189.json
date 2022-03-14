@@ -1,0 +1,19 @@
+{
+    "body": "This PR adds a \"deployment mode\" that can be enabled in Spack.\r\n\r\nThe goal of deployment mode is to allow Spack to deploy pre-built binaries from either an environment or a raw Spack instance, in a restricted mode that allows Spack to be safely run as root.\r\n\r\nTo allow Spack to run safely as root, all commands that can edit Spack source, edit Spack configs, or run arbitrary code from anywhere other than a Spack package in a previously configured repo are banned. Attempting to run any of those commands in deployment mode will result in an error. The commands are listed in `$spack/lib/spack/spack/test/cmd/common/deployment.py`. Additionally, all commands and options that modify the active environment are negated, so that either the configured environment or no environment is used, depending on the configuration. Lastly, the `spack -k` option to ignore SSL certificates throws an exception when run in deployment mode.\r\n\r\nCommands that modify the specs in the environment (but not its configuration) are allowed, but require user confirmation. These include the `add` and `remove` commands. The `uninstall` and `deprecate` commands require confirmation by default when in the standard Spack mode; when in \"deployment\" mode, the confirmation is mandatory (that is, the commands ignore the `-y` option).\r\n\r\nThe `install` command has several modifications in deployment mode. These modifications are equivalent to mandating the following arguments: `--cache-only --use-cache --clean`. In deployment mode, the `install` command also does not accept the `--no-check-signature` option (warns the user and ignores the option).",
+    "user": "becker33",
+    "url": "https://api.github.com/repos/spack/spack/issues/21189",
+    "updated_at": "2021-02-10 22:59:15",
+    "created_at": "2021-01-21 08:17:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Feature: deployment mode",
+    "number": 21189,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 790810124,
+    "html_url": "https://github.com/spack/spack/pull/21189",
+    "assignees": [],
+    "comments": 1
+}

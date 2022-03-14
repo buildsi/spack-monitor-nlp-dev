@@ -1,0 +1,22 @@
+{
+    "body": "The common BLAS providers (OpenBLAS, MKL) offer [LP64 and ILP64 versions](https://software.intel.com/en-us/mkl-macos-developer-guide-using-the-ilp64-interface-vs-lp64-interface).  Depending on the used version, extra compiling options must be set in depended packages.\r\n\r\n### Rationale\r\n\r\nThe detection of `ilp64` is quite difficult, if multiple BLAS providers are permitted.  The following pattern in used in \"suite-sparse\", \"dealii\", and \"octave\":\r\n\r\n```\r\nif (spec.satisfies('^openblas+ilp64') or\r\n    spec.satisfies('^intel-mkl+ilp64') or\r\n    spec.satisfies('^intel-parallel-studio+mkl+ilp64')):\r\n```\r\n\r\nObviously, this pattern grows with the number of BLAS providers and might not be manageable in the future.\r\n\r\n### Description\r\n\r\nTo overcome this issue, @alalazo suggested in PR #15104 to introduce an additional attribute for BLAS providers to shorten the above statement without explicitly mention all possible BLAS providers.\r\n\r\n```\r\nif spec['blas'].ilp64:\r\n```\r\n",
+    "user": "siko1056",
+    "url": "https://api.github.com/repos/spack/spack/issues/15200",
+    "updated_at": "2020-02-27 12:20:23",
+    "created_at": "2020-02-25 09:11:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "BLAS providers should provide an ilp64 attribute",
+    "number": 15200,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "blas-lapack-scalapack"
+    ],
+    "id": 570417763,
+    "html_url": "https://github.com/spack/spack/issues/15200",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

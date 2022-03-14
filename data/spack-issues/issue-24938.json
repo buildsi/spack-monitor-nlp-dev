@@ -1,0 +1,23 @@
+{
+    "body": "When I activate a Spack environment for the first time, the `$PATH` and `$PYTHONPATH` variables are changed in a different way than if I deactivate that same environment and reactivate it again. See output below.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env activate $HOME/sampleenv\r\n$ echo $PYTHONPATH\r\n/opt/mods/lib/python3.6/site-packages:/opt/ovis/lib/python3.6/site-packages\r\n$ despacktivate\r\n$ spack env activate $HOME/samplenv\r\n$ echo $PYTHONPATH\r\n/global/homes/h/hobbs/spack-workspace/software/cray-sles15-x86_64/gcc-7.5.0/py-cffi-1.14.3-q36xs7bhjgu4a3ejb7bbogmaldixwfvd/lib/python3.8/site-packages\r\n:/global/homes/h/hobbs/spack-workspace/software/cray-sles15-x86_64/gcc-7.5.0/py-pycparser-2.20-ltn7lqjor5i4ksa32iyh6u2xhyce53w3/lib/python3.8/site-packages\r\n:/global/homes/h/hobbs/spack-workspace/software/cray-sles15-x86_64/gcc-7.5.0/py-six-1.15.0-yw4tt3h4dpc4hinoxgs4bazg5hdw4eqa/lib/python3.8/site-packages\r\n:/opt/mods/lib/python3.6/site-packages\r\n:/opt/ovis/lib/python3.6/site-packages\r\n$ despacktivate\r\n```\r\n\r\n### Error Message\r\n\r\nIn the first Spack environment, I loaded Python, so my `$PYTHONPATH` should change to the Spack-loaded version of Python in my Spack workspace folder. This, however, does not happen until I do it a second time.\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.1-1522-4acb3cea22\r\n* **Python:** 3.6.12\r\n* **Platform:** cray-sles15-haswell\r\n* **Concretizer:** original\r\n\r\nConfiguration details: This problem was found on the NERSC Cori system. We use python 3.6, E4S 21.02, and Spack 0.16.1.\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output\r\n\r\n@scheibelp \r\n",
+    "user": "wihobbs",
+    "url": "https://api.github.com/repos/spack/spack/issues/24938",
+    "updated_at": "2021-07-29 08:30:58",
+    "created_at": "2021-07-16 21:44:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack environments do not treat Python path variables correctly",
+    "number": 24938,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "triage"
+    ],
+    "id": 946614256,
+    "html_url": "https://github.com/spack/spack/issues/24938",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

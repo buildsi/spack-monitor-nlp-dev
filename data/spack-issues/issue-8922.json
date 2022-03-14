@@ -1,0 +1,22 @@
+{
+    "body": "Currently, a package is allowed to declare a given variant twice, with the new definition silently overwriting the old one. I think it boils down to [this line in the code of variant()](https://github.com/spack/spack/blob/e2e8108dc4ca8210f1526ce68db59d633d53f66e/lib/spack/spack/directives.py#L494) not checking if a certain entry already exists in pkg.variants.\r\n\r\nI think that spack should at least warn, and possibly bomb, on such variant re-declarations, as they probably stem from an accidental mistake rather than from a conscious design decision.\r\n\r\nAs an example of this happening in the wild, the \"boost\" package currently declares its \"graph\" variant twice, once setting the default value to True, and another time setting the default value to False. It took me a while to figure out this one, I'll submit a patch which removes the duplicate variant later today.",
+    "user": "HadrienG2",
+    "url": "https://api.github.com/repos/spack/spack/issues/8922",
+    "updated_at": "2020-01-15 07:52:24",
+    "created_at": "2018-08-09 12:53:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Redeclaring a package variant should be at least a warning, probably an error",
+    "number": 8922,
+    "milestone": null,
+    "labels": [
+        "proposal",
+        "variants"
+    ],
+    "id": 349114675,
+    "html_url": "https://github.com/spack/spack/issues/8922",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

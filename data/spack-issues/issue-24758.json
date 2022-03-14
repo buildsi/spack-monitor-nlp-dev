@@ -1,0 +1,19 @@
+{
+    "body": "If I\r\n\r\n```console\r\nspack develop -p $SRC_DIR baz@main +foo\r\nspack concretize -f\r\nspack install\r\n```\r\n\r\nThe build artifacts will be put directly in `$SRC_DIR`.  Eg,\r\n\r\n```console\r\n$ ls $SRC_DIR/spack-*\r\nspack-build-env.txt    spack-build-fvndqrb/\r\nspack-build-out.txt    spack-configure-args.txt\r\n```\r\n\r\nIf I later \r\n\r\n```console\r\nspack install baz@main ~foo\r\nspack develop -p $SRC_DIR baz@main ~foo\r\nspack concretize -f\r\nspack install baz@main ~foo\r\n```\r\n\r\nIt will overwrite the various `spack-build-*` files for the `+foo` variant.\r\n\r\nA build root argument to `spack develop` would alleviate this issue:\r\n\r\n```console\r\nspack develop -h\r\n...\r\n-b BUILD_ROOT, --build-root BUILD_ROOT\r\n        Where to build package\r\n```\r\n\r\nThe following would be the desired result:\r\n\r\n```console\r\n$ spack install baz@main ~foo\r\n$ spack install baz@main +foo\r\n$ spack develop -p $SRC_DIR -b /var/tmp/baz_foo baz@main +foo\r\n$ spack develop -p $SRC_DIR -b /var/tmp/baz_nofoo baz@main ~foo\r\n$ spack concretize -f\r\n$ spack install baz@main ~foo\r\n$ spack install baz@main +foo\r\n$ ls /var/tmp/baz_foo/spack-*\r\nspack-build-env.txt    spack-build-fvndqrb/\r\nspack-build-out.txt    spack-configure-args.txt\r\n$ ls /var/tmp/baz_nofoo/spack-*\r\nspack-build-env.txt    spack-build-xzqe4rn/\r\nspack-build-out.txt    spack-configure-args.txt\r\n```",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/24758",
+    "updated_at": "2021-07-07 17:24:11",
+    "created_at": "2021-07-07 17:18:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Specify build directory for a package marked for development",
+    "number": 24758,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 939101244,
+    "html_url": "https://github.com/spack/spack/issues/24758",
+    "assignees": [],
+    "comments": 1
+}

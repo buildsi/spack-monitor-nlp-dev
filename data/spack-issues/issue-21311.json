@@ -1,0 +1,22 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\nIn my `packages.yaml` I have:\r\n\r\n```\r\npackages:\r\n  all:\r\n    compiler: [intel@19.0.3.199, gcc@8.3.0]\r\n[snip]\r\n  cmake:\r\n    externals:\r\n    - spec: cmake@3.14.4%intel\r\n      modules:\r\n      - cmake/3.14.4\r\n    - spec: cmake@3.14.4%cce\r\n      modules:\r\n      - cmake/3.14.4\r\n    - spec: cmake@3.14.4%gcc\r\n      modules:\r\n      - cmake/3.14.4\r\n```\r\n\r\nWhen I run `spack spec -Il clingo@master` I expect to see the intel compiler being used, since that is specified as the preferred compiler, eg:\r\n\r\n```\r\n -   nsxzgyg  clingo@master%intel@19.0.3.199~docs~ipo+python build_type=RelWithDebInfo arch=cray-cnl7-haswell\r\n[snip]\r\n```\r\n\r\nHowever, I get:\r\n\r\n```\r\n -   t7h77vt  clingo@master%cce@9.1.3~docs~ipo+python build_type=RelWithDebInfo arch=cray-cnl7-haswell\r\n [snip]\r\n```\r\n\r\nIf I remove the entries for cmake as an external package, I get the expected result.\r\n\r\n### Apparent Cause\r\n\r\nAfter instrumenting some of the concretizing routines, I think the key is at `lib/spack/spack/concretize.py:choose_virtual_or_external`  .. it sorts the candidates by abi compatibility, but doesn\u2019t consider the preferred compiler as set in `packages.yaml`. The reason cce gets chosen is simply that it comes earlier alphabetically than gcc or intel.\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n```\r\n20:55 sleak@cori03:reproducer$ spack debug report\r\n* **Spack:** 0.16.0\r\n* **Python:** 3.6.10\r\n* **Platform:** cray-sles15-haswell\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "sleak-lbl",
+    "url": "https://api.github.com/repos/spack/spack/issues/21311",
+    "updated_at": "2021-01-27 09:04:52",
+    "created_at": "2021-01-27 05:02:52",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Dependency on external package causes compiler preferences to be ignored",
+    "number": 21311,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "external-packages",
+        "triage"
+    ],
+    "id": 794774026,
+    "html_url": "https://github.com/spack/spack/issues/21311",
+    "assignees": [],
+    "comments": 1
+}

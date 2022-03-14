@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nWe try to add an extra build stage path, and we found it failed.\r\nWhen we try to add extra misc cache path and test stage path, it works.\r\n```console\r\nspack config --scope=site add \"config:build_stage:[\\$spack/var/spack/cache/_build-stage/\\$user]\"\r\n==> Error: Cannot determine valid type for path 'config:build_stage'.\r\nspack config --scope=site add \"config:build_stage:\\$spack/var/spack/cache/_build-stage/\\$user\"\r\n==> Error: Cannot determine valid type for path 'config:build_stage'.\r\n```\n\n### Error message\n\n```console\r\nspack --debug --stacktrace config --scope=site add \"config:build_stage:[\\$spack/var/spack/cache/_build-stage/\\$user]\"\r\nlib/spack/spack/cmd/__init__.py:123 ==> [2021-11-25-20:26:34.718507] Imported config from built-in commands\r\nlib/spack/spack/cmd/__init__.py:123 ==> [2021-11-25-20:26:34.721436] Imported config from built-in commands\r\nlib/spack/spack/main.py:884 ==> [2021-11-25-20:26:34.722552] ConfigError: Cannot determine valid type for path 'config:build_stage'.\r\nlib/spack/spack/error.py:54 ==> [2021-11-25-20:26:34.723089] Error: Cannot determine valid type for path 'config:build_stage'.\r\nTraceback (most recent call last):\r\n  File \"/GPUFS/sysu_hpcedu_302/swk/env/spack/lib/spack/spack/main.py\", line 881, in main\r\n    return _main(argv)\r\n  File \"/GPUFS/sysu_hpcedu_302/swk/env/spack/lib/spack/spack/main.py\", line 864, in _main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/GPUFS/sysu_hpcedu_302/swk/env/spack/lib/spack/spack/main.py\", line 534, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/GPUFS/sysu_hpcedu_302/swk/env/spack/lib/spack/spack/cmd/config.py\", line 481, in config\r\n    action[args.config_command](args)\r\n  File \"/GPUFS/sysu_hpcedu_302/swk/env/spack/lib/spack/spack/cmd/config.py\", line 215, in config_add\r\n    spack.config.add(args.path, scope=scope)\r\n  File \"/GPUFS/sysu_hpcedu_302/swk/env/spack/lib/spack/spack/config.py\", line 899, in add\r\n    existing = get_valid_type(path)\r\n  File \"/GPUFS/sysu_hpcedu_302/swk/env/spack/lib/spack/spack/config.py\", line 1100, in get_valid_type\r\n    raise ConfigError(\"Cannot determine valid type for path '%s'.\" % path)\r\nspack.config.ConfigError: Cannot determine valid type for path 'config:build_stage'.\r\n```\n\n### Information on your system\n\n* **Spack:** 0.17.0\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-skylake_avx512\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "KS0508",
+    "url": "https://api.github.com/repos/spack/spack/issues/27657",
+    "updated_at": "2021-11-25 12:32:41",
+    "created_at": "2021-11-25 12:32:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Fail to add build_stage path",
+    "number": 27657,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1063533322,
+    "html_url": "https://github.com/spack/spack/issues/27657",
+    "assignees": [],
+    "comments": 0
+}

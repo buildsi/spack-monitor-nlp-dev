@@ -1,0 +1,21 @@
+{
+    "body": "## Summary\r\n\r\n`Openblas` (versions 0.2.20, 0.2.19, 0.2.18, 0.2.17, 0.2.16, 0.2.15) will not build on **Power9** nodes using `XL` compilers (versions 13.1.6, 13.1.7).\r\n\r\n### Expected Result\r\n\r\nSuccessful installation of `openblas` with an `XL` compiler.\r\n\r\n### Actual Result\r\n\r\n```\r\ndantopa@cn2023:spack.power9.latest $ spack install openblas % xl@13.1.7\r\n==> Installing openblas\r\n==> Fetching file:///usr/projects/draco/vendors/spack.mirror/openblas/openblas-0.2.20.tar.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /projects/draco/vendors/spack.power9.latest/var/spack/stage/openblas-0.2.20-nqp5efrrhobdbmggi3455qppmwfxk6qm/v0.2.20.tar.gz\r\n==> Created stage in /projects/draco/vendors/spack.power9.latest/var/spack/stage/openblas-0.2.20-nqp5efrrhobdbmggi3455qppmwfxk6qm\r\n==> Applied patch make.patch\r\n==> Building openblas [MakefilePackage]\r\n==> Executing phase: 'edit'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' 'CC=/projects/draco/vendors/spack.power9.latest/lib/spack/env/xl/xlc' 'FC=/projects/draco/vendors/spack.power9.latest/lib/spack/env/xl/xlf' 'MAKE_NO_J=1' 'USE_OPENMP=0' 'USE_THREAD=0' 'libs' 'netlib' 'shared'\r\n\r\n23 errors found in build log:\r\n     [ ... ]\r\n  >> 5     getarch_2nd.c:12:35: error: use of undeclared identifier 'SGEMM_DEFAULT_UNROLL_M'\r\n     6         printf(\"SGEMM_UNROLL_M=%d\\n\", SGEMM_DEFAULT_UNROLL_M);\r\n     7                                       ^\r\n  >> 8     getarch_2nd.c:13:35: error: use of undeclared identifier 'SGEMM_DEFAULT_UNROLL_N'\r\n     9         printf(\"SGEMM_UNROLL_N=%d\\n\", SGEMM_DEFAULT_UNROLL_N);\r\n```\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install openblas % xl@13.1.6\r\n$ spack install openblas % xl@13.1.7\r\n...\r\n```\r\n\r\n### Information on your system\r\n**LANL's Darwin system**\r\n```\r\n$ uname -a\r\nLinux cn2023 4.11.0-44.4.1.el7a.ppc64le #1 SMP Sat Dec 9 02:17:51 EST 2017 ppc64le ppc64le ppc64le GNU/Linux\r\n```\r\n```\r\n$ cat /proc/cpuinfo\r\nprocessor\t: 0\r\ncpu\t\t: POWER9 (raw), altivec supported\r\nclock\t\t: 1983.000000MHz\r\nrevision\t: 2.1 (pvr 004e 1201)\r\n\r\n...\r\n\r\nprocessor\t: 159\r\ncpu\t\t: POWER9 (raw), altivec supported\r\nclock\t\t: 1983.000000MHz\r\nrevision\t: 2.1 (pvr 004e 1201)\r\n\r\ntimebase\t: 512000000\r\nplatform\t: PowerNV\r\nmodel\t\t: 8335-GTG\r\nmachine\t\t: PowerNV 8335-GTG\r\nfirmware\t: OPAL\r\n```\r\n**Spack commit**\r\ndevelop (#7468)  commit cdd3f76bd18a7d0a42433075a60e075c535d14a4\r\n\r\n### Configuration\r\n1. [packages.config.txt](https://github.com/spack/spack/files/1858541/packages.config.txt)\r\n1. [modules.config.txt](https://github.com/spack/spack/files/1858543/modules.config.txt)\r\n1. [compilers.config.txt](https://github.com/spack/spack/files/1858544/compilers.config.txt)\r\n1. [spack.providers.txt](https://github.com/spack/spack/files/1858553/spack.providers.txt)\r\n\r\n### Debug files\r\n[spack-build.out.txt](https://github.com/spack/spack/files/1858556/spack-build.out.txt)\r\n[spack-build.env.txt](https://github.com/spack/spack/files/1858551/spack-build.env.txt)\r\n\r\nDebug logs\r\n[spack-cc-openblas-ahgwioq.in.log](https://github.com/spack/spack/files/1858547/spack-cc-openblas-ahgwioq.in.log)\r\n[spack-cc-openblas-ahgwioq.out.log](https://github.com/spack/spack/files/1858549/spack-cc-openblas-ahgwioq.out.log)\r\n\r\n`spack -d install -v openblas % xl@13.1.6` [screen-session.txt](https://github.com/spack/spack/files/1858569/screen-session.txt)\r\n\r\n\r\n\r\n\r\n\r\n",
+    "user": "floquet",
+    "url": "https://api.github.com/repos/spack/spack/issues/7636",
+    "updated_at": "2018-04-05 15:59:13",
+    "created_at": "2018-03-29 04:24:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Openblas will not build on Power9 nodes with XL compilers",
+    "number": 7636,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "xl",
+        "power"
+    ],
+    "id": 309615399,
+    "html_url": "https://github.com/spack/spack/issues/7636",
+    "assignees": [],
+    "comments": 1
+}

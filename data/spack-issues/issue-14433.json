@@ -1,0 +1,21 @@
+{
+    "body": "Since https://github.com/spack/spack/commit/4beb9fc5d36ab85cb5d2e43e451b26204f36cdcd, `develop` has exhibited the following worrying behavior:\r\n```console\r\nspack test -vv cmd_extensions.py\r\n```\r\nexecutes two tests, `cmd_extensions.py::test_simple_command_extension` and `cmd_extensions.py::test_command_with_import`, the former passing and the latter failing with a strange YAML validation schema error:\r\n```console\r\n<snip>\r\nself = <jsonschema.validators.Validator object at 0x7f4b72b7a0d0>\r\nschema = {'$schema': 'http://json-schema.org/schema#', 'additionalProperties': False, 'properties': {'config': {'default': {}, ...{...}]}, 'ccache': {'type': 'boolean'}, ...}, 'type': 'object'}}, 'title': 'Spack core configuration file schema', ...}\r\ntypes = (), resolver = None, format_checker = None\r\n\r\n    def __init__(\r\n        self, schema, types=(), resolver=None, format_checker=None,\r\n    ):\r\n        self._types = dict(self.DEFAULT_TYPES)\r\n        self._types.update(types)\r\n\r\n        if resolver is None:\r\n>           resolver = RefResolver.from_schema(schema)\r\nE           AttributeError: 'NoneType' object has no attribute 'from_schema'\r\n\r\n../../external/jsonschema/validators.py:64: AttributeError\r\n\r\n```\r\n\r\nIn contrast:\r\n```console\r\nspack test -vvk cmd_extensions\r\n```\r\nwhile executing the same two tests\u2014_in apparently the same order_\u2014shows that both tests pass. This is in fact what happens to these tests in CI.\r\n\r\nAny insight into locating the source of the hysteresis would be appreciated.",
+    "user": "chissg",
+    "url": "https://api.github.com/repos/spack/spack/issues/14433",
+    "updated_at": "2020-01-14 21:14:37",
+    "created_at": "2020-01-08 22:17:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Testing hysteresis with different selection methods",
+    "number": 14433,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "python2",
+        "robustness"
+    ],
+    "id": 547134920,
+    "html_url": "https://github.com/spack/spack/issues/14433",
+    "assignees": [],
+    "comments": 6
+}

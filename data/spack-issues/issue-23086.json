@@ -1,0 +1,19 @@
+{
+    "body": "## DFTB+ (dftbplus) package installation Issue\r\nI found a problem with `dftbplus@19.1` package installation issue. The problem is that the `dftbplus` package github repository uses the `git submodule` for many important parts of the package in the `/external/` folder, including `mpifx`, `mbd`, `fytest` and `libnegf` which is not included in the package release `19.1.tar.gz` file. \r\n\r\nTo check that issue, you may find that `/external/mpifx/origin` folder in the `19.1.tar.gz` file downloaded from link [https://github.com/dftbplus/dftbplus/archive/19.1.tar.gz](https://github.com/dftbplus/dftbplus/archive/19.1.tar.gz) is empty. On the [dftbplus github repository](https://github.com/dftbplus/dftbplus.git), it is liked to another submodule.\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install dftbplus +arpack +dftd3 +mpi +sockets +transport +elsi\r\n```\r\n\r\n\r\n### Ways to Fix This Problem\r\n**I found one way to fix this problem**, by editing the `dftbplus` package file in `spack` and now using the github repository so it can download the `git submodule` automatically. \r\n\r\n**Replace** the following original code in `$spack edit dftbplus` \r\n```\r\n    url      = \"https://github.com/dftbplus/dftbplus/archive/19.1.tar.gz\"\r\n    version('19.1', sha256='4d07f5c6102f06999d8cfdb1d17f5b59f9f2b804697f14b3bc562e3ea094b8a8')\r\n```\r\n\r\n**with** \r\n```\r\n    git      = \"https://github.com/dftbplus/dftbplus.git\"\r\n    version('19.1', tag='19.1', submodules=True)\r\n```\r\n\r\n**Now it's working on my Ubuntu 18.04 system. Please update the `dftbplus` package system.** \r\n\r\nAdditionally, please add the following packages: `m4`, `blas`, `lapack` into the `dftbplus` package dependency. Otherwise it won't successfully build. \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "zhujunmian",
+    "url": "https://api.github.com/repos/spack/spack/issues/23086",
+    "updated_at": "2021-04-19 10:49:32",
+    "created_at": "2021-04-19 10:49:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: dftbplus",
+    "number": 23086,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 861176832,
+    "html_url": "https://github.com/spack/spack/issues/23086",
+    "assignees": [],
+    "comments": 0
+}

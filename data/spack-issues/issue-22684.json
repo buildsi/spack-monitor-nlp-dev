@@ -1,0 +1,22 @@
+{
+    "body": "Currently, the Dockerfile lines I get from this script end with something like:\r\n`RUN spack install --fail-fast `\r\n\r\nThat works...but in order to take advantage of container build caching, it would be better to concretize a build tree and then install piecemeal. So something like:\r\n```\r\nRUN spack install packageA\r\nRUN spack install packageBthatdependsonA\r\nRUN spack install packageCthatdependsonB\r\n...\r\n```\r\n\r\nIs this something you all have put some thought into already? Am I missing a detail that would make this hard to do?\r\n\r\n### Rationale\r\n\r\nBy making each package its own \"RUN\" line in a Dockerfile, organized by required dependency order, the container build cache may be used instead of having to build the entire environment as concretized in a single line.\r\n\r\n### Description\r\n\r\nI have considered manually editing the Dockerfile, but the order that I need to install packages would need to be determined by the spack lock file, which is not easy for a human to parse. Especially as the number of packages grows large, and the time to build a particular package becomes large...these caching benefits become important.\r\n\r\n\r\n### General information\r\n\r\nI am running Spack v0.16.0, from the Dockerhub hosted `spack/centos7:v0.16.0`. I've brought up this topic on the Spack Slack, and it appears that this is a new feature request.",
+    "user": "qwofford",
+    "url": "https://api.github.com/repos/spack/spack/issues/22684",
+    "updated_at": "2021-04-08 09:22:58",
+    "created_at": "2021-03-31 16:49:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack containerize: construct Dockerfile which caches previous spack package builds",
+    "number": 22684,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "containers"
+    ],
+    "id": 846956825,
+    "html_url": "https://github.com/spack/spack/issues/22684",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

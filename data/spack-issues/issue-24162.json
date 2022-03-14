@@ -1,0 +1,17 @@
+{
+    "body": "Currently, autotools packages use the inject flag handler, essentially ignoring the provided flags most of the time. For example, `spack install coreutils cflags=-Os cxxflags=-Os` simply builds `coreutils` with the default flags of `-O2 -g`.\r\n\r\nMoreover, packages providing their own `flag_handler` often provide build system flags, overriding the defaults. For instance, `xerces-c` sets std flags, disabling any optimizations.\r\n\r\nThis PR uses a hybrid approach by using the build system flag handler by default and, in case packages provide their own `flag_handler`, pass workaround flags via the injection mechanism and passing explicit flags via the build system flags.\r\n\r\nI haven't tested all modified packages yet but the ones that I tested seemed to build fine.",
+    "user": "michaelkuhn",
+    "url": "https://api.github.com/repos/spack/spack/issues/24162",
+    "updated_at": "2021-06-06 22:50:53",
+    "created_at": "2021-06-05 21:48:52",
+    "closed_at": "None",
+    "state": "open",
+    "title": "build_systems: Default to build system flags for autotools packages",
+    "number": 24162,
+    "milestone": null,
+    "labels": [],
+    "id": 912462402,
+    "html_url": "https://github.com/spack/spack/pull/24162",
+    "assignees": [],
+    "comments": 3
+}

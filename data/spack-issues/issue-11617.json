@@ -1,0 +1,25 @@
+{
+    "body": "Installing Namd throws error \"Cannot find BLACS library for given MPI\" when trying to use variant `fftw=mkl`. The issue stems from the fact that one of the Namd's dependencies, Charmpp, is a provider of MPI. The `scalapack_libs` property method for Intel doesn't seem to handle the case for this.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\nspack install namd%intel fftw=mkl interface=python\r\n==> Error: InstallError: Cannot find a BLACS library for the given MPI.\r\n\r\n/global/u2/m/mamelara/spack/lib/spack/spack/build_systems/intel.py:810, in scalapack_libs:\r\n        807            blacs_lib = 'libmkl_blacs_intelmpi'\r\n        808        elif '^mpt' in spec_root:\r\n        809            blacs_lib = 'libmkl_blacs_sgimpt'\r\n  >>    810        else:\r\n        811            raise_lib_error('Cannot find a BLACS library for the given MPI.')\r\n        812\r\n        813        int_suff = '_' + self.intel64_int_suffix\r\n\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\nCLE6 \r\n``` \r\nHere is the relevant piece of code:\r\n```python\r\n 794         spec_root = self.spec.root\r\n 795         if sys.platform == 'darwin' and '^mpich' in spec_root:\r\n 796             # The only supported choice for MKL 2018 on Mac.\r\n 797             blacs_lib = 'libmkl_blacs_mpich'\r\n 798         elif '^openmpi' in spec_root:\r\n 799             blacs_lib = 'libmkl_blacs_openmpi'\r\n 800         elif '^mpich@1' in spec_root:\r\n 801             # Was supported only up to 2015.\r\n 802             blacs_lib = 'libmkl_blacs'\r\n 803         elif ('^mpich@2:' in spec_root or\r\n 804               '^mvapich2' in spec_root or\r\n 805               '^intel-mpi' in spec_root or\r\n 806               '^intel-parallel-studio' in spec_root):\r\n 807             blacs_lib = 'libmkl_blacs_intelmpi'\r\n 808         elif '^mpt' in spec_root:\r\n 809             blacs_lib = 'libmkl_blacs_sgimpt'\r\n 810         else:\r\n 811             raise_lib_error('Cannot find a BLACS library for the given MPI.')\r\n```\r\nPerhaps we should provide a sensible default rather than raise an error? Not sure whether that would be appropriate.\r\n",
+    "user": "mamelara",
+    "url": "https://api.github.com/repos/spack/spack/issues/11617",
+    "updated_at": "2019-08-17 03:10:46",
+    "created_at": "2019-06-04 16:53:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation Issue: Namd",
+    "number": 11617,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "specs",
+        "dependencies",
+        "virtual-dependencies",
+        "impact-high"
+    ],
+    "id": 452103735,
+    "html_url": "https://github.com/spack/spack/issues/11617",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

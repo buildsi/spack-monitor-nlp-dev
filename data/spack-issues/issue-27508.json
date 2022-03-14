@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\n\nI attempted to extend the `builtin` petsc package with the following:\r\n\r\n```\r\nfrom spack.pkg.builtin.petsc import Petsc as BuiltinPetsc                                                                                                                                    \r\n\r\nimport os\r\nfrom spack import *\r\n\r\nclass Petsc(BuiltinPetsc):\r\n\r\n    def flag_handler(self, name, flags):\r\n        if name == 'ldflags' and self.spec.satisfies('%cce'):\r\n            flags.append(\"-Wl,-z,notext\")\r\n        if name == 'fflags' and self.spec.satisfies('%cce'):\r\n            flags.append(\"-fPIC\")\r\n        return (flags, None, None)\r\n```\r\n\r\n@becker33 gave me a solution by adding the following the the extended petsc package:\r\n```\r\n    @run_before('install')\r\n    def fixup_bug(self):\r\n        spack.pkg.builtin.petsc.python = python\r\n```\r\n\r\nGreg asked me to open an issue on this since there is a better long-term solution.\r\n\n\n### Error message\n\nHere's the error message without adding the fix from Greg. \r\n```\r\n...\r\n==> Installing petsc-3.15.0-t3jwpmvskoeibjpraoieika3zm6cus57\r\n==> No binary for petsc-3.15.0-t3jwpmvskoeibjpraoieika3zm6cus57 found: installing from source\r\nv==> Using cached archive: /gpfs/alpine/ven114/scratch/lukebr/confidence/spack/var/spack/cache/_source-cache/archive/ac/ac46db6bfcaaec8cd28335231076815bd5438f401a4a05e33736b4f9ff12e59a.tar.gz\r\n==> No patches needed for petsc\r\n==> petsc: Executing phase: 'install'\r\n==> Error: NameError: name 'python' is not defined\r\n\r\n/gpfs/alpine/ven114/scratch/lukebr/confidence/spack/var/spack/repos/builtin/packages/petsc/package.py:504, in install:\r\n        501        if '+hpddm' in spec:\r\n        502            options.append('--download-hpddm')\r\n        503\r\n  >>    504        python('configure', '--prefix=%s' % prefix, *options)\r\n        505\r\n        506        # PETSc has its own way of doing parallel make.\r\n        507        make('MAKE_NP=%s' % make_jobs, parallel=False)\r\n\r\nSee build log for details:\r\n  /tmp/lukebr/spack-stage/spack-stage-petsc-3.15.0-t3jwpmvskoeibjpraoieika3zm6cus57/spack-build-out.txt\r\n...\r\n```\n\n### Information on your system\n\n```\r\n* **Spack:** 0.17.0-170-7c3b146789\r\n* **Python:** 3.8.5\r\n* **Platform:** cray-sles15-zen2\r\n* **Concretizer:** clingo\r\n```\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "lukebroskop",
+    "url": "https://api.github.com/repos/spack/spack/issues/27508",
+    "updated_at": "2021-11-17 15:19:55",
+    "created_at": "2021-11-17 15:19:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "error when extending a builtin package that uses the python command: \"Error: NameError: name 'python' is not defined\"",
+    "number": 27508,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1056254941,
+    "html_url": "https://github.com/spack/spack/issues/27508",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 0
+}

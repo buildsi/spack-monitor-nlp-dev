@@ -1,0 +1,22 @@
+{
+    "body": "\r\nSummary\r\nI tried to install pfunit using spack on my Mac Pro workstation using the intel 18.0.2 compiler. The installation failed when the dependency for cmake was attempted to be installed. The error was the the intel C++ compiler did not support C++11, which is false. By default this compiler enables the C++11 standard via the command line -std=c++11. The build script for cmake did not know enough about the Intel compiler to automatically add this argument. I probably could work around this problem, but it should have been handled transparently by me. In fact this issue brings up the general question of why spack thought it needed to install cmake in the first place since I already had a working version in my path via macports. I probably could also have added one via spack using clang@9.1.0. This seems to be a general issue with spack. When it needs a executable tool it just blindly installs one, without first checking whether it was really needed.  I assume this has something to do with the \"build clean\" philosophy spack uses since it probably clobbers the executable path as well as the rest of the environment.\r\n\r\nExpected Result\r\n\r\nSpack would do correctly what I requested and be smart enough to know about compiler options and executable tools.\r\n\r\n### Actual Result\r\n\r\nThe installation failed for the reasons described above.\r\n\r\n### Steps to reproduce the issue\r\n\r\nI ran \"spack install pfunit %intel@18.0.2\" but the problem should be reproduced by\r\n\"spack install cmake %intel@18.0.2\"\r\n\r\nIncidentally, the installation use gnu@7.3.0 for cmake failed due to incompatibilities with the CoreGraphics framework on my mac and the installation for pfunit using clang also fails since the git site https://git.code.sf.net/p/pfunit/code was unavailable. Could this address be obsolete?\r\n\r\n### Information on your system\r\n\r\nMac Pro late 2013 model running OS 10.13.4. I have the gnu compilers via spack and purchased licenses for the intel compilers, current version 18.0.2.\r\n\r\n-----\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!",
+    "user": "JohnWGrove",
+    "url": "https://api.github.com/repos/spack/spack/issues/8175",
+    "updated_at": "2018-05-18 17:11:40",
+    "created_at": "2018-05-17 19:47:27",
+    "closed_at": "None",
+    "state": "open",
+    "title": "cmake install on Mac OS 10.13.4 using intel@18.0.2 fails",
+    "number": 8175,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "intel",
+        "cmake"
+    ],
+    "id": 324160699,
+    "html_url": "https://github.com/spack/spack/issues/8175",
+    "assignees": [],
+    "comments": 15
+}

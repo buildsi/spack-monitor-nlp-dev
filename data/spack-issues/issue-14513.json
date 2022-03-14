@@ -1,0 +1,21 @@
+{
+    "body": "When installed, Python packages have the typical structure with `include`, `lib`, and `bin` folders. When loaded by spack, their `include` directory is added to the CPATH environment  variable. Most python packages do not expose C headers. However, python packages that do have headers will often install them in `include/pythonX` (where X is the python version), rather than in `include` (for instance on my machine with Python 3.6.8 they are installed in `include/python3.6m`). Hence any code that requires these headers will need to `#include <python3.6m/path/to/the/header.h>` (so we should know ahead of time the python version) instead of simply `#include <path/to/the/header.h>`, OR it should figure out the header path by a means other than simply relying on CPATH.\r\n\r\nIt would be good, when loading a Python package, that its `include/pythonX` also be added to CPATH (with X being replaced appropriately).",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/14513",
+    "updated_at": "2022-01-20 18:56:57",
+    "created_at": "2020-01-15 10:14:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "headers of python packages not listed in CPATH",
+    "number": 14513,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 550090756,
+    "html_url": "https://github.com/spack/spack/issues/14513",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

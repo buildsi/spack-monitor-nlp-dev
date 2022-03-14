@@ -1,0 +1,20 @@
+{
+    "body": "If I define an external package with a general spec and `buildable: False`, I would expect if I am explicit when choosing the compiler on the command line, it should register that external under the chosen compiler but it doesn't. This is inconsistent behavior because if I install a package with a dependency on the external, it registers it with the compiler chosen.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cat packages.yaml \r\npackages:\r\n  cmake:\r\n    paths:\r\n      cmake@3.11.1: /usr/local/Cellar/cmake/3.11.1\r\n    buildable: False\r\n  all:\r\n    compiler: [clang, gcc]\r\n\r\n$ spack install cmake %gcc\r\n==> cmake@3.11.1 : externally installed in /usr/local/Cellar/cmake/3.11.1\r\n==> cmake@3.11.1 : generating module file\r\n==> cmake@3.11.1 : registering into DB\r\n\r\n$ spack find\r\n==> 1 installed packages.\r\n-- darwin-sierra-x86_64 / clang@9.0.0-apple ---------------------\r\ncmake@3.11.1\r\n\r\n$ spack install --fake yaml-cpp %gcc\r\n==> cmake@3.11.1 : externally installed in /usr/local/Cellar/cmake/3.11.1\r\n==> cmake@3.11.1 : generating module file\r\n==> cmake@3.11.1 : registering into DB\r\n==> Installing yaml-cpp\r\n==> Building yaml-cpp [CMakePackage]\r\n==> Successfully installed yaml-cpp\r\n  Fetch: .  Build: 0.08s.  Total: 0.08s.\r\n\r\n$ spack find\r\n==> 3 installed packages.\r\n-- darwin-sierra-x86_64 / clang@9.0.0-apple ---------------------\r\ncmake@3.11.1\r\n\r\n-- darwin-sierra-x86_64 / gcc@8.1.0 -----------------------------\r\ncmake@3.11.1  yaml-cpp@0.6.2\r\n```\r\n\r\nIf I define the specs more explicitly, it allows me to explicitly install using either compiler though:\r\n```console\r\n$ cat packages.yaml \r\npackages:\r\n  cmake:\r\n    paths:\r\n      cmake@3.11.1%gcc: /usr/local/Cellar/cmake/3.11.1\r\n      cmake@3.11.1%clang: /usr/local/Cellar/cmake/3.11.1\r\n    buildable: False\r\n  all:\r\n    compiler: [clang, gcc]\r\n```",
+    "user": "jrood-nrel",
+    "url": "https://api.github.com/repos/spack/spack/issues/9442",
+    "updated_at": "2020-01-15 08:57:03",
+    "created_at": "2018-10-05 16:54:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Inconsistent compiler choice behavior with external packages",
+    "number": 9442,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "external-packages"
+    ],
+    "id": 367290861,
+    "html_url": "https://github.com/spack/spack/issues/9442",
+    "assignees": [],
+    "comments": 0
+}

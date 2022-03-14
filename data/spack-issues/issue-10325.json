@@ -1,0 +1,19 @@
+{
+    "body": "[The problem here is that: (a) Spack can get switched to use a new Python simply because the user asked it to install Python, and (b) the Python that gets installed may not be capable of running Spack.  The end result is Spack suddenly stops working after the user loads the module for a newly-built Python]\r\n\r\nSpack --- at least when originally run using a System Python2 --- stops working when switched to Python3.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n<Download and install a fresh Spack on a system with Python2>\r\n$ spack install python@3:\r\n$ spack load python@3:\r\n$ spack spec ncurses\r\n```\r\n### Error Message\r\n\r\nOnce you load Python3 into your environment, simple Spack commands (like `spack spec`) fail with weird error messages.\r\n\r\n\r\n### Information on your system\r\n\r\nSystem with Python2 installed as default.\r\n\r\n### Suggested resolutions\r\n\r\n1. Don't automatically link `python3 -> python` when you install `python@3:`.   Ever since this \"improvement\" was merged, it has been causing bugs for me.\r\n2. The first time you run Spack, have Spack figure out which Python it's running, and hardcode that into itself.  Remember that `/usr/bin/env python`, used in the top of the `spack` script, can change based on what Spack is used for.\r\n-----\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/10325",
+    "updated_at": "2020-04-23 17:04:23",
+    "created_at": "2019-01-12 21:23:06",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack Doesn't Like Some Python Versions (those without SSL), but can accidentally get switched to them.",
+    "number": 10325,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 398593321,
+    "html_url": "https://github.com/spack/spack/issues/10325",
+    "assignees": [],
+    "comments": 9
+}

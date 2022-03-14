@@ -1,0 +1,20 @@
+{
+    "body": "I am building some packages via singularity containers, and through that process I have found some packages that seem to be missing dependencies (mostly zlib and zip so far). \r\n\r\nMy container (rhel7) doesn't have zlib-devel for example, so the issue becomes apparent then.  When installing on our regular build box (also rhel7) but with zlib-devel installed, the packages install without the dependency listed in the package.py. \r\n\r\nSpack seems to build against the system library if it is there, but my understanding is that this shouldn't be happening in the sanitized build environment.\r\n\r\n### Expected Result\r\n\r\nThe sanitized build environment would prevent system libraries from being linked\r\n\r\n\r\n### Example:\r\n\r\nOn rhel container:\r\n```\r\nldd cdbfasta\r\n...\r\nlibz.so.1 => /opt/rit/spack-app/linux-rhel7-x86_64/gcc-4.8.5/zlib-1.2.11-vhzh5cfaki5lx5sjuth5iuojq5azdkbd/lib/libz.so.1 (0x00007f8f5f5e3000)\r\n```\r\nOn regular rhel server:\r\n```\r\nldd cdbfasta\r\n...\r\nlibz.so.1 => /lib64/libz.so.1 (0x00007f8c21078000)\r\n```\r\n-----\r\nRelates to:\r\n#7274 \r\n\r\nand a whole bunch of my PRs:\r\n#7444 #7443 #7442 #7418 #7413 \r\n",
+    "user": "baberlevi",
+    "url": "https://api.github.com/repos/spack/spack/issues/7445",
+    "updated_at": "2018-03-29 13:57:12",
+    "created_at": "2018-03-09 19:28:57",
+    "closed_at": "None",
+    "state": "open",
+    "title": "packages sometimes pull in system dependencies",
+    "number": 7445,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "external-packages"
+    ],
+    "id": 303953795,
+    "html_url": "https://github.com/spack/spack/issues/7445",
+    "assignees": [],
+    "comments": 3
+}

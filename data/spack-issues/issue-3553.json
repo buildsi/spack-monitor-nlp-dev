@@ -1,0 +1,21 @@
+{
+    "body": "Fixes #3448\r\nFixes #3473\r\nFixes #3475\r\nFixes #6081\r\n\r\n(EDIT 11/21/17: new description)\r\n\r\n Improve documentation and handling of resources\r\n\r\n* Adds documentation on the 'placement' keyword when declaring resources for a package.\r\n* If the target dir already exists, print a warning (before, the source was silently skipped)\r\n* If the target dir exists and is an empty directory, just copy all the files in the resource directory to the target directory (this can occur if the root resource creates an empty directory to \"prepare\" for placing outside resources)\r\n* Added tests for resource stages (both for archived resources and non-expanding resources), and also for the resource restaging issue fixed by https://github.com/spack/spack/pull/5681\r\n* For cached resources, only symlink if the resource is an archive (don't symlink non-expanded resources)\r\n* Avoid appending `None` as an extension to the names of mirrored/cached resources\r\n* ~If the destination is a file and matches the source exactly, dont print a warning.~ This was removed for simplicity/efficiency\r\n* Fix installing packages from cached sources compressed with gzip\r\n\r\nTODOs:\r\n\r\n- [x] ~~Document use of ```destination``` for non-expanded resources~~ (EDIT: that was inconsistent with how ```placement``` is used for non-expanded resources so I have since changed it back, and updated the docs)\r\n- [x] Add test for non-expanded resources\r\n- [x] Fix expansion of cached .gz resources (added 11/1/17)\r\n- [x] ~Support archived resources which expand to a single file (11/1/17)~ UPDATE (11/21/17) this turned out to be an issue with how `.gz` resources were expanded\r\n\r\nOld description:\r\n\r\n~~Spack support for resources that should not be expanded was generally broken. This adds/restores support for non-expanded resources.~~ (EDIT: this actually worked but was not well documented, which has since been addressed in this PR)\r\n\r\n~~This PR also updates the meaning of 'destination' for resources where 'expand' is false: in this case 'destination' is used to place the single file relative to the root stage's source directory (whereas under normal circumstances 'destination' is itself a directory under the root stage's source directory where resources are placed).~~\r\n  \r\n  ",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/3553",
+    "updated_at": "2020-09-10 20:03:12",
+    "created_at": "2017-03-25 03:04:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Support for resources that should not be expanded",
+    "number": 3553,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "resources",
+        "don't-merge-yet"
+    ],
+    "id": 216944654,
+    "html_url": "https://github.com/spack/spack/pull/3553",
+    "assignees": [],
+    "comments": 16
+}

@@ -1,0 +1,20 @@
+{
+    "body": "@scheibelp @tgamblin \r\n\r\n@chissg and I had a long discussion of several interesting features being developed at Fermilab, in a system called *Spackdev*: https://indico.fnal.gov/event/13914/material/slides/1?contribId=6  In that discussion, we discovered that Spackdev and Spack have some parallel features; and discussed the possibility of porting Spackdev features into Spack in the future.  Here's the list of projects that seemed to make sense:\r\n\r\n1. Push Spack Setup to get merged: #10403\r\n\r\n2. Spackdev currently has the following functionality (similar to Spack Setup) that could be ported to Spack Environments + Setup:\r\n\r\n   a) If A->B->C and B is marked as `setup` by the user, then Spackdev marks `A` as setup as well.\r\n\r\n   b) Spackdev knows how to download all setup-enabled packages in an environment, creating a source tree for them (eg: `git/packagaA`, `git/packageB`, etc.)\r\n\r\n   c) Spackdev creates a toplevel CMake to integrate all `setup` packages into a single build.\r\n\r\n   d) Spackdev has the command `spack dev build-env` that runs a command in the package's build environment.  This (or something like it that generates a Bash script with said environment inside) could replace the current Spack Setup's CMake config files.  The advantage is it would (more easily) work with many build systems, not just CMake.  In any case, the first step is to get `spack dev build-env` in there and be able to try it out.\r\n\r\n3. Ensure that configurable sets of packages can be concretized together in a Spack Environment, rather than all or nothing (see #11372)\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/11505",
+    "updated_at": "2019-05-17 17:18:05",
+    "created_at": "2019-05-17 17:17:57",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Integration of Fermilab Spackdev Features into Spack",
+    "number": 11505,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "environments"
+    ],
+    "id": 445539957,
+    "html_url": "https://github.com/spack/spack/issues/11505",
+    "assignees": [],
+    "comments": 0
+}

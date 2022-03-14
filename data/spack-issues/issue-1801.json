@@ -1,0 +1,22 @@
+{
+    "body": "consider packages.yaml:\n\n```\npackages:\n  all:\n    compiler: [gcc@5.3.0]\n        providers:\n            mpi: [openmpi]\n            blas: [openblas]\n            lapack: [openblas]\n```\n\nnow I have a local repo with my own `openmpi` and `openblas` packages and repos.yaml:\n\n```\nrepos:\n- ~/spack/local\n```\n\nAccording to \nhttps://groups.google.com/forum/#!msg/spack/YZMe02JH5Zo/gl11k_s9DwAJ\nthe local repo should take precedence.\n\nBut while mpi resolves correctly to `openmpi` package from local repo,\nthe blas/lapack resolve to `openblas` from the builtin repo...\n`spack spec blas` -> openblas from the builtin repo\n`spack spec openblas` -> openblas from the local repo\n\nAny idea why?\n",
+    "user": "JaroslavHron",
+    "url": "https://api.github.com/repos/spack/spack/issues/1801",
+    "updated_at": "2020-03-11 13:40:03",
+    "created_at": "2016-09-19 14:36:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Error resolving providers when additional repos are set",
+    "number": 1801,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "workaround",
+        "impact-low",
+        "repos"
+    ],
+    "id": 177802221,
+    "html_url": "https://github.com/spack/spack/issues/1801",
+    "assignees": [],
+    "comments": 1
+}

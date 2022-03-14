@@ -1,0 +1,24 @@
+{
+    "body": "I've setup a buildcache to speed up building software, and installing things like Python from it. When going to build py-numpy, it crashes because it uses the compiler paths that python's `sysconfig` provides. When inspecting those, it appears to reference the exact compiler used to build Python itself which may not be available on the host Python is installed on. In my case, a compatible compiler is available but was built for a generic architecture instead of a specific one and thus invalidating the paths sysconfig has.\r\n\r\nManually editing these paths after installation seems to work, though that is not a good long-term answer.\r\n\r\n### Spack version\r\n\r\n```console\r\n$ spack --version\r\n0.14.0\r\n$ uname -a\r\nLinux 4.15.0-88-generic #88~16.04.1-Ubuntu SMP Wed Feb 12 04:19:15 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n1. Install a compiler optimized for the local microarchitecture `spack install gcc`\r\n2. Install python with a compiler optimized for a microarchitecture (e.g. broadwell, skylake)\r\n3. Create buildcache with the python installation `spack buildcache create -ra python`\r\n4. Replace compiler with one built for a generic architecture (e.g. x86_64)\r\n5. Install Python from the buildcache\r\n6. Attempt to install py-numpy, you'll see it fail with error code 127 because it cannot find the compiler it needs to build the underlying C code.\r\n\r\n### Error Message\r\n\r\nIn the example below, note that the install tree has Python installed under a generic architecture (x86_64) while the sysconfig for Python references a microarchitecture (broadwell). It would seem like we'd want to inject a different compiler path for sysconfig after installation, especially after a buildcache installation. \r\n\r\n```console\r\n/opt/env/.spack-install-tree/linux-ubuntu16.04-x86_64/gcc-7.3.0/python-3.6.3-2srnlysbfgvfklco5rr3c6rm6u2cy2oc/bin/python3.6\r\nPython 3.6.3 (default, Feb 15 2020, 22:12:49)\r\n[GCC 7.3.0] on linux\r\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\r\n>>> import sysconfig\r\n>>> sysconfig.get_config_var('CXX')\r\n'/opt/spack/opt/spack/linux-ubuntu16.04-broadwell/gcc-5.4.0/gcc-7.3.0-ypurbwgzk7b7wvm62fh6bidyt27ci6to/bin/g++ -pthread'\r\n```\r\n\r\n### Information on your system\r\n* I'm using a spack environment with the target pegged at x86_64, but it doesn't seem to make difference. Either way the compiler does not get installed as a dependency so it will not exist.\r\n* Using builtin recipes for Python and py-numpy\r\n\r\n### General information\r\nPython's sysconfig doesn't appear to be something that it wants you to change via any normal APIs. That said, updating the files manually seems to allow building of applications to succeed. Maybe there's a way we can make the recipe update this after an installation from a buildcache? That or Python should just not be installed from a buildcache.\r\n\r\nEDIT:\r\nDigging a bit more into the recipe for Python, it appears that it already tries to update these variables, but perhaps this isn't being invoked during the installation step from a buildcache?",
+    "user": "wylderkeane",
+    "url": "https://api.github.com/repos/spack/spack/issues/15379",
+    "updated_at": "2020-03-09 19:17:44",
+    "created_at": "2020-03-06 20:44:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Python installed from a buildcache explicitly references the compiler used to build it, which may not exist later.",
+    "number": 15379,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "workaround",
+        "buildcache",
+        "binary-packages",
+        "triage",
+        "architectures"
+    ],
+    "id": 577166347,
+    "html_url": "https://github.com/spack/spack/issues/15379",
+    "assignees": [],
+    "comments": 2
+}

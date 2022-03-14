@@ -1,0 +1,23 @@
+{
+    "body": "Ensure that using an installed dependency referenced by hash works even if the corresponding `package.py` has been changed in the meanwhile (a variant has been added or removed etc.).\r\n\r\n### Rationale\r\n\r\n~This is already handled by the old concretizer, so we should ensure it works also with the new.~ We should be able to reuse what is installed, if the installed spec satisfies the constraints for the problem at hand. \r\n\r\n### Description\r\n\r\nAdd a test that:\r\n1. Installs a mock package \r\n2. Modifies the corresponding `package.py`\r\n3. Uses the installation at 1 to satisfy a dependency for another package\r\n\r\nand verify that it concretize correctly.\r\n\r\n### Additional information\r\n\r\nCurrently this is broken both with the original concretizer and the new concretizer. The original concretizer treats correctly the case where a variant is added to `package.py`, but fails if a variant is removed:\r\n```console\r\n$ spack spec hdf5~mpi ^/tc5xvfd\r\nInput spec\r\n--------------------------------\r\nhdf5~mpi\r\n    ^zlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: trying to set variant \"pic\" in package \"zlib\", but the package has no such variant [happened during concretization of hdf5@1.10.7%gcc@10.1.0~cxx~debug~fortran~hl~java~mpi+pic+shared~szip~threadsafe api=none arch=linux-ubuntu18.04-x86_64 ^zlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64]\r\n```\r\nThe new concretizer fails with the same error if a variant is removed:\r\n```console\r\n$ spack solve hdf5~mpi ^/tc5xvfd\r\n==> Error: trying to set variant \"pic\" in package \"zlib\", but the package has no such variant [happened during concretization of hdf5~mpi ^zlib@1.2.11%gcc@10.1.0+optimize+pic+shared arch=linux-ubuntu18.04-x86_64]\r\n```\r\nand adds an additional variant with its default value if a variant is added (which is wrong).\r\n\r\n### General information\r\n\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/20292",
+    "updated_at": "2021-09-17 13:25:13",
+    "created_at": "2020-12-08 20:59:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Ensure the ASP-based solver can concretize against any installed spec",
+    "number": 20292,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "concretization",
+        "concretizer-use-case"
+    ],
+    "id": 759776732,
+    "html_url": "https://github.com/spack/spack/issues/20292",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 1
+}

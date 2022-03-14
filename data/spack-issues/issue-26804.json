@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nI have an environment containing ~40 explicitly declared packages, including some with moderately deep dependency chains, e.g. `py-itk` and `py-pandas`.  The generated `loads` file contains ~1250 packages and takes more than 15 minutes to source.  However, if I convert it to a single module file via `cat /path/to/loads | grep 'module load' | awk -F\" \" '{ printf \"depends_on(\\\"%s\\\")\\n\", $3 }'`, `lmod` loads in only 3s.  It appears that the separate calls to `module load` in the `loads` file incur a superlinear slowdown over use of `module load` and `depends_on` directly.\r\n\r\n### Error message\r\n\r\n_No response_\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.3-4878-4acda0839b\r\n* **Python:** 3.9.6\r\n* **Platform:** linux-ubuntu20.04-skylake\r\n* **Concretizer:** clingo\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "bcdarwin",
+    "url": "https://api.github.com/repos/spack/spack/issues/26804",
+    "updated_at": "2021-10-18 18:22:47",
+    "created_at": "2021-10-18 18:18:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Inadequate performance of generated `loads` file",
+    "number": 26804,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1029448427,
+    "html_url": "https://github.com/spack/spack/issues/26804",
+    "assignees": [],
+    "comments": 0
+}

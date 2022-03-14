@@ -1,0 +1,22 @@
+{
+    "body": "PR #14202 adds a `containerize` to create Docker/Singularity recipes from a spack.yaml file. The recipe will install specs, prune the stack, then flatten the image in a new stage to reduce the final image's size. Flattening the image destroyes the spack environment, and prevents its reuse as a base image for a larger stack. A couple changes are required to allow for both modes of file creation.\r\n\r\nAdd a `--base-image` flag to change the recipe's behavior:\r\n- The Spack directory is copied into the next image stage.\r\n- Allow spack.yaml to use any image instead of a defined list\r\n- Do not allow striping\r\n- Use `spack gc -y` and `spack clean -a` before copying the image into the next stage",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/14673",
+    "updated_at": "2020-02-04 10:58:59",
+    "created_at": "2020-01-29 19:11:06",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Proposal to extend container recipes to support base images",
+    "number": 14673,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "containers"
+    ],
+    "id": 557059297,
+    "html_url": "https://github.com/spack/spack/issues/14673",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

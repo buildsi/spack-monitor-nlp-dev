@@ -1,0 +1,19 @@
+{
+    "body": "When uninstalling a spec, we should not recompute the prefix path since it may have changed since the installation of that spec.\r\n\r\nFor instance:\r\n\r\n```\r\n$ spack install zlib~shared\r\n[+] /spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/zlib-1.2.11-k5l7ccyobzhdyxt3wpzzxgyy5va636sq\r\n\r\n$ spack -c 'config:install_tree:projections:all:${HASH}' find -p zlib~shared\r\nzlib@1.2.11  /spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/zlib-1.2.11-k5l7ccyobzhdyxt3wpzzxgyy5va636sq\r\n\r\n$ spack -c 'config:install_tree:projections:all:${HASH}' uninstall zlib~shared\r\n==> Successfully uninstalled zlib@1.2.11%gcc@10.2.0+optimize+pic~shared arch=linux-ubuntu20.04-zen2/k5l7ccy\r\n\r\n$ ls /spack/opt/spack/linux-ubuntu20.04-zen2/gcc-10.2.0/zlib-1.2.11-k5l7ccyobzhdyxt3wpzzxgyy5va636sq\r\ninclude  lib  share\r\n```\r\n\r\nWhen working with concrete specs from the database, we should not recompute these properties I suppose.\r\n\r\nMarking this as draft since likely there are more instances where the prefix path gets recomputed incorrectly.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/24610",
+    "updated_at": "2021-06-30 20:11:58",
+    "created_at": "2021-06-30 09:35:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Fix uninstall after change of projections",
+    "number": 24610,
+    "milestone": null,
+    "labels": [],
+    "id": 933496685,
+    "html_url": "https://github.com/spack/spack/pull/24610",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

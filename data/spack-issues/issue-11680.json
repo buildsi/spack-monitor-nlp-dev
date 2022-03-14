@@ -1,0 +1,23 @@
+{
+    "body": "I just noticed that `spack checksum` doesn't work for certain packages like `poppler` that have a `list_url`.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack checksum poppler\r\n==> Found 76 versions of poppler:\r\n  \r\n  0.77.0  https://poppler.freedesktop.org/releases.html/poppler-0.77.0.tar.xz\r\n  0.76.1  https://poppler.freedesktop.org/releases.html/poppler-0.76.1.tar.xz\r\n  0.76.0  https://poppler.freedesktop.org/releases.html/poppler-0.76.0.tar.xz\r\n  0.75.0  https://poppler.freedesktop.org/releases.html/poppler-0.75.0.tar.xz\r\n  0.74.0  https://poppler.freedesktop.org/releases.html/poppler-0.74.0.tar.xz\r\n  0.73.0  https://poppler.freedesktop.org/releases.html/poppler-0.73.0.tar.xz\r\n  0.72.0  https://poppler.freedesktop.org/releases.html/poppler-0.72.0.tar.xz\r\n  0.71.0  https://poppler.freedesktop.org/releases.html/poppler-0.71.0.tar.xz\r\n  0.70.1  https://poppler.freedesktop.org/releases.html/poppler-0.70.1.tar.xz\r\n  ...\r\n  0.23.0  https://poppler.freedesktop.org/releases.html/poppler-0.23.0.tar.xz\r\n\r\n==> How many would you like to checksum? (default is 1, q to abort) \r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> Downloading...\r\n==> Fetching https://poppler.freedesktop.org/releases.html/poppler-0.77.0.tar.xz\r\n##O=#    #                                                                                                                                                   \r\ncurl: (22) The requested URL returned error: 404 Not Found\r\n==> Fetching from https://poppler.freedesktop.org/releases.html/poppler-0.77.0.tar.xz failed.\r\n==> Something failed on https://poppler.freedesktop.org/releases.html/poppler-0.77.0.tar.xz, skipping.\r\n    (All fetchers failed for spack-stage-77z28pzw)\r\n==> Error: Could not fetch any versions for poppler\r\n```\r\n\r\nThe issue is that although https://poppler.freedesktop.org/releases.html lists the available tarballs for `poppler`, it is not the root where these tarballs can be found. The actual tarballs are available at https://poppler.freedesktop.org/poppler-0.77.0.tar.xz",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/11680",
+    "updated_at": "2021-04-08 20:20:13",
+    "created_at": "2019-06-11 23:29:54",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack checksum not properly handling list_url",
+    "number": 11680,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "fetching",
+        "triage"
+    ],
+    "id": 454946956,
+    "html_url": "https://github.com/spack/spack/issues/11680",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 5
+}

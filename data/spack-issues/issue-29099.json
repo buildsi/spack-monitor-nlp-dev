@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nDocumenting a discussion from one of the weekly meetings from a couple months back here.\r\n\r\nKey features to be implemented:\r\n\r\n- [ ] provide a `--repo` option for cloning to clone from a specific fork/repo\r\n- [ ] provide a `--branch` option to clone a specific branch\r\n- [ ] remove the requirement for specifying a concrete spec with `spack develop` and instead default to the default version, or the highest infinity version the package has\r\n\r\nThe final bullet point will also resolve some the the concerns @becker33 raised regarding #24966\r\nPinging developers from the meeting where this was discussed:\r\n@becker33 @scheibelp @alalazo \n\n### Rationale\n\nThese are general improvements to the developer workflow based on practice.  It is very common for developers to want to work off their own fork of the software, or to pick feature branches.  Both of these shouldn't ever be in a `package.py`. Adding the `--repo` and `--branch` options allows users to skip the need for precloning and/or adding remotes before calling `spack install`. This is especially handy when developing multiple packages in a software stack, and environment setup can get quite involved.\r\n\r\nAnother thing that is very confusing to a lot of users is why we need to provide concrete specs for `spack develop`.  The easiest answer to give them is \r\n\r\n>it's a requirement from spack\r\n\r\nwhich is an unsatisfying answer.  Also since 90% of the time `spack develop` will be using the highest infinity version `develop`, `main` or `master` we should just default to that if the spec isn't concrete.  This would remove a lot of confusion regarding `spack develop`.\r\n\n\n### Description\n\n_No response_\n\n### Additional information\n\nAn initial implementation of the `repo/branch` flag can be found in [spack-manager](https://github.com/psakievich/spack-manager/blob/0f7897a6b1b81e8ede556980d4225a016d089e22/spack-scripting/scripting/cmd/manager_cmds/develop.py#L75-L80).\r\n\r\nThis implements them as a single argument, but @becker33 has requested that they be separate arguments in spack, and that they also become entries in the `spack.yaml` that are added when users specify a repo or branch.\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "psakievich",
+    "url": "https://api.github.com/repos/spack/spack/issues/29099",
+    "updated_at": "2022-02-20 14:20:39",
+    "created_at": "2022-02-20 14:20:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Improvements to spack develop",
+    "number": 29099,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1145033244,
+    "html_url": "https://github.com/spack/spack/issues/29099",
+    "assignees": [],
+    "comments": 0
+}

@@ -1,0 +1,24 @@
+{
+    "body": "I'm trying to build/install an environment via a `spack.yaml` in a Docker container, where I used `install_missing_compilers: True` to automatically install the compiler as well. Installing the compiler goes well, but when building `openssl` (an actual spec from the yaml file) it errors with\r\n\r\n```\r\nStep #1: ==> Error: Detected uninstalled dependencies for openssl: {'zlib', 'perl'}\r\n```\r\n\r\nzlib and perl are listed in the concretization though (`^zlib@1.2.11%gcc@9.2.0+optimize+pic+shared arch=linux-ubuntu18.04-skylake`). And in fact `zlib` is installed when GCC 9.2.0 is built:\r\n\r\n```\r\nStep #1: ==> 31: Installing zlib\r\nStep #1: ==> Fetching http://zlib.net/fossils/zlib-1.2.11.tar.gz\r\nStep #1: ==> Staging archive: /tmp/root/spack-stage/spack-stage-zlib-1.2.11-zsfobvoatxmon7erh2xzk5l6imufesb7/zlib-1.2.11.tar.gz\r\nStep #1: ==> Created stage in /tmp/root/spack-stage/spack-stage-zlib-1.2.11-zsfobvoatxmon7erh2xzk5l6imufesb7\r\nStep #1: ==> No patches needed for zlib\r\nStep #1: ==> 31: zlib: Building zlib [Package]\r\nStep #1: ==> 31: zlib: Executing phase: 'install'\r\nStep #1: ==> 31: zlib: Successfully installed zlib\r\nStep #1:   Fetch: 0.47s.  Build: 1.66s.  Total: 2.12s.\r\nStep #1: [+] /opt/software/linux-ubuntu18.04-skylake/gcc-7.4.0/zlib-1.2.11-zsfobvoatxmon7erh2xzk5l6imufesb7\r\n```\r\n\r\nPossibly related issues are https://github.com/spack/spack/issues/15219 and https://github.com/spack/spack/issues/15219, but I made sure I'm on the latest development version of spack to get their bug fixes.\r\n\r\n### Spack version\r\nLatest develop version\r\n```console\r\n$ spack --version\r\n0.14.0-110-b472c1380\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nBuild the following dockerfile (building GCC 9.2.0 takes unfortunately 30mins with sufficiently many cores)\r\n\r\n```Dockerfile\r\nFROM ubuntu:18.04\r\n\r\nENV SPACK_ROOT=/opt/spack\r\n\r\nRUN apt-get -yqq update                           \\\r\n && apt-get -yqq install --no-install-recommends  \\\r\n        build-essential                           \\\r\n        ca-certificates                           \\\r\n        curl                                      \\\r\n        file                                      \\\r\n        gfortran                                  \\\r\n        git                                       \\\r\n        python3                                   \\\r\n        python3-pip                               \\\r\n        unzip                                     \\\r\n && rm -rf /var/lib/apt/lists/*\r\n\r\nRUN mkdir -p $SPACK_ROOT\r\n\r\nRUN git clone -b develop https://github.com/spack/spack.git $SPACK_ROOT\r\n\r\n# Login shell so that we expose spack\r\nRUN echo \". \\$SPACK_ROOT/share/spack/setup-env.sh\" > /etc/profile.d/spack.sh\r\nWORKDIR /root\r\nSHELL [\"/bin/bash\", \"-l\", \"-c\"]\r\nENTRYPOINT [\"/bin/bash\", \"-l\"]\r\n\r\n# Override some defaults to the spack settings\r\nRUN (echo \"config:\" \\\r\n&&   echo \"    install_missing_compilers: True\") > $SPACK_ROOT/etc/spack/config.yaml\r\n\r\nRUN mkdir /opt/spack-environment \\\r\n&&  (echo \"spack:\" \\\r\n&&   echo \"  specs:\" \\\r\n&&   echo \"  - cmake@3.16.2%gcc@9.2.0 arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  - py-mpi4py%gcc@9.2.0 arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  - netlib-scalapack%gcc@9.2.0 ^cmake@3.16.2 ^openblas threads=openmp arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  - hdf5+hl%gcc@9.2.0 arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  - libxc%gcc@9.2.0 arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  - spglib%gcc@9.2.0 arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  - gsl%gcc@9.2.0 arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  - spfft%gcc@9.2.0 arch=linux-ubuntu18.04-skylake\" \\\r\n&&   echo \"  view: /opt/view\" \\\r\n&&   echo \"  concretization: together\" \\\r\n&&   echo \"  config:\" \\\r\n&&   echo \"    install_tree: /opt/software\") > /opt/spack-environment/spack.yaml\r\n\r\n# Install the software, remove unecessary deps\r\nRUN cd /opt/spack-environment && spack install && spack gc -y\r\n```\r\n\r\n### Error Message\r\n\r\n```\r\nStep #1: ==> Error: Detected uninstalled dependencies for openssl: {'zlib', 'perl'}\r\n```\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/15328",
+    "updated_at": "2020-03-06 11:20:08",
+    "created_at": "2020-03-04 17:08:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Error: Detected uninstalled dependencies for openssl",
+    "number": 15328,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments",
+        "containers",
+        "triage"
+    ],
+    "id": 575583793,
+    "html_url": "https://github.com/spack/spack/issues/15328",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

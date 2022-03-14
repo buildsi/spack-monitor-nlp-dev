@@ -1,0 +1,21 @@
+{
+    "body": "Hello,\r\n\r\nI have a cluster running on Debian on which I installed Slurm-18-08-5-2.\r\nI would like to install Openmpi with Spack, which is pulling Slurm as a dependency. For several reasons, I would like it to use the version of Slurm which is already present in the system. For this purpose, I modified the packages.yaml file and added the path to my external Slurm:\r\n\r\n```\r\nslurm:\r\n  version: [18-08-5-2]\r\n  paths:\r\n    slurm@18-08-5-2%gcc@7.4.0 arch=linux-debiantesting-x86_64: /usr\r\n```\r\n\r\nHowever, the compilation of Openmpi is failing. \r\nAfter a little bit of digging, I found out that  it's checking for pmi2.h and libpmi2 in the system. Even though, pmi2.h was correctly detected in /usr/include/slurm/, libpmi2 wasn't because not present in /usr/lib nor in /usr/lib/slurm (which doesn't exist).\r\nThe library exists but is located in another subfolder: /usr/lib/x86_64-linux-gnu/\r\n\r\nThe question is then the following:\r\nIs there a way to indicate multiple paths for the same package in the packages.yaml file or is there a way that more subdirectories would be checked during the configure?\r\n\r\nI have checked the discussions and the doc but haven't found anything about it. \r\nWould someone have an idea on how to make the trick?\r\nThanks a lot for any kind of help.",
+    "user": "paudelcroix",
+    "url": "https://api.github.com/repos/spack/spack/issues/11177",
+    "updated_at": "2019-07-20 00:29:08",
+    "created_at": "2019-04-12 10:36:57",
+    "closed_at": "None",
+    "state": "open",
+    "title": "External package with libraries in different paths",
+    "number": 11177,
+    "milestone": null,
+    "labels": [
+        "impact-medium"
+    ],
+    "id": 432500874,
+    "html_url": "https://github.com/spack/spack/issues/11177",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nOn ubuntu 20.04\r\n\r\n```console\r\n$ apt-get install libfabric-dev\r\n$ spack install spfft +mpi ^mpich\r\n```\r\n\r\nWhen installing spfft, cmake complains:\r\n\r\n```\r\nThe MPI test test_mpi for CXX in mode normal failed to compile with the following output:\r\nChange Dir: /tmp/harmen/spack-stage/spack-stage-spfft-1.0.1-5w6kgf3aietp7tg6dskjj5e5mcio3mca/spack-build-5w6kgf3/CMakeFiles/CMakeTmp\r\n\r\nRun Build Command(s):/usr/bin/make -f Makefile cmTC_4de26/fast && /usr/bin/make  -f CMakeFiles/cmTC_4de26.dir/build.make CMakeFiles/cmTC_4de26.dir/build\r\nmake[1]: Entering directory '/tmp/harmen/spack-stage/spack-stage-spfft-1.0.1-5w6kgf3aietp7tg6dskjj5e5mcio3mca/spack-build-5w6kgf3/CMakeFiles/CMakeTmp'\r\nBuilding CXX object CMakeFiles/cmTC_4de26.dir/test_mpi.cpp.o\r\n/home/harmen/spack/lib/spack/env/gcc/g++  -isystem /home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/include -std=gnu++11 -o CMakeFiles/cmTC_4de26.dir/test_mpi.cpp.o -c /tmp/harmen/spack-stage/spack-stage-spfft-1.0.1-5w6kgf3aietp7tg6dskjj5e5mcio3mca/spack-build-5w6kgf3/CMakeFiles/FindMPI/test_mpi.cpp\r\nLinking CXX executable cmTC_4de26\r\n/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/cmake-3.20.0-4qidoyltbu3rmob2qg4zqipjiuepmrpo/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4de26.dir/link.txt --verbose=1\r\n/home/harmen/spack/lib/spack/env/gcc/g++ -Wl,-rpath -Wl,/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/lib -L/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/hwloc-2.4.1-h55onjtrja246c2dccbqcgwn7mionf2r/lib CMakeFiles/cmTC_4de26.dir/test_mpi.cpp.o -o cmTC_4de26  -Wl,-rpath,/home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/lib /home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/lib/libmpicxx.so /home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/lib/libmpi.so \r\n/usr/bin/ld: /home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/lib/libmpi.so: undefined reference to `fi_dupinfo@FABRIC_1.3'\r\n/usr/bin/ld: /home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/lib/libmpi.so: undefined reference to `fi_getinfo@FABRIC_1.3'\r\n/usr/bin/ld: /home/harmen/spack/opt/spack/linux-ubuntu20.04-zen/gcc-8.4.0/mpich-3.4.1-dqwl5sfgnq2raufpppvmvvc72rwqmxgw/lib/libmpi.so: undefined reference to `fi_freeinfo@FABRIC_1.3'\r\n```\r\n\r\nAfter running `spack uninstall mpich` and `apt-get remove libfabric-dev` it does not complain.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/22982",
+    "updated_at": "2021-04-19 04:36:26",
+    "created_at": "2021-04-14 11:27:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "mpich picks up system libfabric",
+    "number": 22982,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 857802363,
+    "html_url": "https://github.com/spack/spack/issues/22982",
+    "assignees": [],
+    "comments": 5
+}

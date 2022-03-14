@@ -1,0 +1,23 @@
+{
+    "body": "When installing a package, Spack is installing transitive build dependencies even though they are no longer needed.\r\n\r\n### Expected Result\r\n\r\nI would expect Spack to only install the packages that are necessary.\r\n\r\n### Actual Result\r\n\r\nIf I have the following packages installed:\r\n```console\r\n$ spack spec -I gcc\r\n...\r\n     gcc@7.3.0%clang@9.0.0-apple~binutils languages=c,c++,fortran patches=d72db78262ecde2d471c83f7c6f440838bd362b29f4f1115d6f339a79b110715,ecc5ac43951b34cbc5db15f585b4e704c42e2e487f9ed4c24fadef3f3857930b ~piclibs~strip arch=darwin-highsierra-x86_64 \r\n[+]      ^gmp@6.1.2%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n             ^autoconf@2.69%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n[+]              ^m4@1.4.18%clang@9.0.0-apple patches=3877ab548f88597ab2327a2230ee048d2d07ace1062efe81fc92e91b7f39cd00 +sigsegv arch=darwin-highsierra-x86_64 \r\n[+]                  ^libsigsegv@2.11%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n[+]              ^perl@5.18.2%clang@9.0.0-apple+cpanm+shared arch=darwin-highsierra-x86_64 \r\n             ^automake@1.15.1%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n[+]          ^libtool@2.4.6%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n[+]      ^isl@0.19%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n[+]      ^mpc@1.1.0%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n[+]          ^mpfr@4.0.1%clang@9.0.0-apple arch=darwin-highsierra-x86_64 \r\n[+]      ^zlib@1.2.11%clang@9.0.0-apple+optimize+pic+shared arch=darwin-highsierra-x86_64 \r\n```\r\nand I try to install GCC, Spack first installs `autoconf` and `automake`. These packages are no longer necessary as `gmp` has already been successfully installed.\r\n\r\n### Steps to reproduce the issue\r\n\r\nHaven't tested this, but presumably one could reproduce this issue by running:\r\n\r\n```console\r\n$ spack install gmp\r\n$ spack uninstall automake\r\n$ spack uninstall autoconf\r\n$ spack install gcc\r\n```\r\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/7695",
+    "updated_at": "2022-01-03 17:41:28",
+    "created_at": "2018-04-08 14:22:56",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack is installing unnecessary build dependencies",
+    "number": 7695,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "dependencies",
+        "impact-low"
+    ],
+    "id": 312309820,
+    "html_url": "https://github.com/spack/spack/issues/7695",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 7
+}

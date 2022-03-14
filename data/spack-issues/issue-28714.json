@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nExploring the idea of defining `cuda_arch` and `amdgpu_target` in the `cuda` and `hip` package specs respectively. In this structure GPU dependent packages would inspect this variant from their dependency (`cuda` or `hip`) rather than having to propagate the arch variant down to all of its own dependencies.\n\n### Rationale\n\nCurrently `CudaPackage`s and `ROCmPackage`s define a variant, `cuda_arch` and `amdgpu_target` respectively, for packages to interpret the GPU architecture to build for. This is fine, and at first glance makes a lot of sense.\r\n\r\nHowever, when dealing with stacks of dependencies that need to target the same GPU target there are caveats. First, by default the GPU arch variant will not always select the same, or even compatible, GPU architectures as the default. For example, one ROCm package will default to `amdgpu_target=gfx900` while its dependency could default to `amdgpu_target=gfx801`.\r\n\r\nThe current standard fix for this in spack packages is to manually propagate this dependency down the stack.\r\n\r\n```python\r\nfor cuda_arch in CudaPackage.cuda_arch_values:\r\n   depends_on('my-dep cuda_arch={0}'.format(cuda_arch), when='+cuda cuda_arch={0}'.format(cuda_arch))\r\n\r\nfor amdgpu_target in ROCmPackage.amdgpu_targets:\r\n   depends_on('my-dep amdgpu_target={0}'.format(amdgpu_target), when='+rocm amdgpu_target={0}'.format(amdgpu_target))\r\n```\r\n\r\nWhile this isn't the most complicated code to write in most cases, it does not feel like the most efficient way. It may also lead to bugs by unsuspecting package maintainers who don't realize this is required (like me a few months ago :slightly_smiling_face:).\r\n\r\nA testimonial to having it this way being a pain is in the `ecp-data-vis-sdk`, propagating `amdgpu_target` to vtk-m requires adding additional constraints to the above example (#28712). Because of this, the weight for enabling ROCm for vtk-m is too high and will by default not select a ROCm compatible version of vtk-m by default, requiring the spec to have to explicitly ask for it. Without having to propagate the `amdgpu_target`, and only specifying the inverse spec for when ROCm cannot be used, spack will select the intended package version by default.\r\n\r\n==\r\n\r\nApart from the assistance for package developers, it would allow moving all of the version constraints based on the selected arch to the core toolkits (`cuda` and `hip`) rather than having them inherited by every package that needs them. Just this alone could be an argument to have the arch specified by these packages since it is clear there is an extremely strong coupling between the two.\n\n### Description\n\nAdd the variants to the respective core GPU toolkits. Then convert all of the GPU packages to inspect the core toolkit package spec to determine the architecture(s) to build for. This would guarantee all packages that share the same dependency will agree on the GPU architecture(s) automatically.\n\n### Additional information\n\nMy current version 1.17.1-develop\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "kwryankrattiger",
+    "url": "https://api.github.com/repos/spack/spack/issues/28714",
+    "updated_at": "2022-02-11 18:15:15",
+    "created_at": "2022-02-01 17:22:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Reverse how GPU architecture is communicated between packages",
+    "number": 28714,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1120992469,
+    "html_url": "https://github.com/spack/spack/issues/28714",
+    "assignees": [],
+    "comments": 3
+}

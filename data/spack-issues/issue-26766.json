@@ -1,0 +1,23 @@
+{
+    "body": "Currently if you run `spack uninstall x` in an environment, and `x` refers to a user spec (e.g. something added with `spack add`), Spack will update the `spack.yaml` to remove that spec. This changes the behavior so that `spack uninstall` *just* uninstalls the spec: if you immediately run `spack install` in the environment (which in Spack is a request to install all specs registered with the environment), then - with this PR - it would reinstall the spec.\r\n\r\nThis is anticipated to be useful if a user is modifying the package.py for a package in their environment: they may want to uninstall and then reinstall it to get the latest state (at the moment, modifications to the package.py don't affect the hash that Spack uses to compute the install prefix and thereby to distinguish it from other installed specs).\r\n\r\n`spack rm` can already remove specs, so there is still a command line mechanism available to edit the environment. \r\n\r\nThis could interfere with scripts that depend on the current behavior of `spack uninstall`, although I consider that unlikely since this I don't think users would generally script uninstall actions.\r\n\r\nIf you have environments `e1` and `e2`, and specs [X, Y] such that [X, Y] is in `e1`, and [X] is in `e2`\r\n\r\n* `spack uninstall y` in `e1`: uninstalls the spec (but with this PR it stays in e1)\r\n* `spack uninstall x` in `e1`: complains because `x` is also in `e2`\r\n*  (new) `spack uninstall --remove x` in `e1`: removes `x` from `e1` but does not actually uninstall the spec\r\n* `spack uninstall -f x` in `e1`: uninstalls the spec (both e1 and e2 are now \"missing\" this spec)\r\n\r\nIf you have environments e1 and e2, and specs [P, Q, R] such that `P->R`, `Q->R`, and [P, R] are in e1 and [Q, R] are in e2\r\n\r\n* `spack uninstall p` in `e1`: uninstalls the spec\r\n* `spack uninstall r` in `e1`: will fail for two reasons: (1) P needs R in e1 and (2) e2 needs R\r\n* `spack uninstall --dependents r` in `e1`: will fail because `e2` needs R\r\n* (new) `spack uninstall --dependents --remove r` in `e1`: removes R from `e1` (but does not uninstall it) and uninstalls (and removes) P\r\n* [C0] `spack uninstall -f --dependents r` in `e1`: will uninstall P, Q, and R (i.e. e2 will have dependent specs uninstalled as a side effect)\r\n* (new) `spack uninstall -f --dependents --remove r` in `e1`: this uninstalls P, Q, and R, and removes [P, R] from `e1`\r\n* (new) `spack uninstall -f --remove r` in `e1`: uninstalls R (so it is \"missing\" in both environments) and removes R from `e1` (note that `e1` would still install R as a dependency of P, but it would no longer be listed as a root spec)\r\n\r\n(This is now handled) ~This PR does not remove the complementary behavior from `spack install`: if a user runs `spack install x` in an environment, it will add `x` to the list of user specs recorded for the environment. This could easily be removed, although I think this behavior could be useful: without this, if you want to install a new spec to an environment, you would have to run `spack add x` followed by `spack install`.~\r\n\r\n`spack install` has also been updated: by default it will not modify an environment unless you specify `--add` (previously, you had to specify `--no-add` to prevent Spack from updating the current active environment).\r\n\r\nOther notes:\r\n\r\n* If you `spack uninstall -f` a spec that is wanted by existing environments, their corresponding views are not updated (this was the case before, I'm just noting that explicitly here).\r\n\r\nTODOs:\r\n\r\n- [x] Update tests\r\n- [ ] Add test for case [C0] above\r\n- [x] Update `spack install` so that it doesn't modify the active environment by default\r\n- [x] Make the original behavior optional: add `--add` and `--remove` options to `spack install` and `spack uninstall`, respectively",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/26766",
+    "updated_at": "2022-01-05 21:12:39",
+    "created_at": "2021-10-15 17:43:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "WIP: \"spack uninstall\": don't modify env",
+    "number": 26766,
+    "milestone": null,
+    "labels": [
+        "WIP",
+        "tests",
+        "commands"
+    ],
+    "id": 1027660929,
+    "html_url": "https://github.com/spack/spack/pull/26766",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 1
+}

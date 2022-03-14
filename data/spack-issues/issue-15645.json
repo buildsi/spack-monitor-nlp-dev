@@ -1,0 +1,22 @@
+{
+    "body": "This makes it so debug information in spack produced binaries point to source code locations in the install area, rather than in the stage area.  When mixed with the 'spack install --source' option, this lets you debug spack installed packages out of the box, without having to remap source locations in your debugger first.\r\n\r\nThis uses the gcc/clang option -fdebug-prefix-map, and it only works on those compilers.  The option tells gcc/clang that, even though they're building in the stage area, to pretend the source files are in the $PREFIX/share/$PKGNAME/src area.\r\n\r\nCurrently, this is always on.  I haven't seen any drawback to using the option.  Should there be options to turn this off anyways?\r\n\r\nFor the --source option, we decided that source installations would not be part of the spec.  This is takes things farther and is modifying the DWARF information, which does change installed bits.  But not in any way that should affect program behavior.  Do we want to track this in the spec?  \r\n\r\nI have thoughts on improving this for relocatable packages and other compilers.  But that's significantly more work, and this is a start.\r\n\r\nConsider this a WIP.  Just before sending out this PR I saw it fail to translate a python build's debug location.  That needs some debugging.  But we can start any discussion.\r\n\r\n",
+    "user": "mplegendre",
+    "url": "https://api.github.com/repos/spack/spack/issues/15645",
+    "updated_at": "2020-03-24 00:05:55",
+    "created_at": "2020-03-24 00:05:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Make debuggers find source code for spack installed packages",
+    "number": 15645,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "WIP",
+        "build-environment",
+        "debugging"
+    ],
+    "id": 586596507,
+    "html_url": "https://github.com/spack/spack/pull/15645",
+    "assignees": [],
+    "comments": 0
+}

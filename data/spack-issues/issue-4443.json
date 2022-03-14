@@ -1,0 +1,19 @@
+{
+    "body": "In [a recent PR](https://github.com/LLNL/spack/pull/4398#issuecomment-305239874) I pontificated about the importance of hardwiring the sbang line so that scripts use the interpreter with which they were built.\r\n\r\nIn the ongoing [discussion about LD_LIBRARY_PATH](https://github.com/LLNL/spack/issues/3955) I've learned that it's important to help \"user-space\" people use Spack-managed trees to build their own software.\r\n\r\nToday I helped a \"user-space\" someone use the `perl` and `cpanm` from one of my test trees to install a CPAN-style distro, only to discover that the resulting sbang line in the distro's scripts was too long.  (First we rediscovered #4338, but that's fixed).  My production trees have paths that squeak in under the line, phew.\r\n\r\nDoes anyone have any experience with helping \"user-space\" people use Spacks sbang-ification tools?  Documentation about how they might use Spack sbanging code?\r\n\r\nIt seems as if one could write a fairly short script that accepted a directory name, imported the bits from `lib/spack/spack/hooks/sbang.py` and then called `filter_shebangs_in_directory` on it.\r\n\r\nPerhaps I should write one and PR it to live in the bin directory alongside the `spack` command?\r\n\r\nIs there a better solution?\r\n",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4443",
+    "updated_at": "2017-06-07 16:58:49",
+    "created_at": "2017-06-06 21:32:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Helping user scripts use `bin/sbang`",
+    "number": 4443,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 234031305,
+    "html_url": "https://github.com/spack/spack/issues/4443",
+    "assignees": [],
+    "comments": 0
+}

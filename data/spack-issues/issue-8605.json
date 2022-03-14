@@ -1,0 +1,21 @@
+{
+    "body": "Thanks a lot for your previous help. It was always timely and to the point.\r\n\r\nAll the dependencies built OK after tinkering a bit and moving building to the compute nodes (I will find out how to farm out testing and bootstrapping to the computes or working around them).\r\n\r\nI could not get the configuration step of R to work because it reported:\r\n```\r\n...\r\nchecking whether ftn and cc agree on int and double... configure: WARNING: ftn and cc disagree on int and double\r\n...\r\n```\r\nWhich to me basically meant that the config ran just failed, not necessarily that the numbers didn't agree. Thanks to help from ALCF suffort, I got that step fixed by adding \r\n```\r\nexport CRAYPE_LINK_TYPE=dynamic\r\nexport PMI_NO_FORK=1\r\n```\r\nConfigure then went through, but it died later during build with \r\n```\r\n  >> 884    /opt/cray/pe/cce/8.7.0/binutils/x86_64/x86_64-pc-linux-gnu/bin/ld: cannot find -lAtpSigHandler\r\n  >> 885    /opt/cray/pe/cce/8.7.0/binutils/x86_64/x86_64-pc-linux-gnu/bin/ld: cannot find -lAtpSigHCommData\r\n  >> 886    collect2: error: ld returned 1 exit status\r\nthose are libraries that are part of the cray module atp\r\n> find /opt/cray/pe/atp/2.1.1/ -name \\*AtpSigH\\*\r\n/opt/cray/pe/atp/2.1.1/libApp/libAtpSigHandler.so\r\n/opt/cray/pe/atp/2.1.1/libApp/libAtpSigHandler.so.0\r\n/opt/cray/pe/atp/2.1.1/libApp/libAtpSigHCommData.a\r\n/opt/cray/pe/atp/2.1.1/libApp/libAtpSigHandler.a\r\n/opt/cray/pe/atp/2.1.1/libApp/libAtpSigHandler.so.0.0.0\r\n```\r\nI tried to add the `module load atp` and build `--dirty`, but it didn't help. \r\nI am trying to work around it, but since it seems that something is non functioning correctly, I am reporting it (I am of course looking forward to your reply and to use it)\r\n\r\nThanks a lot\r\n",
+    "user": "llpesce",
+    "url": "https://api.github.com/repos/spack/spack/issues/8605",
+    "updated_at": "2021-01-17 22:34:43",
+    "created_at": "2018-06-28 19:38:56",
+    "closed_at": "None",
+    "state": "open",
+    "title": "failure to build r@3.5.0%gcc@7.3.0 arch=cray-cnl6-mic_knl   @ theta.ALCF",
+    "number": 8605,
+    "milestone": null,
+    "labels": [
+        "cray",
+        "build-error",
+        "R"
+    ],
+    "id": 336753205,
+    "html_url": "https://github.com/spack/spack/issues/8605",
+    "assignees": [],
+    "comments": 6
+}

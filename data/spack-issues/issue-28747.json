@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nI'm trying to use the overriding of packages as described in https://spack.readthedocs.io/en/latest/repositories.html#overriding-built-in-packages, with the following setup:\r\n- the builtin repo contains a package with the most recent versions (e.g. zlib 1.2.11)\r\n- a local repo contains the same package but only an old version (e.g. zlib 1.2.8)\r\n\r\nlocalrepo is added to the repo list, thus it has priority over builtin. Since I want the latest version of the package, I run `spack install builtin.zlib@1.2.11`, but it does not behave as expected with v0.17.0 and v0.17.1, while it's ok with v0.16.3\r\n\r\n\r\n### Error message\r\n\r\n```console\r\n$ spack install builtin.zlib@1.2.11\r\n==> Warning: Missing a source id for zlib@1.2.11\r\n==> Installing zlib-1.2.11-ysprwfsnfe2ybpqg4r3tkbkvyavgmjne\r\n==> No binary for zlib-1.2.11-ysprwfsnfe2ybpqg4r3tkbkvyavgmjne found: installing from source\r\n==> Warning: There is no checksum on file to fetch zlib@1.2.11 safely.\r\n==>   Fetch anyway? [y/N] y\r\n==> Fetching https://zlib.net/fossils/zlib-1.2.11.tar.gz\r\n==> No patches needed for zlib\r\n==> zlib: Executing phase: 'install'\r\n==> zlib: Successfully installed zlib-1.2.11-ysprwfsnfe2ybpqg4r3tkbkvyavgmjne\r\n  Fetch: 2.40s.  Build: 3.33s.  Total: 5.73s.\r\n[+] /path/to/spack/opt/spack/linux-debian10-skylake/gcc-8.3.0/zlib-1.2.11-ysprwfsnfe2ybpqg4r3tkbkvyavgmjne\r\n$ spack find -N\r\n==> 2 installed packages\r\n-- linux-debian10-skylake / gcc@8.3.0 ---------------------------\r\nspack-localrepo.zlib@1.2.8  spack-localrepo.zlib@1.2.11\r\n```\r\n\u2192 zlib@1.2.11 is not fetched from builtin\r\n\r\nWhile it was ok with v0.16.3.\r\n```console\r\n$ spack install builtin.zlib@1.2.11\r\n==> Installing zlib-1.2.11-35k2t3imxwoldp42uymipncstsisqeqt\r\n==> No binary for zlib-1.2.11-35k2t3imxwoldp42uymipncstsisqeqt found: installing from source\r\n==> Using cached archive: /home/neyron/scm/spack-v0.16.2/var/spack/cache/_source-cache/archive/c3/c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1.tar.gz\r\n==> zlib: Executing phase: 'install'\r\n[+] /path/to/spack/opt/spack/linux-debian10-skylake/gcc-8.3.0/zlib-1.2.11-35k2t3imxwoldp42uymipncstsisqeqt\r\n$ spack find -N\r\n==> 2 installed packages\r\n-- linux-debian10-skylake / gcc@8.3.0 ---------------------------\r\nbuiltin.zlib@1.2.11  spack-localrepo.zlib@1.2.8\r\n```\r\n\u2192 zlib@1.2.11 is fetched from builtin\r\n\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-debian10-skylake\r\n* **Concretizer:** clingo\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "npf",
+    "url": "https://api.github.com/repos/spack/spack/issues/28747",
+    "updated_at": "2022-02-23 16:18:23",
+    "created_at": "2022-02-03 10:12:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Overriding is broken in v0.17",
+    "number": 28747,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1122892033,
+    "html_url": "https://github.com/spack/spack/issues/28747",
+    "assignees": [],
+    "comments": 0
+}

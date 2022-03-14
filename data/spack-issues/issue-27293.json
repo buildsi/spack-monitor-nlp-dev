@@ -1,0 +1,25 @@
+{
+    "body": "@sethrj, this is an alternative to #23873.  I actually like this one better.  It allows the package to define a version's submodules as a callable function which is then called with the package as the first argument.  It allows for the `FetchStrategy` and `FetchStrategyComposite` to define a `set_package` attribute.  This should be compatible with source, resources, etc.  Usage:\r\n\r\n```python\r\ndef submodules(package):\r\n    if \"+baz\" in package.spec:\r\n        return [\"baz\"]\r\n    \r\nclass MyPackage(Package):\r\n    variant(\"baz\", default=False)\r\n    version(\"1.0.0\", git=git_url, submodules=submodules)\r\n```\r\n\r\nThere are still some encapsulation issues, but I think this is a necessary evil since fetchers are instantiated before a package is concretized.\r\n\r\nA disadvantage of this method compared to #23873 is that the submodule function will need to be passed to each `version` declaration - which is not different than the current requirement to set `submodules=True` in each `version` declaration.  A clear advantage is that when the package is assigned to its `fetcher` there need not be a distinction between the `root_fetcher`, `resources`, etc. (see comment https://github.com/spack/spack/pull/23873#discussion_r744862777)",
+    "user": "tjfulle",
+    "url": "https://api.github.com/repos/spack/spack/issues/27293",
+    "updated_at": "2022-03-08 20:34:36",
+    "created_at": "2021-11-08 16:44:31",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow more fine-grained control over what submodules are updated: part 2",
+    "number": 27293,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "documentation",
+        "fetching",
+        "tests"
+    ],
+    "id": 1047672565,
+    "html_url": "https://github.com/spack/spack/pull/27293",
+    "assignees": [
+        "sethrj",
+        "alalazo"
+    ],
+    "comments": 14
+}

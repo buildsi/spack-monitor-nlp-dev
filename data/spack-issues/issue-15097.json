@@ -1,0 +1,19 @@
+{
+    "body": "\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install vpic\r\n... \r\n\r\n77     /home/ec2-user/spack/lib/spack/env/gcc/gcc -DVPIC_USE_PTHREADS -I/home/ec2-user/spack/opt/spack/linux-amzn2-aarch64/gcc-7.3.1/openmpi-3.1.5-tn5oz5g\r\n            b75ikfp4jct3rn7bhq6d4yy4a/include -I/tmp/ec2-user/spack-stage/spack-stage-vpic-develop-zz3bwlblillwtm5f67z3aqqmmppgvm2s/spack-src -I/tmp/ec2-user/s\r\n            pack-stage/spack-stage-vpic-develop-zz3bwlblillwtm5f67z3aqqmmppgvm2s/spack-src/./test/include  -O2 -g -DNDEBUG   \"-fexceptions -pthread\" -std=gnu99\r\n             -o CMakeFiles/vpic.dir/src/emitter/emitter.c.o   -c /tmp/ec2-user/spack-stage/spack-stage-vpic-develop-zz3bwlblillwtm5f67z3aqqmmppgvm2s/spack-src/\r\n            src/emitter/emitter.c\r\n  >> 78     gcc: error: unrecognized command line option '-fexceptions -pthread'; did you mean '-fexceptions'?\r\n  >> 79     make[2]: *** [CMakeFiles/vpic.dir/src/boundary/boundary.c.o] Error 1\r\n     80     make[2]: *** Waiting for unfinished jobs....\r\n```\r\n\r\n### Platform and user environment (occurred on both)\r\n\r\nAArch64 AWS Graviton\r\n```\r\nuname -a\r\nLinux ip-172-31-7-135.us-east-2.compute.internal 4.14.154-128.181.amzn2.aarch64 #1 SMP Sat Nov 16 21:45:54 UTC 2019 aarch64 aarch64 aarch64 GNU/Linux\r\n\r\ncat /etc/*-release\r\nNAME=\"Amazon Linux\"\r\nVERSION=\"2\"\r\nID=\"amzn\"\r\nID_LIKE=\"centos rhel fedora\"\r\nVERSION_ID=\"2\"\r\nPRETTY_NAME=\"Amazon Linux 2\"\r\nANSI_COLOR=\"0;33\"\r\nCPE_NAME=\"cpe:2.3:o:amazon:amazon_linux:2\"\r\nHOME_URL=\"https://amazonlinux.com/\"\r\nAmazon Linux release 2 (Karoo)\r\n```\r\n\r\nAArch64 ThunderX2\r\n\r\n```\r\nuname -a\r\nLinux arm-login01 4.4.180-94.100-default #1 SMP Tue Jul 9 19:57:20 UTC 2019 (1569ffb) aarch64 aarch64 aarch64 GNU/Linux\r\n\r\ncat /etc/*-release\r\n[...]\r\nSUSE Linux Enterprise Server 12 (aarch64)\r\nVERSION = 12\r\nPATCHLEVEL = 3\r\n```\r\n\r\n\r\n\r\n### Additional Information\r\n\r\nSpack adds the flags `-fexception -pthread` to the `mpicc` wrapper when it builds OpenMPI 3.1.5 for VPIC. These flags get added to the CMakeCache.txt of VPIC as `MPI_C_COMPILE_OPTIONS:STRING=-fexceptions;-pthread`.\r\n\r\nWhen CMake then invokes `make` to build VPIC, the flags become encapsulated in quotes and the build fails.\r\n\r\nVPIC builds correctly if system MPI wrappers are declared in a `packages.yaml` file. ",
+    "user": "LPettey-Arm",
+    "url": "https://api.github.com/repos/spack/spack/issues/15097",
+    "updated_at": "2020-03-10 08:42:33",
+    "created_at": "2020-02-19 21:58:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: VPIC",
+    "number": 15097,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 567873636,
+    "html_url": "https://github.com/spack/spack/issues/15097",
+    "assignees": [],
+    "comments": 4
+}

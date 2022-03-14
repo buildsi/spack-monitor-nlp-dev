@@ -1,0 +1,27 @@
+{
+    "body": "This issue is a multi-months experience report on getting a pretty standard scientific software stack up on macOS. Thank you to @LDAmorim for trying and reporting all things in a dedicated manner. You are the best! :sparkles: \r\nThank you also already to everyone that helped us in the last months, you rock :rocket: \r\n\r\n### Setup a Compiler\r\n\r\nThe first steps are already problematic.\r\n`Clone`-and-go is not really an option even on the latest macOS Catalina, too many things are just GCC specific. One can document this, to ease the pain.\r\n\r\nUsers will try to bootstrap a GCC with `spack install gcc`. This usually/often/randomly(?) will fail when bootstrapping from AppleClang (latest test: works :tada:). The Slack-level work-around is to use `brew install gcc` and register that. If that's the only way to get started, then let's document that.\r\n\r\nAlternatively, let's try to get dependency/package issues fixed with AppleClang.\r\n\r\n### The Software Stack\r\n\r\n```\r\nspack install py-jupyter\r\nspack install py-scipy\r\nspack install py-matplotlib\r\nspack install py-docutils\r\nspack install py-packaging\r\nspack install py-sympy\r\nspack install py-mpi4py\r\nspack install py-sphinx\r\nspack install py-sphinxcontrib-programoutput\r\nspack install py-sphinx-rtd-theme\r\nspack install graphviz\r\nspack install git\r\nspack install mercurial\r\nspack install subversion\r\n```\r\n\r\n### Related Issues\r\n\r\nSo far, half of the newly reported issue were solvable. Other related macOS + GCC issues (among other open ones in which the user participates):\r\n\r\n- https://github.com/spack/spack/issues?q=is%3Aissue+author%3Aldamorim+\r\n\r\nStill challenging are even some basics:\r\n- `python` itself: https://github.com/spack/spack/issues/2230#issuecomment-614293185\r\n- `py-setuptools` https://github.com/ax3l/spack-emacs/runs/606176488?check_suite_focus=true\r\n- `py-numpy` does not build without disabling blas and lapack\r\n- `openblas`: IIRC, the source issue for `py-numpy`\r\n- `py-jupyter` https://github.com/spack/spack/issues/15410 (and below)\r\n- `glib` https://github.com/spack/spack/issues/16214\r\n\r\n### Time to Solution\r\n\r\nJust to mention, build times on Apple laptops for python stacks are problematic, in part since people keep older hardware (but with recent OS versions) for (too) many years and in part because all laptop build times are problematic (a maximum of 4 physical cores is what most people have these days).\r\n\r\nA single issue down the stack rebuilds many large dependencies such as `llvm` regularly, since such huge projects are used in many popular python packages. One cannot understate what an influence build caches for macOS would have.\r\n\r\n### Impact\r\n\r\nmacOS developer laptops are (for me) surprisingly common, for example more than half of our group develops on one. So covering common stacks reliably will have a large impact. (Memo to myself: `*Apply nudge to all of you to switch to Linux now. You are all just using a GNU/Linux software stack in an expensive case :-p *` Back to topic?)\r\n\r\n### Information on your system\r\n\r\nmacOS 10.15 Catalina",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/16215",
+    "updated_at": "2022-01-04 12:00:42",
+    "created_at": "2020-04-21 19:17:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Meta: Scientific Python macOS Stack",
+    "number": 16215,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "python",
+        "user-experience",
+        "python3",
+        "gcc"
+    ],
+    "id": 604222415,
+    "html_url": "https://github.com/spack/spack/issues/16215",
+    "assignees": [
+        "tgamblin",
+        "adamjstewart"
+    ],
+    "comments": 22
+}

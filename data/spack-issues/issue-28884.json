@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nUse the following spack.yaml file:\r\n\r\n```\r\nspack:\r\n  specs:\r\n  - lua\r\n  concretization: together\r\n```\r\n\r\nDo the following:\r\n\r\n```\r\n$ spack env create myenv spack.yaml\r\n$ spack env activate myenv\r\n$ spack install\r\n$ spack env deactivate\r\n$ spack env activate myenv\r\n$ spack add rocksdb\r\n$ spack install\r\n```\r\n\r\nRocksDB will fail with the following error:\r\n\r\n```\r\nMakefile:442: *** Cannot find lualib.h under /home/mdorier/lua-test/spack/var/spack/environments/myenv/.spack-env/view/lib/lua/5.3/?/init.lua;/home/mdorier/lua-test/spack/var/spack/environments/myenv/.spack-env/view/lib/lua/5.3/?.lua;/home/mdorier/lua-test/spack/var/spack/environments/myenv/.spack-env/view/share/lua/5.3/?/init.lua;/home/mdorier/lua-test/spack/var/spack/environments/myenv/.spack-env/view/share/lua/5.3/?.lua/include.  Try to specify both LUA_PATH and LUA_INCLUDE manually.  Stop.\r\n```\r\n\r\nIt seems that even though the rocksdb package doesn't depend on lua, the rocksdb Makefile looks for LUA_PATH, which happens to be defined in the context of this environment. The path to which it is defined by spack seems weird, however. It has a \"?\". The LUA_CPATH environment variable is also defined by spack and also has a \"?\" in it.\r\n\r\nOne possible solution would be to make sure LUA_PATH and LUA_CPATH are unset during the install phase of rocksdb, but this problem may be hiding some other issues. I don't know whether the lua package itself has a problem in setting these paths, and I don't know why rocksdb is looking for lua. Rocksdb is also suggesting we set LUA_INCLUDE so maybe that's something missing from the lua package. But I'm also uneasy about the fact that rocksdb could build differently depending on the presence or absence of another package in the active environment...\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-1150-389b24c4dc\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-sandybridge\r\n* **Concretizer:** clingo\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\r\n- [X] I have uploaded the build log and environment files\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/28884",
+    "updated_at": "2022-02-11 11:24:46",
+    "created_at": "2022-02-11 11:22:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: rocksdb conflicts with lua in environment",
+    "number": 28884,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1132404182,
+    "html_url": "https://github.com/spack/spack/issues/28884",
+    "assignees": [],
+    "comments": 0
+}

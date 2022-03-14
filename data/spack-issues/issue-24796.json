@@ -1,0 +1,19 @@
+{
+    "body": "An option to help understand *why* spack decided on a particular spec (variants and dependencies chosen)  \r\n\r\n### Rationale\r\n\r\nSpack seems to treat my `packages.yaml` and command-line with disdain, and if I know why it chose each element of the concrete spec, I might be able to adjust things to get the spec I actually want. \r\n\r\nFor example, my packages.yaml has:\r\n```\r\npackages:\r\n  all:\r\n    [snip]\r\n    providers:\r\n      mpi: [mpich, openmpi]\r\n    [snip]\r\n    cmake:\r\n    buildable: false\r\n    version: [3.20.5]\r\n    externals:\r\n    - spec: cmake@3.20.5\r\n      modules: [cmake/3.20.5]\r\n```\r\n\r\n`spack spec -Il lammps` reveals that Spack intends to build lammps on mvapich2, but not before building a new, different cmake to build it with.\r\n\r\nPresumably, this obstinacy happens because something further down the dependency tree has a default value for a variant that conflicts with .. something. And it's almost certainly something not relevant to my needs, so if I know what it is I can add a spec clause to switch it off, eg `^foo ~special_fix_for_vax` \r\n\r\n### Description\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\nSomething like `spack config blame`, but for `spack spec`, that eg showed the things leading to each variant and dependency, perhaps\r\n\r\n```\r\n -   ztmbkt7  lammps@20210310%gcc@10.1.0~asphere~body\r\n          @20210310     => preferred version\r\n          %gcc@10.1.0   => packages.yaml:6\r\n          ~asphere         => lammps/package.py:25\r\n -    ^cmake%gcc +static\r\n          %gcc                => packages.yaml:6 => +static\r\n          +static             => foo/package.py:11 (conflict when +shared)  => (some other thing overriding that) => ...  \r\n```\r\n\r\n### Additional information\r\n\r\nMight be difficult to actually implement - not sure whether the concretizer can provide the necessary information \r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n```\r\n$ spack --version\r\n0.16.1-6-9e40c75123\r\n```\r\n\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "sleak-lbl",
+    "url": "https://api.github.com/repos/spack/spack/issues/24796",
+    "updated_at": "2021-07-09 01:37:10",
+    "created_at": "2021-07-09 01:37:10",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack spec --blame foo@1.2.3",
+    "number": 24796,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 940339309,
+    "html_url": "https://github.com/spack/spack/issues/24796",
+    "assignees": [],
+    "comments": 0
+}

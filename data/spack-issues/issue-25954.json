@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n@adamjstewart @bvanessen \r\n\r\nThis issue is being raised after fixing an error brought up in the slack `#packaging` channel.  After the #25953 fix, attempting to install `cudnn@7.1` results in the following error:\r\n\r\n```\r\n$ spack install cudnn@7.1\r\n...\r\n==> Warning: gcc@8.3.1 cannot build optimized binaries for \"cascadelake\". Using best target possible: \"skylake_avx512\"\r\n==> Warning: Missing a source id for cudnn@7.1\r\n==> Installing cudnn-7.1-mcpbvxsum7p2g3nk2fudvov3pywpzmo6\r\n==> No binary for cudnn-7.1-mcpbvxsum7p2g3nk2fudvov3pywpzmo6 found: installing from source\r\n==> Warning: There is no checksum on file to fetch cudnn@7.1 safely.\r\n==>   Fetch anyway? [y/N] y\r\n==> Error: FetchError: All fetchers failed\r\n\r\n/usr/WS1/dahlgren/releases/spack/lib/spack/spack/package.py:1376, in do_fetch:\r\n       1373\r\n       1374        self.stage.create()\r\n       1375        err_msg = None if not self.manual_download else self.download_instr\r\n  >>   1376        start_time = time.time()\r\n       1377        self.stage.fetch(mirror_only, err_msg=err_msg)\r\n       1378        self._fetch_time = time.time() - start_time\r\n       1379\r\n\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.2-4253-7aee21a8dd\r\n* **Python:** 3.7.2\r\n* **Platform:** linux-rhel7-cascadelake\r\n* **Concretizer:** original\n\n### Additional information\n\nNothing was fetched so no build or log files to upload (but checking as uploaded anyway since N/A).\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/25954",
+    "updated_at": "2021-09-14 23:40:08",
+    "created_at": "2021-09-14 23:32:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: cudnn fetching fails for 7.0/7.1",
+    "number": 25954,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 996519410,
+    "html_url": "https://github.com/spack/spack/issues/25954",
+    "assignees": [],
+    "comments": 1
+}

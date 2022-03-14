@@ -1,0 +1,23 @@
+{
+    "body": "Comments / criticisms appreciated.  This is a first stab at it.\r\n\r\nIn this proposal, the Spack concretizer and package syntax will be upgraded to allow variants to be \"forwarded\" through the DAG.  This can be thought of as, effectively, the Spack concretizer overwriting the DAG through the concretization process (sorry, I don't have a well thought out algorithm).  Forwarding happesn before concretization.\r\n\r\nIn general... if A->B and we want to forward the `x` variant from A to B, then this would be accomplished by the following transformations:\r\n```\r\nA+x ==> A+x^B+x\r\nA~x ==> A~x^B~x\r\nA ==> A^B\r\n```\r\nIn the last case, B will receive whatever value for `x` it \"naturally\" would have had without variant forwarding.  It would be an error to forward `x` to B if B does not have variant `x` to begin with.\r\n\r\nVariants can also be forwarded transitively.  If A->B->C, and we \"transitively forward\" variant `x` from A to B, then C will also receive `x` --- even if B does not use the variant `x`.\r\n\r\nAlthough it is possible in theory to forward any variant in A to any variant in B, this will not be permitted: variant forwarding must be between variants of the same name.\r\n\r\nVariant forwarding can be specified in the `package.py` files.  For example:\r\n```\r\nclass A(Package):\r\n    variant('x')\r\n    depends_on('B', forward=('x',))     # Regular forwarding\r\n    depends_on('C', forward=('x*',))   # Forward transitively\r\n```\r\n\r\nWe can also forward variants from `packages.yaml`.  For example:\r\n```\r\n    icebin:\r\n        version: [develop]\r\n        variants: +*gridgen+python~**everytrace\r\n```\r\nIn this case, `+*gridgen` sets the `gridgen` variant and then forwards it to all dependencies; `~**everytrace` clears the `everytrace` variant and then forwards it transitively to all dependencies.\r\n\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2594",
+    "updated_at": "2020-09-17 05:15:55",
+    "created_at": "2016-12-15 00:04:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Variant Forwarding Proposal",
+    "number": 2594,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "proposal",
+        "variants"
+    ],
+    "id": 195681145,
+    "html_url": "https://github.com/spack/spack/issues/2594",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 7
+}

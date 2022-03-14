@@ -1,0 +1,24 @@
+{
+    "body": "Environments and environment views have taken over the role of `spack activate/deactivate`, and we should deprecate these commands for several reasons:\r\n\r\n- Global activation is a really poor idea:\r\n   - Install prefixes should be immutable; since they can have multiple, unrelated dependents; see below\r\n   - Added complexity elsewhere: verification of installations, tarballs for build caches, creation of environment views of packages with unrelated extensions \"globally activated\"... by removing the feature, it gets easier for people to contribute, and we'd end up with fewer bugs due to edge cases.\r\n- Environment accomplish the same thing for non-global \"activation\" i.e. `spack view`, but better.\r\n\r\nAlso we write in the docs:\r\n\r\n```\r\nHowever, Spack global activations have two potential drawbacks:\r\n\r\n#. Activated packages that involve compiled C extensions may still\r\n   need their dependencies to be loaded manually.  For example,\r\n   ``spack load openblas`` might be required to make ``py-numpy``\r\n   work.\r\n\r\n#. Global activations \"break\" a core feature of Spack, which is that\r\n   multiple versions of a package can co-exist side-by-side.  For example,\r\n   suppose you wish to run a Python package in two different\r\n   environments but the same basic Python --- one with\r\n   ``py-numpy@1.7`` and one with ``py-numpy@1.8``.  Spack extensions\r\n   will not support this potential debugging use case.\r\n```\r\n\r\nnot a very useful feature then :grimacing: ",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/29317",
+    "updated_at": "2022-03-10 13:01:29",
+    "created_at": "2022-03-03 15:01:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "remove activate/deactivate support in favor of environments",
+    "number": 29317,
+    "milestone": null,
+    "labels": [
+        "python",
+        "documentation",
+        "tests",
+        "commands",
+        "directives",
+        "update-package"
+    ],
+    "id": 1158515735,
+    "html_url": "https://github.com/spack/spack/pull/29317",
+    "assignees": [],
+    "comments": 19
+}

@@ -1,0 +1,19 @@
+{
+    "body": "On a small cluster we use spack with compiler provided by external module:\n\ncompilers.yaml\n\n``` yaml\n- compiler:\n    modules: [GCC/5.3.0-2.26]\n    operating_system: centos6\n    paths:\n      cc: /apps/all/GCCcore/5.3.0/bin/gcc\n      cxx: /apps/all/GCCcore/5.3.0/bin/g++\n      f77: /apps/all/GCCcore/5.3.0/bin/gfortran\n      fc: /apps/all/GCCcore/5.3.0/bin/gfortran\n    spec: gcc@5.3.0\n```\n\nin combination with some external dependencies which I want to use from the system:\n\npackages.yaml \n\n``` yaml\npackages:\n  all:\n    compiler: [gcc@5.3.0]\n    providers:\n      mpi: [openmpi, mpich]\n      blas: [openblas]\n      lapack: [openblas]\n  openssl:\n    paths:\n      openssl@system: /usr\n    buildable: False\n    version: [system]\n```\n\nthis leads to a situation that the compilation environment setup by spack has\n`/usr/bin` prepended to `PATH` (due to the requested external system openssl form packages.yaml)\n\nHowever this leads to this cryptic assembler failure:\n\n```\n/tmp/cce6FYR4.s: Assembler messages:\n/tmp/cce6FYR4.s:2159: Error: expecting string instruction after `rep'\nmake: *** [Parser/node.o] Error 1\n```\n\nThe reason is that the external `gcc` module also loads corresponding libtools \n(which includes the correct `as`) \nbut due to the prepended `/usr/bin` in `PATH` spack is picking `/usr/bin/as` instead.\n\nSolutions might be:\n1.  modify compiler wrappers so that the correct 'as' is used for example by  `gcc -B/path_to_as_bin_dir/`  and let user supply the `path_to_as_bin_dir` in compilers.yaml\n2. or skip the systems dirs already in `PATH` when adding the external dependencies to the spack's `PATH`\n\nIs there any better way to prevent this?\n\nI have the 2. fix which helps and i can prepare it as PR.\n",
+    "user": "JaroslavHron",
+    "url": "https://api.github.com/repos/spack/spack/issues/1787",
+    "updated_at": "2016-10-04 22:12:59",
+    "created_at": "2016-09-16 08:59:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "bug: combination of external module loaded compiler and external depnedencies",
+    "number": 1787,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 177375899,
+    "html_url": "https://github.com/spack/spack/issues/1787",
+    "assignees": [],
+    "comments": 8
+}

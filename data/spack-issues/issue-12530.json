@@ -1,0 +1,22 @@
+{
+    "body": "This is a  continuous issue with #12520 .\r\nSince the installation with spack is unsuccessful, I tried to set up external hdf5 module. However, something might be wrong during the parsing of the external module, since it shows \"hdf5@1.10.5 : is actually installed in **None**\".\r\n\r\n### Steps to reproduce the issue\r\n```console\r\n$ spack install hdf5\r\n==> hdf5@1.10.5 : has external module in hdf5/1.10.5\r\n==> hdf5@1.10.5 : is actually installed in None\r\n==> hdf5@1.10.5 : already registered in DB\r\n```\r\n\r\n```console\r\n$ module show hdf5-openmpi/1.10.5\r\n-------------------------------------------------------------------\r\n/etc/modulefiles/hdf5-openmpi/1.10.5:\r\n\r\nconflict\t mpi\r\nprepend-path\t PATH /opt/hdf5/hdf5-1.10.5-openmpi/bin\r\nprepend-path\t LD_LIBRARY_PATH /opt/hdf5/hdf5-1.10.5-openmpi/lib:/opt/hdf5/szip/lib\r\nprepend-path\t HDF5_PLUGIN_PATH /usr/lib64/hdf5/plugins\r\nprepend-path\t C_INCLUDE_PATH /opt/hdf5/hdf5-1.10.5-openmpi/include\r\nprepend-path\t CPLUS_INCLUDE_PATH /opt/hdf5/hdf5-1.10.5-openmpi/include\r\nsetenv\t\t HDF5_ROOT /opt/hdf5/hdf5-1.10.5-openmpi\r\nprepend-path\t PATH /usr/lib64/openmpi/bin\r\nprepend-path\t LD_LIBRARY_PATH /usr/lib64/openmpi/lib\r\nprepend-path\t MANPATH /usr/share/man/openmpi-x86_64\r\nsetenv\t\t MPI_BIN /usr/lib64/openmpi/bin\r\nsetenv\t\t MPI_SYSCONFIG /etc/openmpi-x86_64\r\nsetenv\t\t MPI_FORTRAN_MOD_DIR /usr/lib64/gfortran/modules/openmpi-x86_64\r\nsetenv\t\t MPI_INCLUDE /usr/include/openmpi-x86_64\r\nsetenv\t\t MPI_LIB /usr/lib64/openmpi/lib\r\nsetenv\t\t MPI_MAN /usr/share/man/openmpi-x86_64\r\nsetenv\t\t MPI_COMPILER openmpi-x86_64\r\nsetenv\t\t MPI_SUFFIX _openmpi\r\nsetenv\t\t MPI_HOME /usr/lib64/openmpi\r\n-------------------------------------------------------------------\r\n```\r\n\r\n- `packages.yaml`\r\n```\r\npackages:\r\n  hdf5:\r\n    modules:\r\n        hdf5@1.10.5+mpi: hdf5/1.10.5\r\n    buildable: False\r\n```",
+    "user": "JunCEEE",
+    "url": "https://api.github.com/repos/spack/spack/issues/12530",
+    "updated_at": "2019-10-11 12:56:55",
+    "created_at": "2019-08-22 23:34:56",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: external package installed in None",
+    "number": 12530,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "triage"
+    ],
+    "id": 484262697,
+    "html_url": "https://github.com/spack/spack/issues/12530",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 3
+}

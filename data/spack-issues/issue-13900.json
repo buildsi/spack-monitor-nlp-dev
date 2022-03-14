@@ -1,0 +1,23 @@
+{
+    "body": "Hi\r\n\r\nI tired to install package racon but is fails in the install phase. Spack comlains about a non-existing file/folder on a path that has been generated wrong - most likely by Spack itself.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install -v racon%gcc@7.3.0 target=x86_64 ^python@3.6.5\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n==> Executing phase: 'install'\r\n==> [2019-11-26-16:36:13.988573] Installing spack-build/bin to /cfs/software/spack/linux-centos7-x86_64/gcc-7.3.0/racon-1.3.2-bnlynnveyuymp2pcnlfrcdnqcgrbwzuu/bin\r\n==> Error: IOError: [Errno 2] No such file or directory: '/tmp/swadm/spack-stage/spack-stage-racon-1.3.2-bnlynnveyuymp2pcnlfrcdnqcgrbwzuu/spack-src/spack-build/bin/'\r\n\r\n/data/swadm/spack/v0.13/spack/var/spack/repos/builtin/packages/racon/package.py:33, in install:\r\n         32    def install(self, spec, prefix):\r\n  >>     33        install_tree('spack-build/bin', prefix.bin)\r\n         34        install_tree('spack-build/lib', prefix.lib)\r\n\r\nSee build log for details:\r\n  /tmp/swadm/spack-stage/spack-stage-racon-1.3.2-bnlynnveyuymp2pcnlfrcdnqcgrbwzuu/spack-build-out.txt\r\nTraceback (most recent call last):\r\n  File \"/data/swadm/spack/v0.13/spack/lib/spack/spack/build_environment.py\", line 806, in child_process\r\n    return_value = function()\r\n  File \"/data/swadm/spack/v0.13/spack/lib/spack/spack/package.py\", line 1713, in build_process\r\n    phase(self.spec, self.prefix)\r\n  File \"/data/swadm/spack/v0.13/spack/lib/spack/spack/package.py\", line 111, in phase_wrapper\r\n    phase(spec, prefix)\r\n  File \"/data/swadm/spack/v0.13/spack/var/spack/repos/builtin/packages/racon/package.py\", line 34, in install\r\n    install_tree('spack-build/lib', prefix.lib)\r\n  File \"/data/swadm/spack/v0.13/spack/lib/spack/llnl/util/filesystem.py\", line 479, in install_tree\r\n    copy_tree(src, dest, symlinks=symlinks, ignore=ignore, _permissions=True)\r\n  File \"/data/swadm/spack/v0.13/spack/lib/spack/llnl/util/filesystem.py\", line 460, in copy_tree\r\n    shutil.copyfile(s, d)\r\n  File \"/usr/lib64/python2.7/shutil.py\", line 82, in copyfile\r\n    with open(src, 'rb') as fsrc:\r\nIOError: [Errno 2] No such file or directory: '/tmp/swadm/spack-stage/spack-stage-racon-1.3.2-bnlynnveyuymp2pcnlfrcdnqcgrbwzuu/spack-src/spack-build/bin/'\r\n\r\n```\r\nAs you an see, in the error line there is a constructed path including this part:\r\n\r\n/spack-src/spack-build/\r\n\r\nThis does not exist, the two folders \"spack-src\" and \"spack-build\" coexist in the same directory, they are not nested.\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n1. Platform:\r\nLinux build02.hpc.zhaw.ch 3.10.0-1062.4.1.el7.x86_64 #1 SMP Fri Oct 18 17:15:30 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n2. Spack version: 0.13.1\r\n\r\n3. any relevant configuration detail --> see attachments\r\n\r\n[spack-cc-racon-bnlynnv.out.log](https://github.com/spack/spack/files/3892675/spack-cc-racon-bnlynnv.out.log)\r\n\r\n[spack-cc-racon-bnlynnv.in.log](https://github.com/spack/spack/files/3892676/spack-cc-racon-bnlynnv.in.log)\r\n\r\n[config-files.tar.gz](https://github.com/spack/spack/files/3892686/config-files.tar.gz)\r\n\r\n[spack-build-out.txt.gz](https://github.com/spack/spack/files/3892693/spack-build-out.txt.gz)\r\n\r\n\r\n\r\n",
+    "user": "phxyz12",
+    "url": "https://api.github.com/repos/spack/spack/issues/13900",
+    "updated_at": "2020-03-06 16:58:59",
+    "created_at": "2019-11-26 15:49:53",
+    "closed_at": "None",
+    "state": "open",
+    "title": "racon: wrong path generated in install phase",
+    "number": 13900,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "workaround",
+        "impact-low"
+    ],
+    "id": 528812651,
+    "html_url": "https://github.com/spack/spack/issues/13900",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 4
+}

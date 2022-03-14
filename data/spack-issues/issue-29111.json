@@ -1,0 +1,20 @@
+{
+    "body": "To avoid repeated rebuilds in most cases, and to better enable users to use binaries out of the box, we want to switch to `--reuse` as the default concretization behavior.  This means that when users build, they'll build by default against a) things they already have installed and/or b) binary caches, where possible.\r\n\r\nThat's a good default CLI behavior, but there are places where we do not want `--reuse` to be the default -- namely CI.  CI should be ensuring that the *latest* configuration continues to work properly, regardless of any state in the local installation or binary caches.  I've changed the default for each of our CI environments here. I am debating whether `spack ci` should just inherit settings from some common base config scope with \"good\" settings for CI.  That is probably a future PR but it's worth thinking about.  All our CI environments currently override a few things -- disabling the view, not doing reuse concretization, etc.\r\n\r\nThis is draft for now, as we want to fix some outstanding bugs with `--reuse` first, and also merge #28504 at about the same time. See #24223 for more context.\r\n\r\n- [x] change default concretization strategy to `reuse`\r\n- [x] use `reuse: false` in all CI environments\r\n- [ ] update documentation \r\n- [ ] ensure that serious bugs are fixed with reuse before this gets merged",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/29111",
+    "updated_at": "2022-02-21 20:03:29",
+    "created_at": "2022-02-21 20:03:27",
+    "closed_at": "None",
+    "state": "open",
+    "title": "concretizer: make `--reuse` the default behavior",
+    "number": 29111,
+    "milestone": null,
+    "labels": [
+        "defaults",
+        "gitlab"
+    ],
+    "id": 1146182519,
+    "html_url": "https://github.com/spack/spack/pull/29111",
+    "assignees": [],
+    "comments": 0
+}

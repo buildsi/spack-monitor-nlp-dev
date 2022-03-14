@@ -1,0 +1,20 @@
+{
+    "body": "Fixes https://github.com/spack/spack/issues/20005 (although I'm not sure why)\r\n\r\n@tgamblin \r\n\r\nUpdate `importlib_importer.load_source` (used for Spack hook modules) to use non-deprecated methods (originally it was using `load_module` which is marked deprecated); fix resulting cyclic imports. This follows the \"recipe\" advertised in the Python documentation for direct import of a source file (https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly).\r\n\r\nI did this as part of trying to figure out the root cause of #20005 and it appears to fix #20005. I'm not yet sure why taking this approach fixes the issue. Although I tried it because https://github.com/spack/spack/issues/20005#issuecomment-731707332 points out that `import spack.hooks.sbang` doesn't work after running `spack.hooks.all_hook_modules` (note this is only true if `import spack.hooks.sbang` has not occurred before the first call to `spack.hooks.all_hook_modules`) so I suspected something was not working properly with our dynamic import implementation.\r\n\r\nNotes:\r\n\r\n* This uncovered some problematic interactions between the `mock_packages` and `mutable_mock_repo` fixture (see https://github.com/spack/spack/pull/20072#issuecomment-806009818). These are not fixed here: all tests (except `test_reuse_installed_packages`) only need to use one or the other.\r\n* (4/6) There are remaining issues when tests successively recreate a `Repo` object: this can lead to discrepancies between `sys.modules` and `Repo._get_pkg_module` (this is in addition to the discrepancies observed in the prior point). This hasn't generally be an issue except that Python's pickling logic specifically checks to make sure that a given class object matches the class obtained from `sys.modules` (i.e. by retrieving the class as an attribute from the associated module)",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/20072",
+    "updated_at": "2021-04-28 12:24:40",
+    "created_at": "2020-11-24 21:17:21",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[WIP] Update dynamic import: avoid deprecated method",
+    "number": 20072,
+    "milestone": null,
+    "labels": [
+        "don't-merge-yet",
+        "imports"
+    ],
+    "id": 750075017,
+    "html_url": "https://github.com/spack/spack/pull/20072",
+    "assignees": [],
+    "comments": 11
+}

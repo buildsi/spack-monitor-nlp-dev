@@ -1,0 +1,25 @@
+{
+    "body": "Currently OpenMPI 4+ requires PMIx and provides a vendored copy (version 3.2.3 for OpenMPI 4.1.2) if not found. This change uses Spack's PMIx to provide a dependency and updates the available PMIx versions, as well as removing an artificial constraint on the libevent used by pmix. Finally, since the `pmix` variant is only useful for OpenMPI 2 and 3, I added a `when` clause for it.\r\n\r\n(The reason I'm concerned about pmix is our CI server has been seeing hangs in simple single-process global barriers, and occasional crashes coming from pmix error checking code. I'm hoping that a newer version of PMIx might fix these.)",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/29449",
+    "updated_at": "2022-03-13 20:52:14",
+    "created_at": "2022-03-10 20:32:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "OpenMPI: improve PMix handling",
+    "number": 29449,
+    "milestone": null,
+    "labels": [
+        "new-version",
+        "dependencies",
+        "mpi",
+        "update-package",
+        "conflicts",
+        "vendored-dependencies",
+        "new-variant"
+    ],
+    "id": 1165689691,
+    "html_url": "https://github.com/spack/spack/pull/29449",
+    "assignees": [],
+    "comments": 17
+}

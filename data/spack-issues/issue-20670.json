@@ -1,0 +1,20 @@
+{
+    "body": "Tried building likwid/5.1.0 on laptop running recently undated Fedora 33 from a fresh spack clone.  There were no modifications made to files within ~/.spack and build fails in same way with or without ~/.spack.\r\n\r\n### Steps to reproduce the issue\r\n\r\n#!/bin/bash\r\ngit clone https://github.com/spack/spack.git\r\nsource spack/share/spack/setup-env.sh\r\nspack install -j 4 likwid@5.1.0\r\n\r\n### Error Message\r\n\r\n==> Installing likwid-5.1.0-2znqh4hqbqyiowi2dckmwkottm327eyc\r\n==> No binary for likwid-5.1.0-2znqh4hqbqyiowi2dckmwkottm327eyc found: installing from source\r\n==> Fetching https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/_source-cache/archive/5a/5a180702a1656c6315b861a85031ab4cb090424aec42cbbb326b849e29f55571.tar.gz\r\n####################################################################################################################################################################################### 100.0%\r\n==> likwid: Executing phase: 'install'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j4'\r\n\r\n1 error found in build log:\r\n     100    ===>  COMPILE  GCC/topology_hwloc.o\r\n     101    ===>  COMPILE  GCC/topology_proc.o\r\n     102    ===>  COMPILE  GCC/tree.o\r\n     103    ===>  COMPILE  GCC/voltage.o\r\n     104    ===>  COMPILE  GCC/loadData.o\r\n     105    ===>  ENTER  /tmp/wdn/spack-stage/spack-stage-likwid-5.1.0-2znqh4hqbqyiowi2dckmwkottm327eyc/spack-src/ext/hwloc\r\n  >> 106    make: make: Permission denied\r\n     107    make: *** [Makefile:268: /tmp/wdn/spack-stage/spack-stage-likwid-5.1.0-2znqh4hqbqyiowi2dckmwkottm327eyc/spack-src/ext/hwloc/liblikwid-hwloc.so] Error 127\r\n\r\nSee build log for details:\r\n  /tmp/wdn/spack-stage/spack-stage-likwid-5.1.0-2znqh4hqbqyiowi2dckmwkottm327eyc/spack-build-out.txt\r\n\r\nHere are contents of directory mentioned above.\r\n\r\n% ll /tmp/wdn/spack-stage/spack-stage-likwid-5.1.0-2znqh4hqbqyiowi2dckmwkottm327eyc/spack-src/ext/hwloc\r\ntotal 12\r\ndrwxr-x---. 4 wdn wdn  140 Nov 20 08:37 ./\r\ndrwxr-x---. 5 wdn wdn  100 Nov 20 08:37 ../\r\n-rw-r-----. 1 wdn wdn  339 Nov 20 08:37 AUTHORS\r\n-rw-r-----. 1 wdn wdn 2552 Nov 20 08:37 COPYING\r\ndrwxr-x---. 2 wdn wdn  420 Nov 20 08:37 hwloc/\r\ndrwxr-x---. 4 wdn wdn  120 Nov 20 08:37 include/\r\n-rw-r-----. 1 wdn wdn 2241 Nov 20 08:37 Makefile\r\n\r\nLooks like liblikwid-hwloc.so is not present.  Not sure why.\r\n\r\n### Information on your system\r\n\r\n% spack debug report\r\n* **Spack:** 0.16.0-444-22a45e010\r\n* **Python:** 3.9.1\r\n* **Platform:** linux-fedora33-haswell\r\n* **Concretizer:** original\r\n\r\nNo special configuration details.  No modifications to ~/.spack files.\r\n\r\n### Additional information\r\n\r\n- [x ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "dnystrom1",
+    "url": "https://api.github.com/repos/spack/spack/issues/20670",
+    "updated_at": "2021-01-05 02:10:14",
+    "created_at": "2021-01-05 02:10:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Build of likwid fails on Fedora 33 when using spack develop branch",
+    "number": 20670,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 778512358,
+    "html_url": "https://github.com/spack/spack/issues/20670",
+    "assignees": [],
+    "comments": 0
+}

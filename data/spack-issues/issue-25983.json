@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nI run `spack concretize -f` and I get thousands of lines of errors when attempting to build with `gcc@9.4.0` on macOS for certain packages. But using `intel@2021.2` or `apple-clang@12.0.5` work fine.\r\n\r\nI have a simplified `spack.yaml`:\r\n\r\n```\r\nspack:\r\n  packages:\r\n    all:\r\n      compiler: [gcc@9.4.0]\r\n\r\n  specs:\r\n  - openmpi@4.1.1\r\n  - jasper@2.0.32\r\n\r\n  concretization: together\r\n  view: true\r\n  compilers:\r\n  - compiler:\r\n      spec: gcc@9.4.0\r\n      paths:\r\n        cc: /opt/local/bin/gcc\r\n        cxx: /opt/local/bin/g++\r\n        f77: /opt/local/bin/gfortran\r\n        fc: /opt/local/bin/gfortran\r\n      flags: {}\r\n      operating_system: bigsur\r\n      target: x86_64\r\n      modules: []\r\n      environment: {}\r\n      extra_rpaths: []\r\n```\r\n\r\nAnd I set it up with:\r\n\r\n```\r\nspack env create myenv spack.yaml\r\nspack env activate myenv\r\n```\r\n\r\nThen I run `spack concretize -f` and get the errors.\r\n\r\nRemoving `jasper@2.0.32` and only building `openmpi` works. In my real `spack.yaml` I tried various combinations of packages, and some like Jasper fail, but others like OpenMPI don't. \r\n\r\nI originally found this problem when I had multiple compilers in the compiler list and even though I set `packages.yaml` to use `gcc@9.4.0` every time I ran `spack concretize -f` everything was being built with `apple-clang` instead. \r\n\r\nThen, I removed `apple-clang` and then it choose Intel compilers until only `gcc@9.4.0` which then threw the error here.\r\n\r\nThis is new behavior from the last few months after I updated my fork with develop.\r\n\r\n### Error message\r\n\r\n\r\n```\r\nspack concretize -f\r\n\r\ncompiler_supports_os(\"gcc\",\"9.4.0\",\"bigsur\")\r\ncompiler_supports_target(\"gcc\",\"9.4.0\",\"broadwell\")\r\ncompiler_supports_target(\"gcc\",\"9.4.0\",\"bulldozer\")\r\ncompiler_supports_target(\"gcc\",\"9.4.0\",\"cannonlake\")\r\ncompiler_supports_target(\"gcc\",\"9.4.0\",\"cascadelake\")\r\n...\r\ncondition(0)\r\ncondition(1)\r\ncondition(10)\r\ncondition(100)\r\ncondition(1000)\r\ncondition(1001)\r\n...\r\nversion_satisfies(\"xextproto\",\"7.1.99:\",\"7.3.0\")\r\nversion_satisfies(\"xineramaproto\",\"1.1.99.1:\",\"1.2.1\")\r\nversion_satisfies(\"xpmem\",\":2.6.5\",\"2.6.2\")\r\n...\r\nvirtual(\"yacc\")\r\n==> Error: Unsatisfiable spec.\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\n* **Spack:** 0.16.2-4260-0015f700b7\r\n* **Python:** 3.7.9\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** clingo\r\n``` \r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "kgerheiser",
+    "url": "https://api.github.com/repos/spack/spack/issues/25983",
+    "updated_at": "2021-10-04 12:48:48",
+    "created_at": "2021-09-15 22:33:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Concretizer dumps debug state instead of printing conflict messgae",
+    "number": 25983,
+    "milestone": null,
+    "labels": [
+        "error-messages",
+        "concretizer-use-case"
+    ],
+    "id": 997574120,
+    "html_url": "https://github.com/spack/spack/issues/25983",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 11
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I'm attempting spack/xsdk build on ANL/theta(XC40) - and having trouble with the 'module syntax in ~/.spack/packages.yaml\r\n\r\nThe softenv I'm using is:\r\n\r\n```\r\nbalay@thetalogin6:~/spack> module list |& egrep \\(PrgEnv\\|mpich\\|intel\\)\r\n  3) intel/18.0.0.128\r\n 19) PrgEnv-intel/6.0.4\r\n 21) cray-mpich/7.6.3\r\n```\r\n\r\nUsing Instructions from http://spack.readthedocs.io/en/latest/getting_started.html?highlight=intel-mpi#spack-on-cray  - I have the following in my package.py\r\n\r\n```\r\npackages:\r\n  mpich:\r\n    modules:\r\n      mpich@7.6.3%intel@18.0.0.128 arch=cray-CNL-mic_knl: cray-mpich\r\n    buildable: False\r\n  all:\r\n    providers:\r\n      mpi: [mpich]\r\n    compiler: [intel@18.0.0.128]\r\n```\r\n\r\nWith this - I get:\r\n\r\n```\r\nbalay@thetalogin6:~/spack> spack spec parmetis\r\nInput spec\r\n--------------------------------\r\nparmetis\r\n\r\nNormalized\r\n--------------------------------\r\nparmetis\r\n    ^cmake@2.8:\r\n    ^metis@5:\r\n    ^mpi\r\n\r\nConcretized\r\n--------------------------------\r\n==> Error: invalid syntax (<string>, line 525)\r\n```\r\n\r\nAnd here is the bizzare part.\r\n```\r\nCould you help me with correctly configuring and using cray? And How do I debug this error?",
+    "user": "balay",
+    "url": "https://api.github.com/repos/spack/spack/issues/6107",
+    "updated_at": "2017-11-23 21:20:48",
+    "created_at": "2017-11-02 16:44:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Unable to use cray compilers on ANL/theta(XC40)",
+    "number": 6107,
+    "milestone": null,
+    "labels": [
+        "cray"
+    ],
+    "id": 270725324,
+    "html_url": "https://github.com/spack/spack/issues/6107",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Hey,\r\nI'm using the `spack install --keep-stage` when I install any libraries with debug symbols on to keep the source files for debugging later.  It works fine when I install the library once but the same stage-folder gets wiped away (and replaced) if the same library happens to be encountered again in a different installation.\r\n\r\nFor example, \r\nI install MFEM with the comand:  `spack -d install  -v --keep-stage  mfem@3.3.2 ^metis@4.0.3`\r\nThis outputs, `link metis-4.0.3-547qghapvjmtt5hcfhnlceybqp3p3uln -> spack-stage-6fZwCq` and creates a METIS staging directory with the source in it.\r\n\r\nNext I install IPOPT which also depends on METIS with:\r\n`spack -d install  -v --keep-stage  ipopt@3.12.7 +metis ^metis@4.0.3`\r\nThis outputs, `link metis-4.0.3-547qghapvjmtt5hcfhnlceybqp3p3uln -> spack-stage-wRe5al`, deletes my previous staged-build and creates an empty directory called `spack-stage-wRe5al`.  Now I no longer have the source around.\r\n\r\nHow do I properly maintain the source files for debugging?\r\n",
+    "user": "junkudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/7504",
+    "updated_at": "2019-12-16 18:01:14",
+    "created_at": "2018-03-16 17:24:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Problem with keep-stage for debugging",
+    "number": 7504,
+    "milestone": null,
+    "labels": [
+        "question",
+        "debugging"
+    ],
+    "id": 306013104,
+    "html_url": "https://github.com/spack/spack/issues/7504",
+    "assignees": [],
+    "comments": 1
+}

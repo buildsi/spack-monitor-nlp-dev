@@ -1,0 +1,20 @@
+{
+    "body": "The readthedocs [IntelPackage](https://spack.readthedocs.io/en/latest/build_systems/intelpackage.html?highlight=intel%20compiler#installing-intel-tools-within-spack) page directs the user to construct an environment in which the intel compiler package is seen to have been installed by itself. I have done this this long-way round in the past, by installing the Intel compiler with `%gcc`, then installing the same compiler again with the \"gcc-compiled\" `%intel`; but this breaks the generated lmod hierarchy (when, as by default, the compiler is a factor in the hierarchy) because the intel module that is expected to provide access to intel-compiled packages is, itself, contained in that module hierarchy.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install intel@version %intel@version\r\n$ spack module lmod refresh -y\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [ ] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [ ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n### Conversation on Slack\r\n\r\nhttps://spackpm.slack.com/archives/C5W7NKZJT/p1588977759403900\r\n",
+    "user": "anderbubble",
+    "url": "https://api.github.com/repos/spack/spack/issues/16666",
+    "updated_at": "2020-05-15 17:42:45",
+    "created_at": "2020-05-15 17:40:27",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Documentation for IntelPackage breaks lmod module generation",
+    "number": 16666,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 619136052,
+    "html_url": "https://github.com/spack/spack/issues/16666",
+    "assignees": [],
+    "comments": 1
+}

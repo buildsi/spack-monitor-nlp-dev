@@ -1,0 +1,20 @@
+{
+    "body": "### Expected Result\r\n```\r\n# on an x86 machine\r\n$ spack install py-flake8    # hash = 12345\r\n\r\n# on a ppc64le machine\r\n$ spack install py-flake8    # hash = abcde\r\n\r\n# Then...\r\n\r\n# on an x86 machine\r\n$ spack activate py-flake8\r\n==> Activated extension [...] /12345\r\n\r\n# on a ppc64le machine\r\n$ spack activate py-flake8\r\n==> Activated extension [...] /abcde\r\n```\r\n\r\n### Actual Result\r\n\r\n```\r\n$ spack activate py-flake8@3.5.0\r\n==> Error: py-flake8@3.5.0 matches multiple packages.\r\n  Matching packages:\r\n    db63xz7 py-flake8@3.5.0%gcc@4.9.3 arch=linux-rhel7-ppc64le\r\n    hvd627q py-flake8@3.5.0%gcc@4.9.3 arch=linux-rhel7-x86_64\r\n```\r\n\r\nThe problem is only one of these is valid for the spack currently in use. I think spack should be aware of that, to some degree.\r\n\r\n### Steps to reproduce the issue\r\n\r\nInstall 2 python packages -- 1 on ppc64le, 1 on x86 -- to the same spack_root.\r\n(This should be a problem across os versions too, eg linux-rhel7-x86_64 vs linux-rhel6-x86_64, though I haven't actually checked.)\r\n\r\n### Information on your system\r\n\r\n1 ppc64le box, 1 x86 box, with spack_root pointing to the same NFS directory.",
+    "user": "mcneish1",
+    "url": "https://api.github.com/repos/spack/spack/issues/8415",
+    "updated_at": "2018-06-07 05:48:03",
+    "created_at": "2018-06-06 23:39:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack activate` ignores machine architecture in package matching",
+    "number": 8415,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "extensions"
+    ],
+    "id": 330069041,
+    "html_url": "https://github.com/spack/spack/issues/8415",
+    "assignees": [],
+    "comments": 1
+}

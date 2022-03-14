@@ -1,0 +1,21 @@
+{
+    "body": "As a user I want to be able to configure autoloading of module files with a finer grained selection mechanism so that I can select which type of dependencies should be loaded automatically.\r\n\r\nfixes #8639\r\n\r\n### Description\r\nThis is a proposal on how to solve #8639 and provide a better default for module generation. The `autoload` keyword in `modules.yaml`, explained [here](https://spack.readthedocs.io/en/latest/tutorial_modules.html#autoload-dependencies), currently supports only the two values `direct` (to load direct dependencies) and `all` (to transitively load all dependencies). As it was introduced before dependency types, it does not distinguish among `build`, `link`, `test` and `run` dependencies.\r\n\r\nFollowing the suggestion of @adamjstewart (load `run` dependencies in module files by default) we could extend this keyword to support, in addition to the current, also the following syntax:\r\n```yaml\r\nautoload:\r\n  - type: run # or any of the supported types\r\n    depth: direct # or 'all'\r\n```\r\nOnce the feature is there we should ship a default `modules.yaml` that, for `tcl`, does:\r\n```yaml\r\nmodules:\r\n  tcl:\r\n    all:\r\n      autoload:\r\n        - type: run\r\n          depth: direct\r\n```\r\nSimilarly for `lmod`.\r\n\r\nWaiting for thumbs up from @adamjstewart @matthiasdiener @tgamblin @hartzell before proceeding with the implementation.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/8815",
+    "updated_at": "2019-11-19 17:12:08",
+    "created_at": "2018-07-27 14:49:36",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Permit a finer selection of autoloaded module files",
+    "number": 8815,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "modules",
+        "proposal"
+    ],
+    "id": 345255458,
+    "html_url": "https://github.com/spack/spack/issues/8815",
+    "assignees": [],
+    "comments": 9
+}

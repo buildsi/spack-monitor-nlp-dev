@@ -1,0 +1,20 @@
+{
+    "body": "Basic idea: [ASP](https://en.wikipedia.org/wiki/Answer_set_programming) is a family of constraint solvers spack uses since #19501 that let you write \"rules\", which often have implicit \"for all\" or \"there exists (uniquely?)\" quantifier expressions, e.g. https://github.com/spack/spack/blob/1d8aa34f52bec78a33c46db1dd881866dbe4e9b4/lib/spack/spack/solver/concretize.lp#L9-L19 Before (not strictly) any solve process, there's a grounding phase, which assigns values to variables in quantified expressions. The process afterward seems to line up more closely with other constraint solvers.\r\n\r\n[SMT](https://en.m.wikipedia.org/wiki/Satisfiability_modulo_theories) solvers (such as the miniscule attempt at https://github.com/spack/spack/tree/z3-concretizer) do not have any such grounding phase -- in essence _all_ terms must be ground in order to do a solve, outside of very specific decidable subsets of specific theories. [z3](z3prover.github.io/) doesn't even attempt to provide any indication where quantifier expressions were overbroad -- it simply tries to solve forever.\r\n\r\nI would like to eventually address the question of \"why doesn't this tool know when it's been running a really long time\" for both solvers, but that's not relevant to this ticket. Instead, I would like to steal the hard work of the potassco project on fast grounding and use it to solve my SMT problem. @tgamblin mentioned both that the `clingo` tools have a `--text` output option, even if it's hidden, and mentioned it would almost definitely be easier to turn off optimization in the grounder, and to let z3 handle the optimization angle.\r\n\r\nI don't know *exactly* yet whether the grounder is *resumable* (feels like it should be) or if it only dumps a single output, or if it dumps multiple, all at once. For this prototyping, using the command-line tool should be sufficient, but the python API is also always there (if slower).",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20501",
+    "updated_at": "2020-12-22 01:21:32",
+    "created_at": "2020-12-22 01:21:15",
+    "closed_at": "None",
+    "state": "open",
+    "title": "use gringo from clingo to find ground expressions for z3 rules",
+    "number": 20501,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "performance"
+    ],
+    "id": 772568149,
+    "html_url": "https://github.com/spack/spack/issues/20501",
+    "assignees": [],
+    "comments": 0
+}

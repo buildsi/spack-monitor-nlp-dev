@@ -1,0 +1,17 @@
+{
+    "body": "As for your initial issue in https://github.com/spack/spack/pull/25409#issuecomment-953132990:\r\n\r\n```\r\n$ spack env activate a\r\nSPACK_OLD_PROMPT: Undefined variable.\r\n```\r\n\r\nThere seems to be a problem with our generated csh commands where we don't enclose them in ``` `` ``` and they therefore are evaluated, for example:\r\n\r\n```\r\nif ( $?SPACK_OLD_PROMPT ) set prompt=\"$SPACK_OLD_PROMPT\" && unsetenv SPACK_OLD_PROMPT ;\r\n```\r\n\r\nAppears in `spack env activate --csh <name-of-env>`, but this fails in my env when `$SPACK_OLD_PROMPT` isn't defined because it tries to evaluate the variable inside the statement (even if the statement itself isn't evaluated). So the following appears to get desirable behavior:\r\n\r\n```\r\nif ( $?SPACK_OLD_PROMPT ) `set prompt=\"$SPACK_OLD_PROMPT\" && unsetenv SPACK_OLD_PROMPT` ;\r\n```\r\n\r\nI likewise had to make a similar edit to `pathadd.csh` to get `setup-env.csh` to work:\r\n\r\n```\r\ndiff --git a/share/spack/csh/pathadd.csh b/share/spack/csh/pathadd.csh\r\nindex ec394e8990..7f3424518a 100644\r\n--- a/share/spack/csh/pathadd.csh\r\n+++ b/share/spack/csh/pathadd.csh\r\n@@ -22,7 +22,7 @@ endif\r\n set _pa_old_value = \"\"\r\n eval set _pa_set = '$?'$_pa_varname\r\n if ($_pa_set == 1) then\r\n-    eval set _pa_old_value='$'$_pa_varname\r\n+    eval `set _pa_old_value = '$'$_pa_varname`\r\n endif\r\n \r\n # Do the actual prepending here, if it is a dir and not already in the path\r\n```\r\n\r\n_Originally posted by @scheibelp in https://github.com/spack/spack/issues/25409#issuecomment-953332271_",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/27027",
+    "updated_at": "2021-10-28 20:01:09",
+    "created_at": "2021-10-28 19:29:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Environment activation/deactivation issue with [t]csh",
+    "number": 27027,
+    "milestone": null,
+    "labels": [],
+    "id": 1038880675,
+    "html_url": "https://github.com/spack/spack/issues/27027",
+    "assignees": [],
+    "comments": 3
+}

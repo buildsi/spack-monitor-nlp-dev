@@ -1,0 +1,21 @@
+{
+    "body": "### Summary\r\n\r\nAs a user I would like to see the concept of the `definitions:` section in the `spack.yaml` file extended to allow for arbitrary variables that can be used throughout all the config files.  Essentially I would like to abstract out the concept of the `$spack` variable so that I can set similar variables myself.\r\n\r\nA solution proposed by @becker33 in the weekly telecon would looks something like this:\r\n```yaml\r\nspack:\r\n  definitions:\r\n     variables:\r\n       - spack_manager: $spack/../ \r\n       - view_dir: $spack_manager/views/snapshots/20211231\r\n     specs:\r\n      - first: [trilinos]\r\n      - cuda: ['+cuda cuda_arch=71', '~cuda']\r\n      - second:\r\n          - matrix:\r\n              - [$first]\r\n              - [$cuda]\r\n  specs:\r\n    - $second\r\n    - cmake\r\n  packages:\r\n     hdf5:\r\n        externals:\r\n         - spec: hdf5@1.10.7\r\n            prefix: $view_dir\r\n         buildable: false\r\n```\r\n\r\nwhere the current definition of `spack:definitions:` now becomes `spack:definitions:specs:` since this section is constrained to defining specs. A second subsection `spack:definitions:variables:` is also added which will allow users to generate variables which can be used arbitrarily throughout the config files.\r\n\r\nFurther input from @scheibelp is that we should extend this functionality to all of the configs and allow a `spack:definitions` section in all of them to enable the use of user defined variables.\r\n\r\nTagging: @alalazo @tgamblin \r\n\r\n### Rationale\r\n\r\n_No response_\r\n\r\n### Description\r\n\r\nA preliminary attempt at this was made in #27925 was made to enable the concept of this feature through `YAML` anchors, but due to their more complicated syntax this is not the preferred path for a production capability.  Additionally, it appears that the read/write operations with `ruamel.yaml` automatically overwrite the anchors and aliases.  This issue may be addressed in the newer versions of `ruamel` and we should consider updating regardless.  @alalazo mentioned he tried this recently but there is additional work that will be required with the update.\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "psakievich",
+    "url": "https://api.github.com/repos/spack/spack/issues/28027",
+    "updated_at": "2021-12-17 16:13:20",
+    "created_at": "2021-12-15 19:03:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow users to create and use generalized variables in yaml files",
+    "number": 28027,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1081391734,
+    "html_url": "https://github.com/spack/spack/issues/28027",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

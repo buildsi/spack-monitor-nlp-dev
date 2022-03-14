@@ -1,0 +1,22 @@
+{
+    "body": "When concretizing a Spec DAG, Spack has a set of rules for choosing what compiler to use for each package in the DAG. In many cases the compiler will propagate from a parent or child of that node in the DAG (if that dependent/dependency has an assigned compiler); . There are a few flaws with how this propagation is done:\r\n\r\n* When searching for a suitable connected node, the only criteria is whether a compiler is assigned to that node. This may be undesirable if the candidate node (package) is built for a different architecture\r\n* Spack will traverse dependency links with the build deptype when searching for a node with a defined compiler. This is less of an issue but in general can constrain build-only dependencies to use the same compiler as their dependents.\r\n\r\nNote that there are some generally desirable properties, for example that nodes will generally prefer compilers from parents over their children, so if you have a DAG like:\r\n\r\n```\r\nW\r\n|\\\r\nX Z\r\n|\r\nY\r\n```\r\n\r\nAnd compilers are set for W and X, that Z will use W's compiler and Y will use X's compiler.\r\n\r\nAlso, architecture is propagated exclusively from parent nodes (a node will never explicitly copy the architecture of one of its dependencies).",
+    "user": "scheibelp",
+    "url": "https://api.github.com/repos/spack/spack/issues/8859",
+    "updated_at": "2020-11-01 22:11:26",
+    "created_at": "2018-08-01 22:19:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "How to automatically assign compiler/architecture when concretizing",
+    "number": 8859,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "concretization"
+    ],
+    "id": 346790667,
+    "html_url": "https://github.com/spack/spack/issues/8859",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 0
+}

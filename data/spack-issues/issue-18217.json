@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\nSet up modules.yaml for Intel compiler and put there some gcc as a module:\r\n```\r\ncompilers:\r\n  - compiler:\r\n    spec: intel@19.0.4\r\n    paths:\r\n      cc: /opt/cluster.2019.4-intel-tgd5yn/bin/icc\r\n      cxx: /optcluster.2019.4-intel-tgd5yn/bin/icpc\r\n      f77: /opt/cluster.2019.4-intel-tgd5yn/bin/ifort\r\n      fc: /opt/cluster.2019.4-intel-tgd5yn/bin/ifort\r\n    flags: {}\r\n    operating_system: centos7\r\n    target: x86_64\r\n    modules: [gcc/gcc-8.3.0-gcc-4.8.5-6ypggms]\r\n    environment:\r\n      unset: []\r\n    extra_rpaths: []\r\n```\r\n\r\nThen try to compile openmpi with that. It results in:\r\n```\r\n==> Installing openmpi\r\n==> No binary for openmpi found: installing from source\r\n==> openmpi: Executing phase: 'autoreconf'\r\n==> openmpi: Executing phase: 'configure'\r\n==> Error: JSONDecodeError: Expecting value: line 1 column 1 (char 0)\r\n\r\n/cvmfs/software.metacentrum.cz/software_basics/spack/0.15/var/spack/repos/builtin/packages/openmpi/package.py:618, in configure_args:\r\n        615                self.compiler.cc_rpath_arg + path\r\n        616                for path in itertools.chain(\r\n        617                    self.compiler.extra_rpaths,\r\n  >>    618                    self.compiler.implicit_rpaths())])\r\n        619        else:\r\n        620            config_args.append('--disable-wrapper-rpath')\r\n        621\r\n\r\nSee build log for details: ...\r\n```\r\n\r\n### Information on your system\r\n```\r\nSingularity> spack debug report\r\n* **Spack:** 0.15.3\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-haswell\r\n```\r\n\r\n### Additional information\r\n\r\nI have openmpi package slightly customized so the line numbers maybe differ. But the changes are not the source of actual bug report.\r\n\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5112208/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5112209/spack-build-out.txt)\r\n",
+    "user": "phanousk",
+    "url": "https://api.github.com/repos/spack/spack/issues/18217",
+    "updated_at": "2020-08-23 16:14:40",
+    "created_at": "2020-08-22 10:10:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: openmpi with intel compiler with specific gcc module",
+    "number": 18217,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 683970804,
+    "html_url": "https://github.com/spack/spack/issues/18217",
+    "assignees": [],
+    "comments": 2
+}

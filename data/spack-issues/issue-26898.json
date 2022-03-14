@@ -1,0 +1,19 @@
+{
+    "body": "The HIP package seems to only support AMD platform, on NVIDIA platform the HIP tools don't work correctly (because they are set up for AMD).\r\n\r\nBefore installing the hip package through spack, I made sure the `HIP_PLATFORM` environment variable was set to `nvidia`, but it did not have any effect on the installation.\r\n\r\nThe `module load hip` command overwrites the `HIP_PLATFORM` environment variable to `amd`, even though I amd on nvidia. If I set it back to `nvidia` and try to compile something using `hipcc`, another error appears: `nvcc fatal   : Unknown option '--rocm-path=/home/jakub/apps/spack/opt/spack/linux-ubuntu18.04-zen2/gcc-10.1.0/hip-4.3.1-shn6kb45egbifwo36efh3nyfqhcczr4y'`. The core of this is the `HIPCC_COMPILE_FLAGS_APPEND` environment variable, which was set by the module load to `--rocm-path=/home/jakub/apps/spack/opt/spack/linux-ubuntu18.04-zen2/gcc-10.1.0/hip-4.3.1-shn6kb45egbifwo36efh3nyfqhcczr4y`. Manually clearing the variable solved the issue and `hipcc` works, but this is not a very nice way to make it work.\r\n\r\nTo sum up, the two main issues are:\r\n- unnecessary dependencies (AMD-specific stuff)\r\n- incorrect environment setup when loading the module\r\n\r\nPlease correct this. HIP is supposed to work on **both** AMD and NVIDIA platform. I can suggest making two distinct packages like hip_nvidia and hip_amd. Steering the installation process based on the `HIP_PLATFORM` does not seem like a good idea.\r\n\r\nI did not test any hip* libraries like hipBLAS, hipSPARSE etc., but it can be assumed that the issue will be similar with them.",
+    "user": "jakub-homola",
+    "url": "https://api.github.com/repos/spack/spack/issues/26898",
+    "updated_at": "2021-10-25 18:54:21",
+    "created_at": "2021-10-22 12:50:53",
+    "closed_at": "None",
+    "state": "open",
+    "title": "HIP package only works on AMD platform, not on NVIDIA",
+    "number": 26898,
+    "milestone": null,
+    "labels": [],
+    "id": 1033548596,
+    "html_url": "https://github.com/spack/spack/issues/26898",
+    "assignees": [
+        "srekolam"
+    ],
+    "comments": 0
+}

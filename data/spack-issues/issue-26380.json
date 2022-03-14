@@ -1,0 +1,22 @@
+{
+    "body": "These changes add support for an `environment` section in the `spack.yaml` file of a Spack environment definition.\r\n\r\nThis is my first PR for core Spack. My implementation makes sense to me, but it's clearly possible that it's not optimal or violates some design I'm unaware of, and I'm completely open to suggestions both major and minor.\r\n\r\nThe implementation uses the `EnvironmentModifications` class to compute the shell commands for both activating and deactivating an environment.\r\n- Some changes to `EnvironmentModifications.shell_modifications()` were needed to allow computing the shell commands in environments other than the one defined by `os.environ`, but this was done in a way similar to existing functionality in `EnvironmentModifications.apply_modifications()`.\r\n- A change in `EnvironmentModifications.from_environment_diff()` https://github.com/spack/spack/compare/develop...mpokorny:env2var?expand=1#diff-0cc2226e3e202ef9144cd62eaf79b43f4fb5cf95adb00ee92f2e572e94adc393R774 was made to simplify the reversal of the removal of a path from a path list from somewhere in the middle of the list. This change prevents the growth of the path list when such a list modification is reversed.\r\n- I added a comment https://github.com/spack/spack/compare/develop...mpokorny:env2var?expand=1#diff-0cc2226e3e202ef9144cd62eaf79b43f4fb5cf95adb00ee92f2e572e94adc393R763 to code in `EnvironmentModifications.from_environment_diff()` that suggests a possible further simplification to code, but isn't strictly required.\r\n- I didn't find any unit tests for `EnvironmentModifications.shell_modifications()`, but I added one called `test_shell_modifications_round_trip()` to `test/environment_modifications.py`.\r\n- Saving the shell environment that exists prior to activating a Spack environment is implemented by computing the shell modifications that will later be needed to restore the shell environment, and saving those modifications in the shell environment variable `SPACK_ENV_RESTORE`. The value of that variable is simply `eval`ed to restore the shell environment on Spack environment deactivation.",
+    "user": "mpokorny",
+    "url": "https://api.github.com/repos/spack/spack/issues/26380",
+    "updated_at": "2021-10-07 15:11:25",
+    "created_at": "2021-09-30 15:10:57",
+    "closed_at": "None",
+    "state": "open",
+    "title": "environments: add support for mods to shell environment in Spack environments",
+    "number": 26380,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "shell-support",
+        "environments",
+        "utilities"
+    ],
+    "id": 1012301755,
+    "html_url": "https://github.com/spack/spack/pull/26380",
+    "assignees": [],
+    "comments": 2
+}

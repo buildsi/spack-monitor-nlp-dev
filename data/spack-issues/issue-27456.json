@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\n```console\r\n$ spack install -u configure findutils\r\n$ cd `spack location -b findutils`\r\n```\r\n\r\nThe problem seems to be an inconsistency in the logic of the `spack location -b` command implementation.\r\n\r\nhttps://github.com/spack/spack/blob/35bf91012f83f64faf528007cb0b775465218b80/lib/spack/spack/cmd/location.py#L126-L139\r\n\r\nIn particular, `findutils` is an `AutotoolsPackage` with\r\nhttps://github.com/spack/spack/blob/35bf91012f83f64faf528007cb0b775465218b80/var/spack/repos/builtin/packages/findutils/package.py#L55\r\n\r\nand by looking at the tree generated in the stage path, spack creates the `build_directory` folder as a nested folder inside `spack-src` instead of creating it at the same level inside the \"root\" of the stage folder.\n\n### Error message\n\nThe location is incorrect.\r\n\r\n`spack location -b` returns `{stage.path}/spack-build`, while during the package installation the path is actually created in `{stage.path}/spack-src/spack-build`.\n\n### Information on your system\n\n* **Spack:** 0.17.0-98-bd86f63dc8\r\n* **Python:** 3.8.12\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** clingo\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/27456",
+    "updated_at": "2021-11-15 14:58:20",
+    "created_at": "2021-11-15 14:58:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack location --build-dir` inconsistency",
+    "number": 27456,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1053760680,
+    "html_url": "https://github.com/spack/spack/issues/27456",
+    "assignees": [],
+    "comments": 0
+}

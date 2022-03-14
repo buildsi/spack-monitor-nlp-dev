@@ -1,0 +1,19 @@
+{
+    "body": "On macOS high sierra, with a clean spack install:\r\nAfter installing `tau` from spack/develop, running:\r\n\r\n```\r\nspack load openmpi\r\nspack load tau\r\ntau_exec <executable_name>\r\n```\r\n\r\n### Expected Result\r\n\r\nProgram runs to completion\r\n\r\n### Actual Result\r\n\r\nresults in the following error:\r\n\r\n```\r\ndyld: Symbol not found: __ZN3MPI3Win4FreeEv\r\n  Referenced from: /Users/johannesblaschke/Developer/spack/opt/spack/darwin-highsierra-x86_64/gcc-8.2.0/tau-2.27.1-wzcsczxoes44cgmh6apzmt44t5wdwv3z/apple/lib/shared-communicators-phase-mpi-pdt-openmp/libTAU.dylib\r\n  Expected in: flat namespace\r\n in /Users/johannesblaschke/Developer/spack/opt/spack/darwin-highsierra-x86_64/gcc-8.2.0/tau-2.27.1-wzcsczxoes44cgmh6apzmt44t5wdwv3z/apple/lib/shared-communicators-phase-mpi-pdt-openmp/libTAU.dylib\r\n/Users/johannesblaschke/Developer/spack/opt/spack/darwin-highsierra-x86_64/gcc-8.2.0/tau-2.27.1-wzcsczxoes44cgmh6apzmt44t5wdwv3z/bin/tau_exec: line 1098:  4971 Abort trap: 6           $dryrun $@\r\n```\r\n\r\neven though `nm` shows that the symbol `__ZN3MPI3Win4FreeEv` exists in open mpi's lib-dir.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\ncheckout develop\r\n$ spack install tau\r\n$ spack load openmpi\r\n$ spack load tau\r\n```\r\n(see above)\r\n\r\n\r\n### Information on your system\r\n\r\n 1. macOS high sierra 10.13.6\r\n 2. packages compiled using gcc-8.0.2 (installed using homebrew)\r\n",
+    "user": "JBlaschke",
+    "url": "https://api.github.com/repos/spack/spack/issues/8913",
+    "updated_at": "2018-08-08 09:06:34",
+    "created_at": "2018-08-08 04:58:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`tau_exec` fails due to dynamic linker",
+    "number": 8913,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 348575209,
+    "html_url": "https://github.com/spack/spack/issues/8913",
+    "assignees": [],
+    "comments": 0
+}

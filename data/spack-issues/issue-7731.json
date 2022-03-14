@@ -1,0 +1,19 @@
+{
+    "body": "Summary:\r\n```\r\n$ git diff\r\ndiff --git a/var/spack/repos/builtin/packages/libtool/package.py b/var/spack/repos/builtin/packages/libtool/package.py\r\nindex 98be32a60..1d3ef4735 100644\r\n--- a/var/spack/repos/builtin/packages/libtool/package.py\r\n+++ b/var/spack/repos/builtin/packages/libtool/package.py\r\n@@ -34,7 +34,7 @@ class Libtool(AutotoolsPackage):\r\n     version('2.4.6', 'addf44b646ddb4e3919805aa88fa7c5e')\r\n     version('2.4.2', 'd2f3b7d4627e69e13514a40e72a24d50')\r\n \r\n-    depends_on('m4@1.4.6:', type='build')\r\n+    depends_on('m4@:1.4.6:', type='build')\r\n \r\n     build_directory = 'spack-build'\r\n \r\n$ spack info libtool\r\n==> Error: Unexpected token\r\n```\r\n\r\n### Expected Result\r\n\r\nAn error helping me find out where the typo is in the `package.py`\r\n\r\nI went down (or more precisely tried to go down) the rabbit hole of `spec.py`, `parse.py` and `error.py` but still don't completely understand how the error handling there is supposed to happen. When I do a \r\n```\r\n$ spack -d info libtool\r\n```\r\nI even get a \r\n```\r\nDuring handling of the above exception, another exception occurred:\r\n```\r\n\r\nI have a stop-gap measure that at least prints the token where the error occurs in #7730, but I didn't find a way to add the file that was being handled to the output. Still with `grep` and some searching I guess the user can now find the error... \r\n\r\nThis should probably be cleaned up in a more comprehensive way though (especially the \"exception while handling an exception\" part).",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/7731",
+    "updated_at": "2019-01-25 22:52:34",
+    "created_at": "2018-04-11 18:24:57",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Unhelpful error message in case of misformed token",
+    "number": 7731,
+    "milestone": null,
+    "labels": [
+        "error-messages"
+    ],
+    "id": 313436455,
+    "html_url": "https://github.com/spack/spack/issues/7731",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,23 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\nBuild numpy with an intel compiler, except use cflags/cxxflags to explicitly specify the compiler toolchain rather than relying on user environment/modules.\r\n\r\n```console\r\n$ spack install py-numpy %intel@18.0.2\r\n...\r\n==> Error: InstallError: The GCC version that the Intel compiler uses must be >= 4.8. The GCC in use is 4.4.7\r\n\r\n/projects/spack/var/spack/repos/builtin/packages/py-numpy/package.py:121, in flag_handler:\r\n        118            if gcc_version < Version('4.8'):\r\n        119                raise InstallError('The GCC version that the Intel compiler '\r\n        120                                   'uses must be >= 4.8. The GCC in use is '\r\n  >>    121                                   '{0}'.format(gcc_version))\r\n        122            if gcc_version <= Version('5.1'):\r\n        123                flags.append(self.compiler.c99_flag)\r\n        124        return (flags, None, None)\r\n```\r\n\r\nThis results from checking introduced in https://github.com/spack/spack/pull/14360 . Removing that check allows the build to succeed.\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux node13.ornl.gov 2.6.32-431.el6.x86_64 #1 SMP Sun Nov 10 22:19:54 EST 2013 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    Red Hat Enterprise Linux Workstation release 6.5 (Santiago)\r\n``` \r\n\r\nIntel compiler definition:\r\n```yaml\r\n- compiler:\r\n    spec: intel@18.0.2\r\n    paths:\r\n      cc: /opt/intel-2018/bin/icc\r\n      cxx: /opt/intel-2018/bin/icpc\r\n      f77: /opt/intel-2018/bin/ifort\r\n      fc: /opt/intel-2018/bin/ifort\r\n    flags:\r\n      cflags: -gcc-name=/projects/spack/opt/spack/gcc-4.4.7/gcc/rml7vcp/bin/gcc\r\n      cxxflags: -gxx-name=/projects/spack/opt/spack/gcc-4.4.7/gcc/rml7vcp/bin/g++\r\n    operating_system: rhel6\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths:\r\n     - /projects/spack/opt/spack/gcc-4.4.7/gcc/rml7vcp/lib64\r\n```\r\nwhere `gcc/rml7vcp` is `gcc@6.5.0~binutils languages=c,c++,fortran ~nvptx~piclibs~strip`.\r\n\r\n### Notes\r\n\r\nThis issue is tied up in the bigger problems of how to use spack-installed compilers as spack compilers, and how to treat Intel's dependency on the GCC environment. I think explicitly specifying the flags and rpaths rather than modules is the safest and most robust way to build out an intel toolchain. This is especially true because it's impossible to `module load` multiple compilers simultaneously.",
+    "user": "sethrj",
+    "url": "https://api.github.com/repos/spack/spack/issues/14729",
+    "updated_at": "2020-02-06 19:55:10",
+    "created_at": "2020-02-03 16:08:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Py-numpy Intel/GCC check logic fails when using cflags rather than modules",
+    "number": 14729,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "intel",
+        "triage"
+    ],
+    "id": 559181477,
+    "html_url": "https://github.com/spack/spack/issues/14729",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 8
+}

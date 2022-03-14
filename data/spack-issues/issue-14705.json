@@ -1,0 +1,21 @@
+{
+    "body": "After #11871 is merged, a centralized, multi-user instance of Spack could more easily be used to build software environments on large scale, multi-user systems. Since selecting the most frequently needed software to include in shared environments can be tedious and time consuming, this PR adds optional, package install metrics collecting through syslog. \r\n\r\nWhen enabled, Spack logs the spec of each package any user installs. These metrics are written to syslog. An example of what is logged is:\r\n```\r\nspack_metrics - INFO - SPACK_INSTALL: zlib@1.2.11%clang@11.0.0-apple+optimize+pic+shared arch=darwin-catalina-x86_64\r\n```\r\n\r\nThis can expedite the process of identifying which software many users on a system are relying upon. By default metrics are disabled, since Spack is most frequently used by a single user per instance. \r\n\r\nSome changes need to be made before this feature is done:\r\n- [x] Add spack command for toggling metrics\r\n- [x] Allow users to specify ip/port or file path to write logs to in addition to default syslog location\r\n- [ ] Add Spack command for setting custom log address \r\n- [ ] Add Unit Tests for enabling/disabling metrics and setting custom logging address\r\n- [ ] Add documentation page for how the metrics feature can be configured \r\n\r\n\r\nIf anyone has any suggestions for changes or additional metrics that could be logged please provide feedback. ",
+    "user": "carsonwoods",
+    "url": "https://api.github.com/repos/spack/spack/issues/14705",
+    "updated_at": "2020-09-03 20:16:35",
+    "created_at": "2020-01-31 16:45:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "feature: package install metrics",
+    "number": 14705,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 558242807,
+    "html_url": "https://github.com/spack/spack/pull/14705",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

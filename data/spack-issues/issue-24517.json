@@ -1,0 +1,21 @@
+{
+    "body": "If I initialize Spack after loading [pyenv](https://github.com/pyenv/pyenv), then running `spack load` will add several pyenv-related paths to `PATH`, even though they aren't relevant to the package being loaded. This only occurs if Spack appears before pyenv in `PATH`; no problems occur if Spack occurs after pyenv.\r\n\r\nI don't know how this interferes with other programs that use complex shell functions, but it seems likely.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ git clone git@github.com:spack/spack.git spack_test\r\n$ . spack_test/share/spack/setup-env.sh\r\n$ echo $PATH | tr ':' '\\n'\r\n/nas/home/ahedges/spack_test/bin\r\n/nas/home/ahedges/.nodenv/shims\r\n/nas/home/ahedges/.nodenv/bin\r\n/nas/home/ahedges/.pyenv/plugins/pyenv-virtualenv/shims\r\n/nas/home/ahedges/.pyenv/shims\r\n/nas/home/ahedges/.pyenv/bin\r\n/usr/local/bin\r\n/usr/bin\r\n/usr/local/sbin\r\n/usr/sbin\r\n/nas/home/ahedges/.local/bin\r\n/nas/home/ahedges/bin\r\n$ spack install tar\r\n$ spack load tar\r\n$ echo $PATH | tr ':' '\\n'\r\n/nas/home/ahedges/spack_test/opt/spack/linux-centos7-haswell/gcc-4.8.5/tar-1.34-gnekxwpjllvxo33uuqhkx2prgub2eypo/bin\r\n/nas/home/ahedges/spack_test/opt/spack/linux-centos7-haswell/gcc-4.8.5/libiconv-1.16-s6b6ieix7vkwhkkkwi77f46fyt3znoh6/bin\r\n/nas/home/ahedges/.pyenv/versions/3.7.10/bin\r\n/nas/home/ahedges/.pyenv/libexec\r\n/nas/home/ahedges/.pyenv/plugins/python-build/bin\r\n/nas/home/ahedges/.pyenv/plugins/pyenv-virtualenv/bin\r\n/nas/home/ahedges/.pyenv/plugins/python-build/bin\r\n/nas/home/ahedges/.pyenv/plugins/pyenv-virtualenv/bin\r\n/nas/home/ahedges/spack_test/bin\r\n/nas/home/ahedges/.nodenv/shims\r\n/nas/home/ahedges/.nodenv/bin\r\n/nas/home/ahedges/.pyenv/plugins/pyenv-virtualenv/shims\r\n/nas/home/ahedges/.pyenv/shims\r\n/nas/home/ahedges/.pyenv/bin\r\n/usr/local/bin\r\n/usr/bin\r\n/usr/local/sbin\r\n/usr/sbin\r\n/nas/home/ahedges/.local/bin\r\n/nas/home/ahedges/bin\r\n```\r\n\r\n### Error Message\r\n\r\n`spack load` adds the following extra paths to `PATH` when running, even though it should not interfere with paths from other programs:\r\n\r\n```text\r\n/nas/home/ahedges/.pyenv/versions/3.7.10/bin\r\n/nas/home/ahedges/.pyenv/libexec\r\n/nas/home/ahedges/.pyenv/plugins/python-build/bin\r\n/nas/home/ahedges/.pyenv/plugins/pyenv-virtualenv/bin\r\n/nas/home/ahedges/.pyenv/plugins/python-build/bin\r\n/nas/home/ahedges/.pyenv/plugins/pyenv-virtualenv/bin\r\n```\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.16.2-3260-7dafc82\r\n* **Python:** 3.7.10\r\n* **Platform:** linux-centos7-haswell\r\n* **Concretizer:** original\r\n* **Shell (extra information):** Bash 4.2.46(2)-release\r\n\r\n### Additional information\r\n\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output",
+    "user": "aphedges",
+    "url": "https://api.github.com/repos/spack/spack/issues/24517",
+    "updated_at": "2022-01-06 14:30:23",
+    "created_at": "2021-06-25 03:48:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack load` adds extra entries to `PATH` when using pyenv",
+    "number": 24517,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low",
+        "user-experience"
+    ],
+    "id": 929801051,
+    "html_url": "https://github.com/spack/spack/issues/24517",
+    "assignees": [],
+    "comments": 0
+}

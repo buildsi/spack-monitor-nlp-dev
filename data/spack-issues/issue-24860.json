@@ -1,0 +1,21 @@
+{
+    "body": "Parse error information is kept for specs, but it doesn't seem like we propagate it to the user when we encounter an error.  This fixes that.\r\n\r\ne.g., for this error in a package:\r\n\r\n```python\r\n    depends_on(\"python@:3.8\", when=\"0.900:\")\r\n```\r\n\r\nBefore, with no context and no clue that it's even from a particular spec:\r\n\r\n```\r\n==> Error: Unexpected token: ':'\r\n```\r\n\r\nWith this PR:\r\n\r\n```\r\n==> Error: Unexpected token: ':'\r\n  Encountered when parsing spec:\r\n    0.900:\r\n         ^\r\n```\r\n\r\nI would like to show context like we do with actual build-time package errors, but that's more work because it seems like the import mechanism strips package frames off the stack.  We can try to preserve context like that from directives, but it'll take more implemetnation and I am not sure how much it'll cost in terms of package import time. This is at least an improvement.\r\n\r\n- [x] implement better long error message for `SpecParseError`\r\n- [ ] tests",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/24860",
+    "updated_at": "2022-02-18 17:41:40",
+    "created_at": "2021-07-13 17:59:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "specs: emit better parsing errors for specs.",
+    "number": 24860,
+    "milestone": null,
+    "labels": [
+        "specs",
+        "error-messages",
+        "user-experience"
+    ],
+    "id": 943691267,
+    "html_url": "https://github.com/spack/spack/pull/24860",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,23 @@
+{
+    "body": "Attempting to install cmake@3.17.0%gcc@9.2.0 on Cray (in this case, CLE7 on x86_64) resulted in Spack trying to pull libraries from gcc@8.3.0.  Relevant info:\r\n\r\n```\r\nsly@tt-fey1:~> spack compiler info gcc@9.2.0\r\ngcc@9.2.0:\r\n        paths:\r\n                cc = cc\r\n                cxx = CC\r\n                f77 = ftn\r\n                fc = ftn\r\n        environment:\r\n            set:\r\n                HUGETLB_VERBOSE = 0\r\n        modules  = ['PrgEnv-gnu', 'gcc/9.2.0']\r\n        operating system  = cnl7\r\nsly@tt-fey1:~> module show gcc/9.2.0\r\n-------------------------------------------------------------------\r\n/opt/modulefiles/gcc/9.2.0:\r\nconflict         gcc \r\nconflict         gcc-cross-aarch64 \r\nprepend-path     PATH /opt/gcc/9.2.0/bin \r\nprepend-path     MANPATH /opt/gcc/9.2.0/snos/share/man \r\nprepend-path     INFOPATH /opt/gcc/9.2.0/snos/share/info \r\nprepend-path     LD_LIBRARY_PATH /opt/gcc/9.2.0/snos/lib64 \r\nsetenv           GCC_PATH /opt/gcc/9.2.0 \r\nsetenv           GCC_PREFIX /opt/gcc/9.2.0 \r\nsetenv           GCC_VERSION 9.2.0 \r\nsetenv           GNU_VERSION 9.2.0 \r\n-------------------------------------------------------------------\r\n```\r\n\r\nThe relevant environment lines from the cmake build:\r\n```\r\nSPACK_COMPILER_IMPLICIT_RPATHS=/opt/gcc/8.3.0/snos/lib/gcc/x86_64-suse-linux/8.3.0:/opt/gcc/8.3.0/snos/lib64; export SPACK_COMPILER_IMPLICIT_RPATHS\r\nSPACK_COMPILER_SPEC=gcc@9.2.0; export SPACK_COMPILER_SPEC\r\nSPACK_LD_LIBRARY_PATH=/opt/cray/job/2.2.4-7.0.1.1_3.32__g36b56f4.ari/lib64:/opt/gcc/8.3.0/snos/lib64:/opt/intel/2019.4.070/compilers_and_libraries_2019/linux/lib/intel64:/opt/intel/2019.4.070/compilers_and_libraries_2019/linux/mkl/lib/intel64; export SPACK_LD_LIBRARY_PATH\r\n```\r\n\r\nAnd the GCC information with that compiler loaded is:\r\n```\r\nsly@tt-fey1:~> module swap gcc/9.2.0\r\nsly@tt-fey1:~> gcc -v\r\nUsing built-in specs.\r\nCOLLECT_GCC=/opt/gcc/9.2.0/bin/../snos/bin/gcc\r\nCOLLECT_LTO_WRAPPER=/opt/gcc/9.2.0/snos/libexec/gcc/x86_64-suse-linux/9.2.0/lto-wrapper\r\nTarget: x86_64-suse-linux\r\nConfigured with: ../cray-gcc-9.2.0-201912180810.12613f2d08876/configure --prefix=/opt/gcc/9.2.0/snos --disable-nls --libdir=/opt/gcc/9.2.0/snos/lib --enable-languages=c,c++,fortran --with-gxx-include-dir=/opt/gcc/9.2.0/snos/include/g++ --with-slibdir=/opt/gcc/9.2.0/snos/lib --with-system-zlib --enable-shared --enable-__cxa_atexit --build=x86_64-suse-linux --with-ppl --with-cloog --disable-multilib\r\nThread model: posix\r\ngcc version 9.2.0 20190812 (Cray Inc.) (GCC)\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install cmake@3.17.0%gcc@9.2.0\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\n/tmp/sly/spack-stage/spack-stage-cmake-3.17.0-zxi2iwpzdutegg3cjuzevinmjsc4nice/spack-src/Bootstrap.cmk/cmake: /opt/gcc/8.3.0/snos/lib64/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by /tmp/sly/spack-stage/spack-stage-cmake-3.17.0-zxi2iwpzdutegg3cjuzevinmjsc4nice/spack-src/Bootstrap.cmk/cmake)\r\n---------------------------------------------\r\nError when bootstrapping CMake:\r\nProblem while running initial CMake\r\n---------------------------------------------\r\n```\r\n\r\n### Information on your system\r\n\r\n```\r\nsly@tt-fey1:~> spack debug report\r\n* **Spack:** 0.14.2-700-395e91d62\r\n* **Python:** 3.6.10\r\n* **Platform:** cray-sles15-x86_64\r\n```\r\n\r\nThe build uses the cray-provided modules for compilers and cray-mpich.  The environment variable `HUGETLB_VERBOSE=0` is there to solve another CMake build issue.\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n",
+    "user": "nicholas-sly",
+    "url": "https://api.github.com/repos/spack/spack/issues/16474",
+    "updated_at": "2020-10-13 22:54:43",
+    "created_at": "2020-05-05 18:20:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Generating incorrect implicit rpaths for gcc on Cray",
+    "number": 16474,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "rpath",
+        "gcc",
+        "triage"
+    ],
+    "id": 612801675,
+    "html_url": "https://github.com/spack/spack/issues/16474",
+    "assignees": [],
+    "comments": 4
+}

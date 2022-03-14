@@ -1,0 +1,23 @@
+{
+    "body": "This commit adds a post install hook which reads the DT_NEEDED section\r\nof all ET_EXEC/ET_DYN type installed elf files, and tries to locate them\r\nin the s.package.libs.directories dir of all direct link type dependencies\r\ns. Currently it warns when it can't find particular libraries:\r\n\r\n```\r\n==> python: Executing phase: 'install'\r\n==> Warning: {'libdl.so.2', 'libm.so.6', 'libcrypt.so.1', 'libdb-5.3.so', 'libutil.so.1', 'librt.so.1', 'libnsl.so.1', 'libc.so.6', 'libpthread.so.0'} required, but not found in direct link type dependencies installed by Spack\r\n==> python: Successfully installed python-3.9.9-i3gsc56m4mgemc7mtzygox6watbjj3da\r\n```\r\n\r\nThis is a step towards improving rpaths post-install in Spack, which is\r\ncurrently broken for packages that don't have a standard directory\r\nstructure of the form `<prefix>/lib(64)?`, notably `intel-oneapi-*`.",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/28109",
+    "updated_at": "2021-12-22 22:50:56",
+    "created_at": "2021-12-21 12:43:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Warn when elf files with dt needed section can't locate libraries in direct link type deps",
+    "number": 28109,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "update-package",
+        "libraries"
+    ],
+    "id": 1085794448,
+    "html_url": "https://github.com/spack/spack/pull/28109",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

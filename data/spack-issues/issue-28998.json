@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\n`spack env activate <something>` must be called from a shell to have an effect on its current environment. `spack env activate --sh <something>` can be used to get the equivalent shell code that should be executed to activate the environment (similarly for `--csh` and `--fish`). It would be great to add a `--json` option that would output a JSON-formatted representation of the environment changes. For instance it could output a JSON string like the following:\r\n\r\n```\r\n{\r\n    \"unset\" : [\"SPACK_ENV\"],\r\n    \"set\" : {\r\n       \"SPACK_ENV\": \"path/to/spack/env\"\r\n    },\r\n    \"append\" : {\r\n      \"PATH\": \"somthing/to/add/to/path\",\r\n      \"LD_LIBRARY_PATH: \"you/get/the/point\"\r\n    },\r\n    \"prepend\" : {\r\n       ...\r\n    }\r\n}\r\n```\n\n### Rationale\n\nI'm working on a software that calls spack from python using a python subprocess. In order to activate an environment, I currently have to call `spack env activate --sh myenv` in a subprocess and parse the output, looking for lines that contain \"export\", \"unset\", and so on, and do the modifications in `os.environ` accordingly. It's more of a hack, really, and I wish spack could just tell me how to modify the environment appropriately in a way that python (or any language for that matter) could easily parse.\n\n### Description\n\nSee above.\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/28998",
+    "updated_at": "2022-02-16 18:32:35",
+    "created_at": "2022-02-16 11:55:09",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add --json to spack env activate",
+    "number": 28998,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1139915259,
+    "html_url": "https://github.com/spack/spack/issues/28998",
+    "assignees": [],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nI am currently building out a new software stack for our site, with a few different microarchitecture targets. I run `spack clean --all` before each target build. At some point, during the build of any target architecture, a failure will occur. At first the messages were lock related but it seemed related to the number of open files. I did not capture the exact message. I then bumped the limit for the number of open files and then get the following:\r\n```\r\n==> Error: Exception occurred in writer daemon!\r\nTraceback (most recent call last):\r\n  File \"/opt/packages/gpjohnsn/argon_stack/spack/lib/spack/llnl/util/tty/log.py\", line 747, in _writer_daemon\r\n    rlist, _, _ = _retry(select.select)(istreams, [], [], 1e-1)\r\n  File \"/opt/packages/gpjohnsn/argon_stack/spack/lib/spack/llnl/util/tty/log.py\", line 830, in wrapped\r\n    return function(*args, **kwargs)\r\nValueError: filedescriptor out of range in select()\r\n==> Error: ProcessError: Command exited with status 1:\r\n```\r\n\r\nSince `select()` is limited to monitoring 1024 descriptors the error makes sense, although I am wondering why so many are open. To sum up, it was initially running out of file descriptors and failing. Ensuring more open files are possible then leads to an out of range, >1024, error in select(). It seems that files are not getting closed.\r\n\r\n### Steps to reproduce the issue\r\nInstall a large number of packages in an environment. In my case, 1268 packages.\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n\r\n### Information on your system\r\n* **Spack:** 0.16.1-2153-8d52200\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-centos7-cascadelake\r\n* **Concretizer:** original\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "glennpj",
+    "url": "https://api.github.com/repos/spack/spack/issues/23208",
+    "updated_at": "2021-04-22 16:21:51",
+    "created_at": "2021-04-22 16:21:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "building a \"large\" number of packages in environment fails with file descriptor error",
+    "number": 23208,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 865149141,
+    "html_url": "https://github.com/spack/spack/issues/23208",
+    "assignees": [],
+    "comments": 0
+}

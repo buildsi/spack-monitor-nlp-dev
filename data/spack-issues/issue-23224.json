@@ -1,0 +1,22 @@
+{
+    "body": "It looks like none of the supported compilers interprets `-v` flag as a request for its version. What is more important is that most of the compilers (except for `xl` and `xl_r`, if I am not mistaken) interpret it as a request for verbose output. Therefore, we should switch to `vcheck` mode when `-v` is present in the command-line arguments only when the linker is called directly (one of the reasons why we should do it for `ld` is explained in #2501). There are at least two reasons why we should not switch to `vcheck` in other cases:\r\n1. The building systems (e.g. CMake and Autotools) often call compilers with `-v` and expect verbose output. In the `vcheck` mode of the compiler wrapper they do not get the real picture: `gcc ./test.c` and `gcc -v ./test.c` might do significantly different things since the compiler wrapper does not inject extra flags in the latter case.\r\n2. I often debug packages with `spack build-env ... -- bash` and it is very annoying that I cannot simply copy/paste the compilation command reported by make, prepend `-v` to the list of command-line arguments and see the real verbose output of the compiler.\r\n\r\nThis PR should fix the problem. I have two comments on it though:\r\n1. This does not solve the problem for `xl` and `xl_r`. We should have an exception for `-V` too when one of those is in use. However, it looks like that would require more changes and refactoring. We should probably expose `verbose_flag` to the compiler wrapper and switch to `vcheck` mode only if that flag is present in the command-line arguments.\r\n2. It is intended (for the consistency) that the `cpp` mode can now switch to `vcheck` mode too.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/23224",
+    "updated_at": "2021-06-29 14:23:01",
+    "created_at": "2021-04-23 16:06:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "cc: fix verbose compiler output",
+    "number": 23224,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "update-package"
+    ],
+    "id": 866247239,
+    "html_url": "https://github.com/spack/spack/pull/23224",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\n\nI am working on NVIDIA Arm HPC Developer Kit (https://developer.nvidia.com/arm-hpc-devkit) which is equipped with Ampere Computing 'Altra' CPU.\r\n\r\nWhen running spack (any recent released tags and giot head), the CPU is recornised as `graviton2` despite it is not. This is what I get on an internal deployment:\r\n```\r\n[filippos@amp001 ~]$ spack arch -f\r\nlinux-rocky8-graviton2\r\n[filippos@amp001 ~]$ spack arch -b\r\nlinux-rocky8-graviton2\r\n```\r\n\r\nSpack version: `0.17.1-1338-fddc58387c`\r\n\r\n\n\n### Rationale\n\n`graviton2` is not the only Arm-based CPU supporting Arm Neoverse N1 core IP. See https://www.anandtech.com/show/15578/cloud-clash-amazon-graviton2-arm-against-intel-and-amd and  https://www.anandtech.com/show/15575/amperes-altra-80-core-n1-soc-for-hyperscalers-against-rome-and-xeon\r\n\r\nSince two Arm-based CPUs are based on the same Arm Core IP, it is very hard to distinguish them based on what linux reports. Spack does nothing wrong here, it looks at \"Features\" listed in `/proc/cpuinfo`. However the list of supported CPU uarch features support by AWS Graviton2 and Ampere Compouting Altra are the same\r\n\r\nGraviton2:\r\n```\r\n$ cat /proc/cpuinfo | grep \"Features\"\r\nFeatures        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp ssbs\r\n```\r\n\r\nAmpere Computing Altra:\r\n```\r\n$ cat /proc/cpuinfo | grep \"Features\"\r\nFeatures        : fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp ssbs\r\n```\n\n### Description\n\nRename target `graviton2` to `neoverse-n1`. \n\n### Additional information\n\nIn practice, nothing breaks at the moment. However it can be confusing for a non-experienced user to see spack recornising \"graviton2\"  as target when running on system with Ampere Computing Altra CPU.\n\n### General information\n\n- [X] I have run `spack --version` and reported the version of Spack\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "fspiga",
+    "url": "https://api.github.com/repos/spack/spack/issues/29171",
+    "updated_at": "2022-03-04 10:14:14",
+    "created_at": "2022-02-24 09:59:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Renaming `graviton2` target as `neoverse-n1`",
+    "number": 29171,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 1149084194,
+    "html_url": "https://github.com/spack/spack/issues/29171",
+    "assignees": [],
+    "comments": 1
+}

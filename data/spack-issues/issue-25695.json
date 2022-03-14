@@ -1,0 +1,19 @@
+{
+    "body": "fixes #20340\r\n\r\nSpec matrices are expanded as cross-products in a best-effort fashion i.e. if some dimension would prevent a spec in the cross-product space to concretize, that dimension is discarded.\r\n\r\nThe current algorithm relies on the iterative nature of the original concretizer and searches which constraints in the cross-product to discard based on the exceptions raised during the build of a concrete spec. This approach cannot work with the new ASP-based solver, which solves the constraint problem \"at once\". \r\n\r\nThus, the algorithm has been modified in a way that fits both the original and ASP-based solver: if a spec cannot be concretized the last dimension from the cartesian product is popped, until we reach a concretizeable spec or raise.\r\n\r\nModfications:\r\n- [x] Simplify the algorithm for best effort expansion of matrices\r\n- [ ] Don't print core dumps in intermediate stages when using clingo\r\n- [ ] Add unit tests",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/25695",
+    "updated_at": "2021-09-28 15:19:27",
+    "created_at": "2021-08-30 15:51:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Simplify \"best-effort\" expansion of matrix in environments",
+    "number": 25695,
+    "milestone": null,
+    "labels": [
+        "environments"
+    ],
+    "id": 982940802,
+    "html_url": "https://github.com/spack/spack/pull/25695",
+    "assignees": [],
+    "comments": 5
+}

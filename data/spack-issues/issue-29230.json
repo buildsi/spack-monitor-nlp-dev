@@ -1,0 +1,21 @@
+{
+    "body": "### Problem\r\n\r\nNote that I use Alpine Linux, which by default provides `gzip` via busybox:\r\n```bash\r\n# cosmicexplorer@terrestrial-gamma-ray-flash: ~/tools/automake 16:12:59 \r\n; gzip --version                 \r\ngzip: unrecognized option: version\r\nBusyBox v1.35.0 (2022-02-01 23:11:20 UTC) multi-call binary.\r\n\r\nUsage: gzip [-cfkdt123456789] [FILE]...\r\n\r\nCompress FILEs (or stdin)\r\n\r\n        -1..9   Compression level\r\n        -d      Decompress\r\n        -c      Write to stdout\r\n        -f      Force\r\n        -k      Keep input files\r\n        -t      Test integrity\r\n```\r\n\r\nSo, just now in my terminal:\r\n```bash\r\n; spack dev-build automake@master\r\n... (truncated)\r\ncase 'amhello-1.0.tar.gz' in \\\r\n*.tar.gz*) \\\r\n  eval GZIP= gzip --best -dc amhello-1.0.tar.gz | ${TAR-tar} xf - ;;\\\r\n*.tar.bz2*) \\\r\n  bzip2 -dc amhello-1.0.tar.bz2 | ${TAR-tar} xf - ;;\\\r\n*.tar.lz*) \\\r\n  lzip -dc amhello-1.0.tar.lz | ${TAR-tar} xf - ;;\\\r\n*.tar.xz*) \\\r\n  xz -dc amhello-1.0.tar.xz | ${TAR-tar} xf - ;;\\\r\n*.tar.Z*) \\\r\n  uncompress -c amhello-1.0.tar.Z | ${TAR-tar} xf - ;;\\\r\n*.shar.gz*) \\\r\n  eval GZIP= gzip --best -dc amhello-1.0.shar.gz | unshar ;;\\\r\n*.zip*) \\\r\n  unzip amhello-1.0.zip ;;\\\r\n*.tar.zst*) \\\r\n  zstd -dc amhello-1.0.tar.zst | ${TAR-tar} xf - ;;\\\r\nesac\r\ngzip: unrecognized option: best\r\nBusyBox v1.35.0 (2022-02-01 23:11:20 UTC) multi-call binary.\r\n\r\nUsage: gzip [-cfkdt123456789] [FILE]...\r\n\r\nCompress FILEs (or stdin)\r\n\r\n        -1..9   Compression level\r\n        -d      Decompress\r\n        -c      Write to stdout\r\n        -f      Force\r\n        -k      Keep input files\r\n        -t      Test integrity\r\ntar: This does not look like a tar archive\r\ntar: Exiting with failure status due to previous errors\r\nmake[1]: *** [Makefile:621: distcheck] Error 2\r\nmake[1]: Leaving directory '/home/cosmicexplorer/tools/automake/doc/amhello'\r\nmake: *** [Makefile:3766: /home/cosmicexplorer/tools/automake/doc/amhello-1.0.tar.gz] Error 1\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j16' 'V=1'\r\n\r\n2 errors found in build log:\r\n     262        -c      Write to stdout\r\n     263        -f      Force\r\n     264        -k      Keep input files\r\n     265        -t      Test integrity\r\n     266    tar: This does not look like a tar archive\r\n     267    tar: Exiting with failure status due to previous errors\r\n  >> 268    make[1]: *** [Makefile:621: distcheck] Error 2\r\n     269    make[1]: Leaving directory '/home/cosmicexplorer/tools/automake/doc/amhello'\r\n  >> 270    make: *** [Makefile:3766: /home/cosmicexplorer/tools/automake/doc/amhello-1.0.tar.gz] Error 1\r\n\r\nSee build log for details:\r\n  /home/cosmicexplorer/tools/automake/spack-build-out.txt\r\n\r\n```\r\n\r\n### Solution\r\n- Provide `gzip` during the `automake` build with spack's `gzip` package by adding a `depends_on()` declaration.\r\n\r\n### Result\r\n`spack dev-build automake@master` succeeds on Alpine Linux!",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/29230",
+    "updated_at": "2022-03-03 17:00:13",
+    "created_at": "2022-02-25 21:24:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "use spack-bundled gzip to build automake",
+    "number": 29230,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "maintainers"
+    ],
+    "id": 1150894498,
+    "html_url": "https://github.com/spack/spack/pull/29230",
+    "assignees": [],
+    "comments": 1
+}

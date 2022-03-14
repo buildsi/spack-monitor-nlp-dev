@@ -1,0 +1,20 @@
+{
+    "body": "For cross-compilation, we are adding an optional `hardware.yaml` config file, which can be used to describe the types of target environments available on the system.  Currently this includes the microarchitecture target (`target`) and the OS running on each node (`operating_system`).\r\n\r\nFor example, on Fugaku, we might use the following hardware.yaml to describe the machine's nodes:\r\n\r\n```yaml\r\nhardware:\r\n    hosts:\r\n        - host:\r\n            name: frontend1\r\n            operating_system: rhel7\r\n            target: cascadelake\r\n        - host:\r\n           name: frontend2\r\n           operating_system: rhel7\r\n           target: thunderx2\r\n        - host:\r\n            name: backend\r\n            operating_system: rhel8\r\n            target: a64fx\r\n```\r\n\r\nOther properties, e.g., an optional `sysroot`, or a section describing available networks, can come later.  We expect that this file might also contain hints for setting default values of variants (e.g. you could ask what network fabrics are available on your node and decide how to build `openmpi` based on that. \r\n\r\nThe concretizer will use this file to determine what the build environment and the target environment look like, and it will construct build dependencies to run on the host running Spack, and the DAG root + run and link dependencies to run on a selected type of node.  That will come later; this is just the first cut at the schema.",
+    "user": "tkameyama",
+    "url": "https://api.github.com/repos/spack/spack/issues/15009",
+    "updated_at": "2021-07-27 08:28:30",
+    "created_at": "2020-02-14 22:42:29",
+    "closed_at": "None",
+    "state": "open",
+    "title": "config: add initial hardware.yaml schema",
+    "number": 15009,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "cross-compiling"
+    ],
+    "id": 565591934,
+    "html_url": "https://github.com/spack/spack/pull/15009",
+    "assignees": [],
+    "comments": 2
+}

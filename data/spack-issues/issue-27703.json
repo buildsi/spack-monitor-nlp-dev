@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\nAt least in some cases nvhpc's mpi component can fail because it depends on libatomic, which may not be provided by the system.\r\n```\r\nspack install nvhpc+mpi\r\nspack load nvhpc\r\nmpicc\r\n[wspear@delphi delphi]$ mpicc\r\n/storage/users/wspear/bin/SPACK/delphi/spack/opt/spack/linux-centos7-broadwell/gcc-10.2.0/nvhpc-21.9-ujhnazx5g6awlwm6vi4q47mznh77sodn/Linux_x86_64/21.9/comm_libs/openmpi/openmpi-3.1.5/bin/.bin/mpicc: error while loading shared libraries: libatomic.so.1: cannot open shared object file: No such file or directory\r\n\r\n```\r\n\r\nAdding a run dependency on libatomic-ops bypasses this issue and that is the fix I suggest.\r\n\r\nHowever, after that the mpi component doesn't work for me out of the box. I get this warning instead: \r\n```\r\n[wspear@delphi delphi]$ mpicc \r\nThis script invokes an appropriate specialized C MPI compiler driver.\r\nThe following ways (priority order) can be used for changing default\r\ncompiler name (gcc):\r\n   1. Command line option:  -cc=<compiler_name>\r\n   2. Environment variable: I_MPI_CC (current value '')\r\n   3. Environment variable: MPICH_CC (current value '')\r\n```\r\nIs there a way to tell the spack package to set up a config file or something so it automatically uses the nvcc compilers?\n\n### Information on your system\n\n* **Spack:** 0.17.0-341-1f1da68\r\n* **Python:** 3.7.3\r\n* **Platform:** linux-centos7-broadwell\r\n* **Concretizer:** clingo\n\n### Additional information\n\n@samcmill\r\n\r\nNo relevant build output.\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/27703",
+    "updated_at": "2021-12-07 00:10:14",
+    "created_at": "2021-11-29 22:24:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Runtime issue: nvhpc",
+    "number": 27703,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1066566305,
+    "html_url": "https://github.com/spack/spack/issues/27703",
+    "assignees": [],
+    "comments": 2
+}

@@ -1,0 +1,20 @@
+{
+    "body": "I renamed a compiler spec to have it's version in the name and noticed that a different compiler spec lost its fortran compiler after doing so.  Renaming the second compiler spec to either `gcc@8.1_no_fortran` or `gcc@no_fortran` works fine. \r\n\r\n### Steps to reproduce the issue\r\n\r\nDefine two compiler specs that are close to each other:\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc:  /usr/tce/packages/gcc/gcc-8.1.0/bin/gcc\r\n      cxx: /usr/tce/packages/gcc/gcc-8.1.0/bin/g++\r\n      f77: /usr/tce/packages/gcc/gcc-8.1.0/bin/gfortran\r\n      fc:  /usr/tce/packages/gcc/gcc-8.1.0/bin/gfortran\r\n    spec: gcc@8.1.0\r\n    target: x86_64\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: rhel7\r\n    paths:\r\n      cc:  /usr/tce/packages/gcc/gcc-8.1.0/bin/gcc\r\n      cxx: /usr/tce/packages/gcc/gcc-8.1.0/bin/g++\r\n      f77:\r\n      fc:\r\n    spec: gcc@8.1.0_no_fortran\r\n    target: x86_64\r\n```\r\n\r\nWhen referencing the fortran compiler in a package  the environment variable `SPACK_FC` ends up being the string \"None\".  We do already guard against the None type but this somehow ends up with a string \"None\".\r\n\r\n### Error Message\r\n\r\nI get the following error out of Axom's CMake command:\r\n```\r\n-- The Fortran compiler identification is unknown\r\nCMake Error at CMakeLists.txt:21 (enable_language):\r\n  The CMAKE_Fortran_COMPILER:\r\n\r\n    None\r\n\r\n  is not a full path and was not found in the PATH.\r\n\r\n  Tell CMake where to find the compiler by setting either the environment\r\n  variable \"FC\" or the CMake cache entry CMAKE_Fortran_COMPILER to the full\r\n  path to the compiler, or to the compiler name if it is in the PATH.\r\n\r\n\r\n-- Configuring incomplete, errors occurred!\r\n```\r\n\r\n### Information on your system\r\n\r\nrzgenie\r\n\r\n",
+    "user": "white238",
+    "url": "https://api.github.com/repos/spack/spack/issues/19332",
+    "updated_at": "2020-10-16 04:03:32",
+    "created_at": "2020-10-16 04:03:32",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Naming two compiler specs close to each other causes one to lose its fortran compiler",
+    "number": 19332,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 722864400,
+    "html_url": "https://github.com/spack/spack/issues/19332",
+    "assignees": [],
+    "comments": 0
+}

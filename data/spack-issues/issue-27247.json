@@ -1,0 +1,21 @@
+{
+    "body": "There is a bug in Python versions < 3.7.4 that causes PermissionError to occur when using shutil.copy2 to copy read-only files that have extended attributes set by Lustre (which is used by lib/spack/llnl/util/filesystem.py:504 to copy directory trees). The upstream Python bug is [here](https://bugs.python.org/issue24538).\r\n\r\nSetting SPACK_PYTHON to point to a python executable >= version 3.7.4 fixes the problem. However, for Python versions below this, we monkeypatch shutil.copystat to set extended attributes *before* setting permissions. This means that copying read-only files that have extended attributes set by Lustre can succeed, which is necessary to install openjdk (and fix #25354). I have confirmed on my cluster that this patch fixes openjdk installation when spack is installed on a Lustre FS when using Python 3.6.",
+    "user": "BenWibking",
+    "url": "https://api.github.com/repos/spack/spack/issues/27247",
+    "updated_at": "2022-01-04 11:03:11",
+    "created_at": "2021-11-05 23:37:17",
+    "closed_at": "None",
+    "state": "open",
+    "title": "avoid PermissionError on Lustre when copying files (fixes #25354)",
+    "number": 27247,
+    "milestone": null,
+    "labels": [
+        "utilities"
+    ],
+    "id": 1046309433,
+    "html_url": "https://github.com/spack/spack/pull/27247",
+    "assignees": [
+        "mwkrentel"
+    ],
+    "comments": 11
+}

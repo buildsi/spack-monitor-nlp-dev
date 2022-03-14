@@ -1,0 +1,24 @@
+{
+    "body": "Spack generates modules with /usr/bin for intel compilers and libs, which leads to issues after unloading environment modules. Similar issues are mentioned in #5201 . It is marked as resolved by #5460 . But I can still reproduce this issue on the latest Spack.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ cd MODULE_FILE_DIR\r\n$ rm -f 19.0.4-gcc-4.8.5\r\n$ spack module tcl refresh intel@19.0.4\r\n==> You are about to regenerate tcl module files for:\r\n\r\n-- linux-centos7-x86_64 / gcc@4.8.5 -----------------------------\r\nzxtvkrs intel@19.0.4\r\n\r\n==> Do you want to proceed? [y/n] y\r\n==> Regenerating tcl module files\r\n==> Warning: Quotes in command arguments can confuse scripts like configure.\r\n  The following arguments may cause problems when executed:\r\n      source /lustre/opt/sandybridge/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.4-zxtvkrsgqvhud4og62e55kwgqvhy26d3/compilers_and_libraries_2019.4.243/linux/bi\r\nn/compilervars.sh intel64 &> /dev/null && python -c \"import os, json; print(json.dumps(dict(os.environ)))\"\r\n  Quotes aren't needed because spack doesn't use a shell.\r\n  Consider removing them\r\n$ grep '/usr/bin' 19.0.4-gcc-4.8.5\r\nappend-path PATH \"/usr/bin\"\r\n$ module purge; module load intel/19.0.4-gcc-4.8.5; which icc;                                                \r\n/lustre/opt/sandybridge/linux-centos7-x86_64/gcc-4.8.5/intel-19.0.4-zxtvkrsgqvhud4og62e55kwgqvhy26d3/compilers_and_libraries_2019.4.243/linux/bin/intel64/icc\r\n$ module purge; which hostname     \r\n/usr/bin/which: no hostname in (/lustre/spack/tools/linux-centos7-x86_64/gcc-4.8.5/emacs-25.3-pmt2l22orayqtu2q4lajks5cbnxn67iz/bin:/lustre/spack/tools/linux-centos7-x86_64/gcc-4.8.5/vim-8.0.1376-rcaapr4slmd7ewvnp4ebhp2b6q3s7nsv/bin)\r\n$ echo $PATH\r\n/lustre/spack/tools/linux-centos7-x86_64/gcc-4.8.5/emacs-25.3-pmt2l22orayqtu2q4lajks5cbnxn67iz/bin:/lustre/spack/tools/linux-centos7-x86_64/gcc-4.8.5/vim-8.0.1376-rcaapr4slmd7ewvnp4ebhp2b6q3s7nsv/bin\r\n```\r\n\r\n### Information on your system\r\n\r\nLinux 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux",
+    "user": "weijianwen",
+    "url": "https://api.github.com/repos/spack/spack/issues/12628",
+    "updated_at": "2020-09-16 04:49:53",
+    "created_at": "2019-08-28 09:38:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack generates modules with /usr/bin for intel compilers and libs",
+    "number": 12628,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "modules",
+        "intel",
+        "triage"
+    ],
+    "id": 486267229,
+    "html_url": "https://github.com/spack/spack/issues/12628",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 9
+}

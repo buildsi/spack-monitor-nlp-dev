@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\n\n```console\r\nspack install hdf5\r\n```\n\n### Information on your system\n\n* **Spack:** 0.16.3-5037-e0dd364\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-broadwell\r\n* **Concretizer:** clingo\r\n\n\n### Additional information\n\nThe build didn't fail or give errors.  Rather, the output of `h5cc -showconfig` seems amiss.  Specifically, it looks like\r\n```\r\n/gpfs/packages/spack/spack/opt/spack/linux-rhel7-broadwell/gcc-11.1.0/hdf5-1.12.1-wtd75b7ajama3o6sxcrw76nwb3yarfby/h5cc\r\ndir is /gpfs/packages/spack/spack/opt/spack/linux-rhel7-broadwell/gcc-11.1.0/hdf5-1.12.1-wtd75b7ajama3o6sxcrw76nwb3yarfby\r\ngcc: error: unrecognized command-line option '-showconfig'; did you mean '-mpconfig'?\r\n```\r\nwhereas other versions I've looked at, both via 'conda' and Ubuntu installs, have extensive output that starts like\r\n```\r\n            SUMMARY OF THE HDF5 CONFIGURATION\r\n            =================================\r\n\r\nGeneral Information:\r\n-------------------\r\n                   HDF5 Version: 1.12.1\r\n                  Configured on: Thu Oct  7 03:10:02 UTC 2021\r\n```\r\n\r\nVery suggestively, the spack version of `h5cc` looks like a slightly modified version of `./config/cmake/libh5cc.in`, whereas all of the other versions (conda, Ubuntu) look like a slightly modified version of `./bin/h5cc.in`.  Just based on the names, it seems like the latter must be right and the former some sort of mistake.\r\n\r\nBut, I'm not familiar with hdf5 and not sure.  And just to confuse things, if one searches for `h5cc` man pages on the Internet, they seem not to mention the `-showconfig` flag.\r\n\r\nThis matters for builds that assume the flag exists.  As an example, see https://github.com/gmtsar/gmtsar/blob/master/ax_lib_hdf5.m4\r\n\r\nThere are many similar copies elsewhere, so presumably it's assumed that `h5cc -showconfig` will generally work as expected.\r\n\r\nI'm a bit baffled at the moment.  It could be something awful in my specific environment, I guess.  Is anyone else seeing this?\r\n\r\n@ChristopherHogan  @brtnfld  @byrnHDF  @epourmal  @gheber  @hyoklee  @lkurz  @lrknox  @soumagne\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [X] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "michaelkarlcoleman",
+    "url": "https://api.github.com/repos/spack/spack/issues/27000",
+    "updated_at": "2022-01-24 09:30:03",
+    "created_at": "2021-10-28 04:31:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: hdf5  (h5cc -showconfig failure?)",
+    "number": 27000,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1038072271,
+    "html_url": "https://github.com/spack/spack/issues/27000",
+    "assignees": [],
+    "comments": 9
+}

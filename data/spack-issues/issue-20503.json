@@ -1,0 +1,19 @@
+{
+    "body": "#20221 describes how we're looking to determine whether SMT constraint solving even works for a packager like spack, and then whether it might be faster even than ASP. #20501 ups the ante to describe some of the main disparities between the ASP and SMT methods -- and how to use a technique from ASP to help the SMT solution.\r\n\r\nRight now, this is being executed against fake data defined within the new file `z3.py`. This is currently being tested using the [pex](github.com/pantsbuild/pex/) tool:\r\n```bash\r\n> pex --interpreter-constraint='CPython<3' z3-solver six setuptools -D lib/spack -D lib/spack/external -o z3-setup.pex\r\n> PYTHONIOENCODING='utf-8' ./z3-setup.pex lib/spack/spack/solver/z3.py\r\n...\r\nUNSAT_CORE():\r\n[use_package(PackageIdentitySort(\"FAKE::[b@1.0.0]\")) ==\r\n False,\r\n use_package(PackageIdentitySort(\"FAKE::[a@1.0.0]\")),\r\n use_this_dependency(PackageIdentitySort(\"FAKE::[a@1.0.0]\"),\r\n                     PackageIdentitySort(\"FAKE::[b@1.0.1]\")) ==\r\n use_package(p = FAKE::[a@1.0.0]) => \\existsuniq! d \\in {P_dependencies(p)} s.t. use_this_dependency(p, d). case of: d = FAKE::[b@1.0.1].,\r\n use_this_dependency(PackageIdentitySort(\"FAKE::[a@1.0.0]\"),\r\n                     PackageIdentitySort(\"FAKE::[b@1.0.0]\")) ==\r\n use_package(p = FAKE::[a@1.0.0]) => \\existsuniq! d \\in {P_dependencies(p)} s.t. use_this_dependency(p, d). case of: d = FAKE::[b@1.0.0].,\r\n Implies(use_this_dependency(PackageIdentitySort(\"FAKE::[a@1.0.0]\"),\r\n                             PackageIdentitySort(\"FAKE::[b@1.0.1]\")),\r\n         use_package(PackageIdentitySort(\"FAKE::[b@1.0.1]\"))),\r\n Implies(use_this_dependency(PackageIdentitySort(\"FAKE::[a@1.0.0]\"),\r\n                             PackageIdentitySort(\"FAKE::[b@1.0.0]\")),\r\n         use_package(PackageIdentitySort(\"FAKE::[b@1.0.0]\"))),\r\n use_package(PackageIdentitySort(\"FAKE::[a@1.0.0]\")) ==\r\n PbEq(((use_package(p = FAKE::[a@1.0.0]) => \\existsuniq! d \\in {P_dependencies(p)} s.t. use_this_dependency(p, d). case of: d = FAKE::[b@1.0.1].,\r\n        1),\r\n       (use_package(p = FAKE::[a@1.0.0]) => \\existsuniq! d \\in {P_dependencies(p)} s.t. use_this_dependency(p, d). case of: d = FAKE::[b@1.0.0].,\r\n        1)),\r\n      1),\r\n use_package(PackageIdentitySort(\"FAKE::[b@1.0.1]\")) ==\r\n False]\r\nphase /solve 2/ starting with previous value 0.11166882515\r\nphase /solve 2/check 2/ starting with previous value 0\r\nSUCCESS: UNSAT!!!!!\r\n...\r\n```\r\n\r\nIn this PR we attempt to build a concretizer which:\r\n- [ ] Pulls data from spack packages like the ASP concretizer (it's currently using fake data).\r\n- [ ] Can process every feature of spack specs (currently can only process versions\r\n- [ ] Can solve small specs (which?) seemingly correctly.\r\n- [ ] Gets the same (?) results as the ASP concretizer for all test cases.\r\n    - If different, how? Where? \r\n- [ ] Isn't atrociously slow.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/20503",
+    "updated_at": "2021-01-18 14:06:25",
+    "created_at": "2020-12-22 01:50:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Z3 concretizer WIP (version ranges only, fake data)",
+    "number": 20503,
+    "milestone": null,
+    "labels": [
+        "concretization"
+    ],
+    "id": 772576736,
+    "html_url": "https://github.com/spack/spack/pull/20503",
+    "assignees": [],
+    "comments": 0
+}

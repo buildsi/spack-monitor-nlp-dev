@@ -1,0 +1,24 @@
+{
+    "body": "This is a feature request to add the possibility to mark packages as non-relocatable.\r\n\r\nWe have since a while the possibility to build binary caches of packages that have been installed. This enhances a lot the user the experience, as the installation time may be dramatically reduced for specs whose binary artifacts are available.\r\n\r\nHowever not all the packages may be relocated. The simplest example that comes to my mind is packages that have absolute paths hardcoded somewhere (maybe in a `config.h` file that gets generated at configure or build time). \r\n\r\nWhat I propose here is to be able to mark packages as non-relocatable:\r\n```python\r\nclass EnvironmentModules(Package):\r\n    relocatable = False\r\n    ...\r\n```\r\nand that should have the effect of skipping this node when creating the binary cache of the DAG (thus enforcing a source build).\r\n\r\n\r\n### Expected Result\r\n\r\nThe binary cache of a dependency DAG containing nodes that are not relocatable should enforce building those nodes from sources.\r\n\r\n### Actual Result\r\n\r\nSometimes we put in cache packages that are not relocatable, and that may cause failures at run-time:\r\n```console\r\n$ spack install --use-cache environment-modules\r\n...\r\n==> Installing environment-modules\r\n==> Searching for binary cache of environment-modules\r\n==> Installing environment-modules from binary cache\r\n==> Fetching http://0.0.0.0:32679/build_cache/linux-ubuntu14.04-x86_64/gcc-4.8/environment-modules-3.2.10/linux-ubuntu14.04-x86_64-gcc-4.8-environment-modules-3.2.10-bwjr7qmyssvp2bjk2jnqw75c2qqedrde.spack\r\n######################################################################## 100,0%\r\ngpg: Signature made ven 09 feb 2018 22:03:38 CET using RSA key ID A1A440B6\r\ngpg: Good signature from \"Massimiliano Culpo (GPG created for Spack) <massimiliano.culpo@gmail.com>\"\r\n==> Relocating package from\r\n  /home/spack/opt/spack to /home/mculpo/PycharmProjects/spack/opt/spack.\r\n==> Successfully installed environment-modules from binary cache\r\n[+] /home/mculpo/PycharmProjects/spack/opt/spack/linux-ubuntu14.04-x86_64/gcc-4.8/environment-modules-3.2.10-bwjr7qmyssvp2bjk2jnqw75c2qqedrde\r\n\r\n$ . share/spack/setup-env.sh\r\n$ module av\r\ninit.c(556):ERROR:161: Cannot initialize TCL\r\n```\r\n\r\n@gartung @tgamblin ",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/7237",
+    "updated_at": "2020-11-20 08:21:51",
+    "created_at": "2018-02-14 09:28:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Mark a package as non-relocatable",
+    "number": 7237,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "discussion",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 297026150,
+    "html_url": "https://github.com/spack/spack/issues/7237",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 26
+}

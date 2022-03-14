@@ -1,0 +1,22 @@
+{
+    "body": "\r\n[build.out.txt](https://github.com/spack/spack/files/3182888/build.out.txt)\r\n\r\nafter boost is built, no boost_context or boost_coroutine found\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install boost@1.64.0%clang \r\n\r\nthe install will success but there are some library not build such as  boost_context  boost_coroutine2\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux ubuntu 4.15.0-47-generic #50-Ubuntu SMP Wed Mar 13 10:44:52 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n\r\n$ lsb_release -d\r\nDescription:    Ubuntu 18.04.1 LTS\r\n``` \r\nand, if relevant, post or attach:\r\n\r\n- `packages.yaml`\r\n- `compilers.yaml`\r\n\r\nto the issue\r\n\r\n### Additional information\r\nI find something in build.out which casue the library not building :\r\n```\r\nComponent configuration:\r\n\r\n    - atomic                   : building\r\n    - chrono                   : building\r\n    - container                : not building\r\n    - context                  : not building\r\n    - coroutine                : not building\r\n    - coroutine2               : not building\r\n```\r\nI thought there should be some varint to let me choose where to build then\r\n```console\r\n$ spack install boost@1.64.0%clang +context+coroutine2\r\n==> Error: Package boost has no variant {'coroutine2', 'context'}!\r\n\r\n```",
+    "user": "abc19899",
+    "url": "https://api.github.com/repos/spack/spack/issues/11467",
+    "updated_at": "2019-07-19 23:16:23",
+    "created_at": "2019-05-15 14:08:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": "boost install: missing libraries",
+    "number": 11467,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "impact-low"
+    ],
+    "id": 444460492,
+    "html_url": "https://github.com/spack/spack/issues/11467",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 2
+}

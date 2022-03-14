@@ -1,0 +1,22 @@
+{
+    "body": "The first chunk of my spack.yaml file looks like this:\r\n```yaml\r\nspack:\r\n  packages:\r\n    all:\r\n      compiler: [gcc]\r\n      variants: +mpi\r\n      providers:\r\n        mpi: [mpich@3.2.1~wrapperrpath]\r\n```\r\n\r\nThis results in packages concretizing in my environment using mpich, but using the latest mpich version and without my requested variant. It would be nice if the specifications given to the provider could be enforced (or at least if there was some warning or error to indicate that the syntax isn't applicable here).\r\n\r\nThe workaround is to provides a separate mpich section that covers my requirements:\r\n ```yaml\r\n mpich:\r\n      version:\r\n      - 3.2.1\r\n      variants: ~wrapperrpath\r\n```\r\n\r\n\r\n",
+    "user": "wspear",
+    "url": "https://api.github.com/repos/spack/spack/issues/12001",
+    "updated_at": "2020-03-02 10:18:52",
+    "created_at": "2019-07-12 18:15:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "packages config: providers directive does not impose version or variants",
+    "number": 12001,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "impact-low"
+    ],
+    "id": 467540090,
+    "html_url": "https://github.com/spack/spack/issues/12001",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 1
+}

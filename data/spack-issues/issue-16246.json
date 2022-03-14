@@ -1,0 +1,21 @@
+{
+    "body": "This bug report is part of getting the scientific python stack compiled on macOS with system tools (AppleClang). See #16215\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install py-jupyter\r\n```\r\n\r\nfails on building llvm:\r\n- https://github.com/spack/macos-nightly/runs/609170529?check_suite_focus=true\r\n- https://pipelines.actions.githubusercontent.com/eQDTv3YUcLPOslJXwlkH6QP3HGx2vWLDSmYwdOLvSvJ2UNlz5i/_apis/pipelines/1/runs/15/signedlogcontent/8?urlExpires=2020-04-22T20%3A55%3A45.0161738Z&urlSigningMethod=HMACV1&urlSignature=NgwWOKDEIC3NouubXj9DzrCxQYEW6cDzms9qgEM2UQs%3D\r\n\r\nSnippet:\r\n```\r\nlib/lib\r\n2020-04-22T19:21:18.6768820Z               LLVMDemangle.a -lz -ltinfo -lm\r\n2020-04-22T19:21:18.6769120Z   >> 25661    Undefined symbols for architecture x86_64:\r\n2020-04-22T19:21:18.6769270Z      25662      \"_libintl_bind_textdomain_codeset\", referenced from:\r\n2020-04-22T19:21:18.6769370Z      25663          _PyIntl_bind_textdomain_codeset in libpython3.7m.a(_localem\r\n2020-04-22T19:21:18.6769460Z               odule.o)\r\n2020-04-22T19:21:18.6769530Z      25664      \"_libintl_bindtextdomain\", referenced from:\r\n2020-04-22T19:21:18.6769660Z      25665          _PyIntl_bindtextdomain in libpython3.7m.a(_localemodule.o)\r\n2020-04-22T19:21:18.6769760Z      25666      \"_libintl_textdomain\", referenced from:\r\n2020-04-22T19:21:18.6769850Z      25667          _PyIntl_textdomain in libpython3.7m.a(_localemodule.o)\r\n2020-04-22T19:21:18.6769900Z \r\n2020-04-22T19:21:18.6769970Z      ...\r\n2020-04-22T19:21:18.6770010Z \r\n2020-04-22T19:21:18.6770100Z      25672          _PyLocale_localeconv in libpython3.7m.a(_localemodule.o)\r\n2020-04-22T19:21:18.6770180Z      25673      \"_libintl_dgettext\", referenced from:\r\n2020-04-22T19:21:18.6770510Z      25674          _PyIntl_dgettext in libpython3.7m.a(_localemodule.o)\r\n2020-04-22T19:21:18.6770620Z      25675      \"_libintl_gettext\", referenced from:\r\n2020-04-22T19:21:18.6770720Z      25676          _PyIntl_gettext in libpython3.7m.a(_localemodule.o)\r\n2020-04-22T19:21:18.6770810Z      25677    ld: symbol(s) not found for architecture x86_64\r\n2020-04-22T19:21:18.6771310Z   >> 25678    clang: error: linker command failed with exit code 1 (use -v to s\r\n2020-04-22T19:21:18.6771410Z               ee invocation)\r\n2020-04-22T19:21:18.6771480Z   >> 25679    make[2]: *** [lib/liblldb.10.0.0.dylib] Error 1\r\n2020-04-22T19:21:18.6771570Z   >> 25680    make[1]: *** [tools/lldb/source/API/CMakeFiles/liblldb.dir/all] E\r\n2020-04-22T19:21:18.6771660Z               rror 2\r\n2020-04-22T19:21:18.6771740Z   >> 25681    make: *** [all] Error 2\r\n```\r\n\r\n### Information on your system\r\n\r\n- GitHub Action macOS 10.15\r\n- AppleClang clang-11.0.0-apple\r\n- vanilla Spack from develop as of 46e90692e829457b133521f7dc5c6d7c1f7502da\r\n\r\n\r\n\r\n### Additional information\r\n\r\ncc package maintainers @trws @naromero77\r\n",
+    "user": "ax3l",
+    "url": "https://api.github.com/repos/spack/spack/issues/16246",
+    "updated_at": "2020-05-05 04:59:07",
+    "created_at": "2020-04-22 21:00:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: llvm on AppleClang",
+    "number": 16246,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "build-error",
+        "python"
+    ],
+    "id": 605071818,
+    "html_url": "https://github.com/spack/spack/issues/16246",
+    "assignees": [],
+    "comments": 5
+}

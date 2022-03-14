@@ -1,0 +1,19 @@
+{
+    "body": "The following (from https://github.com/spack/spack/issues/275#issuecomment-166987195) allows a user to install python 2 and 3 versions of packages, e.g.\r\n```\r\n$ spack install py-scipy\r\n$ spack install py-scipy ^python@3:\r\n```\r\ninstalls python 2 and 3 versions of scipy.\r\n\r\nBut the same approach fails to install a python 3 version of petsc4py:\r\n```\r\n$ spack install py-petsc4py ^python@3:\r\n==> Error: An unsatisfiable version constraint has been detected for spec:\r\n\r\n    python@3.4:\r\n        ^bzip2\r\n            ^diffutils\r\n        ^ncurses\r\n            ^pkgconfig\r\n        ^openssl\r\n            ^perl@5.14.0:\r\n                ^gdbm\r\n                    ^readline\r\n            ^zlib\r\n        ^sqlite\r\n\r\n\r\nwhile trying to concretize the partial spec:\r\n\r\n    petsc+mpi\r\n        ^blas\r\n        ^lapack\r\n        ^mpi\r\n\r\n\r\npetsc requires python version 2.6:2.8, but spec asked for 3.4:\r\n```\r\nThe problem is that petsc can only be built using python 2 but petsc4py obviously requires python 3 as requested. Perhaps there is a bug where petsc's build only python dependency:\r\n```\r\n    depends_on('python@2.6:2.8', type='build')\r\n```\r\nis propagated outside of just the build environment?\r\n\r\nEDIT: I guess I didn't search hard enough as this seems to be a known issue:\r\n- https://github.com/spack/spack/pull/7926\r\n- https://github.com/spack/spack/pull/2548\r\n- https://github.com/spack/spack/pull/8018",
+    "user": "benzwick",
+    "url": "https://api.github.com/repos/spack/spack/issues/10256",
+    "updated_at": "2019-01-17 19:17:39",
+    "created_at": "2019-01-05 12:38:41",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: petsc4py ^python@3:",
+    "number": 10256,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 396162120,
+    "html_url": "https://github.com/spack/spack/issues/10256",
+    "assignees": [],
+    "comments": 2
+}

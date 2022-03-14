@@ -1,0 +1,21 @@
+{
+    "body": "Given this in `packages.yaml`:\r\n\r\n```\r\n  ibm-essl:\r\n    buildable: False\r\n    version: [5.5]\r\n    paths:\r\n      ibm-essl@5.5 arch=linux-rhel7-pp64le: /opt/ibmmath/essl/5.5\r\n```\r\n\r\nAnd this command line:\r\n\r\n```\r\n$ spack spec netlib-lapack +external-blas %xl_r@13.1.6 ^ibm-essl@5.5+cuda+ilp64\r\n```\r\n\r\n### Expected Result\r\n\r\nSpack should raise an error that the spec is unsatisfiable because the `packages.yaml` spec doesn't specify values for variants *and* the package is set to `buildable: False`.\r\n\r\n### Actual Result\r\n\r\nSpec concretizes successfully and has `~ilp64 ~cuda`:\r\n\r\n```\r\n$ spack spec netlib-lapack +external-blas %xl_r@13.1.6 ^ibm-essl@5.5+cuda+ilp64\r\nInput spec\r\n--------------------------------\r\nnetlib-lapack%xl_r@13.1.6+external-blas\r\n   ^ibm-essl@5.5+cuda+ilp64\r\n\r\nNormalized\r\n--------------------------------\r\nnetlib-lapack%xl_r@13.1.6+external-blas\r\n   ^cmake\r\n   ^ibm-essl@5.5+cuda+ilp64\r\n\r\nConcretized\r\n--------------------------------\r\nnetlib-lapack@3.6.1%xl_r@13.1.6 fflags=\"-qzerosize\" ~debug+external-blas+lapacke patches=e87343d09dd6635ab39948d5031c388a9705d0dd7ce81f795003ea70626b1721 +shared arch=linux-rhel7-ppc64le \r\n   ^cmake@3.9.4%xl_r@13.1.6 fflags=\"-qzerosize\" ~doc~ncurses~openssl+ownlibs~qt arch=linux-rhel7-ppc64le \r\n   ^ibm-essl@5.5%xl_r@13.1.6 fflags=\"-qzerosize\" ~cuda~ilp64 threads=openmp arch=linux-rhel7-ppc64le \r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nSee above.\r\n\r\n### Information on your system\r\n\r\nThis includes:\r\n\r\n 1. reproduced on IBM Power8 system and on a mac laptop.\r\n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/6420",
+    "updated_at": "2020-11-01 21:45:02",
+    "created_at": "2017-11-23 00:28:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Command line spec not checked against packages.yaml with buildable: False",
+    "number": 6420,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "discussion",
+        "external-packages"
+    ],
+    "id": 276239543,
+    "html_url": "https://github.com/spack/spack/issues/6420",
+    "assignees": [],
+    "comments": 4
+}

@@ -1,0 +1,21 @@
+{
+    "body": "### Request Summary\r\n<!--*Please add a concise summary of your suggestion here.*-->\r\nWe would require a switch option to display the dependencies of binary packages:- `$ spack buildcache list -d`\r\nThis would behave in the same way as `$ spack find -d`\r\n\r\n### Problem Summary\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\nWe have created a new package request for MVAPICH2-GDR: [link](https://github.com/spack/spack/pull/17883) which is dependent on different versions of cuda. The package is not installable and is only available through a binary mirror. \r\n\r\nCurrently there is no way for users to find out what the dependencies of the binaries are available in the mirror. Having a \"-d\" option like in `spack find -d` will allow users to find out the dependencies of binaries and install the correct spec from the mirror.\r\n\r\nCurrently, when I want to list all the binaries using $ `spack buildcache list`, it looks like there are duplicates. However, they are each dependent on different versions of cuda:-\r\n```\r\n[packager@fs5 gdrmirror2]$ spack --version\r\n0.15.1-195-0c44a9a\r\n[packager@fs5 gdrmirror2]$ spack buildcache list -L -v -a\r\n==> Finding buildcaches at file:///home/packager/spack-related/gdrmirror2/build_cache\r\n-- linux-centos7-x86_64 / gcc@4.8.5 -----------------------------\r\ns63wh7pvmewqo5cxdoh7hksahdlfv7lx mvapich2-gdr@2.3.3~core_direct+mcast~openacc distribution=mofed4.5 pmi_version=pmi1 process_managers=mpirun\r\n6c2ve3pwz4o5exnrjtwpsre36dfsnnmh mvapich2-gdr@2.3.3~core_direct+mcast~openacc distribution=mofed4.5 pmi_version=pmi1 process_managers=mpirun\r\nnk22bqghyg3b3sitsklq3fv3z5aobhvc mvapich2-gdr@2.3.3~core_direct+mcast~openacc distribution=mofed4.5 pmi_version=pmi1 process_managers=mpirun\r\n```\r\n\r\n### Alternate Methods\r\n\r\nI tried using a wrapper around the cuda dependency like [here](https://github.com/spack/spack/pull/17883/files/018fc7cf9cbc575c601a54d01e010c6e3488cf64) but was advised to make this feature request.\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\n\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->\r\n\r\n@adamjstewart @gartung @harisubramoni ",
+    "user": "nithintsk",
+    "url": "https://api.github.com/repos/spack/spack/issues/17998",
+    "updated_at": "2020-12-22 06:23:19",
+    "created_at": "2020-08-11 22:30:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Need a \"-d\" option for spack buildcache list which is similar to spack find -d",
+    "number": 17998,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "buildcache",
+        "binary-packages"
+    ],
+    "id": 677240730,
+    "html_url": "https://github.com/spack/spack/issues/17998",
+    "assignees": [],
+    "comments": 5
+}

@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nI have created a build cache for software to be installed on several different systems, all of which are compatible with x86_64. `spack buildcache install` worked with v0.14, now it's broken on both develop and v0.15 branches.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ git checkout develop\r\n$ spack buildchache list --allarch glib\r\n==> 1 cached build.\r\n-- linux-rhel7-x86_64 / gcc@7.3.1 -------------------------------\r\nglib@2.64.3\r\n$ spack arch\r\nlinux-rhel7-sandybridge\r\n$ spack buildcache install \"glib arch=linux-rhel7-x86_64\"\r\n==> buildcache spec(s) matching glib arch=linux-rhel7-x86_64 \r\n\r\n==> Error: glib arch=linux-rhel7-x86_64 does not match any downloaded packages.\r\n==> Error: use one of the matching specs above\r\n```\r\n\r\nI get a different error message with v0.15:\r\n```console\r\n$ spack buildcache install \"glib arch=linux-rhel7-x86_64\"\r\n==> Error: Failed to read index https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/build_cache/index.json\r\n==> Error: Can't recreate arch for spec linux-rhel6-x86_64 on current arch linux-rhel7-sandybridge; spec architecture is too different\r\n```\r\n\r\n\r\nIt works fine with v0.14:\r\n```console\r\n$ git checkout releases/v0.14 \r\nSwitched to branch 'releases/v0.14'\r\nYour branch is up to date with 'origin/releases/v0.14'.\r\n$ spack buildcache install \"glib arch=linux-rhel7-x86_64\"\r\n==> Finding buildcaches at https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/build_cache\r\n==> Finding buildcaches in /home/vagrant/mirror/build_cache\r\n==> buildcache spec(s) matching glib arch=linux-rhel7-x86_64 \r\n\r\n==> Installing buildcache for dependency spec...\r\n```\r\n\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n* **Spack:** 0.15.3\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-sandybridge\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "andymwood",
+    "url": "https://api.github.com/repos/spack/spack/issues/17849",
+    "updated_at": "2021-06-19 13:06:26",
+    "created_at": "2020-08-03 08:24:47",
+    "closed_at": "None",
+    "state": "open",
+    "title": "`spack buildcache` doesn't generate `index.json` automatically",
+    "number": 17849,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium",
+        "buildcache"
+    ],
+    "id": 671897096,
+    "html_url": "https://github.com/spack/spack/issues/17849",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 13
+}

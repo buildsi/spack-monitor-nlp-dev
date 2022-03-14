@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\r\n\r\nThis is on an HPC called Cheyenne. I used different versions of the Intel compilers (2021.2.0, installed by sysadmins; and 2022.0.2 installed with the Intel installers) with the corresponding Intel-MPI and got the same result. I also tried with netcdf-c-4.7.4 and netcdf-c-4.8.1.\r\n\r\nWhen I run configure manually with those compilers loaded:\r\n```\r\nchecking if /glade/work/heinzell/intel-oneapi-2022.1.1/mpi/2021.5.1/bin/mpicc supports -c -o file.o... (cached) yes\r\nchecking whether the /glade/work/heinzell/intel-oneapi-2022.1.1/mpi/2021.5.1/bin/mpicc linker (/usr/x86_64-suse-linux/bin/ld -m elf_x86_64) supports shared libraries... yes\r\nchecking whether -lc should be explicitly linked in... no\r\nchecking dynamic linker characteristics... GNU/Linux ld.so\r\nchecking how to hardcode library paths into programs... immediate\r\nchecking whether stripping libraries is possible... yes\r\nchecking if libtool supports shared libraries... yes\r\nchecking whether to build shared libraries... yes\r\nchecking whether to build static libraries... yes\r\n```\r\nHowever, if I run this through spack:\r\n```\r\nchecking if /glade/work/heinzell/intel-oneapi-2022.1.1/mpi/2021.5.1/bin/mpicc supports -c -o file.o... (cached) yes\r\nchecking whether the /glade/work/heinzell/intel-oneapi-2022.1.1/mpi/2021.5.1/bin/mpicc linker (/glade/work/heinzell/jedi-stack/spack-stack-develop-20220215/spack/lib/spack/env/ld -m elf_x86_64) supports shared libraries... no\r\nchecking dynamic linker characteristics... GNU/Linux ld.so\r\nchecking how to hardcode library paths into programs... unsupported\r\nchecking whether stripping libraries is possible... yes\r\nchecking if libtool supports shared libraries... no\r\nchecking whether to build shared libraries... no\r\nchecking whether to build static libraries... yes\r\n```\r\nSeems like the spack environment gets in the way here. Is there a way to modify the netcdf-c package.py to use the linker directly without going through spack?\r\n\r\nNote. The same setup (packages, compiler versions etc.) builds shared libraries just fine on all other platforms I have tested so far (MSU Orion, NOAA RDHPC Gaea, macOS).\r\n\r\n### Error message\r\n\r\nSee above\r\n\r\n### Information on your system\r\n\r\n* **Spack:** 0.17.1-1150-0cc9bdcf58\r\n* **Python:** 3.7.9\r\n* **Platform:** linux-sles12-broadwell\r\n* **Concretizer:** clingo\r\n\r\n### General information\r\n\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "climbfuji",
+    "url": "https://api.github.com/repos/spack/spack/issues/29354",
+    "updated_at": "2022-03-12 02:59:24",
+    "created_at": "2022-03-05 02:05:31",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack linker env makes netcdf-c believe that it doesn't support shared libraries",
+    "number": 29354,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 1160187235,
+    "html_url": "https://github.com/spack/spack/issues/29354",
+    "assignees": [],
+    "comments": 4
+}

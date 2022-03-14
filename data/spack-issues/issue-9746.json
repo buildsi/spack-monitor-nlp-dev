@@ -1,0 +1,20 @@
+{
+    "body": "Spack uses /tmp as staging area, however it is likely that /tmp is set as noexec. This means that configure and other scripts generated during the build process cannot be executed.\r\n\r\nOn top of that the error is difficult to diagnose as spack uses symlinks that hide that /tmp is being used. \r\n\r\nProbably the fix would be for spack to check whether it is allowed to execute scripts in the directory when deciding what to use as build_stage.\r\n\r\n```\r\n==> Installing libsigsegv\r\n==> Using cached archive: /home/andradevalen1/spack/var/spack/cache/libsigsegv/libsigsegv-2.11.tar.gz\r\n==> Staging archive: /home/andradevalen1/spack/var/spack/stage/libsigsegv-2.11-leczwxralzvyyq3d742nn4smvudye7do/libsigsegv-2.11.tar.gz\r\n==> Created stage in /home/andradevalen1/spack/var/spack/stage/libsigsegv-2.11-leczwxralzvyyq3d742nn4smvudye7do\r\n==> No patches needed for libsigsegv\r\n==> Building libsigsegv [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Error: ProcessError: /home/andradevalen1/spack/var/spack/stage/libsigsegv-2.11-leczwxralzvyyq3d742nn4smvudye7do/libsigsegv-2.11/configure: Permission denied\r\n```",
+    "user": "xavierandrade",
+    "url": "https://api.github.com/repos/spack/spack/issues/9746",
+    "updated_at": "2020-06-04 21:13:39",
+    "created_at": "2018-11-06 22:50:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack cannot work when /tmp is mounted with 'noexec'",
+    "number": 9746,
+    "milestone": null,
+    "labels": [
+        "discussion",
+        "revisit"
+    ],
+    "id": 378067783,
+    "html_url": "https://github.com/spack/spack/issues/9746",
+    "assignees": [],
+    "comments": 5
+}

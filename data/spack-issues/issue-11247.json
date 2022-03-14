@@ -1,0 +1,22 @@
+{
+    "body": "I have been unable to get Spack to correctly configure any CUDA projects using GCC 7.2.0 and CUDA 9.2.88.  These are defined in packages.yaml and compilers.yaml (not installed via Spack). I have validated that Spack is correctly loading all necessary modules for these during the configure/build.\r\n\r\nI have a CMake project with CMakeLists.txt\r\n````\r\nProject(KokkosThing CXX CUDA)\r\n````\r\nCMake dies in the CUDA tests reporting nvcc is unable to compile a test program. There is no error message from CMake. Just 'nvcc is broken'. I manually run cmake with `--debug-trycompile` so I can compile the test `main.cu` with `nvcc` myself. I try the following:\r\n\r\n1. System environment with no Spack. Compiles just fine\r\n1. Source the Spack environment file. nvcc does nothing. Literally nothing. It prints no errors or messages (even with -v) and simply exits with return code 1.\r\n1. Source the Spack environment, but remove the Spack compilers from the PATH. Compiles just fine.\r\n1. Source the Spack environment AND leave the compilers in the PATH. Pass a -ccbin flag to nvcc pointing to gcc 7.2.0. Compiles just fine.\r\n1. Source the Spack environment. Pass -ccbin POINTING TO THE SPACK COMPILER WRAPPER. Compiles just fine.\r\n\r\nThe compiler wrappers are clearly confusing nvcc in some way. Almost impossible to guess why that would be. In some sense this might be an nvcc issue... but the Spack compiler wrappers are clearly causing the problem. For the time being, I can avoid this by setting in my package.py:\r\n````\r\noptions = [\r\n  \"-DCMAKE_CUDA_HOST_COMPILER=%s\" % os.environ[\"SPACK_CXX\"],\r\n]\r\n````\r\nwhich then forces the -ccbin flag and makes nvcc work.\r\n\r\nThis is one of several cases where the compiler wrappers are annoying. For our CMake workflow, I don't really understand why they are even necessary. I don't need and really don't want a compiler wrapper adding a bunch of flags I didn't ask for. \r\n\r\nIs there or has there been considered a \"no compiler wrapper\" option that just trusts people to know what they're doing with CMake? Or is there something else the compiler wrappers are accomplishing?\r\n",
+    "user": "jjwilke",
+    "url": "https://api.github.com/repos/spack/spack/issues/11247",
+    "updated_at": "2019-07-19 23:49:45",
+    "created_at": "2019-04-21 01:42:07",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack compiler wrappers confuse both CMake and nvcc",
+    "number": 11247,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 435464717,
+    "html_url": "https://github.com/spack/spack/issues/11247",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 2
+}

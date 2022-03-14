@@ -1,0 +1,21 @@
+{
+    "body": "`libisl` is not available when building gcc@9.3.0. In my build environment, no previous version of libisl is available either in spack or from the system- only the version installed from concretizing gcc@9.3.0 is around.\r\n\r\n     >> 9513    /tmp/haines8/spack-stage/spack-stage-gcc-9.3.0-pagj2qrnnfbadrimrj5skhodj7mwqupi/spack-src/spack-build/./gcc/cc1:\r\n    error while loading shared libraries: libisl.so.19: cannot open shared object file: No such file or directory\r\n\r\nChecking the dependencies...\r\n\r\n    [haines8@ray23:tests]$ ldd /tmp/haines8/spack-stage/spack-stage-gcc-9.3.0-pagj2qrnnfbadrimrj5skhodj7mwqupi/spack-src/spack-build/./gcc/cc1 | sort\r\n      /lib64/ld64.so.2 (0x0000100000000000)\r\n      libc.so.6 => /lib64/libc.so.6 (0x00001000003a0000)\r\n      libdl.so.2 => /lib64/libdl.so.2 (0x0000100000240000)\r\n      libgmp.so.10 => /lib64/libgmp.so.10 (0x0000100000190000)\r\n      libisl.so.19 => not found\r\n      libm.so.6 => /lib64/libm.so.6 (0x00001000002b0000)\r\n      libmpc.so.3 => /lib64/libmpc.so.3 (0x00001000000c0000)\r\n      libmpfr.so.4 => /lib64/libmpfr.so.4 (0x0000100000100000)\r\n      libz.so.1 => /lib64/libz.so.1 (0x0000100000270000)\r\n      linux-vdso64.so.1 =>  (0x0000100000050000)\r\n\r\nI would expect libisl to be RPATH'ed at this point in the build... Since it's installed by spack at this point, I can manually load its module.\r\n\r\n    [haines8@ray23:tests]$ module load isl-0.20-gcc-7.3.1-qjqn5pv\r\n\r\nChecking LD_LIBRARY_PATH, it's now visible.\r\n\r\n    [haines8@ray23:tests]$ echo $LD_LIBRARY_PATH\r\n    /usr/WS1/haines8/spack/opt/spack/linux-rhel7-power8le/gcc-7.3.1/isl-0.20-qjqn5pv4zliaihpbtqywu3dhudvbaugx/lib\r\n    /usr/WS1/haines8/spack/opt/spack/linux-rhel7-power8le/gcc-7.3.1/perl-5.30.1-bbeqdt7wshfovaqlf3xosmdcxjcbpq22/lib\r\n    /usr/WS1/haines8/spack/opt/spack/linux-rhel7-power8le/gcc-7.3.1/intel-tbb-2020.1-fk5tidvubuk4bgu25qfegsvd4y4iju7d/lib\r\n    /usr/WS1/haines8/spack/opt/spack/linux-rhel7-power8le/gcc-7.3.1/boost-1.70.0-a7lpiqaxpckjhztzfl2dtsquu2dsii6m/lib\r\n    /usr/WS1/haines8/spack/opt/spack/linux-rhel7-power8le/gcc-7.3.1/elfutils-0.178-tggrh3bouc2pejqronoza4a6g3knaxdh/lib\r\n    /usr/tce/packages/cuda/cuda-10.1.243/lib64\r\n    /opt/ibm/spectrumcomputing/lsf/10.1/linux3.10-glibc2.17-ppc64le-csm/lib\r\n\r\nBut the build still fails. The complete build logs are below.\r\n\r\n[gcc.log](https://github.com/spack/spack/files/4472380/gcc.log)\r\n[spack-cc-gcc-pagj2qr.in.log](https://github.com/spack/spack/files/4472381/spack-cc-gcc-pagj2qr.in.log)\r\n[spack-cc-gcc-pagj2qr.out.log](https://github.com/spack/spack/files/4472382/spack-cc-gcc-pagj2qr.out.log)\r\n\r\n---\r\n\r\n    $ uname -a\r\n        Linux ray23 3.10.0-957.21.3.1chaos.ch6.ppc64le #1 SMP Tue Jun 25 09:02:47 PDT 2019 ppc64le ppc64le ppc64le GNU/Linux\r\n    $ lsb_release -d\r\n        Description:  Red Hat Enterprise Linux Server release 7.6 (Maipo)\r\n    $ spack --version\r\n        0.14.1-356-b42a96df9\r\n    $ git branch -v\r\n        * develop b42a96df9 provider index: removed import from + refactored a few parts (#15570)",
+    "user": "hainest",
+    "url": "https://api.github.com/repos/spack/spack/issues/16032",
+    "updated_at": "2020-08-20 14:12:51",
+    "created_at": "2020-04-13 23:47:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: gcc@9.3.0",
+    "number": 16032,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "unreproducible",
+        "gcc"
+    ],
+    "id": 599201005,
+    "html_url": "https://github.com/spack/spack/issues/16032",
+    "assignees": [],
+    "comments": 14
+}

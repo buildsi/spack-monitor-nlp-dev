@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install nvhpc install_type=network mpi=true\r\n$ spack compiler add --scope=site\r\n$ spack install wrf %nvhpc ^cmake%gcc\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.1-2784-d2178fb47b\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-sandybridge\r\n* **Concretizer:** original\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\nThe error is that `nvhpc` does not understand the `-Wno-implicit-function-declaration` flag passed to the configure script. Root cause is this chunk of code in the `package.py` file: \r\n```\r\n        if name == \"cflags\":\r\n            if \"clang\" in self.compiler.cc or \"gcc\" in self.compiler.cc:\r\n                flags.append(\"-Wno-implicit-function-declaration\")\r\n```\r\n\r\nI added a debug statement, and my `self.compiler.cc` = `/nfs/admin/software/focal/spack/opt/spack/linux-ubuntu20.04-sandybridge/gcc-9.3.0/nvhpc-21.3-aizfc7zmwmljad7hnowweeomjdeshw5t/Linux_x86_64/21.3/compilers/bin/nvc`, which contains the string `gcc` but is not `gcc`.\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n* [spack-build-out.txt](https://github.com/spack/spack/files/6520593/spack-build-out.txt)\r\n* [config.log](https://github.com/spack/spack/files/6520595/config.log)\r\n* [spack-build-env.txt](https://github.com/spack/spack/files/6520596/spack-build-env.txt)\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n@lrknox\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "OmenWild",
+    "url": "https://api.github.com/repos/spack/spack/issues/23830",
+    "updated_at": "2021-06-23 16:29:23",
+    "created_at": "2021-05-21 06:47:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: hdf5 with nvhpc",
+    "number": 23830,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 897739806,
+    "html_url": "https://github.com/spack/spack/issues/23830",
+    "assignees": [],
+    "comments": 2
+}

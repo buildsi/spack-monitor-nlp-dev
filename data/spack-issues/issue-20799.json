@@ -1,0 +1,21 @@
+{
+    "body": "Trying to create the package.py file for the chap application (Channel Annotation Package) and have a few questions.\r\nRead the documentation at [https://spack.readthedocs.io/en/latest/build_systems/cmakepackage.html] since chap uses Cmake.\r\n\r\nFirst built chap using ubuntu under WSL for windows using the instructions at [https://github.com/channotation/chap]. In the build process,\r\nit produces a CMakeCache.txt file (attached) that lists the cmake variables. I also looked at the package.py file for gromacs as a reference.\r\n\r\nbased on the CMakeCache.txt, these are the relevant include, cmake and libraries for the dependencies.\r\n\r\n```\r\nBLAS_LIB:FILEPATH= ~spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0netlib-lapack-3.8.0-vckewhbc34ctczacjac2hmjlvls6ni32/lib/libblas.so\r\nBoost_INCLUDE_DIR:PATH= ~/spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0/boost-1.75.0-vfj3o276vbhmsg3dhxbsiqw7zkxxiou4/include\r\nCBLAS_LIB:FILEPATH= ~/spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0/netlib-lapack-3.8.0-vckewhbc34ctczacjac2hmjlvls6ni32/lib/libcblas.so\r\nGROMACS_DIR:PATH= ~/spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0/gromacs-2020.4-64mf7gccw43hkzl6paasgxzjq4myuzak/share/cmake/gromacs\r\nLAPACKE_CBLAS_INCLUDE_DIR:PATH= ~/spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0/netlib-lapack-3.8.0-vckewhbc34ctczacjac2hmjlvls6ni32/include\r\nLAPACKE_LAPACKE_INCLUDE_DIR:PATH= ~/spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0/netlib-lapack-3.8.0-vckewhbc34ctczacjac2hmjlvls6ni32/include\r\nLAPACKE_LIB:FILEPATH=~/spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0/netlib-lapack-3.8.0-vckewhbc34ctczacjac2hmjlvls6ni32/lib/liblapacke.so\r\nLAPACK_LIB:FILEPATH=~/spack/opt/spack/linux-ubuntu18.04-ivybridge/gcc-7.5.0/netlib-lapack-3.8.0-vckewhbc34ctczacjac2hmjlvls6ni32/lib/liblapack.so\r\n```\r\n[CMakeCache.txt](https://github.com/spack/spack/files/5804029/CMakeCache.txt)\r\nSince they are include and cmake directories, and libraries found in the dependencies does spack take care of finding them or do they need to be set in the\r\npackage.py file for chap as an option? Is it sufficient to build with 'netlib-lapack' and not use 'openblas' since openblas and lapack provides('blas') and provides('lapack')?",
+    "user": "thomasbrTTU",
+    "url": "https://api.github.com/repos/spack/spack/issues/20799",
+    "updated_at": "2021-01-14 17:05:57",
+    "created_at": "2021-01-12 18:27:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Building chap package.py file",
+    "number": 20799,
+    "milestone": null,
+    "labels": [
+        "question",
+        "new-package",
+        "cmake"
+    ],
+    "id": 784478216,
+    "html_url": "https://github.com/spack/spack/issues/20799",
+    "assignees": [],
+    "comments": 7
+}

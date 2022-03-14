@@ -1,0 +1,23 @@
+{
+    "body": "1. The default definitions/samples are always installed, at least in the form of an extra library (this was not the case before, e.g. when `~memfs definitions=none`). This is because the main library is not functional without them.\r\n2. Following 1., the variants `definitions` and `samples` are renamed into `extra-definitions` and `extra-samples`, respectively.\r\n3. Both `extra-definitions` and `extra-samples` are semantically order-sensitive multi-valued variants implemented as single-valued variants with automatically generated sets of possible values: either `none` or a colon-separated list of extra definitions/samples.\r\n4. The order is used to generate the correct environment module file (see `setup_run_environment`) as the extra definitions/samples from different centres are developed independently and might override the same files.\r\n5. The order is also needed to correctly resolve conflicts in the logic related to the new variant `create-view`. Enabling the variant makes it possible to use the extra definitions/samples without loading the module before running an application that uses `eccodes` (which is what is normally fair to assume). The actual logic depends on the value of the `memfs` variant:\r\n    - `~memfs` (default) : the extra definitions are installed to the corresponding directories `prefix/share/eccodes/definitions.<center name>` and the default definitions are installed to the usual directory `prefix/share/eccodes/definitions` but the library itself is configured to use `prefix/share/eccodes/definitions.all`, which contains a projection (relative symbolic links) of all definitions (the default ones always have the lowest priority);\r\n    - `+memfs`: the view is generated before building the library and its contents are used to generate source files for `libeccodes_memfs` (the in-memory representation of the definitions/samples), the default definition files are forced to be installed to the usual directory `prefix/share/eccodes/definitions`, which allows the users for overriding the modified default behaviour of the library with the environment variable `ECCODES_DEFINITION_PATH` if needed (e.g. they want to change the priority of the definitions).\r\n    The same holds for extra samples, which we currently don't have though.\r\n6. It's now possible to extend extra definitions/samples with files from the default definitions.\r\n7. It's now possible to patch extra definitions/samples, e.g. to remove an erroneous file that shadows the correct one from the default definitions.\r\n8. All \"unusual\" directories now have `README` files describing their contents.\r\n9. It's now possible to install extra definitions from `mpim`.\r\n\r\nAn example:\r\n`spack install eccodes extra-definitions=mpim:edzw extra-samples=none`\r\n\r\nNote that nothing changes if both `extra-definitions` and `extra-samples` have their default `none` values.",
+    "user": "skosukhin",
+    "url": "https://api.github.com/repos/spack/spack/issues/29299",
+    "updated_at": "2022-03-02 18:15:51",
+    "created_at": "2022-03-02 18:09:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "eccodes: new logic for extra definitions/samples",
+    "number": 29299,
+    "milestone": null,
+    "labels": [
+        "resources",
+        "patch",
+        "update-package",
+        "conflicts",
+        "new-variant"
+    ],
+    "id": 1157530859,
+    "html_url": "https://github.com/spack/spack/pull/29299",
+    "assignees": [],
+    "comments": 0
+}

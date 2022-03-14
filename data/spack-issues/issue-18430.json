@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\nI have created a `repos.yaml` file with the lines:\r\n```\r\nrepos:\r\n  - ${UNIQUE_REPO}\r\n  - $spack/var/spack/repos/builtin\r\n```\r\nI have set the environment variable on the command line (`export UNIQUE_REPO='/path/to/repo/with/repo.yaml'`), activate my environment, and then run `spack install` in my Spack environment. \r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```\r\n==> Warning: Failed to initialize repository: '${UNIQUE_REPO}'.\r\n  No repo.yaml found in '${UNIQUE_REPO}'\r\n  To remove the bad repository, run this command:\r\n      spack repo rm ${UNIQUE_REPO}\r\n```\r\nThe repository does exist in the UNIQUE_REPO path - and was created using `spack create --repo`.\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n```spack.yaml\r\nspack:\r\n  include:\r\n    - ../modules.yaml\r\n    - repos.yaml\r\n    - ../${UNIQUE_MACHINE_NAME}/config.yaml\r\n    - ../${UNIQUE_MACHINE_NAME}/packages.yaml\r\n    - ../${UNIQUE_MACHINE_NAME}/mirrors.yaml\r\n  definitions:\r\n    - singleton_packages: [cmake@3.17.3]\r\n  specs:\r\n    - $singleton_packages\r\n  \r\n  view: false\r\n\r\n```\r\n```spack debug report\r\n* **Spack:** 0.15.4\r\n* **Python:** 3.6.8\r\n* **Platform:** linux-rhel7-haswell\r\n```\r\n(The error also occurs on my Darwin machine with Python 3.8.3)\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "mrmundt",
+    "url": "https://api.github.com/repos/spack/spack/issues/18430",
+    "updated_at": "2020-08-31 23:13:51",
+    "created_at": "2020-08-31 23:05:21",
+    "closed_at": "None",
+    "state": "open",
+    "title": "repos.yaml does not leverage unique environment variables",
+    "number": 18430,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 689584595,
+    "html_url": "https://github.com/spack/spack/issues/18430",
+    "assignees": [],
+    "comments": 0
+}

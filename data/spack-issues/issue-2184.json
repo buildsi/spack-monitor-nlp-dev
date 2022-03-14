@@ -1,0 +1,25 @@
+{
+    "body": "It came up while documenting #2152 that Spack is inconsistent about which config scope is edited from command to command.  Currently, the sort-of-inconsistently-implemented default behavior is to edit the highest-precedence available scope, which used to be `user`, but as of #2030 it's the platform-specific scope for the current platform (e.g. `~/.spack/bgq/config.yaml`).\n\nI figure I should bounce this off of people before editing it.  See if you think what I'm proposing below is reasonable.\n\nCurrently there are 11 commands that take a scope argument.  I've labeled them as either \"read\" operations or \"modify\" operations.  I think they should behave as follows:\n\n**Read operations:**\n- `spack config get` \n- `spack compilers / spack compiler list`\n- `spack mirror list`\n- `spack repo list`\n\nI think all of these should show merged results by default, and allow the user to select a specific scope with `--scope=<scope>` if they want to.\n\n**Modify operations:**\n- `spack config edit`\n- `spack compiler add / spack compiler find`\n- `spack compiler remove`\n- `spack mirror add`\n- `spack mirror remove`\n- `spack repo add`\n- `spack repo remove`\n\nI think instead of taking the highest precedence scope (which among other things might change from spack version to spack version if we implement additional scopes), we should implement this policy:\n1. Introduce a `default_edit_scope` option in `config.yaml`, and out of the box it would be set to edit the `user` scope by default.\n2. If the option is set to `<scope>`, commands should edit the generic `<scope>` config by default, but it should edit an architecture-specific `<scope>/<platform>` config _if it exists_.  I think this is a) natural and b) prevents the user from getting confused if they, say, forgot they made a platform-specific config.\n3. Finally, compilers are a special case (in that they are actually platform-specific) and `spack compiler add/find` should modify the platform-specific scope by default.\n\nDoes this policy seem reasonable?  the other option would be to require a scope parameter for edit commands, but I think it's nice for users to be able to say, e.g., `spack config edit` or `spack repo add` without thinking about scopes.\n\n@alalazo @davydden @adamjstewart @citibeth \n",
+    "user": "tgamblin",
+    "url": "https://api.github.com/repos/spack/spack/issues/2184",
+    "updated_at": "2019-07-04 01:35:07",
+    "created_at": "2016-10-31 02:00:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "What config scope should be the default?",
+    "number": 2184,
+    "milestone": null,
+    "labels": [
+        "configuration",
+        "discussion",
+        "proposal",
+        "commands",
+        "impact-medium"
+    ],
+    "id": 186186529,
+    "html_url": "https://github.com/spack/spack/issues/2184",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 7
+}

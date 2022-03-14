@@ -1,0 +1,25 @@
+{
+    "body": "While running the tests (to see if I broke anything for #19166) I noticed that they take quite a while...\r\n\r\n```\r\n======================================================================== slowest 20 test durations ========================================================================\r\n359.94s call     lib/spack/spack/test/cmd/license.py::test_list_files\r\n41.18s call     lib/spack/spack/test/cmd/url.py::test_url_list\r\n37.59s call     lib/spack/spack/test/cmd/clean.py::test_function_calls[-a-counters5]\r\n17.31s call     lib/spack/spack/test/directory_layout.py::test_yaml_directory_layout_parameters\r\n15.94s call     lib/spack/spack/test/bindist.py::test_default_rpaths_create_install_default_layout\r\n13.59s call     lib/spack/spack/test/cmd/env.py::test_stack_combinatorial_view[mock_archive0]\r\n13.29s call     lib/spack/spack/test/package_sanity.py::test_get_all_packages\r\n12.66s call     lib/spack/spack/test/cmd/list.py::test_list_format_html\r\n11.95s call     lib/spack/spack/test/bindist.py::test_default_rpaths_install_nondefault_layout\r\n11.28s call     lib/spack/spack/test/cmd/env.py::test_stack_view_multiple_views[mock_archive0]\r\n10.87s call     lib/spack/spack/test/cmd/env.py::test_stack_view_select_and_exclude[mock_archive0]\r\n10.78s call     lib/spack/spack/test/cmd/env.py::test_stack_view_activate_from_default[mock_archive0]\r\n10.43s call     lib/spack/spack/test/bindist.py::test_relative_rpaths_create_default_layout\r\n10.31s call     lib/spack/spack/test/cmd/env.py::test_view_link_roots[mock_archive0]\r\n10.12s call     lib/spack/spack/test/cmd/env.py::test_stack_view_exclude[mock_archive0]\r\n9.79s call     lib/spack/spack/test/cmd/env.py::test_stack_view_select[mock_archive0]\r\n9.68s call     lib/spack/spack/test/cmd/env.py::test_stack_view_no_activate_without_default[mock_archive0]\r\n9.07s call     lib/spack/spack/test/cmd/env.py::test_view_link_all[mock_archive0]\r\n9.02s call     lib/spack/spack/test/cmd/url.py::test_url_stats\r\n9.02s call     lib/spack/spack/test/cmd/url.py::test_url_summary\r\n```\r\nTo be fair this is on a somewhat old MacBook Air, but still... 6 minutes for checking the licenses is, let's call it ambitious^^. Has anyone taken a look at speeding things up?\r\n\r\nAnd I'm pretty sure the fail of\r\n```\r\nFAIL lib/spack/spack/test/bindist.py::test_push_and_fetch_keys\r\n```\r\nshould have been an XFAIL or SKIP right? (It skipped a bunch of other pgp-dependent stuff)\r\n\r\nThis is largely a copy from a comment in #19166, but @alalazo correctly pointed out it deserves its own issue. I don't think it is super urgent as upstream tests (aka Github checks) are fine as a replacement for me as a causal contributor, i.e. I can just _not_ run the tests at all and let github do it's stuff. But I wouldn't want to run these multiple times a day... We can probably disable a significant amount of tests by default (e.g. the license test really only needs to run on Github, no contributor will break `spack` with it), but some kind of \"only test what you changed wrt to `develop`\" intelligence would be ideal.\r\n\r\nIf you are here and want to work on this: From what I've seen most time got sunk into the regex application, so this should be the place to start.\r\n\r\nPinging various people who might know how to speed this up, feel free to ignore if you deem it low priority: @scheibelp @adamjstewart @becker33 ",
+    "user": "healther",
+    "url": "https://api.github.com/repos/spack/spack/issues/19369",
+    "updated_at": "2020-10-20 13:44:44",
+    "created_at": "2020-10-19 16:16:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Reduce test time",
+    "number": 19369,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "configuration",
+        "defaults",
+        "coverage",
+        "triage",
+        "ci",
+        "expected behavior"
+    ],
+    "id": 724771270,
+    "html_url": "https://github.com/spack/spack/issues/19369",
+    "assignees": [],
+    "comments": 0
+}

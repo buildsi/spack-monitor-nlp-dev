@@ -1,0 +1,21 @@
+{
+    "body": "There's a section in the [lua hierarchical module files tutorial](https://spack.readthedocs.io/en/latest/tutorial_modules.html#lua-hierarchical-module-files) that begins:\r\n\r\n> At many sites it is customary to set an environment variable in a package\u2019s module file that points to the folder in which the package is installed. You can achieve this with Spack by adding an environment directive to the configuration file:\r\n\r\nand it goes on to use *gcc* as an example:\r\n\r\n> As you can see, the gcc module has the environment variable GCC_ROOT set.\r\n\r\nThere's also a tip in the [getting started section of the docs](https://spack.readthedocs.io/en/latest/getting_started.html#build-your-own-compiler) that suggests using a separate Spack instance for compilers to save time.  That always seemed useful to me but I've never been able to get it to work.  Read on for the background *and the solution to the puzzle*.\r\n\r\nI'm working on CentOS 7, which ships with `gcc@4.8.x` but I build and deploy my application trees with a newer compiler (`gcc@5.4.0`).  I deploy a \"Shared Applications Tree\" that is full of useful things (including `gcc@5.4.0`), it's \"spack-built\" and we wire it into our environment using Spack's automagically generated lua modulefiles.  Lmod's hierarchical modulefiles require me to load `gcc@5.4.0` before I can access anything else in the tree.\r\n\r\nMy normal work flow when I'm adding a new package is to clone a fresh Spack tree, `spack create ...`, `spack edit ...`, and then `spack install ...`.  At this point I'm just using the system compiler.  I usually have a bunch of modules from the Shared Applications Tree loaded (emacs, etc...) while I'm working.  But when it comes time to `spack install ...`, **KERBLOOIE**.    In less technical terminology, the configure step fails because the compiler is tripping up trying to find a header file.  Here's a bit from the `config.log` file of pkg-config after it failed:\r\n```\r\n[...]\r\nconfigure:3613: /home/hartzelg/tmp/bloop/lib/spack/env/gcc/gcc -o conftest    conftest.c  >&5\r\nIn file included from conftest.c:11:0:\r\n/usr/include/stdio.h:33:21: fatal error: stddef.h: No such file or directory\r\n # include <stddef.h>\r\n                     ^\r\ncompilation terminated.\r\nconfigure:3617: $? = 1\r\n[...]\r\n```\r\n\r\nI dug into it a bit a while back, couldn't figure it out, and just started running the install step like so: `(module purge; spack install ...)`.\r\n\r\nRecently a cow-orker asked me about the compiler tip and why `install` didn't work when he had our modules loaded.  My lame lack of an explanation left me feeling silly.  So, dig, dig, dig...\r\n\r\nHere's the skinny.  We follow the tutorial suggestion ( :+1: @alalazo!) and set `${PACKAGE}_ROOT` environment variables that point each package's root when we generate our modulefiles, including `GCC_ROOT`.  Unfortunately, it seems that the GCC compilers have their own use for `GCC_ROOT` and if we set it to point at a Spack `gcc@5.4.0` tree then the system's `gcc` no longer works correctly.\r\n\r\nMystery solved.\r\n\r\nI'm sharing for posterity's sake.  I don't see a bug here but figure it's worth describing for future generations....  I'll close this is a day or too unless there's lively conversation.",
+    "user": "hartzell",
+    "url": "https://api.github.com/repos/spack/spack/issues/4766",
+    "updated_at": "2017-11-23 13:45:18",
+    "created_at": "2017-07-14 15:51:57",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Setting GCC_ROOT in Lmod modulefiles leads to a surprise...",
+    "number": 4766,
+    "milestone": null,
+    "labels": [
+        "modules"
+    ],
+    "id": 243037241,
+    "html_url": "https://github.com/spack/spack/issues/4766",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 4
+}

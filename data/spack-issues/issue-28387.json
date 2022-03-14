@@ -1,0 +1,20 @@
+{
+    "body": "Cleaned this up a bit since the current implementation was breaking something in the compiler wrappers.\r\n\r\ngcc 4.8.5 doesn't complain about this as is, but as far back as I have installed (7) complains about calling abs() on the unsigned ints, which, obviously is ambiguous.\r\n\r\nWhat the code was doing in most of those was subtracting two unsigned ints and then handing that to abs(). Which to me seems like a bad idea. So what this does is replace all the calls that were making the compiler complain with a one line function that does what they had probably intended. There are other areas where they cast some unsigned ints to ints to do the subtraction, but that seemed less correct than this workaround. I've not fixed those since that goes a little farther than 'make it compile'.\r\n\r\nThe repo this pulls from is archived, so I don't think we're going to get any changes in the future.\r\n",
+    "user": "snehring",
+    "url": "https://api.github.com/repos/spack/spack/issues/28387",
+    "updated_at": "2022-01-12 22:16:33",
+    "created_at": "2022-01-12 22:16:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "pindel: fixing compilation issues for gcc5+",
+    "number": 28387,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "update-package"
+    ],
+    "id": 1100841437,
+    "html_url": "https://github.com/spack/spack/pull/28387",
+    "assignees": [],
+    "comments": 1
+}

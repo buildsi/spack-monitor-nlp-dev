@@ -1,0 +1,19 @@
+{
+    "body": "I am artificially setting very long install path : \r\n\r\n```\r\n/gpfs/bbp.cscs.ch/project/proj20/pramod_scratch/report_flush/tmp_new/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/install\r\n```\r\n\r\nAnd if I try to install `automake`\r\n\r\n```console\r\n$ spack install automake\r\n```\r\n\r\nI see \r\n\r\n```\r\nchecking for perl... /gpfs/bbp.cscs.ch/project/proj20/pramod_scratch/report_flush/tmp_new/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/install/gcc-4.8.5/perl-5.26.2-ka6syh/bin/perl\r\nchecking for tex... tex\r\nchecking for yacc... yacc\r\nchecking for lex... lex\r\nchecking whether autoconf is installed... yes\r\nchecking whether autoconf works... no\r\nconfigure: error: The installed version of autoconf does not work.\r\n    Please check config.log for error messages before this one.\r\n==> Error: ProcessError: Command exited with status 1:\r\n    '/gpfs/bbp.cscs.ch/data/project/proj20/pramod_scratch/SPACK_DEPLOYMENT/spack-deploy/workspace/compilers/HOME_DIR/spack/var/spack/stage/automake-1.16.1-yk6ievwypvnyro7egceqyznnsltxfpkr/automake-1.16.1/configure' '--prefix=/gpfs/bbp.cscs.ch/project/proj20/pramod_scratch/report_flush/tmp_new/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/install/gcc-4.8.5/automake-1.16.1-yk6iev'\r\n\r\n1 error found in build log:\r\n     13    checking for perl... /gpfs/bbp.cscs.ch/project/proj20/pramod_scratch/report_flush/tmp_new/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\r\n           aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/install/gcc-4.8.5/perl-5.26.2-ka6syh/bin/perl\r\n     14    checking for tex... tex\r\n     15    checking for yacc... yacc\r\n     16    checking for lex... lex\r\n     17    checking whether autoconf is installed... yes\r\n     18    checking whether autoconf works... no\r\n  >> 19    configure: error: The installed version of autoconf does not work.\r\n     20        Please check config.log for error messages before this one.\r\n```\r\n\r\nIf I look into config.log I see:\r\n\r\n```\r\nWritten by David J. MacKenzie and Akim Demaille.\r\nconfigure:2937: $? = 0\r\nconfigure:2945: result: yes\r\nconfigure:2952: checking whether autoconf works\r\nconfigure:2959: cd conftest && autoconf -o /dev/null conftest.ac\r\n/bin/bash: /gpfs/bbp.cscs.ch/data/project/proj20/pramod_scratch/SPACK_DEPLOYMENT/spack-deploy/workspace/compilers/HOME_DIR/spa: No such file or directory\r\nconfigure:2962: $? = 127\r\nconfigure:2971: result: no\r\nconfigure:2974: error: The installed version of autoconf does not work.\r\n    Please check config.log for error messages before this one.\r\n```\r\n\r\nSee the trimmed path `/bin/bash: ..... compilers/HOME_DIR/spa: No such file or directory`\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$  uname -a\r\nLinux xxxx 3.10.0-514.26.2.el7.x86_64 #1 SMP Fri Jun 30 05:26:04 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux\r\n$  lsb_release -d\r\nDescription:\tRed Hat Enterprise Linux Server release 7.3 (Maipo)\r\n``` ",
+    "user": "pramodk",
+    "url": "https://api.github.com/repos/spack/spack/issues/9390",
+    "updated_at": "2018-10-01 20:14:21",
+    "created_at": "2018-09-30 10:14:54",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Issue while installing automake for \"long\" install path",
+    "number": 9390,
+    "milestone": null,
+    "labels": [
+        "build-environment"
+    ],
+    "id": 365212428,
+    "html_url": "https://github.com/spack/spack/issues/9390",
+    "assignees": [],
+    "comments": 0
+}

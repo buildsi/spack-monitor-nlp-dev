@@ -1,0 +1,24 @@
+{
+    "body": "Revisit `autouse` of `mock_stage` and `check_for_leftover_stage_files` per Peter's (scheibelp) feedback on #12857 .  Also revisit `tmp_build_stage_dir` fixture (per https://github.com/spack/spack/pull/12857#discussion_r333244995).\r\n\r\n-----------------------\r\n> So I would think it would be better to either revisit having it autouse (which should be mirrored in the use of the check_for_leftover_stage_files fixture) OR make more use of the nomockstage mark to avoid the unnecessary overhead.\r\n\r\nI prefer the former and agree that if it comes to this it ought to be dealt with in a later PR. However, I'm curious about:\r\n\r\n> Given mock_stage is (now at) the function level and autouse, this file system activity is performed whether the test case needs it or not.\r\n\r\nI was wondering if there might be a way to make the tests work regardless of whether this runs. The goal of this is to ensure that for the purposes of testing that the stages are created in a test-managed directory. I'm wondering if introducing an additional root path component would reconcile the concerns of the tests: e.g. right now the stage path read from `config.yaml` is relative to `/` but we could add a module-level variable to `Stage` that adjusts this root to be a temporary directory.\r\n\r\nDoes that seem reasonable? It could also be moved to another refactor PR but I prefer it to the approach of removing `autouse` or using `nomockstage`. I think it could be beneficial even in the case of removing the `autouse` but IMO it would also make it so `autouse` was only a performance problem.\r\n\r\n_Originally posted by @scheibelp in https://github.com/spack/spack/pull/12857_",
+    "user": "tldahlgren",
+    "url": "https://api.github.com/repos/spack/spack/issues/13065",
+    "updated_at": "2019-10-10 18:13:36",
+    "created_at": "2019-10-07 16:40:06",
+    "closed_at": "None",
+    "state": "open",
+    "title": "tests: revisit `mock_stage`, `nomockstage`, and `tmp_build_stage_dir`",
+    "number": 13065,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "workaround",
+        "impact-low",
+        "stage"
+    ],
+    "id": 503565472,
+    "html_url": "https://github.com/spack/spack/issues/13065",
+    "assignees": [
+        "tldahlgren"
+    ],
+    "comments": 0
+}

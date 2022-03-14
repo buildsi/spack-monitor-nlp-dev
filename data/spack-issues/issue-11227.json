@@ -1,0 +1,23 @@
+{
+    "body": "The LLVM package has some raw `make(...)` calls, which will error if I set my cmake generator to `Ninja`.  I want to create a uniform way of enabling all cmake packages to have access to the underlying build tool generically so that raw `make(...)` calls can be patched consistently as they are discovered.\r\n\r\nI propose we call it `self.build_tool` and set it up somewhere in `cmake.py`.  I need guidance as to where exactly in `cmake.py` is appropriate for this to get created.  Something like\r\n\r\n```py\r\nif self.generator == 'Unix Makefiles':\r\n    build_tool = inspect.getmodule(self).make\r\nelif self.generator == 'Ninja':\r\n    build_tool = inspect.getmodule(self).ninja\r\nsetattr(self, 'build_tool', build_tool)\r\n```\r\n\r\nSo that in the LLVM package I can do\r\n\r\n```diff\r\n- make('install-LLVMTableGen')\r\n+ self.build_tool('install-LLVMTableGen')\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nSet the CMake generator to `'Ninja'`, because all the cool kids are doing it.\r\n\r\nhttps://github.com/spack/spack/blob/3f50dcf6d91192253af320aaf72fcb13d307e137/lib/spack/spack/build_systems/cmake.py#L90\r\n\r\nThen try and build `llvm`.  You will hit this code, which will fail because we generated for Ninja, not Make.\r\n\r\nhttps://github.com/spack/spack/blob/eb7c79720de66cc7b74ac0c6a1ce1d44ee670cd5/var/spack/repos/builtin/packages/llvm/package.py#L693-L701",
+    "user": "svenevs",
+    "url": "https://api.github.com/repos/spack/spack/issues/11227",
+    "updated_at": "2022-03-10 14:59:00",
+    "created_at": "2019-04-19 05:40:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "create a uniform way to access cmake build tool (make vs ninja)",
+    "number": 11227,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cmake",
+        "build-systems"
+    ],
+    "id": 435056331,
+    "html_url": "https://github.com/spack/spack/issues/11227",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 2
+}

@@ -1,0 +1,19 @@
+{
+    "body": "As a developer I want a way to call a system executable with a fixed timeout so that unexpected events won't freeze the command line.\r\n\r\n### Rationale\r\n\r\nSpack needs to call external executables in a few contexts (e.g. mirror creation or external spec detection). Sometimes these executables have interactive behavior and without a timeout Spack will freeze while a sub-process waits for user input.\r\n\r\n### Description\r\n\r\nThe rationale here is to extend:\r\n\r\nhttps://github.com/spack/spack/blob/4d064fd56cb0a8296311409397a0134151b6305e/lib/spack/spack/util/executable.py#L70-L104\r\n\r\nwith a `timeout` keyword argument that will kill the process and emit a proper exception if the command doesn't finish within the allotted time window.\r\n\r\n### Additional information\r\n\r\nTo give a use case where this would be useful think of external package detection for `Intel`. With a \r\nregex to probe executables like:\r\n```python\r\nexecutables = ['icc']\r\n```\r\nthings like `transicc` might match the name and be probed:\r\n```console\r\n$ transicc\r\nLittleCMS ColorSpace conversion calculator - 4.3 [LittleCMS 2.09]\r\n\r\nEnter values, 'q' to quit\r\nR? \r\n<wait for user input>\r\n```\r\nWithout a timeout Spack's command line will freeze while the subprocess waits for user input that will never come.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/17012",
+    "updated_at": "2020-06-08 18:24:04",
+    "created_at": "2020-06-08 18:23:53",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add an optional timeout argument to Executable.__call__",
+    "number": 17012,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 634834359,
+    "html_url": "https://github.com/spack/spack/issues/17012",
+    "assignees": [],
+    "comments": 0
+}

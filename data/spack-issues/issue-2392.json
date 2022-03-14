@@ -1,0 +1,20 @@
+{
+    "body": "I was always of opinion that no package in Spack should try using some internally provided dependencies like BLAS/LAPACK (e.g. in SuperLU https://github.com/LLNL/spack/pull/2390). To me there is no difference between internal BLAS/LAPACK or internal dependencies like what PETSc can do (download Superlu-Dist, Hypre, Openmpi, Openblas, HDF5, etc). So if we don't encourage packages to do the latter (I think we all agree on that point), i see no reasons why we should allow using internal BLAS/LAPACK either.\r\n\r\nThe reason is always the same and applies to both cases: imagine what happens if you have a graph of packages which are used to build something. All packages in the DAG are build as shared libraries, and each use it's own BLAS, some 32bit, some 64bit, some with threading, some without, etc. It defeats the whole beauty of Spack which guarantees that only one version of package is used within the DAG.\r\n\r\nSo if there is a collective agreement not to allow usage of internal BLAS/LAPACK (and any other dependency for that matter), then\r\n\r\n- it should be documented in Packaging Guide\r\n- current packages need to get rid of all variants which allow internal BLAS/LAPACK.\r\n\r\nThoughts?",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/2392",
+    "updated_at": "2016-11-23 16:11:55",
+    "created_at": "2016-11-23 09:06:53",
+    "closed_at": "None",
+    "state": "open",
+    "title": "internal BLAS/LAPACK in packages",
+    "number": 2392,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "discussion"
+    ],
+    "id": 191217724,
+    "html_url": "https://github.com/spack/spack/issues/2392",
+    "assignees": [],
+    "comments": 1
+}

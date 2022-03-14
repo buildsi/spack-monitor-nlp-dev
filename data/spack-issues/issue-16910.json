@@ -1,0 +1,24 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nWhen activating an environment with a non-CrayPE MPI library, the MPI compilers are not properly put into the users environment.\r\n\r\nCreate an environment on Cori-GPU that uses mvapich2 as an external defined by the module file.\r\n\r\nActivate the environment.\r\n\r\nBuild an MPI code and it fails.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack env activate <env with mvapich2 as an external>\r\n$ mkdir -p stupid_test/build && echo \"cmake_minimum_required(VERSION 3.14)\\nproject(testmpi C)\\nfind_package(MPI 3.0 REQUIRED COMPONENTS C)\\n\" > stupid_test/CMakeLists.txt && cd stupid_test/build && cmake ..```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n[lbann-dev-skylake_avx512] vanessen@cgpu12:~/lbann.git/stupid_test/build/stupid_test/build/stupid_test/build> cmake ..\r\n-- The C compiler identification is GNU 8.2.0\r\n-- Check for working C compiler: /opt/gcc/8.2.0/snos/bin/gcc\r\n-- Check for working C compiler: /opt/gcc/8.2.0/snos/bin/gcc -- works\r\n-- Detecting C compiler ABI info\r\n-- Detecting C compiler ABI info - done\r\n-- Detecting C compile features\r\n-- Detecting C compile features - done\r\n-- Could NOT find MPI_C (missing: MPI_C_LIB_NAMES MPI_C_HEADER_DIR MPI_C_WORKS) (Required is at least version \"3.0\")\r\nCMake Error at /global/common/sw/cray/cnl7/haswell/cmake/3.14.4/gcc/8.2.0/2hef55n/share/cmake-3.14/Modules/FindPackageHandleStandardArgs.cmake:137 (message):\r\n  Could NOT find MPI (missing: MPI_C_FOUND C) (Required is at least version\r\n  \"3.0\")\r\nCall Stack (most recent call first):\r\n  /global/common/sw/cray/cnl7/haswell/cmake/3.14.4/gcc/8.2.0/2hef55n/share/cmake-3.14/Modules/FindPackageHandleStandardArgs.cmake:378 (_FPHSA_FAILURE_MESSAGE)\r\n  /global/common/sw/cray/cnl7/haswell/cmake/3.14.4/gcc/8.2.0/2hef55n/share/cmake-3.14/Modules/FindMPI.cmake:1672 (find_package_handle_standard_args)\r\n  CMakeLists.txt:4 (find_package)\r\n-- Configuring incomplete, errors occurred!\r\nSee also \"/global/homes/v/vanessen/lbann.git/stupid_test/build/stupid_test/build/stupid_test/build/CMakeFiles/CMakeOutput.log\".\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\nvanessen@cori04:~/spack.git> spack debug report\r\n* **Spack:** 0.14.2-1069-4aeffb17f\r\n* **Python:** 3.6.10\r\n* **Platform:** cray-sles15-haswell\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "bvanessen",
+    "url": "https://api.github.com/repos/spack/spack/issues/16910",
+    "updated_at": "2020-08-07 18:49:54",
+    "created_at": "2020-06-02 21:07:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack does not properly put an external MPI compiler into the environment on Cray",
+    "number": 16910,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "cray",
+        "workaround",
+        "impact-medium"
+    ],
+    "id": 629515265,
+    "html_url": "https://github.com/spack/spack/issues/16910",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 11
+}

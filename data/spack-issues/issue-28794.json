@@ -1,0 +1,19 @@
+{
+    "body": "GCC and Clang (among others) print the system library search paths that would have been used for compilation when `--print-search-dirs` is passed. `--print-search-dirs` does not take into account `-L` arguments, so Spack dependencies do not appear in the results, which breaks manual library searches in Meson packages.\r\n\r\nThis patch adds a new `search` mode to the Spack compiler wrapper, which acts like `vcheck` but also extends `LIBRARY_PATH` with the library paths of Spack dependencies, thus adding them to the `--print-search-dirs` output.\r\n\r\nFixes https://github.com/spack/spack/issues/20721.",
+    "user": "blue42u",
+    "url": "https://api.github.com/repos/spack/spack/issues/28794",
+    "updated_at": "2022-02-15 16:42:17",
+    "created_at": "2022-02-05 21:36:37",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Compiler wrapper: also list dependencies with `--print-search-dirs`",
+    "number": 28794,
+    "milestone": null,
+    "labels": [
+        "tests"
+    ],
+    "id": 1125036562,
+    "html_url": "https://github.com/spack/spack/pull/28794",
+    "assignees": [],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Currently Spack simplifies the range `3:3` incorrectly to the concrete version `3`: `Spec('python@3:3')` becomes `python@3` during version list simplification.\r\n\r\nThe reason is that `VersionRange::concrete()` incorrectly returns a concrete version when start == end.\r\n\r\n`3:3` means the closed-open range `[3, 4)` just like `3:4` means `[3, 5)` and `3:3.0` means `[3, 3.1)`.\r\n\r\nThis PR ensures that a VersionRange is never considered concrete, and adds tests for 3:3, 3:4, 3:2 type of ranges.\r\n\r\nAfter this PR, `spack spec something ^python@3:3` can be used to require the optimal Python 3 and avoid Python 2.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26208",
+    "updated_at": "2021-10-04 18:03:10",
+    "created_at": "2021-09-23 20:22:48",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Make 3:3 a non-concrete range and add tests for VersionRange",
+    "number": 26208,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "versions"
+    ],
+    "id": 1005814392,
+    "html_url": "https://github.com/spack/spack/pull/26208",
+    "assignees": [],
+    "comments": 6
+}

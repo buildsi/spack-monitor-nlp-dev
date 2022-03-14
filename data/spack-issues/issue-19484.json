@@ -1,0 +1,19 @@
+{
+    "body": "### Rationale\r\n\r\nI encountered a use-case in which:\r\n\r\n- a project configured `python` as an external package in `packages.yaml`\r\n- the `python` prefix was in a read-only location (because it was installed by a sysadmin on an HPC cluster -- `quartz` at LLNL)\r\n- the project was installing `py-regex`\r\n\r\nIn this use-case, running `spack activate py-regex` fails because it attempts to symlink `py-regex` to a read-only `site-packages` directory at what Python calls \"system scope\" (usually something like `/usr/lib`, `/usr/lib64`, etc.).\r\n\r\n### Description\r\n\r\nConsider adding a flag to `spack activate` that enables users to globally activate extension packages via symlinks to appropriate search paths in `${HOME}`, instead of paths in `spack location -i [extendable-package-spec]`. For Python extension packages, this behavior would be somewhat like installing a package via `pip install --user`, except the \"installation\" would be via symlinks. Possible names for this flag could be `--user`, `--local`, or similar (whatever the developers think is best and consistent with the existing UI).\r\n\r\n### Additional information\r\n\r\nMany -- though not all -- of the extendable packages listed in the output of `spack extensions` look like language packages (e.g., `python`, `ruby`), and package managers for these languages sometimes have a setting or flag for users to install packages at \"user scope\" -- usually some subdirectory of `${HOME}` -- sometimes called \"local scope\". Examples of package managers installing packages in this fashion:\r\n\r\n- Go via setting `GOPATH` to a directory in the directory tree rooted at `${HOME}`, and running `go install` (or `go get`, depending on use-case)\r\n- Lua via `luarocks install --local`\r\n- Perl via `cpanm --local-lib`\r\n- Python via `pip install --user`\r\n- Ruby via `gem install --user-install`\r\n- Rust via `cargo install` (installing in `${HOME}` by default unless overridden by environment variables, the `--root` flag, etc.)\r\n\r\nI'm not sure if this sort of option makes sense for all extensible packages.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n\r\n```console\r\n$ spack --version\r\n0.15.4-1589-2bb7754\r\n```\r\n\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\nI've searched through the issues of this repo to see if someone else has made such a request, but the search term \"activate\" also brings up a lot of results regarding `spack env activate` and `spack` environments. From my perspective, these results don't seem relevant, but I haven't been keeping close watch of `spack` development over the last year, so there could be something about `spack` environments that fits the use-case I'm describing above and makes the requested feature unnecessary. I may also have missed relevant search results while trying to filter out the `spack env activate` results.\r\n\r\nThanks for all your work on `spack`!",
+    "user": "goxberry",
+    "url": "https://api.github.com/repos/spack/spack/issues/19484",
+    "updated_at": "2020-10-22 23:17:19",
+    "created_at": "2020-10-22 23:17:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add flag to `spack activate` to symlink extension packages into alternative scope(s) (e.g., user scope)",
+    "number": 19484,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 727779635,
+    "html_url": "https://github.com/spack/spack/issues/19484",
+    "assignees": [],
+    "comments": 0
+}

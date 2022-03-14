@@ -1,0 +1,19 @@
+{
+    "body": "@chuckatkins @danlipsa \r\n\r\nThis may be a feature request. This is not an error when builing ParaView, but when building other software that links against the spack-built paraview@5.7.0, there are a lot of errors like:\r\n```\r\nlib/libvtkPythonInterpreter-pv5.7.so.5.7: undefined reference to 'PyImport_AddModule'\r\n```\r\n\r\nAdding the following cmake option to ParaView's package.py and turning it off seems to fix the issue:\r\n```\r\n-DVTK_PYTHON_OPTIONAL_LINK:BOOL=OFF\r\n```\r\n\r\n---\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install paraview@5.7.0 ~opengl2+python3+osmesa+plugins\r\n$ # Build a code that links against that paraview\r\n```",
+    "user": "EthanS94",
+    "url": "https://api.github.com/repos/spack/spack/issues/14495",
+    "updated_at": "2020-01-22 18:40:15",
+    "created_at": "2020-01-14 18:19:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "ParaView: Add option to turn off VTK_PYTHON_OPTIONAL_LINK with 5.7.0",
+    "number": 14495,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 549737162,
+    "html_url": "https://github.com/spack/spack/issues/14495",
+    "assignees": [],
+    "comments": 7
+}

@@ -1,0 +1,19 @@
+{
+    "body": "I recently added a compiler flag (`-O2`) in `compilers.yaml`, and since then, Spack keeps trying rebuilding all the \"common\" packages such as automake, autoconf, perl, pkgconf. Moreover, every compiler wants to build all those packages again.\r\n\r\n### Rationale\r\n\r\nI'd like to \"fix\" certain packages already built by spack, similarly to the `buildable: False` flag that we can use on external packages: https://spack.readthedocs.io/en/latest/build_settings.html#external-packages\r\n\r\n### Description\r\n\r\nI'd like to have a new key in `packages.yaml` that accepts multiple specs (that should already be installed), to be used with `buildable = False`, something like:\r\n```yaml\r\npackages:\r\n  autoconf:\r\n    use_these: [\"2.69%gcc@4.8.5\", \"2.69%intel/fv24k4o\"]\r\n    buildable: False\r\n```\r\n\r\n### Additional information\r\n\r\nIt's somewhat similar to #5254.\r\nIf you find this idea useful, I can start working on a PR.",
+    "user": "bebosudo",
+    "url": "https://api.github.com/repos/spack/spack/issues/10036",
+    "updated_at": "2020-02-05 11:20:29",
+    "created_at": "2018-12-06 14:01:55",
+    "closed_at": "None",
+    "state": "open",
+    "title": "question: how to avoid rebuilding common packages",
+    "number": 10036,
+    "milestone": null,
+    "labels": [
+        "question"
+    ],
+    "id": 388227012,
+    "html_url": "https://github.com/spack/spack/issues/10036",
+    "assignees": [],
+    "comments": 6
+}

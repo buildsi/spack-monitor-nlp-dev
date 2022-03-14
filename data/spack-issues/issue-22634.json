@@ -1,0 +1,22 @@
+{
+    "body": "### Problem\r\nThis is a corollary to #22503. We want users to be able to specify hash prefixes on the command line that match concrete specs from remote mirrors as a convenience, but the implementation in #22503 will take a full minute to look up any such remote specs. This is mysterious and annoying. **We do not solve that performance issue in this PR, but we do make it easier to do that in a followup by vastly simplifying the implementation.**\r\n\r\nSeparately, @eugeneswalker reported an extremely strange issue over Slack today where `spack concretize` was still returning results from a mirror (e4s) that had been removed with `spack mirror rm`! The caching logic in the current `BinaryCacheIndex` struck me as over time having become haphazard and difficult to follow, so this is part 1/2 of an attempt to fix this mysterious behavior. Part 2 will introduce a common interface for looking up either local, remote, or local and remote specs which requires explicitly annotating which locations to pull from (similar to the `SpecIndex` of #21538).\r\n\r\n### Solution\r\nRip out most of the `BinaryCacheIndex` implementation:\r\n1. Instead of creating `Database` instances in a temporary directory, persist them in `~/.spack/cache/indices` (which was added in #22500).\r\n1. Separate the `fetch_index()` and `fetch_index_hash()` methods from the `BinaryCacheIndex` class, which allows those fetch methods to be written without implementing any caching logic, while letting the `BinaryCacheIndex` handle all of the stateful stuff.\r\n1. Remove all methods which try to go behind the back of `BinaryCacheIndex` by fetching indices directly, and explicitly annotate where we read the mirrors to fetch from the spack config by introducing the `with_spack_configured_mirrors()` classmethod.\r\n    - Of all components of this change, this one is most likely to fix the behavior @eugeneswalker was seeing.\r\n\r\n### Result\r\nThe places where `BinaryCacheIndex` pulls down mirrors are much more obvious and much less numerous, as are as the places where `BinaryCacheIndex` reads in the mirrors to fetch.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/22634",
+    "updated_at": "2022-02-19 08:39:44",
+    "created_at": "2021-03-30 10:07:25",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[WIP -- do not review] reimplement the BinaryCacheIndex to wrap a list of Databases",
+    "number": 22634,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "commands",
+        "binary-packages",
+        "utilities"
+    ],
+    "id": 844320391,
+    "html_url": "https://github.com/spack/spack/pull/22634",
+    "assignees": [],
+    "comments": 7
+}

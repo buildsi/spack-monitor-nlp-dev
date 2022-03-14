@@ -1,0 +1,19 @@
+{
+    "body": "Error wile compile opencv with gtk2.\r\nEverything compile ok,  but gtk on opencv not working.\r\n\r\n---\r\n```console\r\n$ spack install -v opencv+gtk+highgui+imgproc\r\n```\r\nfrom compile log, after cmake config\r\nGeneral configuration for OpenCV 3.4.3 =====================================\r\n...\r\nGUI:\r\nis empty!\r\nfeatures with gui not working\r\n\r\nto remove error changed package.py of opencv:\r\n\r\nelif '^gtkplus@2:3' in spec:\r\n            args.extend([\r\n                '-DWITH_GTK:BOOL=**ON**',\r\n                '-DWITH_GTK_2_X:BOOL=ON'\r\n            ])\r\n\r\nProblem reproduced on linux mint + gentoo\r\n\r\nAfter this modification on linux mint:\r\nfrom cmake config:\r\n--   GUI: \r\n--     GTK+:                        YES (ver 2.24.32)\r\n--       GThread :                  YES (ver 2.56.2)\r\n--       GtkGlExt:                  NO\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux strcom-w 4.9.0-7-amd64 #1 SMP Debian 4.9.110-1 (2018-07-05) x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:    LMDE 3 Cindy\r\n``` \r\n\r\n- `packages.yaml`\r\ncat ~/.spack/packages.yaml\r\npackages:\r\n  hdf5:\r\n    variants: -mpi +hl\r\n\r\n  caffe:\r\n    variants: -cuda -leveldb -lmdb -matlab -opencv -python\r\n\r\n  opencv:\r\n    variants: -dnn -calib3d -features2d -flann -highgui -java -ml -python -stitching \\\r\n        -superres -ts -videostub -cuda -eigen -ipp -ipp_iw -jasper +jpeg -opencl \\\r\n        -opencl_svm -openclamdfft -openclamdblas -openmp +png -qt -gtk -iff -vtk -zlib\r\n\r\n  python:\r\n    variants: -dbm -pythoncmd -tk -ucs4\r\n\r\n  atk:\r\n    version: ['2.20.0']\r\n\r\n  gtkplus:\r\n    version: ['2.24.32']\r\n",
+    "user": "strcom",
+    "url": "https://api.github.com/repos/spack/spack/issues/9684",
+    "updated_at": "2018-10-31 10:28:34",
+    "created_at": "2018-10-31 09:41:08",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: opencv+gtk",
+    "number": 9684,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 375875062,
+    "html_url": "https://github.com/spack/spack/issues/9684",
+    "assignees": [],
+    "comments": 0
+}

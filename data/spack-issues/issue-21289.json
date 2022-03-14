@@ -1,0 +1,21 @@
+{
+    "body": "depends on #21148 (it incorporates the same small change)\r\n\r\nThis PR speeds-up the ASP based solver most of the times by:\r\n1. Trying a first solve with a reduced number of facts (only preferred targets, compilers and providers)\r\n2. Reverting back to solve using all the facts we know if 1 is unsat\r\n\r\nI'll post data on the speed-up in the comments below, but most of the time it's roughly a 30%-50% cut of the wall-time compared to `develop`. \r\n\r\nBeing based on an heuristic reduction of the search space, I found during development that sometimes 1. may yield different results than 2. when soft-preferences are involved. One thing we should decide during review is therefore if we want this strategy to be:\r\n- hard-wired like it is now (maybe skipped in potentially problematic cases)\r\n- opt-in (by default use all the facts)\r\n- opt-out (by default use the fast strategy, but skip it on demand)",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/21289",
+    "updated_at": "2021-09-10 10:06:22",
+    "created_at": "2021-01-26 14:18:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Speed-up the ASP based solver",
+    "number": 21289,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "performance",
+        "utilities"
+    ],
+    "id": 794267249,
+    "html_url": "https://github.com/spack/spack/pull/21289",
+    "assignees": [],
+    "comments": 8
+}

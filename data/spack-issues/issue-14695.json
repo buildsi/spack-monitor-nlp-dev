@@ -1,0 +1,23 @@
+{
+    "body": "I would like `spack gc` to have the additional functionality that would allow it to uninstall all packages that are not currently activated by some environment.\r\n\r\n### Rationale\r\n\r\nI use Spack as a replacement for Homebrew. I would like functionality similar to `brew cleanup` that would allow me to uninstall all old versions of software that are no longer used by my environment. \r\n\r\n### Description\r\n\r\nPreferably, this wouldn't include build dependencies needed to install my environment, since I will need to reinstall the environment from time-to-time, and since Spack currently automatically installs build dependencies even when they aren't needed (#7695).\r\n\r\nIn the meantime, @becker33 came up with the following script that could likely be adapted to work for `spack gc`:\r\n```python\r\n#!/usr/bin/env spack-python\r\nfrom spack.cmd.uninstall import dependent_environments\r\nimport spack.store\r\ninstalled = spack.store.db.query()\r\nfor spec in installed:\r\n    if not dependent_environments([spec]):\r\n        spec.package.do_uninstall()\r\n```\r\n\r\n@alalazo ",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/14695",
+    "updated_at": "2021-08-17 14:54:48",
+    "created_at": "2020-01-30 19:37:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack gc: remove packages not used by an environment",
+    "number": 14695,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "commands",
+        "environments"
+    ],
+    "id": 557706422,
+    "html_url": "https://github.com/spack/spack/issues/14695",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 10
+}

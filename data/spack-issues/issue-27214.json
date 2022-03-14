@@ -1,0 +1,17 @@
+{
+    "body": "When an upstream uses `~` in its `install_tree`, e.g. like so:\r\n\r\n```\r\n  1 upstreams:\r\n  2   spack-instance-one:\r\n  3     install_tree: ~/.spack/opt/spack-one\r\n```\r\n\r\nSpack fails to find the files it needs, `index.json` being one of those files. As a result, (most) Spack commands fail with:\r\n\r\n```\r\n==> Error: No database index file is present, and upstream databases cannot generate an index file\r\n```\r\n\r\nThis behavior is due to `os.path.isfile` and `open()` not being able to correctly interpret the `~`.\r\nHere, I apply `os.path.expanduser` to `_db_dir`, so that `_db_dir` refers to the absolute path of the `install_tree`.\r\n\r\n**Update:** I now apply `os.path.expanduser` to `root`.",
+    "user": "maxim-belkin",
+    "url": "https://api.github.com/repos/spack/spack/issues/27214",
+    "updated_at": "2021-11-04 14:39:52",
+    "created_at": "2021-11-04 07:44:34",
+    "closed_at": "None",
+    "state": "open",
+    "title": "database.py: handle ~ in upstreams' install_tree-s",
+    "number": 27214,
+    "milestone": null,
+    "labels": [],
+    "id": 1044441501,
+    "html_url": "https://github.com/spack/spack/pull/27214",
+    "assignees": [],
+    "comments": 0
+}

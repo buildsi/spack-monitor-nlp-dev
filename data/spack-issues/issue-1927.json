@@ -1,0 +1,21 @@
+{
+    "body": "Spack is great because it includes RPATH in everything it builds.... except when it doesn't.  The two cases I've seen where RPATH is not consistently included are:\n1. Compiled Python extensions.  In their infinite wisdom, the Python folks with distutils/setuptools invented a new build system that lacks the features and flexibility of CMake, Autotools and Scons (for example, it doesn't do `-j` AFAIK).  It also manages to build binaries with RPATH.\n2. Python code itself.  Python libraries don't use RPATH, of course; they use PYTHONPATH.  Which is functionally equivalent to setting LD_LIBRARY_PATH, the evil system that RPATH was designed to replace.\n\nBecause of these two issues, in practice when loading a Python module, one needs to load all the things it depends on too --- defeating one of the nice features of Spack.  Both of these requirements can be avoided by setting RPATH (or equivalent) in Python code:\n# RPATH in Extensions\n\nIt should be possible to use `patchelf` to re-write RPATH after-the-fact in an installed Python extension.\n# RPATH in Python Code\n\nAfter the Python build has installed its stuff, Spack should be able to in and much with it.  It would have to modify every file at the beginning and end of the file, something like:\n\n```\nimport sys\nsys.path = ....add RPATH to it...\n... <the original file> ...\n<remove RPATH from sys.path>\n```\n\nWith a little tinkering around, this would probably work.  Certainly most of the time, hopefully all the time.\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/1927",
+    "updated_at": "2020-08-25 22:30:32",
+    "created_at": "2016-10-06 02:19:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "RPATH for Python",
+    "number": 1927,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "python",
+        "rpath"
+    ],
+    "id": 181309646,
+    "html_url": "https://github.com/spack/spack/issues/1927",
+    "assignees": [],
+    "comments": 3
+}

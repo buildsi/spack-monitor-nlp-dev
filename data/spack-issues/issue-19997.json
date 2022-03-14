@@ -1,0 +1,20 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\nMotivation: spack will not build openmpi (for me at least) failing at the build of ucx. The system I am on provides openmpi has part of the hpcx dsitribution from Mellanox and modules for that are provided. I would therefore like to use openmpi from hpcx as an external package in spack as a workaround. (I also have been trying to declare fftw as an external package because when spack tries to build that it cannot find openmpi!)\r\n\r\nI have not been able to find a syntax for the declaration that works - problems have been the package not appearing in spack find and builds of apps with spack not being able to find mpi compiler wrappers\r\n\r\nHere is one declaration I have used \r\n\r\npackages:\r\n  openmpi:\r\n    externals:\r\n    - spec: \"openmpi@4.1.0a1 %gcc@4.8.5\"\r\n      modules:\r\n      - gcc/4.8.5\r\n      - hpcx/2.3.0\r\n  fftw:\r\n    externals:\r\n    - spec: \"fftw@3.8.0 %gcc@4.8.5\"\r\n      modules:\r\n      - gcc/4.8.5\r\n      - fftw/3.3.8-hpcx-2.3.0 \r\n\r\nIn the modules of this system one has to first specify a complier before the hpcx module can be seen or loaded, hence two modules being listed. Is this the correct syntax? The example in the help however does not show an example of this complexity. \r\n\r\nHowever spack find shows the openmpi package but not the fftw!\r\n\r\nI have also tried using form of declaration using the path to openmpi but builds based on it (e.g. lammps) have again not found mpi \r\n\r\nIs it a fatally flawed idea to use the hpcx code as an external package for spack?\r\n\r\n\r\n\r\n\r\n```console\r\n$ spack <command1> <spec>\r\n$ spack <command2> <spec>\r\n...\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n$ spack --debug --stacktrace <command>\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n* **Spack:** 0.15.4-1702-ad87eece1\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-haswell\r\n\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "cjlegg",
+    "url": "https://api.github.com/repos/spack/spack/issues/19997",
+    "updated_at": "2020-11-19 14:25:28",
+    "created_at": "2020-11-19 14:25:28",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Specifying hpcx and fftw as an external package",
+    "number": 19997,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 746630866,
+    "html_url": "https://github.com/spack/spack/issues/19997",
+    "assignees": [],
+    "comments": 0
+}

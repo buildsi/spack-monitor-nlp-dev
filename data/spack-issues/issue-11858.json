@@ -1,0 +1,22 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install netcdf\r\n......\r\n==> Installing netcdf\r\n==> Searching for binary cache of netcdf\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for netcdf found: installing from source\r\n==> Error: AttributeError: 'list' object has no attribute 'directories'\r\n~/spack/lib/spack/spack/build_environment.py:782, in child_process:\r\n        779            tb_string = traceback.format_exc()\r\n        780\r\n        781            # build up some context from the offending package so we can\r\n  >>    782            # show that, too.\r\n        783            package_context = get_package_context(tb)\r\n        784\r\n        785            build_log = None\r\n```\r\n\r\n### Platform and user environment\r\n\r\n```commandline\r\n$ uname -a \r\nLinux localhost.localdomain 2.6.32-754.15.3.el6.x86_64 #1 SMP Tue Jun 18 16:25:32 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tCentOS release 6.10 (Final)\r\n``` \r\n\r\n- `compilers.yaml`\r\n compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: centos6\r\n    paths:\r\n      cc: /usr/bin/gcc\r\n      cxx: /usr/bin/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    spec: gcc@4.4.7\r\n    target: x86_64\r\n\r\n\r\n### Additional information\r\n- If  the \"depends_on('hdf5@1.8.9:+hl+mpi', when='+mpi')\" line is commented out in netcdf's package.py file, the listing error disappears.\r\n- Python version is 2.6.6.\r\n",
+    "user": "songchaomail",
+    "url": "https://api.github.com/repos/spack/spack/issues/11858",
+    "updated_at": "2020-06-17 22:09:12",
+    "created_at": "2019-06-27 03:05:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation Issue: netcdf  \"AttributeError: 'list' object has no attribute 'directories'\"",
+    "number": 11858,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "impact-low"
+    ],
+    "id": 461279360,
+    "html_url": "https://github.com/spack/spack/issues/11858",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 11
+}

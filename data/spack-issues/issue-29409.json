@@ -1,0 +1,19 @@
+{
+    "body": "For singularity HPC, we create recipes that can confidently say the path and name of a binary in advance. E.g., for our perl recipe we have:\r\n\r\n```yaml\r\naliases:\r\n  perl: /opt/view/bin/perl\r\n  perlbug: /opt/view/bin/perlbug\r\n  perldoc: /opt/view/bin/perldoc\r\n  perlivp: /opt/view/bin/perlivp\r\n  perlthanks: /opt/view/bin/perlthanks\r\n```\r\nAs of perl 5.34, this tree (and the subsequent view) turns out correctly - e.g., I have a perl / perlthanks and all the expected executables in bin.\r\n```bash\r\n$ ls opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/perl-5.34.0-bvgnm2ejnajpvaruta22d5c24g6qi4zu/bin/\r\ncorelist  h2ph       perl        perlthanks  pod2text    ptardiff   xsubpp\r\ncpan      h2xs       perl5.34.0  piconv      pod2usage   ptargrep   zipdetails\r\ncpanm     instmodsh  perlbug     pl2pm       podchecker  shasum\r\nenc2xs    json_pp    perldoc     pod2html    prove       splain\r\nencguess  libnetcfg  perlivp     pod2man     ptar        streamzip\r\n```\r\nHowever with 5.35.0 I no longer have any un-versioned binaries. They all end in the version.\r\n\r\n```bash\r\n ls opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/perl-5.35.0-smm2auqgf4jwkvi7uzvrvjmqdxcwqtkc/bin/\r\ncorelist5.35.0   json_pp5.35.0     pl2pm5.35.0       ptardiff5.35.0\r\ncpan5.35.0       libnetcfg5.35.0   pod2html5.35.0    ptargrep5.35.0\r\ncpanm            perl5.35.0        pod2man5.35.0     shasum5.35.0\r\nenc2xs5.35.0     perlbug5.35.0     pod2text5.35.0    splain5.35.0\r\nencguess5.35.0   perldoc5.35.0     pod2usage5.35.0   streamzip5.35.0\r\nh2ph5.35.0       perlivp5.35.0     podchecker5.35.0  xsubpp5.35.0\r\nh2xs5.35.0       perlthanks5.35.0  prove5.35.0       zipdetails5.35.0\r\ninstmodsh5.35.0  piconv5.35.0      ptar5.35.0\r\n```\r\nI suspect this was implemented to make them install nicely alongside one another, but I consider it a bug that the install cannot output the plain binary. If this was done at the level of perl (e.g., outside of spack) I'd want to suggest that (for spack) we go ahead and create links so that the correct names are present. I think this should be the default (what is expected) and turned off with a variant if someone has issue. Thanks!\r\n",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/29409",
+    "updated_at": "2022-03-09 02:42:03",
+    "created_at": "2022-03-09 01:52:31",
+    "closed_at": "None",
+    "state": "open",
+    "title": "perl no longer installs un-versioned binaries",
+    "number": 29409,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 1163398508,
+    "html_url": "https://github.com/spack/spack/issues/29409",
+    "assignees": [],
+    "comments": 1
+}

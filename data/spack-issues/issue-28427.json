@@ -1,0 +1,22 @@
+{
+    "body": "I've been experimenting with using spack containerize to build images for CI where:\r\n\r\n```\r\n  container:\r\n    images:\r\n      final: ubi8/ubi-minimal (approximately)\r\n```\r\n\r\nFor some environments this works just fine i.e. when the spec contains gcc (by works I mean we can run a ci pipeline with the image that configures, builds and tests). In other cases, it does not i.e. when the spec contains llvm or sphinx or gcovr. For llvm this is a result of ld not being available. For sphinx and gcovr this seems to be an issue with bad environment i.e. sphinx-build calls to a python that is link to a python exe in a directory that is not copied into the final image (same is true for gcovr):  \r\n\r\n```\r\n/bin/sh: /opt/view/bin/sphinx-build: /opt/._view/ttlgcgsemtbt4xfbgbbvhyzsvmkj5zlg/bin/python3.8: bad interpreter: No such file or directory\r\n```\r\n\r\nwhile the directory containing sphinx-build, /opt/view/bin, also contains a functioning python3.8 exec. It is probably worth noting that /opt/view/bin/python3 is a link to /opt/._view/ttlgcgsemtbt4xfbgbbvhyzsvmkj5zlg/bin/python3.8 (which again is not in the final image).\r\n\r\n***Getting to my question, did you all consider ubi-minimal usage when designing the spack containerize functionality? Any suggestions for workarounds for any of the issues I pointed out above?***\r\n\r\nThere are a few other limitations when using ubi-minimal + spack containerize that I wanted to point out. When creating the final image /opt/spack-environment is copied into the image along with the environment file. However, one cannot use `spack env activate` without installing spack in the final image (which defeats the purpose). It would be nice if there was an additional option in the spack.yaml file used to generate the container file that allows users to specify a spack load command with the hopes of copying that environment into the final container somehow.\r\n\r\nLastly, providing users with more control over what goes into the containerfile that is generated would be helpful. We found that we needed to pipe the resulting container file through a few bash commands to get something that worked. As an example, maybe a user wants to modify the entrypoint. ",
+    "user": "david8dixon",
+    "url": "https://api.github.com/repos/spack/spack/issues/28427",
+    "updated_at": "2022-01-25 16:44:48",
+    "created_at": "2022-01-15 00:50:22",
+    "closed_at": "None",
+    "state": "open",
+    "title": "using ubi8/ubi-minimal and spack containerize",
+    "number": 28427,
+    "milestone": null,
+    "labels": [
+        "question",
+        "containers"
+    ],
+    "id": 1104244685,
+    "html_url": "https://github.com/spack/spack/issues/28427",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

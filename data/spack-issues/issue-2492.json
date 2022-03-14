@@ -1,0 +1,22 @@
+{
+    "body": "@davydden @adamjstewart @alalazo @tgamblin \r\n\r\nThis is a continuation of #2380.  It's in a new thread because the proposal now goes far beyond documentation.  The idea would be to **Create a dummy package (call it `spack` for now) with a multi-valued variant (#2386; call it `library-type` for now taking enum values `shared` and `static`).  Then make the base class `Package` `depends_on('spack')` (#2466) by default.**  This will have the following effects:\r\n\r\n1. Packages should look at `spec['spack'].library_type` to figure out whether they should either\r\n    a) build shared libs (or static libs with `-fPIC`-or-equivalent)\r\n    b) build static libs\r\n\r\n2. Users can set up all of Spack for either shared or static mode my making an entry for `spack/build_type` in `packages.yaml`.  Alternately, they can write `^spack@build-type=xxx` directly on the command line.\r\n\r\nThis proposal solves a serious usability problem of all our other `shared` vs `static` proposals: that users will have to put `+shared` or `+static` all over their builds and specs --- but ONLY for packages that build binaries.  It would have worked out fine for most users, but been a royal PITA for  Cray users.\r\n\r\nWe can do other \"universal variants\" this way as well.  It is much cleaner than trying to forward variants from the top of the DAG.  (Or we can attach less-than-universal variants to dummy packages that are only depended on by SOME packages.)\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/2492",
+    "updated_at": "2017-03-29 17:12:21",
+    "created_at": "2016-12-06 11:45:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Re-work shared vs. static builds (Universal Variants)",
+    "number": 2492,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "dependencies",
+        "linking",
+        "variants"
+    ],
+    "id": 193751830,
+    "html_url": "https://github.com/spack/spack/issues/2492",
+    "assignees": [],
+    "comments": 5
+}

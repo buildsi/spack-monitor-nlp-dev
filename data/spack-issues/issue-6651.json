@@ -1,0 +1,19 @@
+{
+    "body": "[spack-build.txt](https://github.com/spack/spack/files/1547089/spack-build.txt)\r\n### Summary\r\nglib installation by spack fails\r\n\r\n### Expected Result\r\nglib is compiled with success exit status\r\n### Actual Result\r\n`==> Installing glib\r\n==> Searching for binary cache of glib\r\n==> Warning: No Spack mirrors are currently configured\r\n==> No binary for glib found: installing from source\r\n==> Using cached archive: /home/vagrant/spack/var/spack/cache/glib/glib-2.53.1.tar.xz\r\n==> Already staged glib-2.53.1-pfnqhnaquctqzcjyikn4ahxrswaxn6dx in /home/vagrant/spack/var/spack/stage/glib-2.53.1-pfnqhnaquctqzcjyikn4ahxrswaxn6dx\r\n==> Already patched glib\r\n==> Building glib [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j3'\r\n\r\n7 errors found in build log:\r\n     [ ... ]\r\n     621     CC       libglib_2_0_la-gmarkup.lo\r\n     622     CC       libglib_2_0_la-gmem.lo\r\n     623     CC       libglib_2_0_la-gmessages.lo\r\n     624     CC       libglib_2_0_la-gnode.lo\r\n     625     CC       libglib_2_0_la-goption.lo\r\n     626   gmessages.c: In function \u2018journal_sendv\u2019:\r\n  >> 627   gmessages.c:2295:17: error: implicit declaration of function \u2018mkostemp\u2019; did you mean \u2018mkstemp\u2019? [-Werror=implicit-function-declaration]\r\n     628      if ((buf_fd = mkostemp (path, O_CLOEXEC|O_RDWR)) < 0)\r\n     629                    ^~~~~~~~\r\n     630                    mkstemp\r\n  >> 631   gmessages.c:2295:33: error: \u2018O_CLOEXEC\u2019 undeclared (first use in this function); did you mean \u2018FD_CLOEXEC\u2019?\r\n     632      if ((buf_fd = mkostemp (path, O_CLOEXEC|O_RDWR)) < 0)\r\n     633                                    ^~~~~~~~~\r\n     634                                    FD_CLOEXEC\r\n     635   gmessages.c:2295:33: note: each undeclared identifier is reported only once for each function it appears in\r\n     636   cc1: some warnings being treated as errors\r\n  >> 637   make[4]: *** [libglib_2_0_la-gmessages.lo] Error 1\r\n     638   make[4]: *** Waiting for unfinished jobs....\r\n     639   make[4]: Leaving directory `/tmp/vagrant/spack-stage/spack-stage-sA1Rhh/glib-2.53.1/glib'\r\n  >> 640   make[3]: *** [all-recursive] Error 1\r\n     641   make[3]: Leaving directory `/tmp/vagrant/spack-stage/spack-stage-sA1Rhh/glib-2.53.1/glib'\r\n  >> 642   make[2]: *** [all] Error 2\r\n     643   make[2]: Leaving directory `/tmp/vagrant/spack-stage/spack-stage-sA1Rhh/glib-2.53.1/glib'\r\n  >> 644   make[1]: *** [all-recursive] Error 1\r\n     645   make[1]: Leaving directory `/tmp/vagrant/spack-stage/spack-stage-sA1Rhh/glib-2.53.1'\r\n  >> 646   make: *** [all] Error 2\r\n\r\nSee build log for details:\r\n  /home/vagrant/spack/var/spack/stage/glib-2.53.1-pfnqhnaquctqzcjyikn4ahxrswaxn6dx/glib-2.53.1/spack-build.out\r\n`\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install glib %gcc.7.2.0\r\n...\r\n```\r\n### Information on your system\r\n1. centos5 (i know, that is very old!): doing the compilation in [this vagrant box](https://app.vagrantup.com/tdebat/boxes/centos5/versions/1.0.0) which is a standard Centos-5 with a fix for depreciated repo info. \r\n2. 8GB memory, 3 cpus\r\n\r\n-----\r\nAttached is the build log.\r\n\r\n",
+    "user": "Sinan81",
+    "url": "https://api.github.com/repos/spack/spack/issues/6651",
+    "updated_at": "2017-12-31 11:05:43",
+    "created_at": "2017-12-11 08:47:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Error during glib installation",
+    "number": 6651,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 280936514,
+    "html_url": "https://github.com/spack/spack/issues/6651",
+    "assignees": [],
+    "comments": 7
+}

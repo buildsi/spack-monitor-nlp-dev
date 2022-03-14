@@ -1,0 +1,23 @@
+{
+    "body": "This is the start of work to be able to use spack to generate workflow files that can be used to install software in a view. This technically works, but there is some limit in spack where (given too many cores are given to snakemake) some of the jobs appear to not be allowed to run (there is some lock) that then times out toward the end:\r\n\r\n```bash\r\n==> Error: Failed to install py-lazy-object-proxy due to LockTimeoutError: Timed out waiting for a write lock.\r\n```\r\nSo I think perhaps there is a lock somewhere (on the database? or cache?) If we can get a workaround for this, using Snakemake would actually work! It was pretty speedy when I only gave it `--cores 6`.  My suspicion is that it has to do with that, because when I tried it with just `--cores 2` again this morning, it picked up where it left off, and finished the installs without issue.\r\n\r\nFor some background - the way it works is that we provide workflow steps, each clearly defining input and outputs. The inputs, in this case, are the time log files for packages that are dependencies (or empty if there aren't any) and the outputs are the same log files, which are reliably produced (environment and build logs are not). For the \"final\" output I chose the last package as determined by the stages derived from the gitlab CI pipeline. It could be that we actually want to include more than one package output here to ensure all steps run, but we can figure that out with further testing.\r\n\r\ncc @tgamblin for ideas, and @johanneskoester if you are interested! We chat about this yesterday in https://github.com/snakemake/snakemake/pull/998 and it seemed like a cool idea so I wanted to try it last night. I've added complete docs to the PR in dag.rst for how to reproduce if anyone is interested to try - the Snakefile genereated will be specific for a view. I think once we figure out this lock issue, it would be cool to do the same install, once with and once without snakemake, and see if there is an improvement in overall time.\r\n\r\nFor provenance, here is the Snakefile that I produced, the start of the run, and the log when there was an error (n=6) and when it finished (n=2)\r\n\r\n[Snakefile (specific to my environment)](https://github.com/spack/spack/files/7048399/Snakefile.txt)\r\n[First log (error, N=6) : 2021-08-24T213029.150385.snakemake.log.txt](https://github.com/spack/spack/files/7048400/2021-08-24T213029.150385.snakemake.log.txt)\r\n[Second log (success, N=2) : 2021-08-25T095937.957766.snakemake.log,txt](https://github.com/spack/spack/files/7048404/2021-08-25T095937.957766.snakemake.log.txt)\r\n\r\nAnd a shot of when the run started\r\n\r\n![image (2)](https://user-images.githubusercontent.com/814322/130826709-66ed38aa-7ee7-4f42-a7f1-bac178a272e1.png)\r\n\r\n**Updated with @scottwittenburg feedback!**\r\n\r\nWhat we can do next:\r\n\r\n- [ ] @scottwittenburg is going to refactor the function that returns the specs/dependencies/stages\r\n- [ ] then @vsoch (me!) will refactor the PR here to work with that change\r\n  - [ ] inputs should also include all final time log files for packages in the last stage (or some other subset from the function output)\r\n  - [ ]  we also don't need to concretize - the returned object has another key that should include the already-concretized spec\r\n- [ ] we will need to discuss the lock issue - it should be possible to lock only parts of the database\r\n\r\nSigned-off-by: vsoch <vsoch@users.noreply.github.com>",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/25611",
+    "updated_at": "2021-10-18 20:33:52",
+    "created_at": "2021-08-25 16:08:33",
+    "closed_at": "None",
+    "state": "open",
+    "title": "start of work to add spack dag to generate workflow files",
+    "number": 25611,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "new-command",
+        "pipelines"
+    ],
+    "id": 979382691,
+    "html_url": "https://github.com/spack/spack/pull/25611",
+    "assignees": [
+        "scottwittenburg"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,21 @@
+{
+    "body": "Hi,\r\nI would like to build NAMD with MPI support.\r\n\r\n### Steps to reproduce the issue\r\n```console\r\n$ git clone https://github.com/spack/spack.git\r\n\r\n$ cat >spack/etc/spack/defaults/compilers.yaml <<EOL\r\ncompilers:\r\n- compiler:\r\n    spec: gcc@9.2.0\r\n    target: x86_64\r\n    operating_system: centos7\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    paths:\r\n      cc:  /opt/gcc-9.2.0/bin/gcc\r\n      cxx: /opt/gcc-9.2.0/bin/g++\r\n      f77: /opt/gcc-9.2.0/bin/gfortran\r\n      fc:  /opt/gcc-9.2.0/bin/gfortran\r\nEOL\r\n\r\n$ cat >>spack/etc/spack/defaults/packages.yaml <<EOL\r\n\r\n  openmpi:\r\n    externals:\r\n    - spec: \"openmpi @4.0.3 %gcc@9.2.0\"\r\n      prefix: /opt/openmpi-4.0.3/\r\n    buildable: False\r\n\r\n  intel-mpi:\r\n    externals:\r\n    - spec: \"intel-mpi @2019.7.217\"\r\n      prefix: /opt/intel/compilers_and_libraries_2020.1.217/linux/mpi\r\n    buildable: False\r\n\r\n  intel-mkl:\r\n    externals:\r\n    - spec: \"intel-mkl @2019.5.281 threads=openmp\"\r\n      prefix: /opt/intel/compilers_and_libraries_2019.5.281/linux/mkl\r\n    buildable: False\r\nEOL\r\n\r\n$ source spack/share/spack/setup-env.sh\r\n$ spack install namd ^charmpp backend=mpi ^openmpi\r\n...\r\n<built-in>: note: built-in 'strncmp' declared here\r\nchmod: cannot access '/home/vasco/spack/opt/spack/linux-centos7-zen/gcc-9.2.0/charmpp-6.10.2-gq7vrz5ydfhg2oedstxyuvgjjqaj26dd/bin/../include/MPIOPTS': No such file or directory\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nmake: *** [inc/ComputeMoaMgr.decl.h] Error 1\r\nmake: *** Waiting for unfinished jobs....\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nmake: *** [inc/ComputeMgr.decl.h] Error 1\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nmake: *** [inc/Node.decl.h] Error 1\r\nmake: *** [inc/PatchMgr.decl.h] Error 1\r\nmake: *** [inc/WorkDistrib.decl.h] Error 1\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nmake: *** [inc/ComputeFmmSerialMgr.decl.h] Error 1\r\nmake: *** [inc/ComputeMsmSerialMgr.decl.h] Error 1\r\nError> charmc can not call AMPI's mpicxx/mpiCC wrapper! Please fix your PATH.\r\nmake: *** [inc/ComputeMsmMgr.decl.h] Error 1\r\n```\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5182596/spack-build-out.txt)\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5182597/spack-build-env.txt)\r\n\r\nThanks\r\n",
+    "user": "yellowhat",
+    "url": "https://api.github.com/repos/spack/spack/issues/18535",
+    "updated_at": "2021-11-17 16:46:39",
+    "created_at": "2020-09-07 10:34:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: NAMD with MPI",
+    "number": 18535,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 694963561,
+    "html_url": "https://github.com/spack/spack/issues/18535",
+    "assignees": [
+        "matthiasdiener"
+    ],
+    "comments": 6
+}

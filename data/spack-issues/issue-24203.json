@@ -1,0 +1,19 @@
+{
+    "body": "\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install --test=all lz4\r\n...\r\n```\r\n\r\n### Information on your system\r\n```\r\n~/key4hep-spack/environments/key4hep-release (release *)$ spack debug report\r\n* **Spack:** 0.16.1-2301-b2fd7cb23b\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-ubuntu20.04-haswell\r\n* **Concretizer:** clingo\r\n\r\n```\r\n\r\n### Additional information\r\n\r\n```\r\n 76  ---- test multiple files (Legacy format) ----\r\n 77 # compress multiple files using legacy format: one .lz4 per source file\r\n 78 ../programs/lz4 -f -l -m tmp-tlm*\r\n 79 test -f tmp-tlm1.lz4\r\n 80 test -f tmp-tlm2.lz4\r\n 81 test -f tmp-tlm3.lz4\r\n 82 # decompress multiple files compressed using legacy format: one output file per .lz4\r\n 83 mv tmp-tlm1 tmp-tlm1-orig\r\n 84 mv tmp-tlm2 tmp-tlm2-orig\r\n 85 mv tmp-tlm3 tmp-tlm3-orig\r\n 86 ../programs/lz4 -d -f -m tmp-tlm*.lz4\r\n 87 ../programs/lz4 -l -d -f -m tmp-tlm*.lz4 # -l mustn't impact -d option\r\n 88 cmp tmp-tlm1 tmp-tlm1-orig   # must be identical\r\n 89 cmp tmp-tlm2 tmp-tlm2-orig\r\n 90 cmp tmp-tlm3 tmp-tlm3-orig\r\n 91 # compress multiple files into stdout using legacy format\r\n 92 cat tmp-tlm1.lz4 tmp-tlm2.lz4 tmp-tlm3.lz4 > tmp-tlm-concat1\r\n 93 rm -f *.lz4\r\n 94 ../programs/lz4 -l -m tmp-tlm1 tmp-tlm2 tmp-tlm3 -c > tmp-tlm-concat2\r\n 95 test ! -f tmp-tlm1.lz4  # must not create .lz4 artefact\r\n 96 cmp tmp-tlm-concat1 tmp-tlm-concat2  # must be equivalent\r\n 97 # # # decompress multiple files into stdout using legacy format\r\n 98 rm -f tmp-tlm-concat1 tmp-tlm-concat2\r\n 99 ../programs/lz4 -l -f -m tmp-tlm1 tmp-tlm2 tmp-tlm3   # generate .lz4 to decompress\r\n100 cat tmp-tlm1 tmp-tlm2 tmp-tlm3 > tmp-tlm-concat1   # create concatenated reference\r\n101 rm -f tmp-tlm1 tmp-tlm2 tmp-tlm3\r\n102 ../programs/lz4 -d -m tmp-tlm1.lz4 tmp-tlm2.lz4 tmp-tlm3.lz4 -c > tmp-tlm-concat2\r\n103 ../programs/lz4 -d -l -m tmp-tlm1.lz4 tmp-tlm2.lz4 tmp-tlm3.lz4 -c > tmp-tlm-concat2 # -l mustn't impact option -d\r\n104 test ! -f tmp-tlm1  # must not create file artefact\r\n105 cmp tmp-tlm-concat1 tmp-tlm-concat2  # must be equivalent\r\n106 # # # compress multiple files, one of which is absent (must fail)\r\n107 ! ../programs/lz4 -f -l -m tmp-tlm-concat1 notHere-legacy tmp-tlm-concat2  # must fail : notHere-legacy not present\r\n108 notHere-legacy: No such file or directory\r\n109 Error 20 : notHere-legacy : open file error\r\n```\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "vvolkl",
+    "url": "https://api.github.com/repos/spack/spack/issues/24203",
+    "updated_at": "2021-06-08 15:48:19",
+    "created_at": "2021-06-08 15:48:19",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Test issue:  lz4",
+    "number": 24203,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 915196679,
+    "html_url": "https://github.com/spack/spack/issues/24203",
+    "assignees": [],
+    "comments": 0
+}

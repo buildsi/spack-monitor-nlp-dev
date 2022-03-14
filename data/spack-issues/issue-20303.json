@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n```console\r\n# Compile\r\n$ git clone --depth 1 https://github.com/spack/spack.git\r\n$ source spack/share/spack/setup-env.sh\r\n$ spack compiler find\r\n$ spack -d install fio arch=x86_64\r\n\r\n# Run\r\n$ spack load fio\r\n$ spack arch\r\n$ fio --version\r\n```\r\n\r\nHi,\r\nFor some reason even if the `arch=x86_64` flag is passed the compiling flag `-march=native` is used anyway.\r\nSo:\r\n- compiling `fio` on a Intel machine (Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz), runs on Intel but on AMD (AMD EPYC 7551 32-Core Processor) returns: `Illegal instruction (core dumped)`\r\n- compiling `fio` on an AMD machine, runs on Intel and AMD\r\n\r\nI was under the impression that spack would manage the compiling flag based on the `arch=` flag or by detecting the architecture.\r\n\r\nIs there a problem with the `fio` package or something internal to spack?\r\n\r\n[spack-amd-cc-fio-hebsxwu.out.log](https://github.com/spack/spack/files/5666166/spack-amd-cc-fio-hebsxwu.out.log)\r\n[spack-intel-cc-fio-hebsxwu.in.log](https://github.com/spack/spack/files/5666167/spack-intel-cc-fio-hebsxwu.in.log)\r\n[spack-intel-cc-fio-hebsxwu.out.log](https://github.com/spack/spack/files/5666168/spack-intel-cc-fio-hebsxwu.out.log)\r\n[spack-amd-cc-fio-hebsxwu.in.log](https://github.com/spack/spack/files/5666169/spack-amd-cc-fio-hebsxwu.in.log)\r\n",
+    "user": "yellowhat",
+    "url": "https://api.github.com/repos/spack/spack/issues/20303",
+    "updated_at": "2021-06-16 19:36:44",
+    "created_at": "2020-12-09 13:36:14",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: fio",
+    "number": 20303,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 760336034,
+    "html_url": "https://github.com/spack/spack/issues/20303",
+    "assignees": [],
+    "comments": 2
+}

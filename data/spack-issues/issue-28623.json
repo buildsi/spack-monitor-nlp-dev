@@ -1,0 +1,17 @@
+{
+    "body": "This is a rebased version of the original PR#23303\r\nhttps://github.com/spack/spack/pull/22303\r\n\r\nMake boost composable\r\n\r\nCurrently Boost enables a few components through variants by default,\r\nwhich means that if you want to use only what you need and no more, you\r\nhave to explicitly disable these variants, leading to concretization\r\nerrors whenever a second package explicitly needs those components.\r\n\r\nFor instance if package A only needs +component_a it might depend on\r\nboost +component_a ~component_b. And if packge B only needs\r\n+component_b it might depend on boost ~component_a +component_b. If\r\npackage C now depends on both A and B, this leads to unsatisfiable\r\nvariants and hence a concretization error.\r\n\r\nHowever, if we default to disabling all components, package A can simply\r\ndepend on boost +component_a and package B on boost +component_b and\r\npackage C will concretize to ^boost +component_a +component_b,\r\nand whatever you install, you get the bare minimum.",
+    "user": "asarkar-parsys",
+    "url": "https://api.github.com/repos/spack/spack/issues/28623",
+    "updated_at": "2022-02-15 18:12:05",
+    "created_at": "2022-01-27 02:20:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Make boost minimal and composable (Original PR#22303)",
+    "number": 28623,
+    "milestone": null,
+    "labels": [],
+    "id": 1115694410,
+    "html_url": "https://github.com/spack/spack/pull/28623",
+    "assignees": [],
+    "comments": 1
+}

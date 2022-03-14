@@ -1,0 +1,22 @@
+{
+    "body": "I am noticing some strange concretization behavior from spack-0.14.0, specially if I have a dependency with a hash. This is making things very difficult to automate our builds across different compilers.\r\nFor example, if I specify the following \r\n```\r\nspack spec ncl@6.4.0+gdal+hdf4 ^esmf@7.1.0r~mpi~pnetcdf ^gdal@2.4.2 ^netcdf-c@4.5.0~mpi ^hdf5@1.8.16~mpi ^openblas/ouzv3uh %gcc@4.8.5\r\n```\r\nI receive the error, `==> Error: local variable 'spack' referenced before assignment`\r\n\r\nIf I try the following instead (remove compiler from the end), concretization works fine.\r\n```\r\nspack spec ncl@6.4.0+gdal+hdf4%gcc@4.8.5 ^esmf@7.1.0r~mpi~pnetcdf ^gdal@2.4.2 ^netcdf-c@4.5.0~mpi ^hdf5@1.8.16~mpi ^openblas/ouzv3uh\r\n```\r\nIs this a known bug? Why can't I add the compiler at the end?\r\n\r\nI am on CentOS7/haswell. Let me know if you need more info.",
+    "user": "amaji",
+    "url": "https://api.github.com/repos/spack/spack/issues/15384",
+    "updated_at": "2020-05-07 18:46:09",
+    "created_at": "2020-03-07 19:59:46",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Strange concretization behavior in Spack 0.14.0",
+    "number": 15384,
+    "milestone": null,
+    "labels": [
+        "concretization",
+        "specs"
+    ],
+    "id": 577392314,
+    "html_url": "https://github.com/spack/spack/issues/15384",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 10
+}

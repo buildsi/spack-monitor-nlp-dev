@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ docker run --rm -it spack/centos7\r\n\r\n# from within container:\r\n$ spack spec --yaml zlib > zlib.yaml\r\n$ spack install -f ./zlib.yaml  # OK\r\n ...\r\n$ spack uninstall --all --yes\r\n==> Successfully uninstalled zlib@1.2.11%gcc@4.8.5+optimize+pic+shared arch=linux-centos7-x86_64/64vg6e4\r\n```\r\n```console\r\n$ spack env create --without-view test\r\n==> Created environment 'test' in /opt/spack/var/spack/environments/test\r\n==> You can activate this environment with:\r\n==>   spack env activate test\r\n$ spack env activate test\r\n$ spack --debug --stacktrace install -f ./zlib.yaml  # FAIL\r\n```\r\n\r\n### Error Message\r\n\r\n```console\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-12-10-17:16:19.629926] Imported install from built-in commands\r\nlib/spack/spack/config.py:907 ==> [2020-12-10-17:16:19.634329] Reading config file /opt/spack/var/spack/environments/test/spack.yaml\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2020-12-10-17:16:19.637631] Imported install from built-in commands\r\nlib/spack/spack/config.py:907 ==> [2020-12-10-17:16:19.651607] Reading config file /opt/spack/etc/spack/defaults/repos.yaml\r\nTraceback (most recent call last):\r\n  File \"/opt/spack/bin/spack\", line 66, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/opt/spack/lib/spack/spack/main.py\", line 762, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/opt/spack/lib/spack/spack/main.py\", line 490, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/opt/spack/lib/spack/spack/cmd/install.py\", line 371, in install\r\n    install_specs(args, kwargs, zip(abstract_specs, specs))\r\n  File \"/opt/spack/lib/spack/spack/cmd/install.py\", line 207, in install_specs\r\n    concrete = env.concretize_and_add(abstract, concrete)\r\n  File \"/opt/spack/lib/spack/spack/environment.py\", line 1185, in concretize_and_add\r\n    s for s in self.user_specs if s.satisfies(user_spec)\r\nStopIteration\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.0\r\n* **Python:** 2.7.5\r\n* **Platform:** linux-centos7-x86_64\r\n* **Concretizer:** original\r\n```\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "opadron",
+    "url": "https://api.github.com/repos/spack/spack/issues/20324",
+    "updated_at": "2020-12-10 17:21:40",
+    "created_at": "2020-12-10 17:21:40",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Install from spec yaml fails while in active environment",
+    "number": 20324,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "environments",
+        "ecp",
+        "triage",
+        "ci"
+    ],
+    "id": 761434289,
+    "html_url": "https://github.com/spack/spack/issues/20324",
+    "assignees": [],
+    "comments": 0
+}

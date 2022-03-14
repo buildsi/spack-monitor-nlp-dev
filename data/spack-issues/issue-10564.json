@@ -1,0 +1,22 @@
+{
+    "body": "When calling `spack install ...` with arguments which cause CDash reporting, passing specs to install on the command line works fine, while passing `-f <spec.yaml` causes the CDash reporter to raise an exception.\r\n\r\n### Steps to reproduce the issue\r\n\r\nGiven a spec.yaml file like this one:\r\n\r\n```console\r\n$ cat /tmp/pkgconf.yaml \r\nspec:\r\n- pkgconf:\r\n    version: 1.4.2\r\n    arch:\r\n      platform: darwin\r\n      platform_os: highsierra\r\n      target: x86_64\r\n    compiler:\r\n      name: clang\r\n      version: 9.1.0-apple\r\n    namespace: builtin\r\n    parameters:\r\n      cflags: []\r\n      cppflags: []\r\n      cxxflags: []\r\n      fflags: []\r\n      ldflags: []\r\n      ldlibs: []\r\n    hash: 564r23i4wovhvwngsweex2smvsrfug3e\r\n```\r\n\r\nAttempt to install it using the CDash reporting arguments, as follows:\r\n\r\n```console\r\n$ spack -d install \\\r\n    --cdash-upload-url 'https://cdash.spack.io/submit.php?project=Spack' \\\r\n    --cdash-build 'pkgconf@1.4.2%clang@9.1.0-apple arch=highsierra-x86_64' \\\r\n    --cdash-site 'Spack AWS Gitlab Instance' \\\r\n    --cdash-track Experimental \\\r\n    -f /tmp/pkgconf.yaml\r\n```\r\n\r\n### Error Message\r\n\r\nI cut out most of the debug output until the exception message:\r\n\r\n```console\r\n...\r\nTraceback (most recent call last):\r\n  File \"/Users/scott/projects/spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/scott/projects/spack/lib/spack/spack/main.py\", line 669, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/scott/projects/spack/lib/spack/spack/main.py\", line 440, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/scott/projects/spack/lib/spack/spack/cmd/install.py\", line 325, in install\r\n    install_spec(args, kwargs, abstract, concrete)\r\n  File \"/Users/scott/projects/spack/lib/spack/spack/report.py\", line 265, in __exit__\r\n    self.report_writer.build_report(self.filename, report_data)\r\n  File \"/Users/scott/projects/spack/lib/spack/spack/reporters/cdash.py\", line 185, in build_report\r\n    self.upload(phase_report)\r\n  File \"/Users/scott/projects/spack/lib/spack/spack/reporters/cdash.py\", line 239, in upload\r\n    response = opener.open(request)\r\n  File \"/usr/local/Cellar/python/2.7.12_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py\", line 435, in open\r\n    response = meth(req, response)\r\n  File \"/usr/local/Cellar/python/2.7.12_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py\", line 548, in http_response\r\n    'http', request, response, code, msg, hdrs)\r\n  File \"/usr/local/Cellar/python/2.7.12_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py\", line 473, in error\r\n    return self._call_chain(*args)\r\n  File \"/usr/local/Cellar/python/2.7.12_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py\", line 407, in _call_chain\r\n    result = func(*args)\r\n  File \"/usr/local/Cellar/python/2.7.12_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py\", line 556, in http_error_default\r\n    raise HTTPError(req.get_full_url(), code, msg, hdrs, fp)\r\nurllib2.HTTPError: HTTP Error 500: Internal Server Error\r\n```\r\n\r\nWhile it seems the package was installed (because `spack` finds it after the exception message is printed) the reporting fails.\r\n\r\n```console\r\n$ spack find\r\n==> 1 installed package\r\n-- darwin-highsierra-x86_64 / clang@9.1.0-apple -----------------\r\npkgconf@1.4.2\r\n```\r\n\r\n### Information on your system\r\n\r\nIt's probably clear from information included above this is on OSX (highsierra), using the system clang compiler.  But I have also encountered this issue on Ubuntu and Centos.\r\n",
+    "user": "scottwittenburg",
+    "url": "https://api.github.com/repos/spack/spack/issues/10564",
+    "updated_at": "2019-02-11 21:53:40",
+    "created_at": "2019-02-11 21:47:45",
+    "closed_at": "None",
+    "state": "open",
+    "title": "CDash reporter fails when installing pkgs with `-f <spec.yaml>`",
+    "number": 10564,
+    "milestone": null,
+    "labels": [
+        "bug"
+    ],
+    "id": 408991818,
+    "html_url": "https://github.com/spack/spack/issues/10564",
+    "assignees": [
+        "zackgalbreath",
+        "tgamblin"
+    ],
+    "comments": 0
+}

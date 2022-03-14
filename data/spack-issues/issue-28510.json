@@ -1,0 +1,21 @@
+{
+    "body": "Since `clingo` became the default concretizer, we've struggled to be able to use Spack on air-gapped networks.\r\n\r\nIn the current Spack release, `clingo` is bootstrapped onto the system by downloading the relevant binaries from a buildcache located on GitHub. That of course will not work on an air-gapped network. The other option is to build `clingo` from source, which is time-consuming, requires a compiler with C++14 support (the version of gcc in RHEL 7 won't do), and requires modification of configuration files within $SPACK_USER_CACHE_PATH, which is difficult to capture in revision control.\r\n\r\nWe would really like the option to point Spack to local resources for bootstrapping `clingo`.\r\n\r\n@becker33, @nicholas-sly, and @alalazo have put in a great deal of work to address this need (PRs #26306 and #28392). PR #28392 gets us nearly there by allowing the creation of a local buildcache for the `clingo` binaries. However, the bootstrap process is still trying to pull down `gnuconfig` and `patchelf` sources from GitHub. I've tried pulling those into a local source mirror but the bootstrap seems to be ignoring them.\r\n\r\n@alalazo thought this might be related to #27532, and suggested I open a new issue so that they can focus on this problem separately. Hopefully it can be resolved before the original concretizer is removed, as we have no way of accessing resources from GitHub on our air-gapped networks.\r\n\r\nThanks!",
+    "user": "quellyn",
+    "url": "https://api.github.com/repos/spack/spack/issues/28510",
+    "updated_at": "2022-01-20 18:46:59",
+    "created_at": "2022-01-19 20:37:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Allow bootstrapping of clingo from an air-gapped network",
+    "number": 28510,
+    "milestone": null,
+    "labels": [
+        "bootstrap"
+    ],
+    "id": 1108532538,
+    "html_url": "https://github.com/spack/spack/issues/28510",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 6
+}

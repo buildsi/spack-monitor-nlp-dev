@@ -1,0 +1,22 @@
+{
+    "body": "I have multiple variants of `dplasma` installed that depend on `amdlibflame/nyqwya2`. Running `spack dependents --installed amdlibflame/nyqwya2` only shows one of those installed specs.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n# install multiple variants of a package that ^lapack; dplasma isn't in base, so I'll show lammps\r\n$ spack install lammps +openmp ^amdlibflame/nyqwya2\r\n$ spack install lammps ~openmp ^amdlibflame/nyqwya2\r\n# check for dependents on amdliflame/nyqwya2\r\n$ spack dependents --installed amdlibflame/nyqwya2\r\n==> Dependents of amdlibflame@3.0%aocc@3.0.0/nyqwya2\r\n-- linux-centos8-zen2 / aocc@3.0.0 ------------------------------\r\nabcdefg lammps@20210310\r\n```\r\n\r\nAdditionally, `spack find ^amdlibflame/nyqwya2` doesn't find _any_ packages that depend on that installation of `amdlibflame`. This possibly has something to do with the dependency being on the virtual `lapack` package rather than on `amdlibflame` directly.\r\n\r\n### Error Message\r\n\r\n```console\r\n$ spack --debug --stacktrace dependents --installed amdlibflame/nyqwya2\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2021-05-11-11:36:09.882687] Imported dependents from built-in commands\r\nlib/spack/spack/cmd/__init__.py:122 ==> [2021-05-11-11:36:09.883461] Imported dependents from built-in commands\r\nlib/spack/spack/config.py:981 ==> [2021-05-11-11:36:09.908493] Reading config file /home/omor1/spack/etc/spack/defaults/config.yaml\r\nlib/spack/spack/config.py:981 ==> [2021-05-11-11:36:09.927255] Reading config file /home/omor1/.spack/config.yaml\r\nlib/spack/spack/database.py:363 ==> [2021-05-11-11:36:09.929759] DATABASE LOCK TIMEOUT: 3s\r\nlib/spack/spack/database.py:367 ==> [2021-05-11-11:36:09.929939] PACKAGE LOCK TIMEOUT: No timeout\r\nlib/spack/spack/config.py:981 ==> [2021-05-11-11:36:09.942313] Reading config file /home/omor1/spack/etc/spack/defaults/repos.yaml\r\nlib/spack/spack/config.py:981 ==> [2021-05-11-11:36:09.944196] Reading config file /home/omor1/.spack/repos.yaml\r\nlib/spack/spack/cmd/dependents.py:90 ==> [2021-05-11-11:36:10.021039] Dependents of amdlibflame@3.0%aocc@3.0.0/nyqwya2\r\n-- linux-centos8-zen2 / aocc@3.0.0 ------------------------------\r\no4t3igp dplasma@local\r\n```\r\n\r\n### Information on your system\r\n\r\n```console\r\n$ spack debug report\r\n* **Spack:** 0.16.1-2445-5e8b8b883c\r\n* **Python:** 3.9.4\r\n* **Platform:** linux-centos8-zen2\r\n* **Concretizer:** original\r\n```\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output",
+    "user": "omor1",
+    "url": "https://api.github.com/repos/spack/spack/issues/23569",
+    "updated_at": "2021-05-13 11:17:09",
+    "created_at": "2021-05-11 18:38:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack dependents --installed only shows one installed variant of dependent specs",
+    "number": 23569,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-low"
+    ],
+    "id": 888168439,
+    "html_url": "https://github.com/spack/spack/issues/23569",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

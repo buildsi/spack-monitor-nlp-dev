@@ -1,0 +1,21 @@
+{
+    "body": "Two core tenets of Spack are the idea of virtual packages (where multiple implementations of a library provide the same API) and extensions (where a package can be symlinked to a dependency prefix). Unfortunately, these two tenets are currently incompatible, and virtual dependencies cannot be extended.\r\n\r\n### Rationale\r\n\r\nThere are many extendable packages in Spack that either have virtual dependencies or would benefit from having them. For example:\r\n\r\nJava has [several implementations](https://en.wikipedia.org/wiki/List_of_Java_virtual_machines):\r\n\r\n- Oracle JDK\r\n- OpenJDK\r\n- IBM Java\r\n- IcedTea\r\n\r\nJava is already a virtual package in Spack.\r\n\r\nPython has [several implementations](https://www.python.org/download/alternatives/):\r\n\r\n- CPython\r\n- Anaconda\r\n- Miniconda\r\n- PyPy\r\n- Jython\r\n- IronPython\r\n- Intel Python\r\n\r\nMany users have requested that Python become a virtual dependency (#7966).\r\n\r\n### Description\r\n\r\nI first noted this behavior in #8613, but for a virtual dependency like `java`, if you write:\r\n```python\r\nextends('java')\r\n```\r\nin a package, concretization will crash with the following error message:\r\n```\r\n==> Error: Package 'java' not found.\r\n```\r\nFor now, you have to write `extends('jdk')` if you want it to work. Of course, this prevents users from using `openjdk` or any other Java provider. This problem will become even more apparent once we make Python a virtual dependency.\r\n\r\n### Additional information\r\n\r\nThere are several other issues that are related to this issue that we should also solve:\r\n\r\n- Unable to extend multiple packages (#987)\r\n- Virtual dependencies do not support variants (#1712, #6300)\r\n- Extensions do not support variants (#10195)\r\n- Multiple providers found for virtual dependency (#4107, #7339, #7901, #8059, #8133, #9753, #11987, #13821, #20308)",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/17475",
+    "updated_at": "2020-12-09 20:50:11",
+    "created_at": "2020-07-12 13:37:59",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Unable to extend virtual dependencies",
+    "number": 17475,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "virtual-dependencies",
+        "extensions"
+    ],
+    "id": 655402353,
+    "html_url": "https://github.com/spack/spack/issues/17475",
+    "assignees": [],
+    "comments": 1
+}

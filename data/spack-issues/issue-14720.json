@@ -1,0 +1,20 @@
+{
+    "body": "By mistake I ended up with having two identical keys created with the same command \r\n\r\n```\r\nspack gpg create adam adam@statystyka.net\r\n```\r\n\r\n```\r\n$ spack gpg list\r\n/home/adam/tmp/spack/opt/spack/gpg/pubring.kbx\r\n----------------------------------------------\r\npub   rsa4096 2020-02-02 [SC]\r\n      3C7904840D45DE4E84367BBB4BA651264731CF7E\r\nuid           [ultimate] adam (GPG created for Spack) <adam@statystyka.net>\r\n\r\npub   rsa4096 2020-02-02 [SC]\r\n      D3D41FFBD3609A85B6C5ADF33592BF5DF7239CBC\r\nuid           [ultimate] adam (GPG created for Spack) <adam@statystyka.net>\r\n```\r\n\r\nHow can I delete any of them? When I do \r\n```\r\n$ spack gpg untrust 3C7904840D45DE4E84367BBB4BA651264731CF7E\r\ngpg: there is a secret key for public key \"3C7904840D45DE4E84367BBB4BA651264731CF7E\"!\r\ngpg: use option \"--delete-secret-keys\" to delete it first.\r\n==> Error: Command exited with status 2:\r\n'/usr/bin/gpg' '--yes' '--batch' '--delete-keys' '3C7904840D45DE4E84367BBB4BA651264731CF7E'\r\n```\r\n\r\nI tried inserting the --delete-secret-keys in any possible place like\r\n```\r\nspack --delete-secret-keys gpg untrust 3C7904840D45DE4E84367BBB4BA651264731CF7E\r\nspack gpg --delete-secret-keys untrust 3C7904840D45DE4E84367BBB4BA651264731CF7E -- --delete-secret-keys\r\nspack gpg untrust --delete-secret-keys 3C7904840D45DE4E84367BBB4BA651264731CF7E -- --delete-secret-keys\r\nspack gpg untrust 3C7904840D45DE4E84367BBB4BA651264731CF7E --delete-secret-keys\r\n#and even\r\nspack gpg untrust 3C7904840D45DE4E84367BBB4BA651264731CF7E -- --delete-secret-keys\r\n```\r\n\r\nI also tried \r\n```\r\n$/usr/bin/gpg --yes --batch --delete-secret-keys --delete-keys  3C7904840D45DE4E84367BBB4BA651264731CF7E\r\ngpg: conflicting commands\r\n```\r\n\r\nI am no expert on gpg, and frankly I don't care that much about the signing in the first place. Please make a error-free wrapper around the gpg or write in the documentation, that in order to use the binary signing, you must be fluent on handling the complicated `gpg` command line syntax.\r\n\r\n   *   *   *\r\n  \r\nI use spack `0.13.3-935-0c0aba57` on Ubuntu 18.04.4 64 bit",
+    "user": "adamryczkowski",
+    "url": "https://api.github.com/repos/spack/spack/issues/14720",
+    "updated_at": "2021-08-11 07:16:29",
+    "created_at": "2020-02-02 12:57:23",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Impossible to remove a gpg key if created with spack gpg create",
+    "number": 14720,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 558692953,
+    "html_url": "https://github.com/spack/spack/issues/14720",
+    "assignees": [],
+    "comments": 1
+}

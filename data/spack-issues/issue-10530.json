@@ -1,0 +1,19 @@
+{
+    "body": "### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install netlib-scalapack\r\n....\r\n1 error found in build log:\r\n     22    -- --> C Compiler : /usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/openmpi/3.1.3/giuht6mfbn3mbp2x/bin/mpicc\r\n     23    -- --> MPI Fortran Compiler : /usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/openmpi/3.1.3/giuht6mfbn3mbp2x/b\r\n           in/mpif90\r\n     24    -- --> Fortran Compiler : /usr/local/pkg/Installs/linux-ubuntu16.04-x86_64-gcc7.4.0/openmpi/3.1.3/giuht6mfbn3mbp2x/bin/m\r\n           pif90\r\n     25    -- Reducing RELEASE optimization level to O2\r\n     26    -- =========\r\n     27    -- Compiling and Building BLACS INSTALL Testing to set correct variables\r\n  >> 28    CMake Error at CMAKE/FortranMangling.cmake:27 (MESSAGE):\r\n     29       Configure in the BLACS INSTALL directory FAILED\r\n     30    Call Stack (most recent call first):\r\n     31      CMakeLists.txt:122 (COMPILE)\r\n     32    \r\n     33    \r\n     34    -- Configuring incomplete, errors occurred!\r\n...\r\n```\r\nIt seems to be already reported here  https://gitlab.kitware.com/cmake/cmake/issues/18817.\r\nI can make a PR to fix it. What would be the preffered way?\r\n\r\n- limit cmake version in netlib-scalapack package\r\n```python\r\n    depends_on('cmake@:3.12.4', when='@2.0.0:', type='build')\r\n```\r\n- or patch netlib-scalapack as suggested in the cmake issue above",
+    "user": "JaroslavHron",
+    "url": "https://api.github.com/repos/spack/spack/issues/10530",
+    "updated_at": "2019-09-25 01:23:27",
+    "created_at": "2019-02-06 15:52:13",
+    "closed_at": "None",
+    "state": "open",
+    "title": "netlib-scalapack fails to build with cmake 3.13.3",
+    "number": 10530,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 407301580,
+    "html_url": "https://github.com/spack/spack/issues/10530",
+    "assignees": [],
+    "comments": 2
+}

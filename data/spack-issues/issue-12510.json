@@ -1,0 +1,23 @@
+{
+    "body": "I\u202fhave some troubles using environments on MacOS as soon as .DS_Store exists. I\u202fknow the problem was already reported, but is supposed to have been solved.\r\n\r\n### Steps to reproduce the issue\r\nI have a simple reproducer for the issue I am running into : \r\n - On MacOs.\r\n - Clone Spack.\r\n - Use finder and \"go to folder\" to navigate the `spack/var/spack/repos/builtin/packages`, and try clicking some directory until a `.DS_Store` file is created.\r\n\r\nThen the two following didn\u2019t worked for me:\r\n - Try to concertize even the simpler external environment.\r\n - Create a new environment, activate it, and try to add a spec.\r\n\r\nBoth leads to:\r\n```\r\n==> Error: [Errno 20] Not a directory:\r\n'/Users/bernede1/Tests/spack/var/spack/repos/builtin/packages/.DS_Store/package.py'\r\n```\r\n\r\nSpack is up-to-date and history contains the Christmas merge of #10198.\r\n\r\n### Error Message\r\n```\r\n> spack -d --stacktrace add gcc\r\nlib/spack/spack/cmd/__init__.py:98 ==> [2019-08-21-11:26:08.487537] Imported add from built-in commands\r\nlib/spack/spack/cmd/__init__.py:98 ==> [2019-08-21-11:26:08.488309] Imported add from built-in commands\r\nlib/spack/spack/config.py:684 ==> [2019-08-21-11:26:08.522024] Reading config file /Users/username/Tests/spack/et    c/spack/defaults/modules.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-08-21-11:26:08.528377] Reading config file /Users/username/Tests/spack/et    c/spack/defaults/darwin/modules.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-08-21-11:26:08.530475] Reading config file /Users/username/Tests/spack/va    r/spack/environments/toto/spack.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-08-21-11:26:08.533611] Reading config file /Users/username/Tests/spack/et    c/spack/defaults/config.yaml\r\nlib/spack/spack/config.py:684 ==> [2019-08-21-11:26:08.552602] Reading config file /Users/username/Tests/spack/et    c/spack/defaults/repos.yaml\r\nTraceback (most recent call last):\r\n  File \"/Users/username/Tests/spack/bin/spack\", line 48, in <module>\r\n    sys.exit(spack.main.main())\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/main.py\", line 697, in main\r\n    return _invoke_command(command, parser, args, unknown)\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/main.py\", line 447, in _invoke_command\r\n    return_val = command(parser, args)\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/cmd/add.py\", line 31, in add\r\n    if not env.add(spec, args.list_name):\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/environment.py\", line 772, in add\r\n    elif not spack.repo.path.exists(spec.name):\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/repo.py\", line 678, in exists\r\n    return any(repo.exists(pkg_name) for repo in self.repos)\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/repo.py\", line 678, in <genexpr>\r\n    return any(repo.exists(pkg_name) for repo in self.repos)\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/repo.py\", line 1030, in exists\r\n    return pkg_name in self._pkg_checker\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/repo.py\", line 1003, in _pkg_checker\r\n    self._fast_package_checker = FastPackageChecker(self.packages_path)\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/repo.py\", line 132, in __init__\r\n    self._paths_cache[packages_path] = self._create_new_cache()\r\n  File \"/Users/username/Tests/spack/lib/spack/spack/repo.py\", line 175, in _create_new_cache\r\n    raise e\r\nOSError: [Errno 20] Not a directory: '/Users/username/Tests/spack/var/spack/repos/builtin/packages/.DS_Store/package.py'\r\n```\r\n\r\n### Information on your system\r\nMacOs, Apple laptop.\r\n\r\n",
+    "user": "adrienbernede",
+    "url": "https://api.github.com/repos/spack/spack/issues/12510",
+    "updated_at": "2022-03-10 15:56:39",
+    "created_at": "2019-08-21 18:42:11",
+    "closed_at": "None",
+    "state": "open",
+    "title": ".DS_Store issues with environments",
+    "number": 12510,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "macOS",
+        "triage"
+    ],
+    "id": 483588843,
+    "html_url": "https://github.com/spack/spack/issues/12510",
+    "assignees": [
+        "tgamblin"
+    ],
+    "comments": 1
+}

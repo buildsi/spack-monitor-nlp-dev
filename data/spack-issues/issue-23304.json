@@ -1,0 +1,19 @@
+{
+    "body": "I ran the command `spack install gcc %gcc@7.3.1`. I'm using that compiler because the gcc@9.2 seems to be corrupted and I don't have root permissions on this computer. The OS is linux Fedora26. Everything installs well but when GCC is in the build phase this happens:\r\n```\r\n   >> 4043    /tmp/cdelv/spack-stage/spack-stage-gcc-10.3.0-wfiatze7uyjw5bcvybyzkgogjwypoh6r/spack-src/spack build/./gcc/xgcc: error wh\r\n             ile loading shared libraries: libiconv.so.2: cannot open shared object file: No such file or directory\r\n     4044    make[3]: *** [Makefile:2090: specs] Error 127\r\n```\r\nThe build log shows the following:\r\n\r\n```\r\nmake[3]: Leaving directory '/tmp/cdelv/spack-stage/spack-stage-gcc-10.3.0-wfiatze7uyjw5bcvybyzkgogjwypoh6r/spack-src/spack-build/gcc'\r\nmake[2]: *** [Makefile:4743: all-stage1-gcc] Error 2\r\nmake[2]: Leaving directory '/tmp/cdelv/spack-stage/spack-stage-gcc-10.3.0-wfiatze7uyjw5bcvybyzkgogjwypoh6r/spack-src/spack-build'\r\nmake[1]: *** [Makefile:23252: stage1-bubble] Error 2\r\nmake[1]: Leaving directory '/tmp/cdelv/spack-stage/spack-stage-gcc-10.3.0-wfiatze7uyjw5bcvybyzkgogjwypoh6r/spack-src/spack-build'\r\nmake: *** [Makefile:999: all] Error 2\r\n```\r\nThe compilers.yaml file:\r\n\r\n```\r\n- compiler:\r\n    spec: gcc@7.3.1\r\n    paths:\r\n      cc: /usr/lib64/ccache/gcc\r\n      cxx: /usr/lib64/ccache/g++\r\n      f77: /usr/bin/gfortran\r\n      fc: /usr/bin/gfortran\r\n    flags: {}\r\n    operating_system: fedora26\r\n    target: x86_64\r\n    modules: []\r\n    environment: {}\r\n    extra_rpaths: []\r\n```\r\n",
+    "user": "cdelv",
+    "url": "https://api.github.com/repos/spack/spack/issues/23304",
+    "updated_at": "2021-04-28 04:30:01",
+    "created_at": "2021-04-28 03:21:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: GCC@10.3.0",
+    "number": 23304,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 869452481,
+    "html_url": "https://github.com/spack/spack/issues/23304",
+    "assignees": [],
+    "comments": 1
+}

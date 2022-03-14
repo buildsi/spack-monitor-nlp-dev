@@ -1,0 +1,19 @@
+{
+    "body": "When building a cuda-aware version of MVAPICH2, the build fails with the PGI compiler, due to a cuda-related error. This does not happen with the GNU compiler.\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install mvapich2 +cuda fabrics=sock %pgi ^libpciaccess%gcc\r\n```\r\n(note that the option `^libpciaccess%gcc` is because `libpciaccess` itself does not build with the PGI compiler ; the option `fabrics=sock` is because building with `psm` fails)\r\n\r\nWith the above command, the build fails with:\r\n```\r\n     1808    configure: WARNING: Specified --enable-cuda switch, but could not\r\n     1809    configure: WARNING: find appropriate support\r\n  >> 1810    configure: error: Cannot continue\r\n  >> 1811    configure: error: /home/rlehe/spack/var/spack/stage/mvapich2-2.2-o\r\n             u7yebowz4d5lta56bvlvoefeqjwgmg5/mvapich2-2.2/contrib/hwloc/configu\r\n             re failed for contrib/hwloc\r\n```\r\n\r\n### Platform and user environment\r\n\r\nPlease report your OS here:\r\n```commandline\r\n$ uname -a \r\nLinux lambda-single 4.15.0-36-generic #39~16.04.1-Ubuntu SMP Tue Sep 25 08:59:23 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux\r\n$ lsb_release -d\r\nDescription:\tUbuntu 16.04.4 LTS\r\n``` \r\n\r\nThis uses a local version of pgi (not installed via spack):\r\n```\r\n- compiler:\r\n    environment: {}\r\n    extra_rpaths: []\r\n    flags: {}\r\n    modules: []\r\n    operating_system: ubuntu16.04\r\n    paths:\r\n      cc: /opt/pgi/linux86-64/18.4/bin/pgcc\r\n      cxx: /opt/pgi/linux86-64/18.4/bin/pgc++\r\n      f77: /opt/pgi/linux86-64/18.4/bin/pgfortran\r\n      fc: /opt/pgi/linux86-64/18.4/bin/pgfortran\r\n    spec: pgi@18.4\r\n    target: x86_64\r\n```\r\n",
+    "user": "RemiLehe",
+    "url": "https://api.github.com/repos/spack/spack/issues/9533",
+    "updated_at": "2018-10-24 11:02:17",
+    "created_at": "2018-10-15 22:49:26",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: mvapich2",
+    "number": 9533,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 370373343,
+    "html_url": "https://github.com/spack/spack/issues/9533",
+    "assignees": [],
+    "comments": 1
+}

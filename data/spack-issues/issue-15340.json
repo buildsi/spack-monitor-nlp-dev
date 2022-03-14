@@ -1,0 +1,20 @@
+{
+    "body": "I am using an S3 build cache for my development. I installed an older version of an internal package to the build cache, and then tried to \"dev-build\" the same package with local code. I had expected dev-build to use my local code, but it instead pulled the package from the S3 build cache.\r\n\r\n### Spack version\r\n```console\r\n$ spack --version\r\n0.14.0\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\nWith an S3 mirror:\r\n\r\n```console\r\n$ spack buildcache create --key <key fingerprint> --rel --allow-root --directory s3://build-cache mypackage@develop\r\n$ cd src/mypackage\r\n$ spack dev-build --until install mypackage@develop\r\n[...]\r\n==> 17763: Installing mypackage\r\n==> Finding buildcaches at s3://build-cache/build_cache\r\n==> Already downloaded /tmp/.../spack-stage/build_cache/linux-ubuntu18.04-skylake_avx512-gcc-7.4.0-mypackage-rust-docker-refactor-eszw62hjhfhhhkuhmc46iyk4ui7q4fss.spack\r\n==> Installing mypackage from binary cache\r\n...\r\n```\r\n\r\n### Information on your system\r\nUbuntu 18.04\r\nNo custom config except one local repo, and an S3 mirror/buildcache\r\n\r\n### General information\r\n\r\n- [ x ] I have run `spack --version` and reported the version of Spack\r\n- [ x ] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ x ] I have run the failing commands in debug mode and reported the output",
+    "user": "mc-allen",
+    "url": "https://api.github.com/repos/spack/spack/issues/15340",
+    "updated_at": "2020-03-04 22:33:43",
+    "created_at": "2020-03-04 22:33:43",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack dev-build does not use local code if the package is in S3 build cache",
+    "number": 15340,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 575839519,
+    "html_url": "https://github.com/spack/spack/issues/15340",
+    "assignees": [],
+    "comments": 0
+}

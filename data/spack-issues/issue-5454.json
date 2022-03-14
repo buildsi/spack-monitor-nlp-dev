@@ -1,0 +1,19 @@
+{
+    "body": "@becker33 \r\n\r\nSummary\r\n=======\r\nBuilding HDF5 1.8.10, in order to work around libdl issue in HDF5 >= 1.8.11, (see #5453), fails with a compiler error when using gcc 4.9.3.\r\n\r\nMy runline and output\r\n================\r\n\r\nbash-4.2$ ./bin/spack install --keep-stage hdf5@1.8.10%gcc@4.9.3~cxx~debug~fortran~mpi+pic~shared~szip~threadsafe arch=linux-rhel7-x86_64\r\n==> Installing zlib\r\n==> Using cached archive: /usr/workspace/wsrzd/goku/spack2/spack/var/spack/cache/zlib/zlib-1.2.11.tar.gz\r\n==> Staging archive: /usr/workspace/wsrzd/goku/spack2/spack/var/spack/stage/zlib-1.2.11-cvthwcmsd3bf5vxnnjiqhcxa32ftb6nm/zlib-1.2.11.tar.gz\r\n==> Created stage in /usr/workspace/wsrzd/goku/spack2/spack/var/spack/stage/zlib-1.2.11-cvthwcmsd3bf5vxnnjiqhcxa32ftb6nm\r\n==> Building zlib [Package]\r\n==> Executing phase: 'install'\r\n==> Successfully installed zlib\r\n  Fetch: 0.10s.  Build: 22.67s.  Total: 22.76s.\r\n[+] /usr/workspace/wsrzd/goku/spack2/spack/opt/spack/linux-rhel7-x86_64/gcc-4.9.3/zlib-1.2.11-cvthwcmsd3bf5vxnnjiqhcxa32ftb6nm\r\n==> Installing hdf5\r\n==> Warning: There is no checksum on file to fetch hdf5@1.8.10 safely.\r\n==>   Fetch anyway? [y/N] y\r\n==> Fetching with no checksum.\r\n  Add a checksum or use --no-checksum to skip this check.\r\n==> Fetching https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.10/src/hdf5-1.8.10.tar.gz\r\n######################################################################## 100.0%\r\n==> Staging archive: /usr/workspace/wsrzd/goku/spack2/spack/var/spack/stage/hdf5-1.8.10-h2tf3ecdwbzpk22rfzajywdrkjktxfh3/hdf5-1.8.10.tar.gz\r\n==> Created stage in /usr/workspace/wsrzd/goku/spack2/spack/var/spack/stage/hdf5-1.8.10-h2tf3ecdwbzpk22rfzajywdrkjktxfh3\r\n==> No patches needed for hdf5\r\n==> Building hdf5 [AutotoolsPackage]\r\n==> Executing phase: 'autoreconf'\r\n==> Executing phase: 'configure'\r\n==> Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'make' '-j72'\r\n\r\n2 errors found in build log:\r\n     [ ... ]\r\n     107703cmpd_dset.c:889:23: warning: conversion to 'float' from 'int' may alter its value [-Wconversion]\r\n     107704         s_ptr->i    = i*2/3+2;\r\n     107705                       ^\r\n     107706cmpd_dset.c:890:23: warning: conversion to 'float' from 'int' may alter its value [-Wconversion]\r\n     107707         s_ptr->j    = i*2/3+3;\r\n     107708                       ^\r\n  >> 107709th5s.c:733:9: error: expected expression before '/' token\r\n     107710         // ret = H5Pset_alloc_time(plist_id, alloc_time);\r\n     107711         ^\r\n  >> 107712th5s.c:734:9: error: expected expression before '/' token\r\n     107713         // CHECK(ret, FAIL, \"H5Pset_alloc_time\");\r\n     107714         ^\r\n     107715cmpd_dset.c: In function 'initialize_stype2':\r\n     107716cmpd_dset.c:921:16: warning: conversion to 'int' from 'size_t' may alter its value [-Wconversion]\r\n     107717  s_ptr->a    = i*8+0;\r\n     107718                ^\r\n\r\nSee build log for details:\r\n  /usr/workspace/wsrzd/goku/spack2/spack/var/spack/stage/hdf5-1.8.10-h2tf3ecdwbzpk22rfzajywdrkjktxfh3/hdf5-1.8.10/spack-build.out\r\nbash-4.2$",
+    "user": "pozulp",
+    "url": "https://api.github.com/repos/spack/spack/issues/5454",
+    "updated_at": "2017-11-23 19:53:36",
+    "created_at": "2017-09-23 00:29:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "HDF5 1.8.10 compile error when using gcc 4.9.3, error: expected expression before '/' token",
+    "number": 5454,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 259967938,
+    "html_url": "https://github.com/spack/spack/issues/5454",
+    "assignees": [],
+    "comments": 3
+}

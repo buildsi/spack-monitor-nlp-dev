@@ -1,0 +1,21 @@
+{
+    "body": "### Steps to reproduce the issue\n\nspack install py-pymol@2.5.0%gcc@11.2.0 arch=linux-sles15-x86_64\r\n\r\nThe py-pymol builds and the installation seem to be OK. But it cannot be executed because the path for __init__.py was set incorrectly in bin/pymol. Instead of the full path, the path refers to the PyMOL root folder and is /lib/python3.8/site-packages/pymol/__init__.py.\r\n\r\nDo you have any idea what the reason could be?\r\n\r\nI see in the setup.py\r\n\r\n````\r\n  out.write('#!/bin/sh' + os.linesep)\r\n                if not self.pymol_path_is_default:\r\n                    out.write(f'export PYMOL_PATH=\"{pymol_path}\"' + os.linesep)\r\n                out.write('exec \"%s\" \"%s\" \"$@\"' % (python_exe, pymol_file) + os.linesep)\r\n````\r\n\r\nThis creates a wrong file (bin/pymol), which looks like this\r\n\r\n````\r\n#!/bin/sh\r\nexec \"/dss/dsshome1/lrz/sys/spack/release/22.1.0/opt/x86_64/python/3.8.11-gcc-6xhos72/bin/python3.8\" \"/lib/python3.8/site-packages/pymol/__init__.py\" \"$@\"```\r\n````\r\nIt should be,\r\n\r\n````\r\n#!/bin/sh\r\nexec \"/dss/dsshome1/lrz/sys/spack/release/22.1.0/opt/x86_64/python/3.8.11-gcc-6xhos72/bin/python3.8\" \"/dss/dsshome1/lrz/sys/spack/release/22.1.0/opt/x86_64/python/3.8.11-gcc-6xhos72/lib/python3.8/site-packages/pymol/__init__.py\" \"$@\"```\r\n````\n\n### Information on your system\n\n* **Spack:** 0.16.2\r\n* **Python:** 3.6.12\r\n* **Platform:** linux-sles15-haswell\n\n### Additional information\n\n_No response_\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have run `spack maintainers <name-of-the-package>` and **@mentioned** any maintainers\n- [ ] I have uploaded the build log and environment files\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "hpcnpatel",
+    "url": "https://api.github.com/repos/spack/spack/issues/27455",
+    "updated_at": "2022-01-10 09:47:25",
+    "created_at": "2021-11-15 13:06:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: py-pymol",
+    "number": 27455,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 1053644689,
+    "html_url": "https://github.com/spack/spack/issues/27455",
+    "assignees": [
+        "adamjstewart"
+    ],
+    "comments": 4
+}

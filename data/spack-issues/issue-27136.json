@@ -1,0 +1,22 @@
+{
+    "body": "If a package install contains a symlink to another directory in the install, view creation currently creates an empty directory in the view instead of that link.\r\n\r\nThis change causes the link_tree to instead create a relative symlink to the original target as it exists in the link_tree.\r\n\r\nFor example, an install contains the following:\r\n```\r\ninstall_path/file1\r\ninstall_path/dirA/file2\r\ninstall_path/dirB -> dirA   (dirB is a symlink to dirA)\r\n```\r\nthe following link tree is created:\r\n```\r\nview/file1 -> install_path/file1   (view/file1 is a symlink to file1 in the original install path)\r\nview/dirA  # Just a directory\r\nview/dirA/file2 -> install_path/dirA/file2\r\nview/dirB -> dirA  (A relative symlink to dirA in the view)\r\n```\r\n\r\n",
+    "user": "Paul-Ferrell",
+    "url": "https://api.github.com/repos/spack/spack/issues/27136",
+    "updated_at": "2021-11-15 12:37:44",
+    "created_at": "2021-11-01 22:58:49",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Fix symlinked directories in views",
+    "number": 27136,
+    "milestone": null,
+    "labels": [
+        "tests",
+        "utilities"
+    ],
+    "id": 1041717590,
+    "html_url": "https://github.com/spack/spack/pull/27136",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,20 @@
+{
+    "body": "I am using Spack in a container. I follow the instructions in the manual, except that I am using Ubuntu 20.04 instead of 18.04 as base image. The standard generated Dockerfile contains the lines\r\n\r\n```Dockerfile\r\n# Strip all the binaries\r\nRUN find -L /opt/view/* -type f -exec readlink -f '{}' \\; | \\\r\n    xargs file -i | \\\r\n    grep 'charset=binary' | \\\r\n    grep 'x-executable\\|x-archive\\|x-sharedlib' | \\\r\n    awk -F: '{print $1}' | xargs strip -s\r\n```\r\n\r\nin the builder.\r\n\r\nWhen I later use the resulting image, I cannot link against Spack-generated `*.a` libraries. The linker complains that they have no symbol table (and suggests to run `ranlib`). When I look at the object files in such a library, `nm` says they contain no symbols.\r\n\r\nI find that archives need to be stripped with `strip` (without the `-s` option) for things to work:\r\n\r\n```Dockerfile\r\nRUN find -L /opt/view/* -type f -exec readlink -f '{}' \\; | \\\r\n    xargs file -i | \\\r\n    grep 'charset=binary' | \\\r\n    tee >(grep 'x-executable\\|x-sharedlib' | \\\r\n          awk -F: '{print $1}' | xargs strip --strip-all) \\\r\n        >(grep 'x-archive' | \\\r\n          awk -F: '{print $1}' | xargs strip) \\\r\n        > /dev/null\r\n```\r\n",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/18030",
+    "updated_at": "2020-09-10 15:09:58",
+    "created_at": "2020-08-12 20:23:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack-in-container: Stripped libraries cannot be used for linking",
+    "number": 18030,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "containers"
+    ],
+    "id": 677954577,
+    "html_url": "https://github.com/spack/spack/issues/18030",
+    "assignees": [],
+    "comments": 8
+}

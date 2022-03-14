@@ -1,0 +1,22 @@
+{
+    "body": "We started making curl rely on openssl's certs with the --without-ca-bundle / --without-ca-path and --with-ca-fallback flags.\r\n\r\nThis ensures that curl does not search the system itself (as far as I understand), but it puts openssl in charge to find certs it trusts.\r\n\r\nWith our current openssl package, we have hacks to make openssl pick up system openssl certs, or use ca-certificates-mozilla, which is more relocatable.\r\n\r\nHowever, mbedtls does not have this feature of automatically using certain certs, and it seems it can't be configured to have that, because curl complains `tls=mbedtls` and `--with-ca-fallback` are unsupported together.\r\n\r\nSo this PR introduces `curl certs=fallback/mozilla` as a variant. With `certs=fallback tls=openssl`, curl will pick up openssl's trusted certs. With `certs=mozilla tls=mbedtls`, curl will hard-code a path to `ca-certificates-mozilla`'s pem/bundle file.\r\n\r\nThis works, cause I can build `curl tls=mbedtls certs=mozilla` on my host, and then use docker to fetch https://www.google.com (so, no system certs were used that is):\r\n\r\n```\r\ndocker run -v $SPACK/:$SPACK/ ubuntu:20.04 $SPACK/curl-7.79.0-jt23blhk3oym5oj7gpx5dj4lr3d4fqjy/bin/curl https://www.google.com\r\n... outputs googles homepage ...\r\n```\r\n\r\nstrace also shows the pem file is opened.\r\n",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/26381",
+    "updated_at": "2021-09-30 20:29:35",
+    "created_at": "2021-09-30 15:12:40",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Fix certs in curl tls=mbedtls",
+    "number": 26381,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package",
+        "conflicts",
+        "new-variant"
+    ],
+    "id": 1012303710,
+    "html_url": "https://github.com/spack/spack/pull/26381",
+    "assignees": [],
+    "comments": 2
+}

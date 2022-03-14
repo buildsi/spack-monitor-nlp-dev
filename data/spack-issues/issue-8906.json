@@ -1,0 +1,19 @@
+{
+    "body": "when trying to run a `spack install openmpi +pmi schedulers=slurm` the following error is thrown during the build process:\r\n```\r\nmake[2]: Entering directory '/tmp/ubuntu/spack-stage/spack-stage-sjG1KM/openmpi-3.1.1/opal/tools/wrappers'\r\n  CC       opal_wrapper.o\r\n  GENERATE opal_wrapper.1\r\n  CCLD     opal_wrapper\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_base_priority_init'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_base_loop'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_base_free'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_add'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_base_loopbreak'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_reinit'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_del'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_pollops'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_config_free'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_epollops'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_priority_set'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_assign'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_config_new'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_selectops'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_config_avoid_method'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_enable_debug_mode'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_evthread_use_pthreads'\r\n../../../opal/.libs/libopen-pal.so: undefined reference to `opal_libevent2022_event_base_new_with_config'\r\ncollect2: error: ld returned 1 exit status\r\nMakefile:1875: recipe for target 'opal_wrapper' failed\r\n```\r\nSpack has been setup on Ubuntu 18.04 LTS, and we are running the compilation with gcc 5.5.0 (also tried with gcc 7.3.0, same error). It looks like there is a problem with libevent which is not resolved correctly. Is this a known problem, or am I doing something completely wrong?\r\n\r\n[spack-build.out.txt](https://github.com/spack/spack/files/2265384/spack-build.out.txt)\r\n",
+    "user": "witlox",
+    "url": "https://api.github.com/repos/spack/spack/issues/8906",
+    "updated_at": "2018-12-30 01:44:25",
+    "created_at": "2018-08-07 07:13:51",
+    "closed_at": "None",
+    "state": "open",
+    "title": "openmpi fails with libopen-pal.so: undefined reference to opal_libevent2022_*",
+    "number": 8906,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 348195675,
+    "html_url": "https://github.com/spack/spack/issues/8906",
+    "assignees": [],
+    "comments": 2
+}

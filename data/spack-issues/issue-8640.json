@@ -1,0 +1,21 @@
+{
+    "body": "Spack appended linker variables (-Wl,rpath) can cause GCC to behave incorrectly when compiling non-linkable files, such as gch headers.\r\n\r\nThis was discovered when trying to install the a wxPython package against python 2.7.14 and GCC 7.2.0 . The package build file is\r\n```\r\nfrom spack import *\r\n\r\nclass PyWx(AutotoolsPackage):\r\n    homepage = \"https://wxpython.org\"\r\n    url      = \"https://github.com/wxWidgets/wxPython/archive/wxPy-2.8.11.0.tar.gz\"\r\n\r\n    version('2.8.11', '7eb7ad387afac3fc36b55a9c1bd28981')\r\n\r\n    extends('python')\r\n```\r\n\r\n### Expected Result\r\n\r\nCompile to succeed\r\n\r\n### Actual Result\r\nGCC invokes the linker when making a precompiled header, which then errors as there is nothing to link.\r\n```\r\n/usr/lib/../lib64/crt1.o: In function `_start':\r\n/home/abuild/rpmbuild/BUILD/glibc-2.22/csu/../sysdeps/x86_64/start.S:114: undefined reference to `main'\r\ncollect2: error: ld returned 1 exit status\r\n```\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install py-wx\r\n```\r\n\r\n### Information on your system\r\nRunning this on a SLES12SP3 box with the custom package noted above.\r\n\r\nAfter a dive, I found that the lib/spack/env/gcc/g++ was appending a number of linker arguments to the command, and that these caused the g++ command to error. Testing with GCC 8.1.0 showed that it exhibits the same behavior.\r\n\r\nI'm not sure if there is a good solution here, except for maybe extending the `cc` script to extend the add_rpaths test's to look at the final file extension of the -o argument, but that feels flimsy to me.\r\n\r\n",
+    "user": "daveh86",
+    "url": "https://api.github.com/repos/spack/spack/issues/8640",
+    "updated_at": "2018-08-06 19:09:59",
+    "created_at": "2018-07-04 03:32:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Spack linker variables can make GCC misbehave",
+    "number": 8640,
+    "milestone": null,
+    "labels": [
+        "compilers"
+    ],
+    "id": 338118851,
+    "html_url": "https://github.com/spack/spack/issues/8640",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 3
+}

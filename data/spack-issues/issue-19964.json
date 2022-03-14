@@ -1,0 +1,19 @@
+{
+    "body": "<!-- Thanks for taking the time to report this build failure. To proceed with the report please:\r\n\r\n1. Title the issue \"Installation issue: <name-of-the-package>\".\r\n2. Provide the information required below.\r\n\r\nWe encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively! -->\r\n\r\nThe source of the build errors seems to be GFortran 10's new argument mismatch checker. https://gcc.gnu.org/gcc-10/porting_to.html . Source changes are needed to ultimately fix it, but adding `-fallow-argument-mismatch` temporarily suppresses it. \r\n\r\n### Steps to reproduce the issue\r\n\r\n<!-- Fill in the exact spec you are trying to build and the relevant part of the error message -->\r\n```console\r\n$ spack install amdscalapack %gcc@10.2.0\r\n...\r\n[ 34%] Building Fortran object CMakeFiles/scalapack.dir/SRC/slar1va.f.o\r\n/home/cloud/spack/opt/spack/linux-tlinux2-x86_64/gcc-10.2.0/openmpi-4.0.5-sxpobx6y7a4kacur5sa5fn3jncnwwjql/bin/mpif90 -DAdd_ -Dscalapack_EXPORTS  -O2 -DNDEBUG -O2 -fPIC   -cpp -DF2C -DUSE_BLAS -c /tmp/cloud/spack-stage/spack-stage-amdscalapack-2.2-o2hj43lksfpwo4mqaifw3hljkefpenqo/spack-src/SRC/slar1va.f -o CMakeFiles/scalapack.dir/SRC/slar1va.f.o\r\n/tmp/cloud/spack-stage/spack-stage-amdscalapack-2.2-o2hj43lksfpwo4mqaifw3hljkefpenqo/spack-src/SRC/psstebz.f:778:65:\r\n\r\n  775 |             CALL IGEBR2D( ONEDCONTEXT, 'ALL', ' ', 1, 1, TORECV, 1, 0,\r\n      |                                                         2\r\n......\r\n  778 |                CALL IGEBR2D( ONEDCONTEXT, 'ALL', ' ', TORECV, 1, IWORK,\r\n      |                                                                 1\r\nError: Rank mismatch between actual argument at (1) and actual argument at (2) (scalar and rank-1)\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n$ spack debug report\r\n* **Spack:** 0.15.4-1979-423e80a\r\n* **Python:** 3.8.5\r\n* **Platform:** linux-tlinux2-x86_64\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- Please upload the following files. They should be present in the stage directory of the failing build. Also upload any config.log or similar file if one exists. -->\r\n[spack-build-env.txt](https://github.com/spack/spack/files/5557553/spack-build-env.txt)\r\n[spack-build-out.txt](https://github.com/spack/spack/files/5557558/spack-build-out.txt)\r\n\r\n\r\n\r\n<!-- Some packages have maintainers who have volunteered to debug build failures. Run `spack maintainers <name-of-the-package>` and @mention them here if they exist. -->\r\n\r\n@amd-toolchain-support \r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [x] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "mattchan-tencent",
+    "url": "https://api.github.com/repos/spack/spack/issues/19964",
+    "updated_at": "2020-11-18 03:35:35",
+    "created_at": "2020-11-18 03:35:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: amdscalapack with GCC10 fails",
+    "number": 19964,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 745298950,
+    "html_url": "https://github.com/spack/spack/issues/19964",
+    "assignees": [],
+    "comments": 0
+}

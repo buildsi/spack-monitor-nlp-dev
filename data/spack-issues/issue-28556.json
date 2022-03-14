@@ -1,0 +1,22 @@
+{
+    "body": "depends on #28392 \r\nfixes #28540 \r\nfixes #28510 \r\n\r\nThis PR builds on #28392 by adding a convenience command to create a local mirror that can be used to bootstrap Spack. This is to overcome the inconvenience in setting up this mirror manually, which has been reported when trying to setup Spack on air-gapped systems.\r\n\r\nUsing this PR the user can create a bootstrapping mirror, on a machine with internet access, by:\r\n```console\r\n% spack bootstrap mirror --binary-packages /opt/bootstrap\r\n==> Adding \"clingo-bootstrap@spack+python %apple-clang target=x86_64\" and dependencies to the mirror at /opt/bootstrap/local-mirror\r\n==> Adding \"gnupg@2.3: %apple-clang target=x86_64\" and dependencies to the mirror at /opt/bootstrap/local-mirror\r\n==> Adding \"patchelf@0.13.1:0.13.99 %apple-clang target=x86_64\" and dependencies to the mirror at /opt/bootstrap/local-mirror\r\n==> Adding binary packages from \"https://github.com/alalazo/spack-bootstrap-mirrors/releases/download/v0.1-rc.2/bootstrap-buildcache.tar.gz\" to the mirror at /opt/bootstrap/local-mirror\r\n\r\nTo register the mirror on the platform where it's supposed to be used run the following command(s):\r\n  % spack bootstrap add --trust local-sources /opt/bootstrap/metadata/sources\r\n  % spack bootstrap add --trust local-binaries /opt/bootstrap/metadata/binaries\r\n```\r\nThe mirror has to be moved over to the air-gapped system, and registered using the commands shown at prompt. The command has options to:\r\n1. Add pre-built binaries downloaded from Github (default is not to add them)\r\n2. Add development dependencies for Spack (currently the Python packages needed to use `spack style`)\r\n\r\nModifications:\r\n- [x] Add the `spack bootstrap mirror` command\r\n- [x] Add documentation ",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/28556",
+    "updated_at": "2022-03-09 16:12:17",
+    "created_at": "2022-01-23 08:29:39",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add a command to generate a local mirror for bootstrapping",
+    "number": 28556,
+    "milestone": null,
+    "labels": [
+        "documentation",
+        "defaults",
+        "tests",
+        "commands"
+    ],
+    "id": 1111808622,
+    "html_url": "https://github.com/spack/spack/pull/28556",
+    "assignees": [],
+    "comments": 30
+}

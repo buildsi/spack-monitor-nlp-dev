@@ -1,0 +1,22 @@
+{
+    "body": "As a user I want packages that are built in debug mode to NOT delete their source files after a successful build so that I can map assembly lines to the corresponding lines of the sources when debugging.\r\n\r\n### Rationale\r\n\r\nDuring the build of packages Spack currently uses a *staging area* (where sources are expanded and built) and  a *prefix* (where binaries or other artifacts are installed). The staging area is usually deleted upon a successful build, to avoid wasting disk space. As the  staging area contains the source files this operation renders any installed binary with debug symbols mostly unusable for debug purposes.\r\n\r\n### Description\r\n\r\nA simple solution to this issue could be to move the *staging area* to e.g. `<prefix>/.spack/sources` when packages are built with debug symbols (and avoid removing that directory, of course). This solution could be optimized for space by further separating  the *staging area* into a:\r\n- a *source area* where source files are expanded\r\n- a *build area* where the compilation process is executed\r\n\r\nand move only the *source area* into a sub-folder of `<prefix>`. This latter solution requires packages to be buildable out of source.\r\n\r\n### Additional information\r\nI think this feature might become even more useful when #9612 will be merged, as people will be facilitated in setting-up development environments that will probably build stuff in debug mode.",
+    "user": "alalazo",
+    "url": "https://api.github.com/repos/spack/spack/issues/9741",
+    "updated_at": "2018-11-29 15:36:09",
+    "created_at": "2018-11-06 15:40:42",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Packages built in debug mode should not purge sources",
+    "number": 9741,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "discussion",
+        "proposal",
+        "debugging"
+    ],
+    "id": 377904166,
+    "html_url": "https://github.com/spack/spack/issues/9741",
+    "assignees": [],
+    "comments": 4
+}

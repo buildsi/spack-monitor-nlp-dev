@@ -1,0 +1,19 @@
+{
+    "body": "@davydden \r\nSee #4341; I'm still getting scalapack error installing petsc 3.4.4.  (I know 3.4.4 is ancient; but it's what I need to install at this point).\r\n\r\n```\r\n*******************************************************************************\r\n         UNABLE to CONFIGURE with GIVEN OPTIONS    (see configure.log for details):\r\n-------------------------------------------------------------------------------\r\nYou must specify a path for scalapack with --with-scalapack-dir=<directory>\r\nIf you do not want scalapack, then give --with-scalapack=0\r\nYou might also consider using --download-scalapack instead\r\n*******************************************************************************\r\n```\r\n\r\nSounds like maybe we should re-do #4341 to use `--with-scalapack-dir` instead of `--with-scalapack-lib`???  Update: this worked for me, at least installing PETSc 3.4.4:\r\n\r\n```\r\n            options.extend([\r\n#                '--with-scalapack-lib=%s' % scalapack.joined(),\r\n                '--with-scalapack-dir=%s' % spec['scalapack'].prefix,\r\n                '--with-scalapack=1'\r\n```\r\n",
+    "user": "citibeth",
+    "url": "https://api.github.com/repos/spack/spack/issues/12937",
+    "updated_at": "2019-09-25 03:56:24",
+    "created_at": "2019-09-25 01:45:16",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Continued scalapack errors building PETSc",
+    "number": 12937,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 498002651,
+    "html_url": "https://github.com/spack/spack/issues/12937",
+    "assignees": [],
+    "comments": 2
+}

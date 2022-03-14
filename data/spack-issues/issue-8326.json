@@ -1,0 +1,21 @@
+{
+    "body": "Since I can not use `Intel-MKL` on a local cluster due to [this issue](https://github.com/spack/spack/issues/8324#issuecomment-393418311), I am trying to build `netlib-scalapack`. Unfortunately this does not work.\r\n\r\n### Expected Result\r\n\r\n`netlib-scalapack` installs.\r\n\r\n### Actual Result\r\n\r\n```\r\n...\r\n-- Check for working Fortran compiler: /home/woody/iwtm/iwtm108/spack/lib/spack/env/intel/ifort\r\n-- Check for working Fortran compiler: /home/woody/iwtm/iwtm108/spack/lib/spack/env/intel/ifort  -- works\r\n...\r\n\r\n-- Testing FORTRAN_MANGLING\r\nCMake Error at CMAKE/FortranMangling.cmake:65 (MESSAGE):\r\n  FORTRAN_MANGLING:ERROR\r\n  /home/woody/iwtm/iwtm108/spack/var/spack/stage/netlib-scalapack-2.0.2-tq237tf5zdj4vuu2f2ppo4wgu74fnu2d/scalapack-2.0.2/BLACS/INSTALL/xintface:\r\n  error while loading shared libraries: libintlc.so.5: cannot open shared\r\n  object file: No such file or directory\r\n\r\nCall Stack (most recent call first):\r\n  CMakeLists.txt:124 (FORTRAN_MANGLING)\r\n\r\n\r\n-- Configuring incomplete, errors occurred!\r\n```\r\n\r\nInterestingly I do have \r\n```\r\n    extra_rpaths:\r\n     - /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/compiler/lib/intel64\r\n     - /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/compiler/lib/intel64_lin\r\n```\r\nset and the library in question is there:\r\n\r\n```\r\n$ ls /apps/intel/ComposerXE2017/compilers_and_libraries_2017.5.239/linux/compiler/lib/intel64_lin | grep libintlc\r\nlibintlc.so\r\nlibintlc.so.5\r\n```\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack install netlib-scalapack%intel^openblas\r\n```\r\n\r\n### Information on your system\r\n\r\ncentos7",
+    "user": "davydden",
+    "url": "https://api.github.com/repos/spack/spack/issues/8326",
+    "updated_at": "2018-07-20 13:06:02",
+    "created_at": "2018-05-31 07:17:00",
+    "closed_at": "None",
+    "state": "open",
+    "title": "netlib-scalapack does not build with Intel compilers 17.0.5",
+    "number": 8326,
+    "milestone": null,
+    "labels": [
+        "build-error",
+        "blas-lapack-scalapack",
+        "intel"
+    ],
+    "id": 328021078,
+    "html_url": "https://github.com/spack/spack/issues/8326",
+    "assignees": [],
+    "comments": 2
+}

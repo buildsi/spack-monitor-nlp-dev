@@ -1,0 +1,22 @@
+{
+    "body": "Activating a package against a chained upstream succeeds, changing the upstream in the process, and it should not.\r\n\r\nWe are using spack chains to accelerate our test builds and found this issue when during the tests we try to activate any python packages. (In hindsight this step, activating a python package built against an upstream python, should have been dropped but we didn't consider this implication at the time.)\r\n\r\nFor example, activating py-setuptools against an upstream python creates links on the upstream python. And additionally blocks the activation of the same package on the upstream instance.\r\n\r\n### Steps to reproduce the issue\r\n```console\r\n$ git clone git@github.com:spack/spack.git upstream\r\n$ git clone git@github.com:spack/spack.git\r\n\r\n# install Python in the upstream instance\r\n$ source upstream/share/spack/setup-env.sh\r\n$ spack install python@2.7.16%gcc@8.3.0\r\n\r\n# configure the chain to point to the upstream instance\r\n$ cat spack/etc/spack/upstreams.yaml\r\nupstreams:\r\n  spack-upstream:\r\n    install_tree: (...)/upstream/opt/spack\r\n\r\n# install py-setuptools on the downstream instance and activate it\r\n$ source spack/share/spack/setup-env.sh\r\n$ spack install py-setuptools ^/(hash of upstream python)\r\n$ spack activate /(hash of py-setuptools)\r\n```\r\nAt this point under `upstream/opt/spack/(...)/python-2.7.16-(...)/{bin,lib/python2.7/site-packages}` there are links to `spack/opt/spack/(...)/py-setuptools/(...)`. So, the 'upstream' instance was changed by a command executed in the 'downstream' one.\r\n\r\n### Error Message\r\n\r\nThere was no error message when activating a package against an upstream installation, I would expect it should fail. I assumed that an upstream installation would never be touched by downstream one (and as far as I can tell nothing like this is mentioned in the documentation).\r\n\r\n### Information on system\r\n- RedHat EL 7.6\r\n- no custom configuration of spack except for `upstreams.yaml` file above\r\n- compiler used in this example was an external one (but standard `gcc`, actually deployed with spack) \r\n",
+    "user": "rmsds",
+    "url": "https://api.github.com/repos/spack/spack/issues/13268",
+    "updated_at": "2020-03-17 19:37:32",
+    "created_at": "2019-10-20 00:55:48",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Activating a package against a (chained) upstream spack should fail",
+    "number": 13268,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "impact-medium"
+    ],
+    "id": 509528521,
+    "html_url": "https://github.com/spack/spack/issues/13268",
+    "assignees": [
+        "scheibelp"
+    ],
+    "comments": 0
+}

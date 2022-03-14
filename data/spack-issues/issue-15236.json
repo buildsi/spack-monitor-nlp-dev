@@ -1,0 +1,22 @@
+{
+    "body": "`spack env activate myenv` doesn't seem to load system-provided modules.\r\n\r\nHere is an example: on Theta I have boost (along with other packages) already installed as a system-provided module, and I tell spack about it as follows in my packages.yaml file:\r\n\r\n```\r\n   boost:\r\n        modules:\r\n            boost@1.64.0 arch=cray-cnl6-mic_knl: boost/gnu/1.64.0\r\n        buildable: False\r\n```\r\n\r\nI created an environment `myenv` as follows:\r\n```\r\nspack env create myenv\r\nspack env activate myenv\r\nspack add boost\r\nspack add X # where X is a package that depends on boost\r\nspack install\r\n```\r\nThis installs everything correctly and spack is picking up the boost from the system.\r\n\r\nHowever later, if I activate the environment, it doesn't load the boost module. I have to explicitely do `module load boost/gnu/1.64.0`.\r\n\r\nThis happens to all the packages that are system-provided as modules.",
+    "user": "mdorier",
+    "url": "https://api.github.com/repos/spack/spack/issues/15236",
+    "updated_at": "2020-02-27 15:37:23",
+    "created_at": "2020-02-26 18:08:20",
+    "closed_at": "None",
+    "state": "open",
+    "title": "spack env activate doesn't load system modules",
+    "number": 15236,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 571563850,
+    "html_url": "https://github.com/spack/spack/issues/15236",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 1
+}

@@ -1,0 +1,19 @@
+{
+    "body": "When building gsl there are a few problems.\r\n1) gsl patch fails on 2.6\r\n2) when using +external-cblas with nvhpc+blas:\r\n==> Error: NoHeadersError: Unable to locate nvhpc headers in /opt/nvidia/hpc_sdk/include\r\nremoving CBLAS_CFLAGS= if '^nvhpc+blas' in self.spec:\r\none can go further:\r\n3) when linking it fails to find aio_return and al function which are to be found with -lrt\r\n$ spack install gsl@2.5+external-cblas %nvhpc ^nhpc+blas\r\n==> Error: NoHeadersError: Unable to locate nvhpc headers in /opt/nvidia/hpc_sdk/include\r\nThis error occurs on Ubuntu18.04 wuth external nvhpc@21.2.\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.16.0-1079-af988fc32d\r\n* **Python:** 3.6.9\r\n* **Platform:** linux-ubuntu18.04-zen2\r\n* **Concretizer:** original\r\n\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\npackages:\r\n  nvhpc:\r\n    externals:\r\n    - spec: nvhpc@21.2+mpi+blas+lapack\r\n      prefix: /opt/nvidia/hpc_sdk\r\n      modules:\r\n        - nvhpc/21.2\r\n    - spec: nvhpc@21.2~mpi+blas+lapack\r\n      prefix: /opt/nvidia/hpc_sdk\r\n      modules:\r\n        - nvhpc-nompi/21.2\r\ncompilers:\r\n- compiler:\r\n    spec: nvhpc@21.2\r\n    paths:\r\n      cc: /opt/nvidia/hpc_sdk/Linux_x86_64/21.2/compilers/bin/nvc\r\n      cxx: /opt/nvidia/hpc_sdk/Linux_x86_64/21.2/compilers/bin/nvc++\r\n      f77: /opt/nvidia/hpc_sdk/Linux_x86_64/21.2/compilers/bin/nvfortran\r\n      fc: /opt/nvidia/hpc_sdk/Linux_x86_64/21.2/compilers/bin/nvfortran\r\n    flags: {}\r\n    operating_system: ubuntu18.04\r\n    target: x86_64\r\n    modules: [nvhpc/21.2]\r\n    environment:\r\n      set:\r\n        MODULEPATH: ${MODULEPATH}:/opt/nvidia/hpc_sdk/modulefiles\r\n    extra_rpaths: []\r\n\r\n### General information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have run `spack maintainers <name-of-the-package>` and @mentioned any maintainers\r\n- [ ] I have uploaded the build log and environment files\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n",
+    "user": "cessenat",
+    "url": "https://api.github.com/repos/spack/spack/issues/22380",
+    "updated_at": "2021-07-31 08:23:36",
+    "created_at": "2021-03-18 15:51:06",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: gsl",
+    "number": 22380,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 834981474,
+    "html_url": "https://github.com/spack/spack/issues/22380",
+    "assignees": [],
+    "comments": 2
+}

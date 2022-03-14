@@ -1,0 +1,23 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\nSpack origin/develop now fails to install packages if the spack directory itself is cloned in a modestly deep path.  This is particularly problematic for CI environments where the CI framework is dictating the path/sandbox to use for testing.\r\n\r\n### Steps to reproduce the issue\r\n\r\nYou can reproduce the problem with this script, which creates a 103 character directory, clones, spack, and attempts to install a package:\r\n\r\n```\r\n#!/bin/bash\r\n\r\nLONGPATH=\"/tmp/path_that_is_kinda_long_but_not_that_looooooooooooooooooooooooooooooooooooooooooooooooooooooooong\"\r\n\r\necho =======================================================\r\necho === Testing spack install in path with length `echo $LONGPATH | wc -c`:\r\necho =======================================================\r\nmkdir -p $LONGPATH\r\ncd $LONGPATH\r\ngit clone https://github.com/spack/spack.git\r\n. spack/share/spack/setup-env.sh\r\nspack install ed\r\nif [ $? -ne 0 ]; then\r\n    echo \"=== FAILURE\"\r\nelse\r\n    echo \"=== SUCCESS\"\r\nfi\r\n\r\nrm -rf $LONGPATH\r\n```\r\n\r\n### Error Message\r\n\r\n`==> Error: SbangPathError: Install tree root is too long. Spack cannot patch shebang lines.`\r\n\r\n### Information on your system\r\n\r\nI have triggered this on 4 different systems.  I don't think it matters much, but the above script was tested on Ubuntu 20.10.\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [ ] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "carns",
+    "url": "https://api.github.com/repos/spack/spack/issues/22548",
+    "updated_at": "2021-05-04 17:49:50",
+    "created_at": "2021-03-25 16:48:05",
+    "closed_at": "None",
+    "state": "open",
+    "title": "installations fail if spack's install path is too long",
+    "number": 22548,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "ecp",
+        "triage",
+        "ci",
+        "alcf"
+    ],
+    "id": 841118849,
+    "html_url": "https://github.com/spack/spack/issues/22548",
+    "assignees": [],
+    "comments": 4
+}

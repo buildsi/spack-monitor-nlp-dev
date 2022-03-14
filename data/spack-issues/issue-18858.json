@@ -1,0 +1,20 @@
+{
+    "body": "<!--*Please add a concise summary of your suggestion here.*-->\r\n\r\nrdtscp is a feature used by some software but its only available on x86 CPUs.  To make porting to non-x86 platforms it would be nice to highlight incompatible options early rather than fail in the software build.\r\n\r\n### Rationale\r\n\r\nrdtscp is a CPU feature and is included in the `/proc/cpuinfo`.  This is used by packages such as Gromacs and even has a variant with default true to use it in the build.  If the variant is not switched off then the build will fail on CPUs without the feature (such as thunderx2).  It would be nice to check if the CPU supports rdtscp before you start compiling but adding rdtscp along with other CPU features.\r\n\r\n<!--*Is your feature request related to a problem? Please describe it!*-->\r\n\r\n### Description\r\n\r\n<!--*Describe the solution you'd like and the alternatives you have considered.*-->\r\nWe could check in each package if the variant is true and the target is not x86 but it should be independent of package and used similar to SSE/AVX detection.\r\n\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\nActually I remember hitting issues on Cloud platforms where I assume virtualised CPUs do not have this instruction.  This may cause issues moving it up into higher level where different x86 have different features.  Maybe this is not possible to improve as above and just have to remember to turn off the variant.\r\n\r\n### General information\r\n\r\n- [x] I have run `spack --version` and reported the version of Spack\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\nVersion of spack 0.15.4.\r\n\r\n\r\n<!--If you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack!\r\n-->",
+    "user": "tomgreen66",
+    "url": "https://api.github.com/repos/spack/spack/issues/18858",
+    "updated_at": "2020-09-22 14:22:10",
+    "created_at": "2020-09-21 22:23:59",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Add rdtscp as CPU feature",
+    "number": 18858,
+    "milestone": null,
+    "labels": [
+        "feature",
+        "microarchitectures"
+    ],
+    "id": 705954871,
+    "html_url": "https://github.com/spack/spack/issues/18858",
+    "assignees": [],
+    "comments": 1
+}

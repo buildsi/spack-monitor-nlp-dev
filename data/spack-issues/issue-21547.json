@@ -1,0 +1,20 @@
+{
+    "body": "This is an interesting bug - I was working on spack scripting, and ran into a case where (using the spack hashbang) it told me that it was not able to find spack. This might be hard to reproduce because I got it to work once, and then it never worked again.\r\n\r\n## 1. Setup Environment\r\n\r\nI first add my spack bin to the path, and also source the environment setup script (although I'm not sure this is needed)\r\n\r\n```bash\r\n$ export PATH=$PATH:$PWD/bin\r\n$ . share/spack/setup-env.sh \r\n```\r\n\r\nI created a basic script (below is `test_script.py`).\r\n\r\n```python\r\n#!/usr/bin/env spack-python\r\n\r\nfrom spack.spec import Spec\r\nprint(spack.repo)\r\nprint(\"This is successful!\")\r\n```\r\nThis worked once, but when I came back to it later, it did not.\r\n```bash\r\n$ ./test_script.py\r\n```\r\n```\r\n$ python test_script.py \r\nTraceback (most recent call last):\r\n  File \"test_script.py\", line 3, in <module>\r\n    from spack.spec import Spec\r\nModuleNotFoundError: No module named 'spack'\r\n```\r\nIt works totally fine with spack python\r\n```bash\r\n$ spack python test_script.py \r\n<module 'spack.repo' from '/home/vanessa/Desktop/Code/spack/lib/spack/spack/repo.py'>\r\nThis is successful!\r\n```\r\nor the ipython interpreter\r\n\r\n```bash\r\n$ spack python -i ipython test_script.py \r\n---------------------------------------------------------------------------\r\nNameError                                 Traceback (most recent call last)\r\n~/Desktop/Code/spack/test_script.py in <module>\r\n      2 \r\n      3 from spack.spec import Spec\r\n----> 4 print(spack.repo)\r\n      5 print(\"This is successful!\")\r\n\r\nNameError: name 'spack' is not defined\r\n```\r\n\r\nIt worked just once for me, and now I'm not able to reproduce that. Let me know if you want me to try something different! I'm on Ubuntu 20.04, spack develop branch.\r\n\r\n---------------\r\n### Update\r\nThis is what I need to do to make it successful - add the paths for spack and then the other libraries.\r\n\r\n```python\r\n#!/usr/bin/env spack-python\r\n\r\nimport sys\r\nimport os\r\n\r\nhere = os.path.dirname(os.path.abspath(__file__))\r\nspack_path = os.path.join(here, \"lib\", \"spack\")\r\nsys.path.insert(0, spack_path)\r\nspack_libs = os.path.join(spack_path, \"external\")\r\nsys.path.insert(0, spack_libs)\r\n\r\nimport spack\r\n\r\nfrom spack.spec import Spec\r\nprint(spack.repo)\r\nprint(\"This is successful!\")\r\n```\r\n```bash\r\n$ ./test_script.py \r\n<module 'spack.repo' from '/home/vanessa/Desktop/Code/spack/lib/spack/spack/repo.py'>\r\nThis is successful!\r\n```\r\nBut my impression is that, given that we use the hashbang, it should work without these extra imports. I also tried the other hasbang (spack python) which isn't supposed to work on Linux - it took me to the same result.",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/21547",
+    "updated_at": "2021-02-08 20:51:30",
+    "created_at": "2021-02-08 19:43:30",
+    "closed_at": "None",
+    "state": "open",
+    "title": "[spack scripting] Unable to import spack depending on having other imports",
+    "number": 21547,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 803869829,
+    "html_url": "https://github.com/spack/spack/issues/21547",
+    "assignees": [],
+    "comments": 1
+}

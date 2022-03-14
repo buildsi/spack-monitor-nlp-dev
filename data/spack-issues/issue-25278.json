@@ -1,0 +1,20 @@
+{
+    "body": "### Steps to reproduce\n\nI am trying to build the `chombo` package. This fails. The `edit` function in the package produces improper lines in the Makefile.\r\n\r\nIt seems that package commands such as\r\n```Python\r\n        defs_file.filter(r'^\\s*#\\s*DEBUG\\s*=\\s*', 'DEBUG = FALSE')\r\n```\r\nremove the final newline in the lines where they act, leading to run-together lines such as\r\n```\r\nDIM = 3DEBUG = FALSE#OPT           =\r\n```\r\n(these are 3 lines run together).\r\n\r\nIt seems that the regex syntax `\\s*` (and, similarly, `.*`, or `.*$`) at the end of an regex eats the final newline.\r\n\n\n### Error message\n\nI see weird build errors because the Makefile is malformed, such as\r\n```\r\n==> Installing chombo-grchombo-cka35lbilwjbx6x33ornrjwxw73bawrj\r\n==> No binary for chombo-grchombo-cka35lbilwjbx6x33ornrjwxw73bawrj found: installing from source\r\n==> No patches needed for chombo\r\n==> chombo: Executing phase: 'edit'\r\n==> chombo: Executing phase: 'build'\r\n==> Error: ProcessError: Command exited with status 2:\r\n    'gmake' '-j12' 'all'\r\n\r\n5 errors found in build log:\r\n     152    Depending BaseFabIntPlusF.ChF ...\r\n     153    cannot read =\r\n     154    Depending PetscCompGridPois.cpp ...\r\n     155    cannot read =\r\n     156    cannot read =\r\n     157    Depending FortranMayDay.cpp ...\r\n  >> 158    gmake[2]: *** No rule to make target 'd/3DEBUG=FALSEd.Darwin.64.mpic++.gfortran.DEBUG.OPT.MPI/AMR.d', needed by 'o/3DEB\r\n            UG=FALSEd.Darwin.64.mpic++.gfortran.DEBUG.OPT.MPI/AMR.o'.  Stop.\r\n     159    gmake[2]: *** Waiting for unfinished jobs....\r\n     160    cannot read =\r\n     161    cannot read =\r\n     162    Depending Callbacks.cpp ...\r\n     163    cannot read =\r\n     164    Depending CH_Timer.cpp ...\r\n```\r\nNote the nonsensical make target.\r\n\n\n### Information on your system\n\n$ spack debug report\r\n* **Spack:** 0.16.2-3818-c178000d18\r\n* **Python:** 3.8.2\r\n* **Platform:** darwin-bigsur-skylake\r\n* **Concretizer:** original\r\n\n\n### General information\n\n- [X] I have run `spack debug report` and reported the version of Spack/Python/Platform\n- [X] I have searched the issues of this repo and believe this is not a duplicate\n- [X] I have run the failing commands in debug mode and reported the output",
+    "user": "eschnett",
+    "url": "https://api.github.com/repos/spack/spack/issues/25278",
+    "updated_at": "2021-08-06 14:04:11",
+    "created_at": "2021-08-05 17:28:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "FileFilter eats newline characters",
+    "number": 25278,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "triage"
+    ],
+    "id": 962046116,
+    "html_url": "https://github.com/spack/spack/issues/25278",
+    "assignees": [],
+    "comments": 2
+}

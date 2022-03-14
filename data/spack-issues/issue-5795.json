@@ -1,0 +1,19 @@
+{
+    "body": "If you wish to construct a package with multiple active development versions, you're forced into awkward dependency semantics for any changed dependencies. Where you would ordinarily say:\r\n```\r\ndepends_on(old_dep_spec, when=@:last_old_version)\r\ndepends_on(new_dep_spec, when=@first_new_version:)\r\n```\r\nyou now must say:\r\n```\r\ndepends_on(old_dep_spec, when=@0.0.0:last_old_version)\r\ndepends_on(new_dep_spec, when=@first_new_version:@999.999.999)\r\ndepends_on(WIP_dep_spec, when=@develop)\r\ndepends_on(WIP_dep_spec, when=@some_dev_branch)\r\n```\r\nIt would be convenient to have a way to express the following concepts:\r\n\r\n1) Explicit half-open version intervals, rather than repeating nines as a hack.\r\n2) Named versions may be ordered with respect to each other and with respect to numeric versions\r\n3) \\@develop should be a marker for \"first version of those that are named and successors to all numeric releases\"\r\n\r\nThis allows the above to become:\r\n```\r\ndepends_on(old_dep_spec, when=@:first_new_version)\r\ndepends_on(new_dep_spec, when=@first_new_version:@develop)\r\ndepends_on(WIP_dep_spec, when=@develop:)\r\n```\r\npossibly with an explicit marker for half-open intervals, and allows master and some_dev_branch to be named versions rather than a single variable \\@develop.",
+    "user": "wrwilliams",
+    "url": "https://api.github.com/repos/spack/spack/issues/5795",
+    "updated_at": "2017-11-02 21:24:53",
+    "created_at": "2017-10-17 19:44:35",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Feature request: enhance version range specification",
+    "number": 5795,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 266254050,
+    "html_url": "https://github.com/spack/spack/issues/5795",
+    "assignees": [],
+    "comments": 7
+}

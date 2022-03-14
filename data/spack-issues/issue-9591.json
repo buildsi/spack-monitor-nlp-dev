@@ -1,0 +1,19 @@
+{
+    "body": "LLVM 7 will search for CUDA on the system path. When using a more recent compiler than GCC 5, the build will fail. This prevents the use of recent GCCs to build LLVM when a system-installation of CUDA is present.\r\n\r\n```\r\nspack install llvm@7.0.0%gcc@6.3.0+all_targets build_type=Release +clang+compiler-rt+gold+internal_unwind+libcxx~link_dylib+lld+lldb+polly~python~shared_libs\r\n...\r\n     3028    In file included from /usr/local/cuda/include/cuda_runtime.h:78:0,\r\n     3029                     from <command-line>:0:\r\n  >> 3030    /usr/local/cuda/include/host_config.h:119:2: error: #error -- unsu\r\n             pported GNU version! gcc versions later than 5 are not supported!\r\n     3031     #error -- unsupported GNU version! gcc versions later than 5 are\r\n             not supported!\r\n```\r\n\r\nA CMakeList.txt from a successful build shows numerous CUDA libraries are picked up by the build system.\r\n\r\n``` bash\r\n$ grep -i cuda `spack location -i llvm@7.0.0 %gcc@5.4.0`/.spack/archived-files/spack-build/CMakeCache.txt | grep so\\$\r\nCUDA_CUDART_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcudart.so\r\nCUDA_CUDA_LIBRARY:FILEPATH=/usr/lib64/libcuda.so\r\nCUDA_cublas_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcublas.so\r\nCUDA_cufft_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcufft.so\r\nCUDA_cupti_LIBRARY:FILEPATH=/usr/local/cuda/extras/CUPTI/lib64/libcupti.so\r\nCUDA_curand_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcurand.so\r\nCUDA_cusolver_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcusolver.so\r\nCUDA_cusparse_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcusparse.so\r\nCUDA_nppc_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnppc.so\r\nCUDA_nppi_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnppi.so\r\nCUDA_npps_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnpps.so\r\nCUDA_rt_LIBRARY:FILEPATH=/usr/lib64/librt.so\r\nLIBOMPTARGET_DEP_CUDA_DRIVER_LIBRARIES:FILEPATH=/usr/lib64/libcuda.so\r\n```",
+    "user": "sknigh",
+    "url": "https://api.github.com/repos/spack/spack/issues/9591",
+    "updated_at": "2020-01-15 10:08:19",
+    "created_at": "2018-10-19 18:46:04",
+    "closed_at": "None",
+    "state": "open",
+    "title": "LLVM 7 hidden cuda dependency breaks builds",
+    "number": 9591,
+    "milestone": null,
+    "labels": [
+        "build-error"
+    ],
+    "id": 372073516,
+    "html_url": "https://github.com/spack/spack/issues/9591",
+    "assignees": [],
+    "comments": 0
+}

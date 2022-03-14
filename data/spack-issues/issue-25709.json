@@ -1,0 +1,19 @@
+{
+    "body": "### Summary\r\n\r\nThis is an issue to comment on the design of https://github.com/spack/spack/pull/25665 / https://github.com/spack/spack/pull/25622 / https://github.com/spack/spack/pull/25573.\r\n\r\nCurrently we have one hook runner (let me just call it even handler) for each hook (aka event):\r\n\r\n```python\r\npre_install = _HookRunner('pre_install') \r\npost_install = _HookRunner('post_install') \r\n...\r\npost_env_write = _HookRunner('post_env_write')\r\n```\r\n\r\nand they are called like this:\r\n\r\n```python\r\nspack.hooks.pre_install(*args, **kwargs)\r\n```\r\n\r\nThere are some downsides to this\r\n\r\n1. Can't easily disable them in unit tests, you'd have to disable them individually\r\n2. When you write unit tests that test whether a function emits one or more events with the right arguments, it's a bit cumbersome to work with `args` and `kwargs`, working with objects is easier.\r\n\r\nIt'd be very useful to be able to:\r\n\r\n1. Disable all event handlers if they are irrelevant to tests (to make unit tests faster)\r\n2. Have a special test event handler that just collects events, and has some helper functions so you can easily unit test whether a particular function emits a particular event with the right args (instead of integration tests we have now where we test the effects of the event handler)\r\n\r\nHopefully this would make Spack a little bit more modular.\r\n\r\n### Description\r\n\r\n1. What we currently have:\r\n    ```python\r\n    spack.hooks.on = _HookRunner()\r\n    spack.hooks.pre_install(*args, **kwargs)\r\n    ```\r\n2. The quick & dirty solution, have a single callable object `on` in the `hooks` modules and pass the event name as a string:\r\n    ```python\r\n    spack.hooks.on = HookRunner(['hook_a', 'hook_b', ..., 'hook_z'])\r\n    spack.hooks.on('pre_install', *args, **kwargs)\r\n    ```\r\n    @vsoch mentioned you could potentially rework this so `spack.hooks.pre_install(args, kwargs)` would effectively call `spack.hooks.on('pre_install', *args, **kwargs)`, although I'm not 100% sure how this goes since `hooks` is a module.\r\n3. Or a slightly more useful solution is to have event objects:\r\n    ```python\r\n    spack.hooks.on = HookRunner(['hook_a', 'hook_b', ..., 'hook_z'])\r\n    spack.hooks.on(PreInstall(...))\r\n    ```\r\n\r\nI like the third option because it makes it easier to write unit tests that check whether the event has the correct arguments without having to deal with `args` and `kwargs`, for instance:\r\n\r\n```python\r\n# some runner that does not handle events\r\n# it just collects all emited events in a list\r\nwith spack.hooks.use_runner(MockHookRunner()) as runner:\r\n  spack.do_something()\r\n  phase_errors = runner.by_type(PhaseError)\r\n  assert len(phase_errors) == 1\r\n  event = phase_errors[0]\r\n  assert event.pkg == 'mpich'\r\n  assert event.phase_name == 'build'\r\n```\r\n\r\nAlso it makes editor completion work and it is easier to list events in the Spack docs.\r\n\r\nWhat I don't know in approach 3 is how to actually dispatch to the right handler, cause Python doesn't have method overloading... Maybe the event should also have a name `event.name == 'phase_error'` so that we can run `spack.hooks.<hook>.<name>(event)`?\r\n\r\n\r\n### General information\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/25709",
+    "updated_at": "2021-08-31 08:39:27",
+    "created_at": "2021-08-31 08:14:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Rework hooks to improve modularity / testing",
+    "number": 25709,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 983575436,
+    "html_url": "https://github.com/spack/spack/issues/25709",
+    "assignees": [],
+    "comments": 0
+}

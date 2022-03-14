@@ -1,0 +1,21 @@
+{
+    "body": "### Rationale\r\n\r\nI'm trying out the new environment dev-build / develop feature, and I think it's great, so thanks a lot @becker33 :).\r\n\r\nTwo points of general feedback:\r\n\r\n1. I can't seem to build two different specs of the same package in a single environment. Seems like a limitation of using keys instead of an array in the `develop` section of an environment file. \r\n\r\n2. It would be great to be able to specify the build directory, since I might want to build out of source with a folder name that I can specify myself\r\n\r\n```yaml\r\nspack:\r\n  view: false\r\n  specs:\r\n    - sirius@develop-a ^openblas threads=openmp\r\n    - sirius@develop-b ^intel-mkl\r\n  develop:\r\n    sirius:\r\n      path: path/to/SIRIUS-branch-a\r\n      spec: sirius@develop-a\r\n    sirius: # oops\r\n      path: path/to/SIRIUS-branch-b\r\n      spec: sirius@develop-b\r\n```\r\n\r\n### Description\r\n\r\nMaybe an alternative & more condensed structure would be:\r\n\r\n```yaml\r\nspack:\r\n  view: false\r\n  specs:\r\n    - sirius@develop-a ^openblas threads=openmp\r\n    - sirius@develop-b ^intel-mkl\r\n  develop:\r\n    - spec: sirius@develop-a\r\n      path: path/to/SIRIUS-branch-a\r\n      build_directory: ./SIRIUS-a\r\n    - spec: sirius@develop-b\r\n      path: path/to/SIRIUS-branch-b\r\n      build_directory: ./SIRIUS-b\r\n```",
+    "user": "haampie",
+    "url": "https://api.github.com/repos/spack/spack/issues/19359",
+    "updated_at": "2020-10-19 12:40:13",
+    "created_at": "2020-10-19 09:25:59",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Developing different specs of the same package in an environment",
+    "number": 19359,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 724439153,
+    "html_url": "https://github.com/spack/spack/issues/19359",
+    "assignees": [
+        "becker33"
+    ],
+    "comments": 0
+}

@@ -1,0 +1,19 @@
+{
+    "body": "Per discussion here: https://github.com/spack/spack/pull/21930#discussion_r596473192, when we add Spack Monitor in this PR, we will be writing to phase specific logs, e.g., that look like this:\r\n\r\n```\r\n$ ls opt/spack/linux-ubuntu20.04-skylake/gcc-9.3.0/ncurses-6.2-v3z5jtv4ztmho7onysxesbp2wqrrbn5x/.spack/\r\narchived-files            spack-build-01-autoreconf-out.txt  spack-build-env.txt\r\ninstall_environment.json  spack-build-02-configure-out.txt   spack-build-out.txt\r\ninstall_manifest.json     spack-build-03-build-out.txt       spack-configure-args.txt\r\nrepos                     spack-build-04-install-out.txt     spec.yaml\r\n```\r\n\r\n(Note the files that start with spack-build-* and include a number that indicates the step of the phase. To not potentially break any workflows that expect this file, a function `combine_phase_logs(pkg)` is added to the PR to cat them at the end (why we see `spack-build-out.txt` in the above). However, in the discussion, it seems that we don't need to keep this one compiled log. So this issue is a request from that discussion to refactor installer.py to remove `combine_phase_logs(pkg)`, and other areas of the code (e.g., other modules and tests) that are expecting to interact with this global lob. If you are reading this issue and you have a problem with removing this file, please also comment!",
+    "user": "vsoch",
+    "url": "https://api.github.com/repos/spack/spack/issues/22399",
+    "updated_at": "2021-03-19 03:00:53",
+    "created_at": "2021-03-18 22:21:01",
+    "closed_at": "None",
+    "state": "open",
+    "title": "remove spack-build-out.txt in favor of phase specific logs",
+    "number": 22399,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 835319397,
+    "html_url": "https://github.com/spack/spack/issues/22399",
+    "assignees": [],
+    "comments": 1
+}

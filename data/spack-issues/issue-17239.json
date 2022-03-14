@@ -1,0 +1,19 @@
+{
+    "body": "In support of large scale supercomputer and even mid-tier linux clusters, it would be desirable to store in the `spec` whether the the current spack install invocation is a cross-compiling scenario.\r\n\r\n### Rationale\r\n\r\nHere is a concrete use case:\r\nhttps://github.com/spack/spack/pull/17180\r\n\r\nQuantum ESPRESSO uses autoconf and does not have much of a concept of cross-compilation AFAIK. You have to manually add `--host` if you are in a cross-compile scenario. This flag suppresses autoconf from running config tests on the login node. That is all it does.\r\n\r\nFor package developers, it would be desirable if in the `spec` there was a boolean that took into account the architecture/platform and the compilation target to determine whether we are in a cross-compilation scenario.\r\n\r\n### Description\r\n\r\nThe platform/architecture object stores information about the frontend and backend for both the os and the target. I think it would be simple if the `spec` where to take this information along with the target and determine if the package needs to be cross-compiled.\r\n\r\nBoth @becker33 and @alalazo where helpful for the aforementioned pull request. It is possible to detect cross-compilation fairly easily with `spec.satisfies(...)` for BG/Q and Cray, but it does not cover a Linux cluster with host login nodes that are different in architecture from the compute nodes. Also, cross-compilation is not as simple as just comparing target of the frontend versus the backend -- possibly also need to compare the os. We haven't even added accelerated into the mix here.\r\n\r\nIt would of been possible for me to just hack something together to get this done based on @alalazo suggestion, but it would be more desirable to have a consistent way for package developers to do this.\r\n\r\n### Additional information\r\n<!--*Add any other context about the feature request here.*-->\r\n\r\n\r\n### General information\r\n\r\nnaromero@thetalogin6:~/spack> spack --version\r\n0.14.2-1489-a20ba315f\r\n\r\n- [X] I have run `spack --version` and reported the version of Spack\r\n- [X] I have searched the issues of this repo and believe this is not a duplicate\r\n\r\n\r\n\r\n",
+    "user": "naromero77",
+    "url": "https://api.github.com/repos/spack/spack/issues/17239",
+    "updated_at": "2020-06-25 06:21:36",
+    "created_at": "2020-06-24 22:06:18",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Cross-compiling detection/stored in the spec object",
+    "number": 17239,
+    "milestone": null,
+    "labels": [
+        "feature"
+    ],
+    "id": 645008432,
+    "html_url": "https://github.com/spack/spack/issues/17239",
+    "assignees": [],
+    "comments": 0
+}

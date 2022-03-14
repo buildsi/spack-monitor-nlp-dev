@@ -1,0 +1,26 @@
+{
+    "body": "<!-- Explain, in a clear and concise way, the command you ran and the result you were trying to achieve.\r\nExample: \"I ran `spack find` to list all the installed packages and ...\" -->\r\n\r\n### Steps to reproduce the issue\r\n\r\n```console\r\n$ spack test -k test_env_activate_default_view_root_unconditional\r\n```\r\n\r\n### Error Message\r\n\r\n<!-- If Spack reported an error, provide the error message. If it did not report an error but the output appears incorrect, provide the incorrect output. If there was no error message and no output but the result is incorrect, describe how it does not match what you expect. -->\r\n```console\r\n___________________________________________________________ test_env_activate_default_view_root_unconditional ____________________________________________________________\r\n\r\nenv_deactivate = None, mutable_mock_env_path = local('/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-2/mock-env-path0')\r\n\r\n    @pytest.mark.regression('12719')\r\n    def test_env_activate_default_view_root_unconditional(env_deactivate,\r\n                                                          mutable_mock_env_path):\r\n        \"\"\"Check that the root of the default view in the environment is added\r\n        to the shell unconditionally.\"\"\"\r\n        env('create', 'test', add_view=True)\r\n    \r\n        with ev.read('test') as e:\r\n            viewdir = e.default_view.root\r\n    \r\n        out = env('activate', '--sh', 'test')\r\n>       assert 'PATH=%s' % os.path.join(viewdir, 'bin') in out\r\nE       AssertionError: assert ('PATH=%s' % '/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-2/mock-env-path0/test/.spack-env/view/bin') in 'export SPACK_ENV=/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-2/mock-env-path0/test...lders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-2/mock-env-path0/test/.spack-env/view/lib/pkgconfig;\\n'\r\nE        +  where '/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-2/mock-env-path0/test/.spack-env/view/bin' = <function join at 0x107e60af0>('/private/var/folders/21/hwq39zyj4g36x6zjfyl5l8080000gn/T/pytest-of-Adam/pytest-2/mock-env-path0/test/.spack-env/view', 'bin')\r\nE        +    where <function join at 0x107e60af0> = <module 'posixpath' from '/Users/Adam/.spack/.spack-env/view/lib/python3.8/posixpath.py'>.join\r\nE        +      where <module 'posixpath' from '/Users/Adam/.spack/.spack-env/view/lib/python3.8/posixpath.py'> = os.path\r\n\r\nlib/spack/spack/test/cmd/env.py:2061: AssertionError\r\n```\r\n\r\n### Information on your system\r\n\r\n<!-- Please include the output of `spack debug report` -->\r\n* **Spack:** 0.15.4-1925-ca3b912703\r\n* **Python:** 3.8.6\r\n* **Platform:** darwin-catalina-ivybridge\r\n<!-- If you have any relevant configuration detail (custom `packages.yaml` or `modules.yaml`, etc.) you can add that here as well. -->\r\n\r\n### Additional information\r\n\r\n<!-- These boxes can be checked by replacing [ ] with [x] or by clicking them after submitting the issue. -->\r\n- [x] I have run `spack debug report` and reported the version of Spack/Python/Platform\r\n- [x] I have searched the issues of this repo and believe this is not a duplicate\r\n- [x] I have run the failing commands in debug mode and reported the output\r\n\r\n<!-- We encourage you to try, as much as possible, to reduce your problem to the minimal example that still reproduces the issue. That would help us a lot in fixing it quickly and effectively!\r\n\r\nIf you want to ask a question about the tool (how to use it, what it can currently do, etc.), try the `#general` channel on our Slack first. We have a welcoming community and chances are you'll get your reply faster and without opening an issue.\r\n\r\nOther than that, thanks for taking the time to contribute to Spack! -->\r\n",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/19893",
+    "updated_at": "2020-11-13 11:14:48",
+    "created_at": "2020-11-13 04:30:10",
+    "closed_at": "None",
+    "state": "open",
+    "title": "env test failure: test_env_activate_default_view_root_unconditional",
+    "number": 19893,
+    "milestone": null,
+    "labels": [
+        "bug",
+        "tests",
+        "environments",
+        "views",
+        "triage"
+    ],
+    "id": 742133197,
+    "html_url": "https://github.com/spack/spack/issues/19893",
+    "assignees": [
+        "scheibelp",
+        "becker33"
+    ],
+    "comments": 2
+}

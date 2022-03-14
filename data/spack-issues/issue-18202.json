@@ -1,0 +1,25 @@
+{
+    "body": "The package/application turbine fails to build on Ascent (ORNL) with gcc/6.4.0. This is part of the E4S project.\r\nThe issue is that the turbine configure doesn't have an entry for IBM's Spectrum libmpi_ibm.so library.   They are only looking for libmpi and libmpich.    I've added a potential fix in the text below but hoping the turbine developers will give advice on whether we should patch turbine source or wait for a fix in the turbine source from the developers.\r\n\r\nTo recreate the original problem:\r\nspack -e . install --no-cache\r\nwith this spack.yaml file in your spack top-level directory:\r\n```\r\nspack:\r\n  packages:\r\n    all:\r\n      providers:\r\n        mpi: [spectrum-mpi]\r\n      target: [ppc64le]\r\n      buildable: true\r\n      version: []\r\n      paths: {}\r\n      modules: {}\r\n      compiler: []\r\n    cuda:\r\n      buildable: false\r\n      version: [10.1.243]\r\n      modules:\r\n        cuda@10.1.243: cuda/10.1.243\r\n      target: []\r\n      providers: {}\r\n      paths: {}\r\n      compiler: []\r\n    spectrum-mpi:\r\n      buildable: false\r\n      version:\r\n      - 10.3.1.2\r\n      modules:\r\n        spectrum-mpi@10.3.1.2: spectrum-mpi/10.3.1.2-20200121\r\n      target: []\r\n      providers: {}\r\n      paths: {}\r\n      compiler: []\r\n    gcc:\r\n      version:\r\n      - 6.4.0\r\n      buildable: true\r\n      target: []\r\n      providers: {}\r\n      paths: {}\r\n      modules: {}\r\n      compiler: []\r\n  specs:\r\n#  - aml\r\n#  - faodel\r\n#  - flecsi+cinch\r\n#  - petsc\r\n  - turbine\r\n#  - unifyfs\r\n  config:\r\n    misc_cache: $spack/cache\r\n    install_tree: $spack/$padding:512\r\n  view: false\r\n  concretization: separately\r\n```\r\nThe turbine build fails in this manner:\r\n```\r\n1 error found in build log:\r\n     102    Found /autofs/nccsopen-svm1_sw/ascent/.swci/1-compute/opt/spack/201\r\n            80914/linux-rhel7-ppc64le/gcc-6.4.0/spectrum-mpi-10.3.1.2-20200121-\r\n            awz2q5brde7wgdqqw4ugalrkukeub4eb/bin/mpiexec\r\n     103    Using MPI launcher: /autofs/nccsopen-svm1_sw/ascent/.swci/1-compute\r\n            /opt/spack/20180914/linux-rhel7-ppc64le/gcc-6.4.0/spectrum-mpi-10.3\r\n            .1.2-20200121-awz2q5brde7wgdqqw4ugalrkukeub4eb/bin/mpiexec\r\n     104    checking for /autofs/nccsopen-svm1_sw/ascent/.swci/1-compute/opt/sp\r\n            ack/20180914/linux-rhel7-ppc64le/gcc-6.4.0/spectrum-mpi-10.3.1.2-20\r\n            200121-awz2q5brde7wgdqqw4ugalrkukeub4eb/include/mpi.h... yes\r\n     105    MPI_LIB_DIR_ALTS /autofs/nccsopen-svm1_sw/ascent/.swci/1-compute/op\r\n            t/spack/20180914/linux-rhel7-ppc64le/gcc-6.4.0/spectrum-mpi-10.3.1.\r\n            2-20200121-awz2q5brde7wgdqqw4ugalrkukeub4eb/lib\r\n     106    checking for MPI library libmpi at /autofs/nccsopen-svm1_sw/ascent/\r\n            .swci/1-compute/opt/spack/20180914/linux-rhel7-ppc64le/gcc-6.4.0/sp\r\n            ectrum-mpi-10.3.1.2-20200121-awz2q5brde7wgdqqw4ugalrkukeub4eb/lib..\r\n            . no\r\n     107    checking for MPI library libmpich at /autofs/nccsopen-svm1_sw/ascen\r\n            t/.swci/1-compute/opt/spack/20180914/linux-rhel7-ppc64le/gcc-6.4.0/\r\n            spectrum-mpi-10.3.1.2-20200121-awz2q5brde7wgdqqw4ugalrkukeub4eb/lib\r\n            ... no\r\n  >> 108    configure: error: Could not find MPI library in any alternative loc\r\n            ations\r\n\r\nSee build log for details:\r\n  /ccsopen/home/jgalarowicz/tempspack/spack-stage/spack-stage-turbine-1.2.3-2cagfvjitzo4muzvw25v5bmyirfup362/spack-build-out.txt\r\n```\r\nThe potential fix is to add the library into the configure.ac script:\r\n```\r\ndiff -Naur turbine-1.2.3/configure.ac turbine-1.2.3.fixes/configure.ac\r\n--- turbine-1.2.3/configure.ac    2019-04-29 13:07:03.000000000 -0400\r\n+++ turbine-1.2.3.fixes/configure.ac    2020-08-11 17:47:20.662000000 -0400\r\n@@ -386,7 +386,7 @@\r\n \r\n if [[ -z \"${USE_MPI_LIB_NAME}\" ]]\r\n then\r\n-  MPI_LIB_NAME_ALTS=\"mpi mpich\"\r\n+  MPI_LIB_NAME_ALTS=\"mpi mpich mpi_ibm\"\r\n else\r\n   MPI_LIB_NAME_ALTS=\"${USE_MPI_LIB_NAME}\"\r\n fi\r\n```\r\n\r\n@jmjwozniak \r\n",
+    "user": "jgalarowicz",
+    "url": "https://api.github.com/repos/spack/spack/issues/18202",
+    "updated_at": "2020-08-20 23:14:11",
+    "created_at": "2020-08-20 20:54:02",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Installation issue: E4S project: turbine will not install on Ascent (ORNL) with gcc/6.4.0 ",
+    "number": 18202,
+    "milestone": null,
+    "labels": [
+        "question",
+        "build-error",
+        "ecp",
+        "e4s"
+    ],
+    "id": 683089759,
+    "html_url": "https://github.com/spack/spack/issues/18202",
+    "assignees": [
+        "jgalarowicz",
+        "eugeneswalker"
+    ],
+    "comments": 0
+}

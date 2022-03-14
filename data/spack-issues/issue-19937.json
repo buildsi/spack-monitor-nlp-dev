@@ -1,0 +1,22 @@
+{
+    "body": "## Update\r\n\r\nThis error may actually come down to the situation when Spack is dealing with packages that are not dependent on MPIs when Intel Parallel Studio exists in the root spec. Spack would behave as if it is operating on Linux and tries to look for a library `libmkl_blacs_intelmpi_lp64`, which does not exist since Intel's MPI is not included in macOS, thus communicating with Intel MPI is not necessary.\r\n\r\n---\r\n## The Original Description\r\n\r\nThe problem is that, when using an externally installed Intel Parallel Studio in `spack`, `spack` tries to find `intel-mpi` and other related libraries, **which is NOT included in macOS version of Intel Parallel Studio**.\r\n\r\nHere's an example:\r\n```\r\n$ spack install julia +mkl\r\n...\r\n==> Error: InstallError: Cannot locate ScaLapack/BLACS libraries:\r\n\t['libmkl_scalapack_lp64', 'libmkl_blacs_intelmpi_lp64']\r\n\r\n/Users/zhiyuan/.local/opt/spack/lib/spack/spack/build_systems/intel.py:838, in scalapack_libs:\r\n        835            shared=('+shared' in self.spec))\r\n        836        debug_print(sca_libs)\r\n        837\r\n  >>    838        if len(sca_libs) < 2:\r\n        839            raise_lib_error(\r\n        840                'Cannot locate ScaLapack/BLACS libraries:', scalapack_libnames)\r\n        841        # NB: ScaLapack is installed as \"cluster\" components within MKL or\r\n```\r\nIndeed, `libmkl_blacs_intelmpi_lp64` does not exist, because `intel-mpi` is not installed. I guess that macOS uses `mpich` instead, since I've found a similar library named `libmkl_blacs_mpich_lp64`.\r\n\r\nIs there any simple way to fix it?\r\n\r\n*Note*: System Info.\r\n```\r\n$ spack debug report\r\n```\r\n* **Spack:** 0.15.4-1930-d40a35e8d\r\n* **Python:** 3.9.0\r\n* **Platform:** darwin-bigsur-skylake\r\n\r\n`packages.yaml`:\r\n```yaml\r\npackages:\r\n  ...\r\n  intel-parallel-studio:\r\n    externals:\r\n    - spec: intel-parallel-studio@composer.2020.4 arch=darwin-bigsur-x86_64\r\n      modules:\r\n      - intel\r\n    buildable: False\r\n  ...\r\n```\r\n",
+    "user": "zhiyuanzhai",
+    "url": "https://api.github.com/repos/spack/spack/issues/19937",
+    "updated_at": "2021-05-07 13:31:15",
+    "created_at": "2020-11-16 11:00:12",
+    "closed_at": "None",
+    "state": "open",
+    "title": "An Issue with Externally Installed Intel Parallel Studio XE on macOS.",
+    "number": 19937,
+    "milestone": null,
+    "labels": [
+        "macOS",
+        "external-packages",
+        "mpi",
+        "intel"
+    ],
+    "id": 743739887,
+    "html_url": "https://github.com/spack/spack/issues/19937",
+    "assignees": [],
+    "comments": 22
+}

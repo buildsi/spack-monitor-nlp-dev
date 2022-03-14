@@ -1,0 +1,20 @@
+{
+    "body": "### Problem\r\nThis is a *partial* solution to #19085. Users would like to be able to use spec hash prefixes on the command line that they've seen from remote mirrors, e.g. from the output of `spack buildcache list -l --allarch`. Right now, hash prefixes are converted into a single concrete `Spec` instance within `SpecParser`, and they only check the local `Database` instance for that.\r\n\r\nThis is step 2 of a solution to #19085, after #22500. This is only a partial solution to it because in addition to `spack buildcache list`, we would also like to ensure that hash prefixes from the output of e.g. `spack spec` can be provided to the spack command line. We plan to create a separate `Database` instance with its own TTL for that later feature.\r\n\r\nThis requires #21723 to work for some reason.\r\n\r\n### Solution\r\n1. Add `find_prefix_hash()` to `BinaryCacheIndex` to trawl through all its known specs and match hash prefixes.\r\n1. Add `_lookup_local_or_remote_hash()` to `SpecParser` to check both the local and remote databases for a hash prefix specified on the command line.\r\n\r\n### Result\r\nWe can now perform the following set of commands:\r\n```bash\r\n# mcclanahan7@turingtarpit: ~/tools/spack 18:43:43\r\n; spack buildcache list -l --allarch xz\r\n... # lots of output...\r\n-- linux-ubuntu20.04-x86_64 / gcc@9.3.0 -------------------------\r\nighzjcu xz@5.2.5  kamfyq4 xz@5.2.5~pic  jc3ghdk xz@5.2.5+pic\r\n# mcclanahan7@turingtarpit: ~/tools/spack 18:50:13\r\n; spack spec -l xz/ighzjcu # hash prefix specified from the buildcache output\r\nInput spec\r\n--------------------------------\r\nxz@5.2.5%gcc@9.3.0 arch=linux-ubuntu20.04-x86_64\r\n\r\nConcretized\r\n--------------------------------\r\nighzjcu  xz@5.2.5%gcc@9.3.0 arch=linux-ubuntu20.04-x86_64\r\n```\r\n\r\n**HOWEVER,** it takes 1 full minute to run the above command, which traverses remote databases for a hash prefix after fetching them. We plan to follow up on this PR with a third one that uses an auxiliary local `Database` instance to store specs from buildcaches, which is expected to make matching remote spec prefixes as fast as local spec prefixes.",
+    "user": "cosmicexplorer",
+    "url": "https://api.github.com/repos/spack/spack/issues/22503",
+    "updated_at": "2022-02-19 09:19:33",
+    "created_at": "2021-03-24 02:15:58",
+    "closed_at": "None",
+    "state": "open",
+    "title": "check remote mirrors for hashes provided by the user",
+    "number": 22503,
+    "milestone": null,
+    "labels": [
+        "binary-packages",
+        "utilities"
+    ],
+    "id": 839277378,
+    "html_url": "https://github.com/spack/spack/pull/22503",
+    "assignees": [],
+    "comments": 0
+}

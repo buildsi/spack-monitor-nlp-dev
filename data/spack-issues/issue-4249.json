@@ -1,0 +1,22 @@
+{
+    "body": "I want to load modules for compilers when I build software with Spack. For example, when I build something with the Intel compiler, I want things like `xar` to be in my `PATH`. If I add the following to my `compilers.yaml`:\r\n```yaml\r\ncompilers:\r\n- compiler:\r\n    modules:\r\n    - intel/17.0.3-gbgtimn\r\n...\r\n```\r\nand try to build something, I see the following error message:\r\n```\r\n==> Error: AttributeError: 'NoneType' object has no attribute 'add_default_arg'\r\n```\r\nThe problem is that in the [`load_module` method of `build_environment.py`](https://github.com/LLNL/spack/blob/develop/lib/spack/spack/build_environment.py#L130), we search for the `modulecmd` executable and use that to load modules. But `modulecmd` isn't in my `PATH`. Is there any way we can use the normal `module` command?",
+    "user": "adamjstewart",
+    "url": "https://api.github.com/repos/spack/spack/issues/4249",
+    "updated_at": "2018-04-17 19:18:13",
+    "created_at": "2017-05-15 15:55:38",
+    "closed_at": "None",
+    "state": "open",
+    "title": "Unable to load module in compilers.yaml",
+    "number": 4249,
+    "milestone": null,
+    "labels": [
+        "compilers",
+        "modules"
+    ],
+    "id": 228761618,
+    "html_url": "https://github.com/spack/spack/issues/4249",
+    "assignees": [
+        "alalazo"
+    ],
+    "comments": 3
+}

@@ -1,0 +1,20 @@
+{
+    "body": "Close #29231 #29238\r\n\r\nSome premises:\r\n- `libtermkey` is deprecated (http://www.leonerd.org.uk/code/libtermkey/)\r\n- `libtermkey` github repository is read-only (https://github.com/neovim/libtermkey), so it may not be possible/easy to fix/patch/update it\r\n- `libtermkey` exists in spack just because it is a dependency of `neovim`\r\n\r\nIMHO, after looking at `libtermkey` and `neovim` sources:\r\n- `libtermkey` does not correctly expose its dependencies via its pkg-config script (IMHO it should expose its required dependency, begin it one of `unibilium`, `tinfo`, `ncursesw` or `ncurses`, which is detected by the `Makefile` [in this exact order of priority](https://github.com/neovim/libtermkey/blob/b7fe3af141c53cce71a244282b69ea860452120a/Makefile#L24-L35))\r\n- `neovim` CMake management of `libtermkey` is a bit hacky and error-prone\r\n\r\nAccording to `neovim` (last) [CMakeLists.txt](https://github.com/neovim/neovim/blob/cf0266fae1b24ced577dfb8673c11efd4ceb1627/CMakeLists.txt#L457-L480), when `FEAT_TUI=on` both `unibilium` and `libtermkey` are needed.\r\n\r\nSince `unibilium` is a dependency of `libtermkey`, I would say that it may be reasonable to think that `libtermkey` has to be built with `unibilium` instead of `ncurses`. I don't know the compatibility of `unibilium`/`ncurses`/`tinfo`. If they are interchangeable, this may not be a big problem.\r\n\r\nBut, this \"relationship\" enforced in `neovim`, about the presence of `unibilium` and `libtermkey` at the same time, could be exploited to be sure that when linking against `libtermkey` we also get indirectly its dependency `unibilium`.\r\n\r\nIt's not a clean and straightforward way, but I think it should do the job.\r\n\r\n\r\nI would ask @certik if he is so kind to test also this branch, i.e. building `neovim` from this branch.",
+    "user": "albestro",
+    "url": "https://api.github.com/repos/spack/spack/issues/29252",
+    "updated_at": "2022-03-01 17:32:20",
+    "created_at": "2022-02-28 22:07:03",
+    "closed_at": "None",
+    "state": "open",
+    "title": "libtermkey: constrain dependency as needed by neovim",
+    "number": 29252,
+    "milestone": null,
+    "labels": [
+        "dependencies",
+        "update-package"
+    ],
+    "id": 1154598828,
+    "html_url": "https://github.com/spack/spack/pull/29252",
+    "assignees": [],
+    "comments": 4
+}
