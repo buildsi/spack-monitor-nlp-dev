@@ -129,6 +129,19 @@ def main():
     outfile = os.path.join(datadir, "spack-issue-errors-found-spack-monitor.json")
     write_json(found, outfile)
 
+    # Flip it - show issues with same errors!
+    flipped = {}
+    for number, lines in found.items():
+        for line in lines:
+            if line not in flipped:
+                flipped[line] = []
+            flipped[line].append(number)
+
+    outfile = os.path.join(
+        datadir, "spack-issue-errors-found-spack-monitor-by-error.json"
+    )
+    write_json(flipped, outfile)
+
 
 if __name__ == "__main__":
     main()
