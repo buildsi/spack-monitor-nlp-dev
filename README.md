@@ -78,6 +78,15 @@ you shouldn't need to run the first script to get it.
 python 2.spack-issues.py
 ```
 
+And then try to match issues to error messages:
+
+```
+python 3.spack-issues-match.py
+Found 319 issues with errors, 2046 issues without matches.
+```
+
+This will generate [data/spack-issue-errors.json](data/spack-issue-errors.json)
+
 ### Vectors and Docs Visuals
 
 We next want to preprocess the data and generate models / vectors!

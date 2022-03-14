@@ -52,6 +52,7 @@ class ModelBuilder:
         for i, entry in enumerate(self.errors):
             print("%s of %s" % (i, len(self.errors)), end="\r")
 
+            # NOTE if you change this, also change in 2.spack-issues-match.py
             # Pre, text, and post
             raw = entry.get("text")
             if not raw:
