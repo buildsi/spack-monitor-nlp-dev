@@ -69,6 +69,18 @@ python 2.online-ml.py
 Again, note that a lot of the script is commented out, so you should open it first to
 decide what you want to run.
 
+#### KNN
+
+Note that we are sort of deciding that clustering can be used for visualization, but won't work well for
+actually getting a new data point and telling the participant "these are errors that are similar" because
+we can't easily keep an identifier for the original error with the model. Thus, a good (different) strategy
+is to use [knn](knn.py), which @vsoch has implemented here based on the original [creme](https://github.com/MaxHalford/creme/blob/master/creme/neighbors/knn.py) that used a minkowski distance that will allow errors to have different features.
+To make this work, I had to tweak the model slightly and choose parameters wisely:
+
+ - window size needs to be large enough to hold a good sampling of errors. E.g. the default 50 was way too small. I increased it to 10K.
+ - K can still be 5, as long as the window size is reasonably large.
+ - **importantly** I had to modify the algorithm to only keep new points (adding them to the window) that were greater than some difference threshold. The reason is because the predictions will come back badly given that we've cleared the window of a diverse set of error types. E.g., if we only add more different points to the window we wind up with a more diverse set.
+
 ### Spack Issues
 
 For spack issues, your step 2 and 3 are your last steps. If there is already a folder [data/spack-issues](data/spack-issues)

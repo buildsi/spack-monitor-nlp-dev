@@ -3,9 +3,10 @@
 # Let's try doing kmeans with river!
 
 from riverapi.main import Client
-from river import cluster, feature_extraction
+from river import cluster, feature_extraction, neighbors
 from scipy.spatial.distance import pdist, squareform
 from sklearn import manifold
+from creme import feature_extraction as creme_features
 
 import pandas
 import argparse
@@ -15,6 +16,7 @@ import pickle
 
 sys.path.insert(0, os.getcwd())
 from helpers import process_text, write_json, read_errors
+from knn import KNeighborsClassifier
 
 
 def get_parser():
@@ -69,7 +71,7 @@ class ModelBuilder:
             # Skip single words!
             if not tokens or not sentence.strip() or len(tokens) == 1:
                 continue
-            yield sentence
+            yield sentence, entry["id"]
 
     def kmeans(self, model_name="spack-errors", save_prefix="kmeans"):
         """
@@ -87,7 +89,7 @@ class ModelBuilder:
 
         # Add each error to the server (only if not done yet)
         if not exists:
-            for sentence in self.iter_sentences():
+            for sentence, _ in self.iter_sentences():
                 self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
@@ -95,6 +97,72 @@ class ModelBuilder:
             self.generate_clusters_json(model_name, save_prefix)
 
         return self.load_model("%s.pkl" % model_name)
+
+    def knn(self, model_name="spack-knn-errors", save_prefix="knn"):
+        """
+        Build the knn model with a particular name.
+        """
+        model = creme_features.TFIDF() | KNeighborsClassifier(
+            n_neighbors=5, window_size=10000
+        )
+
+        # Create a lookup of errors based on id so we can find quickly
+        print("Creating errors lookup...")
+        lookup = {}
+        for sentence, uid in self.iter_sentences():
+            lookup[uid] = sentence
+
+        # I'm using the model directly since it takes an identifier
+        print("Training KNN model with modified creme...")
+        for sentence, uid in self.iter_sentences():
+            model.fit_one(x=sentence, identifier=uid)
+
+        # Save clusters to file under data/clusters/<prefix>
+        cluster_dir = os.path.join(self.datadir, "clusters", save_prefix)
+        if not os.path.exists(cluster_dir):
+            os.makedirs(cluster_dir)
+
+        # Now get predictions
+        print("Predictions...!\n")
+        results = []
+        result_file_number = 0
+        count = 0
+        for sentence, uid in self.iter_sentences():
+
+            # Each neighbor has:
+            # x, y, error id, and minkowski distnace
+            neighbors = model.predict_one(x=sentence)
+            neighbor_ids = [x[2] for x in neighbors]
+            result = {
+                "error": sentence,
+                "error_id": uid,
+                "neighbor_ids": neighbor_ids,
+                "neighbors": [lookup[x] for x in neighbor_ids],
+            }
+            results.append(result)
+
+            if count > 10000:
+                result_meta = os.path.join(
+                    cluster_dir, "errors-%s-neighbors.json" % result_file_number
+                )
+                write_json(results, result_meta)
+                results = []
+                count = 0
+                result_file_number += 1
+            else:
+                count += 1
+
+        # Save last to file
+        if results:
+            result_meta = os.path.join(
+                cluster_dir, "errors-%s-neighbors.json" % result_file_number
+            )
+            write_json(results, result_meta)
+
+        # Save model to file
+        with open("%s.pkl" % model_name, "wb") as fd:
+            pickle.dump(model, fd)
+        return model
 
     def dbstream(self, model_name="spack-dbstream-errors", save_prefix="dbstream"):
         """
@@ -114,7 +182,7 @@ class ModelBuilder:
             exists = False
 
         if not exists:
-            for sentence in self.iter_sentences():
+            for sentence, _ in self.iter_sentences():
                 self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
@@ -141,7 +209,7 @@ class ModelBuilder:
             exists = False
 
         if not exists:
-            for sentence in self.iter_sentences():
+            for sentence, _ in self.iter_sentences():
                 self.cli.learn(x=sentence, model_name=model_name)
 
             # Save clusters to file under data/clusters/<prefix>
@@ -156,7 +224,7 @@ class ModelBuilder:
         # At this point, let's get a prediction for each
         # We can just group them based on the cluster
         clusters = {}
-        for sentence in self.iter_sentences():
+        for sentence, _ in self.iter_sentences():
             res = self.cli.predict(x=sentence, model_name=model_name)
             if res["prediction"] not in clusters:
                 clusters[res["prediction"]] = []
@@ -231,6 +299,9 @@ def main():
 
     # Get models to see if we have spack-errors
     # models = builder.cli.models()
+
+    # Build knn model and export predictions
+    # model = builder.knn(model_name="spack-knn-errors")
 
     # Build kmeans model and export clusters
     # Note that we don't need to keep doing that - spack-monitor can visualize them now
