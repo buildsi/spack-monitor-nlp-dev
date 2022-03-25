@@ -24,7 +24,10 @@ class NearestNeighbours:
     def __init__(self, window_size, p, min_distance_keep=0.05):
         self.window_size = window_size
         self.p = p
-        self.window = collections.deque(maxlen=window_size)
+        self.window = []
+
+        # Quick lookup of errors to skip distances if needed
+        self.lookup = set()
         self.min_distance_keep = min_distance_keep
 
     def update(self, x, y, identifier, k):
@@ -33,11 +36,24 @@ class NearestNeighbours:
         # Euclidean distance min is
         nearest = self.find_nearest(x, k)
 
+        # Quick way to skip calculating distances
+        key = " ".join(x)
+        if key in self.lookup:
+            return self
+
         # If we have any points too similar, don't keep
         distances = [x[3] for x in nearest if x[3] < self.min_distance_keep]
         if not distances:
+            # Have we gone over the length and need to remove one?
+            if len(self.window) >= self.window_size:
+                print("Removing from window %s: %s" % (identifier, key))
+                removed = self.window.pop(0)
+                self.lookup.remove(" ".join(removed[0]))
+
+            # Add a new x, y, and identifier to the window and lookup
             print("Adding to window %s: %s" % (identifier, " ".join(x)))
             self.window.append((x, y, identifier))
+            self.lookup.add(" ".join(" ".join(x)))
         return self
 
     def find_nearest(self, x, k):
@@ -46,7 +62,7 @@ class NearestNeighbours:
         # Compute the distances to each point in the window
         points = ((*p, minkowski_distance(a=x, b=p[0], p=self.p)) for p in self.window)
 
-        # Return the k closest points
+        # Return the k closest points, index 3 is the distance (preceeded by x,y,identifier)
         return sorted(points, key=operator.itemgetter(3))[:k]
 
 
