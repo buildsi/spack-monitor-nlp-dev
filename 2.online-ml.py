@@ -16,7 +16,10 @@ import pickle
 
 sys.path.insert(0, os.getcwd())
 from helpers import process_text, write_json, read_errors
-from knn import KNeighborsClassifier
+
+# Note that knn.py here isn't used, we use this common module
+# so that we can later import into spack monitor and install the same class
+from online_ml_custom.creme.knn import KNeighbors
 
 
 def get_parser():
@@ -102,7 +105,7 @@ class ModelBuilder:
         """
         Build the knn model with a particular name.
         """
-        model = creme_features.TFIDF() | KNeighborsClassifier(
+        model = creme_features.TFIDF() | KNeighbors(
             n_neighbors=5, window_size=10000, min_distance_keep=0.05
         )
 
@@ -115,7 +118,7 @@ class ModelBuilder:
         # I'm using the model directly since it takes an identifier
         print("Training KNN model with modified creme...")
         for sentence, uid in self.iter_sentences():
-            model.fit_one(x=sentence, identifier=uid)
+            model.fit_one(x=sentence, uid=uid)
 
         # Save clusters to file under data/clusters/<prefix>
         cluster_dir = os.path.join(self.datadir, "clusters", save_prefix)
