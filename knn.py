@@ -4,7 +4,7 @@ import operator
 from creme import base
 
 
-__all__ = ['KNeighborsRegressor', 'KNeighborsClassifier']
+__all__ = ["KNeighborsRegressor", "KNeighborsClassifier"]
 
 
 def minkowski_distance(a: dict, b: dict, p: int):
@@ -15,37 +15,39 @@ def minkowski_distance(a: dict, b: dict, p: int):
         p: Parameter for the Minkowski distance. When `p=1`, this is equivalent to using the
             Manhattan distance. When `p=2`, this is equivalent to using the Euclidean distance.
     """
-    return sum((abs(a.get(k, 0.) - b.get(k, 0.))) ** p for k in set([*a.keys(), *b.keys()]))
+    return sum(
+        (abs(a.get(k, 0.0) - b.get(k, 0.0))) ** p for k in set([*a.keys(), *b.keys()])
+    )
 
 
 class NearestNeighbours:
-
-    def __init__(self, window_size, p, min_distance_keep=2):
+    def __init__(self, window_size, p, min_distance_keep=0.05):
         self.window_size = window_size
         self.p = p
         self.window = collections.deque(maxlen=window_size)
         self.min_distance_keep = min_distance_keep
- 
+
     def update(self, x, y, identifier, k):
 
         # Don't add VERY similar points to window
-        # Euclidean distance min is 
+        # Euclidean distance min is
         nearest = self.find_nearest(x, k)
 
         # If we have any points too similar, don't keep
         distances = [x[3] for x in nearest if x[3] < self.min_distance_keep]
         if not distances:
+            print("Adding to window %s: %s" % (identifier, " ".join(x)))
             self.window.append((x, y, identifier))
         return self
 
     def find_nearest(self, x, k):
         """Returns the `k` closest points to `x`, along with their distances."""
- 
+
         # Compute the distances to each point in the window
         points = ((*p, minkowski_distance(a=x, b=p[0], p=self.p)) for p in self.window)
 
         # Return the k closest points
-        return sorted(points, key=operator.itemgetter(2))[:k]
+        return sorted(points, key=operator.itemgetter(3))[:k]
 
 
 class KNeighborsClassifier(base.Classifier):
@@ -85,12 +87,14 @@ class KNeighborsClassifier(base.Classifier):
 
     """
 
-    def __init__(self, n_neighbors=5, window_size=50, p=2):
+    def __init__(self, n_neighbors=5, window_size=50, p=2, min_distance_keep=0.05):
         self.n_neighbors = n_neighbors
         self.window_size = window_size
         self.p = p
         self.classes = set()
-        self._nn = NearestNeighbours(window_size=window_size, p=p)
+        self._nn = NearestNeighbours(
+            window_size=window_size, p=p, min_distance_keep=min_distance_keep
+        )
 
     @property
     def _multiclass(self):
@@ -116,5 +120,3 @@ class KNeighborsClassifier(base.Classifier):
         a prediction because we just want the points back.
         """
         return self._nn.find_nearest(x=x, k=self.n_neighbors)
-       
-
