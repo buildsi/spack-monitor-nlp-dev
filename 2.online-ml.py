@@ -1,137 +1,318 @@
-import operator
+#!/usr/bin/env python
 
-from creme import base
+# Let's try doing kmeans with river!
+
+from riverapi.main import Client
+from river import cluster, feature_extraction, neighbors
+from scipy.spatial.distance import pdist, squareform
+from sklearn import manifold
+from creme import feature_extraction as creme_features
+
+import pandas
+import argparse
+import sys
+import os
+import pickle
+
+sys.path.insert(0, os.getcwd())
+from helpers import process_text, write_json, read_errors
+from knn import KNeighborsClassifier
 
 
-__all__ = ["KNeighborsRegressor", "KNeighborsClassifier"]
-
-
-def minkowski_distance(a: dict, b: dict, p: int):
-    """Minkowski distance.
-    Parameters:
-        a
-        b
-        p: Parameter for the Minkowski distance. When `p=1`, this is equivalent to using the
-            Manhattan distance. When `p=2`, this is equivalent to using the Euclidean distance.
-    """
-    return sum(
-        (abs(a.get(k, 0.0) - b.get(k, 0.0))) ** p for k in set([*a.keys(), *b.keys()])
+def get_parser():
+    parser = argparse.ArgumentParser(
+        description="Spack Monitor Online ML",
+        formatter_class=argparse.RawTextHelpFormatter,
     )
+    parser.add_argument(
+        "--data_dir",
+        help="Directory with data",
+        default=os.path.join(os.getcwd(), "data"),
+    )
+    return parser
 
 
-class NearestNeighbours:
-    def __init__(self, window_size, p, min_distance_keep=0.05):
-        self.window_size = window_size
-        self.p = p
-        self.window = []
+class ModelBuilder:
+    def __init__(self, errors, host="http://127.0.0.1:8000", prefix=None, datadir=None):
+        self.errors = errors
+        self.datadir = datadir
+        self.init_client(host, prefix)
 
-        # Quick lookup of errors to skip distances if needed
-        self.lookup = set()
-        self.min_distance_keep = min_distance_keep
+    def init_client(self, host, prefix=None):
+        """
+        Create a river client (this is for development server, not yet spack monitor)
+        """
+        if prefix:
+            self.cli = Client(host, prefix=prefix)
+        else:
+            self.cli = Client(host)
 
-    def update(self, x, y, identifier, k):
+    def iter_sentences(self):
+        """
+        Yield sentences (parsed) to learn from.
+        """
+        for i, entry in enumerate(self.errors):
+            print("%s of %s" % (i, len(self.errors)), end="\r")
 
-        # Don't add VERY similar points to window
-        # Euclidean distance min is
-        nearest = self.find_nearest(x, k)
+            # NOTE if you change this, also change in 2.spack-issues-match.py
+            # Pre, text, and post
+            raw = entry.get("text")
+            if not raw:
+                continue
 
-        # Quick way to skip calculating distances
-        key = " ".join(x)
-        if key in self.lookup:
-            return self
+            # Split based on error
+            if "error:" not in raw:
+                continue
 
-        # If we have any points too similar, don't keep
-        distances = [x[3] for x in nearest if x[3] < self.min_distance_keep]
-        if not distances:
-            # Have we gone over the length and need to remove one?
-            if len(self.window) >= self.window_size:
-                print("Removing from window %s: %s" % (identifier, key))
-                removed = self.window.pop(0)
-                self.lookup.remove(" ".join(removed[0]))
+            text = raw.split("error:", 1)[-1]
+            tokens = process_text(text)
+            sentence = " ".join(tokens)
 
-            # Add a new x, y, and identifier to the window and lookup
-            print("Adding to window %s: %s" % (identifier, " ".join(x)))
-            self.window.append((x, y, identifier))
-            self.lookup.add(" ".join(" ".join(x)))
-        return self
+            # Skip single words!
+            if not tokens or not sentence.strip() or len(tokens) == 1:
+                continue
+            yield sentence, entry["id"]
 
-    def find_nearest(self, x, k):
-        """Returns the `k` closest points to `x`, along with their distances."""
+    def kmeans(self, model_name="spack-errors", save_prefix="kmeans"):
+        """
+        Build the kmeans model with a particular name.
+        """
+        # Create the model if it does not exist (I created beforehand)
+        # Number clusters is kind of arbitrary, I wanted to do >> number of packages
+        exists = True
+        if model_name not in self.cli.models()["models"]:
+            model = feature_extraction.BagOfWords() | cluster.KMeans(
+                n_clusters=100, halflife=0.4, sigma=3, seed=0
+            )
+            model_name = self.cli.upload_model(model, "cluster", model_name=model_name)
+            exists = False
 
-        # Compute the distances to each point in the window
-        points = ((*p, minkowski_distance(a=x, b=p[0], p=self.p)) for p in self.window)
+        # Add each error to the server (only if not done yet)
+        if not exists:
+            for sentence, _ in self.iter_sentences():
+                self.cli.learn(x=sentence, model_name=model_name)
 
-        # Return the k closest points, index 3 is the distance (preceeded by x,y,identifier)
-        return sorted(points, key=operator.itemgetter(3))[:k]
+            # Save clusters to file under data/clusters/<prefix>
+            self.save_model(model_name)
+            self.generate_clusters_json(model_name, save_prefix)
 
+        return self.load_model("%s.pkl" % model_name)
 
-class KNeighborsClassifier(base.Classifier):
-    """K-Nearest Neighbors (KNN) for classification.
-
-    This works by storing a buffer with the `window_size` most recent observations. A brute-force
-    search is used to find the `n_neighbors` nearest observations in the buffer to make a
-    prediction.
-
-    Parameters:
-        n_neighbors: Number of neighbors to use.
-        window_size: Size of the sliding window use to search neighbors with.
-        p: Power parameter for the Minkowski metric. When `p=1`, this corresponds to the
-            Manhattan distance, while `p=2` corresponds to the Euclidean distance.
-        weighted: Whether to weight the contribution of each neighbor by it's inverse
-            distance or not.
-
-    Example:
-
-        >>> from creme import datasets
-        >>> from creme import evaluate
-        >>> from creme import metrics
-        >>> from creme import neighbors
-        >>> from creme import preprocessing
-
-        >>> dataset = datasets.Phishing()
-
-        >>> model = (
-        ...     preprocessing.StandardScaler() |
-        ...     neighbors.KNeighborsClassifier()
-        ... )
-
-        >>> metric = metrics.Accuracy()
-
-        >>> evaluate.progressive_val_score(dataset, model, metric)
-        Accuracy: 84.55%
-
-    """
-
-    def __init__(self, n_neighbors=5, window_size=50, p=2, min_distance_keep=0.05):
-        self.n_neighbors = n_neighbors
-        self.window_size = window_size
-        self.p = p
-        self.classes = set()
-        self._nn = NearestNeighbours(
-            window_size=window_size, p=p, min_distance_keep=min_distance_keep
+    def knn(self, model_name="spack-knn-errors", save_prefix="knn"):
+        """
+        Build the knn model with a particular name.
+        """
+        model = creme_features.TFIDF() | KNeighborsClassifier(
+            n_neighbors=5, window_size=10000, min_distance_keep=0.05
         )
 
-    @property
-    def _multiclass(self):
-        return True
+        # Create a lookup of errors based on id so we can find quickly
+        print("Creating errors lookup...")
+        lookup = {}
+        for sentence, uid in self.iter_sentences():
+            lookup[uid] = sentence
 
-    def fit_one(self, x, y, identifier):
-        self.classes.add(y)
-        self._nn.update(x, y, identifier, k=self.n_neighbors)
-        return self
+        # I'm using the model directly since it takes an identifier
+        print("Training KNN model with modified creme...")
+        for sentence, uid in self.iter_sentences():
+            model.fit_one(x=sentence, identifier=uid)
 
-    def predict_one(self, x: dict):
-        """Predict the label of a set of features `x`.
-        Parameters:
-            x: A dictionary of features.
-        Returns:
-            The neighbors
-        """
-        return self.predict_proba_one(x)
+        # Save clusters to file under data/clusters/<prefix>
+        cluster_dir = os.path.join(self.datadir, "clusters", save_prefix)
+        if not os.path.exists(cluster_dir):
+            os.makedirs(cluster_dir)
 
-    def predict_proba_one(self, x):
+        # Now get predictions
+        print("Predictions...!\n")
+        results = []
+        result_file_number = 0
+        count = 0
+        for sentence, uid in self.iter_sentences():
+
+            # Each neighbor has:
+            # x, y, error id, and minkowski distnace
+            neighbors = model.predict_one(x=sentence)
+            neighbor_ids = [x[2] for x in neighbors]
+            result = {
+                "error": sentence,
+                "error_id": uid,
+                "neighbor_ids": neighbor_ids,
+                "neighbors": [lookup[x] for x in neighbor_ids],
+            }
+            results.append(result)
+
+            if count > 10000:
+                result_meta = os.path.join(
+                    cluster_dir, "errors-%s-neighbors.json" % result_file_number
+                )
+                write_json(results, result_meta)
+                results = []
+                count = 0
+                result_file_number += 1
+            else:
+                count += 1
+
+        # Save last to file
+        if results:
+            result_meta = os.path.join(
+                cluster_dir, "errors-%s-neighbors.json" % result_file_number
+            )
+            write_json(results, result_meta)
+
+        # Save model to file
+        with open("%s.pkl" % model_name, "wb") as fd:
+            pickle.dump(model, fd)
+        return model
+
+    def dbstream(self, model_name="spack-dbstream-errors", save_prefix="dbstream"):
         """
-        This is modified to just return the nearest, not try to calculate
-        a prediction because we just want the points back.
+        Build the dbstream model with a particular name.
+        https://riverml.xyz/latest/api/cluster/DBSTREAM
         """
-        return self._nn.find_nearest(x=x, k=self.n_neighbors)
+        exists = True
+        if model_name not in self.cli.models()["models"]:
+            model = feature_extraction.BagOfWords() | cluster.DBSTREAM(
+                clustering_threshold=1.5,
+                fading_factor=0.05,
+                cleanup_interval=4,
+                intersection_factor=0.5,
+                minimum_weight=1,
+            )
+            model_name = self.cli.upload_model(model, "cluster", model_name=model_name)
+            exists = False
+
+        if not exists:
+            for sentence, _ in self.iter_sentences():
+                self.cli.learn(x=sentence, model_name=model_name)
+
+            # Save clusters to file under data/clusters/<prefix>
+            self.generate_clusters_json(model_name, save_prefix)
+            self.save_model(model_name)
+        return self.load_model("%s.pkl" % model_name)
+
+    def denstream(self, model_name="spack-dbstream-errors", save_prefix="denstream"):
+        """
+        Build the denstream model https://riverml.xyz/latest/api/cluster/DenStream/
+        """
+        # See https://github.com/online-ml/river/issues/874
+        # model might have bugs! denstream I think is better
+        # because denstream is good with outliers (we likely won't have)
+        exists = True
+        if model_name not in self.cli.models()["models"]:
+            model = feature_extraction.BagOfWords() | cluster.DenStream(
+                decaying_factor=0.01,
+                beta=0.5,
+                mu=2.5,
+                epsilon=0.02,
+            )
+            model_name = self.cli.upload_model(model, "cluster", model_name=model_name)
+            exists = False
+
+        if not exists:
+            for sentence, _ in self.iter_sentences():
+                self.cli.learn(x=sentence, model_name=model_name)
+
+            # Save clusters to file under data/clusters/<prefix>
+            self.generate_clusters_json(model_name, save_prefix)
+            self.save_model(model_name)
+        return self.load_model("%s.pkl" % model_name)
+
+    def generate_clusters_json(self, model_name, save_prefix):
+        """
+        Generate json cluster output for visual inspetion
+        """
+        # At this point, let's get a prediction for each
+        # We can just group them based on the cluster
+        clusters = {}
+        for sentence, _ in self.iter_sentences():
+            res = self.cli.predict(x=sentence, model_name=model_name)
+            if res["prediction"] not in clusters:
+                clusters[res["prediction"]] = []
+            clusters[res["prediction"]].append(sentence)
+
+        # Make model output directory
+        cluster_dir = os.path.join(self.datadir, "clusters", save_prefix)
+        if not os.path.exists(cluster_dir):
+            os.makedirs(cluster_dir)
+
+        for cluster_id, entries in clusters.items():
+            if not entries:
+                continue
+            cluster_meta = os.path.join(
+                cluster_dir, "cluster-tokens-%s.json" % cluster_id
+            )
+            write_json(entries, cluster_meta)
+
+    def save_model(self, model_name):
+        """
+        Save a pickled model (and return it)
+        """
+        # Download the model and load to get centroids
+        self.cli.download_model(model_name=model_name)
+
+    def load_model(self, pkl):
+        """
+        Load a model from pickle
+        """
+        with open(pkl, "rb") as fd:
+            model = pickle.load(fd)
+        return model
+
+
+def generate_embeddings(centers, name):
+    df = pandas.DataFrame(centers)
+
+    # 200 rows (centers) and N columns (words)
+    df = df.transpose()
+    df = df.fillna(0)
+
+    # Create a distance matrix
+    distance = pandas.DataFrame(
+        squareform(pdist(df)), index=list(df.index), columns=list(df.index)
+    )
+
+    # Make the tsne (output embeddings go into docs for visual)
+    fit = manifold.TSNE(n_components=2)
+    embedding = fit.fit_transform(distance)
+    emb = pandas.DataFrame(embedding, index=distance.index, columns=["x", "y"])
+    emb.index.name = "name"
+    emb.to_csv(os.path.join("docs", "%s-software-embeddings.csv" % name))
+
+
+def main():
+
+    parser = get_parser()
+    args, extra = parser.parse_known_args()
+
+    # Make sure output directory exists
+    datadir = os.path.abspath(args.data_dir)
+    if not os.path.exists(datadir):
+        sys.exit("%s does not exist!" % datadir)
+
+    # Build model with errors
+    errors = read_errors(datadir)
+
+    if not os.path.exists("docs"):
+        os.makedirs("docs")
+
+    builder = ModelBuilder(datadir=datadir, errors=errors)
+
+    # Get models to see if we have spack-errors
+    # models = builder.cli.models()
+
+    # Build knn model and export predictions
+    # model = builder.knn(model_name="spack-knn-errors")
+
+    # Build kmeans model and export clusters
+    # Note that we don't need to keep doing that - spack-monitor can visualize them now
+    # model = builder.kmeans(model_name="spack-errors")
+
+    # Note that I removed saving embeddings here since we expect to do this on
+    # spack monitor server.
+
+    # model = builder.dbstream(model_name="spack-dbstream-errors")
+    # model = builder.denstream(model_name="spack-denstream-errors")
+
+
+if __name__ == "__main__":
+    main()
